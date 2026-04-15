@@ -11,13 +11,13 @@
 
     <style>
         /* ==============================================
-           Event page styles
-           All colors and type choices match styles.css
+           Event page styles — event.html
+           Colors and type choices match styles.css
            ============================================== */
 
 
         /* -----------------------------------------------
-           Site header — slim branded bar
+           1. SITE HEADER
         ----------------------------------------------- */
 
         .site-header {
@@ -50,11 +50,11 @@
 
 
         /* -----------------------------------------------
-           Event hero — gradient, matches labs-section
+           2. EVENT HERO — gradient matches labs-section
         ----------------------------------------------- */
 
         .event-hero {
-            padding: 4rem 2rem;
+            padding: 5rem 2rem 4.5rem;
             background: linear-gradient(135deg,
                 #10281f 0%,
                 #1b4d3e 28%,
@@ -83,36 +83,43 @@
         }
 
         .event-hero-inner {
-            max-width: 720px;
+            max-width: 780px;
             margin: 0 auto;
             position: relative;
             z-index: 2;
         }
 
+
+        /* -----------------------------------------------
+           3. HERO CONTENT — classes injected by renderEvent()
+              Do not rename without updating the JS.
+        ----------------------------------------------- */
+
         .event-label {
             display: inline-block;
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             font-weight: 700;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.12em;
             text-transform: uppercase;
-            color: rgba(255, 255, 255, 0.65);
-            margin-bottom: 1rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 1.25rem;
         }
 
         .event-title {
-            font-size: clamp(1.8rem, 4vw, 2.75rem);
+            font-size: clamp(2rem, 5vw, 3.25rem);
             font-weight: 900;
             color: #ffffff;
-            line-height: 1.15;
-            margin-bottom: 1.1rem;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            margin-bottom: 1.25rem;
         }
 
         .event-meta {
             display: flex;
             flex-wrap: wrap;
             align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 1.5rem;
+            gap: 0.5rem 1rem;
+            margin-bottom: 1.75rem;
         }
 
         .event-date {
@@ -121,17 +128,17 @@
             color: rgba(255, 255, 255, 0.9);
         }
 
-        /* Seats badge — gold when open, muted when full */
+        /* Gold when seats open, muted when full */
         .event-seats {
             display: inline-block;
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             font-weight: 700;
-            letter-spacing: 0.03em;
-            padding: 0.3rem 0.85rem;
+            letter-spacing: 0.04em;
+            padding: 0.3rem 0.9rem;
             border-radius: 999px;
             background: rgba(220, 181, 90, 0.2);
             color: #dcb55a;
-            border: 1px solid rgba(220, 181, 90, 0.4);
+            border: 1px solid rgba(220, 181, 90, 0.45);
         }
 
         .event-seats.is-full {
@@ -141,16 +148,20 @@
         }
 
         .event-description {
-            font-size: 1.05rem;
-            line-height: 1.7;
+            font-size: 1.1rem;
+            line-height: 1.72;
             color: rgba(255, 255, 255, 0.88);
-            max-width: 620px;
+            max-width: 640px;
         }
 
-        /* Loading + error states inside the hero */
+
+        /* -----------------------------------------------
+           4. HERO LOADING / ERROR STATES
+        ----------------------------------------------- */
+
         .hero-status {
             font-size: 1rem;
-            color: rgba(255, 255, 255, 0.65);
+            color: rgba(255, 255, 255, 0.55);
             padding: 2rem 0;
         }
 
@@ -158,51 +169,179 @@
             background: rgba(255, 255, 255, 0.08);
             border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 12px;
-            padding: 1.5rem 1.75rem;
-            color: rgba(255, 255, 255, 0.8);
+            padding: 1.75rem 2rem;
+            color: rgba(255, 255, 255, 0.82);
             font-size: 0.95rem;
             line-height: 1.6;
         }
 
 
         /* -----------------------------------------------
-           Registration section — white, below the gradient
+           5. EVENT BODY — two-column layout
+              id="registration-section" hidden until JS reveals it
         ----------------------------------------------- */
 
-        .registration-section {
-            background: #f9fafb;
-            padding: 3.5rem 2rem 5rem;
+        .event-body {
+            background: #ffffff;
+            padding: 5rem 2rem 6rem;
+        }
+
+        .event-body-inner {
+            max-width: 1080px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 5rem;
+            align-items: start;
+        }
+
+
+        /* -----------------------------------------------
+           6. LEFT COLUMN — static supporting content
+        ----------------------------------------------- */
+
+        .eyebrow {
+            display: block;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #245c4a;
+            margin-bottom: 0.6rem;
+        }
+
+        .content-h2 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #10281f;
+            line-height: 1.25;
+        }
+
+        .takeaway-list {
+            list-style: none;
+            padding: 0;
+            margin: 1.5rem 0 0;
+        }
+
+        .takeaway-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.9rem;
+            padding: 0.95rem 0;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 0.975rem;
+            line-height: 1.65;
+            color: #2a2a2a;
+        }
+
+        .takeaway-list li:last-child {
+            border-bottom: none;
+        }
+
+        .take-check {
+            flex-shrink: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #f0fdf4;
+            border: 1.5px solid #bbf7d0;
+            font-size: 0.6rem;
+            font-weight: 800;
+            color: #15803d;
+            margin-top: 0.25rem;
+        }
+
+        .who-section {
+            margin-top: 2.75rem;
+            padding-top: 2.75rem;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .content-h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #10281f;
+            line-height: 1.3;
+            margin-bottom: 0.65rem;
+        }
+
+        .content-p {
+            font-size: 0.975rem;
+            line-height: 1.72;
+            color: #444444;
+        }
+
+        .format-note {
+            margin-top: 2rem;
+            padding: 1.25rem 1.5rem;
+            background: #f8faf9;
+            border-left: 3px solid #1b4d3e;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .format-note strong {
+            display: block;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #245c4a;
+            margin-bottom: 0.5rem;
+        }
+
+        .format-note p {
+            font-size: 0.9rem;
+            line-height: 1.65;
+            color: #3a4a44;
+            margin: 0;
+        }
+
+
+        /* -----------------------------------------------
+           7. RIGHT COLUMN — registration card (sticky)
+              id="registration-card" innerHTML replaced by JS
+              on full-event and on successful submission
+        ----------------------------------------------- */
+
+        .form-col {
+            position: sticky;
+            top: 2rem;
         }
 
         .registration-card {
             background: #ffffff;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.07);
-            padding: 2.5rem;
-            max-width: 520px;
-            margin: 0 auto;
+            border-radius: 16px;
+            border-top: 4px solid #1b4d3e;
+            box-shadow:
+                0 4px 6px rgba(0, 0, 0, 0.04),
+                0 12px 40px rgba(16, 40, 31, 0.10);
+            padding: 2.25rem 2.5rem;
         }
 
         .registration-card h2 {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             font-weight: 800;
             color: #10281f;
             margin-bottom: 0.35rem;
         }
 
         .registration-card .form-intro {
-            font-size: 0.9rem;
+            font-size: 0.875rem;
             color: #5a6b65;
+            line-height: 1.5;
             margin-bottom: 1.75rem;
         }
 
 
         /* -----------------------------------------------
-           Form fields
+           8. FORM FIELDS
         ----------------------------------------------- */
 
         .form-field {
-            margin-bottom: 1.25rem;
+            margin-bottom: 1.1rem;
         }
 
         .form-field label {
@@ -215,7 +354,7 @@
 
         .form-field input {
             width: 100%;
-            padding: 0.7rem 1rem;
+            padding: 0.75rem 1rem;
             font-size: 1rem;
             font-family: inherit;
             color: #1a1a1a;
@@ -237,9 +376,14 @@
             cursor: not-allowed;
         }
 
+
+        /* -----------------------------------------------
+           9. SUBMIT BUTTON
+        ----------------------------------------------- */
+
         .btn-submit {
             width: 100%;
-            padding: 0.875rem 1.5rem;
+            padding: 0.9rem 1.5rem;
             margin-top: 0.5rem;
             border: none;
             border-radius: 10px;
@@ -249,6 +393,7 @@
             cursor: pointer;
             background: #1b4d3e;
             color: #ffffff;
+            letter-spacing: 0.01em;
             transition: background 0.2s ease;
         }
 
@@ -268,7 +413,8 @@
 
 
         /* -----------------------------------------------
-           Inline form message (error / success banner)
+           10. FORM MESSAGE
+               id="form-message" — JS adds .is-error class
         ----------------------------------------------- */
 
         .form-message {
@@ -289,7 +435,8 @@
 
 
         /* -----------------------------------------------
-           Full-event notice (replaces form)
+           11. FULL-EVENT NOTICE
+               Injected by JS into #registration-card
         ----------------------------------------------- */
 
         .full-notice {
@@ -301,16 +448,18 @@
             font-size: 0.95rem;
             color: #5a6b65;
             margin-bottom: 1.25rem;
+            line-height: 1.6;
         }
 
 
         /* -----------------------------------------------
-           Success state (replaces form after registration)
+           12. SUCCESS STATE
+               Injected by JS into #registration-card
         ----------------------------------------------- */
 
         .success-state {
             text-align: center;
-            padding: 0.5rem 0;
+            padding: 1rem 0;
         }
 
         .success-icon {
@@ -337,17 +486,64 @@
         .success-state p {
             font-size: 0.95rem;
             color: #5a6b65;
-            line-height: 1.6;
+            line-height: 1.65;
         }
 
 
         /* -----------------------------------------------
-           Responsive
+           13. FOOTER
         ----------------------------------------------- */
 
-        @media (max-width: 480px) {
-            .event-hero        { padding: 3rem 1.25rem; }
-            .registration-section { padding: 2.5rem 1.25rem 4rem; }
+        .site-footer {
+            background: #10281f;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .footer-brand {
+            display: inline-block;
+            font-size: 1rem;
+            font-weight: 900;
+            color: #ffffff;
+            text-decoration: none;
+            letter-spacing: -0.01em;
+            margin-bottom: 0.35rem;
+        }
+
+        .footer-tagline {
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.38);
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-copy {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.28);
+        }
+
+
+        /* -----------------------------------------------
+           14. RESPONSIVE
+        ----------------------------------------------- */
+
+        @media (max-width: 860px) {
+            .event-body-inner {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            /* Un-stick the form card on mobile so it flows naturally */
+            .form-col {
+                position: static;
+            }
+        }
+
+        @media (max-width: 540px) {
+            .event-hero       { padding: 3.5rem 1.25rem; }
+            .event-body       { padding: 3.5rem 1.25rem 4.5rem; }
             .registration-card { padding: 1.75rem 1.5rem; }
         }
     </style>
@@ -365,7 +561,8 @@
 
     <!-- ================================================
          EVENT HERO
-         Populated by JS after fetching from Supabase
+         All content inside #event-content is injected
+         by renderEvent() after Supabase fetch.
     ================================================ -->
     <section class="event-hero">
         <div class="event-hero-inner">
@@ -381,7 +578,9 @@
                 <a class="btn-pill" href="/">See all upcoming labs</a>
             </div>
 
-            <!-- Populated on success -->
+            <!-- Populated by renderEvent() with:
+                 .event-label  .event-title  .event-meta
+                 .event-date   .event-seats  .event-description -->
             <div id="event-content" hidden></div>
 
         </div>
@@ -389,50 +588,108 @@
 
 
     <!-- ================================================
-         REGISTRATION SECTION
-         Hidden until event loads. Replaced on success.
+         EVENT BODY — two-column layout
+         Hidden until JS calls:
+           document.getElementById('registration-section').hidden = false
     ================================================ -->
-    <section class="registration-section" id="registration-section" hidden>
-        <div class="registration-card" id="registration-card">
+    <section class="event-body" id="registration-section" hidden>
+        <div class="event-body-inner">
 
-            <h2>Register for this lab</h2>
-            <p class="form-intro">Seats are limited. One registration per email address.</p>
+            <!-- ----------------------------------------
+                 LEFT COLUMN — static supporting content
+            ---------------------------------------- -->
+            <div class="content-col">
 
-            <form id="registration-form" novalidate>
-                <div class="form-field">
-                    <label for="field-name">Full name</label>
-                    <input
-                        type="text"
-                        id="field-name"
-                        name="name"
-                        autocomplete="name"
-                        placeholder="Your name"
-                        required
-                    >
+                <div>
+                    <p class="eyebrow">What you&rsquo;ll take away</p>
+                    <h2 class="content-h2">What this lab will help you do</h2>
+                    <ul class="takeaway-list">
+                        <li>
+                            <span class="take-check" aria-hidden="true">&#10003;</span>
+                            <span>Walk away with a clear, reproducible pathway for helping people move from far from God to growing disciple.</span>
+                        </li>
+                        <li>
+                            <span class="take-check" aria-hidden="true">&#10003;</span>
+                            <span>Identify the specific conversations and habits that fit naturally into your actual week &mdash; without adding a second job.</span>
+                        </li>
+                        <li>
+                            <span class="take-check" aria-hidden="true">&#10003;</span>
+                            <span>Leave with something concrete you can start practicing right away, not just ideas to think about later.</span>
+                        </li>
+                    </ul>
                 </div>
 
-                <div class="form-field">
-                    <label for="field-email">Email address</label>
-                    <input
-                        type="email"
-                        id="field-email"
-                        name="email"
-                        autocomplete="email"
-                        placeholder="you@example.com"
-                        required
-                    >
+                <div class="who-section">
+                    <p class="eyebrow">Who it&rsquo;s for</p>
+                    <h3 class="content-h3">Built for covocational leaders</h3>
+                    <p class="content-p">This is for anyone in a covocational setting &mdash; someone who works a regular job, runs a business, or raises a family while trying to make disciples and multiply leaders. No title or seminary background required. Just a desire to live with more intentionality in the places you already are.</p>
                 </div>
 
-                <button class="btn-submit" type="submit" id="submit-btn">
-                    Register
-                </button>
+                <div class="format-note">
+                    <strong>About the format</strong>
+                    <p>Every lab meets live on Zoom and is intentionally limited to 25 people &mdash; small enough for real conversation. Sessions are practical and focused, not lecture-heavy. You&rsquo;ll leave with something you can use in your actual week.</p>
+                </div>
 
-                <!-- Error message shown inline below the button -->
-                <div class="form-message" id="form-message" role="alert" aria-live="polite"></div>
-            </form>
+            </div>
+
+            <!-- ----------------------------------------
+                 RIGHT COLUMN — registration card
+                 id="registration-card" innerHTML is replaced
+                 by JS on full-event and after successful submit
+            ---------------------------------------- -->
+            <div class="form-col">
+                <div class="registration-card" id="registration-card">
+
+                    <h2>Reserve your seat</h2>
+                    <p class="form-intro">Seats are limited to 25. One registration per email address.</p>
+
+                    <form id="registration-form" novalidate>
+                        <div class="form-field">
+                            <label for="field-name">Full name</label>
+                            <input
+                                type="text"
+                                id="field-name"
+                                name="name"
+                                autocomplete="name"
+                                placeholder="Your name"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-field">
+                            <label for="field-email">Email address</label>
+                            <input
+                                type="email"
+                                id="field-email"
+                                name="email"
+                                autocomplete="email"
+                                placeholder="you@example.com"
+                                required
+                            >
+                        </div>
+
+                        <button class="btn-submit" type="submit" id="submit-btn">
+                            Register
+                        </button>
+
+                        <div class="form-message" id="form-message" role="alert" aria-live="polite"></div>
+                    </form>
+
+                </div>
+            </div>
 
         </div>
     </section>
+
+
+    <!-- ================================================
+         FOOTER
+    ================================================ -->
+    <footer class="site-footer">
+        <a class="footer-brand" href="/">Covo Multipliers</a>
+        <p class="footer-tagline">Making Disciples in Everyday Life</p>
+        <p class="footer-copy">&copy; 2025 Covo Multipliers</p>
+    </footer>
 
 
     <script>
