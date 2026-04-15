@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Register for an upcoming Covo Multipliers Lab.">
+    <title>Lab Registration — Covo Multipliers</title>
+
+    <!-- Shared site styles (reset, fonts, .btn-pill, etc.) -->
+    <link rel="stylesheet" href="styles.css">
+
+    <style>
+        /* ==============================================
+           Event page styles
+           All colors and type choices match styles.css
+           ============================================== */
+
+
+        /* -----------------------------------------------
+           Site header — slim branded bar
+        ----------------------------------------------- */
+
+        .site-header {
+            background: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .site-header .brand {
+            font-size: 0.95rem;
+            font-weight: 900;
+            color: #10281f;
+            text-decoration: none;
+            letter-spacing: -0.01em;
+        }
+
+        .site-header .back-link {
+            font-size: 0.875rem;
+            color: #5a6b65;
+            text-decoration: none;
+            transition: color 0.15s ease;
+        }
+
+        .site-header .back-link:hover {
+            color: #1b4d3e;
+        }
+
+
+        /* -----------------------------------------------
+           Event hero — gradient, matches labs-section
+        ----------------------------------------------- */
+
+        .event-hero {
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg,
+                #10281f 0%,
+                #1b4d3e 28%,
+                #2c6b5d 56%,
+                #9f7a2f 82%,
+                #dcb55a 100%
+            );
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Same texture overlay as labs-section */
+        .event-hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.12;
+            background-image:
+                radial-gradient(circle at 20% 20%, rgba(255,255,255,0.12) 0.7px, transparent 0.8px),
+                radial-gradient(circle at 80% 30%, rgba(0,0,0,0.10) 0.7px, transparent 0.8px),
+                radial-gradient(circle at 40% 70%, rgba(255,255,255,0.08) 0.6px, transparent 0.7px),
+                radial-gradient(circle at 70% 80%, rgba(0,0,0,0.08) 0.6px, transparent 0.7px);
+            background-size: 120px 120px, 140px 140px, 100px 100px, 160px 160px;
+            mix-blend-mode: soft-light;
+        }
+
+        .event-hero-inner {
+            max-width: 720px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .event-label {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.65);
+            margin-bottom: 1rem;
+        }
+
+        .event-title {
+            font-size: clamp(1.8rem, 4vw, 2.75rem);
+            font-weight: 900;
+            color: #ffffff;
+            line-height: 1.15;
+            margin-bottom: 1.1rem;
+        }
+
+        .event-meta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .event-date {
+            font-size: 1rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Seats badge — gold when open, muted when full */
+        .event-seats {
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            padding: 0.3rem 0.85rem;
+            border-radius: 999px;
+            background: rgba(220, 181, 90, 0.2);
+            color: #dcb55a;
+            border: 1px solid rgba(220, 181, 90, 0.4);
+        }
+
+        .event-seats.is-full {
+            background: rgba(255, 255, 255, 0.08);
+            color: rgba(255, 255, 255, 0.45);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .event-description {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.88);
+            max-width: 620px;
+        }
+
+        /* Loading + error states inside the hero */
+        .hero-status {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.65);
+            padding: 2rem 0;
+        }
+
+        .hero-error {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            padding: 1.5rem 1.75rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+
+        /* -----------------------------------------------
+           Registration section — white, below the gradient
+        ----------------------------------------------- */
+
+        .registration-section {
+            background: #f9fafb;
+            padding: 3.5rem 2rem 5rem;
+        }
+
+        .registration-card {
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.07);
+            padding: 2.5rem;
+            max-width: 520px;
+            margin: 0 auto;
+        }
+
+        .registration-card h2 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #10281f;
+            margin-bottom: 0.35rem;
+        }
+
+        .registration-card .form-intro {
+            font-size: 0.9rem;
+            color: #5a6b65;
+            margin-bottom: 1.75rem;
+        }
+
+
+        /* -----------------------------------------------
+           Form fields
+        ----------------------------------------------- */
+
+        .form-field {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-field label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 0.4rem;
+        }
+
+        .form-field input {
+            width: 100%;
+            padding: 0.7rem 1rem;
+            font-size: 1rem;
+            font-family: inherit;
+            color: #1a1a1a;
+            background: #ffffff;
+            border: 1.5px solid #d1d5db;
+            border-radius: 10px;
+            outline: none;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .form-field input:focus {
+            border-color: #1b4d3e;
+            box-shadow: 0 0 0 3px rgba(27, 77, 62, 0.1);
+        }
+
+        .form-field input:disabled {
+            background: #f3f4f6;
+            color: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 0.875rem 1.5rem;
+            margin-top: 0.5rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            background: #1b4d3e;
+            color: #ffffff;
+            transition: background 0.2s ease;
+        }
+
+        .btn-submit:hover:not(:disabled) {
+            background: #10281f;
+        }
+
+        .btn-submit:focus-visible {
+            outline: 3px solid #dcb55a;
+            outline-offset: 3px;
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+
+        /* -----------------------------------------------
+           Inline form message (error / success banner)
+        ----------------------------------------------- */
+
+        .form-message {
+            display: none;
+            margin-top: 1rem;
+            padding: 0.85rem 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            line-height: 1.55;
+        }
+
+        .form-message.is-error {
+            display: block;
+            background: #fef2f2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+
+
+        /* -----------------------------------------------
+           Full-event notice (replaces form)
+        ----------------------------------------------- */
+
+        .full-notice {
+            padding: 0.5rem 0 0.25rem;
+            text-align: center;
+        }
+
+        .full-notice p {
+            font-size: 0.95rem;
+            color: #5a6b65;
+            margin-bottom: 1.25rem;
+        }
+
+
+        /* -----------------------------------------------
+           Success state (replaces form after registration)
+        ----------------------------------------------- */
+
+        .success-state {
+            text-align: center;
+            padding: 0.5rem 0;
+        }
+
+        .success-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: #dcfce7;
+            color: #15803d;
+            font-size: 1.4rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.25rem;
+        }
+
+        .success-state h3 {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: #10281f;
+            margin-bottom: 0.5rem;
+        }
+
+        .success-state p {
+            font-size: 0.95rem;
+            color: #5a6b65;
+            line-height: 1.6;
+        }
+
+
+        /* -----------------------------------------------
+           Responsive
+        ----------------------------------------------- */
+
+        @media (max-width: 480px) {
+            .event-hero        { padding: 3rem 1.25rem; }
+            .registration-section { padding: 2.5rem 1.25rem 4rem; }
+            .registration-card { padding: 1.75rem 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ================================================
+         SITE HEADER
+    ================================================ -->
+    <header class="site-header">
+        <a class="brand" href="/">Covo Multipliers</a>
+        <a class="back-link" href="/">← All labs</a>
+    </header>
+
+
+    <!-- ================================================
+         EVENT HERO
+         Populated by JS after fetching from Supabase
+    ================================================ -->
+    <section class="event-hero">
+        <div class="event-hero-inner">
+
+            <!-- Shown while fetching -->
+            <p class="hero-status" id="hero-loading">Loading event&hellip;</p>
+
+            <!-- Shown on fetch error or slug not found -->
+            <div class="hero-error" id="hero-error" hidden>
+                <strong>Event not found.</strong>
+                This event may have ended or the link may be incorrect.
+                <br><br>
+                <a class="btn-pill" href="/">See all upcoming labs</a>
+            </div>
+
+            <!-- Populated on success -->
+            <div id="event-content" hidden></div>
+
+        </div>
+    </section>
+
+
+    <!-- ================================================
+         REGISTRATION SECTION
+         Hidden until event loads. Replaced on success.
+    ================================================ -->
+    <section class="registration-section" id="registration-section" hidden>
+        <div class="registration-card" id="registration-card">
+
+            <h2>Register for this lab</h2>
+            <p class="form-intro">Seats are limited. One registration per email address.</p>
+
+            <form id="registration-form" novalidate>
+                <div class="form-field">
+                    <label for="field-name">Full name</label>
+                    <input
+                        type="text"
+                        id="field-name"
+                        name="name"
+                        autocomplete="name"
+                        placeholder="Your name"
+                        required
+                    >
+                </div>
+
+                <div class="form-field">
+                    <label for="field-email">Email address</label>
+                    <input
+                        type="email"
+                        id="field-email"
+                        name="email"
+                        autocomplete="email"
+                        placeholder="you@example.com"
+                        required
+                    >
+                </div>
+
+                <button class="btn-submit" type="submit" id="submit-btn">
+                    Register
+                </button>
+
+                <!-- Error message shown inline below the button -->
+                <div class="form-message" id="form-message" role="alert" aria-live="polite"></div>
+            </form>
+
+        </div>
+    </section>
+
+
+    <script>
+        // ============================================================
+        // CONFIG
+        // Update these four values for each event page you deploy.
+        // ============================================================
+        const SUPABASE_URL          = 'https://your-project-ref.supabase.co';
+        const SUPABASE_ANON_KEY     = 'your-anon-key-here';
+        const REGISTER_FUNCTION_URL = 'https://your-project-ref.supabase.co/functions/v1/register';
+        const EVENT_SLUG            = 'from-lost-to-leader-may-2025';
+        // ============================================================
+
+
+        // Current event id — set once the event loads
+        let eventId = null;
+
+
+        // -------------------------------------------------------
+        // Boot
+        // -------------------------------------------------------
+        document.addEventListener('DOMContentLoaded', loadEvent);
+
+
+        // -------------------------------------------------------
+        // Fetch event from Supabase REST API
+        // Reads from the events_with_availability view.
+        // That view is SELECT-accessible to the anon role via RLS.
+        // -------------------------------------------------------
+        async function loadEvent() {
+            const url = new URL(`${SUPABASE_URL}/rest/v1/events_with_availability`);
+            url.searchParams.set('slug', `eq.${EVENT_SLUG}`);
+            url.searchParams.set('select', '*');
+            url.searchParams.set('limit', '1');
+
+            let event;
+            try {
+                const res = await fetch(url, {
+                    headers: {
+                        'apikey':         SUPABASE_ANON_KEY,
+                        'Authorization':  `Bearer ${SUPABASE_ANON_KEY}`,
+                    },
+                });
+
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+                const rows = await res.json();
+                event = rows[0] ?? null;
+            } catch (err) {
+                console.error('Failed to load event:', err);
+                showHeroError();
+                return;
+            }
+
+            if (!event) {
+                showHeroError();
+                return;
+            }
+
+            renderEvent(event);
+        }
+
+
+        // -------------------------------------------------------
+        // Render event info into the hero, then show the form
+        // -------------------------------------------------------
+        function renderEvent(event) {
+            eventId = event.id;
+
+            const isFull        = !event.has_availability;
+            const seatsLabel    = isFull
+                ? 'Event full'
+                : `${event.seats_remaining} seat${event.seats_remaining === 1 ? '' : 's'} remaining`;
+
+            // Update <title>
+            document.title = `${event.title} — Covo Multipliers`;
+
+            // Build hero content
+            const content = document.getElementById('event-content');
+            content.innerHTML = `
+                <span class="event-label">Covo Multipliers Lab</span>
+                <h1 class="event-title">${esc(event.title)}</h1>
+                <div class="event-meta">
+                    <span class="event-date">${formatDate(event.event_date)}</span>
+                    <span class="event-seats${isFull ? ' is-full' : ''}">${esc(seatsLabel)}</span>
+                </div>
+                ${event.description
+                    ? `<p class="event-description">${esc(event.description)}</p>`
+                    : ''}
+            `;
+
+            document.getElementById('hero-loading').hidden = true;
+            content.hidden = false;
+
+            // Show the registration section
+            document.getElementById('registration-section').hidden = false;
+
+            if (isFull) {
+                // Replace form with a full-event message
+                document.getElementById('registration-card').innerHTML = `
+                    <h2>Register for this lab</h2>
+                    <div class="full-notice">
+                        <p>This event is full. Check back for future labs with open seats.</p>
+                        <a class="btn-pill" href="/">← See all upcoming labs</a>
+                    </div>
+                `;
+            } else {
+                // Attach form handler
+                document.getElementById('registration-form')
+                    .addEventListener('submit', handleSubmit);
+            }
+        }
+
+
+        // -------------------------------------------------------
+        // Handle registration form submission
+        // -------------------------------------------------------
+        async function handleSubmit(e) {
+            e.preventDefault();
+            clearMessage();
+
+            const name  = document.getElementById('field-name').value.trim();
+            const email = document.getElementById('field-email').value.trim();
+
+            // Client-side validation (belt-and-suspenders — Edge Function validates too)
+            if (name.length < 2) {
+                showError('Please enter your full name.');
+                document.getElementById('field-name').focus();
+                return;
+            }
+            if (!isValidEmail(email)) {
+                showError('Please enter a valid email address.');
+                document.getElementById('field-email').focus();
+                return;
+            }
+
+            setSubmitting(true);
+
+            let data;
+            try {
+                const res = await fetch(REGISTER_FUNCTION_URL, {
+                    method:  'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body:    JSON.stringify({ event_id: eventId, name, email }),
+                });
+
+                data = await res.json();
+
+                if (!res.ok) {
+                    setSubmitting(false);
+                    showError(data.error ?? 'Registration failed. Please try again.');
+                    return;
+                }
+            } catch (err) {
+                console.error('Registration request failed:', err);
+                setSubmitting(false);
+                showError('Something went wrong. Please check your connection and try again.');
+                return;
+            }
+
+            // Replace the entire card with a success state
+            document.getElementById('registration-card').innerHTML = `
+                <div class="success-state">
+                    <div class="success-icon" aria-hidden="true">✓</div>
+                    <h3>You&rsquo;re registered!</h3>
+                    <p>A confirmation email is on its way to <strong>${esc(email)}</strong>
+                    with your event details and Zoom link.</p>
+                </div>
+            `;
+        }
+
+
+        // -------------------------------------------------------
+        // UI state helpers
+        // -------------------------------------------------------
+        function setSubmitting(active) {
+            const btn    = document.getElementById('submit-btn');
+            const name   = document.getElementById('field-name');
+            const email  = document.getElementById('field-email');
+
+            btn.disabled   = active;
+            name.disabled  = active;
+            email.disabled = active;
+            btn.textContent = active ? 'Registering\u2026' : 'Register';
+        }
+
+        function showError(msg) {
+            const el = document.getElementById('form-message');
+            el.className = 'form-message is-error';
+            el.textContent = msg;
+        }
+
+        function clearMessage() {
+            const el = document.getElementById('form-message');
+            el.className = 'form-message';
+            el.textContent = '';
+        }
+
+        function showHeroError() {
+            document.getElementById('hero-loading').hidden = true;
+            document.getElementById('hero-error').hidden   = false;
+        }
+
+
+        // -------------------------------------------------------
+        // Utilities
+        // -------------------------------------------------------
+
+        // Formats a UTC ISO timestamp for Eastern Time display
+        // e.g. "Tuesday, May 20, 2025 at 7:00 PM EDT"
+        function formatDate(iso) {
+            try {
+                return new Date(iso).toLocaleDateString('en-US', {
+                    weekday:    'long',
+                    year:       'numeric',
+                    month:      'long',
+                    day:        'numeric',
+                    hour:       'numeric',
+                    minute:     '2-digit',
+                    timeZone:   'America/New_York',
+                    timeZoneName: 'short',
+                });
+            } catch {
+                return iso;
+            }
+        }
+
+        function isValidEmail(s) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
+        }
+
+        // Safe HTML escaping for injecting DB/user strings into innerHTML.
+        // Uses the browser's own text node serialization — no regex hacks.
+        function esc(str) {
+            const node = document.createElement('span');
+            node.appendChild(document.createTextNode(String(str)));
+            return node.innerHTML;
+        }
+    </script>
+
+</body>
+</html>
