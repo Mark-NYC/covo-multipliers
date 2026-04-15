@@ -1,0 +1,260 @@
+/* ==============================================
+   Covo Multipliers — styles.css
+   Static homepage for GitHub Pages
+   No frameworks. No dependencies.
+   ============================================== */
+
+
+/* -----------------------------------------------
+   1. RESET & BASE
+----------------------------------------------- */
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                 Helvetica, Arial, sans-serif;
+    background: #ffffff;
+    color: #1a1a1a;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+
+/* -----------------------------------------------
+   2. HERO SECTION
+----------------------------------------------- */
+
+.hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 6rem 2rem 5rem;
+    background: #ffffff;
+    text-align: center;
+}
+
+
+/* -----------------------------------------------
+   3. LOGO / WORDMARK
+----------------------------------------------- */
+
+.logo-area {
+    margin-bottom: 2.75rem;
+}
+
+/* Thin accent bar above the wordmark */
+.logo-accent {
+    display: block;
+    width: 40px;
+    height: 3px;
+    background: linear-gradient(90deg, #1b4d3e, #dcb55a);
+    border-radius: 2px;
+    margin: 0 auto 1.25rem;
+}
+
+.logo-wordmark {
+    font-size: clamp(2.2rem, 6vw, 3.75rem);
+    font-weight: 900;
+    color: #10281f;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+    margin-bottom: 0.6rem;
+}
+
+.logo-tagline {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #5a6b65;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+
+/* -----------------------------------------------
+   4. HERO NAV PILLS
+----------------------------------------------- */
+
+.hero-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    justify-content: center;
+}
+
+.btn-pill {
+    display: inline-block;
+    padding: 0.65rem 1.6rem;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    letter-spacing: 0.01em;
+    color: #1b4d3e;
+    background: transparent;
+    border: 2px solid #1b4d3e;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    white-space: nowrap;
+}
+
+.btn-pill:hover {
+    background: #1b4d3e;
+    color: #ffffff;
+    border-color: #1b4d3e;
+}
+
+/* Subtle active/focus state for accessibility */
+.btn-pill:focus-visible {
+    outline: 3px solid #dcb55a;
+    outline-offset: 3px;
+}
+
+
+/* -----------------------------------------------
+   5. LABS SECTION
+   Preserved closely from the original design.
+----------------------------------------------- */
+
+.labs-section {
+    padding: 4rem 2rem;
+    background: linear-gradient(135deg,
+        #10281f 0%,
+        #1b4d3e 28%,
+        #2c6b5d 56%,
+        #9f7a2f 82%,
+        #dcb55a 100%
+    );
+    position: relative;
+    overflow: hidden;
+}
+
+/* Subtle texture overlay */
+.labs-section::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.12;
+    background-image:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.12) 0.7px, transparent 0.8px),
+        radial-gradient(circle at 80% 30%, rgba(0,0,0,0.10) 0.7px, transparent 0.8px),
+        radial-gradient(circle at 40% 70%, rgba(255,255,255,0.08) 0.6px, transparent 0.7px),
+        radial-gradient(circle at 70% 80%, rgba(0,0,0,0.08) 0.6px, transparent 0.7px);
+    background-size: 120px 120px, 140px 140px, 100px 100px, 160px 160px;
+    mix-blend-mode: soft-light;
+}
+
+.labs-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+}
+
+.labs-title {
+    font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+    font-weight: 900;
+    text-align: center;
+    margin-bottom: 0.75rem;
+    color: #ffffff;
+}
+
+.labs-tagline {
+    font-size: 1.1rem;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 2.5rem;
+}
+
+.labs-list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+}
+
+.lab-item {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.lab-item:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 45px rgba(16, 40, 31, 0.22);
+}
+
+.lab-item a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    height: 100%;
+}
+
+.lab-datetime {
+    display: inline-block;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #245c4a;
+    margin-bottom: 0.9rem;
+}
+
+.lab-title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    line-height: 1.3;
+    color: #1a1a1a;
+    margin-bottom: 0.9rem;
+}
+
+.lab-description {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #333333;
+    margin: 0;
+}
+
+
+/* -----------------------------------------------
+   6. RESPONSIVE
+----------------------------------------------- */
+
+/* Stack lab cards on tablet and below */
+@media (max-width: 900px) {
+    .labs-list {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Tighten hero spacing on small screens */
+@media (max-width: 480px) {
+    .hero {
+        padding: 4rem 1.5rem 3.5rem;
+    }
+
+    .btn-pill {
+        padding: 0.6rem 1.3rem;
+        font-size: 0.875rem;
+    }
+
+    .labs-section {
+        padding: 3rem 1.25rem;
+    }
+}
