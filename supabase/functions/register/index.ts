@@ -1,50 +1,44 @@
-/**
- * Covo Multipliers — Event Registration Edge Function
- * supabase/functions/register/index.ts
- *
- * Flow:
- *   1. Validate POST body (event_id, name, email)
- *   2. Call register_for_event() Postgres RPC (handles capacity + deduplication atomically)
- *   3. On success, send confirmation email via Resend
- *   4. Mark confirmation_sent_at on the registration row
- *   5. Return a clean JSON response
- *
- * Environment variables (see README for setup):
- *   SUPABASE_URL             — auto-injected by Supabase
- *   SUPABASE_SERVICE_ROLE_KEY — auto-injected by Supabase
- *   RESEND_API_KEY           — set manually via: supabase secrets set RESEND_API_KEY=...
- *   RESEND_FROM_EMAIL        — set manually, must be a Resend-verified address/domain
- *   SITE_ORIGIN              — your GitHub Pages URL, used to restrict CORS
- */
+// supabase/functions/register/index.ts
+//
+// Covo Multipliers — Event Registration Edge Function
+//
+// POST /functions/v1/register
+// Body: { event_id: string, name: string, email: string }
+//
+// 1. Validate input
+// 2. Call register_for_event() Postgres RPC (atomic — handles capacity + deduplication)
+// 3. On success, send branded confirmation email via Resend
+// 4. Mark registrations.confirmation_sent_at
+// 5. Return JSON
+//
+// Secrets (set with: supabase secrets set KEY=value)
+//   RESEND_API_KEY     — from resend.com dashboard
+//   RESEND_FROM_EMAIL  — verified sender, e.g. labs@covomultipliers.com
+//   SITE_ORIGIN        — https://covomultipliers.com (used for CORS)
+//
+// Auto-injected by Supabase (do not set manually):
+//   SUPABASE_URL
+//   SUPABASE_SERVICE_ROLE_KEY
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-// -------------------------------------------------------
+// ---------------------------------------------------------------------------
 // CORS
-// Restrict SITE_ORIGIN in production to your GitHub Pages
-// domain, e.g. "https://mark-nyc.github.io" or your custom
-// domain. Falls back to "*" if the env var is not set.
-// -------------------------------------------------------
-const ALLOWED_ORIGIN = Deno.env.get("SITE_ORIGIN") ?? "*";
+// ---------------------------------------------------------------------------
+const ORIGIN = Deno.env.get("SITE_ORIGIN") ?? "https://covomultipliers.com";
 
-const CORS_HEADERS = {
-  "Access-Control-Allow-Origin": ALLOWED_ORIGIN,
+const CORS = {
+  "Access-Control-Allow-Origin": ORIGIN,
   "Access-Control-Allow-Headers": "content-type",
   "Access-Control-Allow-Methods": "POST, OPTIONS",
 };
 
-// -------------------------------------------------------
+// ---------------------------------------------------------------------------
 // Types
-// -------------------------------------------------------
-interface RequestBody {
-  event_id?: unknown;
-  name?: unknown;
-  email?: unknown;
-}
-
+// ---------------------------------------------------------------------------
 interface RpcResult {
   success: boolean;
-  error?: string;
+  error?: "event_not_found" | "already_registered" | "event_full";
   registration_id?: string;
   event_title?: string;
   event_date?: string;
@@ -52,184 +46,170 @@ interface RpcResult {
   seats_remaining?: number;
 }
 
-// -------------------------------------------------------
-// Handler
-// -------------------------------------------------------
+// ---------------------------------------------------------------------------
+// Entry point
+// ---------------------------------------------------------------------------
 Deno.serve(async (req: Request): Promise<Response> => {
-  // Handle CORS preflight
+  // Preflight
   if (req.method === "OPTIONS") {
-    return new Response(null, { status: 204, headers: CORS_HEADERS });
+    return new Response(null, { status: 204, headers: CORS });
   }
 
   if (req.method !== "POST") {
-    return errorResponse(405, "Method not allowed.");
+    return json(405, { error: "Method not allowed." });
   }
 
-  // --- 1. Parse body ---
-  let body: RequestBody;
+  // Parse
+  let body: Record<string, unknown>;
   try {
     body = await req.json();
   } catch {
-    return errorResponse(400, "Request body must be valid JSON.");
+    return json(400, { error: "Request body must be valid JSON." });
   }
 
   const { event_id, name, email } = body;
 
-  // --- 2. Validate ---
-  if (!event_id || typeof event_id !== "string" || !isUuid(event_id)) {
-    return errorResponse(400, "A valid event_id is required.");
+  // Validate
+  if (typeof event_id !== "string" || !isUuid(event_id)) {
+    return json(400, { error: "A valid event_id is required." });
   }
-  if (!name || typeof name !== "string" || name.trim().length < 2) {
-    return errorResponse(400, "Please enter your full name.");
+  if (typeof name !== "string" || name.trim().length < 2) {
+    return json(400, { error: "Please enter your full name." });
   }
-  if (!email || typeof email !== "string" || !isValidEmail(email)) {
-    return errorResponse(400, "Please enter a valid email address.");
+  if (typeof email !== "string" || !isEmail(email)) {
+    return json(400, { error: "Please enter a valid email address." });
   }
 
-  // --- 3. Supabase admin client (service role bypasses RLS) ---
+  const cleanName = name.trim();
+  const cleanEmail = email.trim().toLowerCase();
+
+  // Supabase admin client — service role bypasses RLS entirely
   const supabase = createClient(
     Deno.env.get("SUPABASE_URL")!,
     Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
     { auth: { persistSession: false } },
   );
 
-  // --- 4. Call the Postgres registration function ---
-  // register_for_event() handles:
-  //   - Row-level locking to prevent overselling
-  //   - Duplicate email check
-  //   - Capacity enforcement
-  //   - Returns event details needed for the confirmation email
-  const { data: result, error: rpcError } = await supabase.rpc(
-    "register_for_event",
-    {
-      p_event_id: event_id,
-      p_name: name.trim(),
-      p_email: email.toLowerCase().trim(),
-    },
-  ) as { data: RpcResult | null; error: unknown };
+  // Call the registration RPC.
+  // register_for_event() uses SELECT ... FOR UPDATE to lock the event row,
+  // preventing two simultaneous requests from both seeing an open seat.
+  const { data, error: rpcError } = await supabase.rpc("register_for_event", {
+    p_event_id: event_id,
+    p_name: cleanName,
+    p_email: cleanEmail,
+  });
 
   if (rpcError) {
-    console.error("[register] RPC error:", rpcError);
-    return errorResponse(500, "Registration failed. Please try again.");
+    console.error("RPC error:", rpcError);
+    return json(500, { error: "Registration failed. Please try again." });
   }
 
-  // --- 5. Handle clean failure cases returned by the RPC ---
-  if (!result || !result.success) {
-    switch (result?.error) {
-      case "already_registered":
-        return errorResponse(
-          409,
-          "This email address is already registered for this event.",
-        );
-      case "event_full":
-        return errorResponse(
-          409,
-          "This event is full. No seats are remaining.",
-        );
+  const result = data as RpcResult;
+
+  if (!result.success) {
+    switch (result.error) {
       case "event_not_found":
-        return errorResponse(
-          404,
-          "This event could not be found or is no longer available.",
-        );
+        return json(404, {
+          error: "This event could not be found or is no longer available.",
+        });
+      case "already_registered":
+        return json(409, {
+          error: "This email address is already registered for this event.",
+        });
+      case "event_full":
+        return json(409, {
+          error: "This event is full. No seats are remaining.",
+        });
       default:
-        console.error("[register] Unexpected RPC result:", result);
-        return errorResponse(500, "Registration failed. Please try again.");
+        console.error("Unexpected RPC result:", result);
+        return json(500, { error: "Registration failed. Please try again." });
     }
   }
 
-  // --- 6. Send confirmation email ---
-  const emailSent = await sendConfirmationEmail({
-    to: email.trim(),
-    name: name.trim(),
+  // Send confirmation email. Non-fatal — a failed email does not roll back
+  // the registration. The row is already committed in the RPC transaction.
+  const sent = await sendEmail({
+    to: cleanEmail,
+    toName: cleanName,
     eventTitle: result.event_title!,
     eventDate: result.event_date!,
     zoomLink: result.zoom_link ?? null,
   });
 
-  // --- 7. Mark confirmation sent (best-effort — don't fail the request if this errors) ---
-  if (emailSent && result.registration_id) {
-    const { error: updateError } = await supabase
+  // Record that the email was sent (best-effort)
+  if (sent && result.registration_id) {
+    const { error: updateErr } = await supabase
       .from("registrations")
       .update({ confirmation_sent_at: new Date().toISOString() })
       .eq("id", result.registration_id);
 
-    if (updateError) {
-      console.warn("[register] Could not update confirmation_sent_at:", updateError);
+    if (updateErr) {
+      console.warn("Could not update confirmation_sent_at:", updateErr);
     }
   }
 
-  // --- 8. Return success ---
-  return jsonResponse(200, {
+  return json(200, {
     success: true,
     message: "You're registered! Check your inbox for a confirmation email.",
     seats_remaining: result.seats_remaining ?? null,
   });
 });
 
-// -------------------------------------------------------
-// Confirmation email via Resend
-// Uses plain fetch — no SDK dependency.
-// -------------------------------------------------------
-async function sendConfirmationEmail({
+// ---------------------------------------------------------------------------
+// Confirmation email
+// Plain fetch against the Resend REST API — no SDK dependency.
+// ---------------------------------------------------------------------------
+async function sendEmail({
   to,
-  name,
+  toName,
   eventTitle,
   eventDate,
   zoomLink,
 }: {
   to: string;
-  name: string;
+  toName: string;
   eventTitle: string;
   eventDate: string;
   zoomLink: string | null;
 }): Promise<boolean> {
   const apiKey = Deno.env.get("RESEND_API_KEY");
-  const fromEmail = Deno.env.get("RESEND_FROM_EMAIL") ??
-    "labs@covomultipliers.com";
+  const from = Deno.env.get("RESEND_FROM_EMAIL") ?? "labs@covomultipliers.com";
 
   if (!apiKey) {
-    console.error("[email] RESEND_API_KEY is not set. Skipping email.");
+    console.error("RESEND_API_KEY not set — skipping confirmation email.");
     return false;
   }
 
-  const formattedDate = formatEventDate(eventDate);
-  const safeName = escapeHtml(name);
-  const safeTitle = escapeHtml(eventTitle);
-
-  const zoomBlock = zoomLink
-    ? `
-      <tr>
-        <td style="padding:10px 14px; font-weight:600; color:#245c4a; vertical-align:top; width:100px;">Zoom Link</td>
-        <td style="padding:10px 14px;">
-          <a href="${escapeHtml(zoomLink)}" style="color:#1b4d3e; font-weight:600;">
-            Join the meeting
-          </a>
-        </td>
+  const zoomRow = zoomLink
+    ? `<tr>
+        <td class="label">Zoom Link</td>
+        <td><a href="${esc(zoomLink)}" style="color:#1b4d3e;font-weight:600;">Join the meeting</a></td>
       </tr>`
-    : `
-      <tr>
-        <td style="padding:10px 14px; font-weight:600; color:#245c4a;">Zoom Link</td>
-        <td style="padding:10px 14px; color:#666;">
-          You will receive the Zoom link closer to the event date.
-        </td>
+    : `<tr>
+        <td class="label">Zoom Link</td>
+        <td style="color:#666666;">You will receive the Zoom link closer to the event date.</td>
       </tr>`;
 
+  // Inline styles are used deliberately — many email clients strip <style> blocks.
   const html = `<!DOCTYPE html>
 <html lang="en">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
-<body style="margin:0; padding:0; background:#f4f4f5; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
-  <table width="100%" cellpadding="0" cellspacing="0" style="padding:40px 16px;">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+</head>
+<body style="margin:0;padding:0;background:#f4f4f5;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="padding:40px 16px;">
     <tr>
       <td align="center">
-        <table width="100%" cellpadding="0" cellspacing="0" style="max-width:580px;">
+        <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="max-width:580px;">
 
           <!-- Header -->
           <tr>
-            <td style="background:linear-gradient(135deg,#10281f,#1b4d3e,#9f7a2f); padding:36px 32px; border-radius:12px 12px 0 0;">
-              <p style="margin:0 0 6px; font-size:0.8rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.7);">
+            <td style="background:linear-gradient(135deg,#10281f 0%,#1b4d3e 55%,#9f7a2f 100%);padding:36px 32px;border-radius:12px 12px 0 0;">
+              <p style="margin:0 0 6px;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.65);">
                 Covo Multipliers Labs
               </p>
-              <h1 style="margin:0; font-size:1.6rem; font-weight:900; color:#ffffff; line-height:1.2;">
+              <h1 style="margin:0;font-size:26px;font-weight:900;color:#ffffff;line-height:1.2;">
                 You're registered!
               </h1>
             </td>
@@ -237,41 +217,42 @@ async function sendConfirmationEmail({
 
           <!-- Body -->
           <tr>
-            <td style="background:#ffffff; padding:32px; border:1px solid #e5e7eb; border-top:none; border-radius:0 0 12px 12px;">
-              <p style="margin:0 0 20px; font-size:1rem; color:#1a1a1a;">
-                Hi ${safeName},
-              </p>
-              <p style="margin:0 0 24px; font-size:1rem; color:#444; line-height:1.6;">
-                You're confirmed for the upcoming Covo Multipliers Lab. Save the details below and we'll see you there.
+            <td style="background:#ffffff;padding:32px;border:1px solid #e5e7eb;border-top:none;border-radius:0 0 12px 12px;">
+
+              <p style="margin:0 0 16px;font-size:16px;color:#1a1a1a;">Hi ${esc(toName)},</p>
+              <p style="margin:0 0 24px;font-size:15px;color:#444444;line-height:1.65;">
+                You're confirmed for the upcoming Covo Multipliers Lab.
+                Here are your details — save this email so you have everything in one place.
               </p>
 
-              <!-- Event details table -->
-              <table width="100%" cellpadding="0" cellspacing="0"
-                style="border:1px solid #e5e7eb; border-radius:8px; border-collapse:separate; overflow:hidden; margin-bottom:28px;">
+              <!-- Event detail rows -->
+              <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
+                style="border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;margin-bottom:28px;font-size:15px;">
                 <tr style="background:#f9fafb;">
-                  <td style="padding:10px 14px; font-weight:600; color:#245c4a; vertical-align:top; width:100px;">Event</td>
-                  <td style="padding:10px 14px; color:#1a1a1a; font-weight:600;">${safeTitle}</td>
+                  <td style="padding:11px 14px;font-weight:600;color:#245c4a;width:110px;white-space:nowrap;">Event</td>
+                  <td style="padding:11px 14px;color:#1a1a1a;font-weight:600;">${esc(eventTitle)}</td>
                 </tr>
                 <tr>
-                  <td style="padding:10px 14px; font-weight:600; color:#245c4a;">Date</td>
-                  <td style="padding:10px 14px; color:#1a1a1a;">${formattedDate}</td>
+                  <td style="padding:11px 14px;font-weight:600;color:#245c4a;">Date</td>
+                  <td style="padding:11px 14px;color:#1a1a1a;">${formatDate(eventDate)}</td>
                 </tr>
-                ${zoomBlock}
+                ${zoomRow}
               </table>
 
-              <p style="margin:0 0 8px; font-size:0.95rem; color:#555; line-height:1.6;">
-                If you have any questions before the lab, reply to this email.
+              <p style="margin:0 0 12px;font-size:15px;color:#555555;line-height:1.65;">
+                If you have any questions before the lab, just reply to this email.
               </p>
-              <p style="margin:0; font-size:0.95rem; color:#555;">
+              <p style="margin:0;font-size:15px;color:#555555;">
                 Looking forward to seeing you there.
               </p>
 
               <!-- Signature -->
-              <hr style="border:none; border-top:1px solid #e5e7eb; margin:28px 0;">
-              <p style="margin:0; font-size:0.875rem; color:#888;">
-                — The Covo Multipliers Team<br>
-                <a href="https://covomultipliers.com" style="color:#1b4d3e;">covomultipliers.com</a>
+              <hr style="border:none;border-top:1px solid #e5e7eb;margin:28px 0;" />
+              <p style="margin:0;font-size:13px;color:#999999;">
+                — The Covo Multipliers Team<br />
+                <a href="https://covomultipliers.com" style="color:#1b4d3e;text-decoration:none;">covomultipliers.com</a>
               </p>
+
             </td>
           </tr>
 
@@ -286,11 +267,11 @@ async function sendConfirmationEmail({
     const res = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${apiKey}`,
+        Authorization: `Bearer ${apiKey}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: `Covo Multipliers <${fromEmail}>`,
+        from: `Covo Multipliers <${from}>`,
         to: [to],
         subject: `You're registered — ${eventTitle}`,
         html,
@@ -298,54 +279,48 @@ async function sendConfirmationEmail({
     });
 
     if (!res.ok) {
-      const body = await res.text();
-      console.error(`[email] Resend returned ${res.status}:`, body);
+      console.error(`Resend error ${res.status}:`, await res.text());
       return false;
     }
 
-    console.log(`[email] Confirmation sent to ${to}`);
+    console.log(`Confirmation email sent to ${to}`);
     return true;
   } catch (err) {
-    console.error("[email] Fetch to Resend failed:", err);
+    console.error("Email send failed:", err);
     return false;
   }
 }
 
-// -------------------------------------------------------
+// ---------------------------------------------------------------------------
 // Helpers
-// -------------------------------------------------------
+// ---------------------------------------------------------------------------
 
-/** Build a JSON response with CORS headers attached. */
-function jsonResponse(status: number, body: Record<string, unknown>): Response {
+/** Serialize body to JSON and attach CORS headers. */
+function json(status: number, body: Record<string, unknown>): Response {
   return new Response(JSON.stringify(body), {
     status,
-    headers: { ...CORS_HEADERS, "Content-Type": "application/json" },
+    headers: { ...CORS, "Content-Type": "application/json" },
   });
 }
 
-/** Build a JSON error response. */
-function errorResponse(status: number, message: string): Response {
-  return jsonResponse(status, { success: false, error: message });
+/** RFC 5322-ish email check — enough to catch obvious typos. */
+function isEmail(s: string): boolean {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
 }
 
-/** Basic email format check. */
-function isValidEmail(email: string): boolean {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-}
-
-/** UUID v4 format check — guards against injecting arbitrary strings into the RPC. */
-function isUuid(value: string): boolean {
+/** UUID v4 check — prevents arbitrary strings reaching the RPC. */
+function isUuid(s: string): boolean {
   return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
-    .test(value);
+    .test(s);
 }
 
 /**
- * Format a UTC ISO timestamp for display in the email.
- * Outputs: "Tuesday, May 20, 2025 at 7:00 PM EDT"
+ * Format a UTC ISO timestamp for the confirmation email.
+ * Example output: "Tuesday, May 20, 2025 at 7:00 PM EDT"
  */
-function formatEventDate(isoString: string): string {
+function formatDate(iso: string): string {
   try {
-    return new Date(isoString).toLocaleDateString("en-US", {
+    return new Date(iso).toLocaleDateString("en-US", {
       weekday: "long",
       year: "numeric",
       month: "long",
@@ -356,13 +331,13 @@ function formatEventDate(isoString: string): string {
       timeZoneName: "short",
     });
   } catch {
-    return isoString; // fallback to raw string if parsing fails
+    return iso; // fall back to raw string if the date is malformed
   }
 }
 
-/** Minimal HTML escaping for interpolating user/DB strings into email HTML. */
-function escapeHtml(str: string): string {
-  return str
+/** Escape user/DB-sourced strings before interpolating into email HTML. */
+function esc(s: string): string {
+  return s
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
