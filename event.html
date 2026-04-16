@@ -892,9 +892,6 @@
         }
 
         @media (max-width: 540px) {
-            .event-hero            { padding: 2.25rem 1.25rem 2rem; }
-            .event-hero-inner      { gap: 1.5rem; }
-            .hero-image-wrap       { aspect-ratio: 16 / 8; border-radius: 8px; }
             .event-details-section { padding: 2.5rem 1.25rem 3rem; }
             .event-body            { padding: 2.5rem 1.25rem 3.5rem; }
             .registration-card     { padding: 1.75rem 1.5rem; }
@@ -903,9 +900,12 @@
             .event-info-col .countdown-num  { font-size: 1.5rem; }
             .event-info-col .countdown-unit { padding: 0.6rem 0.85rem; min-width: 58px; }
 
-            /* Hero copy: tighter group on mobile */
-            .event-hero .event-title       { margin-bottom: 0.75rem; }
-            .event-hero .event-description { font-size: 1rem; line-height: 1.5; }
+            /* Hero: tighter, grouped block on mobile */
+            .event-hero                    { padding: 1.75rem 1.25rem 1.5rem; }
+            .event-hero-inner              { gap: 1.25rem; }
+            .event-hero .event-title       { font-size: clamp(1.6rem, 6vw, 2.25rem); margin-bottom: 0.6rem; }
+            .event-hero .event-description { font-size: 0.975rem; line-height: 1.48; }
+            .hero-image-wrap               { aspect-ratio: 16 / 7; border-radius: 8px; }
         }
     </style>
 </head>
