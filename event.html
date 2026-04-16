@@ -83,10 +83,32 @@
         }
 
         .event-hero-inner {
-            max-width: 900px;
+            max-width: 1140px;
             margin: 0 auto;
             position: relative;
             z-index: 2;
+            display: grid;
+            grid-template-columns: 1fr 420px;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .hero-copy {
+            min-width: 0;
+        }
+
+        .hero-image-wrap {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 24px 64px rgba(0, 0, 0, 0.38);
+            aspect-ratio: 4 / 3;
+        }
+
+        .hero-image-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
         }
 
 
@@ -152,6 +174,49 @@
             line-height: 1.72;
             color: rgba(255, 255, 255, 0.88);
             max-width: 640px;
+        }
+
+        /* Countdown timer */
+        .countdown-wrap {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1.75rem;
+            flex-wrap: wrap;
+        }
+
+        .countdown-unit {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 10px;
+            padding: 0.7rem 1.1rem;
+            min-width: 68px;
+        }
+
+        .countdown-num {
+            font-size: 1.85rem;
+            font-weight: 900;
+            color: #ffffff;
+            line-height: 1;
+            letter-spacing: -0.02em;
+        }
+
+        .countdown-label {
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 0.3rem;
+        }
+
+        .countdown-closed {
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-style: italic;
         }
 
 
@@ -320,28 +385,53 @@
         }
 
         .faq-item {
-            padding: 0.85rem 0;
             border-bottom: 1px solid #e2eae6;
-            font-size: 0.9rem;
-            line-height: 1.65;
-            color: #3a4a44;
-        }
-
-        .faq-item:first-child {
-            padding-top: 0;
         }
 
         .faq-item:last-child {
             border-bottom: none;
-            padding-bottom: 0;
         }
 
-        .faq-question {
-            display: block;
+        .faq-btn {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            background: none;
+            border: none;
+            padding: 0.9rem 0;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.9rem;
             font-weight: 700;
-            font-style: normal;
             color: #10281f;
-            margin-bottom: 0.2rem;
+            text-align: left;
+            line-height: 1.4;
+        }
+
+        .faq-btn:hover {
+            color: #1b4d3e;
+        }
+
+        .faq-icon {
+            flex-shrink: 0;
+            font-size: 1.25rem;
+            font-weight: 300;
+            color: #245c4a;
+            line-height: 1;
+            transition: transform 0.2s ease;
+        }
+
+        .faq-item.is-open .faq-icon {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            padding: 0 1rem 0.9rem 0;
+            font-size: 0.9rem;
+            line-height: 1.65;
+            color: #3a4a44;
         }
 
 
@@ -575,6 +665,15 @@
         ----------------------------------------------- */
 
         @media (max-width: 860px) {
+            .event-hero-inner {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .hero-image-wrap {
+                aspect-ratio: 16 / 7;
+            }
+
             .event-body-inner {
                 grid-template-columns: 1fr;
                 gap: 3rem;
@@ -592,9 +691,13 @@
 
         @media (max-width: 540px) {
             .event-hero        { padding: 2.25rem 1.25rem 2rem; }
+            .event-hero-inner  { gap: 1.5rem; }
+            .hero-image-wrap   { aspect-ratio: 16 / 8; border-radius: 8px; }
             .event-body        { padding: 2.5rem 1.25rem 3.5rem; }
             .registration-card { padding: 1.75rem 1.5rem; }
             .quote-grid        { gap: 0.5rem; }
+            .countdown-num     { font-size: 1.5rem; }
+            .countdown-unit    { padding: 0.6rem 0.85rem; min-width: 58px; }
         }
     </style>
 </head>
@@ -617,24 +720,33 @@
     <section class="event-hero">
         <div class="event-hero-inner">
 
-            <p class="event-title">Trying to make disciples but never sure where it fits in your week?</p>
-            <p class="event-description">You&#8217;ve got a job. Responsibilities. A calendar that keeps blowing up.<br>You want your life to matter for the Kingdom, not just your church attendance.<br>In 45 minutes you&#8217;ll get practical help for building a life that makes disciples where you live, work, and play.<br>Live. Practical. Free.</p>
+            <div class="hero-copy">
+                <p class="event-title">Trying to make disciples but never sure where it fits in your week?</p>
+                <p class="event-description">You&#8217;ve got a job. Responsibilities. A calendar that keeps blowing up.<br>You want your life to matter for the Kingdom, not just your church attendance.<br>In 45 minutes you&#8217;ll get practical help for building a life that makes disciples where you live, work, and play.<br>Live. Practical. Free.</p>
 
-            <!-- Shown while fetching -->
-            <p class="hero-status" id="hero-loading">Loading event&hellip;</p>
+                <!-- Shown while fetching -->
+                <p class="hero-status" id="hero-loading">Loading event&hellip;</p>
 
-            <!-- Shown on fetch error or slug not found -->
-            <div class="hero-error" id="hero-error" hidden>
-                <strong>Event not found.</strong>
-                This event may have ended or the link may be incorrect.
-                <br><br>
-                <a class="btn-pill" href="/">See all upcoming labs</a>
+                <!-- Shown on fetch error or slug not found -->
+                <div class="hero-error" id="hero-error" hidden>
+                    <strong>Event not found.</strong>
+                    This event may have ended or the link may be incorrect.
+                    <br><br>
+                    <a class="btn-pill" href="/">See all upcoming labs</a>
+                </div>
+
+                <!-- Populated by renderEvent() with:
+                     .event-label  .event-title  .event-meta
+                     .event-date   .event-seats  .event-description -->
+                <div id="event-content" hidden></div>
+
+                <!-- Countdown timer — populated and revealed by startCountdown() -->
+                <div id="event-countdown" hidden></div>
             </div>
 
-            <!-- Populated by renderEvent() with:
-                 .event-label  .event-title  .event-meta
-                 .event-date   .event-seats  .event-description -->
-            <div id="event-content" hidden></div>
+            <div class="hero-image-wrap">
+                <img src="image/two-young-men-sharing-their-faith-in-Jesus.jpg" alt="Two young men sharing their faith in Jesus" loading="lazy">
+            </div>
 
         </div>
     </section>
@@ -692,24 +804,49 @@
                     <strong>Common questions</strong>
                     <ul class="faq-list">
                         <li class="faq-item">
-                            <span class="faq-question">Can&rsquo;t come live?</span>
-                            Labs are live-only and not recorded. The value comes from participating in the room, asking questions, and engaging with the framework in real time.
+                            <button class="faq-btn" aria-expanded="false">
+                                <span>Can&rsquo;t come live?</span>
+                                <span class="faq-icon" aria-hidden="true">+</span>
+                            </button>
+                            <div class="faq-answer" hidden>
+                                Labs are live-only and not recorded. The value comes from participating in the room, asking questions, and engaging with the framework in real time.
+                            </div>
                         </li>
                         <li class="faq-item">
-                            <span class="faq-question">Who fits here?</span>
-                            These labs are built for marketplace multipliers, sentrepreneurs, and tent making leaders balancing work and mission who feel scattered and want to multiply disciples without burning out.
+                            <button class="faq-btn" aria-expanded="false">
+                                <span>Who fits here?</span>
+                                <span class="faq-icon" aria-hidden="true">+</span>
+                            </button>
+                            <div class="faq-answer" hidden>
+                                These labs are built for marketplace multipliers, sentrepreneurs, and tent making leaders balancing work and mission who feel scattered and want to multiply disciples without burning out.
+                            </div>
                         </li>
                         <li class="faq-item">
-                            <span class="faq-question">Do I need prep?</span>
-                            No preparation is required. Some labs offer optional prep reading, but you&rsquo;ll get full value even if you just show up ready to engage.
+                            <button class="faq-btn" aria-expanded="false">
+                                <span>Do I need prep?</span>
+                                <span class="faq-icon" aria-hidden="true">+</span>
+                            </button>
+                            <div class="faq-answer" hidden>
+                                No preparation is required. Some labs offer optional prep reading, but you&rsquo;ll get full value even if you just show up ready to engage.
+                            </div>
                         </li>
                         <li class="faq-item">
-                            <span class="faq-question">How is this different from a typical webinar?</span>
-                            These are not passive webinars. Each 45-minute lab is interactive, practical, and focused on giving you one breakthrough framework you can immediately apply in your context.
+                            <button class="faq-btn" aria-expanded="false">
+                                <span>How is this different from a typical webinar?</span>
+                                <span class="faq-icon" aria-hidden="true">+</span>
+                            </button>
+                            <div class="faq-answer" hidden>
+                                These are not passive webinars. Each 45-minute lab is interactive, practical, and focused on giving you one breakthrough framework you can immediately apply in your context.
+                            </div>
                         </li>
                         <li class="faq-item">
-                            <span class="faq-question">What does it cost?</span>
-                            The labs are free, but seats are intentionally limited so every participant can engage and ask questions. We encourage you to secure your spot early.
+                            <button class="faq-btn" aria-expanded="false">
+                                <span>What does it cost?</span>
+                                <span class="faq-icon" aria-hidden="true">+</span>
+                            </button>
+                            <div class="faq-answer" hidden>
+                                The labs are free, but seats are intentionally limited so every participant can engage and ask questions. We encourage you to secure your spot early.
+                            </div>
                         </li>
                     </ul>
                 </div>
@@ -871,6 +1008,9 @@
             // Show the registration section
             document.getElementById('registration-section').hidden = false;
 
+            // Start countdown timer using the live event date
+            startCountdown(event.event_date);
+
             if (isFull) {
                 // Replace form with a full-event message
                 document.getElementById('registration-card').innerHTML = `
@@ -1012,6 +1152,72 @@
             node.appendChild(document.createTextNode(String(str)));
             return node.innerHTML;
         }
+
+
+        // -------------------------------------------------------
+        // Countdown timer
+        // Called by renderEvent() with the live event_date from Supabase.
+        // -------------------------------------------------------
+        let countdownInterval = null;
+
+        function startCountdown(iso) {
+            const target = new Date(iso).getTime();
+            const el     = document.getElementById('event-countdown');
+            if (!el || isNaN(target)) return;
+
+            function pad(n) { return String(n).padStart(2, '0'); }
+
+            function render() {
+                const diff = target - Date.now();
+                if (diff <= 0) {
+                    clearInterval(countdownInterval);
+                    el.innerHTML = '<p class="countdown-closed">Registration has closed.</p>';
+                    el.hidden = false;
+                    return;
+                }
+                const days  = Math.floor(diff / 86400000);
+                const hours = Math.floor((diff % 86400000) / 3600000);
+                const mins  = Math.floor((diff % 3600000)  / 60000);
+                const secs  = Math.floor((diff % 60000)    / 1000);
+                el.innerHTML = `
+                    <div class="countdown-wrap">
+                        <div class="countdown-unit"><span class="countdown-num">${pad(days)}</span><span class="countdown-label">Days</span></div>
+                        <div class="countdown-unit"><span class="countdown-num">${pad(hours)}</span><span class="countdown-label">Hours</span></div>
+                        <div class="countdown-unit"><span class="countdown-num">${pad(mins)}</span><span class="countdown-label">Minutes</span></div>
+                        <div class="countdown-unit"><span class="countdown-num">${pad(secs)}</span><span class="countdown-label">Seconds</span></div>
+                    </div>`;
+                el.hidden = false;
+            }
+
+            render();
+            countdownInterval = setInterval(render, 1000);
+        }
+
+
+        // -------------------------------------------------------
+        // FAQ accordion — one item open at a time
+        // -------------------------------------------------------
+        document.querySelectorAll('.faq-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var item   = btn.closest('.faq-item');
+                var answer = item.querySelector('.faq-answer');
+                var isOpen = item.classList.contains('is-open');
+
+                // Close all open items
+                document.querySelectorAll('.faq-item.is-open').forEach(function(open) {
+                    open.classList.remove('is-open');
+                    open.querySelector('.faq-btn').setAttribute('aria-expanded', 'false');
+                    open.querySelector('.faq-answer').hidden = true;
+                });
+
+                // Open this item if it was previously closed
+                if (!isOpen) {
+                    item.classList.add('is-open');
+                    btn.setAttribute('aria-expanded', 'true');
+                    answer.hidden = false;
+                }
+            });
+        });
     </script>
 
 </body>
