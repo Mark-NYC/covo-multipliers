@@ -176,6 +176,12 @@
             max-width: 640px;
         }
 
+        /* Neutralise browser <p> margins so the block reads the same as the
+           previous <br>-separated copy on desktop */
+        .hero-desc-block p {
+            margin: 0;
+        }
+
         /* Countdown timer */
         .countdown-wrap {
             display: flex;
@@ -905,6 +911,7 @@
             .event-hero-inner              { gap: 0.75rem; }
             .event-hero .event-title       { font-size: clamp(1.6rem, 6vw, 2.25rem); margin-bottom: 0.35rem; }
             .event-hero .event-description { font-size: 0.9rem; line-height: 1.38; margin-bottom: 0.5rem; }
+            .event-hero .hero-desc-block p + p { margin-top: 0.35em; }
             .hero-image-wrap               { aspect-ratio: 16 / 7; border-radius: 8px; }
         }
     </style>
@@ -930,7 +937,12 @@
 
             <div class="hero-copy">
                 <p class="event-title">Trying to make disciples but never sure where it fits in your week?</p>
-                <p class="event-description">You&#8217;ve got a job. Responsibilities. A calendar that keeps blowing up.<br>You want your life to matter for the Kingdom, not just your church attendance.<br>In 45 minutes you&#8217;ll get practical help for building a life that makes disciples where you live, work, and play.<br>Live. Practical. Free.</p>
+                <div class="event-description hero-desc-block">
+                    <p>You&#8217;ve got a job. Responsibilities. A calendar that keeps blowing up.</p>
+                    <p>You want your life to matter for the Kingdom, not just your church attendance.</p>
+                    <p>In 45 minutes you&#8217;ll get practical help for building a life that makes disciples where you live, work, and play.</p>
+                    <p>Live. Practical. Free.</p>
+                </div>
 
                 <!-- Shown while fetching; hidden by renderEvent() on success -->
                 <p class="hero-status" id="hero-loading">Loading event&hellip;</p>
