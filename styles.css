@@ -82,6 +82,15 @@ img {
     color: #5a6b65;
     letter-spacing: 0.08em;
     text-transform: uppercase;
+    margin-bottom: 1rem;
+}
+
+.logo-positioning {
+    font-size: 1rem;
+    color: #3a4f47;
+    max-width: 520px;
+    margin: 0 auto;
+    line-height: 1.6;
 }
 
 
@@ -125,7 +134,31 @@ img {
 
 
 /* -----------------------------------------------
-   5. LABS SECTION
+   5. BRIDGE (trust + stakes lines)
+----------------------------------------------- */
+
+.bridge {
+    background: #ffffff;
+    text-align: center;
+    padding: 2rem 2rem 2.5rem;
+    border-top: 1px solid #eef0ef;
+}
+
+.bridge-trust {
+    font-size: 0.95rem;
+    color: #5a6b65;
+    margin-bottom: 0.5rem;
+}
+
+.bridge-stakes {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #10281f;
+}
+
+
+/* -----------------------------------------------
+   6. LABS SECTION
    Preserved closely from the original design.
 ----------------------------------------------- */
 
@@ -233,7 +266,63 @@ img {
 
 
 /* -----------------------------------------------
-   6. RESPONSIVE
+   7. FOOTER
+----------------------------------------------- */
+
+.site-footer {
+    background: #10281f;
+    color: rgba(255, 255, 255, 0.75);
+    padding: 3rem 2rem;
+}
+
+.footer-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.footer-wordmark {
+    display: block;
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.5rem;
+}
+
+.footer-desc {
+    font-size: 0.875rem;
+    line-height: 1.6;
+    max-width: 340px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.footer-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: right;
+}
+
+.footer-nav a {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.footer-nav a:hover {
+    color: #dcb55a;
+}
+
+
+/* -----------------------------------------------
+   8. RESPONSIVE
 ----------------------------------------------- */
 
 /* Stack lab cards on tablet and below */
@@ -256,5 +345,19 @@ img {
 
     .labs-section {
         padding: 3rem 1.25rem;
+    }
+}
+
+/* Stack footer on mobile */
+@media (max-width: 600px) {
+    .footer-inner {
+        flex-direction: column;
+    }
+
+    .footer-nav {
+        text-align: left;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0.75rem 1.5rem;
     }
 }
