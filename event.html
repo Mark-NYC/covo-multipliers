@@ -54,7 +54,7 @@
         ----------------------------------------------- */
 
         .event-hero {
-            padding: 5rem 2rem 4.5rem;
+            padding: 3rem 2rem 2.75rem;
             background: linear-gradient(135deg,
                 #10281f 0%,
                 #1b4d3e 28%,
@@ -83,7 +83,7 @@
         }
 
         .event-hero-inner {
-            max-width: 780px;
+            max-width: 900px;
             margin: 0 auto;
             position: relative;
             z-index: 2;
@@ -183,15 +183,15 @@
 
         .event-body {
             background: #ffffff;
-            padding: 5rem 2rem 6rem;
+            padding: 3rem 2rem 4.5rem;
         }
 
         .event-body-inner {
-            max-width: 1080px;
+            max-width: 1200px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: 1fr 380px;
-            gap: 5rem;
+            grid-template-columns: 1fr 400px;
+            gap: 4rem;
             align-items: start;
         }
 
@@ -274,29 +274,74 @@
             color: #444444;
         }
 
+        /* Quote cards — struggle section */
+        .quote-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.65rem;
+            margin: 1rem 0 1.25rem;
+        }
+
+        .quote-card {
+            background: #f8faf9;
+            border: 1px solid #e2eae6;
+            border-left: 3px solid #1b4d3e;
+            border-radius: 0 8px 8px 0;
+            padding: 0.85rem 1rem;
+            font-size: 0.9rem;
+            line-height: 1.55;
+            color: #2a2a2a;
+            font-style: italic;
+        }
+
+        /* FAQ block */
         .format-note {
             margin-top: 2rem;
-            padding: 1.25rem 1.5rem;
+            padding: 1.5rem 1.75rem;
             background: #f8faf9;
             border-left: 3px solid #1b4d3e;
             border-radius: 0 10px 10px 0;
         }
 
-        .format-note strong {
+        .format-note > strong {
             display: block;
             font-size: 0.72rem;
             font-weight: 700;
             letter-spacing: 0.08em;
             text-transform: uppercase;
             color: #245c4a;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.85rem;
         }
 
-        .format-note p {
+        .faq-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .faq-item {
+            padding: 0.85rem 0;
+            border-bottom: 1px solid #e2eae6;
             font-size: 0.9rem;
             line-height: 1.65;
             color: #3a4a44;
-            margin: 0;
+        }
+
+        .faq-item:first-child {
+            padding-top: 0;
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .faq-question {
+            display: block;
+            font-weight: 700;
+            font-style: normal;
+            color: #10281f;
+            margin-bottom: 0.2rem;
         }
 
 
@@ -308,7 +353,7 @@
 
         .form-col {
             position: sticky;
-            top: 2rem;
+            top: 1rem;
         }
 
         .registration-card {
@@ -496,7 +541,7 @@
 
         .site-footer {
             background: #10281f;
-            padding: 3rem 2rem;
+            padding: 1.5rem 2rem;
             text-align: center;
         }
 
@@ -507,7 +552,7 @@
             color: #ffffff;
             text-decoration: none;
             letter-spacing: -0.01em;
-            margin-bottom: 0.35rem;
+            margin-bottom: 0.25rem;
         }
 
         .footer-tagline {
@@ -516,7 +561,7 @@
             letter-spacing: 0.08em;
             text-transform: uppercase;
             color: rgba(255, 255, 255, 0.38);
-            margin-bottom: 1.5rem;
+            margin-bottom: 0.6rem;
         }
 
         .footer-copy {
@@ -539,12 +584,17 @@
             .form-col {
                 position: static;
             }
+
+            .quote-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         @media (max-width: 540px) {
-            .event-hero       { padding: 3.5rem 1.25rem; }
-            .event-body       { padding: 3.5rem 1.25rem 4.5rem; }
+            .event-hero        { padding: 2.25rem 1.25rem 2rem; }
+            .event-body        { padding: 2.5rem 1.25rem 3.5rem; }
             .registration-card { padding: 1.75rem 1.5rem; }
+            .quote-grid        { gap: 0.5rem; }
         }
     </style>
 </head>
@@ -629,12 +679,39 @@
                 <div class="who-section">
                     <p class="eyebrow">If any of this hits, you&rsquo;re in the right place.</p>
                     <h3 class="content-h3">You&rsquo;re not crazy for feeling this</h3>
-                    <p class="content-p">&ldquo;I start the week strong and lose it by Thursday.&rdquo;<br>&ldquo;I feel like I&rsquo;m the only one trying to live this way.&rdquo;<br>&ldquo;I want consistency but life keeps winning.&rdquo;<br>&ldquo;I don&rsquo;t know what deserves my attention anymore.&rdquo;<br><br>Good news. You don&rsquo;t need more guilt. You need a repeatable way to live.</p>
+                    <div class="quote-grid">
+                        <div class="quote-card">&ldquo;I start the week strong and lose it by Thursday.&rdquo;</div>
+                        <div class="quote-card">&ldquo;I feel like I&rsquo;m the only one trying to live this way.&rdquo;</div>
+                        <div class="quote-card">&ldquo;I want consistency but life keeps winning.&rdquo;</div>
+                        <div class="quote-card">&ldquo;I don&rsquo;t know what deserves my attention anymore.&rdquo;</div>
+                    </div>
+                    <p class="content-p">Good news. You don&rsquo;t need more guilt. You need a repeatable way to live.</p>
                 </div>
 
                 <div class="format-note">
                     <strong>Common questions</strong>
-                    <p><strong>Can&rsquo;t come live?</strong> Labs are live-only and not recorded. The value comes from participating in the room, asking questions, and engaging with the framework in real time.<br><br><strong>Who fits here?</strong> These labs are built for marketplace multipliers, sentrepreneurs, and tent making leaders balancing work and mission who feel scattered and want to multiply disciples without burning out.<br><br><strong>Do I need prep?</strong> No preparation is required. Some labs offer optional prep reading, but you&rsquo;ll get full value even if you just show up ready to engage.<br><br><strong>How is this different from a typical webinar?</strong> These are not passive webinars. Each 45-minute lab is interactive, practical, and focused on giving you one breakthrough framework you can immediately apply in your context.<br><br><strong>What does it cost?</strong> The labs are free, but seats are intentionally limited so every participant can engage and ask questions. We encourage you to secure your spot early.</p>
+                    <ul class="faq-list">
+                        <li class="faq-item">
+                            <span class="faq-question">Can&rsquo;t come live?</span>
+                            Labs are live-only and not recorded. The value comes from participating in the room, asking questions, and engaging with the framework in real time.
+                        </li>
+                        <li class="faq-item">
+                            <span class="faq-question">Who fits here?</span>
+                            These labs are built for marketplace multipliers, sentrepreneurs, and tent making leaders balancing work and mission who feel scattered and want to multiply disciples without burning out.
+                        </li>
+                        <li class="faq-item">
+                            <span class="faq-question">Do I need prep?</span>
+                            No preparation is required. Some labs offer optional prep reading, but you&rsquo;ll get full value even if you just show up ready to engage.
+                        </li>
+                        <li class="faq-item">
+                            <span class="faq-question">How is this different from a typical webinar?</span>
+                            These are not passive webinars. Each 45-minute lab is interactive, practical, and focused on giving you one breakthrough framework you can immediately apply in your context.
+                        </li>
+                        <li class="faq-item">
+                            <span class="faq-question">What does it cost?</span>
+                            The labs are free, but seats are intentionally limited so every participant can engage and ask questions. We encourage you to secure your spot early.
+                        </li>
+                    </ul>
                 </div>
 
             </div>
