@@ -743,7 +743,91 @@
 
 
         /* -----------------------------------------------
-           14. FOOTER
+           14. BOTTOM CTA
+        ----------------------------------------------- */
+
+        .bottom-cta {
+            background: linear-gradient(135deg,
+                #10281f 0%,
+                #1b4d3e 40%,
+                #2c6b5d 75%,
+                #9f7a2f 100%
+            );
+            padding: 4.5rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bottom-cta::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.1;
+            background-image:
+                radial-gradient(circle at 25% 25%, rgba(255,255,255,0.12) 0.7px, transparent 0.8px),
+                radial-gradient(circle at 75% 75%, rgba(0,0,0,0.10) 0.7px, transparent 0.8px);
+            background-size: 120px 120px, 160px 160px;
+            mix-blend-mode: soft-light;
+        }
+
+        .bottom-cta-inner {
+            max-width: 660px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .bottom-cta-headline {
+            font-size: clamp(1.6rem, 4vw, 2.25rem);
+            font-weight: 900;
+            color: #ffffff;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            margin-bottom: 1.5rem;
+        }
+
+        .bottom-cta-body {
+            font-size: 1rem;
+            line-height: 1.75;
+            color: rgba(255, 255, 255, 0.82);
+            margin-bottom: 2.25rem;
+        }
+
+        .bottom-cta-body p + p {
+            margin-top: 1rem;
+        }
+
+        .btn-cta {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: #dcb55a;
+            color: #10281f;
+            font-size: 1rem;
+            font-weight: 800;
+            font-family: inherit;
+            letter-spacing: 0.01em;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.2s ease, transform 0.15s ease;
+        }
+
+        .btn-cta:hover {
+            background: #c9a24e;
+            transform: translateY(-1px);
+        }
+
+        .btn-cta:focus-visible {
+            outline: 3px solid #ffffff;
+            outline-offset: 3px;
+        }
+
+
+        /* -----------------------------------------------
+           15. FOOTER
         ----------------------------------------------- */
 
         .site-footer {
@@ -778,7 +862,7 @@
 
 
         /* -----------------------------------------------
-           15. RESPONSIVE
+           16. RESPONSIVE
         ----------------------------------------------- */
 
         @media (max-width: 860px) {
@@ -814,6 +898,7 @@
             .event-body            { padding: 2.5rem 1.25rem 3.5rem; }
             .registration-card     { padding: 1.75rem 1.5rem; }
             .quote-grid            { gap: 0.5rem; }
+            .bottom-cta            { padding: 3.5rem 1.25rem; }
             .event-info-col .countdown-num  { font-size: 1.5rem; }
             .event-info-col .countdown-unit { padding: 0.6rem 0.85rem; min-width: 58px; }
         }
@@ -1038,6 +1123,21 @@
             </p>
         </div>
     </div>
+
+
+    <!-- ================================================
+         BOTTOM CTA
+    ================================================ -->
+    <section class="bottom-cta">
+        <div class="bottom-cta-inner">
+            <h2 class="bottom-cta-headline">You can keep winging it. But nothing changes that way.</h2>
+            <div class="bottom-cta-body">
+                <p>If you do not join, next month probably looks a lot like this month. You stay busy, keep hoping things will become more fruitful, and still feel unsure where disciple making actually fits in your real week.</p>
+                <p>This lab will not fix everything in 45 minutes. But it can help you stop drifting and take one clear step with a repeatable plan.</p>
+            </div>
+            <button class="btn-cta" id="cta-scroll-btn">Reserve My Seat</button>
+        </div>
+    </section>
 
 
     <!-- ================================================
@@ -1354,6 +1454,17 @@
                     answer.hidden = false;
                 }
             });
+        });
+
+
+        // -------------------------------------------------------
+        // Bottom CTA — scroll to registration card
+        // -------------------------------------------------------
+        document.getElementById('cta-scroll-btn').addEventListener('click', function() {
+            var target = document.getElementById('registration-section');
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
         });
     </script>
 
