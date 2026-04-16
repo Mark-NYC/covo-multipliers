@@ -25,13 +25,21 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 // ---------------------------------------------------------------------------
 // CORS
 // ---------------------------------------------------------------------------
-const ORIGIN = Deno.env.get("SITE_ORIGIN") ?? "https://covomultipliers.com";
+const ALLOWED_ORIGINS = new Set([
+  "https://covomultipliers.com",
+  "https://www.covomultipliers.com",
+]);
 
-const CORS = {
-  "Access-Control-Allow-Origin": ORIGIN,
-  "Access-Control-Allow-Headers": "content-type",
-  "Access-Control-Allow-Methods": "POST, OPTIONS",
-};
+function corsHeaders(req: Request): Record<string, string> {
+  const origin = req.headers.get("Origin") ?? "";
+  return {
+    "Access-Control-Allow-Origin": ALLOWED_ORIGINS.has(origin)
+      ? origin
+      : "https://covomultipliers.com",
+    "Access-Control-Allow-Headers": "content-type",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+  };
+}
 
 // ---------------------------------------------------------------------------
 // Types
@@ -50,13 +58,15 @@ interface RpcResult {
 // Entry point
 // ---------------------------------------------------------------------------
 Deno.serve(async (req: Request): Promise<Response> => {
+  const cors = corsHeaders(req);
+
   // Preflight
   if (req.method === "OPTIONS") {
-    return new Response(null, { status: 204, headers: CORS });
+    return new Response(null, { status: 204, headers: cors });
   }
 
   if (req.method !== "POST") {
-    return json(405, { error: "Method not allowed." });
+    return json(405, { error: "Method not allowed." }, cors);
   }
 
   // Parse
@@ -64,20 +74,20 @@ Deno.serve(async (req: Request): Promise<Response> => {
   try {
     body = await req.json();
   } catch {
-    return json(400, { error: "Request body must be valid JSON." });
+    return json(400, { error: "Request body must be valid JSON." }, cors);
   }
 
   const { event_id, name, email } = body;
 
   // Validate
   if (typeof event_id !== "string" || !isUuid(event_id)) {
-    return json(400, { error: "A valid event_id is required." });
+    return json(400, { error: "A valid event_id is required." }, cors);
   }
   if (typeof name !== "string" || name.trim().length < 2) {
-    return json(400, { error: "Please enter your full name." });
+    return json(400, { error: "Please enter your full name." }, cors);
   }
   if (typeof email !== "string" || !isEmail(email)) {
-    return json(400, { error: "Please enter a valid email address." });
+    return json(400, { error: "Please enter a valid email address." }, cors);
   }
 
   const cleanName = name.trim();
@@ -101,7 +111,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
 
   if (rpcError) {
     console.error("RPC error:", rpcError);
-    return json(500, { error: "Registration failed. Please try again." });
+    return json(500, { error: "Registration failed. Please try again." }, cors);
   }
 
   const result = data as RpcResult;
@@ -111,18 +121,18 @@ Deno.serve(async (req: Request): Promise<Response> => {
       case "event_not_found":
         return json(404, {
           error: "This event could not be found or is no longer available.",
-        });
+        }, cors);
       case "already_registered":
         return json(409, {
           error: "This email address is already registered for this event.",
-        });
+        }, cors);
       case "event_full":
         return json(409, {
           error: "This event is full. No seats are remaining.",
-        });
+        }, cors);
       default:
         console.error("Unexpected RPC result:", result);
-        return json(500, { error: "Registration failed. Please try again." });
+        return json(500, { error: "Registration failed. Please try again." }, cors);
     }
   }
 
@@ -152,7 +162,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
     success: true,
     message: "You're registered! Check your inbox for a confirmation email.",
     seats_remaining: result.seats_remaining ?? null,
-  });
+  }, cors);
 });
 
 // ---------------------------------------------------------------------------
@@ -296,10 +306,10 @@ async function sendEmail({
 // ---------------------------------------------------------------------------
 
 /** Serialize body to JSON and attach CORS headers. */
-function json(status: number, body: Record<string, unknown>): Response {
+function json(status: number, body: Record<string, unknown>, cors: Record<string, string>): Response {
   return new Response(JSON.stringify(body), {
     status,
-    headers: { ...CORS, "Content-Type": "application/json" },
+    headers: { ...cors, "Content-Type": "application/json" },
   });
 }
 
