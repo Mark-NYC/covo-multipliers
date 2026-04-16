@@ -696,7 +696,54 @@
 
 
         /* -----------------------------------------------
-           13. FOOTER
+           13. SOCIAL PROOF
+        ----------------------------------------------- */
+
+        .social-proof {
+            background: #f8faf9;
+            border-top: 1px solid #e5e7eb;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 1.75rem 2rem;
+        }
+
+        .social-proof-inner {
+            max-width: 820px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .social-proof-icon {
+            flex-shrink: 0;
+            width: 34px;
+            height: 34px;
+            border-radius: 7px;
+            overflow: hidden;
+        }
+
+        .social-proof-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .social-proof-text {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #5a6b65;
+            margin: 0;
+        }
+
+        .social-proof-text strong {
+            color: #2a2a2a;
+            font-weight: 700;
+        }
+
+
+        /* -----------------------------------------------
+           14. FOOTER
         ----------------------------------------------- */
 
         .site-footer {
@@ -731,7 +778,7 @@
 
 
         /* -----------------------------------------------
-           14. RESPONSIVE
+           15. RESPONSIVE
         ----------------------------------------------- */
 
         @media (max-width: 860px) {
@@ -975,6 +1022,22 @@
 
         </div>
     </section>
+
+
+    <!-- ================================================
+         SOCIAL PROOF
+    ================================================ -->
+    <div class="social-proof">
+        <div class="social-proof-inner">
+            <div class="social-proof-icon">
+                <img src="image/Substack.png" alt="Substack" width="34" height="34">
+            </div>
+            <p class="social-proof-text">
+                This is not theory we keep to ourselves.
+                Dave and Mark share these ideas each week with a combined <strong>300+ Substack subscribers</strong> who care about disciple making in real life.
+            </p>
+        </div>
+    </div>
 
 
     <!-- ================================================
