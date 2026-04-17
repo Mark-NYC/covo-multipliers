@@ -51,7 +51,7 @@
         ----------------------------------------------- */
 
         .vp-hero {
-            padding: 4.5rem 2rem 4rem;
+            padding: 3.5rem 2.5rem;
             background: linear-gradient(135deg,
                 #10281f 0%,
                 #1b4d3e 28%,
@@ -61,7 +61,6 @@
             );
             position: relative;
             overflow: hidden;
-            text-align: center;
         }
 
         .vp-hero::before {
@@ -80,10 +79,38 @@
         }
 
         .vp-hero-inner {
-            max-width: 680px;
+            max-width: 1160px;
             margin: 0 auto;
             position: relative;
             z-index: 2;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3.5rem;
+            align-items: center;
+        }
+
+        /* Left column — text */
+        .vp-hero-content {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        /* Right column — image */
+        .vp-hero-image-wrap {
+            aspect-ratio: 1 / 1;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 24px 64px rgba(0, 0, 0, 0.35);
+            flex-shrink: 0;
+        }
+
+        .vp-hero-image-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 18%;
+            display: block;
         }
 
         .vp-label {
@@ -96,7 +123,7 @@
         }
 
         .vp-headline {
-            font-size: clamp(2.25rem, 5vw, 3.5rem);
+            font-size: clamp(2.25rem, 4vw, 3.25rem);
             font-weight: 900;
             color: #ffffff;
             line-height: 1.1;
@@ -105,11 +132,10 @@
         }
 
         .vp-copy {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             line-height: 1.72;
             color: rgba(255, 255, 255, 0.88);
             margin-bottom: 2.25rem;
-            text-align: left;
         }
 
         .vp-copy p + p {
@@ -119,7 +145,6 @@
         .hero-buttons {
             display: flex;
             gap: 1rem;
-            justify-content: center;
             flex-wrap: wrap;
         }
 
@@ -577,6 +602,37 @@
            RESPONSIVE
         ----------------------------------------------- */
 
+        /* Tablet: tighten hero gap, keep two columns until it gets cramped */
+        @media (max-width: 900px) {
+            .vp-hero-inner {
+                gap: 2.25rem;
+            }
+        }
+
+        /* Stack hero at 700px — columns would feel cramped below this */
+        @media (max-width: 700px) {
+            .vp-hero {
+                padding: 3rem 1.5rem 2.5rem;
+            }
+
+            .vp-hero-inner {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            /* Image goes below text on mobile */
+            .vp-hero-image-wrap {
+                order: 1;
+                max-width: 420px;
+                width: 100%;
+                margin: 0 auto;
+            }
+
+            .vp-hero-content {
+                order: 0;
+            }
+        }
+
         @media (max-width: 760px) {
             .covo-grid,
             .stuck-grid {
@@ -585,7 +641,7 @@
         }
 
         @media (max-width: 480px) {
-            .vp-hero        { padding: 3rem 1.5rem 2.75rem; }
+            .vp-hero        { padding: 2.5rem 1.25rem 2rem; }
             .podcast-card   { padding: 1.5rem; }
             .podcast-section,
             .covo-section,
@@ -615,17 +671,31 @@
     ================================================ -->
     <section class="vp-hero">
         <div class="vp-hero-inner">
-            <p class="vp-label">Vision &amp; Pathway</p>
-            <h1 class="vp-headline">Vision &amp; Pathway</h1>
-            <div class="vp-copy">
-                <p>Most Christians have been taught to split life into compartments.</p>
-                <p>Work here. Church there. Family over here. Mission somewhere else.</p>
-                <p>Covo Multipliers exists to help leaders bring those parts back together and make disciples where they live, work, and play.</p>
+
+            <!-- Left: text content -->
+            <div class="vp-hero-content">
+                <p class="vp-label">Vision &amp; Pathway</p>
+                <h1 class="vp-headline">Vision &amp; Pathway</h1>
+                <div class="vp-copy">
+                    <p>Most Christians have been taught to split life into compartments.</p>
+                    <p>Work here. Church there. Family over here. Mission somewhere else.</p>
+                    <p>Covo Multipliers exists to help leaders bring those parts back together and make disciples where they live, work, and play.</p>
+                </div>
+                <div class="hero-buttons">
+                    <a class="btn-hero-gold" href="https://podcasts.apple.com/gb/podcast/the-rise-of-covo-multipliers-why-priscilla-aquila/id1562206185?i=1000705387220" target="_blank" rel="noopener">Listen to the Episode</a>
+                    <a class="btn-hero-outline" href="/">Join a Lab</a>
+                </div>
             </div>
-            <div class="hero-buttons">
-                <a class="btn-hero-gold" href="https://podcasts.apple.com/gb/podcast/the-rise-of-covo-multipliers-why-priscilla-aquila/id1562206185?i=1000705387220" target="_blank" rel="noopener">Listen to the Episode</a>
-                <a class="btn-hero-outline" href="/">Join a Lab</a>
+
+            <!-- Right: image -->
+            <div class="vp-hero-image-wrap">
+                <img
+                    src="images/watercooler conversation at work.webp"
+                    alt="Four colleagues having a relaxed conversation over coffee in a workplace setting"
+                    loading="eager"
+                >
             </div>
+
         </div>
     </section>
 
