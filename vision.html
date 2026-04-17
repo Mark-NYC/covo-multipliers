@@ -3,69 +3,709 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Vision &amp; Pathway — Covo Multipliers">
+    <meta name="description" content="Understand the vision, the covo life, and your next step — Covo Multipliers.">
     <title>Vision &amp; Pathway — Covo Multipliers</title>
     <link rel="stylesheet" href="styles.css">
     <style>
-        .coming-soon-section {
-            min-height: calc(100vh - 0px);
+
+        /* ==============================================
+           Vision & Pathway — page styles
+           ============================================== */
+
+
+        /* -----------------------------------------------
+           SITE HEADER
+        ----------------------------------------------- */
+
+        .site-header {
+            background: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 1rem 2rem;
             display: flex;
             align-items: center;
-            justify-content: center;
-            padding: 6rem 2rem;
-            background: #ffffff;
+            justify-content: space-between;
+        }
+
+        .site-header .brand {
+            font-size: 0.95rem;
+            font-weight: 900;
+            color: #10281f;
+            text-decoration: none;
+            letter-spacing: -0.01em;
+        }
+
+        .site-header .back-link {
+            font-size: 0.875rem;
+            color: #5a6b65;
+            text-decoration: none;
+            transition: color 0.15s ease;
+        }
+
+        .site-header .back-link:hover {
+            color: #1b4d3e;
+        }
+
+
+        /* -----------------------------------------------
+           HERO
+        ----------------------------------------------- */
+
+        .vp-hero {
+            padding: 4.5rem 2rem 4rem;
+            background: linear-gradient(135deg,
+                #10281f 0%,
+                #1b4d3e 28%,
+                #2c6b5d 56%,
+                #9f7a2f 82%,
+                #dcb55a 100%
+            );
+            position: relative;
+            overflow: hidden;
             text-align: center;
         }
 
-        .coming-soon-inner {
-            max-width: 560px;
+        .vp-hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.12;
+            background-image:
+                radial-gradient(circle at 20% 20%, rgba(255,255,255,0.12) 0.7px, transparent 0.8px),
+                radial-gradient(circle at 80% 30%, rgba(0,0,0,0.10) 0.7px, transparent 0.8px),
+                radial-gradient(circle at 40% 70%, rgba(255,255,255,0.08) 0.6px, transparent 0.7px),
+                radial-gradient(circle at 70% 80%, rgba(0,0,0,0.08) 0.6px, transparent 0.7px);
+            background-size: 120px 120px, 140px 140px, 100px 100px, 160px 160px;
+            mix-blend-mode: soft-light;
         }
 
-        .coming-soon-accent {
-            display: block;
-            width: 40px;
-            height: 3px;
-            background: linear-gradient(90deg, #1b4d3e, #dcb55a);
-            border-radius: 2px;
-            margin: 0 auto 1.5rem;
+        .vp-hero-inner {
+            max-width: 680px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
         }
 
-        .coming-soon-title {
-            font-size: clamp(2rem, 5vw, 3.25rem);
-            font-weight: 900;
-            color: #10281f;
-            letter-spacing: -0.025em;
-            line-height: 1.1;
-            margin-bottom: 1.25rem;
-        }
-
-        .coming-soon-message {
-            font-size: 1.3rem;
+        .vp-label {
+            font-size: 0.72rem;
             font-weight: 700;
-            color: #1b4d3e;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.6);
             margin-bottom: 1rem;
-            letter-spacing: 0.01em;
         }
 
-        .coming-soon-body {
+        .vp-headline {
+            font-size: clamp(2.25rem, 5vw, 3.5rem);
+            font-weight: 900;
+            color: #ffffff;
+            line-height: 1.1;
+            letter-spacing: -0.025em;
+            margin-bottom: 1.5rem;
+        }
+
+        .vp-copy {
+            font-size: 1.1rem;
+            line-height: 1.72;
+            color: rgba(255, 255, 255, 0.88);
+            margin-bottom: 2.25rem;
+        }
+
+        .vp-copy p + p {
+            margin-top: 0.85rem;
+        }
+
+        .btn-hero {
+            display: inline-block;
+            padding: 0.9rem 2.25rem;
+            background: #dcb55a;
+            color: #10281f;
+            font-size: 0.975rem;
+            font-weight: 800;
+            font-family: inherit;
+            letter-spacing: 0.01em;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: background 0.2s ease, transform 0.15s ease;
+        }
+
+        .btn-hero:hover {
+            background: #c9a24e;
+            transform: translateY(-1px);
+        }
+
+        .btn-hero:focus-visible {
+            outline: 3px solid #ffffff;
+            outline-offset: 3px;
+        }
+
+
+        /* -----------------------------------------------
+           SHARED SECTION STYLES
+        ----------------------------------------------- */
+
+        .section-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .section-eyebrow {
+            display: block;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #245c4a;
+            margin-bottom: 0.65rem;
+        }
+
+        .section-heading {
+            font-size: clamp(1.4rem, 2.5vw, 1.75rem);
+            font-weight: 800;
+            color: #10281f;
+            letter-spacing: -0.01em;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-sub {
             font-size: 1rem;
             color: #5a6b65;
             line-height: 1.6;
-            margin-bottom: 2.5rem;
+            margin-bottom: 2.25rem;
         }
+
+
+        /* -----------------------------------------------
+           PODCAST SECTION
+        ----------------------------------------------- */
+
+        .podcast-section {
+            background: #ffffff;
+            padding: 4rem 2rem;
+            border-bottom: 1px solid #eef0ef;
+        }
+
+        .podcast-inner {
+            max-width: 760px;
+            margin: 0 auto;
+        }
+
+        .podcast-card {
+            background: #f8faf9;
+            border: 1px solid #e2eae6;
+            border-left: 4px solid #dcb55a;
+            border-radius: 0 16px 16px 0;
+            padding: 2rem 2.25rem;
+        }
+
+        .podcast-title {
+            font-size: clamp(1.2rem, 2.5vw, 1.55rem);
+            font-weight: 800;
+            color: #10281f;
+            line-height: 1.25;
+            margin-bottom: 0.75rem;
+        }
+
+        .podcast-copy {
+            font-size: 0.975rem;
+            line-height: 1.7;
+            color: #444444;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-podcast {
+            display: inline-block;
+            padding: 0.75rem 1.75rem;
+            background: #1b4d3e;
+            color: #ffffff;
+            font-size: 0.9rem;
+            font-weight: 700;
+            font-family: inherit;
+            letter-spacing: 0.01em;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: background 0.2s ease;
+        }
+
+        .btn-podcast:hover {
+            background: #10281f;
+        }
+
+        .btn-podcast:focus-visible {
+            outline: 3px solid #dcb55a;
+            outline-offset: 3px;
+        }
+
+
+        /* -----------------------------------------------
+           COVO SECTION
+        ----------------------------------------------- */
+
+        .covo-section {
+            background: #f8faf9;
+            padding: 4rem 2rem;
+        }
+
+        .covo-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.25rem;
+        }
+
+        .covo-card {
+            background: #ffffff;
+            border: 1px solid #e2eae6;
+            border-radius: 16px;
+            padding: 1.75rem;
+            box-shadow: 0 2px 8px rgba(16, 40, 31, 0.05);
+        }
+
+        .covo-card-title {
+            font-size: 1rem;
+            font-weight: 800;
+            color: #10281f;
+            margin-bottom: 0.5rem;
+        }
+
+        .covo-card-body {
+            font-size: 0.925rem;
+            line-height: 1.65;
+            color: #444444;
+            margin: 0;
+        }
+
+
+        /* -----------------------------------------------
+           PATHWAY SECTION
+        ----------------------------------------------- */
+
+        .pathway-section {
+            background: #ffffff;
+            padding: 4rem 2rem;
+        }
+
+        .pathway-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.25rem;
+        }
+
+        .pathway-step {
+            background: #f8faf9;
+            border: 1px solid #e2eae6;
+            border-radius: 16px;
+            padding: 1.75rem;
+        }
+
+        .step-number {
+            display: block;
+            font-size: 0.7rem;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #dcb55a;
+            margin-bottom: 0.6rem;
+        }
+
+        .step-title {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: #10281f;
+            margin-bottom: 0.4rem;
+        }
+
+        .step-body {
+            font-size: 0.9rem;
+            line-height: 1.65;
+            color: #5a6b65;
+            margin: 0;
+        }
+
+
+        /* -----------------------------------------------
+           WHO SECTION
+        ----------------------------------------------- */
+
+        .who-section {
+            background: #f8faf9;
+            padding: 4rem 2rem;
+        }
+
+        .who-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.85rem 2.5rem;
+        }
+
+        .who-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            font-size: 0.975rem;
+            line-height: 1.6;
+            color: #2a2a2a;
+        }
+
+        .who-check {
+            flex-shrink: 0;
+            margin-top: 0.2rem;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #f0fdf4;
+            border: 1.5px solid #bbf7d0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.55rem;
+            font-weight: 800;
+            color: #15803d;
+        }
+
+
+        /* -----------------------------------------------
+           STAKES SECTION
+        ----------------------------------------------- */
+
+        .stakes-section {
+            background: #10281f;
+            padding: 4.5rem 2rem;
+            text-align: center;
+        }
+
+        .stakes-inner {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .stakes-headline {
+            font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+            font-weight: 900;
+            color: #ffffff;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            margin-bottom: 1.25rem;
+        }
+
+        .stakes-body {
+            font-size: 1rem;
+            line-height: 1.75;
+            color: rgba(255, 255, 255, 0.72);
+        }
+
+
+        /* -----------------------------------------------
+           FINAL CTA
+        ----------------------------------------------- */
+
+        .final-cta {
+            background: linear-gradient(135deg,
+                #10281f 0%,
+                #1b4d3e 40%,
+                #2c6b5d 75%,
+                #9f7a2f 100%
+            );
+            padding: 5rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .final-cta::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.1;
+            background-image:
+                radial-gradient(circle at 25% 25%, rgba(255,255,255,0.12) 0.7px, transparent 0.8px),
+                radial-gradient(circle at 75% 75%, rgba(0,0,0,0.10) 0.7px, transparent 0.8px);
+            background-size: 120px 120px, 160px 160px;
+            mix-blend-mode: soft-light;
+        }
+
+        .final-cta-inner {
+            max-width: 560px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .final-cta-headline {
+            font-size: clamp(1.5rem, 3vw, 2.1rem);
+            font-weight: 900;
+            color: #ffffff;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            margin-bottom: 2.25rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-cta-gold {
+            display: inline-block;
+            padding: 0.9rem 2rem;
+            background: #dcb55a;
+            color: #10281f;
+            font-size: 0.975rem;
+            font-weight: 800;
+            font-family: inherit;
+            letter-spacing: 0.01em;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: background 0.2s ease, transform 0.15s ease;
+        }
+
+        .btn-cta-gold:hover {
+            background: #c9a24e;
+            transform: translateY(-1px);
+        }
+
+        .btn-cta-gold:focus-visible {
+            outline: 3px solid #ffffff;
+            outline-offset: 3px;
+        }
+
+        .btn-cta-outline {
+            display: inline-block;
+            padding: 0.9rem 2rem;
+            background: transparent;
+            color: #ffffff;
+            font-size: 0.975rem;
+            font-weight: 700;
+            font-family: inherit;
+            letter-spacing: 0.01em;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 10px;
+            text-decoration: none;
+            transition: border-color 0.2s ease, background 0.2s ease;
+        }
+
+        .btn-cta-outline:hover {
+            border-color: #ffffff;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .btn-cta-outline:focus-visible {
+            outline: 3px solid #dcb55a;
+            outline-offset: 3px;
+        }
+
+
+        /* -----------------------------------------------
+           RESPONSIVE
+        ----------------------------------------------- */
+
+        @media (max-width: 760px) {
+            .covo-grid,
+            .pathway-grid,
+            .who-list {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .vp-hero       { padding: 3rem 1.5rem 2.75rem; }
+            .podcast-card  { padding: 1.5rem 1.5rem; }
+            .covo-section,
+            .pathway-section,
+            .who-section,
+            .podcast-section { padding: 3rem 1.25rem; }
+            .stakes-section  { padding: 3.5rem 1.25rem; }
+            .final-cta       { padding: 3.5rem 1.25rem; }
+        }
+
     </style>
 </head>
 <body>
 
-    <section class="coming-soon-section">
-        <div class="coming-soon-inner">
-            <span class="coming-soon-accent"></span>
-            <h1 class="coming-soon-title">Vision &amp; Pathway</h1>
-            <p class="coming-soon-message">Coming soon.</p>
-            <p class="coming-soon-body">We're building this page now so you can see the bigger picture of what Covo Multipliers is about and where it's headed.</p>
-            <a class="btn-pill" href="/">← Back to Home</a>
+    <!-- ================================================
+         SITE HEADER
+    ================================================ -->
+    <header class="site-header">
+        <a class="brand" href="/">Covo Multipliers</a>
+        <a class="back-link" href="/">← Home</a>
+    </header>
+
+
+    <!-- ================================================
+         HERO
+    ================================================ -->
+    <section class="vp-hero">
+        <div class="vp-hero-inner">
+            <p class="vp-label">Vision &amp; Pathway</p>
+            <h1 class="vp-headline">Vision &amp; Pathway</h1>
+            <div class="vp-copy">
+                <p>Covo Multipliers is a tribe of covocational leaders learning to make disciples where they live, work, and play.</p>
+                <p>We believe the life and pattern of Priscilla and Aquila gives us a blueprint for this kind of everyday mission.</p>
+            </div>
+            <a class="btn-hero" href="https://podcasts.apple.com/gb/podcast/the-rise-of-covo-multipliers-why-priscilla-aquila/id1562206185?i=1000705387220" target="_blank" rel="noopener">Listen to the Episode</a>
         </div>
     </section>
+
+
+    <!-- ================================================
+         FEATURED PODCAST
+    ================================================ -->
+    <section class="podcast-section">
+        <div class="podcast-inner">
+            <span class="section-eyebrow">Start here</span>
+            <div class="podcast-card">
+                <h2 class="podcast-title">The Rise of Covo Multipliers</h2>
+                <p class="podcast-copy">Listen to the episode on why Priscilla and Aquila hold the blueprint for the kind of leaders we are trying to become.</p>
+                <a class="btn-podcast" href="https://podcasts.apple.com/gb/podcast/the-rise-of-covo-multipliers-why-priscilla-aquila/id1562206185?i=1000705387220" target="_blank" rel="noopener">Listen on Apple Podcasts</a>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ================================================
+         WHAT WE MEAN BY COVO
+    ================================================ -->
+    <section class="covo-section">
+        <div class="section-inner">
+            <h2 class="section-heading">What we mean by covo</h2>
+            <p class="section-sub">Covocational is not just a job description. It is a posture toward mission.</p>
+            <div class="covo-grid">
+
+                <div class="covo-card">
+                    <h3 class="covo-card-title">One life, not two</h3>
+                    <p class="covo-card-body">Work and mission are not separate tracks.</p>
+                </div>
+
+                <div class="covo-card">
+                    <h3 class="covo-card-title">Disciple making in ordinary places</h3>
+                    <p class="covo-card-body">We build where we already live, work, and play.</p>
+                </div>
+
+                <div class="covo-card">
+                    <h3 class="covo-card-title">Repeatable rhythms over hype</h3>
+                    <p class="covo-card-body">We want patterns that can actually be lived and passed on.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ================================================
+         THE PATHWAY
+    ================================================ -->
+    <section class="pathway-section">
+        <div class="section-inner">
+            <h2 class="section-heading">The pathway</h2>
+            <p class="section-sub">No one arrives here fully formed. Here is how most people move through it.</p>
+            <div class="pathway-grid">
+
+                <div class="pathway-step">
+                    <span class="step-number">Step 01</span>
+                    <h3 class="step-title">See the vision</h3>
+                    <p class="step-body">Start with the podcast and core ideas.</p>
+                </div>
+
+                <div class="pathway-step">
+                    <span class="step-number">Step 02</span>
+                    <h3 class="step-title">Join the monthly labs</h3>
+                    <p class="step-body">Get practical training and language for living covo.</p>
+                </div>
+
+                <div class="pathway-step">
+                    <span class="step-number">Step 03</span>
+                    <h3 class="step-title">Practice the rhythms</h3>
+                    <p class="step-body">Build a repeatable life of disciple making.</p>
+                </div>
+
+                <div class="pathway-step">
+                    <span class="step-number">Step 04</span>
+                    <h3 class="step-title">Go deeper with the tribe</h3>
+                    <p class="step-body">Step into deeper rhythms, shared learning, and real relationships.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ================================================
+         WHO THIS IS FOR
+    ================================================ -->
+    <section class="who-section">
+        <div class="section-inner">
+            <h2 class="section-heading">Who this is for</h2>
+            <p class="section-sub">This is for leaders who:</p>
+            <ul class="who-list">
+                <li>
+                    <span class="who-check" aria-hidden="true">&#10003;</span>
+                    <span>Have jobs, responsibilities, and real constraints</span>
+                </li>
+                <li>
+                    <span class="who-check" aria-hidden="true">&#10003;</span>
+                    <span>Want to make disciples without splitting work from mission</span>
+                </li>
+                <li>
+                    <span class="who-check" aria-hidden="true">&#10003;</span>
+                    <span>Are tired of vague inspiration and want a repeatable path</span>
+                </li>
+                <li>
+                    <span class="who-check" aria-hidden="true">&#10003;</span>
+                    <span>Want to build alongside others living the same way</span>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+
+    <!-- ================================================
+         STAKES
+    ================================================ -->
+    <section class="stakes-section">
+        <div class="stakes-inner">
+            <h2 class="stakes-headline">What happens if you do not build this on purpose?</h2>
+            <p class="stakes-body">You stay busy. You care deeply. But disciple making keeps getting pushed to the edges of life instead of becoming part of its center.</p>
+        </div>
+    </section>
+
+
+    <!-- ================================================
+         FINAL CTA
+    ================================================ -->
+    <section class="final-cta">
+        <div class="final-cta-inner">
+            <h2 class="final-cta-headline">Start with the vision. Then take the next step.</h2>
+            <div class="cta-buttons">
+                <a class="btn-cta-gold" href="https://podcasts.apple.com/gb/podcast/the-rise-of-covo-multipliers-why-priscilla-aquila/id1562206185?i=1000705387220" target="_blank" rel="noopener">Listen to the Episode</a>
+                <a class="btn-cta-outline" href="/">Join a Lab</a>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ================================================
+         FOOTER
+    ================================================ -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <span class="footer-wordmark">Covo Multipliers</span>
+                <p class="footer-desc">A tribe of covocational leaders learning to make disciples where they live, work, and play.</p>
+            </div>
+            <nav class="footer-nav" aria-label="Footer navigation">
+                <a href="/">Home</a>
+                <a href="/vision.html">Vision &amp; Pathway</a>
+                <a href="/resources.html">Resources</a>
+                <a href="https://obey.tools">Obey.Tools</a>
+            </nav>
+        </div>
+    </footer>
+
 
 </body>
 </html>
