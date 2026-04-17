@@ -364,7 +364,62 @@ img {
 
 
 /* -----------------------------------------------
-   10. RESPONSIVE (was 8)
+   10. TESTIMONIALS
+----------------------------------------------- */
+
+.testimonials-section {
+    background: #ffffff;
+    padding: 4rem 2rem;
+    border-top: 1px solid #eef0ef;
+}
+
+.testimonials-container {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.testimonials-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #5a6b65;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.testimonials-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.25rem;
+}
+
+.testimonial-card {
+    background: #f8faf9;
+    border: 1px solid #e2eae6;
+    border-left: 3px solid #1b4d3e;
+    border-radius: 0 12px 12px 0;
+    padding: 1.5rem 1.75rem;
+}
+
+.testimonial-quote {
+    font-size: 0.975rem;
+    line-height: 1.7;
+    color: #2a2a2a;
+    font-style: italic;
+    margin-bottom: 1rem;
+}
+
+.testimonial-attribution {
+    font-size: 0.825rem;
+    font-weight: 700;
+    color: #1b4d3e;
+    letter-spacing: 0.02em;
+}
+
+
+/* -----------------------------------------------
+   11. RESPONSIVE (was 8)
 ----------------------------------------------- */
 
 /* Stack lab cards on tablet and below */
