@@ -324,7 +324,46 @@ img {
 
 
 /* -----------------------------------------------
-   8. RESPONSIVE
+   9. SOCIAL PROOF IMAGE
+----------------------------------------------- */
+
+/* Homepage: below positioning sentence */
+.hero-social-proof {
+    margin-top: 1.25rem;
+}
+
+.hero-social-proof img {
+    max-width: 220px;
+    width: 100%;
+    margin: 0 auto;
+    display: block;
+    border-radius: 8px;
+}
+
+/* Lab pages: below registration form */
+.form-social-proof {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.form-social-proof img {
+    max-width: 100%;
+    width: 220px;
+    margin: 0 auto 0.6rem;
+    display: block;
+    border-radius: 8px;
+}
+
+.form-social-proof p {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #5a6b65;
+    letter-spacing: 0.02em;
+}
+
+
+/* -----------------------------------------------
+   10. RESPONSIVE (was 8)
 ----------------------------------------------- */
 
 /* Stack lab cards on tablet and below */
