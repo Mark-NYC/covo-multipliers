@@ -258,6 +258,78 @@
 
 
         /* -----------------------------------------------
+           RECENT ARTICLES
+        ----------------------------------------------- */
+
+        .blog-recent {
+            padding: 3.5rem 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .article-cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.25rem;
+        }
+
+        .article-card {
+            display: flex;
+            flex-direction: column;
+            background: #ffffff;
+            border: 1px solid #e0e7e4;
+            border-radius: 12px;
+            padding: 1.75rem;
+            text-decoration: none;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .article-card:hover {
+            border-color: #1b4d3e;
+            box-shadow: 0 4px 16px rgba(27, 77, 62, 0.1);
+        }
+
+        .article-card-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.875rem;
+        }
+
+        .article-card-title {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: #10281f;
+            line-height: 1.3;
+            letter-spacing: -0.01em;
+            margin-bottom: 0.625rem;
+            flex: 1;
+        }
+
+        .article-card-excerpt {
+            font-size: 0.9rem;
+            line-height: 1.65;
+            color: #5a6b65;
+            margin-bottom: 1.25rem;
+            flex: 1;
+        }
+
+        .article-card-read {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #1b4d3e;
+            border-bottom: 2px solid #dcb55a;
+            padding-bottom: 1px;
+            align-self: flex-start;
+        }
+
+        @media (max-width: 640px) {
+            .article-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+
+
+        /* -----------------------------------------------
            SITE LINKS
         ----------------------------------------------- */
 
@@ -367,6 +439,39 @@
                 <p class="featured-card-excerpt">Most people think bivocational church planting is what you do when you can't raise support. That framing is backwards. Here's why the covocational model is a mission strategy — and for many contexts, the better one.</p>
                 <a class="read-more" href="/blog/bivocational-church-planting-better-model/">Read the article →</a>
             </article>
+        </div>
+    </section>
+
+
+    <!-- ================================================
+         RECENT ARTICLES
+    ================================================ -->
+    <section class="blog-recent" aria-labelledby="recent-heading">
+        <div class="blog-container">
+            <h2 class="section-label" id="recent-heading">Recent articles</h2>
+            <div class="article-cards">
+
+                <a class="article-card" href="/blog/habits-and-rhythms-of-a-covocational-leader/">
+                    <div class="article-card-meta">
+                        <span class="post-tag">Disciple Making</span>
+                        <time class="post-date" datetime="2026-04-17">April 17, 2026</time>
+                    </div>
+                    <h3 class="article-card-title">The Habits and Rhythms of a Covocational Leader</h3>
+                    <p class="article-card-excerpt">Most covocational leaders don't lack motivation — they lack a framework. Six core habits and daily micro-practices for making intentional disciple-making automatic.</p>
+                    <span class="article-card-read">Read →</span>
+                </a>
+
+                <a class="article-card" href="/blog/bivocational-church-planting-better-model/">
+                    <div class="article-card-meta">
+                        <span class="post-tag">Church Planting</span>
+                        <time class="post-date" datetime="2026-04-17">April 17, 2026</time>
+                    </div>
+                    <h3 class="article-card-title">Bivocational Church Planting: A Better Model, Not a Backup Plan</h3>
+                    <p class="article-card-excerpt">The bivocational route gets a polite nod in church planting circles. Here's why that framing is backwards — and why the covocational model is a mission strategy, not a compromise.</p>
+                    <span class="article-card-read">Read →</span>
+                </a>
+
+            </div>
         </div>
     </section>
 
