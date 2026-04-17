@@ -268,7 +268,7 @@
 
         .article-cards {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 1.25rem;
         }
 
@@ -320,6 +320,12 @@
             border-bottom: 2px solid #dcb55a;
             padding-bottom: 1px;
             align-self: flex-start;
+        }
+
+        @media (max-width: 900px) {
+            .article-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
         @media (max-width: 640px) {
@@ -450,6 +456,16 @@
         <div class="blog-container">
             <h2 class="section-label" id="recent-heading">Recent articles</h2>
             <div class="article-cards">
+
+                <a class="article-card" href="/blog/passion-people-place-profession/">
+                    <div class="article-card-meta">
+                        <span class="post-tag">Co-Vocational Ministry</span>
+                        <time class="post-date" datetime="2026-04-17">April 17, 2026</time>
+                    </div>
+                    <h3 class="article-card-title">Passion, People, Place, Profession: How to Find Your Mission Field</h3>
+                    <p class="article-card-excerpt">Your mission field isn't somewhere you go. A four-lens framework for mapping the people, places, and opportunities God has already put around you.</p>
+                    <span class="article-card-read">Read →</span>
+                </a>
 
                 <a class="article-card" href="/blog/habits-and-rhythms-of-a-covocational-leader/">
                     <div class="article-card-meta">
