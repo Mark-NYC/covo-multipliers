@@ -329,11 +329,12 @@ img {
 
 /* Homepage: below positioning sentence */
 .hero-social-proof {
-    margin-top: 1.25rem;
+    padding-top: 1.5rem;
+    text-align: center;
 }
 
 .hero-social-proof img {
-    max-width: 220px;
+    max-width: 110px;
     width: 100%;
     margin: 0 auto;
     display: block;
@@ -342,13 +343,13 @@ img {
 
 /* Lab pages: below registration form */
 .form-social-proof {
-    margin-top: 1rem;
+    padding-top: 1.25rem;
     text-align: center;
 }
 
 .form-social-proof img {
-    max-width: 100%;
-    width: 220px;
+    max-width: 110px;
+    width: 100%;
     margin: 0 auto 0.6rem;
     display: block;
     border-radius: 8px;
