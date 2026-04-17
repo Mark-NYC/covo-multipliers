@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Covo Multipliers Blog — Co-Vocational Ministry, Disciple Making &amp; Church Planting</title>
+    <meta name="description" content="Practical writing for co-vocational leaders making disciples where they live, work, and play. No inspiration without practice.">
+    <link rel="canonical" href="https://covomultipliers.com/blog/">
+    <link rel="stylesheet" href="/styles.css">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Covo Multipliers Blog">
+    <meta property="og:description" content="Practical writing for co-vocational leaders making disciples where they live, work, and play.">
+    <meta property="og:url" content="https://covomultipliers.com/blog/">
+    <meta property="og:site_name" content="Covo Multipliers">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Covo Multipliers Blog">
+    <meta name="twitter:description" content="Practical writing for co-vocational leaders making disciples where they live, work, and play.">
+
+    <!-- Blog + Organization Schema -->
+    <script type="application/ld+json">
+    [
+      {
+        "@context": "https://schema.org",
+        "@type": "Blog",
+        "name": "Covo Multipliers Blog",
+        "url": "https://covomultipliers.com/blog/",
+        "description": "Practical writing for co-vocational leaders making disciples where they live, work, and play.",
+        "publisher": {
+          "@type": "Organization",
+          "name": "Covo Multipliers",
+          "url": "https://covomultipliers.com"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Covo Multipliers",
+        "url": "https://covomultipliers.com",
+        "description": "A tribe of covocational leaders learning to make disciples where they live, work, and play."
+      }
+    ]
+    </script>
+
+    <style>
+
+        /* -----------------------------------------------
+           SITE HEADER
+        ----------------------------------------------- */
+
+        .site-header {
+            background: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .site-header .brand {
+            font-size: 0.95rem;
+            font-weight: 900;
+            color: #10281f;
+            text-decoration: none;
+            letter-spacing: -0.01em;
+        }
+
+        .site-header .back-link {
+            font-size: 0.875rem;
+            color: #5a6b65;
+            text-decoration: none;
+            transition: color 0.15s ease;
+        }
+
+        .site-header .back-link:hover {
+            color: #1b4d3e;
+        }
+
+
+        /* -----------------------------------------------
+           BLOG HERO
+        ----------------------------------------------- */
+
+        .blog-hero {
+            padding: 4rem 2rem 3.5rem;
+            background: linear-gradient(135deg,
+                #10281f 0%,
+                #1b4d3e 35%,
+                #2c6b5d 65%,
+                #9f7a2f 85%,
+                #dcb55a 100%
+            );
+        }
+
+        .blog-hero-inner {
+            max-width: 760px;
+            margin: 0 auto;
+        }
+
+        .blog-label {
+            display: inline-block;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.58);
+            margin-bottom: 1.1rem;
+        }
+
+        .blog-h1 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 900;
+            color: #ffffff;
+            line-height: 1.1;
+            letter-spacing: -0.025em;
+            margin-bottom: 1.25rem;
+        }
+
+        .blog-intro {
+            font-size: 1.05rem;
+            line-height: 1.72;
+            color: rgba(255, 255, 255, 0.82);
+            max-width: 660px;
+        }
+
+
+        /* -----------------------------------------------
+           SHARED CONTAINER
+        ----------------------------------------------- */
+
+        .blog-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #5a6b65;
+            margin-bottom: 1.5rem;
+        }
+
+
+        /* -----------------------------------------------
+           FEATURED ARTICLE
+        ----------------------------------------------- */
+
+        .blog-featured {
+            padding: 4rem 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .featured-card {
+            background: #f8faf9;
+            border: 1px solid #e0e7e4;
+            border-left: 4px solid #dcb55a;
+            border-radius: 12px;
+            padding: 2.5rem;
+        }
+
+        .featured-card-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .post-tag {
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #1b4d3e;
+            background: rgba(27, 77, 62, 0.1);
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+        }
+
+        .post-date {
+            font-size: 0.85rem;
+            color: #5a6b65;
+        }
+
+        .featured-card-title {
+            font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+            font-weight: 800;
+            line-height: 1.2;
+            letter-spacing: -0.015em;
+            margin-bottom: 1rem;
+        }
+
+        .featured-card-title a {
+            color: #10281f;
+            text-decoration: none;
+            transition: color 0.15s ease;
+        }
+
+        .featured-card-title a:hover {
+            color: #1b4d3e;
+        }
+
+        .featured-card-excerpt {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: #3d4f49;
+            margin-bottom: 1.5rem;
+            max-width: 620px;
+        }
+
+        .read-more {
+            display: inline-block;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #1b4d3e;
+            text-decoration: none;
+            border-bottom: 2px solid #dcb55a;
+            padding-bottom: 1px;
+            transition: color 0.15s ease, border-color 0.15s ease;
+        }
+
+        .read-more:hover {
+            color: #dcb55a;
+            border-color: #dcb55a;
+        }
+
+
+        /* -----------------------------------------------
+           TOPICS
+        ----------------------------------------------- */
+
+        .blog-topics {
+            padding: 3.5rem 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .topics-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+        }
+
+        .topic-pill {
+            display: inline-block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #1b4d3e;
+            background: transparent;
+            border: 2px solid #1b4d3e;
+            border-radius: 999px;
+            padding: 0.45rem 1.1rem;
+        }
+
+
+        /* -----------------------------------------------
+           SITE LINKS
+        ----------------------------------------------- */
+
+        .blog-site-links {
+            padding: 3.5rem 0 4.5rem;
+        }
+
+        .site-links-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.25rem;
+        }
+
+        .site-link-card {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            background: #f8faf9;
+            border: 1px solid #e0e7e4;
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-decoration: none;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .site-link-card:hover {
+            border-color: #1b4d3e;
+            box-shadow: 0 4px 16px rgba(27, 77, 62, 0.1);
+        }
+
+        .site-link-title {
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: #10281f;
+            letter-spacing: -0.01em;
+        }
+
+        .site-link-desc {
+            font-size: 0.875rem;
+            line-height: 1.55;
+            color: #5a6b65;
+        }
+
+
+        /* -----------------------------------------------
+           RESPONSIVE
+        ----------------------------------------------- */
+
+        @media (max-width: 640px) {
+            .blog-hero {
+                padding: 3rem 1.5rem 2.5rem;
+            }
+
+            .blog-container {
+                padding: 0 1.5rem;
+            }
+
+            .featured-card {
+                padding: 1.75rem;
+            }
+
+            .site-links-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+
+    <!-- ================================================
+         SITE HEADER
+    ================================================ -->
+    <header class="site-header">
+        <a class="brand" href="/">Covo Multipliers</a>
+        <a class="back-link" href="/">← Home</a>
+    </header>
+
+
+    <!-- ================================================
+         BLOG HERO
+    ================================================ -->
+    <section class="blog-hero">
+        <div class="blog-hero-inner">
+            <span class="blog-label">The Blog</span>
+            <h1 class="blog-h1">Covo Multipliers Blog</h1>
+            <p class="blog-intro">Practical writing for co-vocational leaders trying to make disciples where they live, work, and play. We cover bivocational church planting, disciple-making rhythms, workplace mission, and what it actually looks like to build a reproducible life of gospel witness — not as a professional, but as an ordinary believer with a regular job.</p>
+        </div>
+    </section>
+
+
+    <!-- ================================================
+         FEATURED ARTICLE
+    ================================================ -->
+    <section class="blog-featured" aria-labelledby="featured-heading">
+        <div class="blog-container">
+            <h2 class="section-label" id="featured-heading">Featured</h2>
+            <article class="featured-card">
+                <div class="featured-card-meta">
+                    <span class="post-tag">Church Planting</span>
+                    <time class="post-date" datetime="2026-04-17">April 17, 2026</time>
+                </div>
+                <h3 class="featured-card-title">
+                    <a href="/blog/bivocational-church-planting-better-model/">Bivocational Church Planting: A Better Model, Not a Backup Plan</a>
+                </h3>
+                <p class="featured-card-excerpt">Most people think bivocational church planting is what you do when you can't raise support. That framing is backwards. Here's why the covocational model is a mission strategy — and for many contexts, the better one.</p>
+                <a class="read-more" href="/blog/bivocational-church-planting-better-model/">Read the article →</a>
+            </article>
+        </div>
+    </section>
+
+
+    <!-- ================================================
+         TOPICS
+    ================================================ -->
+    <section class="blog-topics" aria-labelledby="topics-heading">
+        <div class="blog-container">
+            <h2 class="section-label" id="topics-heading">Browse by topic</h2>
+            <div class="topics-list">
+                <span class="topic-pill">Co-Vocational Ministry</span>
+                <span class="topic-pill">Church Planting</span>
+                <span class="topic-pill">Disciple Making</span>
+                <span class="topic-pill">Workplace Mission</span>
+                <span class="topic-pill">Reproducible Rhythms</span>
+                <span class="topic-pill">Aquila &amp; Priscilla</span>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ================================================
+         SITE LINKS
+    ================================================ -->
+    <section class="blog-site-links" aria-labelledby="site-links-heading">
+        <div class="blog-container">
+            <h2 class="section-label" id="site-links-heading">Explore the site</h2>
+            <div class="site-links-grid">
+                <a class="site-link-card" href="/vision.html">
+                    <span class="site-link-title">Vision &amp; Pathway</span>
+                    <span class="site-link-desc">Understand the full covocational vision and the five-part pathway for building a reproducible life of disciple making.</span>
+                </a>
+                <a class="site-link-card" href="/#upcoming-labs">
+                    <span class="site-link-title">Upcoming Labs</span>
+                    <span class="site-link-desc">Live monthly training sessions for leaders making disciples at work and in their neighborhoods.</span>
+                </a>
+                <a class="site-link-card" href="/resources.html">
+                    <span class="site-link-title">Resources</span>
+                    <span class="site-link-desc">Tools and training to help you live a repeatable, intentional life of gospel witness.</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ================================================
+         FOOTER
+    ================================================ -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <span class="footer-wordmark">Covo Multipliers</span>
+                <p class="footer-desc">A tribe of covocational leaders learning to make disciples where they live, work, and play.</p>
+            </div>
+            <nav class="footer-nav" aria-label="Footer navigation">
+                <a href="/">Home</a>
+                <a href="/vision.html">Vision &amp; Pathway</a>
+                <a href="/blog/">Blog</a>
+                <a href="/resources.html">Resources</a>
+                <a href="https://obey.tools">Obey.Tools</a>
+            </nav>
+        </div>
+    </footer>
+
+
+</body>
+</html>
