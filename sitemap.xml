@@ -44,7 +44,7 @@
     <!-- Blog -->
     <url>
         <loc>https://covomultipliers.com/blog/</loc>
-        <lastmod>2026-04-17</lastmod>
+        <lastmod>2026-04-18</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
@@ -80,7 +80,37 @@
     </url>
     <url>
         <loc>https://covomultipliers.com/blog/how-to-make-disciples-where-you-live-work-and-play/</loc>
-        <lastmod>2026-04-17</lastmod>
+        <lastmod>2026-04-18</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://covomultipliers.com/blog/how-to-start-spiritual-conversations-naturally/</loc>
+        <lastmod>2026-04-18</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://covomultipliers.com/blog/how-to-make-disciples-at-work/</loc>
+        <lastmod>2026-04-18</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://covomultipliers.com/blog/what-is-an-oikos-and-why-does-it-matter/</loc>
+        <lastmod>2026-04-18</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://covomultipliers.com/blog/why-most-believers-never-make-disciples/</loc>
+        <lastmod>2026-04-18</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://covomultipliers.com/blog/what-disciple-making-looks-like-for-normal-christians/</loc>
+        <lastmod>2026-04-18</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
