@@ -1674,6 +1674,10 @@ OUTPUT FORMAT — respond ONLY with valid JSON, no markdown fences, no preamble.
     // Rhythm
     if (plan.weekly_rhythm) {
       const wr = plan.weekly_rhythm;
+      const thisWeek = wr.this_week || [];
+      const primary = thisWeek[0] || null;
+      const backup  = thisWeek[1] || null;
+      const rest    = thisWeek.slice(2);
       html += `
         <section class="section">
           <span class="section-label">Your Rhythm</span>
@@ -1681,10 +1685,22 @@ OUTPUT FORMAT — respond ONLY with valid JSON, no markdown fences, no preamble.
           <p>Redeem the time in the week you already have. Don't invent a life you don't live.</p>
           <div class="rhythm-list">
             <div class="rhythm-item">
-              <strong>This week</strong>
+              <strong>Overview</strong>
               <span>${esc(wr.summary)}</span>
             </div>
-            ${(wr.this_week || []).map(item => `
+            ${primary ? `
+              <div class="rhythm-item">
+                <strong>Primary rhythm</strong>
+                <span>${esc(primary)}</span>
+              </div>
+            ` : ''}
+            ${backup ? `
+              <div class="rhythm-item">
+                <strong>Backup rhythm</strong>
+                <span>${esc(backup)}</span>
+              </div>
+            ` : ''}
+            ${rest.map(item => `
               <div class="rhythm-item">
                 <span>${esc(item)}</span>
               </div>
