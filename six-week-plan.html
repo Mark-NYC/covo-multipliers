@@ -252,20 +252,20 @@
         .r-card p { font-size: 0.975rem; line-height: 1.65; color: #2a2a2a; }
         .r-card strong { color: #10281f; }
 
-        /* people focus chips */
+        /* people focus cards */
         .focus-list {
             display: flex;
             flex-direction: column;
-            gap: 0.6rem;
+            gap: 0.75rem;
             margin-top: 1rem;
         }
         .focus-item {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             gap: 0.75rem;
             background: #f0f7f4;
             border-radius: 10px;
-            padding: 0.75rem 1rem;
+            padding: 0.9rem 1rem;
         }
         .focus-num {
             width: 28px; height: 28px;
@@ -278,50 +278,66 @@
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
+            margin-top: 0.05rem;
+        }
+        .focus-content {
+            min-width: 0;
         }
         .focus-name {
             font-size: 0.975rem;
-            font-weight: 600;
+            font-weight: 700;
             color: #10281f;
+            margin-bottom: 0.12rem;
+        }
+        .focus-why {
+            font-size: 0.875rem;
+            color: #3a4f47;
+            line-height: 1.5;
         }
 
-        /* move card */
-        .move-card {
-            background: #ffffff;
-            border: 1px solid #e2eae6;
+        /* ---- FIRST MOVE CARD ---- */
+        .first-move-card {
+            background: #fffbf0;
+            border: 2px solid #dcb55a;
             border-radius: 16px;
-            padding: 1.5rem 1.75rem;
-            margin-bottom: 1rem;
-            box-shadow: 0 2px 12px rgba(16, 40, 31, 0.06);
+            padding: 1.75rem;
+            box-shadow: 0 4px 16px rgba(220,181,90,0.15);
         }
-        .move-tag {
-            font-size: 0.7rem;
+        .first-move-when {
+            font-size: 0.72rem;
             font-weight: 800;
             letter-spacing: 0.12em;
             text-transform: uppercase;
             color: #9f7a2f;
-            margin-bottom: 0.35rem;
+            margin-bottom: 0.6rem;
         }
-        .move-who {
-            font-size: 1.1rem;
-            font-weight: 800;
-            color: #10281f;
-            margin-bottom: 0.2rem;
-        }
-        .move-where {
-            font-size: 0.875rem;
-            color: #5a6b65;
-            margin-bottom: 0.75rem;
-        }
-        .move-starter {
-            background: #f0f7f4;
-            border-left: 3px solid #1b4d3e;
-            border-radius: 0 8px 8px 0;
-            padding: 0.75rem 1rem;
-            font-size: 0.925rem;
-            font-style: italic;
-            color: #1a1a1a;
+        .first-move-reason {
+            font-size: 0.9rem;
+            color: #5f542d;
             line-height: 1.55;
+            margin-bottom: 0.8rem;
+        }
+        .first-move-action {
+            font-size: 1.05rem;
+            color: #1a1a1a;
+            line-height: 1.6;
+        }
+
+        /* redeeming time list */
+        .redeem-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        .redeem-item {
+            background: #ffffff;
+            border: 1px solid #e2eae6;
+            border-radius: 14px;
+            padding: 1rem 1.15rem;
+            box-shadow: 0 1px 8px rgba(16, 40, 31, 0.05);
+            color: #2a2a2a;
+            line-height: 1.55;
+            font-size: 0.95rem;
         }
 
         /* conversation lines */
@@ -488,7 +504,7 @@
             .plan-form-section { padding: 2.25rem 1.25rem 3rem; }
             .result-section { padding: 2.25rem 1.25rem; }
             .plan-cta { padding: 3rem 1.25rem; }
-            .r-card, .move-card { padding: 1.25rem 1.25rem; }
+            .r-card, .first-move-card, .convo-line, .redeem-item, .week-row { padding: 1.2rem 1.2rem; }
             .btn-reset { margin-left: 0; margin-top: 0.75rem; }
         }
     </style>
@@ -503,7 +519,6 @@
         <a href="/" class="back-link">← Back</a>
     </header>
 
-
     <!-- ================================================
          HERO
     ================================================ -->
@@ -513,14 +528,12 @@
         <p>Answer 5 quick questions. Walk away with a plan built for your life — your people, your rhythm, your context.</p>
     </section>
 
-
     <!-- ================================================
          SHORT EXPLANATION
     ================================================ -->
     <section class="plan-intro">
         <p>Built for normal believers with full-time jobs and little margin. No lessons. No theory. Just what to do this week.</p>
     </section>
-
 
     <!-- ================================================
          INPUT FORM
@@ -631,7 +644,6 @@
         </form>
     </section>
 
-
     <!-- ================================================
          RESULTS (hidden until form submits)
     ================================================ -->
@@ -645,35 +657,53 @@
 
         <div class="results-body">
 
-            <!-- Section 1: Starting Point -->
+            <!-- 1. Starting Lane -->
             <div class="result-section">
-                <p class="result-label">Section 1</p>
-                <h3 class="result-title">Your Starting Point</h3>
-                <div id="out-starting"></div>
+                <p class="result-label">Your Lane</p>
+                <h3 class="result-title">Your Starting Lane</h3>
+                <div id="out-lane"></div>
             </div>
 
-            <!-- Section 2: This Week's Moves -->
+            <!-- 2. Who to Focus On -->
             <div class="result-section-alt-wrap">
                 <div class="result-section">
-                    <p class="result-label">Section 2</p>
-                    <h3 class="result-title">This Week's Moves</h3>
-                    <p class="result-lede">Three specific actions. One person, one place, one line. Do these this week.</p>
-                    <div id="out-moves"></div>
+                    <p class="result-label">Your People</p>
+                    <h3 class="result-title">Who to Focus On</h3>
+                    <p class="result-lede">Not everyone on your list. These 2–3 people are your starting point.</p>
+                    <div id="out-focus"></div>
                 </div>
             </div>
 
-            <!-- Section 3: Conversation Help -->
+            <!-- 3. First Move -->
             <div class="result-section">
-                <p class="result-label">Section 3</p>
+                <p class="result-label">Do This First</p>
+                <h3 class="result-title">Your First Move (Next 48 Hours)</h3>
+                <p class="result-lede">One person. One moment. One line. Do this before anything else.</p>
+                <div id="out-firstmove"></div>
+            </div>
+
+            <!-- 4. Redeeming the Time -->
+            <div class="result-section-alt-wrap">
+                <div class="result-section">
+                    <p class="result-label">Redeem the Time</p>
+                    <h3 class="result-title">Redeeming the Time in Your Week</h3>
+                    <p class="result-lede">This only works if it fits inside the life you already have.</p>
+                    <div id="out-redeem"></div>
+                </div>
+            </div>
+
+            <!-- 5. What to Say -->
+            <div class="result-section">
+                <p class="result-label">What to Say</p>
                 <h3 class="result-title">Conversation Help</h3>
                 <p class="result-lede">Natural lines you can actually use.</p>
                 <div id="out-convo"></div>
             </div>
 
-            <!-- Section 4: 6-Week Plan -->
+            <!-- 6. 6-Week Plan -->
             <div class="result-section-alt-wrap">
                 <div class="result-section">
-                    <p class="result-label">Section 4</p>
+                    <p class="result-label">6-Week Plan</p>
                     <h3 class="result-title">Your 6-Week Plan</h3>
                     <p class="result-lede">One clear action per week. Skimmable. Doable.</p>
                     <div id="out-weeks"></div>
@@ -682,7 +712,6 @@
 
         </div>
     </section>
-
 
     <!-- ================================================
          CTA
@@ -696,7 +725,6 @@
             <button type="button" class="btn-reset" id="btn-reset" hidden>Start Over</button>
         </div>
     </section>
-
 
     <!-- ================================================
          FOOTER (matches site pattern)
@@ -717,6 +745,389 @@
         </div>
     </footer>
 
+    <script>
+    (function () {
+      'use strict';
+
+      function pickFocusReasons(data, people) {
+        var env = data.environment;
+        var reasonsByEnv = {
+          work: [
+            'You already have natural touchpoints through work.',
+            'There is already built-in proximity here.',
+            'This person fits your real weekday rhythm.'
+          ],
+          school: [
+            'You already cross paths in a normal week.',
+            'Campus life gives you natural moments to follow up.',
+            'This person is already inside your normal flow.'
+          ],
+          neighborhood: [
+            'You are already near each other in ordinary life.',
+            'This relationship can grow without adding a new lane.',
+            'Proximity is already doing half the work.'
+          ],
+          thirdplace: [
+            'You already share a space you naturally return to.',
+            'There is already common ground here.',
+            'This person fits the place you already enjoy showing up.'
+          ]
+        };
+
+        var defaults = reasonsByEnv[env] || reasonsByEnv.work;
+
+        return people.map(function (name, index) {
+          return {
+            name: name,
+            why: defaults[index % defaults.length]
+          };
+        });
+      }
+
+      function buildLane(data) {
+        var env = data.environment;
+        var comfort = data.comfort;
+        var hardest = data.hardest;
+
+        if (comfort === 'confident' && hardest === 'nextstep') {
+          return {
+            name: 'People',
+            why: 'You already know how to start and deepen conversations. The next move is going further with specific people, not collecting more surface-level interactions.'
+          };
+        }
+
+        var map = {
+          work: {
+            name: 'Profession',
+            why: 'You spend more waking hours with coworkers than almost anyone else. That is not a distraction from mission. It is your clearest starting lane right now.'
+          },
+          school: {
+            name: 'Profession',
+            why: 'School gives you repeated access to the same people in a concentrated season of life. You do not need a new mission field. You are already standing in one.'
+          },
+          neighborhood: {
+            name: 'Place',
+            why: 'The people around your home see your real life up close. That makes your neighborhood one of the most credible places to start.'
+          },
+          thirdplace: {
+            name: 'Passion',
+            why: 'Third places are where people lower their guard. Shared interest plus repeated presence makes this a strong starting lane.'
+          }
+        };
+
+        return map[env] || map.work;
+      }
+
+      function buildFirstMove(data, primary, primaryReason) {
+        var env = data.environment;
+        var rhythm = data.rhythm;
+        var comfort = data.comfort;
+        var hardest = data.hardest;
+
+        var whenMap = {
+          work: {
+            busy: 'tomorrow right after your first meeting wraps',
+            some: 'tomorrow at lunch — do not leave without doing it',
+            very: 'tomorrow before 10am'
+          },
+          school: {
+            busy: 'after your next class today or tomorrow',
+            some: 'tomorrow before the day gets crowded',
+            very: 'tomorrow — block 30 minutes and make it happen'
+          },
+          neighborhood: {
+            busy: 'tomorrow morning when you head out the door',
+            some: 'tomorrow evening — pick the exact time now',
+            very: 'this week — put one specific day on your calendar'
+          },
+          thirdplace: {
+            busy: 'the next time you are both there — this week, not someday',
+            some: 'this week at your usual spot',
+            very: 'schedule it today around the time you already go'
+          }
+        };
+
+        var when = ((whenMap[env] || whenMap.work)[rhythm]) || 'this week';
+
+        var lines = {
+          beginner: {
+            starting: 'Text ' + primary + ': “Hey, how are you actually doing this week? Not work stuff — just life.”',
+            deeper: 'Ask ' + primary + ': “What has been taking up the most space in your head lately?”',
+            nextstep: 'Tell ' + primary + ': “I have been thinking about you — can we grab coffee this week and catch up properly?”',
+            consistency: 'Text ' + primary + ' right now: “Can we make [day] a regular thing? Even 30 minutes.”'
+          },
+          some: {
+            starting: 'Ask ' + primary + ': “How are you actually doing — best and hardest thing going on right now?”',
+            deeper: 'Follow up with ' + primary + ': “Last time we talked you mentioned [X]. How has that been?”',
+            nextstep: 'Say to ' + primary + ': “I want to hear more. Can we sit down this week?”',
+            consistency: 'Lock in a recurring time with ' + primary + '. Text them: “Let’s make this every two weeks — same place.”'
+          },
+          confident: {
+            starting: 'Tell ' + primary + ': “I have been meaning to ask — how is life actually going? Not just the surface stuff.”',
+            deeper: 'Push in with ' + primary + ': “What do you think about when everything gets quiet?”',
+            nextstep: 'Invite ' + primary + ': “I want to show you something. Can we sit down this week? I think you would find it interesting.”',
+            consistency: 'Anchor it with ' + primary + ': “Let’s do this every week. Same day, same place. I’m in if you are.”'
+          }
+        };
+
+        var what = ((lines[comfort] || lines.beginner)[hardest]) || lines.beginner.starting;
+
+        return {
+          primary: primary,
+          when: when,
+          why: primaryReason || 'You already have enough relational equity here to take the next obvious step.',
+          what: what
+        };
+      }
+
+      function buildRedeemTime(data, focus) {
+        var env = data.environment;
+        var rhythm = data.rhythm;
+        var primary = focus[0] ? focus[0].name : 'one person on your list';
+        var second = focus[1] ? focus[1].name : 'another person on your list';
+
+        var byEnv = {
+          work: [
+            'Use one lunch break this week to check in with ' + primary + ' instead of eating distracted.',
+            'After a meeting or shift, stay 10 extra minutes and ask ' + second + ' one better question.',
+            'Use your commute home to send one voice note or follow-up text instead of defaulting to scroll mode.',
+            'Turn one recurring work touchpoint into a real conversation instead of keeping it all task-level.'
+          ],
+          school: [
+            'Before or after class, linger long enough to ask ' + primary + ' how life is actually going.',
+            'Use one study break this week to follow up with ' + second + ' instead of disappearing into your phone.',
+            'Grab coffee with one person already in your rhythm before deadlines swallow the week.',
+            'Use a walk between classes to move one conversation past surface talk.'
+          ],
+          neighborhood: [
+            'When you head out tomorrow, slow down long enough to actually engage one neighbor.',
+            'Use one evening this week to text ' + primary + ' and suggest a simple check-in.',
+            'Stay outside 10 extra minutes instead of rushing back in and see who is around.',
+            'Turn a normal pass-by moment into a real conversation with ' + second + '.'
+          ],
+          thirdplace: [
+            'Show up at your usual spot this week and stay long enough to talk, not just consume and leave.',
+            'Use the shared interest you already have with ' + primary + ' as the door into a more meaningful conversation.',
+            'Follow up after your normal hangout with a short text or voice note to ' + second + '.',
+            'Keep your usual rhythm, but become a little less rushed and a little more present.'
+          ]
+        };
+
+        var items = byEnv[env] || byEnv.work;
+
+        if (rhythm === 'busy') {
+          return items.slice(0, 3);
+        }
+        return items.slice(0, 4);
+      }
+
+      function buildConvoLines(data, focus) {
+        var primary = focus[0] ? focus[0].name : 'them';
+
+        var openers = {
+          beginner: '“Hey, how are you actually doing this week?”',
+          some: '“What has been the best and hardest part of your week so far?”',
+          confident: '“I have been meaning to ask — how is life actually going for you?”'
+        };
+
+        var deeper = {
+          beginner: '“What has been weighing on you lately?”',
+          some: '“When life gets heavy, where does your mind usually go?”',
+          confident: '“What do you think about when everything gets quiet?”'
+        };
+
+        var spiritual = {
+          beginner: '“Has faith ever been part of how you handle that?”',
+          some: '“Do you think about God much when you are in a season like this?”',
+          confident: '“Would you be open to exploring what Jesus might have to say into that?”'
+        };
+
+        return [
+          { tag: 'Open', text: openers[data.comfort] || openers.beginner },
+          { tag: 'Go Deeper', text: deeper[data.comfort] || deeper.beginner },
+          { tag: 'Shift Spiritual', text: spiritual[data.comfort] || spiritual.beginner }
+        ];
+      }
+
+      function buildWeeks(data, focus) {
+        var primary = focus[0] ? focus[0].name : 'one person on your list';
+        var second = focus[1] ? focus[1].name : 'a second person';
+        var third = focus[2] ? focus[2].name : 'someone else in your world';
+
+        return [
+          {
+            theme: 'Start with real contact',
+            action: 'Reach out to ' + primary + ' and ' + second + '. Start at least one real conversation this week.'
+          },
+          {
+            theme: 'Go one layer deeper',
+            action: 'Follow up with ' + primary + ' and ask a question that gets past surface talk.'
+          },
+          {
+            theme: 'Share a story of hope',
+            action: 'Tell ' + primary + ' or ' + second + ' a simple part of your story where Jesus met you.'
+          },
+          {
+            theme: 'Invite toward discovery',
+            action: 'Ask one person if they would be open to reading something from Jesus together.'
+          },
+          {
+            theme: 'Build a simple rhythm',
+            action: 'Set one recurring check-in with ' + primary + ' or ' + third + ' so this does not stay random.'
+          },
+          {
+            theme: 'Call for response and multiplication',
+            action: 'Help one person take one clear next step and ask who they could pass it on to.'
+          }
+        ];
+      }
+
+      function generatePlan(data) {
+        var people = data.people.filter(function (n) { return n.trim() !== ''; });
+        var focusNames = people.slice(0, 3);
+        var focus = pickFocusReasons(data, focusNames);
+        var lane = buildLane(data);
+        var firstMove = buildFirstMove(data, focus[0] ? focus[0].name : 'someone on your list', focus[0] ? focus[0].why : '');
+
+        return {
+          lane: lane,
+          focus: focus,
+          firstMove: firstMove,
+          redeem: buildRedeemTime(data, focus),
+          convo: buildConvoLines(data, focus),
+          weeks: buildWeeks(data, focus)
+        };
+      }
+
+      function renderPlan(plan) {
+        document.getElementById('out-lane').innerHTML =
+          '<div class="r-card">' +
+            '<p><strong>Primary Lane: ' + plan.lane.name + '</strong></p>' +
+            '<p style="margin-top:0.5rem">' + plan.lane.why + '</p>' +
+          '</div>';
+
+        var focusHTML = plan.focus.length
+          ? '<div class="focus-list">' +
+              plan.focus.map(function (item, i) {
+                return '' +
+                  '<div class="focus-item">' +
+                    '<span class="focus-num">' + (i + 1) + '</span>' +
+                    '<div class="focus-content">' +
+                      '<div class="focus-name">' + escapeHtml(item.name) + '</div>' +
+                      '<div class="focus-why">' + escapeHtml(item.why) + '</div>' +
+                    '</div>' +
+                  '</div>';
+              }).join('') +
+            '</div>'
+          : '<div class="r-card"><p>This only works with real names. Add one.</p></div>';
+
+        document.getElementById('out-focus').innerHTML = focusHTML;
+
+        document.getElementById('out-firstmove').innerHTML =
+          '<div class="first-move-card">' +
+            '<div class="first-move-when">When: ' + escapeHtml(plan.firstMove.when) + '</div>' +
+            '<div class="first-move-reason">' + escapeHtml(plan.firstMove.why) + '</div>' +
+            '<div class="first-move-action">' + escapeHtml(plan.firstMove.what) + '</div>' +
+          '</div>';
+
+        document.getElementById('out-redeem').innerHTML =
+          '<div class="redeem-list">' +
+            plan.redeem.map(function (item) {
+              return '<div class="redeem-item">' + escapeHtml(item) + '</div>';
+            }).join('') +
+          '</div>';
+
+        document.getElementById('out-convo').innerHTML =
+          plan.convo.map(function (item) {
+            return '' +
+              '<div class="convo-line">' +
+                '<div class="convo-tag">' + escapeHtml(item.tag) + '</div>' +
+                '<div class="convo-text">' + escapeHtml(item.text) + '</div>' +
+              '</div>';
+          }).join('') +
+          '<div class="four-q">Use the <a href="https://obey.tools/4-questions.html" target="_blank" rel="noopener noreferrer">4 Questions tool</a> to guide the conversation when the moment opens up.</div>';
+
+        document.getElementById('out-weeks').innerHTML =
+          '<div class="weeks">' +
+            plan.weeks.map(function (week, i) {
+              var activeClass = i === 0 ? ' week-active' : '';
+              return '' +
+                '<div class="week-row' + activeClass + '">' +
+                  '<div class="week-badge">Week ' + (i + 1) + '</div>' +
+                  '<div>' +
+                    '<div class="week-theme">' + escapeHtml(week.theme) + '</div>' +
+                    '<div class="week-action">' + escapeHtml(week.action) + '</div>' +
+                  '</div>' +
+                '</div>';
+            }).join('') +
+          '</div>';
+      }
+
+      function escapeHtml(str) {
+        return String(str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      var form = document.getElementById('plan-form');
+      var formSection = document.getElementById('form-section');
+      var results = document.getElementById('plan-results');
+      var btnReset = document.getElementById('btn-reset');
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        var env = form.querySelector('[name="environment"]:checked');
+        var rhythm = form.querySelector('[name="rhythm"]:checked');
+        var comfort = form.querySelector('[name="comfort"]:checked');
+        var hardest = form.querySelector('[name="hardest"]:checked');
+        var people = Array.from(form.querySelectorAll('.person-name'))
+          .map(function (input) { return input.value.trim(); })
+          .filter(Boolean);
+
+        var missing = [];
+        if (!env) missing.push('primary environment');
+        if (!rhythm) missing.push('weekly rhythm');
+        if (!comfort) missing.push('comfort level');
+        if (!hardest) missing.push('hardest part');
+
+        if (missing.length) {
+          alert('Please select: ' + missing.join(', ') + '.');
+          return;
+        }
+
+        if (!people.length) {
+          alert('Add at least one name.');
+          return;
+        }
+
+        var plan = generatePlan({
+          environment: env.value,
+          rhythm: rhythm.value,
+          people: people,
+          comfort: comfort.value,
+          hardest: hardest.value
+        });
+
+        renderPlan(plan);
+        formSection.hidden = true;
+        results.hidden = false;
+        btnReset.hidden = false;
+        results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+
+      btnReset.addEventListener('click', function () {
+        results.hidden = true;
+        btnReset.hidden = true;
+        formSection.hidden = false;
+        form.reset();
+        formSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }());
+    </script>
 
 </body>
 </html>
