@@ -139,7 +139,7 @@ module.exports = async function handler(req, res) {
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) {
     console.error('OPENAI_API_KEY is not set.');
-    return res.status(500).json({ error: 'Server configuration error.' });
+    return res.status(500).json({ error: 'OPENAI_API_KEY is not configured on the server.' });
   }
 
   const openai = new OpenAI({ apiKey });
@@ -163,7 +163,11 @@ module.exports = async function handler(req, res) {
   }
 
   // Parse the returned JSON.
-  const raw = completion.choices?.[0]?.message?.content ?? '';
+  const raw = completion.choices?.[0]?.message?.content;
+  if (!raw || typeof raw !== 'string') {
+    console.error('OpenAI returned empty or non-string content:', raw);
+    return res.status(500).json({ error: 'AI returned an empty response. Please try again.' });
+  }
   let plan;
   try {
     plan = JSON.parse(raw);
