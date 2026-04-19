@@ -1602,33 +1602,20 @@ OUTPUT FORMAT — respond ONLY with valid JSON, no markdown fences, no preamble.
       <div class="loading-state">
         <div class="loading-spinner"></div>
         <strong>Building your plan…</strong>
-        <p>Claude is reading your inputs and writing something real for your lane.</p>
+        <p>Reading your inputs and generating something real for your lane.</p>
       </div>
     `;
 
     try {
-      const response = await fetch('https://api.anthropic.com/v1/messages', {
+      const response = await fetch('/api/generate-plan', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
-          max_tokens: 1000,
-          system: buildSystemPrompt(),
-          messages: [
-            {
-              role: 'user',
-              content: `Here is my disciple-making context. Generate my personalized 6-week plan as JSON:\n\n${JSON.stringify(payload, null, 2)}`
-            }
-          ]
-        })
+        body: JSON.stringify({ payload })
       });
 
-      if (!response.ok) throw new Error('API error: ' + response.status);
+      if (!response.ok) throw new Error('Server error: ' + response.status);
 
-      const data = await response.json();
-      const raw = data.content?.map(b => b.text || '').join('') || '';
-      const clean = raw.replace(/```json|```/g, '').trim();
-      const plan = JSON.parse(clean);
+      const plan = await response.json();
       renderResults(plan, payload);
 
     } catch (err) {
@@ -1637,7 +1624,7 @@ OUTPUT FORMAT — respond ONLY with valid JSON, no markdown fences, no preamble.
         <div class="section">
           <div class="error-state">
             <strong>Something went wrong generating your plan.</strong>
-            <p>This tool requires an Anthropic API key to be configured server-side. If you're seeing this error in production, the API proxy needs to be set up. Error: ${esc(err.message)}</p>
+            <p>The plan generator endpoint is not available or returned an error. Make sure the backend is running. Error: ${esc(err.message)}</p>
           </div>
           <button class="btn btn-secondary" id="retryBtn" type="button" style="margin-top:1rem;">← Go Back and Try Again</button>
         </div>
