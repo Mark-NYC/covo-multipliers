@@ -252,7 +252,7 @@
         .r-card p { font-size: 0.975rem; line-height: 1.65; color: #2a2a2a; }
         .r-card strong { color: #10281f; }
 
-        /* people focus cards */
+        /* focus people */
         .focus-list {
             display: flex;
             flex-direction: column;
@@ -268,7 +268,8 @@
             padding: 0.9rem 1rem;
         }
         .focus-num {
-            width: 28px; height: 28px;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
             background: #1b4d3e;
             color: #fff;
@@ -311,11 +312,11 @@
             color: #9f7a2f;
             margin-bottom: 0.6rem;
         }
-        .first-move-reason {
-            font-size: 0.9rem;
-            color: #5f542d;
+        .first-move-why {
+            font-size: 0.875rem;
+            color: #5a6b65;
             line-height: 1.55;
-            margin-bottom: 0.8rem;
+            margin-bottom: 0.85rem;
         }
         .first-move-action {
             font-size: 1.05rem;
@@ -426,12 +427,6 @@
             color: #3a4f47;
             line-height: 1.5;
         }
-        .week-action a {
-            color: #1b4d3e;
-            font-weight: 600;
-            text-decoration: underline;
-            text-underline-offset: 2px;
-        }
 
         /* ---- CTA ---- */
         .plan-cta {
@@ -504,87 +499,51 @@
             .plan-form-section { padding: 2.25rem 1.25rem 3rem; }
             .result-section { padding: 2.25rem 1.25rem; }
             .plan-cta { padding: 3rem 1.25rem; }
-            .r-card, .first-move-card, .convo-line, .redeem-item, .week-row { padding: 1.2rem 1.2rem; }
+            .r-card, .first-move-card, .redeem-item, .convo-line, .week-row { padding: 1.25rem; }
             .btn-reset { margin-left: 0; margin-top: 0.75rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- ================================================
-         SITE HEADER
-    ================================================ -->
     <header class="site-header">
         <a href="/" class="brand">Covo Multipliers</a>
         <a href="/" class="back-link">← Back</a>
     </header>
 
-    <!-- ================================================
-         HERO
-    ================================================ -->
     <section class="plan-hero">
         <span class="plan-eyebrow">Free Tool</span>
         <h1>Get Your 6-Week Disciple-Making Plan</h1>
         <p>Answer 5 quick questions. Walk away with a plan built for your life — your people, your rhythm, your context.</p>
     </section>
 
-    <!-- ================================================
-         SHORT EXPLANATION
-    ================================================ -->
     <section class="plan-intro">
         <p>Built for normal believers with full-time jobs and little margin. No lessons. No theory. Just what to do this week.</p>
     </section>
 
-    <!-- ================================================
-         INPUT FORM
-    ================================================ -->
     <section class="plan-form-section" id="form-section">
         <form class="plan-form" id="plan-form" novalidate>
 
-            <!-- Q1: Environment -->
             <div class="q-block">
                 <span class="q-label">1. What's your primary environment right now?</span>
                 <p class="q-hint">Where do you spend the most time with people who aren't already following Jesus?</p>
                 <div class="pill-group" role="radiogroup" aria-label="Primary environment">
-                    <div>
-                        <input type="radio" name="environment" id="env-work" value="work">
-                        <label for="env-work">Work</label>
-                    </div>
-                    <div>
-                        <input type="radio" name="environment" id="env-school" value="school">
-                        <label for="env-school">School</label>
-                    </div>
-                    <div>
-                        <input type="radio" name="environment" id="env-neighborhood" value="neighborhood">
-                        <label for="env-neighborhood">Neighborhood</label>
-                    </div>
-                    <div>
-                        <input type="radio" name="environment" id="env-thirdplace" value="thirdplace">
-                        <label for="env-thirdplace">Third Place</label>
-                    </div>
+                    <div><input type="radio" name="environment" id="env-work" value="work"><label for="env-work">Work</label></div>
+                    <div><input type="radio" name="environment" id="env-school" value="school"><label for="env-school">School</label></div>
+                    <div><input type="radio" name="environment" id="env-neighborhood" value="neighborhood"><label for="env-neighborhood">Neighborhood</label></div>
+                    <div><input type="radio" name="environment" id="env-thirdplace" value="thirdplace"><label for="env-thirdplace">Third Place</label></div>
                 </div>
             </div>
 
-            <!-- Q2: Rhythm -->
             <div class="q-block">
                 <span class="q-label">2. What's your weekly rhythm like?</span>
                 <div class="pill-group" role="radiogroup" aria-label="Weekly rhythm">
-                    <div>
-                        <input type="radio" name="rhythm" id="r-busy" value="busy">
-                        <label for="r-busy">Busy &amp; unpredictable</label>
-                    </div>
-                    <div>
-                        <input type="radio" name="rhythm" id="r-some" value="some">
-                        <label for="r-some">Somewhat structured</label>
-                    </div>
-                    <div>
-                        <input type="radio" name="rhythm" id="r-very" value="very">
-                        <label for="r-very">Very structured</label>
-                    </div>
+                    <div><input type="radio" name="rhythm" id="r-busy" value="busy"><label for="r-busy">Busy &amp; unpredictable</label></div>
+                    <div><input type="radio" name="rhythm" id="r-some" value="some"><label for="r-some">Somewhat structured</label></div>
+                    <div><input type="radio" name="rhythm" id="r-very" value="very"><label for="r-very">Very structured</label></div>
                 </div>
             </div>
 
-            <!-- Q3: People -->
             <div class="q-block">
                 <span class="q-label">3. List 3–5 people you already interact with regularly</span>
                 <p class="q-hint">First names are fine. These are the people your plan is built around.</p>
@@ -597,45 +556,22 @@
                 </div>
             </div>
 
-            <!-- Q4: Comfort -->
             <div class="q-block">
                 <span class="q-label">4. How comfortable are you with spiritual conversations?</span>
                 <div class="pill-group" role="radiogroup" aria-label="Comfort level">
-                    <div>
-                        <input type="radio" name="comfort" id="c-beginner" value="beginner">
-                        <label for="c-beginner">Beginner</label>
-                    </div>
-                    <div>
-                        <input type="radio" name="comfort" id="c-some" value="some">
-                        <label for="c-some">Some experience</label>
-                    </div>
-                    <div>
-                        <input type="radio" name="comfort" id="c-confident" value="confident">
-                        <label for="c-confident">Confident</label>
-                    </div>
+                    <div><input type="radio" name="comfort" id="c-beginner" value="beginner"><label for="c-beginner">Beginner</label></div>
+                    <div><input type="radio" name="comfort" id="c-some" value="some"><label for="c-some">Some experience</label></div>
+                    <div><input type="radio" name="comfort" id="c-confident" value="confident"><label for="c-confident">Confident</label></div>
                 </div>
             </div>
 
-            <!-- Q5: Hardest part -->
             <div class="q-block">
                 <span class="q-label">5. What feels hardest right now?</span>
                 <div class="pill-group" role="radiogroup" aria-label="Hardest part">
-                    <div>
-                        <input type="radio" name="hardest" id="h-start" value="starting">
-                        <label for="h-start">Starting conversations</label>
-                    </div>
-                    <div>
-                        <input type="radio" name="hardest" id="h-deeper" value="deeper">
-                        <label for="h-deeper">Going deeper</label>
-                    </div>
-                    <div>
-                        <input type="radio" name="hardest" id="h-next" value="nextstep">
-                        <label for="h-next">Inviting to next steps</label>
-                    </div>
-                    <div>
-                        <input type="radio" name="hardest" id="h-consistency" value="consistency">
-                        <label for="h-consistency">Consistency</label>
-                    </div>
+                    <div><input type="radio" name="hardest" id="h-start" value="starting"><label for="h-start">Starting conversations</label></div>
+                    <div><input type="radio" name="hardest" id="h-deeper" value="deeper"><label for="h-deeper">Going deeper</label></div>
+                    <div><input type="radio" name="hardest" id="h-next" value="nextstep"><label for="h-next">Inviting to next steps</label></div>
+                    <div><input type="radio" name="hardest" id="h-consistency" value="consistency"><label for="h-consistency">Consistency</label></div>
                 </div>
             </div>
 
@@ -644,9 +580,6 @@
         </form>
     </section>
 
-    <!-- ================================================
-         RESULTS (hidden until form submits)
-    ================================================ -->
     <section id="plan-results" hidden aria-live="polite">
 
         <div class="results-hero">
@@ -657,24 +590,21 @@
 
         <div class="results-body">
 
-            <!-- 1. Starting Lane -->
             <div class="result-section">
                 <p class="result-label">Your Lane</p>
                 <h3 class="result-title">Your Starting Lane</h3>
                 <div id="out-lane"></div>
             </div>
 
-            <!-- 2. Who to Focus On -->
             <div class="result-section-alt-wrap">
                 <div class="result-section">
                     <p class="result-label">Your People</p>
                     <h3 class="result-title">Who to Focus On</h3>
-                    <p class="result-lede">Not everyone on your list. These 2–3 people are your starting point.</p>
+                    <p class="result-lede">Not everyone on your list. Start with these 2–3.</p>
                     <div id="out-focus"></div>
                 </div>
             </div>
 
-            <!-- 3. First Move -->
             <div class="result-section">
                 <p class="result-label">Do This First</p>
                 <h3 class="result-title">Your First Move (Next 48 Hours)</h3>
@@ -682,7 +612,6 @@
                 <div id="out-firstmove"></div>
             </div>
 
-            <!-- 4. Redeeming the Time -->
             <div class="result-section-alt-wrap">
                 <div class="result-section">
                     <p class="result-label">Redeem the Time</p>
@@ -692,7 +621,6 @@
                 </div>
             </div>
 
-            <!-- 5. What to Say -->
             <div class="result-section">
                 <p class="result-label">What to Say</p>
                 <h3 class="result-title">Conversation Help</h3>
@@ -700,7 +628,6 @@
                 <div id="out-convo"></div>
             </div>
 
-            <!-- 6. 6-Week Plan -->
             <div class="result-section-alt-wrap">
                 <div class="result-section">
                     <p class="result-label">6-Week Plan</p>
@@ -713,9 +640,6 @@
         </div>
     </section>
 
-    <!-- ================================================
-         CTA
-    ================================================ -->
     <section class="plan-cta">
         <span class="eyebrow">Next Step</span>
         <h2>Do this with others — not alone</h2>
@@ -726,9 +650,6 @@
         </div>
     </section>
 
-    <!-- ================================================
-         FOOTER (matches site pattern)
-    ================================================ -->
     <footer class="site-footer">
         <div class="footer-inner">
             <div class="footer-brand">
@@ -748,6 +669,15 @@
     <script>
     (function () {
       'use strict';
+
+      function escapeHtml(str) {
+        return String(str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
 
       function pickFocusReasons(data, people) {
         var env = data.environment;
@@ -792,33 +722,33 @@
         if (comfort === 'confident' && hardest === 'nextstep') {
           return {
             name: 'People',
-            why: 'You already know how to start and deepen conversations. The next move is going further with specific people, not collecting more surface-level interactions.'
+            why: 'You already know how to start and deepen conversations. The gap is relational investment — going further with the people already in front of you, not starting over with new ones.'
           };
         }
 
         var map = {
           work: {
             name: 'Profession',
-            why: 'You spend more waking hours with coworkers than almost anyone else. That is not a distraction from mission. It is your clearest starting lane right now.'
+            why: 'You spend more waking hours with coworkers than almost anyone else in your life. That\'s not a coincidence — it\'s your primary mission field. Start there.'
           },
           school: {
             name: 'Profession',
-            why: 'School gives you repeated access to the same people in a concentrated season of life. You do not need a new mission field. You are already standing in one.'
+            why: 'Your campus is one of the most concentrated gatherings of searching, questioning people you\'ll ever stand in. You don\'t need to go anywhere else yet.'
           },
           neighborhood: {
             name: 'Place',
-            why: 'The people around your home see your real life up close. That makes your neighborhood one of the most credible places to start.'
+            why: 'The people on your street see your real, ordinary life every week. That\'s the most credible platform you have — and most people never use it intentionally.'
           },
           thirdplace: {
             name: 'Passion',
-            why: 'Third places are where people lower their guard. Shared interest plus repeated presence makes this a strong starting lane.'
+            why: 'Third places — the gym, the coffee shop, the rec league — are where people lower their guard. You\'re already a regular. Your presence and consistency are the entry point.'
           }
         };
 
         return map[env] || map.work;
       }
 
-      function buildFirstMove(data, primary, primaryReason) {
+      function buildFirstMove(data, primary) {
         var env = data.environment;
         var rhythm = data.rhythm;
         var comfort = data.comfort;
@@ -826,58 +756,62 @@
 
         var whenMap = {
           work: {
-            busy: 'tomorrow right after your first meeting wraps',
-            some: 'tomorrow at lunch — do not leave without doing it',
-            very: 'tomorrow before 10am'
+            busy: 'tonight before you leave, or first thing tomorrow — before your day fills up',
+            some: 'tomorrow at lunch — don\'t push it to later in the week',
+            very: 'tomorrow morning, before 10am'
           },
           school: {
-            busy: 'after your next class today or tomorrow',
-            some: 'tomorrow before the day gets crowded',
-            very: 'tomorrow — block 30 minutes and make it happen'
+            busy: 'after your very next class — don\'t wait for a better moment',
+            some: 'before this week is half over — coffee, 20 minutes is enough',
+            very: 'tomorrow — put it on your calendar right now before something else takes the slot'
           },
           neighborhood: {
-            busy: 'tomorrow morning when you head out the door',
-            some: 'tomorrow evening — pick the exact time now',
-            very: 'this week — put one specific day on your calendar'
+            busy: 'tomorrow morning, on your way to your car',
+            some: 'tomorrow evening — knock or text, don\'t wait for the timing to feel perfect',
+            very: 'pick a specific day this week and lock it in before you close this page'
           },
           thirdplace: {
-            busy: 'the next time you are both there — this week, not someday',
-            some: 'this week at your usual spot',
-            very: 'schedule it today around the time you already go'
+            busy: 'next time you\'re both there — which is probably sooner than you think',
+            some: 'this week — go to your usual spot and make it happen',
+            very: 'schedule it today, same time you\'re normally there'
           }
         };
 
-        var when = ((whenMap[env] || whenMap.work)[rhythm]) || 'this week';
+        var when = (whenMap[env] || whenMap.work)[rhythm] || 'in the next 48 hours';
+
+        var whyMap = {
+          starting: primary + ' is the easiest starting point — the relationship is already warm. Use it.',
+          deeper: primary + ' has already shown they\'ll go past the surface. That\'s rare. Follow that thread.',
+          nextstep: primary + ' is closer than you think. They\'re probably waiting for you to take the next step.',
+          consistency: primary + ' is the person you keep meaning to follow up with. That\'s not random — that\'s a signal.'
+        };
+
+        var why = whyMap[hardest] || whyMap.starting;
 
         var lines = {
           beginner: {
-            starting: 'Text ' + primary + ': “Hey, how are you actually doing this week? Not work stuff — just life.”',
-            deeper: 'Ask ' + primary + ': “What has been taking up the most space in your head lately?”',
-            nextstep: 'Tell ' + primary + ': “I have been thinking about you — can we grab coffee this week and catch up properly?”',
+            starting: 'Text ' + primary + ': “Hey — how are you actually doing this week? Not work stuff, just life.”',
+            deeper: 'Ask ' + primary + ' in person or over text: “What’s been taking up the most space in your head lately?”',
+            nextstep: 'Tell ' + primary + ': “I’ve been thinking about you. Can we grab coffee this week? I want to actually catch up.”',
             consistency: 'Text ' + primary + ' right now: “Can we make [day] a regular thing? Even 30 minutes.”'
           },
           some: {
             starting: 'Ask ' + primary + ': “How are you actually doing — best and hardest thing going on right now?”',
-            deeper: 'Follow up with ' + primary + ': “Last time we talked you mentioned [X]. How has that been?”',
-            nextstep: 'Say to ' + primary + ': “I want to hear more. Can we sit down this week?”',
-            consistency: 'Lock in a recurring time with ' + primary + '. Text them: “Let’s make this every two weeks — same place.”'
+            deeper: 'Follow up with ' + primary + ': “Last time we talked you mentioned [X]. How’s that been?”',
+            nextstep: 'Say to ' + primary + ': “I want to hear more about where you’re at. Can we sit down this week?”',
+            consistency: 'Lock in a recurring time with ' + primary + ': “Let’s make this every two weeks. Same place.”'
           },
           confident: {
-            starting: 'Tell ' + primary + ': “I have been meaning to ask — how is life actually going? Not just the surface stuff.”',
-            deeper: 'Push in with ' + primary + ': “What do you think about when everything gets quiet?”',
-            nextstep: 'Invite ' + primary + ': “I want to show you something. Can we sit down this week? I think you would find it interesting.”',
-            consistency: 'Anchor it with ' + primary + ': “Let’s do this every week. Same day, same place. I’m in if you are.”'
+            starting: 'Tell ' + primary + ': “I’ve been meaning to ask — how’s life actually going? Not the polished version.”',
+            deeper: 'Push in with ' + primary + ': “What do you find yourself thinking about when life quiets down?”',
+            nextstep: 'Invite ' + primary + ' directly: “I want to show you something I think you’d find interesting. Can we sit down this week?”',
+            consistency: 'Tell ' + primary + ': “Let’s lock this in — same day, same place, every week. I’m in if you are.”'
           }
         };
 
         var what = ((lines[comfort] || lines.beginner)[hardest]) || lines.beginner.starting;
 
-        return {
-          primary: primary,
-          when: when,
-          why: primaryReason || 'You already have enough relational equity here to take the next obvious step.',
-          what: what
-        };
+        return { primary: primary, when: when, why: why, what: what };
       }
 
       function buildRedeemTime(data, focus) {
@@ -914,26 +848,20 @@
         };
 
         var items = byEnv[env] || byEnv.work;
-
-        if (rhythm === 'busy') {
-          return items.slice(0, 3);
-        }
-        return items.slice(0, 4);
+        return rhythm === 'busy' ? items.slice(0, 3) : items.slice(0, 4);
       }
 
-      function buildConvoLines(data, focus) {
-        var primary = focus[0] ? focus[0].name : 'them';
-
+      function buildConvoLines(data) {
         var openers = {
           beginner: '“Hey, how are you actually doing this week?”',
           some: '“What has been the best and hardest part of your week so far?”',
-          confident: '“I have been meaning to ask — how is life actually going for you?”'
+          confident: '“I’ve been meaning to ask — how is life actually going for you?”'
         };
 
         var deeper = {
           beginner: '“What has been weighing on you lately?”',
           some: '“When life gets heavy, where does your mind usually go?”',
-          confident: '“What do you think about when everything gets quiet?”'
+          confident: '“What do you find yourself thinking about when life quiets down?”'
         };
 
         var spiritual = {
@@ -987,14 +915,14 @@
         var focusNames = people.slice(0, 3);
         var focus = pickFocusReasons(data, focusNames);
         var lane = buildLane(data);
-        var firstMove = buildFirstMove(data, focus[0] ? focus[0].name : 'someone on your list', focus[0] ? focus[0].why : '');
+        var firstMove = buildFirstMove(data, focus[0] ? focus[0].name : 'someone on your list');
 
         return {
           lane: lane,
           focus: focus,
           firstMove: firstMove,
           redeem: buildRedeemTime(data, focus),
-          convo: buildConvoLines(data, focus),
+          convo: buildConvoLines(data),
           weeks: buildWeeks(data, focus)
         };
       }
@@ -1002,21 +930,20 @@
       function renderPlan(plan) {
         document.getElementById('out-lane').innerHTML =
           '<div class="r-card">' +
-            '<p><strong>Primary Lane: ' + plan.lane.name + '</strong></p>' +
-            '<p style="margin-top:0.5rem">' + plan.lane.why + '</p>' +
+            '<p><strong>Primary Lane: ' + escapeHtml(plan.lane.name) + '</strong></p>' +
+            '<p style="margin-top:0.5rem">' + escapeHtml(plan.lane.why) + '</p>' +
           '</div>';
 
         var focusHTML = plan.focus.length
           ? '<div class="focus-list">' +
               plan.focus.map(function (item, i) {
-                return '' +
-                  '<div class="focus-item">' +
-                    '<span class="focus-num">' + (i + 1) + '</span>' +
-                    '<div class="focus-content">' +
-                      '<div class="focus-name">' + escapeHtml(item.name) + '</div>' +
-                      '<div class="focus-why">' + escapeHtml(item.why) + '</div>' +
-                    '</div>' +
-                  '</div>';
+                return '<div class="focus-item">' +
+                  '<span class="focus-num">' + (i + 1) + '</span>' +
+                  '<div class="focus-content">' +
+                    '<div class="focus-name">' + escapeHtml(item.name) + '</div>' +
+                    '<div class="focus-why">' + escapeHtml(item.why) + '</div>' +
+                  '</div>' +
+                '</div>';
               }).join('') +
             '</div>'
           : '<div class="r-card"><p>This only works with real names. Add one.</p></div>';
@@ -1026,7 +953,7 @@
         document.getElementById('out-firstmove').innerHTML =
           '<div class="first-move-card">' +
             '<div class="first-move-when">When: ' + escapeHtml(plan.firstMove.when) + '</div>' +
-            '<div class="first-move-reason">' + escapeHtml(plan.firstMove.why) + '</div>' +
+            '<div class="first-move-why">' + escapeHtml(plan.firstMove.why) + '</div>' +
             '<div class="first-move-action">' + escapeHtml(plan.firstMove.what) + '</div>' +
           '</div>';
 
@@ -1039,11 +966,10 @@
 
         document.getElementById('out-convo').innerHTML =
           plan.convo.map(function (item) {
-            return '' +
-              '<div class="convo-line">' +
-                '<div class="convo-tag">' + escapeHtml(item.tag) + '</div>' +
-                '<div class="convo-text">' + escapeHtml(item.text) + '</div>' +
-              '</div>';
+            return '<div class="convo-line">' +
+              '<div class="convo-tag">' + escapeHtml(item.tag) + '</div>' +
+              '<div class="convo-text">' + escapeHtml(item.text) + '</div>' +
+            '</div>';
           }).join('') +
           '<div class="four-q">Use the <a href="https://obey.tools/4-questions.html" target="_blank" rel="noopener noreferrer">4 Questions tool</a> to guide the conversation when the moment opens up.</div>';
 
@@ -1051,25 +977,15 @@
           '<div class="weeks">' +
             plan.weeks.map(function (week, i) {
               var activeClass = i === 0 ? ' week-active' : '';
-              return '' +
-                '<div class="week-row' + activeClass + '">' +
-                  '<div class="week-badge">Week ' + (i + 1) + '</div>' +
-                  '<div>' +
-                    '<div class="week-theme">' + escapeHtml(week.theme) + '</div>' +
-                    '<div class="week-action">' + escapeHtml(week.action) + '</div>' +
-                  '</div>' +
-                '</div>';
+              return '<div class="week-row' + activeClass + '">' +
+                '<div class="week-badge">Week ' + (i + 1) + '</div>' +
+                '<div>' +
+                  '<div class="week-theme">' + escapeHtml(week.theme) + '</div>' +
+                  '<div class="week-action">' + escapeHtml(week.action) + '</div>' +
+                '</div>' +
+              '</div>';
             }).join('') +
           '</div>';
-      }
-
-      function escapeHtml(str) {
-        return String(str)
-          .replace(/&/g, '&amp;')
-          .replace(/</g, '&lt;')
-          .replace(/>/g, '&gt;')
-          .replace(/"/g, '&quot;')
-          .replace(/'/g, '&#39;');
       }
 
       var form = document.getElementById('plan-form');
@@ -1113,7 +1029,9 @@
         });
 
         renderPlan(plan);
-        formSection.hidden = true;
+        formSection.hidden = false;
+        formSection.setAttribute('aria-hidden', 'true');
+        formSection.style.display = 'none';
         results.hidden = false;
         btnReset.hidden = false;
         results.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -1122,7 +1040,8 @@
       btnReset.addEventListener('click', function () {
         results.hidden = true;
         btnReset.hidden = true;
-        formSection.hidden = false;
+        formSection.style.display = '';
+        formSection.removeAttribute('aria-hidden');
         form.reset();
         formSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
