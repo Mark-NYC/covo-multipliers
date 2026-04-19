@@ -1216,7 +1216,6 @@
 
   function updateNav() {
     backBtn.disabled = state.currentStep === 0;
-
     if (state.currentStep === STEPS - 1) {
       nextBtn.classList.add('hidden');
       buildBtn.classList.remove('hidden');
@@ -1227,16 +1226,15 @@
     updateProgress();
   }
 
-  function showStep(idx) {
+  function goToStep(idx) {
     stepPanels.forEach(p => p.classList.remove('active'));
     stepPanels[idx].classList.add('active');
     state.currentStep = idx;
-
     if (idx === 1 && state.selectedLane) renderSubtypes(state.selectedLane);
     if (idx === 3) renderStageStack();
+    if (idx === 4) renderBlockage();
     if (idx === 5 && state.selectedSubtype) renderRhythms(state.selectedSubtype);
     if (idx === 6) renderReview();
-
     updateNav();
   }
 
@@ -1256,28 +1254,21 @@
     }
   }
 
-  backBtn.addEventListener('click', () => {
-    if (state.currentStep > 0) showStep(state.currentStep - 1);
-  });
-
-  nextBtn.addEventListener('click', () => {
-    if (!canAdvance()) {
-      shake(nextBtn);
-      return;
-    }
-    if (state.currentStep < STEPS - 1) showStep(state.currentStep + 1);
-  });
-
-  buildBtn.addEventListener('click', () => {
-    generatePlan();
-  });
-
   function shake(el) {
     el.style.transform = 'translateX(-5px)';
     setTimeout(() => { el.style.transform = 'translateX(5px)'; }, 80);
     setTimeout(() => { el.style.transform = 'translateX(-4px)'; }, 160);
     setTimeout(() => { el.style.transform = 'translateX(0)'; }, 240);
   }
+
+  backBtn.addEventListener('click', () => {
+    if (state.currentStep > 0) goToStep(state.currentStep - 1);
+  });
+  nextBtn.addEventListener('click', () => {
+    if (!canAdvance()) { shake(nextBtn); return; }
+    if (state.currentStep < STEPS - 1) goToStep(state.currentStep + 1);
+  });
+  buildBtn.addEventListener('click', generatePlan);
 
   // ─── RENDER: LANES ────────────────────────────────────────────────────────────
 
@@ -1452,42 +1443,6 @@
       </div>
     `;
   }
-
-  // ─── BLOCKAGE INIT ON STEP 4 ─────────────────────────────────────────────────
-
-  // Patch showStep to also render blockage on step 4
-  const _origShowStep = showStep;
-  // We just inline blockage render in the step-4 panel click above;
-  // actually let's ensure blockage renders when step 4 is shown:
-  document.querySelectorAll('.step-panel')[4] && (() => {
-    // rendered lazily via renderBlockage() call
-  })();
-
-  // Override: re-patch showStep
-  function goToStep(idx) {
-    stepPanels.forEach(p => p.classList.remove('active'));
-    stepPanels[idx].classList.add('active');
-    state.currentStep = idx;
-
-    if (idx === 1 && state.selectedLane) renderSubtypes(state.selectedLane);
-    if (idx === 3) renderStageStack();
-    if (idx === 4) renderBlockage();
-    if (idx === 5 && state.selectedSubtype) renderRhythms(state.selectedSubtype);
-    if (idx === 6) renderReview();
-
-    updateNav();
-  }
-
-  // Replace nav listeners
-  backBtn.removeEventListener('click', () => {});
-  nextBtn.removeEventListener('click', () => {});
-
-  backBtn.onclick = () => { if (state.currentStep > 0) goToStep(state.currentStep - 1); };
-  nextBtn.onclick = () => {
-    if (!canAdvance()) { shake(nextBtn); return; }
-    if (state.currentStep < STEPS - 1) goToStep(state.currentStep + 1);
-  };
-  buildBtn.onclick = () => { generatePlan(); };
 
   // ─── UTIL ─────────────────────────────────────────────────────────────────────
 
