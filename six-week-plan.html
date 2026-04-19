@@ -1552,7 +1552,16 @@
         body: JSON.stringify({ payload })
       });
 
-      if (!response.ok) throw new Error('Server error: ' + response.status);
+      if (!response.ok) {
+        let msg;
+        try {
+          const errData = await response.json();
+          msg = errData.error || 'Something went wrong generating your plan.';
+        } catch {
+          msg = 'Something went wrong generating your plan.';
+        }
+        throw new Error(msg);
+      }
 
       const plan = await response.json();
       renderResults(plan, payload);
