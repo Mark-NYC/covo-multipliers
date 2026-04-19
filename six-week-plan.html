@@ -978,7 +978,7 @@
           <div class="step-panel" data-step="6">
             <span class="step-eyebrow">Step 7</span>
             <h2 class="step-title">Review and build your plan</h2>
-            <p class="step-copy">Check that everything looks right, then hit Build. This goes to Claude to generate your personalized plan.</p>
+            <p class="step-copy">Check that everything looks right, then hit Build. Your personalized plan will be generated from your inputs.</p>
             <div class="review-card" id="reviewCard"></div>
           </div>
 
@@ -1002,7 +1002,7 @@
           <div class="mini-item"><strong>4P framework</strong>Passion, People, Place, Profession are the backbone, not hidden logic.</div>
           <div class="mini-item"><strong>Conversation stages</strong>Casual, Meaningful, Spiritual, Discovery shape what the next move should be.</div>
           <div class="mini-item"><strong>Real rhythms</strong>Build around moments already in your week — not fake margin.</div>
-          <div class="mini-item"><strong>AI-generated</strong>Your plan is built by Claude using your actual inputs, not a static template.</div>
+          <div class="mini-item"><strong>AI-generated</strong>Your plan is built from your actual inputs by the backend — not a static template.</div>
         </div>
       </aside>
     </div>
@@ -1483,67 +1483,51 @@
     };
   }
 
-  // ─── SYSTEM PROMPT ────────────────────────────────────────────────────────────
-
-  function buildSystemPrompt() {
-    return `You are a disciple-making coach for covocational believers. You generate a personalized, structured 6-week disciple-making plan.
-
-RULES — follow these exactly:
-- Choose ONE primary lane. Do not treat all 4 Ps equally.
-- Use the user's actual subtype label in your language.
-- Use the user's actual named people.
-- Honor each person's relational stage (casual, meaningful, spiritual, discovery).
-- Diagnose ONE primary bottleneck clearly.
-- Suggest rhythms from existing life only — not invented margin.
-- Keep tone direct, practical, grounded. Not preachy. Not corporate.
-- Every section must imply action this week.
-- Avoid churchy abstraction. Sound like a coach who knows the framework.
-
-OUTPUT FORMAT — respond ONLY with valid JSON, no markdown fences, no preamble. Use this exact schema:
-
-{
-  "starting_lane": { "name": "string", "reason": "string" },
-  "lane_application": { "subtype": "string", "summary": "string" },
-  "focus_people": [
-    { "name": "string", "stage": "string", "reason": "string" }
-  ],
-  "diagnosis": { "primary_block": "string", "explanation": "string" },
-  "first_move": {
-    "person": "string",
-    "stage": "string",
-    "timing": "string",
-    "reason": "string",
-    "action": "string",
-    "suggested_line": "string"
-  },
-  "weekly_rhythm": {
-    "summary": "string",
-    "this_week": ["string", "string", "string"]
-  },
-  "conversation_help": {
-    "casual_to_meaningful": "string",
-    "meaningful_to_spiritual": "string",
-    "spiritual_to_discovery": "string"
-  },
-  "six_week_plan": [
-    { "week": 1, "focus": "string", "action": "string" },
-    { "week": 2, "focus": "string", "action": "string" },
-    { "week": 3, "focus": "string", "action": "string" },
-    { "week": 4, "focus": "string", "action": "string" },
-    { "week": 5, "focus": "string", "action": "string" },
-    { "week": 6, "focus": "string", "action": "string" }
-  ],
-  "conversation_box": {
-    "ready_to_sync": true,
-    "people": [{ "name": "string", "stage": "string" }]
-  },
-  "cta": {
-    "headline": "string",
-    "primary_action": "string",
-    "secondary_action": "string"
-  }
-}`;
-  }
+  /*
+   * ─── BACKEND CONTRACT: POST /api/generate-plan ─────────────────────────────
+   *
+   * Receives:  { payload: buildPayload() }
+   * Returns:   parsed plan JSON (see schema below)
+   *
+   * Server-side flow:
+   *   1. Validate the incoming payload
+   *   2. Call OpenAI server-side — API key stays on the server (OPENAI_API_KEY)
+   *        const completion = await openai.chat.completions.create({
+   *          model: 'gpt-4o',
+   *          response_format: { type: 'json_object' },
+   *          messages: [
+   *            { role: 'system', content: SYSTEM_PROMPT },
+   *            { role: 'user',   content: JSON.stringify(payload) }
+   *          ]
+   *        });
+   *   3. Parse: JSON.parse(completion.choices[0].message.content)
+   *   4. Validate the parsed object has expected top-level keys
+   *   5. Return: res.json(plan)  — return HTTP 500 if parse/validation fails
+   *
+   * Suggested SYSTEM_PROMPT:
+   *   "You are a disciple-making coach for covocational believers.
+   *    Generate a personalized, structured 6-week disciple-making plan.
+   *    Rules: choose ONE primary lane; use the user's actual people and
+   *    stages (casual, meaningful, spiritual, discovery); diagnose ONE
+   *    bottleneck; suggest rhythms from existing life only; tone direct,
+   *    practical, not preachy. Respond ONLY with valid JSON matching this
+   *    schema exactly:
+   *    {
+   *      "starting_lane":      { "name": "string", "reason": "string" },
+   *      "lane_application":   { "subtype": "string", "summary": "string" },
+   *      "focus_people":       [{ "name": "string", "stage": "string", "reason": "string" }],
+   *      "diagnosis":          { "primary_block": "string", "explanation": "string" },
+   *      "first_move":         { "person": "string", "stage": "string", "timing": "string",
+   *                              "reason": "string", "action": "string", "suggested_line": "string" },
+   *      "weekly_rhythm":      { "summary": "string", "this_week": ["string","string","string"] },
+   *      "conversation_help":  { "casual_to_meaningful": "string",
+   *                              "meaningful_to_spiritual": "string",
+   *                              "spiritual_to_discovery": "string" },
+   *      "six_week_plan":      [{ "week": 1, "focus": "string", "action": "string" }, ...x6],
+   *      "cta":                { "headline": "string", "primary_action": "string",
+   *                              "secondary_action": "string" }
+   *    }"
+   */
 
   // ─── GENERATE PLAN ────────────────────────────────────────────────────────────
 
