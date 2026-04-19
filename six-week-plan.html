@@ -1676,22 +1676,22 @@
       html += `
         <section class="section">
           <span class="section-label">Your Rhythm</span>
-          <h3>A workable weekly rhythm</h3>
+          <h3>Build your week around this</h3>
           <p>Redeem the time in the week you already have. Don't invent a life you don't live.</p>
           <div class="rhythm-list">
             <div class="rhythm-item">
-              <strong>Overview</strong>
+              <strong>Your rhythm</strong>
               <span>${esc(wr.summary)}</span>
             </div>
             ${primary ? `
               <div class="rhythm-item">
-                <strong>Primary rhythm</strong>
+                <strong>Do this</strong>
                 <span>${esc(primary)}</span>
               </div>
             ` : ''}
             ${backup ? `
               <div class="rhythm-item">
-                <strong>Backup rhythm</strong>
+                <strong>If that week falls apart</strong>
                 <span>${esc(backup)}</span>
               </div>
             ` : ''}
