@@ -1592,9 +1592,22 @@
 
     let html = '';
 
-    // Lane
+    // Diagnosis — first, so the root cause lands before the solutions
     html += `
       <section class="section">
+        <span class="section-label">Why You're Stuck</span>
+        <h3>This is why you've been stuck</h3>
+        <p>Before the plan, the block. Name it clearly or you'll keep working around it.</p>
+        <div class="result-card">
+          <p><strong>${esc(plan.diagnosis?.primary_block || '')}</strong></p>
+          <p>${esc(plan.diagnosis?.explanation || '')}</p>
+        </div>
+      </section>
+    `;
+
+    // Lane
+    html += `
+      <section class="section alt">
         <span class="section-label">Your Lane</span>
         <h3>Your starting lane</h3>
         <p>One lane only. No equal weighting. You need a clear starting point.</p>
@@ -1609,7 +1622,7 @@
     // People
     if (plan.focus_people?.length) {
       html += `
-        <section class="section alt">
+        <section class="section">
           <span class="section-label">Your People</span>
           <h3>Who to focus on</h3>
           <p>These are the people to start with, not everyone in your world.</p>
@@ -1629,18 +1642,7 @@
       `;
     }
 
-    // Diagnosis
-    html += `
-      <section class="section">
-        <span class="section-label">Your Bottleneck</span>
-        <h3>What is actually slowing you down</h3>
-        <p>Name the gap clearly, or you'll keep calling it "being busy."</p>
-        <div class="result-card">
-          <p><strong>${esc(plan.diagnosis?.primary_block || '')}</strong></p>
-          <p>${esc(plan.diagnosis?.explanation || '')}</p>
-        </div>
-      </section>
-    `;
+
 
     // First Move
     if (plan.first_move) {
