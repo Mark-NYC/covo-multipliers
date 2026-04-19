@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Get a personalized 6-week disciple-making plan built for your life, your schedule, and your people.">
+    <title>Your 6-Week Disciple-Making Plan — Covo Multipliers</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="canonical" href="https://covomultipliers.com/six-week-plan.html">
+
+    <style>
+        /* ==============================================
+           six-week-plan.html — page-scoped styles
+           Reuses palette & rhythm from styles.css
+           ============================================== */
+
+        /* ---- SITE HEADER ---- */
+        .site-header {
+            background: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .site-header .brand {
+            font-size: 0.95rem;
+            font-weight: 900;
+            color: #10281f;
+            text-decoration: none;
+            letter-spacing: -0.01em;
+        }
+        .site-header .back-link {
+            font-size: 0.875rem;
+            color: #5a6b65;
+            text-decoration: none;
+        }
+        .site-header .back-link:hover { color: #1b4d3e; }
+
+        /* ---- HERO ---- */
+        .plan-hero {
+            background: linear-gradient(135deg,
+                #10281f 0%, #1b4d3e 45%, #2c6b5d 100%);
+            padding: 4.5rem 1.5rem 3.25rem;
+            text-align: center;
+            color: #ffffff;
+        }
+        .plan-eyebrow {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #dcb55a;
+            margin-bottom: 1rem;
+        }
+        .plan-hero h1 {
+            font-size: clamp(1.9rem, 4.5vw, 2.9rem);
+            font-weight: 900;
+            letter-spacing: -0.025em;
+            line-height: 1.15;
+            max-width: 640px;
+            margin: 0 auto 1rem;
+        }
+        .plan-hero p {
+            font-size: 1.05rem;
+            color: rgba(255, 255, 255, 0.82);
+            max-width: 520px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* ---- INTRO ---- */
+        .plan-intro {
+            background: #f8faf9;
+            padding: 2rem 1.5rem;
+            text-align: center;
+        }
+        .plan-intro p {
+            max-width: 560px;
+            margin: 0 auto;
+            font-size: 1rem;
+            color: #3a4f47;
+            line-height: 1.6;
+        }
+
+        /* ---- FORM WRAPPER ---- */
+        .plan-form-section {
+            padding: 3rem 1.5rem 4rem;
+        }
+        .plan-form {
+            max-width: 640px;
+            margin: 0 auto;
+        }
+
+        /* ---- QUESTION BLOCKS ---- */
+        .q-block {
+            margin-bottom: 2.25rem;
+        }
+        .q-label {
+            display: block;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #10281f;
+            margin-bottom: 0.35rem;
+            letter-spacing: -0.005em;
+        }
+        .q-hint {
+            font-size: 0.875rem;
+            color: #5a6b65;
+            margin-bottom: 0.875rem;
+            line-height: 1.5;
+        }
+
+        /* radio pill group */
+        .pill-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .pill-group input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+        .pill-group label {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.6rem 1.2rem;
+            border-radius: 999px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #1b4d3e;
+            background: #ffffff;
+            border: 2px solid #c8dbd6;
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+        }
+        .pill-group label:hover { border-color: #1b4d3e; }
+        .pill-group input[type="radio"]:checked + label {
+            background: #1b4d3e;
+            color: #ffffff;
+            border-color: #1b4d3e;
+        }
+        .pill-group input[type="radio"]:focus-visible + label {
+            outline: 3px solid #dcb55a;
+            outline-offset: 2px;
+        }
+
+        /* people name inputs */
+        .people-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+        .people-list input[type="text"] {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid #c8dbd6;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            color: #1a1a1a;
+            font-family: inherit;
+            background: #ffffff;
+            outline: none;
+            transition: border-color 0.15s ease;
+        }
+        .people-list input[type="text"]:focus { border-color: #1b4d3e; }
+        .people-list input[type="text"]::placeholder { color: #a0b3ac; }
+
+        /* submit button */
+        .btn-generate {
+            display: block;
+            width: 100%;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #1b4d3e 0%, #10281f 100%);
+            color: #ffffff;
+            font-size: 1.05rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            letter-spacing: 0.01em;
+            margin-top: 1rem;
+            transition: opacity 0.2s ease, transform 0.15s ease;
+        }
+        .btn-generate:hover { opacity: 0.92; transform: translateY(-1px); }
+        .btn-generate:active { transform: translateY(0); }
+        .btn-generate:focus-visible { outline: 3px solid #dcb55a; outline-offset: 3px; }
+
+        /* ---- RESULTS ---- */
+        .results-hero {
+            background: linear-gradient(135deg,
+                #10281f 0%, #1b4d3e 45%, #2c6b5d 100%);
+            padding: 3rem 1.5rem;
+            text-align: center;
+            color: #ffffff;
+        }
+        .results-hero h2 {
+            font-size: clamp(1.6rem, 3.5vw, 2.15rem);
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.5rem;
+        }
+        .results-hero p {
+            font-size: 0.95rem;
+            color: rgba(255,255,255,0.78);
+        }
+
+        .results-body { padding: 0; }
+
+        .result-section {
+            padding: 3rem 1.5rem;
+            max-width: 720px;
+            margin: 0 auto;
+        }
+        .result-section-alt-wrap { background: #f8faf9; }
+        .result-section-alt-wrap .result-section { margin: 0 auto; }
+
+        .result-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #1b4d3e;
+            margin-bottom: 0.4rem;
+        }
+        .result-title {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: #10281f;
+            letter-spacing: -0.02em;
+            margin-bottom: 1.25rem;
+        }
+        .result-lede {
+            font-size: 0.95rem;
+            color: #5a6b65;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        /* generic result card */
+        .r-card {
+            background: #ffffff;
+            border: 1px solid #e2eae6;
+            border-radius: 16px;
+            padding: 1.5rem 1.75rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 12px rgba(16, 40, 31, 0.06);
+        }
+        .r-card p { font-size: 0.975rem; line-height: 1.65; color: #2a2a2a; }
+        .r-card strong { color: #10281f; }
+
+        /* people focus chips */
+        .focus-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            margin-top: 1rem;
+        }
+        .focus-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: #f0f7f4;
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+        }
+        .focus-num {
+            width: 28px; height: 28px;
+            border-radius: 50%;
+            background: #1b4d3e;
+            color: #fff;
+            font-size: 0.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .focus-name {
+            font-size: 0.975rem;
+            font-weight: 600;
+            color: #10281f;
+        }
+
+        /* move card */
+        .move-card {
+            background: #ffffff;
+            border: 1px solid #e2eae6;
+            border-radius: 16px;
+            padding: 1.5rem 1.75rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 12px rgba(16, 40, 31, 0.06);
+        }
+        .move-tag {
+            font-size: 0.7rem;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #9f7a2f;
+            margin-bottom: 0.35rem;
+        }
+        .move-who {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #10281f;
+            margin-bottom: 0.2rem;
+        }
+        .move-where {
+            font-size: 0.875rem;
+            color: #5a6b65;
+            margin-bottom: 0.75rem;
+        }
+        .move-starter {
+            background: #f0f7f4;
+            border-left: 3px solid #1b4d3e;
+            border-radius: 0 8px 8px 0;
+            padding: 0.75rem 1rem;
+            font-size: 0.925rem;
+            font-style: italic;
+            color: #1a1a1a;
+            line-height: 1.55;
+        }
+
+        /* conversation lines */
+        .convo-line {
+            background: #ffffff;
+            border: 1px solid #e2eae6;
+            border-radius: 14px;
+            padding: 1.1rem 1.4rem;
+            margin-bottom: 0.75rem;
+            box-shadow: 0 1px 8px rgba(16, 40, 31, 0.05);
+        }
+        .convo-tag {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #9f7a2f;
+            margin-bottom: 0.25rem;
+        }
+        .convo-text {
+            font-size: 1rem;
+            font-style: italic;
+            color: #1a1a1a;
+            line-height: 1.55;
+        }
+        .four-q {
+            background: #f0f7f4;
+            border: 1px solid #b8d4cb;
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            margin-top: 1.25rem;
+            font-size: 0.9rem;
+            color: #1b4d3e;
+            line-height: 1.55;
+        }
+        .four-q a {
+            color: #10281f;
+            font-weight: 700;
+            text-decoration: underline;
+            text-underline-offset: 2px;
+        }
+        .four-q a:hover { color: #1b4d3e; }
+
+        /* 6-week grid */
+        .weeks {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.75rem;
+        }
+        .week-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            background: #ffffff;
+            border: 1px solid #e2eae6;
+            border-radius: 14px;
+            padding: 1.1rem 1.25rem;
+            box-shadow: 0 1px 8px rgba(16, 40, 31, 0.05);
+        }
+        .week-row.week-active {
+            border-color: #1b4d3e;
+            background: #f0f7f4;
+        }
+        .week-badge {
+            min-width: 58px;
+            background: #1b4d3e;
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            border-radius: 6px;
+            padding: 0.3rem 0.4rem;
+            text-align: center;
+            flex-shrink: 0;
+        }
+        .week-row.week-active .week-badge { background: #10281f; }
+        .week-theme {
+            font-size: 0.925rem;
+            font-weight: 700;
+            color: #10281f;
+            margin-bottom: 0.15rem;
+        }
+        .week-action {
+            font-size: 0.875rem;
+            color: #3a4f47;
+            line-height: 1.5;
+        }
+        .week-action a {
+            color: #1b4d3e;
+            font-weight: 600;
+            text-decoration: underline;
+            text-underline-offset: 2px;
+        }
+
+        /* ---- CTA ---- */
+        .plan-cta {
+            background: linear-gradient(135deg,
+                #10281f 0%, #1b4d3e 45%, #2c6b5d 100%);
+            padding: 4rem 1.5rem;
+            text-align: center;
+            color: #ffffff;
+        }
+        .plan-cta .eyebrow {
+            display: inline-block;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #dcb55a;
+            margin-bottom: 0.75rem;
+        }
+        .plan-cta h2 {
+            font-size: clamp(1.6rem, 3.5vw, 2.15rem);
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+            max-width: 480px;
+            margin: 0 auto 0.75rem;
+        }
+        .plan-cta p {
+            font-size: 1rem;
+            color: rgba(255,255,255,0.8);
+            max-width: 440px;
+            margin: 0 auto 1.75rem;
+            line-height: 1.6;
+        }
+        .btn-cta {
+            display: inline-block;
+            padding: 0.85rem 2.1rem;
+            background: #dcb55a;
+            color: #10281f;
+            font-size: 0.95rem;
+            font-weight: 800;
+            border-radius: 999px;
+            text-decoration: none;
+            letter-spacing: 0.01em;
+            transition: opacity 0.2s ease, transform 0.15s ease;
+        }
+        .btn-cta:hover { opacity: 0.92; transform: translateY(-1px); }
+        .btn-reset {
+            display: inline-block;
+            padding: 0.7rem 1.6rem;
+            background: transparent;
+            color: rgba(255,255,255,0.75);
+            font-size: 0.875rem;
+            font-weight: 600;
+            border: 2px solid rgba(255,255,255,0.35);
+            border-radius: 999px;
+            cursor: pointer;
+            text-decoration: none;
+            margin-left: 0.6rem;
+            font-family: inherit;
+        }
+        .btn-reset:hover {
+            border-color: rgba(255,255,255,0.7);
+            color: #ffffff;
+        }
+
+        /* ---- RESPONSIVE ---- */
+        @media (max-width: 480px) {
+            .plan-hero { padding: 3.25rem 1.25rem 2.5rem; }
+            .plan-intro { padding: 1.75rem 1.25rem; }
+            .plan-form-section { padding: 2.25rem 1.25rem 3rem; }
+            .result-section { padding: 2.25rem 1.25rem; }
+            .plan-cta { padding: 3rem 1.25rem; }
+            .r-card, .move-card { padding: 1.25rem 1.25rem; }
+            .btn-reset { margin-left: 0; margin-top: 0.75rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ================================================
+         SITE HEADER
+    ================================================ -->
+    <header class="site-header">
+        <a href="/" class="brand">Covo Multipliers</a>
+        <a href="/" class="back-link">← Back</a>
+    </header>
+
+
+    <!-- ================================================
+         HERO
+    ================================================ -->
+    <section class="plan-hero">
+        <span class="plan-eyebrow">Free Tool</span>
+        <h1>Get Your 6-Week Disciple-Making Plan</h1>
+        <p>Answer 5 quick questions. Walk away with a plan built for your life — your people, your rhythm, your context.</p>
+    </section>
+
+
+    <!-- ================================================
+         SHORT EXPLANATION
+    ================================================ -->
+    <section class="plan-intro">
+        <p>Built for normal believers with full-time jobs and little margin. No lessons. No theory. Just what to do this week.</p>
+    </section>
+
+
+    <!-- ================================================
+         INPUT FORM
+    ================================================ -->
+    <section class="plan-form-section" id="form-section">
+        <form class="plan-form" id="plan-form" novalidate>
+
+            <!-- Q1: Environment -->
+            <div class="q-block">
+                <span class="q-label">1. What's your primary environment right now?</span>
+                <p class="q-hint">Where do you spend the most time with people who aren't already following Jesus?</p>
+                <div class="pill-group" role="radiogroup" aria-label="Primary environment">
+                    <div>
+                        <input type="radio" name="environment" id="env-work" value="work">
+                        <label for="env-work">Work</label>
+                    </div>
+                    <div>
+                        <input type="radio" name="environment" id="env-school" value="school">
+                        <label for="env-school">School</label>
+                    </div>
+                    <div>
+                        <input type="radio" name="environment" id="env-neighborhood" value="neighborhood">
+                        <label for="env-neighborhood">Neighborhood</label>
+                    </div>
+                    <div>
+                        <input type="radio" name="environment" id="env-thirdplace" value="thirdplace">
+                        <label for="env-thirdplace">Third Place</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q2: Rhythm -->
+            <div class="q-block">
+                <span class="q-label">2. What's your weekly rhythm like?</span>
+                <div class="pill-group" role="radiogroup" aria-label="Weekly rhythm">
+                    <div>
+                        <input type="radio" name="rhythm" id="r-busy" value="busy">
+                        <label for="r-busy">Busy &amp; unpredictable</label>
+                    </div>
+                    <div>
+                        <input type="radio" name="rhythm" id="r-some" value="some">
+                        <label for="r-some">Somewhat structured</label>
+                    </div>
+                    <div>
+                        <input type="radio" name="rhythm" id="r-very" value="very">
+                        <label for="r-very">Very structured</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q3: People -->
+            <div class="q-block">
+                <span class="q-label">3. List 3–5 people you already interact with regularly</span>
+                <p class="q-hint">First names are fine. These are the people your plan is built around.</p>
+                <div class="people-list">
+                    <input type="text" class="person-name" placeholder="Person 1" maxlength="40" autocomplete="off">
+                    <input type="text" class="person-name" placeholder="Person 2" maxlength="40" autocomplete="off">
+                    <input type="text" class="person-name" placeholder="Person 3" maxlength="40" autocomplete="off">
+                    <input type="text" class="person-name" placeholder="Person 4 (optional)" maxlength="40" autocomplete="off">
+                    <input type="text" class="person-name" placeholder="Person 5 (optional)" maxlength="40" autocomplete="off">
+                </div>
+            </div>
+
+            <!-- Q4: Comfort -->
+            <div class="q-block">
+                <span class="q-label">4. How comfortable are you with spiritual conversations?</span>
+                <div class="pill-group" role="radiogroup" aria-label="Comfort level">
+                    <div>
+                        <input type="radio" name="comfort" id="c-beginner" value="beginner">
+                        <label for="c-beginner">Beginner</label>
+                    </div>
+                    <div>
+                        <input type="radio" name="comfort" id="c-some" value="some">
+                        <label for="c-some">Some experience</label>
+                    </div>
+                    <div>
+                        <input type="radio" name="comfort" id="c-confident" value="confident">
+                        <label for="c-confident">Confident</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q5: Hardest part -->
+            <div class="q-block">
+                <span class="q-label">5. What feels hardest right now?</span>
+                <div class="pill-group" role="radiogroup" aria-label="Hardest part">
+                    <div>
+                        <input type="radio" name="hardest" id="h-start" value="starting">
+                        <label for="h-start">Starting conversations</label>
+                    </div>
+                    <div>
+                        <input type="radio" name="hardest" id="h-deeper" value="deeper">
+                        <label for="h-deeper">Going deeper</label>
+                    </div>
+                    <div>
+                        <input type="radio" name="hardest" id="h-next" value="nextstep">
+                        <label for="h-next">Inviting to next steps</label>
+                    </div>
+                    <div>
+                        <input type="radio" name="hardest" id="h-consistency" value="consistency">
+                        <label for="h-consistency">Consistency</label>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-generate">Build My Plan →</button>
+
+        </form>
+    </section>
+
+
+    <!-- ================================================
+         RESULTS (hidden until form submits)
+    ================================================ -->
+    <section id="plan-results" hidden aria-live="polite">
+
+        <div class="results-hero">
+            <span class="plan-eyebrow">Your Plan</span>
+            <h2>Your 6-Week Disciple-Making Plan</h2>
+            <p>Built for your life. Start this week.</p>
+        </div>
+
+        <div class="results-body">
+
+            <!-- Section 1: Starting Point -->
+            <div class="result-section">
+                <p class="result-label">Section 1</p>
+                <h3 class="result-title">Your Starting Point</h3>
+                <div id="out-starting"></div>
+            </div>
+
+            <!-- Section 2: This Week's Moves -->
+            <div class="result-section-alt-wrap">
+                <div class="result-section">
+                    <p class="result-label">Section 2</p>
+                    <h3 class="result-title">This Week's Moves</h3>
+                    <p class="result-lede">Three specific actions. One person, one place, one line. Do these this week.</p>
+                    <div id="out-moves"></div>
+                </div>
+            </div>
+
+            <!-- Section 3: Conversation Help -->
+            <div class="result-section">
+                <p class="result-label">Section 3</p>
+                <h3 class="result-title">Conversation Help</h3>
+                <p class="result-lede">Natural lines you can actually use.</p>
+                <div id="out-convo"></div>
+            </div>
+
+            <!-- Section 4: 6-Week Plan -->
+            <div class="result-section-alt-wrap">
+                <div class="result-section">
+                    <p class="result-label">Section 4</p>
+                    <h3 class="result-title">Your 6-Week Plan</h3>
+                    <p class="result-lede">One clear action per week. Skimmable. Doable.</p>
+                    <div id="out-weeks"></div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- ================================================
+         CTA
+    ================================================ -->
+    <section class="plan-cta">
+        <span class="eyebrow">Next Step</span>
+        <h2>Do this with others — not alone</h2>
+        <p>The labs are where you get sharpening, accountability, and a tribe doing this alongside you.</p>
+        <div>
+            <a href="/" class="btn-cta">Join the Next Lab</a>
+            <button type="button" class="btn-reset" id="btn-reset" hidden>Start Over</button>
+        </div>
+    </section>
+
+
+    <!-- ================================================
+         FOOTER (matches site pattern)
+    ================================================ -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <span class="footer-wordmark">Covo Multipliers</span>
+                <p class="footer-desc">A tribe of covocational leaders learning to make disciples where they live, work, and play.</p>
+            </div>
+            <nav class="footer-nav" aria-label="Footer navigation">
+                <a href="/">Home</a>
+                <a href="/vision.html">Vision &amp; Pathway</a>
+                <a href="/blog/">Blog</a>
+                <a href="/resources.html">Resources</a>
+                <a href="https://obey.tools">Obey.Tools</a>
+            </nav>
+        </div>
+    </footer>
+
+
+</body>
+</html>
