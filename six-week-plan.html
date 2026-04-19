@@ -1776,12 +1776,25 @@
         <div class="cta-actions">
           <a class="btn btn-light" href="https://obey.tools/conversation-box.html" target="_blank" rel="noopener noreferrer">Open Conversation Box</a>
           <a class="btn btn-outline-light" href="/">${esc(ctaSecondary)}</a>
+          <button class="btn btn-outline-light" id="savePlanBtn" type="button">Save this plan</button>
           <button class="btn btn-outline-light" id="startOverBtn" type="button">Start Over</button>
         </div>
+        <p id="savePlanMsg" style="display:none;margin-top:.6rem;font-size:.88rem;opacity:.85;">Plan saved to this device.</p>
       </div>
     `;
 
     resultsCard.innerHTML = html;
+
+    document.getElementById('savePlanBtn').addEventListener('click', () => {
+      try {
+        localStorage.setItem('covo_saved_plan', JSON.stringify({ plan, wizardState: state, savedAt: Date.now() }));
+        const msg = document.getElementById('savePlanMsg');
+        msg.style.display = 'block';
+        setTimeout(() => { msg.style.display = 'none'; }, 3000);
+      } catch (e) {
+        console.error('Save failed:', e);
+      }
+    });
 
     document.getElementById('startOverBtn').addEventListener('click', () => {
       state = {
