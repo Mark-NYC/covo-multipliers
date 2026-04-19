@@ -1747,15 +1747,15 @@ OUTPUT FORMAT — respond ONLY with valid JSON, no markdown fences, no preamble.
     }
 
     // CTA
-    const ctaHeadline = plan.cta?.headline || 'Save this plan and keep moving';
-    const ctaPrimary = plan.cta?.primary_action || 'Add these people to Conversation Box';
+    const ctaHeadline = plan.cta?.headline || 'Your plan is ready — now put it in motion';
+    const ctaPrimary = plan.cta?.primary_action || 'Open Conversation Box and add these people there next';
     const ctaSecondary = plan.cta?.secondary_action || 'Join the next lab';
 
     html += `
       <section class="section alt" style="padding-bottom:0;border-bottom:none;">
         <span class="section-label">Next Step</span>
         <h3>Keep this moving</h3>
-        <p>Don't let the plan die as a one-off output. Add these people to Conversation Box and keep the rhythm going.</p>
+        <p>Open Conversation Box and add these people there next. Track where each relationship stands and keep the rhythm going.</p>
       </section>
       <div class="cta-bar">
         <div>
