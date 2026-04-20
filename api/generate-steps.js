@@ -13,101 +13,48 @@ const ALLOWED_ORIGINS = [
 ];
 
 // ---------------------------------------------------------------------------
-// System prompt
+// Prompt
 // ---------------------------------------------------------------------------
 
-const SYSTEM_PROMPT = `You are a sharp, experienced disciple-making coach for covocational believers.
-You have seen hundreds of people stall out and you know exactly why.
-You do not encourage vaguely. You diagnose accurately and tell people what to do.
+const SYSTEM_PROMPT = `You are helping a disciple-maker decide the next best moves with one real person.
 
-VOICE AND TONE:
-- Sound like a coach who has been in the room with this person for an hour, not like a chatbot.
-- Direct. Specific. A little bit blunt where it helps.
-- No filler phrases: not "it's important to", not "consider trying", not "remember that".
-- No churchy abstraction: not "kingdom rhythms", not "gospel intentionality", not "spiritual conversations" as a vague catch-all.
-- No corporate motivational language: not "leverage", not "maximize", not "unlock your potential".
-- Write like you are talking to one real person about their actual life.
+You are not writing a full plan.
+You are only generating short, practical next steps for one relationship.
 
-RULES — follow these exactly:
-1. LANE: Pick ONE lane only. Do not hedge or split the focus. Name the subtype explicitly.
-   The "reason" must say why THIS lane fits THIS person — not why lanes matter in general.
+VOICE:
+- Direct
+- Normal human language
+- Specific
+- No fluff
+- No churchy jargon
+- No corporate language
+- No vague encouragement
 
-2. PEOPLE: Use the user's actual names throughout. Do not swap in "your contact" or "this person."
-   For each focus person, name the specific reason they're worth prioritizing right now based on their stage.
-   Do not list everyone — pick the ones where momentum is actually possible.
+GOAL:
+Given the person's current conversation stage, the next stage, the barrier, and the setting, generate 3 to 4 concrete next steps that feel natural in real life.
 
-3. DIAGNOSIS: One bottleneck. Not a list. Name the real structural problem — time, relational depth, fear, no clear next step, wrong people — whatever fits the data.
-   The explanation must be 2–3 sentences that feel uncomfortably accurate, not reassuring.
-
-4. FIRST MOVE: Concrete. One person, one action, one line to say or send.
-   The timing must be specific (e.g. "Tuesday at lunch" or "this weekend") — not "soon" or "this week."
-   The suggested_line must be a real thing a human would actually say or text.
-
-5. RHYTHMS: Pull from the user's existing life — their job, commute, kids, routines.
-   Do not suggest inventing new margin. If they have no free time, find the rhythm inside what they already do.
-   "Do this" must be a concrete weekly action, not a posture or mindset.
-   "If that week falls apart" must be a real minimum, not just "try again."
-
-6. SIX-WEEK PLAN: Each week must have a different focus. Do not repeat the same action rephrased.
-   Each action must be specific enough that the user knows exactly what to do on Monday.
-
-7. CONVERSATION HELP: Write actual lines a normal human would say in a normal setting.
-   Not gospel presentations. Not spiritual segues. Real sentences that move a relationship one step forward.
-
-OUTPUT FORMAT — respond ONLY with valid JSON matching this schema exactly.
-No markdown fences. No explanation. Just the JSON object.
-
+RULES:
+1. Return ONLY valid JSON.
+2. The JSON must have exactly this shape:
 {
-  "starting_lane": { "name": "string", "reason": "string" },
-  "lane_application": { "subtype": "string", "summary": "string" },
-  "focus_people": [
-    { "name": "string", "stage": "string", "reason": "string" }
-  ],
-  "diagnosis": { "primary_block": "string", "explanation": "string" },
-  "first_move": {
-    "person": "string",
-    "stage": "string",
-    "timing": "string",
-    "reason": "string",
-    "action": "string",
-    "suggested_line": "string"
-  },
-  "weekly_rhythm": {
-    "summary": "string",
-    "this_week": ["string", "string", "string"]
-  },
-  "conversation_help": {
-    "casual_to_meaningful": "string",
-    "meaningful_to_spiritual": "string",
-    "spiritual_to_discovery": "string"
-  },
-  "six_week_plan": [
-    { "week": 1, "focus": "string", "action": "string" },
-    { "week": 2, "focus": "string", "action": "string" },
-    { "week": 3, "focus": "string", "action": "string" },
-    { "week": 4, "focus": "string", "action": "string" },
-    { "week": 5, "focus": "string", "action": "string" },
-    { "week": 6, "focus": "string", "action": "string" }
-  ],
-  "cta": {
-    "headline": "string",
-    "primary_action": "string",
-    "secondary_action": "string"
-  }
-}`;
+  "steps": ["string", "string", "string"]
+}
+3. Each step must be short. Aim for 8 to 18 words.
+4. Each step must be concrete and actionable.
+5. Use the setting and barrier to make the steps realistic.
+6. Do not repeat the same step reworded.
+7. Do not give generic advice like "pray more" or "be intentional."
+8. Do not sound robotic, preachy, or polished.
+9. If a text message or sentence would help, make it sound like a real person would say it.
+10. Focus on movement to the next stage, not long-term discipleship strategy.
 
-// Top-level keys the frontend renderer requires.
-const REQUIRED_KEYS = [
-  'starting_lane',
-  'lane_application',
-  'focus_people',
-  'diagnosis',
-  'first_move',
-  'weekly_rhythm',
-  'conversation_help',
-  'six_week_plan',
-  'cta',
-];
+STAGE INTENT:
+- Casual to Meaningful: help them get past small talk and into real life conversation.
+- Meaningful to Spiritual: help them bring up faith naturally without forcing it.
+- Spiritual to Discovery: help them invite a real response or next step.
+- Discovery and beyond: help them build momentum, obedience, and consistency.
+
+Return only JSON.`;
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -129,6 +76,16 @@ function isObject(value) {
   return value !== null && typeof value === 'object' && !Array.isArray(value);
 }
 
+function cleanSteps(steps) {
+  if (!Array.isArray(steps)) return [];
+
+  return steps
+    .map((s) => (typeof s === 'string' ? s.trim() : ''))
+    .filter(Boolean)
+    .map((s) => s.replace(/^[-*•\d.)\s]+/, '').trim())
+    .slice(0, 4);
+}
+
 // ---------------------------------------------------------------------------
 // Handler
 // ---------------------------------------------------------------------------
@@ -136,32 +93,36 @@ function isObject(value) {
 module.exports = async function handler(req, res) {
   setCorsHeaders(req, res);
 
-  // Preflight
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
 
-  // Accept POST only.
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed.' });
   }
 
-  // Validate request body shape.
-  const { payload } = req.body || {};
-  if (!isObject(payload)) {
+  if (!isObject(req.body)) {
+    return res.status(400).json({ error: 'Request body must be a JSON object.' });
+  }
+
+  const {
+    person,
+    stage,
+    nextStage,
+    lane,
+    laneFramework,
+    setting,
+    oikosType,
+    barrier,
+    notes,
+  } = req.body;
+
+  if (!person || !stage || !barrier) {
     return res.status(400).json({
-      error: 'Request body must include a payload object.',
+      error: 'person, stage, and barrier are required.',
     });
   }
 
-  // Validate minimum fields the prompt needs.
-  if (!payload.user_context || !Array.isArray(payload.people)) {
-    return res.status(400).json({
-      error: 'payload must include user_context and people array.',
-    });
-  }
-
-  // Initialise the OpenAI client from the server-side environment.
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) {
     console.error('OPENAI_API_KEY is not set.');
@@ -172,6 +133,20 @@ module.exports = async function handler(req, res) {
 
   const openai = new OpenAI({ apiKey });
 
+  const userPrompt = `Generate next steps for this relationship.
+
+Person: ${person}
+Current stage: ${stage}
+Next stage: ${nextStage || 'deeper investment'}
+Lane: ${lane || 'general'}
+Framework lane: ${laneFramework || ''}
+Setting: ${setting || ''}
+Oikos type: ${oikosType || ''}
+Barrier: ${barrier || ''}
+Notes: ${notes || ''}
+
+Return 3 to 4 short next steps as JSON.`;
+
   let completion;
   try {
     completion = await openai.chat.completions.create({
@@ -179,11 +154,9 @@ module.exports = async function handler(req, res) {
       response_format: { type: 'json_object' },
       messages: [
         { role: 'system', content: SYSTEM_PROMPT },
-        {
-          role: 'user',
-          content: `Here is my disciple-making context. Generate my personalized 6-week plan as JSON:\n\n${JSON.stringify(payload, null, 2)}`,
-        },
+        { role: 'user', content: userPrompt },
       ],
+      temperature: 0.8,
     });
   } catch (err) {
     console.error('OpenAI API error:', err);
@@ -192,7 +165,6 @@ module.exports = async function handler(req, res) {
     });
   }
 
-  // Parse the returned JSON.
   const raw = completion.choices?.[0]?.message?.content;
   if (!raw || typeof raw !== 'string') {
     console.error('OpenAI returned empty or non-string content:', raw);
@@ -201,9 +173,9 @@ module.exports = async function handler(req, res) {
     });
   }
 
-  let plan;
+  let parsed;
   try {
-    plan = JSON.parse(raw);
+    parsed = JSON.parse(raw);
   } catch (err) {
     console.error('Failed to parse OpenAI response as JSON:', raw);
     return res.status(500).json({
@@ -211,14 +183,14 @@ module.exports = async function handler(req, res) {
     });
   }
 
-  // Validate top-level shape.
-  const missing = REQUIRED_KEYS.filter((key) => !(key in plan));
-  if (missing.length > 0) {
-    console.error('Plan missing required keys:', missing, plan);
+  const steps = cleanSteps(parsed.steps);
+
+  if (!steps.length) {
+    console.error('AI returned no usable steps:', parsed);
     return res.status(500).json({
       error: 'AI response was incomplete. Please try again.',
     });
   }
 
-  return res.status(200).json(plan);
+  return res.status(200).json({ steps });
 };
