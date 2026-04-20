@@ -1,0 +1,1357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta
+    name="description"
+    content="H3X Podcast — Head, heart, and hands of a biblical multiplier. Weekly conversations and simple tools for covocational leaders making disciples where they live, work, and play. New episodes every Tuesday morning."
+  />
+  <title>H3X Podcast — Covo Multipliers</title>
+
+  <link rel="stylesheet" href="styles.css" />
+
+  <style>
+    /* =========================================================
+       H3X Podcast page
+       Brand accents pulled from podcast art:
+         #1a1a1a  charcoal
+         #bd5a22  burnt orange
+       ========================================================= */
+
+    .site-header {
+      background: #ffffff;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .site-header .brand {
+      font-size: 0.95rem;
+      font-weight: 900;
+      color: #10281f;
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+
+    .site-header .back-link {
+      font-size: 0.875rem;
+      color: #5a6b65;
+      text-decoration: none;
+      transition: color 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .site-header .back-link:hover {
+      color: #1b4d3e;
+    }
+
+    /* Hero uses the podcast art palette */
+    .podcast-hero {
+      padding: 3.25rem 2rem 3rem;
+      background:
+        radial-gradient(circle at 85% 15%, rgba(189, 90, 34, 0.35) 0%, transparent 55%),
+        radial-gradient(circle at 15% 85%, rgba(189, 90, 34, 0.18) 0%, transparent 50%),
+        linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 55%, #201612 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .podcast-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.10;
+      background-image:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.14) 0.7px, transparent 0.8px),
+        radial-gradient(circle at 80% 30%, rgba(255,255,255,0.10) 0.7px, transparent 0.8px),
+        radial-gradient(circle at 40% 70%, rgba(255,255,255,0.08) 0.6px, transparent 0.7px),
+        radial-gradient(circle at 70% 80%, rgba(189, 90, 34, 0.20) 0.8px, transparent 0.9px);
+      background-size: 120px 120px, 140px 140px, 100px 100px, 160px 160px;
+      mix-blend-mode: screen;
+    }
+
+    .podcast-hero-inner {
+      max-width: 1140px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 1.1fr 420px;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .hero-copy {
+      min-width: 0;
+    }
+
+    .hero-label {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #bd5a22;
+      margin-bottom: 1.15rem;
+    }
+
+    .hero-title {
+      font-size: clamp(2.1rem, 5vw, 3.45rem);
+      font-weight: 900;
+      color: #ffffff;
+      line-height: 1.06;
+      letter-spacing: -0.025em;
+      margin: 0 0 1rem;
+      max-width: 760px;
+    }
+
+    .hero-title .accent {
+      color: #bd5a22;
+    }
+
+    .hero-subtitle {
+      font-size: 1.08rem;
+      line-height: 1.72;
+      color: rgba(255, 255, 255, 0.82);
+      max-width: 680px;
+      margin: 0 0 1.5rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+      margin-bottom: 1rem;
+    }
+
+    .hero-microcopy {
+      font-size: 0.92rem;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.62);
+      max-width: 620px;
+      margin: 0;
+    }
+
+    .hero-microcopy strong {
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    .btn-hero-primary,
+    .btn-hero-secondary,
+    .btn-platform,
+    .btn-section,
+    .btn-featured,
+    .btn-signup {
+      display: inline-block;
+      text-decoration: none;
+      border-radius: 10px;
+      font-weight: 800;
+      transition: background 0.2s ease, transform 0.15s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+
+    .btn-hero-primary {
+      padding: 0.95rem 1.3rem;
+      background: #bd5a22;
+      color: #ffffff;
+    }
+
+    .btn-hero-primary:hover {
+      background: #a44d1c;
+      transform: translateY(-1px);
+    }
+
+    .btn-hero-secondary {
+      padding: 0.95rem 1.3rem;
+      background: rgba(255,255,255,0.06);
+      color: #ffffff;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .btn-hero-secondary:hover {
+      background: rgba(255,255,255,0.12);
+      transform: translateY(-1px);
+    }
+
+    .hero-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 16px;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.45);
+      overflow: hidden;
+      backdrop-filter: blur(6px);
+    }
+
+    .hero-card-top {
+      padding: 1rem 1rem 0.8rem;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .hero-card-label {
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #bd5a22;
+      margin-bottom: 0.55rem;
+    }
+
+    .hero-card-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      line-height: 1.3;
+      color: #ffffff;
+      margin: 0 0 0.45rem;
+    }
+
+    .hero-card-desc {
+      font-size: 0.94rem;
+      line-height: 1.6;
+      color: rgba(255,255,255,0.72);
+      margin: 0;
+    }
+
+    .hero-player {
+      aspect-ratio: 1 / 1;
+      width: 100%;
+      background: #0a0a0a;
+    }
+
+    .hero-player iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
+
+    .hero-platforms {
+      padding: 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+    }
+
+    .btn-platform {
+      padding: 0.7rem 0.95rem;
+      font-size: 0.88rem;
+      background: rgba(255,255,255,0.06);
+      color: #ffffff;
+      border: 1px solid rgba(255,255,255,0.14);
+    }
+
+    .btn-platform:hover {
+      background: rgba(189, 90, 34, 0.18);
+      border-color: rgba(189, 90, 34, 0.5);
+    }
+
+    /* H3X triple pillar strip */
+    .triple-strip {
+      background: #1a1a1a;
+      padding: 2.25rem 2rem;
+      border-bottom: 1px solid #2a2a2a;
+    }
+
+    .triple-strip-inner {
+      max-width: 1140px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .triple-item {
+      padding: 0.4rem 0;
+      border-left: 2px solid #bd5a22;
+      padding-left: 1rem;
+    }
+
+    .triple-letter {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #bd5a22;
+      margin-bottom: 0.35rem;
+    }
+
+    .triple-word {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin: 0 0 0.35rem;
+    }
+
+    .triple-desc {
+      font-size: 0.9rem;
+      line-height: 1.55;
+      color: rgba(255,255,255,0.65);
+      margin: 0;
+    }
+
+    .section-shell {
+      background: #ffffff;
+      padding: 3.2rem 2rem;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .section-shell.alt {
+      background: #f8faf9;
+    }
+
+    .section-inner {
+      max-width: 1140px;
+      margin: 0 auto;
+    }
+
+    .section-eyebrow {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #bd5a22;
+      margin-bottom: 0.6rem;
+    }
+
+    .section-title {
+      font-size: clamp(1.7rem, 4vw, 2.45rem);
+      font-weight: 900;
+      color: #10281f;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin: 0 0 0.8rem;
+    }
+
+    .section-intro {
+      font-size: 1rem;
+      line-height: 1.72;
+      color: #444444;
+      max-width: 780px;
+      margin: 0;
+    }
+
+    .start-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .start-card {
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 1.4rem 1.35rem;
+      box-shadow: 0 8px 24px rgba(16, 40, 31, 0.04);
+    }
+
+    .start-card h3 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #10281f;
+      margin: 0 0 0.6rem;
+    }
+
+    .start-card p {
+      font-size: 0.95rem;
+      line-height: 1.65;
+      color: #4a4a4a;
+      margin: 0 0 0.9rem;
+    }
+
+    .starter-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .starter-list li {
+      padding: 0.9rem 0;
+      border-top: 1px solid #f0f0f0;
+    }
+
+    .starter-list li:first-child {
+      border-top: none;
+      padding-top: 0;
+    }
+
+    .starter-kicker {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #bd5a22;
+      background: rgba(189, 90, 34, 0.08);
+      border: 1px solid rgba(189, 90, 34, 0.22);
+      padding: 0.28rem 0.55rem;
+      border-radius: 999px;
+      margin-bottom: 0.5rem;
+    }
+
+    .starter-title {
+      display: block;
+      font-size: 1rem;
+      font-weight: 800;
+      color: #10281f;
+      text-decoration: none;
+      line-height: 1.4;
+      margin-bottom: 0.32rem;
+    }
+
+    .starter-title:hover {
+      color: #bd5a22;
+    }
+
+    .starter-desc {
+      font-size: 0.92rem;
+      line-height: 1.6;
+      color: #555555;
+      margin: 0;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 2rem;
+      align-items: start;
+      margin-top: 2rem;
+    }
+
+    .about-image {
+      background: #1a1a1a;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 16px 40px rgba(16, 40, 31, 0.12);
+      aspect-ratio: 4 / 5;
+    }
+
+    .about-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .about-copy {
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+      padding: 1.6rem 1.5rem;
+    }
+
+    .about-copy p {
+      font-size: 0.98rem;
+      line-height: 1.72;
+      color: #444444;
+      margin: 0 0 1rem;
+    }
+
+    .about-copy p:last-child {
+      margin-bottom: 0;
+    }
+
+    .path-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .path-card {
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 1.35rem 1.2rem;
+      box-shadow: 0 8px 24px rgba(16, 40, 31, 0.04);
+    }
+
+    .path-card h3 {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #10281f;
+      margin: 0 0 0.55rem;
+      line-height: 1.35;
+    }
+
+    .path-card p {
+      font-size: 0.93rem;
+      line-height: 1.62;
+      color: #555555;
+      margin: 0 0 0.95rem;
+    }
+
+    .btn-section,
+    .btn-featured,
+    .btn-signup {
+      padding: 0.8rem 1rem;
+      font-size: 0.9rem;
+    }
+
+    .btn-section {
+      background: #1a1a1a;
+      color: #ffffff;
+    }
+
+    .btn-section:hover {
+      background: #bd5a22;
+      transform: translateY(-1px);
+    }
+
+    .latest-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .episode-card {
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 1.25rem 1.2rem;
+      box-shadow: 0 8px 24px rgba(16, 40, 31, 0.04);
+      display: flex;
+      flex-direction: column;
+      transition: border-color 0.2s ease, transform 0.15s ease;
+    }
+
+    .episode-card:hover {
+      border-color: #bd5a22;
+      transform: translateY(-2px);
+    }
+
+    .episode-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 0.75rem;
+      margin-bottom: 0.8rem;
+      align-items: center;
+    }
+
+    .episode-date {
+      font-size: 0.8rem;
+      color: #5a6b65;
+      font-weight: 600;
+    }
+
+    .episode-tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #bd5a22;
+      background: rgba(189, 90, 34, 0.08);
+      border: 1px solid rgba(189, 90, 34, 0.22);
+      padding: 0.28rem 0.52rem;
+      border-radius: 999px;
+    }
+
+    .episode-card h3 {
+      font-size: 1.04rem;
+      line-height: 1.4;
+      font-weight: 800;
+      color: #10281f;
+      margin: 0 0 0.55rem;
+    }
+
+    .episode-card p {
+      font-size: 0.93rem;
+      line-height: 1.62;
+      color: #555555;
+      margin: 0 0 1rem;
+      flex-grow: 1;
+    }
+
+    .btn-featured {
+      background: #fff4ec;
+      color: #8f4319;
+      border: 1px solid #f3cdb3;
+    }
+
+    .btn-featured:hover {
+      background: #ffe6d3;
+      transform: translateY(-1px);
+    }
+
+    .signup-wrap {
+      margin-top: 2rem;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 1rem;
+      align-items: stretch;
+    }
+
+    .signup-card,
+    .next-step-card {
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 16px 40px rgba(16, 40, 31, 0.1);
+    }
+
+    .signup-card {
+      background:
+        radial-gradient(circle at 85% 20%, rgba(189, 90, 34, 0.35) 0%, transparent 55%),
+        linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 60%, #201612 100%);
+      position: relative;
+    }
+
+    .signup-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.08;
+      background-image:
+        radial-gradient(circle at 25% 25%, rgba(255,255,255,0.14) 0.7px, transparent 0.8px),
+        radial-gradient(circle at 75% 75%, rgba(189, 90, 34, 0.18) 0.7px, transparent 0.8px);
+      background-size: 120px 120px, 160px 160px;
+      mix-blend-mode: screen;
+    }
+
+    .signup-inner {
+      position: relative;
+      z-index: 2;
+      padding: 1.7rem 1.5rem;
+    }
+
+    .signup-card h3 {
+      font-size: 1.35rem;
+      line-height: 1.2;
+      font-weight: 900;
+      color: #ffffff;
+      margin: 0 0 0.75rem;
+    }
+
+    .signup-card p {
+      font-size: 0.97rem;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.8);
+      margin: 0 0 1.2rem;
+      max-width: 620px;
+    }
+
+    .signup-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+
+    .btn-signup {
+      background: #bd5a22;
+      color: #ffffff;
+    }
+
+    .btn-signup:hover {
+      background: #a44d1c;
+      transform: translateY(-1px);
+    }
+
+    .next-step-card {
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      padding: 1.5rem 1.35rem;
+    }
+
+    .next-step-card h3 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #10281f;
+      margin: 0 0 0.6rem;
+    }
+
+    .next-step-card p {
+      font-size: 0.95rem;
+      line-height: 1.65;
+      color: #555555;
+      margin: 0 0 1rem;
+    }
+
+    .social-proof {
+      background: #f8faf9;
+      border-top: 1px solid #e5e7eb;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 2.5rem 2rem;
+    }
+
+    .social-proof-inner {
+      max-width: 820px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+    }
+
+    .social-proof-icon {
+      flex-shrink: 0;
+      width: 44px;
+      height: 44px;
+      border-radius: 9px;
+      overflow: hidden;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.10);
+    }
+
+    .social-proof-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .social-proof-text {
+      font-size: 0.975rem;
+      line-height: 1.65;
+      color: #5a6b65;
+      margin: 0;
+    }
+
+    .social-proof-text strong {
+      color: #2a2a2a;
+      font-weight: 700;
+    }
+
+    .faq-wrap {
+      margin-top: 2rem;
+      padding: 1.75rem 2rem;
+      background: #f8faf9;
+      border-left: 3px solid #bd5a22;
+      border-radius: 0 10px 10px 0;
+    }
+
+    .faq-wrap > strong {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #bd5a22;
+      margin-bottom: 1rem;
+    }
+
+    .faq-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid #e2eae6;
+    }
+
+    .faq-item:last-child {
+      border-bottom: none;
+    }
+
+    .faq-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      background: none;
+      border: none;
+      padding: 1.1rem 0;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #10281f;
+      text-align: left;
+      line-height: 1.4;
+    }
+
+    .faq-btn:hover {
+      color: #bd5a22;
+    }
+
+    .faq-icon {
+      flex-shrink: 0;
+      font-size: 1.25rem;
+      font-weight: 300;
+      color: #bd5a22;
+      line-height: 1;
+      transition: transform 0.2s ease;
+    }
+
+    .faq-item.is-open .faq-icon {
+      transform: rotate(45deg);
+    }
+
+    .faq-answer {
+      padding: 0 1rem 1.1rem 0;
+      font-size: 0.9rem;
+      line-height: 1.65;
+      color: #3a4a44;
+    }
+
+    .bottom-cta {
+      background:
+        radial-gradient(circle at 80% 20%, rgba(189, 90, 34, 0.45) 0%, transparent 55%),
+        radial-gradient(circle at 20% 80%, rgba(189, 90, 34, 0.18) 0%, transparent 50%),
+        linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 60%, #201612 100%);
+      padding: 4.5rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .bottom-cta::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.09;
+      background-image:
+        radial-gradient(circle at 25% 25%, rgba(255,255,255,0.14) 0.7px, transparent 0.8px),
+        radial-gradient(circle at 75% 75%, rgba(189, 90, 34, 0.18) 0.7px, transparent 0.8px);
+      background-size: 120px 120px, 160px 160px;
+      mix-blend-mode: screen;
+    }
+
+    .bottom-cta-inner {
+      max-width: 680px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .bottom-cta-headline {
+      font-size: clamp(1.6rem, 3.5vw, 2.15rem);
+      font-weight: 900;
+      color: #ffffff;
+      line-height: 1.18;
+      letter-spacing: -0.02em;
+      margin: 0 0 1rem;
+    }
+
+    .bottom-cta-body {
+      font-size: 1rem;
+      line-height: 1.75;
+      color: rgba(255, 255, 255, 0.78);
+      margin: 0 0 2rem;
+    }
+
+    .site-footer {
+      background: #10281f;
+      padding: 1.5rem 2rem;
+      text-align: center;
+    }
+
+    .footer-brand {
+      display: inline-block;
+      font-size: 1rem;
+      font-weight: 900;
+      color: #ffffff;
+      text-decoration: none;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.25rem;
+    }
+
+    .footer-tagline {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.38);
+      margin-bottom: 0.6rem;
+    }
+
+    .footer-copy {
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.28);
+      margin: 0;
+    }
+
+    @media (max-width: 980px) {
+      .podcast-hero-inner,
+      .about-grid,
+      .signup-wrap {
+        grid-template-columns: 1fr;
+      }
+
+      .triple-strip-inner,
+      .path-grid,
+      .latest-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .start-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .about-image {
+        max-width: 420px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .site-header {
+        padding: 1rem 1.25rem;
+      }
+
+      .podcast-hero,
+      .triple-strip,
+      .section-shell,
+      .social-proof,
+      .bottom-cta,
+      .site-footer {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+      }
+
+      .podcast-hero {
+        padding-top: 1.4rem;
+        padding-bottom: 1.4rem;
+      }
+
+      .hero-title {
+        font-size: clamp(1.85rem, 8vw, 2.35rem);
+        margin-bottom: 0.75rem;
+      }
+
+      .hero-subtitle {
+        font-size: 0.96rem;
+        line-height: 1.56;
+      }
+
+      .triple-strip-inner,
+      .path-grid,
+      .latest-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .faq-wrap {
+        padding: 1.4rem 1.2rem;
+      }
+
+      .social-proof-inner {
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="/">Covo Multipliers</a>
+    <a class="back-link" href="/">← Back to site</a>
+  </header>
+
+  <section class="podcast-hero">
+    <div class="podcast-hero-inner">
+      <div class="hero-copy">
+        <span class="hero-label">H3X Podcast</span>
+        <h1 class="hero-title">
+          The <span class="accent">head, heart, and hands</span> of a biblical multiplier
+        </h1>
+        <p class="hero-subtitle">
+          What are the head, heart, and hands of those in a biblical multiplying church and her leaders?
+          Join practitioners on the path as they equip you to be and find multipliers through interviews,
+          conversations, and training in simple tools.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#start-here" class="btn-hero-primary">Start here</a>
+          <a href="#latest-episodes" class="btn-hero-secondary">Browse episodes</a>
+        </div>
+
+        <p class="hero-microcopy">
+          New content goes up <strong>every Tuesday morning</strong>. Made for the covocational leader.
+        </p>
+      </div>
+
+      <aside class="hero-card">
+        <div class="hero-card-top">
+          <div class="hero-card-label">Featured episode</div>
+          <h2 class="hero-card-title">Drop your latest or strongest episode here</h2>
+          <p class="hero-card-desc">
+            Replace this with the episode that best explains what H3X is and why it matters for covocational leaders.
+          </p>
+        </div>
+
+        <div class="hero-player">
+          <!-- Replace this iframe src with your Spotify, YouTube, or other embed -->
+          <iframe
+            src="about:blank"
+            title="Featured H3X Podcast episode"
+            loading="lazy"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          ></iframe>
+        </div>
+
+        <div class="hero-platforms">
+          <a href="#" class="btn-platform">Spotify</a>
+          <a href="#" class="btn-platform">Apple Podcasts</a>
+          <a href="#" class="btn-platform">YouTube</a>
+          <a href="#" class="btn-platform">RSS</a>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="triple-strip" aria-label="What H3X stands for">
+    <div class="triple-strip-inner">
+      <div class="triple-item">
+        <span class="triple-letter">H — Head</span>
+        <p class="triple-word">How a multiplier thinks</p>
+        <p class="triple-desc">The convictions, frameworks, and mindset behind people who actually multiply disciples and leaders.</p>
+      </div>
+      <div class="triple-item">
+        <span class="triple-letter">H — Heart</span>
+        <p class="triple-word">Who a multiplier is</p>
+        <p class="triple-desc">The internal posture, surrender, and character that carry a leader past burnout and beyond themselves.</p>
+      </div>
+      <div class="triple-item">
+        <span class="triple-letter">X — Hands</span>
+        <p class="triple-word">What a multiplier does</p>
+        <p class="triple-desc">The simple tools, rhythms, and field-tested practices that turn conviction into movement.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-shell alt" id="start-here">
+    <div class="section-inner">
+      <span class="section-eyebrow">New here?</span>
+      <h2 class="section-title">Start here so the podcast makes sense fast</h2>
+      <p class="section-intro">
+        If you’re new, don’t start with a random episode. H3X is for covocational leaders wrestling with real questions:
+        how to multiply disciples while working a job, how to develop leaders who can lead beyond you, and how to build
+        a life that catalyzes movement instead of just keeping programs running.
+      </p>
+
+      <div class="start-grid">
+        <div class="start-card">
+          <h3>What this podcast is about</h3>
+          <p>
+            H3X unpacks the head, heart, and hands of biblical multipliers. Not theory. Not hype. Practitioners on the
+            path, sharing what they’re learning in the middle of real work.
+          </p>
+          <p>
+            Expect conversations on covocational leadership, disciple making, multiplication mindset, simple tools,
+            movement principles, and the heart shifts that actually sustain long-term fruit.
+          </p>
+        </div>
+
+        <div class="start-card">
+          <h3>Three good places to start</h3>
+          <ul class="starter-list">
+            <li>
+              <span class="starter-kicker">Start here</span>
+              <a href="#" class="starter-title">What H3X means and why this podcast exists</a>
+              <p class="starter-desc">Orient new listeners to the head, heart, and hands framework.</p>
+            </li>
+            <li>
+              <span class="starter-kicker">If your job feels like a barrier</span>
+              <a href="#" class="starter-title">Covocational multiplication: when your job becomes the field</a>
+              <p class="starter-desc">For leaders who feel torn between their work and their calling.</p>
+            </li>
+            <li>
+              <span class="starter-kicker">If you want a framework</span>
+              <a href="#" class="starter-title">Simple tools that help ordinary people multiply disciples</a>
+              <p class="starter-desc">A practical grid you can start using this week.</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-shell">
+    <div class="section-inner">
+      <span class="section-eyebrow">About the show</span>
+      <h2 class="section-title">Practitioners on the path, not experts on a stage</h2>
+
+      <div class="about-grid">
+        <div class="about-image">
+          <!-- Replace with your real image -->
+          <img src="image/two-young-men-sharing-their-faith-in-Jesus.jpg" alt="H3X Podcast" loading="lazy" />
+        </div>
+
+        <div class="about-copy">
+          <p>
+            H3X exists because multiplication doesn’t come from sidelines content. It comes from people doing the work,
+            failing, learning, and pressing on.
+          </p>
+          <p>
+            Every episode is an interview, a conversation, or a training session aimed at one thing: equipping you to
+            be and find multipliers. We unpack the mindset, the internal shifts, and the practical tools that move
+            leaders from addition to multiplication.
+          </p>
+          <p>
+            If you’re a covocational leader, a disciple maker, or a church planter who wants something you can actually
+            use on Monday morning, this is built for you.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-shell alt">
+    <div class="section-inner">
+      <span class="section-eyebrow">Listen by pathway</span>
+      <h2 class="section-title">Pick the lane that fits where you are</h2>
+      <p class="section-intro">
+        Grouped by what covocational leaders are actually trying to solve.
+      </p>
+
+      <div class="path-grid">
+        <div class="path-card">
+          <h3>I want to multiply disciples where I already work</h3>
+          <p>Episodes on covocational identity, workplace mission, and turning your job into the field instead of the barrier.</p>
+          <a href="#" class="btn-section">See these episodes</a>
+        </div>
+
+        <div class="path-card">
+          <h3>I need to develop leaders who can lead beyond me</h3>
+          <p>Episodes on leadership multiplication, the invitation dynamic, and creating environments where leaders actually grow.</p>
+          <a href="#" class="btn-section">Explore this path</a>
+        </div>
+
+        <div class="path-card">
+          <h3>I want simple tools, not more inspiration</h3>
+          <p>Episodes on disciple-making tools, habits and rhythms, and the field-tested practices behind multiplying churches.</p>
+          <a href="#" class="btn-section">Start here</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-shell" id="latest-episodes">
+    <div class="section-inner">
+      <span class="section-eyebrow">Latest episodes</span>
+      <h2 class="section-title">Recent conversations from H3X</h2>
+      <p class="section-intro">
+        New content drops every Tuesday morning. Placeholder cards for now — swap in your real episodes or wire this to your feed.
+      </p>
+
+      <div class="latest-grid">
+        <article class="episode-card">
+          <div class="episode-meta">
+            <span class="episode-date">April 2026</span>
+            <span class="episode-tag">Head</span>
+          </div>
+          <h3>Episode title goes here</h3>
+          <p>
+            One or two sentences on what this episode covers and why it matters for covocational leaders.
+          </p>
+          <a href="#" class="btn-featured">Listen now</a>
+        </article>
+
+        <article class="episode-card">
+          <div class="episode-meta">
+            <span class="episode-date">April 2026</span>
+            <span class="episode-tag">Heart</span>
+          </div>
+          <h3>Episode title goes here</h3>
+          <p>
+            Tight summary. Say why the episode matters. Don’t waste space.
+          </p>
+          <a href="#" class="btn-featured">Listen now</a>
+        </article>
+
+        <article class="episode-card">
+          <div class="episode-meta">
+            <span class="episode-date">April 2026</span>
+            <span class="episode-tag">Hands</span>
+          </div>
+          <h3>Episode title goes here</h3>
+          <p>
+            Use this for a featured episode, latest drop, or pull from the feed automatically later.
+          </p>
+          <a href="#" class="btn-featured">Listen now</a>
+        </article>
+
+        <article class="episode-card">
+          <div class="episode-meta">
+            <span class="episode-date">March 2026</span>
+            <span class="episode-tag">Covocational</span>
+          </div>
+          <h3>Episode title goes here</h3>
+          <p>
+            Keep summaries concrete so people know what they’re getting before they click.
+          </p>
+          <a href="#" class="btn-featured">Listen now</a>
+        </article>
+
+        <article class="episode-card">
+          <div class="episode-meta">
+            <span class="episode-date">March 2026</span>
+            <span class="episode-tag">Multiplication</span>
+          </div>
+          <h3>Episode title goes here</h3>
+          <p>
+            This section can stay manual or wire to RSS later, depending on how dynamic you want the page.
+          </p>
+          <a href="#" class="btn-featured">Listen now</a>
+        </article>
+
+        <article class="episode-card">
+          <div class="episode-meta">
+            <span class="episode-date">March 2026</span>
+            <span class="episode-tag">Leadership</span>
+          </div>
+          <h3>Episode title goes here</h3>
+          <p>
+            One more recent episode so the page feels alive and worth coming back to each week.
+          </p>
+          <a href="#" class="btn-featured">Listen now</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-shell alt">
+    <div class="section-inner">
+      <span class="section-eyebrow">Don’t lose the traffic</span>
+      <h2 class="section-title">Turn listeners into people who stick around</h2>
+
+      <div class="signup-wrap">
+        <div class="signup-card">
+          <div class="signup-inner">
+            <h3>Get new episodes, field notes, and simple tools for covocational multipliers</h3>
+            <p>
+              Every Tuesday, new content goes up. Get it in your inbox along with training, labs, and practical tools
+              built to help you be and find multipliers.
+            </p>
+            <div class="signup-actions">
+              <a href="#" class="btn-signup">Join the email list</a>
+              <a href="/labs.html" class="btn-hero-secondary">See upcoming labs</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="next-step-card">
+          <h3>Want more than a podcast?</h3>
+          <p>
+            Point ready people toward the next step. Labs. Tools. The vision page. The covocational pathway. Whatever
+            actually helps them move.
+          </p>
+          <a href="/vision-and-pathway.html" class="btn-section">Explore the pathway</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="social-proof">
+    <div class="social-proof-inner">
+      <div class="social-proof-icon">
+        <img src="image/Substack.png" alt="Substack" width="34" height="34" />
+      </div>
+      <p class="social-proof-text">
+        H3X is part of a bigger ecosystem. These conversations connect with labs, tools, and practical disciple-making
+        help for people who want to <strong>live on mission where they already live, work, and play</strong>.
+      </p>
+    </div>
+  </div>
+
+  <section class="section-shell">
+    <div class="section-inner">
+      <span class="section-eyebrow">Common questions</span>
+      <h2 class="section-title">A few things new listeners will wonder</h2>
+
+      <div class="faq-wrap">
+        <strong>FAQ</strong>
+        <ul class="faq-list">
+          <li class="faq-item">
+            <button class="faq-btn" aria-expanded="false">
+              <span>What does H3X mean?</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-answer" hidden>
+              H3X stands for Head, Heart, and Hands — the three dimensions of a biblical multiplier. How a leader thinks,
+              who they are, and what they actually do. Every episode unpacks one or more of those three.
+            </div>
+          </li>
+
+          <li class="faq-item">
+            <button class="faq-btn" aria-expanded="false">
+              <span>Who is this podcast for?</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-answer" hidden>
+              Covocational leaders, disciple makers, church planters, and ordinary believers who want to multiply
+              disciples where they already live, work, and play.
+            </div>
+          </li>
+
+          <li class="faq-item">
+            <button class="faq-btn" aria-expanded="false">
+              <span>How often do new episodes release?</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-answer" hidden>
+              New content goes up every Tuesday morning.
+            </div>
+          </li>
+
+          <li class="faq-item">
+            <button class="faq-btn" aria-expanded="false">
+              <span>Where should I start?</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-answer" hidden>
+              Start with the three episodes in the “Start here” section above. They’ll give you the framework,
+              the covocational angle, and a set of simple tools in under two hours of listening.
+            </div>
+          </li>
+
+          <li class="faq-item">
+            <button class="faq-btn" aria-expanded="false">
+              <span>Is this just for church leaders?</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-answer" hidden>
+              No. H3X is built for covocational leaders and ordinary believers. The whole point is helping regular
+              people multiply disciples in their actual lives, not just professionalized ministry.
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="bottom-cta">
+    <div class="bottom-cta-inner">
+      <h2 class="bottom-cta-headline">Don’t just listen and move on</h2>
+      <p class="bottom-cta-body">
+        Start with one strong episode. Then take the next step. If this content hits, don’t let it sit in podcast land.
+      </p>
+      <a href="#start-here" class="btn-signup">Start with the best episodes</a>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <a class="footer-brand" href="/">Covo Multipliers</a>
+    <p class="footer-tagline">Making Disciples in Everyday Life</p>
+    <p class="footer-copy">© 2026 Covo Multipliers</p>
+  </footer>
+
+  <script>
+    document.querySelectorAll('.faq-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var item = btn.closest('.faq-item');
+        var answer = item.querySelector('.faq-answer');
+        var isOpen = item.classList.contains('is-open');
+
+        document.querySelectorAll('.faq-item.is-open').forEach(function(open) {
+          open.classList.remove('is-open');
+          open.querySelector('.faq-btn').setAttribute('aria-expanded', 'false');
+          open.querySelector('.faq-answer').hidden = true;
+        });
+
+        if (!isOpen) {
+          item.classList.add('is-open');
+          btn.setAttribute('aria-expanded', 'true');
+          answer.hidden = false;
+        }
+      });
+    });
+  </script>
+</body>
+</html>
