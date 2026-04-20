@@ -235,6 +235,7 @@
       display: flex;
       flex-wrap: wrap;
       gap: 0.7rem;
+      align-items: center;
     }
 
     .btn-platform {
@@ -248,6 +249,35 @@
     .btn-platform:hover {
       background: rgba(189, 90, 34, 0.18);
       border-color: rgba(189, 90, 34, 0.5);
+    }
+
+    /* Image-based platform buttons (Apple, Spotify, YouTube) */
+    .btn-platform-img {
+      display: inline-block;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      border-radius: 8px;
+      line-height: 0;
+      transition: transform 0.2s ease, filter 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn-platform-img img {
+      display: block;
+      height: 40px;
+      width: auto;
+      border-radius: 8px;
+    }
+
+    .btn-platform-img:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.08);
+      box-shadow: 0 6px 18px rgba(189, 90, 34, 0.35);
+    }
+
+    .btn-platform-img:focus-visible {
+      outline: 2px solid #bd5a22;
+      outline-offset: 3px;
     }
 
     /* H3X triple pillar strip */
@@ -972,7 +1002,7 @@
       <div class="hero-copy">
         <span class="hero-label">H3X Podcast</span>
         <h1 class="hero-title">
-          The <span class="accent">head, heart, and hands</span> of the multiplying Church and her leaders.
+          The <span class="accent">head, heart, and hands</span> of a biblical multiplier
         </h1>
         <p class="hero-subtitle">
           Interviews, conversations, and simple tools for covocational leaders who want to make disciples and develop multipliers.
@@ -1009,10 +1039,16 @@
         </div>
 
         <div class="hero-platforms">
-          <a href="https://open.spotify.com/show/2NNDtnQaRLeqRU2N3LVayR" class="btn-platform" target="_blank" rel="noopener">Spotify</a>
-          <a href="https://podcasts.apple.com/nz/podcast/h3x/id1562206185" class="btn-platform" target="_blank" rel="noopener">Apple Podcasts</a>
-          <a href="#" class="btn-platform">YouTube</a>
-          <a href="#" class="btn-platform">RSS</a>
+          <a href="https://open.spotify.com/show/2NNDtnQaRLeqRU2N3LVayR" class="btn-platform-img" target="_blank" rel="noopener" aria-label="Listen on Spotify">
+            <img src="image/spotify button.webp" alt="Listen on Spotify" loading="lazy" />
+          </a>
+          <a href="https://podcasts.apple.com/us/podcast/h3x/id1562206185" class="btn-platform-img" target="_blank" rel="noopener" aria-label="Listen on Apple Podcasts">
+            <img src="image/Apple Podcast button.webp" alt="Listen on Apple Podcasts" loading="lazy" />
+          </a>
+          <a href="https://www.youtube.com/playlist?list=PL1YoQQDZVDO68yuhJzvcu11DQxF3H_y4O" class="btn-platform-img" target="_blank" rel="noopener" aria-label="Watch on YouTube">
+            <img src="image/youtube button (1).webp" alt="Watch on YouTube" loading="lazy" />
+          </a>
+          <a href="https://www.spreaker.com/show/4865263/episodes/feed" class="btn-platform" target="_blank" rel="noopener">RSS</a>
         </div>
       </aside>
     </div>
@@ -1445,7 +1481,7 @@
                 showStatus(
                   'Couldn’t load the latest episodes right now. ' +
                   '<a href="https://open.spotify.com/show/2NNDtnQaRLeqRU2N3LVayR" target="_blank" rel="noopener">Listen on Spotify</a> ' +
-                  'or <a href="https://podcasts.apple.com/nz/podcast/h3x/id1562206185" target="_blank" rel="noopener">Apple Podcasts</a>.'
+                  'or <a href="https://podcasts.apple.com/us/podcast/h3x/id1562206185" target="_blank" rel="noopener">Apple Podcasts</a>.'
                 );
               });
           });
