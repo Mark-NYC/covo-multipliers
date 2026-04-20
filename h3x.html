@@ -563,6 +563,29 @@
       margin: 0 0 0.55rem;
     }
 
+    /* Status / fallback message shown while loading or if feed fails */
+    .episodes-status {
+      grid-column: 1 / -1;
+      margin: 0;
+      padding: 1.5rem;
+      text-align: center;
+      font-size: 0.95rem;
+      color: #5a6b65;
+      background: #ffffff;
+      border: 1px dashed #e5e7eb;
+      border-radius: 14px;
+    }
+
+    .episodes-status a {
+      color: #bd5a22;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .episodes-status a:hover {
+      text-decoration: underline;
+    }
+
     .episode-card p {
       font-size: 0.93rem;
       line-height: 1.62;
@@ -1122,78 +1145,9 @@
         New episode every Tuesday morning. Swap in real episodes or wire to your feed.
       </p>
 
-      <div class="latest-grid">
-        <article class="episode-card">
-          <div class="episode-meta">
-            <span class="episode-date">April 2026</span>
-            <span class="episode-tag">Vision</span>
-          </div>
-          <h3>The Rise of Covo Multipliers: Why Priscilla &amp; Aquila Hold the Blueprint</h3>
-          <p>
-            Why Priscilla and Aquila are the clearest biblical model for covocational disciple making today.
-          </p>
-          <a href="https://open.spotify.com/episode/3qikuPGUN1iw9v57T38jCw" class="btn-featured" target="_blank" rel="noopener">Listen now</a>
-        </article>
-
-        <article class="episode-card">
-          <div class="episode-meta">
-            <span class="episode-date">March 2026</span>
-            <span class="episode-tag">Tools</span>
-          </div>
-          <h3>How to Actually Have Spiritual Conversations</h3>
-          <p>
-            Practical guidance to move from small talk to real gospel conversations.
-          </p>
-          <a href="https://open.spotify.com/episode/6apjtnX4URNrbCy8B0l6Mk" class="btn-featured" target="_blank" rel="noopener">Listen now</a>
-        </article>
-
-        <article class="episode-card">
-          <div class="episode-meta">
-            <span class="episode-date">March 2026</span>
-            <span class="episode-tag">Habits</span>
-          </div>
-          <h3>You Don’t Have a Vision Problem. You Have a Habit Problem.</h3>
-          <p>
-            How daily rhythms, not abstract ideas, drive real multiplication.
-          </p>
-          <a href="https://open.spotify.com/episode/6J4sgxTS7LXX6Wpn02w2er" class="btn-featured" target="_blank" rel="noopener">Listen now</a>
-        </article>
-
-        <article class="episode-card">
-          <div class="episode-meta">
-            <span class="episode-date">March 2026</span>
-            <span class="episode-tag">Covocational</span>
-          </div>
-          <h3>Margin Is Your Superpower</h3>
-          <p>
-            How covocational leaders create space for Kingdom work while staying balanced.
-          </p>
-          <a href="https://open.spotify.com/episode/1XLYxDbz5Zb2PV3WEeP3Nq" class="btn-featured" target="_blank" rel="noopener">Listen now</a>
-        </article>
-
-        <article class="episode-card">
-          <div class="episode-meta">
-            <span class="episode-date">March 2026</span>
-            <span class="episode-tag">Multiplication</span>
-          </div>
-          <h3>Episode title goes here</h3>
-          <p>
-            One-line summary.
-          </p>
-          <a href="#" class="btn-featured">Listen now</a>
-        </article>
-
-        <article class="episode-card">
-          <div class="episode-meta">
-            <span class="episode-date">March 2026</span>
-            <span class="episode-tag">Leadership</span>
-          </div>
-          <h3>Episode title goes here</h3>
-          <p>
-            One-line summary.
-          </p>
-          <a href="#" class="btn-featured">Listen now</a>
-        </article>
+      <div class="latest-grid" id="latest-episodes-grid" aria-live="polite">
+        <!-- Loading skeleton - replaced by JS once the feed loads -->
+        <p class="episodes-status" id="episodes-status">Loading latest episodes…</p>
       </div>
     </div>
   </section>
@@ -1338,6 +1292,172 @@
         }
       });
     });
+  </script>
+
+  <!--
+    Latest Episodes feed loader
+    - Pulls the H3X RSS feed and renders the 6 most recent episodes
+    - Tries direct fetch first. Anchor/Spotify RSS typically blocks CORS on
+      the browser, so if that fails we fall back to rss2json.com (free,
+      widely used, no API key required for basic use).
+    - Keeps all existing episode-card CSS classes intact.
+  -->
+  <script>
+    (function () {
+      var FEED_URL = 'https://anchor.fm/s/111b03cec/podcast/rss';
+      var MAX_EPISODES = 6;
+      var SUMMARY_MAX_CHARS = 140;
+
+      var grid = document.getElementById('latest-episodes-grid');
+      var statusEl = document.getElementById('episodes-status');
+      if (!grid) return;
+
+      // ---------- helpers ----------
+
+      // Strip HTML tags from RSS description and collapse whitespace
+      function stripHtml(html) {
+        if (!html) return '';
+        var tmp = document.createElement('div');
+        tmp.innerHTML = html;
+        var text = tmp.textContent || tmp.innerText || '';
+        return text.replace(/\s+/g, ' ').trim();
+      }
+
+      // Truncate cleanly at a word boundary and add an ellipsis
+      function truncate(text, max) {
+        if (!text || text.length <= max) return text;
+        var slice = text.slice(0, max);
+        var lastSpace = slice.lastIndexOf(' ');
+        if (lastSpace > max * 0.6) slice = slice.slice(0, lastSpace);
+        return slice.replace(/[.,;:!?-]+$/, '') + '…';
+      }
+
+      // Format ISO or RFC date string as "March 2026"
+      function formatMonthYear(dateStr) {
+        var d = new Date(dateStr);
+        if (isNaN(d.getTime())) return '';
+        return d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+      }
+
+      // Basic HTML escaping so odd titles/descriptions can't break markup
+      function escapeHtml(str) {
+        if (!str) return '';
+        return str
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      // Render an array of normalized episode objects into the grid
+      function renderEpisodes(episodes) {
+        if (!episodes || episodes.length === 0) {
+          showStatus(
+            'No episodes found right now. ' +
+            '<a href="https://open.spotify.com/show/2NNDtnQaRLeqRU2N3LVayR" target="_blank" rel="noopener">Listen on Spotify</a>.'
+          );
+          return;
+        }
+
+        var html = episodes.slice(0, MAX_EPISODES).map(function (ep) {
+          var date = formatMonthYear(ep.pubDate);
+          var summary = truncate(stripHtml(ep.description), SUMMARY_MAX_CHARS);
+
+          return (
+            '<article class="episode-card">' +
+              '<div class="episode-meta">' +
+                (date ? '<span class="episode-date">' + escapeHtml(date) + '</span>' : '') +
+                '<span class="episode-tag">H3X</span>' +
+              '</div>' +
+              '<h3>' + escapeHtml(ep.title || 'Untitled episode') + '</h3>' +
+              '<p>' + escapeHtml(summary) + '</p>' +
+              '<a href="' + escapeHtml(ep.link || '#') + '" class="btn-featured" target="_blank" rel="noopener">Listen now</a>' +
+            '</article>'
+          );
+        }).join('');
+
+        grid.innerHTML = html;
+      }
+
+      // Swap the grid contents for a status/fallback message
+      function showStatus(messageHtml) {
+        grid.innerHTML = '<p class="episodes-status">' + messageHtml + '</p>';
+      }
+
+      // ---------- fetch strategies ----------
+
+      // Strategy 1: direct fetch + parse XML ourselves.
+      // Most podcast RSS hosts (Anchor/Spotify) don't send CORS headers,
+      // so this will typically throw and we'll fall through to strategy 2.
+      function fetchDirect() {
+        return fetch(FEED_URL)
+          .then(function (res) {
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            return res.text();
+          })
+          .then(function (xmlText) {
+            var doc = new DOMParser().parseFromString(xmlText, 'application/xml');
+            var items = Array.prototype.slice.call(doc.querySelectorAll('item'));
+            return items.map(function (item) {
+              return {
+                title: (item.querySelector('title') || {}).textContent || '',
+                link: (item.querySelector('link') || {}).textContent || '',
+                pubDate: (item.querySelector('pubDate') || {}).textContent || '',
+                description: (item.querySelector('description') || {}).textContent || ''
+              };
+            });
+          });
+      }
+
+      // Strategy 2: rss2json.com proxy. Returns JSON, CORS-friendly.
+      // No API key needed for low volume usage.
+      function fetchViaRss2Json() {
+        var url = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(FEED_URL);
+        return fetch(url)
+          .then(function (res) {
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            return res.json();
+          })
+          .then(function (data) {
+            if (data.status !== 'ok' || !data.items) {
+              throw new Error('rss2json returned no items');
+            }
+            return data.items.map(function (item) {
+              return {
+                title: item.title,
+                link: item.link,
+                pubDate: item.pubDate,
+                description: item.description || item.content || ''
+              };
+            });
+          });
+      }
+
+      // Try direct first, fall back to rss2json on any failure
+      function loadFeed() {
+        fetchDirect()
+          .then(renderEpisodes)
+          .catch(function () {
+            fetchViaRss2Json()
+              .then(renderEpisodes)
+              .catch(function () {
+                showStatus(
+                  'Couldn’t load the latest episodes right now. ' +
+                  '<a href="https://open.spotify.com/show/2NNDtnQaRLeqRU2N3LVayR" target="_blank" rel="noopener">Listen on Spotify</a> ' +
+                  'or <a href="https://podcasts.apple.com/nz/podcast/h3x/id1562206185" target="_blank" rel="noopener">Apple Podcasts</a>.'
+                );
+              });
+          });
+      }
+
+      // Run after DOM is ready
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', loadFeed);
+      } else {
+        loadFeed();
+      }
+    })();
   </script>
 </body>
 </html>
