@@ -1,1827 +1,1028 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Get a personalized 6-week disciple-making plan built for your real life, your actual people, and your current rhythm." />
-  <title>6-Week Disciple-Making Plan — Covo Multipliers</title>
-  <link rel="canonical" href="https://covomultipliers.com/six-week-plan.html" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --forest-900: #10281f;
-      --forest-800: #1b4d3e;
-      --forest-700: #2c6b5d;
-      --forest-600: #3d8870;
-      --forest-100: #f0f7f4;
-      --forest-050: #f8faf9;
-      --gold: #dcb55a;
-      --gold-light: #f5e4b0;
-      --gold-100: #fffbf0;
-      --ink: #1a1a1a;
-      --muted: #5a6b65;
-      --border: #dbe7e2;
-      --white: #ffffff;
-      --shadow: 0 8px 28px rgba(16,40,31,0.08);
-      --shadow-lg: 0 16px 48px rgba(16,40,31,0.13);
-      --radius: 20px;
-      --radius-sm: 14px;
-    }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="description" content="An interactive disciple-making pathway tool. See where each relationship stands, what's blocking progress, and what to do next."/>
+<title>Disciple-Making Pathway — Covo Multipliers</title>
+<link rel="canonical" href="https://covomultipliers.com/pathway.html"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --g900:#0f2318; --g800:#1a3d2b; --g700:#265c40; --g600:#337a56;
+  --g200:#c8dfd1; --g100:#e8f4ed; --g050:#f4faf6;
+  --amber:#d4973a; --amber-l:#fdf3e0; --amber-b:#f0c870;
+  --ink:#1c1c1c; --muted:#5c6e66; --border:#d5e4db;
+  --white:#fff; --shadow:0 4px 24px rgba(15,35,24,.09);
+  --shadow-lg:0 12px 48px rgba(15,35,24,.13);
+  --r:16px; --r-lg:24px;
+  --stage-casual:#6b9bb8; --stage-meaningful:#7b6fb5;
+  --stage-spiritual:#c97b3a; --stage-discovery:#3a9c6b;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Outfit',sans-serif;
+  color:var(--ink);background:var(--g050);
+  min-height:100vh;line-height:1.5;
+}
 
-    *, *::before, *::after { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+/* ── HEADER ── */
+.site-header{
+  background:var(--g900);
+  padding:.85rem 1.5rem;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.brand{
+  font-family:'Lora',serif;font-weight:700;
+  color:#fff;text-decoration:none;font-size:1rem;
+}
+.header-actions{display:flex;gap:.6rem;align-items:center}
+.hdr-btn{
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);
+  color:#fff;border-radius:999px;padding:.4rem .85rem;
+  font:inherit;font-size:.82rem;font-weight:600;cursor:pointer;
+  transition:background .15s;
+}
+.hdr-btn:hover{background:rgba(255,255,255,.18)}
+.hdr-btn.primary{background:var(--amber);color:var(--g900);border-color:var(--amber)}
+.hdr-btn.primary:hover{background:var(--amber-b)}
 
-    body {
-      margin: 0;
-      font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
-      color: var(--ink);
-      background: var(--white);
-      line-height: 1.5;
-    }
+/* ── HERO ── */
+.hero{
+  background:linear-gradient(150deg,var(--g900) 0%,var(--g800) 60%,var(--g700) 100%);
+  color:#fff;padding:3.5rem 1.5rem 2.5rem;text-align:center;
+  position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(212,151,58,.12) 0%,transparent 70%);
+  pointer-events:none;
+}
+.hero-inner{position:relative;max-width:680px;margin:0 auto}
+.pill-tag{
+  display:inline-block;border:1px solid rgba(212,151,58,.45);
+  color:var(--amber-b);font-size:.72rem;font-weight:700;
+  letter-spacing:.12em;text-transform:uppercase;
+  padding:.3rem .8rem;border-radius:999px;margin-bottom:1rem;
+}
+.hero h1{
+  font-family:'Lora',serif;font-size:clamp(1.9rem,4.5vw,3rem);
+  line-height:1.15;font-weight:700;letter-spacing:-.02em;margin-bottom:.75rem;
+}
+.hero h1 em{font-style:italic;color:var(--amber-b)}
+.hero p{color:rgba(255,255,255,.75);font-size:1rem;line-height:1.65;max-width:520px;margin:0 auto 1.5rem}
+.hero-cta{
+  display:inline-flex;align-items:center;gap:.5rem;
+  background:var(--amber);color:var(--g900);
+  font-family:inherit;font-size:.95rem;font-weight:700;
+  border:none;border-radius:999px;padding:.85rem 1.6rem;
+  cursor:pointer;transition:transform .15s,box-shadow .15s;
+  box-shadow:0 4px 20px rgba(212,151,58,.35);
+}
+.hero-cta:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(212,151,58,.45)}
+.hero-features{
+  display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;margin-top:1.75rem;
+}
+.hero-feat{
+  background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.12);
+  color:rgba(255,255,255,.8);border-radius:999px;
+  padding:.35rem .85rem;font-size:.8rem;font-weight:500;
+}
 
-    /* ─── HEADER ─── */
-    .site-header {
-      background: var(--white);
-      border-bottom: 1px solid #e6ece8;
-      padding: 1rem 1.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 30;
-    }
-    .site-header .brand {
-      text-decoration: none;
-      font-family: 'Playfair Display', Georgia, serif;
-      font-weight: 900;
-      color: var(--forest-900);
-      font-size: 1.05rem;
-      letter-spacing: -0.01em;
-    }
-    .site-header .back-link {
-      text-decoration: none;
-      color: var(--muted);
-      font-size: .9rem;
-      font-weight: 500;
-    }
+/* ── APP LAYOUT ── */
+.app-wrap{max-width:1080px;margin:0 auto;padding:2rem 1.25rem 5rem}
 
-    /* ─── HERO ─── */
-    .hero {
-      background: linear-gradient(135deg, var(--forest-900) 0%, var(--forest-800) 55%, var(--forest-700) 100%);
-      color: var(--white);
-      padding: 5rem 1.5rem 3.5rem;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-    .hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
-      pointer-events: none;
-    }
-    .hero-inner { position: relative; }
-    .eyebrow {
-      display: inline-block;
-      text-transform: uppercase;
-      letter-spacing: .14em;
-      font-size: .72rem;
-      font-weight: 700;
-      color: var(--gold);
-      margin-bottom: 1rem;
-      border: 1px solid rgba(220,181,90,.35);
-      padding: .3rem .75rem;
-      border-radius: 999px;
-    }
-    .hero h1 {
-      font-family: 'Playfair Display', Georgia, serif;
-      margin: 0 auto 1.1rem;
-      max-width: 820px;
-      font-size: clamp(2.1rem, 4.5vw, 3.4rem);
-      line-height: 1.1;
-      letter-spacing: -.02em;
-      font-weight: 900;
-    }
-    .hero p {
-      margin: 0 auto;
-      max-width: 640px;
-      color: rgba(255,255,255,.8);
-      font-size: 1.05rem;
-      line-height: 1.68;
-    }
+/* ── SECTION HEADERS ── */
+.zone-header{margin-bottom:1.1rem}
+.zone-num{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:26px;height:26px;border-radius:999px;background:var(--g700);
+  color:#fff;font-size:.75rem;font-weight:800;margin-right:.5rem;vertical-align:middle;
+}
+.zone-title{
+  font-family:'Lora',serif;font-size:1.25rem;font-weight:700;
+  color:var(--g900);vertical-align:middle;
+}
+.zone-sub{color:var(--muted);font-size:.88rem;margin-top:.25rem;line-height:1.5}
 
-    /* ─── INTRO BAR ─── */
-    .intro-bar {
-      background: var(--forest-050);
-      border-bottom: 1px solid #e4ece7;
-      padding: 1.4rem 1.25rem;
-    }
-    .intro-inner {
-      max-width: 980px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0,1fr));
-      gap: .9rem;
-    }
-    .intro-card {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 1rem 1.05rem;
-      box-shadow: 0 2px 10px rgba(16,40,31,.04);
-    }
-    .intro-card strong {
-      display: block;
-      color: var(--forest-900);
-      font-size: .93rem;
-      margin-bottom: .25rem;
-      font-weight: 700;
-    }
-    .intro-card span {
-      color: var(--muted);
-      font-size: .85rem;
-      line-height: 1.45;
-      display: block;
-    }
+/* ── CARDS ── */
+.card{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:var(--r-lg);box-shadow:var(--shadow);
+  overflow:hidden;
+}
+.card-pad{padding:1.4rem}
 
-    /* ─── APP SHELL ─── */
-    .app-shell {
-      max-width: 1120px;
-      margin: 0 auto;
-      padding: 2rem 1.25rem 4rem;
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 320px;
-      gap: 1.5rem;
-      align-items: start;
-    }
+/* ── ZONE 1: FIELD ── */
+.field-zone{margin-bottom:1.75rem}
+.lane-grid{
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.7rem;
+}
+.lane-btn{
+  border:2px solid var(--border);background:var(--white);
+  border-radius:14px;padding:1rem .85rem;text-align:left;
+  cursor:pointer;transition:all .17s ease;
+}
+.lane-btn:hover{border-color:var(--g700);transform:translateY(-1px)}
+.lane-btn.active{
+  border-color:var(--g700);background:var(--g050);
+  box-shadow:0 0 0 3px rgba(38,92,64,.1);
+}
+.lane-icon{font-size:1.5rem;display:block;margin-bottom:.45rem}
+.lane-name{display:block;font-weight:700;font-size:.95rem;color:var(--g900);margin-bottom:.18rem}
+.lane-eg{display:block;font-size:.78rem;color:var(--muted);line-height:1.4}
 
-    /* ─── WIZARD CARD ─── */
-    .wizard-card {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow-lg);
-      overflow: hidden;
-    }
+.subtype-row{
+  display:flex;flex-wrap:wrap;gap:.5rem;
+  padding:1rem 1.4rem;border-top:1px solid var(--border);
+  background:var(--g050);animation:fadeIn .2s ease;
+}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.sub-chip{
+  border:1.5px solid var(--border);background:var(--white);
+  color:var(--g900);border-radius:999px;
+  padding:.42rem .85rem;font:inherit;font-size:.82rem;font-weight:600;
+  cursor:pointer;transition:all .14s;
+}
+.sub-chip:hover{border-color:var(--g700)}
+.sub-chip.active{background:var(--g700);color:#fff;border-color:var(--g700)}
 
-    .wizard-top {
-      padding: 1.25rem 1.4rem 1rem;
-      border-bottom: 1px solid #edf2ef;
-      background: linear-gradient(180deg, #fff 0%, #fbfcfb 100%);
-    }
-    .progress-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      margin-bottom: .85rem;
-    }
-    .progress-label {
-      color: var(--muted);
-      font-size: .83rem;
-      font-weight: 700;
-      white-space: nowrap;
-    }
-    .progress-track {
-      height: 7px;
-      width: 100%;
-      background: #e6eeea;
-      border-radius: 999px;
-      overflow: hidden;
-    }
-    .progress-fill {
-      height: 100%;
-      width: 14.285%;
-      background: linear-gradient(90deg, var(--gold) 0%, #e8c879 100%);
-      border-radius: 999px;
-      transition: width .3s cubic-bezier(.4,0,.2,1);
-    }
-    .step-dots {
-      display: flex;
-      gap: .45rem;
-      flex-wrap: wrap;
-    }
-    .step-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 999px;
-      background: #d6e3dd;
-      transition: all .2s ease;
-    }
-    .step-dot.active { background: var(--forest-800); transform: scale(1.15); }
-    .step-dot.done { background: var(--gold); }
+/* ── ZONE 2: PEOPLE ── */
+.people-zone{margin-bottom:1.75rem}
+.people-header-row{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:1.1rem;flex-wrap:wrap;gap:.5rem;
+}
+.add-person-btn{
+  display:flex;align-items:center;gap:.4rem;
+  background:var(--g700);color:#fff;
+  border:none;border-radius:999px;padding:.55rem 1.1rem;
+  font:inherit;font-size:.85rem;font-weight:700;cursor:pointer;
+  transition:background .15s,transform .15s;
+}
+.add-person-btn:hover{background:var(--g800);transform:translateY(-1px)}
 
-    /* ─── WIZARD BODY ─── */
-    .wizard-body { padding: 1.5rem 1.4rem 1.1rem; }
-    .step-panel { display: none; }
-    .step-panel.active { display: block; animation: fadeSlide .25s ease; }
+.person-cards{display:grid;gap:1rem}
 
-    @keyframes fadeSlide {
-      from { opacity: 0; transform: translateY(8px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
+/* ── PERSON CARD ── */
+.person-card{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:var(--r-lg);box-shadow:var(--shadow);
+  overflow:hidden;transition:box-shadow .2s;
+}
+.person-card:hover{box-shadow:var(--shadow-lg)}
+.person-card-top{
+  padding:1.1rem 1.25rem .9rem;
+  display:flex;align-items:center;gap:.85rem;
+  border-bottom:1px solid var(--border);
+}
+.person-avatar{
+  width:42px;height:42px;border-radius:999px;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:1rem;color:#fff;flex-shrink:0;
+}
+.person-name-input{
+  background:transparent;border:none;outline:none;
+  font:inherit;font-size:1.05rem;font-weight:700;color:var(--g900);
+  width:100%;
+}
+.person-name-input::placeholder{color:#adb8b3;font-weight:500}
+.person-delete{
+  background:none;border:none;cursor:pointer;
+  color:#b0bdb8;font-size:1.1rem;padding:.25rem;
+  border-radius:8px;transition:color .15s,background .15s;flex-shrink:0;
+}
+.person-delete:hover{color:#c0392b;background:#fef2f2}
 
-    .step-eyebrow {
-      display: block;
-      text-transform: uppercase;
-      letter-spacing: .12em;
-      font-size: .72rem;
-      color: var(--forest-700);
-      font-weight: 700;
-      margin-bottom: .5rem;
-    }
-    .step-title {
-      font-family: 'Playfair Display', Georgia, serif;
-      margin: 0 0 .5rem;
-      font-size: clamp(1.5rem, 3vw, 2.1rem);
-      line-height: 1.15;
-      letter-spacing: -.02em;
-      color: var(--forest-900);
-      font-weight: 900;
-    }
-    .step-copy {
-      margin: 0 0 1.25rem;
-      color: var(--muted);
-      font-size: .97rem;
-      max-width: 720px;
-      line-height: 1.62;
-    }
+/* STAGE TRACK */
+.stage-section{padding:1.1rem 1.25rem}
+.stage-label-row{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:.65rem;
+}
+.stage-label-txt{font-size:.78rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}
+.stage-current-badge{
+  font-size:.78rem;font-weight:700;padding:.25rem .65rem;
+  border-radius:999px;color:#fff;
+}
 
-    /* ─── CHOICE GRID ─── */
-    .choice-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0,1fr));
-      gap: .9rem;
-    }
-    .choice-btn {
-      border: 2px solid var(--border);
-      background: var(--white);
-      border-radius: 18px;
-      padding: 1.1rem 1.05rem;
-      text-align: left;
-      cursor: pointer;
-      transition: all .18s ease;
-      min-height: 128px;
-    }
-    .choice-btn:hover {
-      border-color: var(--forest-700);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 18px rgba(27,77,62,.08);
-    }
-    .choice-btn.active {
-      border-color: var(--forest-800);
-      background: #f4fbf8;
-      box-shadow: 0 0 0 3px rgba(27,77,62,.1);
-    }
-    .choice-icon { font-size: 1.4rem; margin-bottom: .45rem; display: block; }
-    .choice-btn .choice-title {
-      display: block;
-      color: var(--forest-900);
-      font-weight: 800;
-      font-size: 1.02rem;
-      margin-bottom: .18rem;
-    }
-    .choice-btn .choice-sub {
-      display: block;
-      color: #8ea898;
-      font-size: .74rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: .09em;
-      margin-bottom: .5rem;
-    }
-    .choice-btn .choice-copy {
-      color: var(--muted);
-      font-size: .88rem;
-      line-height: 1.5;
-    }
+.stage-track{
+  position:relative;display:flex;align-items:center;
+  margin-bottom:.9rem;
+}
+.track-line{
+  position:absolute;left:0;right:0;height:4px;
+  background:var(--border);border-radius:999px;z-index:0;
+}
+.track-fill{
+  position:absolute;left:0;height:4px;
+  border-radius:999px;z-index:1;transition:width .35s cubic-bezier(.4,0,.2,1);
+}
+.track-stops{
+  position:relative;z-index:2;display:flex;
+  justify-content:space-between;width:100%;
+}
+.track-stop{
+  display:flex;flex-direction:column;align-items:center;gap:.5rem;
+  cursor:pointer;
+}
+.stop-dot{
+  width:22px;height:22px;border-radius:999px;
+  border:3px solid var(--border);background:var(--white);
+  transition:all .2s ease;display:flex;align-items:center;justify-content:center;
+}
+.stop-dot.reached{border-color:currentColor}
+.stop-dot.current{
+  width:26px;height:26px;
+  box-shadow:0 0 0 4px rgba(255,255,255,.9),0 0 0 6px currentColor;
+}
+.stop-dot.current::after{
+  content:'';width:8px;height:8px;border-radius:999px;background:currentColor;
+}
+.stop-label{
+  font-size:.72rem;font-weight:700;color:var(--muted);
+  text-align:center;line-height:1.3;white-space:nowrap;
+}
+.stop-label.active-label{font-weight:800}
 
-    /* ─── PILL OPTIONS ─── */
-    .subtype-grid, .rhythm-grid, .blockage-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0,1fr));
-      gap: .7rem;
-    }
-    .pill-option {
-      border: 2px solid var(--border);
-      background: var(--white);
-      color: var(--forest-900);
-      border-radius: var(--radius-sm);
-      padding: .85rem 1rem;
-      font-size: .93rem;
-      font-weight: 600;
-      cursor: pointer;
-      text-align: left;
-      transition: all .16s ease;
-      font-family: inherit;
-    }
-    .pill-option:hover { border-color: var(--forest-700); background: var(--forest-050); }
-    .pill-option.active {
-      border-color: var(--forest-800);
-      background: #f4fbf8;
-      box-shadow: 0 0 0 3px rgba(27,77,62,.1);
-    }
+/* BARRIER */
+.barrier-section{
+  padding:.9rem 1.25rem 1.1rem;
+  border-top:1px solid var(--border);background:var(--g050);
+  animation:fadeIn .2s ease;
+}
+.barrier-q{font-size:.88rem;font-weight:700;color:var(--g900);margin-bottom:.65rem}
+.barrier-opts{display:flex;flex-direction:column;gap:.45rem}
+.barrier-opt{
+  display:flex;align-items:flex-start;gap:.65rem;
+  border:1.5px solid var(--border);background:var(--white);
+  border-radius:12px;padding:.7rem .9rem;
+  cursor:pointer;text-align:left;font:inherit;
+  font-size:.87rem;color:var(--ink);
+  transition:all .15s;width:100%;
+}
+.barrier-opt:hover{border-color:var(--g700);background:var(--g050)}
+.barrier-opt.active{border-color:var(--g700);background:#f0f9f4;box-shadow:0 0 0 2px rgba(38,92,64,.1)}
+.barrier-check{
+  width:18px;height:18px;border-radius:999px;
+  border:2px solid var(--border);flex-shrink:0;margin-top:1px;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .15s;
+}
+.barrier-opt.active .barrier-check{
+  background:var(--g700);border-color:var(--g700);
+}
+.barrier-opt.active .barrier-check::after{
+  content:'';width:6px;height:6px;border-radius:999px;background:#fff;
+}
+.barrier-opt-text{line-height:1.45}
 
-    /* ─── FIELDS ─── */
-    .field-label {
-      display: block;
-      font-size: .91rem;
-      font-weight: 700;
-      color: var(--forest-900);
-      margin: 1.1rem 0 .4rem;
-    }
-    .field-help {
-      margin: -.05rem 0 .55rem;
-      color: var(--muted);
-      font-size: .83rem;
-      line-height: 1.48;
-    }
-    textarea, input[type="text"] {
-      width: 100%;
-      padding: .9rem 1rem;
-      border-radius: 12px;
-      border: 2px solid #ccdbd5;
-      font: inherit;
-      font-size: .95rem;
-      color: var(--ink);
-      background: #fff;
-      outline: none;
-      transition: border-color .15s ease, box-shadow .15s ease;
-    }
-    textarea:focus, input[type="text"]:focus {
-      border-color: var(--forest-800);
-      box-shadow: 0 0 0 3px rgba(27,77,62,.08);
-    }
-    textarea {
-      min-height: 100px;
-      resize: vertical;
-      line-height: 1.55;
-    }
+/* NOTES */
+.notes-section{padding:.75rem 1.25rem 1rem;border-top:1px solid var(--border)}
+.notes-toggle{
+  background:none;border:none;cursor:pointer;font:inherit;
+  font-size:.8rem;font-weight:600;color:var(--muted);
+  display:flex;align-items:center;gap:.35rem;padding:0;
+}
+.notes-toggle:hover{color:var(--g700)}
+.notes-ta{
+  width:100%;margin-top:.6rem;padding:.7rem .85rem;
+  border:1.5px solid var(--border);border-radius:10px;
+  font:inherit;font-size:.87rem;color:var(--ink);
+  resize:vertical;min-height:72px;outline:none;line-height:1.5;
+  transition:border-color .15s;animation:fadeIn .15s;
+}
+.notes-ta:focus{border-color:var(--g700)}
 
-    /* ─── PEOPLE STACK ─── */
-    .people-stack { display: grid; gap: .8rem; }
-    .person-row {
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: .95rem 1rem;
-      background: #fcfdfc;
-    }
-    .person-stage-group {
-      display: flex;
-      flex-wrap: wrap;
-      gap: .45rem;
-      margin-top: .65rem;
-    }
-    .stage-chip {
-      border: 1.8px solid #c7d8d2;
-      background: #fff;
-      color: var(--forest-800);
-      border-radius: 999px;
-      padding: .45rem .8rem;
-      font-size: .82rem;
-      font-weight: 700;
-      cursor: pointer;
-      font-family: inherit;
-      transition: all .15s ease;
-    }
-    .stage-chip.active {
-      background: var(--forest-800);
-      color: #fff;
-      border-color: var(--forest-800);
-    }
+/* ACTIONS OUTPUT */
+.actions-section{
+  padding:1rem 1.25rem 1.1rem;
+  border-top:2px solid var(--amber);background:var(--amber-l);
+  animation:fadeIn .25s ease;
+}
+.actions-header{
+  display:flex;align-items:center;gap:.5rem;margin-bottom:.75rem;
+}
+.actions-icon{font-size:1rem}
+.actions-title{font-size:.82rem;font-weight:800;color:#7a5014;text-transform:uppercase;letter-spacing:.1em}
+.action-items{display:grid;gap:.5rem}
+.action-item{
+  display:flex;align-items:flex-start;gap:.65rem;
+  background:var(--white);border:1px solid rgba(212,151,58,.3);
+  border-radius:10px;padding:.7rem .85rem;
+}
+.action-cb{
+  width:18px;height:18px;border-radius:5px;border:2px solid #d4973a;
+  flex-shrink:0;margin-top:1px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .15s;background:#fff;
+}
+.action-cb.checked{background:var(--g700);border-color:var(--g700)}
+.action-cb.checked::after{content:'✓';color:#fff;font-size:.7rem;font-weight:800}
+.action-text{font-size:.88rem;line-height:1.5;color:var(--ink)}
+.action-text.done{text-decoration:line-through;color:var(--muted)}
+.loading-actions{
+  display:flex;align-items:center;gap:.65rem;
+  color:#7a5014;font-size:.87rem;font-weight:600;padding:.25rem 0;
+}
+.spin{
+  width:16px;height:16px;border:2px solid rgba(212,151,58,.35);
+  border-top-color:#d4973a;border-radius:999px;
+  animation:spin .8s linear infinite;flex-shrink:0;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.action-error{color:#8b2020;font-size:.85rem;padding:.25rem 0}
 
-    /* ─── WIZARD NAV ─── */
-    .wizard-nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: .8rem;
-      border-top: 1px solid #edf2ef;
-      padding: 1rem 1.4rem 1.2rem;
-      background: #fcfdfc;
-    }
-    .nav-left, .nav-right {
-      display: flex;
-      align-items: center;
-      gap: .7rem;
-    }
+/* ── ZONE 3: NEXT MOVES SUMMARY ── */
+.summary-zone{margin-bottom:1.75rem}
+.summary-card{
+  background:var(--g900);color:#fff;
+  border-radius:var(--r-lg);padding:1.5rem 1.4rem;
+  box-shadow:var(--shadow-lg);
+}
+.summary-card h3{
+  font-family:'Lora',serif;font-size:1.15rem;font-weight:700;
+  margin-bottom:.3rem;
+}
+.summary-card .sub{color:rgba(255,255,255,.65);font-size:.87rem;margin-bottom:1.1rem}
+.summary-rows{display:grid;gap:.6rem}
+.summary-row{
+  display:flex;align-items:center;gap:.85rem;
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);
+  border-radius:12px;padding:.75rem 1rem;
+}
+.sum-avatar{
+  width:34px;height:34px;border-radius:999px;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:.85rem;color:#fff;flex-shrink:0;
+}
+.sum-name{font-weight:700;font-size:.9rem;margin-bottom:.1rem}
+.sum-stage{font-size:.75rem;color:rgba(255,255,255,.55);font-weight:600}
+.sum-arrow{margin-left:auto;font-size:.82rem;color:var(--amber-b);font-weight:700}
+.sum-empty{color:rgba(255,255,255,.45);font-size:.88rem;text-align:center;padding:1rem}
 
-    .btn {
-      border: none;
-      border-radius: 999px;
-      font: inherit;
-      font-weight: 700;
-      cursor: pointer;
-      transition: opacity .15s ease, transform .15s ease, box-shadow .15s ease;
-      font-size: .93rem;
-    }
-    .btn:hover:not(:disabled) { transform: translateY(-1px); }
-    .btn:disabled { opacity: .4; cursor: not-allowed; transform: none; }
-    .btn-secondary {
-      background: transparent;
-      border: 2px solid #d4e2dc;
-      color: var(--forest-900);
-      padding: .72rem 1.15rem;
-    }
-    .btn-primary {
-      background: linear-gradient(135deg, var(--forest-800) 0%, var(--forest-900) 100%);
-      color: #fff;
-      padding: .8rem 1.35rem;
-      box-shadow: 0 4px 14px rgba(27,77,62,.2);
-    }
-    .btn-gold {
-      background: var(--gold);
-      color: var(--forest-900);
-      padding: .82rem 1.35rem;
-      box-shadow: 0 4px 14px rgba(220,181,90,.3);
-    }
+/* ── PERSISTENCE TOAST ── */
+.toast{
+  position:fixed;bottom:1.25rem;right:1.25rem;
+  background:var(--g900);color:#fff;
+  padding:.7rem 1.1rem;border-radius:12px;
+  font-size:.85rem;font-weight:600;
+  box-shadow:0 6px 24px rgba(0,0,0,.25);
+  opacity:0;transform:translateY(6px);
+  transition:opacity .2s,transform .2s;
+  pointer-events:none;z-index:999;
+}
+.toast.show{opacity:1;transform:none}
 
-    /* ─── REVIEW CARD ─── */
-    .review-card {
-      background: var(--forest-050);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 1.1rem 1.15rem;
-    }
-    .review-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: .3rem .8rem;
-      margin-bottom: .65rem;
-      font-size: .9rem;
-      color: var(--muted);
-    }
-    .review-row strong { color: var(--forest-900); }
-    .review-person-list { display: flex; flex-wrap: wrap; gap: .45rem; margin-top: .4rem; }
-    .review-person-chip {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      padding: .3rem .75rem;
-      font-size: .82rem;
-      font-weight: 600;
-      color: var(--forest-900);
-    }
+/* ── EMPTY STATE ── */
+.empty-people{
+  text-align:center;padding:2.5rem 1.5rem;
+  border:2px dashed var(--border);border-radius:var(--r-lg);
+}
+.empty-people .em-icon{font-size:2rem;margin-bottom:.75rem;display:block}
+.empty-people p{color:var(--muted);font-size:.93rem;max-width:360px;margin:0 auto .85rem;line-height:1.6}
 
-    /* ─── SIDE CARD ─── */
-    .side-card {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 1.25rem;
-      position: sticky;
-      top: 88px;
-    }
-    .side-card h3 {
-      font-family: 'Playfair Display', Georgia, serif;
-      margin: 0 0 .5rem;
-      font-size: 1.1rem;
-      color: var(--forest-900);
-    }
-    .side-card p {
-      margin: 0 0 1rem;
-      color: var(--muted);
-      font-size: .9rem;
-      line-height: 1.58;
-    }
-    .mini-list { display: grid; gap: .55rem; }
-    .mini-item {
-      background: var(--forest-050);
-      border: 1px solid #e7efeb;
-      border-radius: 12px;
-      padding: .8rem .9rem;
-      color: var(--forest-900);
-      font-size: .87rem;
-      line-height: 1.45;
-    }
-    .mini-item strong { display: block; margin-bottom: .18rem; font-size: .88rem; }
-
-    /* ─── RESULTS WRAPPER ─── */
-    .results-wrap {
-      max-width: 980px;
-      margin: 0 auto 4rem;
-      padding: 0 1.25rem;
-      display: none;
-    }
-    .results-wrap.active { display: block; animation: fadeSlide .3s ease; }
-
-    .results-hero {
-      background: linear-gradient(135deg, var(--forest-900) 0%, var(--forest-800) 55%, var(--forest-700) 100%);
-      color: #fff;
-      padding: 2.8rem 1.5rem;
-      border-radius: 24px 24px 0 0;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-    .results-hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
-    }
-    .results-hero-inner { position: relative; }
-    .results-hero h2 {
-      font-family: 'Playfair Display', Georgia, serif;
-      margin: .2rem 0 .6rem;
-      font-size: clamp(1.8rem, 4vw, 2.6rem);
-      letter-spacing: -.02em;
-      font-weight: 900;
-    }
-    .results-hero p {
-      margin: 0 auto;
-      max-width: 580px;
-      color: rgba(255,255,255,.8);
-      font-size: .97rem;
-    }
-
-    .results-card {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-top: none;
-      border-radius: 0 0 24px 24px;
-      overflow: hidden;
-      box-shadow: var(--shadow-lg);
-    }
-
-    /* ─── LOADING STATE ─── */
-    .loading-state {
-      padding: 3.5rem 1.5rem;
-      text-align: center;
-    }
-    .loading-spinner {
-      width: 48px;
-      height: 48px;
-      border: 4px solid var(--border);
-      border-top-color: var(--forest-800);
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin: 0 auto 1.25rem;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .loading-state p {
-      color: var(--muted);
-      font-size: .97rem;
-      margin: 0;
-    }
-    .loading-state strong {
-      display: block;
-      color: var(--forest-900);
-      font-size: 1.05rem;
-      margin-bottom: .35rem;
-    }
-
-    /* ─── SECTIONS ─── */
-    .section {
-      padding: 2rem 1.4rem;
-      border-top: 1px solid #edf2ef;
-    }
-    .section.alt { background: var(--forest-050); }
-    .section-label {
-      display: block;
-      text-transform: uppercase;
-      letter-spacing: .12em;
-      font-size: .7rem;
-      font-weight: 700;
-      color: var(--forest-700);
-      margin-bottom: .4rem;
-    }
-    .section h3 {
-      font-family: 'Playfair Display', Georgia, serif;
-      margin: 0 0 .45rem;
-      color: var(--forest-900);
-      font-size: 1.5rem;
-      font-weight: 900;
-      letter-spacing: -.02em;
-    }
-    .section > p {
-      margin: 0 0 1.1rem;
-      color: var(--muted);
-      line-height: 1.62;
-      max-width: 680px;
-      font-size: .95rem;
-    }
-
-    /* ─── RESULT CARDS ─── */
-    .result-card {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 1.15rem 1.2rem;
-      box-shadow: 0 2px 10px rgba(16,40,31,.05);
-      color: var(--ink);
-      font-size: .95rem;
-      line-height: 1.62;
-    }
-    .result-card + .result-card { margin-top: .8rem; }
-    .result-card p { margin: 0 0 .6rem; }
-    .result-card p:last-child { margin-bottom: 0; }
-    .result-card strong { color: var(--forest-900); }
-
-    /* ─── FOCUS PEOPLE ─── */
-    .focus-list { display: grid; gap: .75rem; }
-    .focus-item {
-      display: flex;
-      gap: .85rem;
-      align-items: flex-start;
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 1rem 1.1rem;
-      box-shadow: 0 2px 10px rgba(16,40,31,.04);
-    }
-    .focus-num {
-      width: 32px;
-      height: 32px;
-      border-radius: 999px;
-      background: var(--forest-800);
-      color: #fff;
-      font-size: .8rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-    .focus-content strong {
-      display: block;
-      color: var(--forest-900);
-      margin-bottom: .12rem;
-      font-size: .98rem;
-    }
-    .focus-meta {
-      color: #8b9892;
-      font-size: .77rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: .09em;
-      margin-bottom: .35rem;
-    }
-    .focus-content p {
-      margin: 0;
-      color: var(--muted);
-      font-size: .88rem;
-      line-height: 1.52;
-    }
-
-    /* ─── FIRST MOVE ─── */
-    .first-move-card {
-      background: var(--gold-100);
-      border: 2px solid var(--gold);
-      border-radius: 18px;
-      padding: 1.25rem 1.3rem;
-      box-shadow: 0 6px 20px rgba(220,181,90,.15);
-    }
-    .first-move-top {
-      display: flex;
-      flex-wrap: wrap;
-      gap: .5rem 1rem;
-      margin-bottom: .8rem;
-    }
-    .first-move-pill {
-      color: #8d6a1f;
-      font-size: .74rem;
-      font-weight: 700;
-      letter-spacing: .11em;
-      text-transform: uppercase;
-    }
-    .first-move-card p {
-      margin: 0 0 .65rem;
-      color: #3d3520;
-      line-height: 1.6;
-      font-size: .95rem;
-    }
-    .first-move-card .action {
-      font-size: 1.02rem;
-      color: var(--ink);
-      font-weight: 600;
-    }
-    .suggested-line {
-      margin-top: .85rem;
-      background: rgba(255,255,255,.65);
-      border-left: 3px solid var(--gold);
-      border-radius: 0 10px 10px 0;
-      padding: .75rem 1rem;
-      font-style: italic;
-      color: #4a3c1a;
-      font-size: .96rem;
-      line-height: 1.55;
-    }
-
-    /* ─── RHYTHM / WEEKS / CONVO ─── */
-    .rhythm-list, .weeks, .convo-list { display: grid; gap: .75rem; }
-    .rhythm-item, .convo-item, .week-item {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 1rem 1.1rem;
-      box-shadow: 0 2px 10px rgba(16,40,31,.04);
-    }
-    .rhythm-item strong, .week-item strong {
-      display: block;
-      color: var(--forest-900);
-      margin-bottom: .2rem;
-      font-size: .95rem;
-    }
-    .rhythm-item span, .week-item span {
-      color: var(--muted);
-      line-height: 1.52;
-      font-size: .9rem;
-    }
-    .week-item .week-num {
-      font-size: .72rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: .1em;
-      color: var(--forest-700);
-      margin-bottom: .3rem;
-      display: block;
-    }
-    .convo-tag {
-      display: block;
-      text-transform: uppercase;
-      letter-spacing: .12em;
-      font-size: .7rem;
-      font-weight: 700;
-      color: #9f7a2f;
-      margin-bottom: .35rem;
-    }
-    .convo-text {
-      color: var(--ink);
-      font-style: italic;
-      line-height: 1.58;
-      font-size: .96rem;
-    }
-    .convo-note {
-      margin-top: .5rem;
-      color: var(--muted);
-      font-size: .86rem;
-      line-height: 1.5;
-    }
-
-    /* ─── CTA BAR ─── */
-    .cta-bar {
-      margin-top: 0;
-      background: linear-gradient(135deg, var(--forest-900) 0%, var(--forest-800) 55%, var(--forest-700) 100%);
-      color: #fff;
-      border-radius: 0;
-      padding: 1.5rem 1.4rem;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .cta-bar h4 {
-      margin: 0 0 .25rem;
-      font-family: 'Playfair Display', Georgia, serif;
-      font-size: 1.1rem;
-      font-weight: 900;
-    }
-    .cta-bar p {
-      margin: 0;
-      color: rgba(255,255,255,.78);
-      max-width: 580px;
-      font-size: .91rem;
-      line-height: 1.52;
-    }
-    .cta-actions {
-      display: flex;
-      gap: .7rem;
-      flex-wrap: wrap;
-    }
-    .btn-light {
-      background: #fff;
-      color: var(--forest-900);
-      padding: .78rem 1.05rem;
-    }
-    .btn-outline-light {
-      background: transparent;
-      color: #fff;
-      border: 2px solid rgba(255,255,255,.32);
-      padding: .7rem 1rem;
-    }
-
-    /* ─── ERROR STATE ─── */
-    .error-state {
-      background: #fff5f5;
-      border: 1px solid #fcc;
-      border-radius: 14px;
-      padding: 1.25rem 1.3rem;
-      margin: 1rem 0;
-      color: #8b2020;
-    }
-    .error-state strong { display: block; margin-bottom: .3rem; }
-
-    .hidden { display: none !important; }
-
-    /* ─── FOOTER ─── */
-    .site-footer {
-      background: var(--forest-900);
-      color: rgba(255,255,255,.65);
-      padding: 2.5rem 1.5rem;
-    }
-    .footer-inner {
-      max-width: 980px;
-      margin: 0 auto;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1.5rem;
-      justify-content: space-between;
-      align-items: flex-start;
-    }
-    .footer-wordmark {
-      font-family: 'Playfair Display', Georgia, serif;
-      font-weight: 900;
-      color: #fff;
-      font-size: 1.05rem;
-      display: block;
-      margin-bottom: .4rem;
-    }
-    .footer-desc { margin: 0; font-size: .87rem; line-height: 1.55; max-width: 340px; }
-    .footer-nav {
-      display: flex;
-      flex-wrap: wrap;
-      gap: .5rem 1.25rem;
-      align-items: center;
-    }
-    .footer-nav a {
-      color: rgba(255,255,255,.6);
-      text-decoration: none;
-      font-size: .88rem;
-      transition: color .15s ease;
-    }
-    .footer-nav a:hover { color: #fff; }
-
-    /* ─── RESPONSIVE ─── */
-    @media (max-width: 960px) {
-      .intro-inner, .app-shell { grid-template-columns: 1fr; }
-      .side-card { position: static; }
-    }
-    @media (max-width: 680px) {
-      .choice-grid, .subtype-grid, .rhythm-grid, .blockage-grid { grid-template-columns: 1fr; }
-      .hero { padding: 3.5rem 1.1rem 2.6rem; }
-      .wizard-top, .wizard-body, .wizard-nav, .section { padding-left: 1rem; padding-right: 1rem; }
-      .intro-bar, .app-shell, .results-wrap { padding-left: 1rem; padding-right: 1rem; }
-      .cta-bar { border-radius: 0; }
-    }
-  </style>
+/* ── RESPONSIVE ── */
+@media(max-width:720px){
+  .lane-grid{grid-template-columns:repeat(2,1fr)}
+  .app-wrap{padding:1.25rem 1rem 4rem}
+}
+@media(max-width:420px){
+  .lane-grid{grid-template-columns:1fr 1fr}
+  .stop-label{font-size:.65rem}
+}
+</style>
 </head>
 <body>
 
-  <header class="site-header">
-    <a href="/" class="brand">Covo Multipliers</a>
-    <a href="/" class="back-link">← Back</a>
-  </header>
+<header class="site-header">
+  <a href="/" class="brand">Covo Multipliers</a>
+  <div class="header-actions">
+    <button class="hdr-btn" id="exportBtn">Export</button>
+    <button class="hdr-btn primary" id="saveBtn">Save Progress</button>
+  </div>
+</header>
 
-  <section class="hero">
-    <div class="hero-inner">
-      <span class="eyebrow">Free Tool</span>
-      <h1>Build a 6-Week Disciple-Making Plan That Actually Fits Your Life</h1>
-      <p>Built for normal believers with full schedules. Pick your lane. Map real people. Name where you're stuck. Walk away with a workable rhythm and a next move you can use this week.</p>
+<section class="hero">
+  <div class="hero-inner">
+    <span class="pill-tag">Interactive Pathway Tool</span>
+    <h1>See where each relationship stands.<br><em>Move it forward.</em></h1>
+    <p>Map the real people in your world. Find out what's blocking each conversation from going deeper. Get specific next steps — not a homework sheet.</p>
+    <button class="hero-cta" id="heroStart">Start Your Pathway ↓</button>
+    <div class="hero-features">
+      <span class="hero-feat">Saves automatically</span>
+      <span class="hero-feat">AI-powered next steps</span>
+      <span class="hero-feat">Works with Conversation Box</span>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section class="intro-bar">
-    <div class="intro-inner">
-      <div class="intro-card">
-        <strong>Find your lane</strong>
-        <span>Passion, People, Place, or Profession. No vague "environment" language.</span>
+<div class="app-wrap" id="appWrap">
+
+  <!-- ZONE 1 -->
+  <div class="field-zone">
+    <div class="zone-header">
+      <span class="zone-num">1</span>
+      <span class="zone-title">Where do you already show up every week?</span>
+      <p class="zone-sub">Pick the one that's most obvious right now. This shapes everything below.</p>
+    </div>
+    <div class="card">
+      <div class="card-pad">
+        <div class="lane-grid" id="laneGrid"></div>
       </div>
-      <div class="intro-card">
-        <strong>Map real people</strong>
-        <span>Add 3–5 names and mark where each relationship actually stands.</span>
+      <div class="subtype-row hidden" id="subtypeRow"></div>
+    </div>
+  </div>
+
+  <!-- ZONE 2 -->
+  <div class="people-zone">
+    <div class="people-header-row">
+      <div class="zone-header" style="margin-bottom:0">
+        <span class="zone-num">2</span>
+        <span class="zone-title">Your people</span>
+        <p class="zone-sub">Add 3–5 real names. Mark where each relationship stands. Find out what's blocking it.</p>
       </div>
-      <div class="intro-card">
-        <strong>Build a real rhythm</strong>
-        <span>Not fantasy life. A rhythm inside the week you already have.</span>
-      </div>
-      <div class="intro-card">
-        <strong>Get a practical plan</strong>
-        <span>One bottleneck. One first move. One 6-week runway.</span>
+      <button class="add-person-btn" id="addPersonBtn">
+        <span>＋</span> Add Person
+      </button>
+    </div>
+    <div id="personCards"></div>
+  </div>
+
+  <!-- ZONE 3 -->
+  <div class="summary-zone">
+    <div class="zone-header">
+      <span class="zone-num">3</span>
+      <span class="zone-title">Your highest-leverage moves</span>
+      <p class="zone-sub">People with a barrier selected and next steps generated show up here.</p>
+    </div>
+    <div class="summary-card">
+      <h3>Who to focus on this week</h3>
+      <p class="sub">Based on where each person is and what's blocking them.</p>
+      <div class="summary-rows" id="summaryRows">
+        <div class="sum-empty">Add people above to see your action summary here.</div>
       </div>
     </div>
-  </section>
+  </div>
 
-  <main id="wizardApp">
-    <div class="app-shell" id="wizardShell">
-      <section class="wizard-card">
-        <div class="wizard-top">
-          <div class="progress-row">
-            <div class="progress-label" id="progressLabel">Step 1 of 7</div>
-            <div class="progress-track" aria-hidden="true">
-              <div class="progress-fill" id="progressFill"></div>
-            </div>
-          </div>
-          <div class="step-dots" id="stepDots"></div>
-        </div>
+</div>
 
-        <div class="wizard-body">
-
-          <!-- Step 1: Lane -->
-          <div class="step-panel active" data-step="0">
-            <span class="step-eyebrow">Step 1</span>
-            <h2 class="step-title">Where is your clearest mission field right now?</h2>
-            <p class="step-copy">Pick the lane that feels most alive and obvious. The tool gets narrower from here.</p>
-            <div class="choice-grid" id="laneChoices"></div>
-          </div>
-
-          <!-- Step 2: Subtype + context note -->
-          <div class="step-panel" data-step="1">
-            <span class="step-eyebrow">Step 2</span>
-            <h2 class="step-title" id="subtypeTitle">What kind of lane is this for you?</h2>
-            <p class="step-copy" id="subtypeCopy">This is where the nuance starts. Pick the option that most closely matches your real situation.</p>
-            <div class="subtype-grid" id="subtypeChoices"></div>
-            <label class="field-label" for="contextNote">What makes this lane hard right now?</label>
-            <p class="field-help">Example: "I work remote and don't naturally see people." Or "I play pickleball but never know how to go deeper."</p>
-            <textarea id="contextNote" placeholder="Name the actual challenge. This is where the tool gets more useful."></textarea>
-          </div>
-
-          <!-- Step 3: Names -->
-          <div class="step-panel" data-step="2">
-            <span class="step-eyebrow">Step 3</span>
-            <h2 class="step-title">Who are the real people already in front of you?</h2>
-            <p class="step-copy">Add 3–5 names inside this lane or close to it. First names are enough.</p>
-            <div class="people-stack" id="peopleStack"></div>
-          </div>
-
-          <!-- Step 4: Stages -->
-          <div class="step-panel" data-step="3">
-            <span class="step-eyebrow">Step 4</span>
-            <h2 class="step-title">Where is each relationship right now?</h2>
-            <p class="step-copy">This follows Conversation Box language. Don't overthink it — just mark the clearest current stage.</p>
-            <div class="people-stack" id="stageStack"></div>
-          </div>
-
-          <!-- Step 5: Blockage -->
-          <div class="step-panel" data-step="4">
-            <span class="step-eyebrow">Step 5</span>
-            <h2 class="step-title">Where do you usually get stuck?</h2>
-            <p class="step-copy">This surfaces the actual bottleneck, not just how confident you feel.</p>
-            <div class="blockage-grid" id="blockageChoices"></div>
-          </div>
-
-          <!-- Step 6: Rhythms -->
-          <div class="step-panel" data-step="5">
-            <span class="step-eyebrow">Step 6</span>
-            <h2 class="step-title">What moments already exist in your week inside this lane?</h2>
-            <p class="step-copy">Pick the moments already in your real week. That's where a workable rhythm starts.</p>
-            <div class="rhythm-grid" id="rhythmChoices"></div>
-          </div>
-
-          <!-- Step 7: Review -->
-          <div class="step-panel" data-step="6">
-            <span class="step-eyebrow">Step 7</span>
-            <h2 class="step-title">Review and build your plan</h2>
-            <p class="step-copy">Check that everything looks right, then hit Build. Your personalized plan will be generated from your inputs.</p>
-            <div class="review-card" id="reviewCard"></div>
-          </div>
-
-        </div>
-
-        <div class="wizard-nav">
-          <div class="nav-left">
-            <button class="btn btn-secondary" id="backBtn" type="button">Back</button>
-          </div>
-          <div class="nav-right">
-            <button class="btn btn-primary" id="nextBtn" type="button">Next →</button>
-            <button class="btn btn-gold hidden" id="buildBtn" type="button">Build My Plan →</button>
-          </div>
-        </div>
-      </section>
-
-      <aside class="side-card">
-        <h3>What this tool does</h3>
-        <p>Not just tell you "start at work." It helps you see what disciple-making looks like in your actual lane, with your actual people, and where you're actually stuck.</p>
-        <div class="mini-list">
-          <div class="mini-item"><strong>4P framework</strong>Passion, People, Place, Profession are the backbone, not hidden logic.</div>
-          <div class="mini-item"><strong>Conversation stages</strong>Casual, Meaningful, Spiritual, Discovery shape what the next move should be.</div>
-          <div class="mini-item"><strong>Real rhythms</strong>Build around moments already in your week — not fake margin.</div>
-          <div class="mini-item"><strong>AI-generated</strong>Your plan is built from your actual inputs by the backend — not a static template.</div>
-        </div>
-      </aside>
-    </div>
-
-    <!-- ─── RESULTS ─── -->
-    <section class="results-wrap" id="resultsWrap">
-      <div class="results-hero">
-        <div class="results-hero-inner">
-          <span class="eyebrow">Your Plan</span>
-          <h2>Your 6-Week Disciple-Making Plan</h2>
-          <p id="resultsSubhead">Built for your actual lane, your actual people, and the week you already have.</p>
-        </div>
-      </div>
-
-      <div class="results-card" id="resultsCard">
-        <!-- Populated by JS -->
-      </div>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="footer-inner">
-      <div class="footer-brand">
-        <span class="footer-wordmark">Covo Multipliers</span>
-        <p class="footer-desc">A tribe of covocational leaders learning to make disciples where they live, work, and play.</p>
-      </div>
-      <nav class="footer-nav" aria-label="Footer navigation">
-        <a href="/">Home</a>
-        <a href="/vision.html">Vision &amp; Pathway</a>
-        <a href="/blog/">Blog</a>
-        <a href="/resources.html">Resources</a>
-        <a href="https://obey.tools">Obey.Tools</a>
-      </nav>
-    </div>
-  </footer>
+<div class="toast" id="toast">Saved ✓</div>
 
 <script>
-(function () {
-  'use strict';
+(function(){
+'use strict';
 
-  // ─── DATA ───────────────────────────────────────────────────────────────────
+// ── CONSTANTS ─────────────────────────────────────────────────────────────
 
-  const STEPS = 7;
+const STORAGE_KEY = 'covo_pathway_v2';
+const AVATAR_COLORS = ['#265c40','#1a3d2b','#337a56','#6b4c9a','#b85c38','#2b7a9b','#8b6914'];
 
-  const laneOptions = [
-    { id: 'passion',    icon: '🔥', title: 'Passion',    sub: 'hobby / interest / fun',          copy: 'Things you genuinely enjoy where people already gather. Gym. Pickleball. Gaming. Music. Rec league.' },
-    { id: 'people',     icon: '👥', title: 'People',     sub: 'relationships already warm enough to build on', copy: 'Not a category — a starting point. People you already have real access to and some trust with. The relationship exists; now it needs intention.' },
-    { id: 'place',      icon: '📍', title: 'Place',      sub: 'spaces you return to',             copy: 'Places you consistently inhabit. Apartment building. Park. Coffee shop. Dog walk route. School pickup.' },
-    { id: 'profession', icon: '💼', title: 'Profession', sub: 'work / role / vocation',           copy: 'Your job, your role, your client work, your shift, your team, your business.' }
-  ];
+const STAGES = [
+  { id:'casual',     label:'Casual',     color:'#6b9bb8', desc:'Surface-level — you see each other but it stays light' },
+  { id:'meaningful', label:'Meaningful', color:'#7b6fb5', desc:'Real conversations, trust building, some life-sharing' },
+  { id:'spiritual',  label:'Spiritual',  color:'#c97b3a', desc:'Faith has come up, there\'s openness to deeper things' },
+  { id:'discovery',  label:'Discovery',  color:'#3a9c6b', desc:'Actively exploring who Jesus is' }
+];
 
-  const subtypesByLane = {
-    passion:    [
-      { id: 'gym_fitness',        label: 'Gym / fitness' },
-      { id: 'sports_league',      label: 'Sports league' },
-      { id: 'gaming',             label: 'Gaming' },
-      { id: 'music_art',          label: 'Music / art' },
-      { id: 'parenting_activities', label: 'Kid activities' },
-      { id: 'outdoors',           label: 'Outdoors' },
-      { id: 'hobby_group',        label: 'Club / hobby group' },
-      { id: 'coffee_social',      label: 'Coffee / hangout spot' }
-    ],
-    people:     [
-      { id: 'coworkers_existing', label: 'Coworkers I already know' },
-      { id: 'neighbors_existing', label: 'Neighbors' },
-      { id: 'old_friends',        label: 'Old friends' },
-      { id: 'family',             label: 'Family / extended family' },
-      { id: 'parents_kids',       label: 'Parents at sports or school' },
-      { id: 'classmates_existing',label: 'Classmates' },
-      { id: 'meaningful_contacts',label: 'People already opening up' },
-      { id: 'other_people',       label: 'Other' }
-    ],
-    place:      [
-      { id: 'apartment_building', label: 'Apartment building' },
-      { id: 'suburban_neighborhood', label: 'Neighborhood' },
-      { id: 'coffee_shop',        label: 'Coffee shop' },
-      { id: 'park_walk',          label: 'Park / dog walk route' },
-      { id: 'school_pickup',      label: 'School pickup / activities' },
-      { id: 'coworking_space',    label: 'Co-working space' },
-      { id: 'recurring_hangout',  label: 'Recurring hangout spot' },
-      { id: 'other_place',        label: 'Other' }
-    ],
-    profession: [
-      { id: 'remote_hybrid',      label: 'Remote / hybrid' },
-      { id: 'office_team',        label: 'Office / team-based' },
-      { id: 'sales_client',       label: 'Sales / client-facing' },
-      { id: 'service_industry',   label: 'Service industry' },
-      { id: 'shift_frontline',    label: 'Shift / medical / frontline' },
-      { id: 'self_employed',      label: 'Self-employed / founder' },
-      { id: 'trades_manual',      label: 'Trades / manual labor' },
-      { id: 'campus_job',         label: 'Campus / student work' }
+const LANES = [
+  { id:'work_school', icon:'💼', name:'Work or School', eg:'Your team, clients, campus, coworkers',
+    subtypes:['Remote / hybrid','Office / team-based','Sales / client-facing','Service industry','Shift / frontline / medical','Self-employed / founder','Trades / manual labor','Campus / student work']},
+  { id:'neighborhood', icon:'🏘️', name:'Neighborhood', eg:'Your block, building, park, regular spots',
+    subtypes:['Apartment building','Suburban neighborhood','Coffee shop regular','Park / dog walk route','School pickup crowd','Co-working space','Recurring hangout spot']},
+  { id:'hobby', icon:'🏃', name:'A Hobby or Activity', eg:'Gym, league, club, anywhere you go for fun',
+    subtypes:['Gym / fitness','Sports league','Gaming community','Music / art','Kid activities / sports','Outdoors / hiking','Club or hobby group','Coffee / social hangout']},
+  { id:'existing_people', icon:'👥', name:'People You Already Know', eg:'Friends, family, neighbors, coworkers you\'re close to',
+    subtypes:['Old friends','Family / extended family','Neighbors I already know','Coworkers I already know','Parents at sports or school','People already opening up to me']}
+];
+
+const BARRIERS = {
+  casual: {
+    question: 'What makes it hard to go deeper with {name}?',
+    options: [
+      { id:'no_solo_time',  text:'We only see each other in groups — never one-on-one' },
+      { id:'stays_surface', text:'Conversations always bounce off the surface' },
+      { id:'no_transition', text:'I don\'t know how to shift to something real' },
+      { id:'unsure_open',   text:'I\'m not sure they\'d actually be open' }
     ]
+  },
+  meaningful: {
+    question: 'What\'s blocking the spiritual conversation with {name}?',
+    options: [
+      { id:'fear_weird',     text:'I don\'t want to make it weird or push them away' },
+      { id:'waiting_moment', text:'I\'m waiting for a natural opening that never comes' },
+      { id:'dont_know_what', text:'I don\'t know how to bring it up without sounding religious' },
+      { id:'seems_closed',   text:'They seem resistant or closed off to faith' }
+    ]
+  },
+  spiritual: {
+    question: 'What\'s holding back discovery with {name}?',
+    options: [
+      { id:'interested_stuck',  text:'They\'re interested but nothing\'s clicking or moving' },
+      { id:'no_invitation',     text:'I don\'t know how to invite them into something' },
+      { id:'bad_church_hist',   text:'They\'ve had bad church or religious experiences' },
+      { id:'need_more_time',    text:'We need more time together before the next step' }
+    ]
+  },
+  discovery: {
+    question: 'What\'s the main growth edge for {name} right now?',
+    options: [
+      { id:'inconsistent',    text:'Our rhythm together is inconsistent' },
+      { id:'needs_community', text:'They need to be connected to others' },
+      { id:'needs_obedience', text:'There\'s a next step they\'re holding back on' },
+      { id:'needs_to_share',  text:'They haven\'t shared their story with anyone yet' }
+    ]
+  }
+};
+
+// ── STATE ─────────────────────────────────────────────────────────────────
+
+let state = {
+  lane: null,
+  subtype: null,
+  people: []
+};
+
+let personIdCounter = 0;
+
+function newPerson(){
+  return {
+    id: 'p_' + (++personIdCounter),
+    name: '',
+    stage: 'casual',
+    barrier: null,
+    notes: '',
+    checkedActions: [],
+    generatedActions: null,
+    notesOpen: false
   };
-
-  const blockageOptions = [
-    { id: 'finding_field',           label: 'Finding the field' },
-    { id: 'consistency',             label: 'Staying consistent in the field' },
-    { id: 'casual_to_meaningful',    label: 'Moving casual → meaningful' },
-    { id: 'meaningful_to_spiritual', label: 'Moving meaningful → spiritual' },
-    { id: 'spiritual_to_discovery',  label: 'Moving spiritual → discovery' },
-    { id: 'gathering',               label: 'Inviting people to gather' },
-    { id: 'guiding_leaders',         label: 'Helping someone begin to lead' }
-  ];
-
-  const stageOptions = [
-    { id: 'casual',     label: 'Casual' },
-    { id: 'meaningful', label: 'Meaningful' },
-    { id: 'spiritual',  label: 'Spiritual' },
-    { id: 'discovery',  label: 'Discovery' }
-  ];
-
-  const rhythmBySubtype = {
-    remote_hybrid:       ['Before work','Lunch break','Zoom follow-up','Slack follow-up','Coworking day','Commute day','After work'],
-    office_team:         ['Before work','Lunch break','After team meeting','Walk to parking lot','Coffee break','After work'],
-    sales_client:        ['Before calls','After client call','Drive time','Lunch break','Follow-up text','After work'],
-    service_industry:    ['Before shift','Break','After shift','Closing cleanup','Regular customers','Coworker handoff'],
-    shift_frontline:     ['Before shift','Break room','Between rounds','After shift','Parking lot','Team handoff'],
-    self_employed:       ['Before work block','Client follow-up','Coworking time','Lunch break','After work','Coffee meeting'],
-    trades_manual:       ['Truck ride','Break','Job site cleanup','After work','Supply run','Lunch'],
-    campus_job:          ['Before class','After class','Study break','Coffee','Campus event','Walk between classes'],
-    gym_fitness:         ['Before workout','After workout','Class warm-up','Locker room','Protein bar stop','Text follow-up'],
-    sports_league:       ['Before game','After game','Warm-up','Travel to/from','Group chat','Post-game meal'],
-    gaming:              ['Before game starts','After game','Discord chat','Weekend session','Follow-up message'],
-    music_art:           ['Before rehearsal','After rehearsal','Setup/teardown','Coffee after','Group message'],
-    parenting_activities:['Before practice','After practice','School pickup','Weekend game','Text thread'],
-    outdoors:            ['Trailhead','Drive there','Coffee after','Weekend trip planning','Gear shop stop'],
-    hobby_group:         ['Before meetup','After meetup','Group chat','Travel there','Recurring hangout'],
-    coffee_social:       ['Morning coffee','After work stop','Usual table','Text after','Same-day follow-up'],
-    coworkers_existing:  ['Lunch break','Before meeting','After meeting','Commute','Coffee break'],
-    neighbors_existing:  ['Mailbox','Taking out trash','Walking outside','Evening outside','Text check-in'],
-    old_friends:         ['Voice note','Lunch','After work','Weekend check-in','Coffee meetup'],
-    family:              ['Family dinner','Phone call','Weekend visit','Text thread','Kids activity'],
-    parents_kids:        ['Before practice','After practice','School event','Weekend game','Text thread'],
-    classmates_existing: ['Before class','After class','Study break','Walk between classes','Coffee'],
-    meaningful_contacts: ["This week's follow-up",'Lunch','Voice note','Coffee','After-event conversation'],
-    other_people:        ['Lunch','Coffee','Text follow-up','After work','Weekend check-in'],
-    apartment_building:  ['Hallway','Mailbox','Laundry room','Lobby','Parking lot','Text follow-up'],
-    suburban_neighborhood:['Walking outside','Driveway','Kids playing','Trash day','Evening outside'],
-    coffee_shop:         ['Morning coffee','Afternoon stop','Same barista','Stay 10 extra minutes','Text after'],
-    park_walk:           ['Walking dog','Bench stop','Weekend walk','Same loop','Text after run-in'],
-    school_pickup:       ['Before pickup','After pickup','Waiting outside','Weekend game','Parent text thread'],
-    coworking_space:     ['Coffee area','Lunch break','After working block','Common table','Text follow-up'],
-    recurring_hangout:   ['Before hangout','After hangout','Same table','Text after','Weekend rhythm'],
-    other_place:         ['Before you leave','After you arrive','Same day follow-up','Stay 10 extra minutes']
-  };
-
-  // ─── STATE ──────────────────────────────────────────────────────────────────
-
-  let state = {
-    currentStep: 0,
-    selectedLane: null,
-    selectedSubtype: null,
-    contextNote: '',
-    people: ['', '', '', '', ''],
-    stages: {},
-    selectedBlockage: null,
-    selectedRhythms: []
-  };
-
-  // ─── DOM REFS ───────────────────────────────────────────────────────────────
-
-  const wizardShell  = document.getElementById('wizardShell');
-  const resultsWrap  = document.getElementById('resultsWrap');
-  const resultsCard  = document.getElementById('resultsCard');
-  const progressFill = document.getElementById('progressFill');
-  const progressLabel= document.getElementById('progressLabel');
-  const stepDotsEl   = document.getElementById('stepDots');
-  const backBtn      = document.getElementById('backBtn');
-  const nextBtn      = document.getElementById('nextBtn');
-  const buildBtn     = document.getElementById('buildBtn');
-  const stepPanels   = document.querySelectorAll('.step-panel');
-
-  // ─── INIT ────────────────────────────────────────────────────────────────────
-
-  function init() {
-    buildStepDots();
-    renderLanes();
-    renderPeopleStack();
-    updateNav();
-  }
-
-  // ─── STEP DOTS ───────────────────────────────────────────────────────────────
-
-  function buildStepDots() {
-    stepDotsEl.innerHTML = '';
-    for (let i = 0; i < STEPS; i++) {
-      const d = document.createElement('div');
-      d.className = 'step-dot';
-      stepDotsEl.appendChild(d);
-    }
-    updateDots();
-  }
-
-  function updateDots() {
-    const dots = stepDotsEl.querySelectorAll('.step-dot');
-    dots.forEach((d, i) => {
-      d.className = 'step-dot';
-      if (i < state.currentStep) d.classList.add('done');
-      else if (i === state.currentStep) d.classList.add('active');
-    });
-  }
-
-  function updateProgress() {
-    const pct = ((state.currentStep + 1) / STEPS) * 100;
-    progressFill.style.width = pct + '%';
-    progressLabel.textContent = `Step ${state.currentStep + 1} of ${STEPS}`;
-    updateDots();
-  }
-
-  // ─── NAVIGATION ──────────────────────────────────────────────────────────────
-
-  function updateNav() {
-    backBtn.disabled = state.currentStep === 0;
-    if (state.currentStep === STEPS - 1) {
-      nextBtn.classList.add('hidden');
-      buildBtn.classList.remove('hidden');
-    } else {
-      nextBtn.classList.remove('hidden');
-      buildBtn.classList.add('hidden');
-    }
-    updateProgress();
-  }
-
-  function goToStep(idx) {
-    stepPanels.forEach(p => p.classList.remove('active'));
-    stepPanels[idx].classList.add('active');
-    state.currentStep = idx;
-    if (idx === 1 && state.selectedLane) renderSubtypes(state.selectedLane);
-    if (idx === 3) renderStageStack();
-    if (idx === 4) renderBlockage();
-    if (idx === 5 && state.selectedSubtype) renderRhythms(state.selectedSubtype);
-    if (idx === 6) renderReview();
-    updateNav();
-  }
-
-  function canAdvance() {
-    switch (state.currentStep) {
-      case 0: return !!state.selectedLane;
-      case 1: return !!state.selectedSubtype;
-      case 2: return state.people.filter(n => n.trim()).length >= 1;
-      case 3: {
-        const named = state.people.filter(n => n.trim());
-        return named.every(n => !!state.stages[n]);
-      }
-      case 4: return !!state.selectedBlockage;
-      case 5: return state.selectedRhythms.length >= 1;
-      case 6: return true;
-      default: return true;
-    }
-  }
-
-  function shake(el) {
-    el.style.transform = 'translateX(-5px)';
-    setTimeout(() => { el.style.transform = 'translateX(5px)'; }, 80);
-    setTimeout(() => { el.style.transform = 'translateX(-4px)'; }, 160);
-    setTimeout(() => { el.style.transform = 'translateX(0)'; }, 240);
-  }
-
-  backBtn.addEventListener('click', () => {
-    if (state.currentStep > 0) goToStep(state.currentStep - 1);
-  });
-  nextBtn.addEventListener('click', () => {
-    if (!canAdvance()) { shake(nextBtn); return; }
-    if (state.currentStep < STEPS - 1) goToStep(state.currentStep + 1);
-  });
-  buildBtn.addEventListener('click', generatePlan);
-
-  // ─── RENDER: LANES ────────────────────────────────────────────────────────────
-
-  function renderLanes() {
-    const grid = document.getElementById('laneChoices');
-    grid.innerHTML = '';
-    laneOptions.forEach(opt => {
-      const btn = document.createElement('button');
-      btn.className = 'choice-btn' + (state.selectedLane === opt.id ? ' active' : '');
-      btn.type = 'button';
-      btn.innerHTML = `
-        <span class="choice-icon">${opt.icon}</span>
-        <span class="choice-title">${opt.title}</span>
-        <span class="choice-sub">${opt.sub}</span>
-        <span class="choice-copy">${opt.copy}</span>
-      `;
-      btn.addEventListener('click', () => {
-        state.selectedLane = opt.id;
-        state.selectedSubtype = null;
-        state.selectedRhythms = [];
-        grid.querySelectorAll('.choice-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-      });
-      grid.appendChild(btn);
-    });
-  }
-
-  // ─── RENDER: SUBTYPES ─────────────────────────────────────────────────────────
-
-  function renderSubtypes(lane) {
-    const opts = subtypesByLane[lane] || [];
-    const titles = { passion: 'What kind of passion lane?', people: 'What kind of people?', place: 'What kind of place?', profession: 'What kind of work?' };
-    const copies = { passion: 'Pick the option that most closely matches your real situation.', people: 'This shapes what next-step advice looks like.', place: 'Pick the space you actually return to.', profession: 'This is where the real pain usually lives.' };
-
-    document.getElementById('subtypeTitle').textContent = titles[lane] || 'What kind of lane is this for you?';
-    document.getElementById('subtypeCopy').textContent = copies[lane] || '';
-
-    const grid = document.getElementById('subtypeChoices');
-    grid.innerHTML = '';
-    opts.forEach(opt => {
-      const btn = document.createElement('button');
-      btn.className = 'pill-option' + (state.selectedSubtype === opt.id ? ' active' : '');
-      btn.type = 'button';
-      btn.textContent = opt.label;
-      btn.addEventListener('click', () => {
-        state.selectedSubtype = opt.id;
-        grid.querySelectorAll('.pill-option').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        state.selectedRhythms = [];
-      });
-      grid.appendChild(btn);
-    });
-
-    const ta = document.getElementById('contextNote');
-    ta.value = state.contextNote;
-    ta.addEventListener('input', () => { state.contextNote = ta.value; });
-  }
-
-  // ─── RENDER: PEOPLE STACK ─────────────────────────────────────────────────────
-
-  function renderPeopleStack() {
-    const stack = document.getElementById('peopleStack');
-    stack.innerHTML = '';
-    const labels = ['Person 1', 'Person 2', 'Person 3', 'Person 4 (optional)', 'Person 5 (optional)'];
-    for (let i = 0; i < 5; i++) {
-      const row = document.createElement('div');
-      row.className = 'person-row';
-      const input = document.createElement('input');
-      input.type = 'text';
-      input.placeholder = labels[i];
-      input.value = state.people[i] || '';
-      input.addEventListener('input', () => { state.people[i] = input.value; });
-      row.appendChild(input);
-      stack.appendChild(row);
-    }
-  }
-
-  // ─── RENDER: STAGE STACK ──────────────────────────────────────────────────────
-
-  function renderStageStack() {
-    const stack = document.getElementById('stageStack');
-    stack.innerHTML = '';
-    const named = state.people.filter(n => n.trim());
-    if (named.length === 0) {
-      stack.innerHTML = '<p style="color:var(--muted);font-size:.93rem;">Go back and add at least one name first.</p>';
-      return;
-    }
-    named.forEach(name => {
-      const row = document.createElement('div');
-      row.className = 'person-row';
-      row.innerHTML = `<strong style="display:block;margin-bottom:.5rem;color:var(--forest-900);font-size:.97rem;">${name}</strong>`;
-      const group = document.createElement('div');
-      group.className = 'person-stage-group';
-      stageOptions.forEach(s => {
-        const chip = document.createElement('button');
-        chip.type = 'button';
-        chip.className = 'stage-chip' + (state.stages[name] === s.id ? ' active' : '');
-        chip.textContent = s.label;
-        chip.addEventListener('click', () => {
-          state.stages[name] = s.id;
-          group.querySelectorAll('.stage-chip').forEach(c => c.classList.remove('active'));
-          chip.classList.add('active');
-        });
-        group.appendChild(chip);
-      });
-      row.appendChild(group);
-      stack.appendChild(row);
-    });
-  }
-
-  // ─── RENDER: BLOCKAGE ─────────────────────────────────────────────────────────
-
-  function renderBlockage() {
-    const grid = document.getElementById('blockageChoices');
-    if (grid.children.length) return; // already rendered
-    blockageOptions.forEach(opt => {
-      const btn = document.createElement('button');
-      btn.className = 'pill-option' + (state.selectedBlockage === opt.id ? ' active' : '');
-      btn.type = 'button';
-      btn.textContent = opt.label;
-      btn.addEventListener('click', () => {
-        state.selectedBlockage = opt.id;
-        grid.querySelectorAll('.pill-option').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-      });
-      grid.appendChild(btn);
-    });
-  }
-
-  // ─── RENDER: RHYTHMS ──────────────────────────────────────────────────────────
-
-  function renderRhythms(subtype) {
-    const options = rhythmBySubtype[subtype] || ['Morning','Lunch break','After work','Weekend','Text follow-up'];
-    const grid = document.getElementById('rhythmChoices');
-    grid.innerHTML = '';
-    options.forEach(label => {
-      const id = label.toLowerCase().replace(/\W+/g, '_');
-      const btn = document.createElement('button');
-      btn.className = 'pill-option' + (state.selectedRhythms.includes(id) ? ' active' : '');
-      btn.type = 'button';
-      btn.textContent = label;
-      btn.addEventListener('click', () => {
-        if (state.selectedRhythms.includes(id)) {
-          state.selectedRhythms = state.selectedRhythms.filter(r => r !== id);
-          btn.classList.remove('active');
-        } else {
-          state.selectedRhythms.push(id);
-          btn.classList.add('active');
-        }
-      });
-      grid.appendChild(btn);
-    });
-  }
-
-  // ─── RENDER: REVIEW ───────────────────────────────────────────────────────────
-
-  function renderReview() {
-    const card = document.getElementById('reviewCard');
-    const named = state.people.filter(n => n.trim());
-    const laneLabel = laneOptions.find(o => o.id === state.selectedLane)?.title || '—';
-    const subtypeLabel = (subtypesByLane[state.selectedLane] || []).find(o => o.id === state.selectedSubtype)?.label || '—';
-    const blockageLabel = blockageOptions.find(o => o.id === state.selectedBlockage)?.label || '—';
-    const rhythmLabels = state.selectedRhythms.map(id => id.replace(/_/g, ' ')).join(', ');
-
-    card.innerHTML = `
-      <div class="review-row"><strong>Lane:</strong> ${laneLabel} → ${subtypeLabel}</div>
-      ${state.contextNote ? `<div class="review-row"><strong>Challenge:</strong> ${esc(state.contextNote)}</div>` : ''}
-      <div class="review-row"><strong>Stuck at:</strong> ${blockageLabel}</div>
-      <div class="review-row"><strong>Rhythms:</strong> ${rhythmLabels || '—'}</div>
-      <div style="margin-top:.6rem;"><strong style="font-size:.88rem;color:var(--forest-900);">People:</strong>
-        <div class="review-person-list">${named.map(n => `<span class="review-person-chip">${esc(n)} <span style="color:var(--muted);font-weight:400;">(${state.stages[n] || '?'})</span></span>`).join('')}</div>
-      </div>
-    `;
-  }
-
-  // ─── UTIL ─────────────────────────────────────────────────────────────────────
-
-  function esc(str) {
-    return (str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  }
-
-  // ─── BUILD INPUT PAYLOAD ──────────────────────────────────────────────────────
-
-  function buildPayload() {
-    const named = state.people.filter(n => n.trim());
-    const laneLabel = laneOptions.find(o => o.id === state.selectedLane)?.title || state.selectedLane;
-    const subtypeLabel = (subtypesByLane[state.selectedLane] || []).find(o => o.id === state.selectedSubtype)?.label || state.selectedSubtype;
-    const blockageLabel = blockageOptions.find(o => o.id === state.selectedBlockage)?.label || state.selectedBlockage;
-
-    return {
-      tool_version: 'v2',
-      user_context: {
-        starting_lane: state.selectedLane,
-        lane_label: laneLabel,
-        lane_subtype: state.selectedSubtype,
-        lane_subtype_label: subtypeLabel,
-        lane_context_note: state.contextNote || '',
-        existing_rhythms: state.selectedRhythms
-      },
-      people: named.map(name => ({
-        name: name,
-        stage: state.stages[name] || 'casual'
-      })),
-      user_blockage: {
-        primary_block: state.selectedBlockage,
-        primary_block_label: blockageLabel
-      },
-      framework_context: {
-        stages: ['casual','meaningful','spiritual','discovery'],
-        lanes:  ['passion','people','place','profession']
-      }
-    };
-  }
-
-  /*
-   * ─── BACKEND CONTRACT: POST /api/generate-plan ─────────────────────────────
-   *
-   * Receives:  { payload: buildPayload() }
-   * Returns:   parsed plan JSON (see schema below)
-   *
-   * Server-side flow:
-   *   1. Validate the incoming payload
-   *   2. Call OpenAI server-side — API key stays on the server (OPENAI_API_KEY)
-   *        const completion = await openai.chat.completions.create({
-   *          model: 'gpt-4o',
-   *          response_format: { type: 'json_object' },
-   *          messages: [
-   *            { role: 'system', content: SYSTEM_PROMPT },
-   *            { role: 'user',   content: JSON.stringify(payload) }
-   *          ]
-   *        });
-   *   3. Parse: JSON.parse(completion.choices[0].message.content)
-   *   4. Validate the parsed object has expected top-level keys
-   *   5. Return: res.json(plan)  — return HTTP 500 if parse/validation fails
-   *
-   * Suggested SYSTEM_PROMPT:
-   *   "You are a disciple-making coach for covocational believers.
-   *    Generate a personalized, structured 6-week disciple-making plan.
-   *    Rules: choose ONE primary lane; use the user's actual people and
-   *    stages (casual, meaningful, spiritual, discovery); diagnose ONE
-   *    bottleneck; suggest rhythms from existing life only; tone direct,
-   *    practical, not preachy. Respond ONLY with valid JSON matching this
-   *    schema exactly:
-   *    {
-   *      "starting_lane":      { "name": "string", "reason": "string" },
-   *      "lane_application":   { "subtype": "string", "summary": "string" },
-   *      "focus_people":       [{ "name": "string", "stage": "string", "reason": "string" }],
-   *      "diagnosis":          { "primary_block": "string", "explanation": "string" },
-   *      "first_move":         { "person": "string", "stage": "string", "timing": "string",
-   *                              "reason": "string", "action": "string", "suggested_line": "string" },
-   *      "weekly_rhythm":      { "summary": "string", "this_week": ["string","string","string"] },
-   *      "conversation_help":  { "casual_to_meaningful": "string",
-   *                              "meaningful_to_spiritual": "string",
-   *                              "spiritual_to_discovery": "string" },
-   *      "six_week_plan":      [{ "week": 1, "focus": "string", "action": "string" }, ...x6],
-   *      "cta":                { "headline": "string", "primary_action": "string",
-   *                              "secondary_action": "string" }
-   *    }"
-   */
-
-  // ─── GENERATE PLAN ────────────────────────────────────────────────────────────
-
-  async function generatePlan() {
-    const payload = buildPayload();
-
-    // Show loading
-    wizardShell.classList.add('hidden');
-    resultsWrap.classList.add('active');
-    resultsCard.innerHTML = `
-      <div class="loading-state">
-        <div class="loading-spinner"></div>
-        <strong>Building your plan…</strong>
-        <p>Reading your inputs and generating something real for your lane.</p>
-      </div>
-    `;
-
-    try {
-      const response = await fetch('/api/generate-plan', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ payload })
-      });
-
-      if (!response.ok) {
-        let msg;
-        try {
-          const errData = await response.json();
-          msg = errData.error || 'Something went wrong generating your plan.';
-        } catch {
-          msg = 'Something went wrong generating your plan.';
-        }
-        throw new Error(msg);
-      }
-
-      const plan = await response.json();
-      renderResults(plan, payload);
-
-    } catch (err) {
-      console.error(err);
-      resultsCard.innerHTML = `
-        <div class="section">
-          <div class="error-state">
-            <strong>Something went wrong generating your plan.</strong>
-            <p>The plan generator endpoint is not available or returned an error. Make sure the backend is running. Error: ${esc(err.message)}</p>
-          </div>
-          <button class="btn btn-secondary" id="retryBtn" type="button" style="margin-top:1rem;">← Go Back and Try Again</button>
-        </div>
-      `;
-      document.getElementById('retryBtn').onclick = () => {
-        resultsWrap.classList.remove('active');
-        wizardShell.classList.remove('hidden');
-        goToStep(6);
-      };
-    }
-  }
-
-  // ─── RENDER RESULTS ───────────────────────────────────────────────────────────
-
-  function renderResults(plan, payload) {
-    const namedPeople = payload.people;
-
-    let html = '';
-
-    // Diagnosis — first, so the root cause lands before the solutions
-    html += `
-      <section class="section">
-        <span class="section-label">Why You're Stuck</span>
-        <h3>This is why you've been stuck</h3>
-        <p>Before the plan, the block. Name it clearly or you'll keep working around it.</p>
-        <div class="result-card">
-          <p><strong>${esc(plan.diagnosis?.primary_block || '')}</strong></p>
-          <p>${esc(plan.diagnosis?.explanation || '')}</p>
-        </div>
-      </section>
-    `;
-
-    // Lane
-    html += `
-      <section class="section alt">
-        <span class="section-label">Your Lane</span>
-        <h3>Your starting lane</h3>
-        <p>One lane only. No equal weighting. You need a clear starting point.</p>
-        <div class="result-card">
-          <p><strong>${esc(plan.starting_lane?.name || '')}</strong></p>
-          <p>${esc(plan.starting_lane?.reason || '')}</p>
-          ${plan.lane_application?.summary ? `<p style="margin-top:.5rem;color:var(--muted);font-size:.92rem;">${esc(plan.lane_application.summary)}</p>` : ''}
-        </div>
-      </section>
-    `;
-
-    // People
-    if (plan.focus_people?.length) {
-      html += `
-        <section class="section">
-          <span class="section-label">Your People</span>
-          <h3>Who to focus on</h3>
-          <p>These are the people to start with, not everyone in your world.</p>
-          <div class="focus-list">
-            ${plan.focus_people.map((p, i) => `
-              <div class="focus-item">
-                <div class="focus-num">${i + 1}</div>
-                <div class="focus-content">
-                  <strong>${esc(p.name)}</strong>
-                  <div class="focus-meta">${esc(p.stage)}</div>
-                  <p>${esc(p.reason)}</p>
-                </div>
-              </div>
-            `).join('')}
-          </div>
-        </section>
-      `;
-    }
-
-
-
-    // First Move
-    if (plan.first_move) {
-      const fm = plan.first_move;
-      html += `
-        <section class="section alt">
-          <span class="section-label">Do This First</span>
-          <h3>Your first move in the next 48 hours</h3>
-          <p>One person. One moment. One line. Do this before anything else.</p>
-          <div class="first-move-card">
-            <div class="first-move-top">
-              <span class="first-move-pill">👤 ${esc(fm.person)}</span>
-              <span class="first-move-pill">📍 ${esc(fm.stage)}</span>
-              <span class="first-move-pill">⏱ ${esc(fm.timing)}</span>
-            </div>
-            <p>${esc(fm.reason)}</p>
-            <p class="action">${esc(fm.action)}</p>
-            ${fm.suggested_line ? `<div class="suggested-line">"${esc(fm.suggested_line)}"</div>` : ''}
-          </div>
-        </section>
-      `;
-    }
-
-    // Rhythm
-    if (plan.weekly_rhythm) {
-      const wr = plan.weekly_rhythm;
-      const thisWeek = wr.this_week || [];
-      const primary = thisWeek[0] || null;
-      const backup  = thisWeek[1] || null;
-      const rest    = thisWeek.slice(2);
-      html += `
-        <section class="section">
-          <span class="section-label">Your Rhythm</span>
-          <h3>Build your week around this</h3>
-          <p>Redeem the time in the week you already have. Don't invent a life you don't live.</p>
-          <div class="rhythm-list">
-            <div class="rhythm-item">
-              <strong>Your rhythm</strong>
-              <span>${esc(wr.summary)}</span>
-            </div>
-            ${primary ? `
-              <div class="rhythm-item">
-                <strong>Do this</strong>
-                <span>${esc(primary)}</span>
-              </div>
-            ` : ''}
-            ${backup ? `
-              <div class="rhythm-item">
-                <strong>If that week falls apart</strong>
-                <span>${esc(backup)}</span>
-              </div>
-            ` : ''}
-            ${rest.map(item => `
-              <div class="rhythm-item">
-                <span>${esc(item)}</span>
-              </div>
-            `).join('')}
-          </div>
-        </section>
-      `;
-    }
-
-    // Conversation help
-    if (plan.conversation_help) {
-      const ch = plan.conversation_help;
-      html += `
-        <section class="section alt">
-          <span class="section-label">What to Say</span>
-          <h3>Conversation help for where you're stuck</h3>
-          <p>Keep it normal. Keep it human. Push the relationship one step forward.</p>
-          <div class="convo-list">
-            ${ch.casual_to_meaningful ? `
-              <div class="convo-item">
-                <span class="convo-tag">Casual → Meaningful</span>
-                <div class="convo-text">"${esc(ch.casual_to_meaningful)}"</div>
-              </div>
-            ` : ''}
-            ${ch.meaningful_to_spiritual ? `
-              <div class="convo-item">
-                <span class="convo-tag">Meaningful → Spiritual</span>
-                <div class="convo-text">"${esc(ch.meaningful_to_spiritual)}"</div>
-              </div>
-            ` : ''}
-            ${ch.spiritual_to_discovery ? `
-              <div class="convo-item">
-                <span class="convo-tag">Spiritual → Discovery</span>
-                <div class="convo-text">"${esc(ch.spiritual_to_discovery)}"</div>
-              </div>
-            ` : ''}
-          </div>
-        </section>
-      `;
-    }
-
-    // 6-week plan
-    if (plan.six_week_plan?.length) {
-      html += `
-        <section class="section">
-          <span class="section-label">6 Weeks</span>
-          <h3>Your 6-week runway</h3>
-          <p>One clear focus per week. Skimmable. Built around your lane.</p>
-          <div class="weeks">
-            ${plan.six_week_plan.map(w => `
-              <div class="week-item">
-                <span class="week-num">Week ${w.week}</span>
-                <strong>${esc(w.focus)}</strong>
-                <span>${esc(w.action)}</span>
-              </div>
-            `).join('')}
-          </div>
-        </section>
-      `;
-    }
-
-    // CTA
-    const ctaHeadline = plan.cta?.headline || 'Your plan is ready — now put it in motion';
-    const ctaPrimary = plan.cta?.primary_action || 'Open Conversation Box and add these people there next';
-    const ctaSecondary = plan.cta?.secondary_action || 'Join the next lab';
-
-    html += `
-      <section class="section alt" style="padding-bottom:0;border-bottom:none;">
-        <span class="section-label">Next Step</span>
-        <h3>Keep this moving</h3>
-        <p>Open Conversation Box and add these people there next. Track where each relationship stands and keep the rhythm going.</p>
-      </section>
-      <div class="cta-bar">
-        <div>
-          <h4>${esc(ctaHeadline)}</h4>
-          <p>${esc(ctaPrimary)}</p>
-        </div>
-        <div class="cta-actions">
-          <a class="btn btn-light" href="https://obey.tools/conversation-box.html" target="_blank" rel="noopener noreferrer">Open Conversation Box</a>
-          <a class="btn btn-outline-light" href="/">${esc(ctaSecondary)}</a>
-          <button class="btn btn-outline-light" id="savePlanBtn" type="button">Save this plan</button>
-          <button class="btn btn-outline-light" id="startOverBtn" type="button">Start Over</button>
-        </div>
-        <p id="savePlanMsg" style="display:none;margin-top:.6rem;font-size:.88rem;opacity:.85;">Plan saved to this device.</p>
-      </div>
-    `;
-
-    resultsCard.innerHTML = html;
-
-    document.getElementById('savePlanBtn').addEventListener('click', () => {
-      try {
-        localStorage.setItem('covo_saved_plan', JSON.stringify({ plan, wizardState: state, savedAt: Date.now() }));
-        const msg = document.getElementById('savePlanMsg');
-        msg.style.display = 'block';
-        setTimeout(() => { msg.style.display = 'none'; }, 3000);
-      } catch (e) {
-        console.error('Save failed:', e);
-      }
-    });
-
-    document.getElementById('startOverBtn').addEventListener('click', () => {
-      state = {
-        currentStep: 0,
-        selectedLane: null,
-        selectedSubtype: null,
-        contextNote: '',
-        people: ['','','','',''],
-        stages: {},
-        selectedBlockage: null,
-        selectedRhythms: []
-      };
-      resultsWrap.classList.remove('active');
-      wizardShell.classList.remove('hidden');
+}
+
+// ── PERSISTENCE ───────────────────────────────────────────────────────────
+
+function saveState(){
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({state, personIdCounter}));
+    showToast('Saved ✓');
+  } catch(e){ console.warn('Save failed', e); }
+}
+
+function loadState(){
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw) return;
+    const saved = JSON.parse(raw);
+    if(saved.state) state = saved.state;
+    if(saved.personIdCounter) personIdCounter = saved.personIdCounter;
+  } catch(e){ console.warn('Load failed', e); }
+}
+
+function autoSave(){
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify({state, personIdCounter})); }
+  catch(e){}
+}
+
+// ── TOAST ─────────────────────────────────────────────────────────────────
+
+let toastTimer;
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+// ── LANE ──────────────────────────────────────────────────────────────────
+
+function renderLanes(){
+  const grid = document.getElementById('laneGrid');
+  grid.innerHTML = '';
+  LANES.forEach(lane => {
+    const btn = document.createElement('button');
+    btn.className = 'lane-btn' + (state.lane === lane.id ? ' active' : '');
+    btn.type = 'button';
+    btn.innerHTML = `<span class="lane-icon">${lane.icon}</span><span class="lane-name">${lane.name}</span><span class="lane-eg">${lane.eg}</span>`;
+    btn.addEventListener('click', () => {
+      state.lane = lane.id;
+      state.subtype = null;
       renderLanes();
-      renderPeopleStack();
-      document.getElementById('blockageChoices').innerHTML = '';
-      goToStep(0);
+      renderSubtypes(lane);
+      autoSave();
     });
+    grid.appendChild(btn);
+  });
+}
 
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+function renderSubtypes(lane){
+  const row = document.getElementById('subtypeRow');
+  if(!lane){ row.classList.add('hidden'); return; }
+  row.classList.remove('hidden');
+  row.innerHTML = '';
+  lane.subtypes.forEach(sub => {
+    const btn = document.createElement('button');
+    btn.className = 'sub-chip' + (state.subtype === sub ? ' active' : '');
+    btn.type = 'button';
+    btn.textContent = sub;
+    btn.addEventListener('click', () => {
+      state.subtype = sub;
+      row.querySelectorAll('.sub-chip').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      autoSave();
+    });
+    row.appendChild(btn);
+  });
+}
+
+// ── PERSON CARDS ──────────────────────────────────────────────────────────
+
+function avatarColor(id){
+  const idx = parseInt(id.replace('p_','')) - 1;
+  return AVATAR_COLORS[idx % AVATAR_COLORS.length];
+}
+
+function personInitial(name){ return name.trim() ? name.trim()[0].toUpperCase() : '?'; }
+
+function renderAllPeople(){
+  const container = document.getElementById('personCards');
+  container.innerHTML = '';
+
+  if(state.people.length === 0){
+    container.innerHTML = `
+      <div class="empty-people">
+        <span class="em-icon">👤</span>
+        <p>Add the real people already in front of you — friends, coworkers, neighbors, family. First names are enough.</p>
+        <button class="add-person-btn" onclick="document.getElementById('addPersonBtn').click()">＋ Add your first person</button>
+      </div>`;
+    return;
   }
 
-  // ─── KICK OFF ─────────────────────────────────────────────────────────────────
+  state.people.forEach(p => {
+    const card = buildPersonCard(p);
+    container.appendChild(card);
+  });
+  updateSummary();
+}
 
-  init();
+function buildPersonCard(p){
+  const card = document.createElement('div');
+  card.className = 'person-card';
+  card.id = 'card_' + p.id;
+  card.innerHTML = buildPersonCardHTML(p);
+  attachPersonCardEvents(card, p);
+  return card;
+}
 
+function buildPersonCardHTML(p){
+  const stageIdx = STAGES.findIndex(s => s.id === p.stage);
+  const stageObj = STAGES[stageIdx];
+  const trackPct = [0, 33.3, 66.6, 100][stageIdx];
+  const color = stageObj.color;
+
+  const stopsHTML = STAGES.map((s, i) => {
+    const isReached = i <= stageIdx;
+    const isCurrent = i === stageIdx;
+    let cls = 'stop-dot';
+    if(isCurrent) cls += ' current';
+    else if(isReached) cls += ' reached';
+    const lCls = 'stop-label' + (isCurrent ? ' active-label' : '');
+    return `
+      <div class="track-stop" data-stage="${s.id}" style="color:${isReached ? color : 'var(--border)'}">
+        <div class="${cls}" style="${isReached?'border-color:'+color:''}"></div>
+        <span class="${lCls}" style="${isCurrent?'color:'+color:''}">${s.label}</span>
+      </div>`;
+  }).join('');
+
+  const barrierDef = BARRIERS[p.stage];
+  const barrierQuestion = barrierDef
+    ? barrierDef.question.replace('{name}', p.name || 'this person')
+    : '';
+  const barrierOptsHTML = barrierDef ? barrierDef.options.map(opt => `
+    <button type="button" class="barrier-opt${p.barrier===opt.id?' active':''}" data-barrier="${opt.id}">
+      <span class="barrier-check"></span>
+      <span class="barrier-opt-text">${opt.text}</span>
+    </button>`).join('') : '';
+
+  const actionsHTML = buildActionsHTML(p);
+
+  return `
+    <div class="person-card-top">
+      <div class="person-avatar" style="background:${avatarColor(p.id)}">${personInitial(p.name)}</div>
+      <input class="person-name-input" type="text" placeholder="First name…" value="${esc(p.name)}" data-field="name"/>
+      <button type="button" class="person-delete" title="Remove" data-action="delete">✕</button>
+    </div>
+    <div class="stage-section">
+      <div class="stage-label-row">
+        <span class="stage-label-txt">Where things stand</span>
+        <span class="stage-current-badge" style="background:${color}">${stageObj.label}</span>
+      </div>
+      <div class="stage-track" aria-label="Conversation stage">
+        <div class="track-line"></div>
+        <div class="track-fill" style="background:${color};width:${trackPct}%"></div>
+        <div class="track-stops">${stopsHTML}</div>
+      </div>
+      <p style="font-size:.8rem;color:var(--muted);line-height:1.45;margin-top:.1rem">${stageObj.desc}</p>
+    </div>
+    ${barrierDef ? `
+    <div class="barrier-section">
+      <p class="barrier-q">${barrierQuestion}</p>
+      <div class="barrier-opts">${barrierOptsHTML}</div>
+    </div>` : ''}
+    ${actionsHTML}
+    <div class="notes-section">
+      <button type="button" class="notes-toggle" data-action="toggle-notes">
+        <span>${p.notesOpen ? '▾' : '▸'}</span> Notes about ${p.name || 'this person'}
+      </button>
+      ${p.notesOpen ? `<textarea class="notes-ta" placeholder="Anything worth remembering…" data-field="notes">${esc(p.notes)}</textarea>` : ''}
+    </div>`;
+}
+
+function buildActionsHTML(p){
+  if(!p.barrier) return '';
+  if(!p.generatedActions){
+    return `<div class="actions-section">
+      <div class="actions-header"><span class="actions-icon">⚡</span><span class="actions-title">Next Moves</span></div>
+      <button type="button" class="hero-cta" style="font-size:.83rem;padding:.6rem 1.1rem;box-shadow:none" data-action="gen-actions">Generate next steps →</button>
+    </div>`;
+  }
+  const items = p.generatedActions;
+  const itemsHTML = items.map((txt, i) => {
+    const done = p.checkedActions.includes(i);
+    return `
+      <div class="action-item">
+        <div class="action-cb${done?' checked':''}" data-action="check" data-idx="${i}"></div>
+        <span class="action-text${done?' done':''}">${esc(txt)}</span>
+      </div>`;
+  }).join('');
+  return `<div class="actions-section">
+    <div class="actions-header"><span class="actions-icon">⚡</span><span class="actions-title">Next Moves</span></div>
+    <div class="action-items">${itemsHTML}</div>
+    <button type="button" class="notes-toggle" style="margin-top:.65rem" data-action="regen-actions">↺ Refresh steps</button>
+  </div>`;
+}
+
+function attachPersonCardEvents(card, p){
+  // Name input
+  const nameInput = card.querySelector('[data-field="name"]');
+  nameInput.addEventListener('input', () => {
+    p.name = nameInput.value;
+    card.querySelector('.person-avatar').textContent = personInitial(p.name);
+    card.querySelector('.notes-toggle').innerHTML = `<span>${p.notesOpen?'▾':'▸'}</span> Notes about ${p.name || 'this person'}`;
+    const bq = card.querySelector('.barrier-q');
+    if(bq && BARRIERS[p.stage]){
+      bq.textContent = BARRIERS[p.stage].question.replace('{name}', p.name || 'this person');
+    }
+    autoSave(); updateSummary();
+  });
+
+  // Delete
+  card.querySelector('[data-action="delete"]').addEventListener('click', () => {
+    state.people = state.people.filter(x => x.id !== p.id);
+    card.style.opacity = '0'; card.style.transform = 'scale(.97)';
+    setTimeout(() => renderAllPeople(), 180);
+    autoSave(); updateSummary();
+  });
+
+  // Stage stops
+  card.querySelectorAll('.track-stop').forEach(stop => {
+    stop.addEventListener('click', () => {
+      p.stage = stop.dataset.stage;
+      p.barrier = null;
+      p.generatedActions = null;
+      p.checkedActions = [];
+      refreshCard(card, p);
+      autoSave(); updateSummary();
+    });
+  });
+
+  // Barrier opts
+  attachBarrierEvents(card, p);
+
+  // Notes
+  card.querySelector('[data-action="toggle-notes"]').addEventListener('click', () => {
+    p.notesOpen = !p.notesOpen;
+    refreshCard(card, p);
+  });
+
+  // Gen actions
+  const genBtn = card.querySelector('[data-action="gen-actions"]');
+  if(genBtn) genBtn.addEventListener('click', () => generateActions(card, p));
+
+  const regenBtn = card.querySelector('[data-action="regen-actions"]');
+  if(regenBtn) regenBtn.addEventListener('click', () => { p.generatedActions = null; p.checkedActions = []; refreshCard(card, p); });
+
+  // Checkboxes
+  card.querySelectorAll('[data-action="check"]').forEach(cb => {
+    cb.addEventListener('click', () => {
+      const idx = parseInt(cb.dataset.idx);
+      if(p.checkedActions.includes(idx)) p.checkedActions = p.checkedActions.filter(i => i !== idx);
+      else p.checkedActions.push(idx);
+      refreshCard(card, p); autoSave();
+    });
+  });
+}
+
+function attachBarrierEvents(card, p){
+  card.querySelectorAll('.barrier-opt').forEach(opt => {
+    opt.addEventListener('click', () => {
+      p.barrier = opt.dataset.barrier;
+      p.generatedActions = null;
+      p.checkedActions = [];
+      refreshCard(card, p);
+      autoSave();
+    });
+  });
+}
+
+function refreshCard(card, p){
+  card.innerHTML = buildPersonCardHTML(p);
+  attachPersonCardEvents(card, p);
+  updateSummary();
+}
+
+// ── AI: GENERATE ACTIONS ──────────────────────────────────────────────────
+
+async function generateActions(card, p){
+  const actSection = card.querySelector('.actions-section');
+  if(!actSection) return;
+  actSection.innerHTML = `
+    <div class="actions-header"><span class="actions-icon">⚡</span><span class="actions-title">Next Moves</span></div>
+    <div class="loading-actions"><div class="spin"></div> Generating your next steps…</div>`;
+
+  const laneObj = LANES.find(l => l.id === state.lane);
+  const barrierDef = BARRIERS[p.stage];
+  const barrierOpt = barrierDef?.options.find(o => o.id === p.barrier);
+  const stageObj = STAGES.find(s => s.id === p.stage);
+  const nextStage = STAGES[STAGES.findIndex(s => s.id === p.stage) + 1];
+
+  const systemPrompt = `You are a disciple-making coach for covocational believers. You generate short, plain-language action steps.
+
+RULES:
+- Write exactly 4 action steps as a JSON array of strings
+- Each step is 1–2 sentences max
+- Steps must directly address the specific barrier given
+- Steps must fit the person\'s environment / lane
+- Language is conversational, not religious or curriculum-like
+- Actions must be doable this week, not theory
+- Current stage: ${stageObj?.label}. Goal: move toward ${nextStage?.label || 'deeper investment'}.
+- Respond ONLY with a JSON array, no markdown, no extra text. Example: ["Step one here.", "Step two here.", "Step three here.", "Step four here."]`;
+
+  const userPrompt = `Person: ${p.name || 'unnamed'}
+Stage: ${stageObj?.label} → trying to reach ${nextStage?.label || 'multiplication'}
+Environment: ${laneObj?.name || 'general'} ${state.subtype ? '(' + state.subtype + ')' : ''}
+The specific barrier: "${barrierOpt?.text || p.barrier}"
+${p.notes ? 'Notes: ' + p.notes : ''}
+
+Generate 4 specific action steps that directly address this barrier and help move this relationship forward.`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: systemPrompt,
+        messages: [{ role: 'user', content: userPrompt }]
+      })
+    });
+    if(!res.ok) throw new Error('API ' + res.status);
+    const data = await res.json();
+    const raw = (data.content || []).map(b => b.text || '').join('');
+    const clean = raw.replace(/```json|```/g, '').trim();
+    const actions = JSON.parse(clean);
+    if(!Array.isArray(actions)) throw new Error('Bad format');
+    p.generatedActions = actions.slice(0,4);
+    p.checkedActions = [];
+    refreshCard(card, p);
+    autoSave();
+    updateSummary();
+  } catch(err){
+    actSection.innerHTML = `
+      <div class="actions-header"><span class="actions-icon">⚡</span><span class="actions-title">Next Moves</span></div>
+      <div class="action-error">Couldn\'t generate steps — API not configured. <button type="button" class="notes-toggle" data-action="gen-actions" style="display:inline">Retry</button></div>`;
+    const retryBtn = actSection.querySelector('[data-action="gen-actions"]');
+    if(retryBtn) retryBtn.addEventListener('click', () => generateActions(card, p));
+  }
+}
+
+// ── SUMMARY ───────────────────────────────────────────────────────────────
+
+function updateSummary(){
+  const container = document.getElementById('summaryRows');
+  const active = state.people.filter(p => p.name.trim() && p.barrier);
+  if(!active.length){
+    container.innerHTML = '<div class="sum-empty">Add people and select a barrier to see your action summary here.</div>';
+    return;
+  }
+  container.innerHTML = active.map(p => {
+    const st = STAGES.find(s => s.id === p.stage);
+    const nextSt = STAGES[STAGES.findIndex(s => s.id === p.stage) + 1];
+    const done = p.checkedActions?.length || 0;
+    const total = p.generatedActions?.length || 0;
+    const prog = total ? ` · ${done}/${total} done` : '';
+    return `<div class="summary-row">
+      <div class="sum-avatar" style="background:${avatarColor(p.id)}">${personInitial(p.name)}</div>
+      <div>
+        <div class="sum-name">${esc(p.name)}</div>
+        <div class="sum-stage">${st?.label}${nextSt ? ' → ' + nextSt.label : ''} ${prog}</div>
+      </div>
+      <span class="sum-arrow">${p.generatedActions ? '⚡ Ready' : '→ Generate steps'}</span>
+    </div>`;
+  }).join('');
+}
+
+// ── EXPORT ────────────────────────────────────────────────────────────────
+
+function exportData(){
+  const laneObj = LANES.find(l => l.id === state.lane);
+  let text = 'DISCIPLE-MAKING PATHWAY EXPORT\n';
+  text += 'Generated: ' + new Date().toLocaleDateString() + '\n\n';
+  if(laneObj) text += 'FIELD: ' + laneObj.name + (state.subtype ? ' — ' + state.subtype : '') + '\n\n';
+  state.people.forEach(p => {
+    if(!p.name.trim()) return;
+    const st = STAGES.find(s => s.id === p.stage);
+    text += '---\n' + p.name + ' (' + st?.label + ')\n';
+    if(p.barrier){
+      const bDef = BARRIERS[p.stage];
+      const bOpt = bDef?.options.find(o => o.id === p.barrier);
+      if(bOpt) text += 'Barrier: ' + bOpt.text + '\n';
+    }
+    if(p.generatedActions?.length){
+      text += 'Next steps:\n';
+      p.generatedActions.forEach((a,i) => {
+        const done = p.checkedActions?.includes(i);
+        text += (done ? '[x] ' : '[ ] ') + a + '\n';
+      });
+    }
+    if(p.notes) text += 'Notes: ' + p.notes + '\n';
+    text += '\n';
+  });
+  const blob = new Blob([text], {type:'text/plain'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'pathway-' + Date.now() + '.txt';
+  a.click(); URL.revokeObjectURL(url);
+}
+
+// ── UTIL ──────────────────────────────────────────────────────────────────
+
+function esc(str){
+  return (str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────
+
+function init(){
+  loadState();
+
+  // Ensure at least 1 person
+  if(!state.people.length){
+    state.people.push(newPerson());
+    state.people.push(newPerson());
+    state.people.push(newPerson());
+  }
+
+  renderLanes();
+
+  // Restore subtype if lane set
+  if(state.lane){
+    const laneObj = LANES.find(l => l.id === state.lane);
+    if(laneObj) renderSubtypes(laneObj);
+  }
+
+  renderAllPeople();
+
+  // Add person
+  document.getElementById('addPersonBtn').addEventListener('click', () => {
+    if(state.people.length >= 8){ showToast('Max 8 people'); return; }
+    state.people.push(newPerson());
+    renderAllPeople();
+    autoSave();
+    document.getElementById('personCards').lastElementChild?.scrollIntoView({behavior:'smooth',block:'start'});
+  });
+
+  // Save
+  document.getElementById('saveBtn').addEventListener('click', saveState);
+
+  // Export
+  document.getElementById('exportBtn').addEventListener('click', exportData);
+
+  // Hero CTA
+  document.getElementById('heroStart').addEventListener('click', () => {
+    document.getElementById('appWrap').scrollIntoView({behavior:'smooth'});
+  });
+
+  // Auto-save every 30s
+  setInterval(autoSave, 30000);
+}
+
+init();
 })();
 </script>
 </body>
