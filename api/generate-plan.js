@@ -1,19 +1,16 @@
-// api/generate-plan.js
-//
-// POST /api/generate-plan  (Vercel serverless function)
-//
-// Accepts: { payload: { ...buildPayload() output from six-week-plan.html... } }
-// Returns: parsed plan JSON matching the frontend renderer schema
-//
-// Required environment variable:
-//   OPENAI_API_KEY  — OpenAI secret key, never sent to the client
-//
-// Vercel routes api/generate-plan.js to /api/generate-plan automatically.
-// req.body is pre-parsed for application/json requests — no middleware needed.
-
 'use strict';
 
 const OpenAI = require('openai');
+
+// ---------------------------------------------------------------------------
+// CORS
+// ---------------------------------------------------------------------------
+
+const ALLOWED_ORIGINS = [
+  'https://covomultipliers.com',
+  'https://www.covomultipliers.com',
+  'https://mark-nyc.github.io',
+];
 
 // ---------------------------------------------------------------------------
 // System prompt
@@ -113,10 +110,37 @@ const REQUIRED_KEYS = [
 ];
 
 // ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
+
+function setCorsHeaders(req, res) {
+  const origin = req.headers.origin;
+
+  if (origin && ALLOWED_ORIGINS.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  }
+
+  res.setHeader('Vary', 'Origin');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+}
+
+function isObject(value) {
+  return value !== null && typeof value === 'object' && !Array.isArray(value);
+}
+
+// ---------------------------------------------------------------------------
 // Handler
 // ---------------------------------------------------------------------------
 
 module.exports = async function handler(req, res) {
+  setCorsHeaders(req, res);
+
+  // Preflight
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
   // Accept POST only.
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed.' });
@@ -124,11 +148,13 @@ module.exports = async function handler(req, res) {
 
   // Validate request body shape.
   const { payload } = req.body || {};
-  if (!payload || typeof payload !== 'object') {
-    return res.status(400).json({ error: 'Request body must include a payload object.' });
+  if (!isObject(payload)) {
+    return res.status(400).json({
+      error: 'Request body must include a payload object.',
+    });
   }
 
-  // Validate that the payload carries the minimum fields the prompt needs.
+  // Validate minimum fields the prompt needs.
   if (!payload.user_context || !Array.isArray(payload.people)) {
     return res.status(400).json({
       error: 'payload must include user_context and people array.',
@@ -139,7 +165,9 @@ module.exports = async function handler(req, res) {
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) {
     console.error('OPENAI_API_KEY is not set.');
-    return res.status(500).json({ error: 'OPENAI_API_KEY is not configured on the server.' });
+    return res.status(500).json({
+      error: 'OPENAI_API_KEY is not configured on the server.',
+    });
   }
 
   const openai = new OpenAI({ apiKey });
@@ -159,28 +187,37 @@ module.exports = async function handler(req, res) {
     });
   } catch (err) {
     console.error('OpenAI API error:', err);
-    return res.status(502).json({ error: 'Failed to reach the AI service. Please try again.' });
+    return res.status(502).json({
+      error: 'Failed to reach the AI service. Please try again.',
+    });
   }
 
   // Parse the returned JSON.
   const raw = completion.choices?.[0]?.message?.content;
   if (!raw || typeof raw !== 'string') {
     console.error('OpenAI returned empty or non-string content:', raw);
-    return res.status(500).json({ error: 'AI returned an empty response. Please try again.' });
+    return res.status(500).json({
+      error: 'AI returned an empty response. Please try again.',
+    });
   }
+
   let plan;
   try {
     plan = JSON.parse(raw);
   } catch (err) {
     console.error('Failed to parse OpenAI response as JSON:', raw);
-    return res.status(500).json({ error: 'AI returned a malformed response. Please try again.' });
+    return res.status(500).json({
+      error: 'AI returned a malformed response. Please try again.',
+    });
   }
 
-  // Validate that the plan contains every key the frontend renderer expects.
-  const missing = REQUIRED_KEYS.filter(k => !(k in plan));
+  // Validate top-level shape.
+  const missing = REQUIRED_KEYS.filter((key) => !(key in plan));
   if (missing.length > 0) {
     console.error('Plan missing required keys:', missing, plan);
-    return res.status(500).json({ error: 'AI response was incomplete. Please try again.' });
+    return res.status(500).json({
+      error: 'AI response was incomplete. Please try again.',
+    });
   }
 
   return res.status(200).json(plan);
