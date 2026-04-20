@@ -3,1413 +3,1034 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<meta name="description" content="A practical tool for finding where disciple-making can happen in your real life and moving conversations forward one step at a time."/>
+<meta name="description" content="Find where disciple-making can actually happen in your life. Map real people. Move conversations forward."/>
 <title>Disciple-Making Pathway — Covo Multipliers</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-/* ── TOKENS ─────────────────────────────────────────────────────────────── */
+/* ── TOKENS ── */
 :root {
-  --earth-950: #0e1a12;
-  --earth-900: #162218;
-  --earth-800: #1e3323;
-  --earth-700: #2a4a32;
-  --earth-600: #3a6344;
-  --earth-400: #6ea87e;
-  --earth-200: #b8d9c2;
-  --earth-100: #deeee5;
-  --earth-050: #f2f8f4;
+  --g950:#0e1a12; --g900:#162218; --g800:#1e3323; --g700:#2a4a32;
+  --g600:#3a6344; --g400:#6ea87e; --g200:#b8d9c2; --g100:#deeee5; --g050:#f2f8f4;
+  --gold:#c8922a; --gold-l:#d9a84a; --gold-ll:#e8c878; --gold-bg:#fdf4e3; --gold-bg2:#fffaf0;
+  --stage-c:#5b8fa8; --stage-m:#7c6bb0; --stage-s:#c07840; --stage-d:#3d9e6e;
+  --ink:#181e1a; --ink2:#3d4f43; --muted:#6b7d72; --border:#d0dfd5;
+  --border-l:#e8f0eb; --white:#fff;
+  --r:14px; --r-lg:22px; --r-xl:30px;
+  --sh-sm:0 2px 8px rgba(14,26,18,.07);
+  --sh:0 4px 20px rgba(14,26,18,.09);
+  --sh-lg:0 10px 40px rgba(14,26,18,.13);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',system-ui,sans-serif;color:var(--ink);background:#eff4f1;min-height:100vh;line-height:1.55}
 
-  --gold-500: #c8922a;
-  --gold-400: #d9a84a;
-  --gold-300: #e8c878;
-  --gold-100: #fdf4e3;
-  --gold-050: #fffaf0;
+/* ── HEADER ── */
+.hdr{position:sticky;top:0;z-index:50;background:var(--g950);border-bottom:1px solid rgba(255,255,255,.06);padding:.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between}
+.brand{font-family:'Fraunces',serif;font-weight:700;font-size:.95rem;color:#fff;text-decoration:none}
+.hdr-r{display:flex;gap:.5rem}
+.hbtn{font-family:inherit;font-size:.8rem;font-weight:600;border-radius:999px;padding:.38rem .85rem;cursor:pointer;border:1.5px solid rgba(255,255,255,.2);background:transparent;color:rgba(255,255,255,.8);transition:all .15s}
+.hbtn:hover{background:rgba(255,255,255,.1);color:#fff}
+.hbtn.gold{background:var(--gold-l);color:var(--g950);border-color:var(--gold-l)}
+.hbtn.gold:hover{background:var(--gold-ll)}
 
-  --stage-c: #5b8fa8;
-  --stage-m: #7c6bb0;
-  --stage-s: #c07840;
-  --stage-d: #3d9e6e;
+/* ── HERO ── */
+.hero{background:var(--g900);padding:4rem 1.5rem 3rem;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 20% 80%,rgba(58,99,68,.38) 0%,transparent 60%),radial-gradient(ellipse 55% 40% at 80% 15%,rgba(200,146,42,.11) 0%,transparent 55%);pointer-events:none}
+.hero-in{position:relative;max-width:640px;margin:0 auto}
+.hero-tag{display:inline-block;border:1px solid rgba(232,200,120,.35);color:var(--gold-ll);font-size:.71rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;padding:.28rem .8rem;border-radius:999px;margin-bottom:1.25rem}
+.hero h1{font-family:'Fraunces',serif;font-size:clamp(2rem,5vw,3.1rem);line-height:1.1;font-weight:700;color:#fff;letter-spacing:-.02em;margin-bottom:.85rem}
+.hero h1 em{color:var(--gold-ll);font-style:italic}
+.hero-sub{color:rgba(255,255,255,.68);font-size:.98rem;max-width:500px;margin:0 auto 2rem;line-height:1.7}
+.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;max-width:520px;margin:0 auto 2rem;text-align:left}
+.hero-tile{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:var(--r);padding:1rem}
+.hero-tile-n{font-family:'Fraunces',serif;font-size:1.45rem;font-weight:700;color:var(--gold-ll);display:block;margin-bottom:.3rem}
+.hero-tile p{color:rgba(255,255,255,.68);font-size:.82rem;line-height:1.5}
+.hero-cta{display:inline-flex;align-items:center;gap:.5rem;background:var(--gold-l);color:var(--g950);font-family:inherit;font-size:.95rem;font-weight:700;border:none;border-radius:999px;padding:.88rem 1.8rem;cursor:pointer;transition:transform .15s,box-shadow .15s;box-shadow:0 4px 20px rgba(200,146,42,.4)}
+.hero-cta:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(200,146,42,.5)}
 
-  --ink: #181e1a;
-  --ink-2: #3d4f43;
-  --muted: #6b7d72;
-  --border: #d0dfd5;
-  --border-light: #e8f0eb;
-  --white: #ffffff;
+/* ── WRAP ── */
+.wrap{max-width:820px;margin:0 auto;padding:2.5rem 1.25rem 6rem}
 
-  --r: 14px;
-  --r-lg: 22px;
-  --r-xl: 32px;
-  --shadow-sm: 0 2px 8px rgba(14,26,18,.07);
-  --shadow: 0 4px 20px rgba(14,26,18,.09);
-  --shadow-lg: 0 10px 40px rgba(14,26,18,.12);
-}
+/* ── MOVEMENT HEADER ── */
+.mv-hdr{display:flex;align-items:flex-start;gap:1rem;margin-bottom:1.5rem}
+.mv-num{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:1.1rem;font-weight:700;flex-shrink:0;margin-top:.1rem}
+.mv-num.one{background:var(--g700);color:#fff}
+.mv-num.two{background:var(--gold-l);color:var(--g950)}
+.mv-title{font-family:'Fraunces',serif;font-size:1.45rem;font-weight:700;color:var(--ink);letter-spacing:-.02em;line-height:1.2;margin-bottom:.3rem}
+.mv-desc{color:var(--muted);font-size:.88rem;line-height:1.65;max-width:560px}
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; font-size: 16px; }
+.mv-block{margin-bottom:3.5rem}
 
-body {
-  font-family: 'DM Sans', system-ui, sans-serif;
-  color: var(--ink);
-  background: #f0f5f2;
-  min-height: 100vh;
-  line-height: 1.55;
-}
+/* ── CARDS ── */
+.card{background:var(--white);border:1px solid var(--border);border-radius:var(--r-lg);box-shadow:var(--sh)}
+.card+.card{margin-top:.85rem}
+.cp{padding:1.25rem}
 
-/* ── HEADER ─────────────────────────────────────────────────────────────── */
-.site-header {
-  position: sticky; top: 0; z-index: 50;
-  background: var(--earth-950);
-  border-bottom: 1px solid rgba(255,255,255,.06);
-  padding: .75rem 1.5rem;
-  display: flex; align-items: center; justify-content: space-between;
-}
-.brand {
-  font-family: 'Fraunces', Georgia, serif;
-  font-weight: 700; font-size: .95rem;
-  color: #fff; text-decoration: none; letter-spacing: .01em;
-}
-.header-right { display: flex; gap: .5rem; align-items: center; }
-.hbtn {
-  font-family: inherit; font-size: .8rem; font-weight: 600;
-  border-radius: 999px; padding: .38rem .85rem; cursor: pointer;
-  border: 1.5px solid rgba(255,255,255,.2);
-  background: transparent; color: rgba(255,255,255,.8);
-  transition: all .15s;
-}
-.hbtn:hover { background: rgba(255,255,255,.1); color: #fff; }
-.hbtn.gold { background: var(--gold-400); color: var(--earth-950); border-color: var(--gold-400); }
-.hbtn.gold:hover { background: var(--gold-300); }
+/* ── STEP LABELS ── */
+.slabel{display:inline-block;font-size:.69rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--g600);margin-bottom:.45rem}
+.sq{font-family:'Fraunces',serif;font-size:1.1rem;font-weight:600;color:var(--ink);margin-bottom:.25rem;line-height:1.3}
+.sh{font-size:.83rem;color:var(--muted);line-height:1.6;margin-bottom:1rem}
 
-/* ── HERO ────────────────────────────────────────────────────────────────── */
-.hero {
-  background: var(--earth-900);
-  padding: 4rem 1.5rem 3rem;
-  text-align: center;
-  position: relative; overflow: hidden;
-}
-.hero::before {
-  content: '';
-  position: absolute; inset: 0;
-  background:
-    radial-gradient(ellipse 70% 50% at 20% 80%, rgba(58,99,68,.4) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 40% at 80% 20%, rgba(200,146,42,.12) 0%, transparent 55%);
-  pointer-events: none;
-}
-.hero-inner { position: relative; max-width: 660px; margin: 0 auto; }
-.hero-tag {
-  display: inline-block;
-  border: 1px solid rgba(232,200,120,.35);
-  color: var(--gold-300); font-size: .72rem; font-weight: 700;
-  letter-spacing: .13em; text-transform: uppercase;
-  padding: .28rem .8rem; border-radius: 999px; margin-bottom: 1.25rem;
-}
-.hero h1 {
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: clamp(2rem, 5vw, 3.2rem);
-  line-height: 1.12; font-weight: 700; color: #fff;
-  letter-spacing: -.02em; margin-bottom: .9rem;
-}
-.hero h1 span { color: var(--gold-300); font-style: italic; }
-.hero-sub {
-  color: rgba(255,255,255,.68); font-size: 1rem;
-  max-width: 520px; margin: 0 auto 2rem; line-height: 1.7;
-}
-.hero-two-col {
-  display: grid; grid-template-columns: 1fr 1fr; gap: .75rem;
-  max-width: 540px; margin: 0 auto 2rem; text-align: left;
-}
-.hero-card {
-  background: rgba(255,255,255,.06);
-  border: 1px solid rgba(255,255,255,.1);
-  border-radius: var(--r); padding: 1rem 1.05rem;
-}
-.hero-card-num {
-  font-family: 'Fraunces', serif; font-size: 1.5rem; font-weight: 700;
-  color: var(--gold-300); display: block; margin-bottom: .3rem;
-}
-.hero-card p { color: rgba(255,255,255,.7); font-size: .83rem; line-height: 1.5; }
-.start-cta {
-  display: inline-flex; align-items: center; gap: .5rem;
-  background: var(--gold-400); color: var(--earth-950);
-  font-family: inherit; font-size: .95rem; font-weight: 700;
-  border: none; border-radius: 999px; padding: .88rem 1.8rem;
-  cursor: pointer; transition: transform .15s, box-shadow .15s;
-  box-shadow: 0 4px 20px rgba(200,146,42,.4);
-}
-.start-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(200,146,42,.5); }
+/* ── FIELD FRAMING ── */
+.field-intro{background:var(--g050);border:1px solid var(--border-l);border-radius:var(--r);padding:.9rem 1rem;margin-bottom:1rem;font-size:.85rem;color:var(--ink2);line-height:1.6}
+.field-intro strong{color:var(--g700);display:block;margin-bottom:.25rem;font-size:.87rem}
 
-/* ── LAYOUT ──────────────────────────────────────────────────────────────── */
-.tool-wrap {
-  max-width: 840px; margin: 0 auto;
-  padding: 2.5rem 1.25rem 6rem;
-}
+/* ── LANE GRID ── */
+.lane-grid{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
+.lane-btn{border:2px solid var(--border);background:var(--white);border-radius:var(--r);padding:1rem;text-align:left;cursor:pointer;transition:all .17s ease;position:relative;overflow:hidden;width:100%}
+.lane-btn:hover{border-color:var(--g600);transform:translateY(-1px)}
+.lane-btn.active{border-color:var(--g700);background:var(--g050);box-shadow:0 0 0 3px rgba(42,74,50,.1)}
+.lane-icon{font-size:1.5rem;display:block;margin-bottom:.45rem}
+.lane-fw{display:flex;align-items:baseline;gap:.45rem;margin-bottom:.18rem}
+.lane-name{font-weight:700;font-size:.95rem;color:var(--ink)}
+.lane-framework{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--g600);padding:.1rem .45rem;background:var(--g050);border:1px solid var(--g100);border-radius:999px}
+.lane-btn.active .lane-framework{background:var(--g100)}
+.lane-plain{display:block;font-size:.78rem;color:var(--muted);line-height:1.4;margin-bottom:.55rem}
+.lane-eg-label{font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--g600);margin-bottom:.28rem;display:block}
+.lane-tags{display:flex;flex-wrap:wrap;gap:.28rem}
+.ltag{background:var(--g050);border:1px solid var(--g100);border-radius:999px;padding:.15rem .5rem;font-size:.71rem;color:var(--ink2);font-weight:500}
+.lane-btn.active .ltag{background:var(--g100)}
 
-/* ── MOVEMENT HEADERS ────────────────────────────────────────────────────── */
-.movement-header {
-  display: flex; align-items: flex-start; gap: 1rem;
-  margin-bottom: 1.5rem;
-}
-.movement-num {
-  width: 42px; height: 42px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-family: 'Fraunces', serif; font-size: 1.1rem; font-weight: 700;
-  flex-shrink: 0; margin-top: .1rem;
-}
-.movement-num.one { background: var(--earth-700); color: #fff; }
-.movement-num.two { background: var(--gold-400); color: var(--earth-950); }
-.movement-title {
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: 1.5rem; font-weight: 700; color: var(--ink);
-  letter-spacing: -.02em; line-height: 1.2; margin-bottom: .3rem;
-}
-.movement-desc { color: var(--muted); font-size: .9rem; line-height: 1.6; max-width: 560px; }
+/* ── TRACTION PROMPTS ── */
+.traction-grid{display:grid;gap:.6rem;margin-bottom:1rem}
+.traction-opt{display:flex;align-items:flex-start;gap:.65rem;border:1.5px solid var(--border);background:var(--white);border-radius:var(--r);padding:.85rem .95rem;cursor:pointer;text-align:left;font:inherit;font-size:.87rem;color:var(--ink);width:100%;line-height:1.45;transition:all .15s}
+.traction-opt:hover{border-color:var(--g600);background:var(--g050)}
+.traction-opt.active{border-color:var(--g700);background:#f0f7f3;box-shadow:0 0 0 2px rgba(42,74,50,.1)}
+.traction-opt.active .t-radio{background:var(--g700);border-color:var(--g700)}
+.traction-opt.active .t-radio::after{content:'';width:5px;height:5px;border-radius:999px;background:#fff}
+.t-radio{width:17px;height:17px;border-radius:999px;border:2px solid var(--border);flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;transition:all .14s}
+.t-body strong{display:block;margin-bottom:.12rem;font-size:.88rem;color:var(--g800)}
+.t-note{display:block;font-size:.79rem;color:var(--muted);margin-top:.08rem;line-height:1.45}
 
-.movement-block { margin-bottom: 3.5rem; }
+/* ── OIKOS TYPE ── */
+.oikos-type-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:.85rem}
+.oikos-type-btn{border:2px solid var(--border);background:var(--white);border-radius:var(--r);padding:.85rem .95rem;cursor:pointer;text-align:left;font:inherit;transition:all .15s;width:100%}
+.oikos-type-btn:hover{border-color:var(--g600)}
+.oikos-type-btn.active{border-color:var(--g700);background:var(--g050);box-shadow:0 0 0 3px rgba(42,74,50,.1)}
+.otb-icon{font-size:1.15rem;display:block;margin-bottom:.35rem}
+.otb-label{font-weight:700;font-size:.88rem;color:var(--ink);display:block;margin-bottom:.18rem}
+.otb-desc{font-size:.78rem;color:var(--muted);line-height:1.45}
 
-/* ── CARDS ───────────────────────────────────────────────────────────────── */
-.card {
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: var(--r-lg);
-  box-shadow: var(--shadow);
-}
+/* ── SETTING / FREE TEXT ── */
+.chip-row{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.75rem}
+.chip{border:1.5px solid var(--border);background:var(--white);border-radius:999px;padding:.35rem .8rem;font:inherit;font-size:.81rem;font-weight:500;color:var(--ink2);cursor:pointer;transition:all .14s}
+.chip:hover{border-color:var(--g600)}
+.chip.on{background:var(--g700);color:#fff;border-color:var(--g700)}
+.text-input{width:100%;padding:.75rem 1rem;border:2px solid var(--border);border-radius:var(--r);font:inherit;font-size:.9rem;color:var(--ink);outline:none;transition:border-color .15s,box-shadow .15s;background:var(--white)}
+.text-input:focus{border-color:var(--g700);box-shadow:0 0 0 3px rgba(42,74,50,.08)}
+.text-input::placeholder{color:#b0bdb5}
 
-/* ── STEP LABELS ─────────────────────────────────────────────────────────── */
-.step-label {
-  display: inline-block;
-  font-size: .7rem; font-weight: 700; letter-spacing: .12em;
-  text-transform: uppercase; color: var(--earth-600);
-  margin-bottom: .5rem;
-}
-.step-q {
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: 1.1rem; font-weight: 600; color: var(--ink);
-  margin-bottom: .3rem; line-height: 1.3;
-}
-.step-hint { font-size: .83rem; color: var(--muted); line-height: 1.55; margin-bottom: 1rem; }
+/* ── RHYTHM BUILDER ── */
+.rhythm-rows{display:grid;gap:.6rem}
+.rr{display:flex;align-items:center;gap:.7rem;background:var(--g050);border:1px solid var(--border-l);border-radius:var(--r);padding:.75rem 1rem}
+.rr-lbl{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--g600);width:80px;flex-shrink:0}
+.rsel{flex:1;border:1.5px solid var(--border);border-radius:9px;padding:.48rem .8rem;font:inherit;font-size:.87rem;background:var(--white);color:var(--ink);outline:none;cursor:pointer;transition:border-color .14s}
+.rsel:focus{border-color:var(--g700)}
+.rinput{flex:1;border:1.5px solid var(--border);border-radius:9px;padding:.48rem .8rem;font:inherit;font-size:.87rem;background:var(--white);color:var(--ink);outline:none;transition:border-color .14s}
+.rinput:focus{border-color:var(--g700)}
+.rinput::placeholder{color:#b0bdb5}
 
-/* ── MOVEMENT 1 ──────────────────────────────────────────────────────────── */
+/* ── OUTPUT 1 ── */
+.out1{background:var(--g900);color:#fff;border-radius:var(--r-xl);padding:1.5rem 1.4rem;margin-top:1.25rem;box-shadow:var(--sh-lg);border:1px solid rgba(255,255,255,.06)}
+.out-badge{background:var(--gold-l);color:var(--g950);font-size:.69rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;border-radius:999px;padding:.24rem .72rem}
+.out-title{font-family:'Fraunces',serif;font-size:1.05rem;font-weight:600;color:#fff;margin-top:.15rem;margin-bottom:1.1rem}
+.out-rows{display:grid;gap:.55rem}
+.out-row{display:flex;align-items:flex-start;gap:.75rem;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:.8rem 1rem}
+.or-icon{font-size:1rem;flex-shrink:0;margin-top:.05rem}
+.or-body strong{display:block;color:#fff;font-size:.88rem;margin-bottom:.1rem}
+.or-body span{font-size:.84rem;color:rgba(255,255,255,.72);line-height:1.5}
+.out-empty{color:rgba(255,255,255,.38);font-size:.87rem;text-align:center;padding:1.5rem;border:1px dashed rgba(255,255,255,.14);border-radius:var(--r)}
 
-/* 1A — Lane selection */
-.lane-grid {
-  display: grid; grid-template-columns: 1fr 1fr; gap: .7rem;
-  padding: 1.25rem;
-}
-.lane-btn {
-  border: 2px solid var(--border);
-  background: var(--white); border-radius: var(--r);
-  padding: 1rem; text-align: left; cursor: pointer;
-  transition: all .17s ease; position: relative; overflow: hidden;
-}
-.lane-btn::before {
-  content: ''; position: absolute; inset: 0;
-  background: var(--earth-050); opacity: 0; transition: opacity .15s;
-}
-.lane-btn:hover { border-color: var(--earth-600); transform: translateY(-1px); }
-.lane-btn:hover::before { opacity: 1; }
-.lane-btn.active {
-  border-color: var(--earth-700);
-  box-shadow: 0 0 0 3px rgba(42,74,50,.1);
-}
-.lane-btn.active::before { opacity: 1; }
-.lane-icon { font-size: 1.6rem; display: block; margin-bottom: .5rem; position: relative; }
-.lane-name {
-  display: block; font-weight: 700; font-size: .97rem;
-  color: var(--ink); margin-bottom: .15rem; position: relative;
-}
-.lane-plain { display: block; font-size: .78rem; color: var(--muted); line-height: 1.4; position: relative; }
-.lane-examples {
-  margin-top: .55rem; padding-top: .55rem;
-  border-top: 1px solid var(--border-light); position: relative;
-}
-.lane-eg-label { font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--earth-600); margin-bottom: .3rem; display: block; }
-.lane-eg-tags { display: flex; flex-wrap: wrap; gap: .3rem; }
-.eg-tag {
-  background: var(--earth-050); border: 1px solid var(--earth-100);
-  border-radius: 999px; padding: .18rem .55rem;
-  font-size: .72rem; color: var(--ink-2); font-weight: 500;
-}
-.lane-btn.active .eg-tag { background: var(--earth-100); }
+/* ── DIVIDER ── */
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--border) 30%,var(--border) 70%,transparent);margin:0 0 2.5rem}
 
-/* 1B — Setting */
-.setting-block { padding: 1.25rem; border-top: 1px solid var(--border-light); }
-.setting-examples {
-  display: flex; flex-wrap: wrap; gap: .45rem; margin-bottom: 1rem;
-}
-.setting-chip {
-  border: 1.5px solid var(--border);
-  background: var(--white); border-radius: 999px;
-  padding: .38rem .8rem; font: inherit; font-size: .82rem;
-  font-weight: 500; color: var(--ink-2); cursor: pointer;
-  transition: all .14s;
-}
-.setting-chip:hover { border-color: var(--earth-600); color: var(--earth-700); }
-.setting-chip.chosen { background: var(--earth-700); color: #fff; border-color: var(--earth-700); }
-.field-row { display: flex; gap: .6rem; align-items: stretch; margin-top: .6rem; }
-.text-input {
-  flex: 1; padding: .72rem .95rem;
-  border: 2px solid var(--border); border-radius: var(--r);
-  font: inherit; font-size: .9rem; color: var(--ink);
-  outline: none; transition: border-color .15s, box-shadow .15s;
-  background: var(--white);
-}
-.text-input:focus { border-color: var(--earth-700); box-shadow: 0 0 0 3px rgba(42,74,50,.08); }
-.text-input::placeholder { color: #aab5ae; }
-.add-btn {
-  background: var(--earth-700); color: #fff;
-  border: none; border-radius: var(--r); padding: .72rem 1.1rem;
-  font: inherit; font-size: .85rem; font-weight: 700;
-  cursor: pointer; white-space: nowrap; transition: background .15s;
-}
-.add-btn:hover { background: var(--earth-800); }
+/* ── M2 CONTEXT BAR ── */
+.m2-context{background:var(--g050);border:1px solid var(--border-l);border-radius:var(--r);padding:.85rem 1rem;margin-bottom:1.25rem;display:flex;align-items:center;gap:.65rem;font-size:.85rem;color:var(--ink2)}
+.m2-context .ctx-icon{font-size:1.1rem;flex-shrink:0}
+.m2-context strong{color:var(--g700)}
+.m2-context.empty{color:var(--muted);font-style:italic}
 
-/* 1C — Oikos */
-.oikos-block { padding: 1.25rem; border-top: 1px solid var(--border-light); }
-.oikos-opts { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; margin-bottom: 1rem; }
-.oikos-opt {
-  border: 2px solid var(--border); background: var(--white);
-  border-radius: var(--r); padding: .9rem 1rem;
-  font: inherit; font-size: .85rem; font-weight: 500;
-  color: var(--ink); text-align: left; cursor: pointer; line-height: 1.4;
-  transition: all .15s; display: flex; align-items: flex-start; gap: .6rem;
-}
-.oikos-opt:hover { border-color: var(--earth-600); }
-.oikos-opt.active { border-color: var(--earth-700); background: var(--earth-050); box-shadow: 0 0 0 3px rgba(42,74,50,.08); }
-.oikos-check {
-  width: 18px; height: 18px; border-radius: 5px;
-  border: 2px solid var(--border); flex-shrink: 0; margin-top: 1px;
-  display: flex; align-items: center; justify-content: center; transition: all .14s;
-}
-.oikos-opt.active .oikos-check { background: var(--earth-700); border-color: var(--earth-700); }
-.oikos-opt.active .oikos-check::after { content: '✓'; color: #fff; font-size: .68rem; font-weight: 800; }
-.oikos-note { font-size: .82rem; color: var(--muted); line-height: 1.5; margin-top: .5rem; }
+/* ── PEOPLE ── */
+.ppl-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:.6rem}
+.add-btn{display:flex;align-items:center;gap:.4rem;background:var(--g700);color:#fff;border:none;border-radius:999px;padding:.52rem 1.1rem;font:inherit;font-size:.84rem;font-weight:700;cursor:pointer;transition:background .15s,transform .15s}
+.add-btn:hover{background:var(--g800);transform:translateY(-1px)}
+.person-cards{display:grid;gap:.9rem}
 
-/* 1D — Rhythm */
-.rhythm-block { padding: 1.25rem; border-top: 1px solid var(--border-light); }
-.rhythm-builder { display: grid; gap: .65rem; }
-.rhythm-row {
-  display: flex; align-items: center; gap: .65rem;
-  background: var(--earth-050); border: 1px solid var(--border-light);
-  border-radius: var(--r); padding: .75rem 1rem;
-}
-.rhythm-row .ri-label {
-  font-size: .78rem; font-weight: 700; text-transform: uppercase;
-  letter-spacing: .09em; color: var(--earth-600); width: 60px; flex-shrink: 0;
-}
-.rhythm-select {
-  flex: 1; border: 1.5px solid var(--border); border-radius: 8px;
-  padding: .42rem .75rem; font: inherit; font-size: .87rem;
-  background: var(--white); color: var(--ink); outline: none;
-  cursor: pointer; transition: border-color .14s;
-}
-.rhythm-select:focus { border-color: var(--earth-700); }
-.rhythm-ta {
-  width: 100%; margin-top: .75rem; padding: .75rem .9rem;
-  border: 1.5px solid var(--border); border-radius: var(--r);
-  font: inherit; font-size: .87rem; color: var(--ink);
-  min-height: 80px; resize: vertical; outline: none; line-height: 1.55;
-  transition: border-color .14s; background: var(--white);
-}
-.rhythm-ta:focus { border-color: var(--earth-700); }
-
-/* OUTPUT 1 CARD */
-.output-card {
-  background: var(--earth-900); color: #fff;
-  border-radius: var(--r-xl);
-  padding: 1.5rem 1.4rem; margin-top: 1.25rem;
-  box-shadow: var(--shadow-lg);
-  border: 1px solid rgba(255,255,255,.06);
-}
-.output-card-header {
-  display: flex; align-items: center; gap: .65rem; margin-bottom: 1.1rem;
-}
-.output-badge {
-  background: var(--gold-400); color: var(--earth-950);
-  font-size: .7rem; font-weight: 800; letter-spacing: .1em;
-  text-transform: uppercase; border-radius: 999px; padding: .28rem .75rem;
-}
-.output-title {
-  font-family: 'Fraunces', serif; font-size: 1.05rem; font-weight: 600;
-  color: #fff;
-}
-.rhythm-summary { display: grid; gap: .6rem; }
-.rs-row {
-  display: flex; align-items: flex-start; gap: .75rem;
-  background: rgba(255,255,255,.07);
-  border: 1px solid rgba(255,255,255,.1);
-  border-radius: 12px; padding: .75rem 1rem;
-}
-.rs-icon { font-size: 1rem; flex-shrink: 0; margin-top: .05rem; }
-.rs-text { font-size: .88rem; line-height: 1.5; color: rgba(255,255,255,.88); }
-.rs-text strong { color: #fff; display: block; margin-bottom: .05rem; font-size: .9rem; }
-.output-empty {
-  color: rgba(255,255,255,.4); font-size: .88rem;
-  text-align: center; padding: 1.5rem;
-  border: 1px dashed rgba(255,255,255,.15); border-radius: var(--r);
-}
-
-/* ── MOVEMENT 2 ──────────────────────────────────────────────────────────── */
-.m2-divider {
-  height: 1px; background: linear-gradient(90deg, transparent, var(--border) 30%, var(--border) 70%, transparent);
-  margin: 0 0 2.5rem;
-}
-
-/* PEOPLE */
-.people-top {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 1rem; flex-wrap: wrap; gap: .6rem;
-}
-.add-person-btn {
-  display: flex; align-items: center; gap: .4rem;
-  background: var(--earth-700); color: #fff;
-  border: none; border-radius: 999px; padding: .52rem 1.1rem;
-  font: inherit; font-size: .84rem; font-weight: 700;
-  cursor: pointer; transition: background .15s, transform .15s;
-}
-.add-person-btn:hover { background: var(--earth-800); transform: translateY(-1px); }
-
-.person-cards { display: grid; gap: 1rem; }
-
-/* PERSON CARD */
-.person-card {
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: var(--r-lg);
-  box-shadow: var(--shadow-sm);
-  overflow: hidden;
-  transition: box-shadow .2s, transform .2s;
-}
-.person-card:hover { box-shadow: var(--shadow); }
-
-.pc-top {
-  display: flex; align-items: center; gap: .85rem;
-  padding: 1rem 1.15rem;
-  border-bottom: 1px solid var(--border-light);
-}
-.pc-avatar {
-  width: 40px; height: 40px; border-radius: 999px;
-  display: flex; align-items: center; justify-content: center;
-  font-family: 'Fraunces', serif; font-weight: 700; font-size: 1rem;
-  color: #fff; flex-shrink: 0;
-}
-.pc-name {
-  flex: 1; background: transparent; border: none; outline: none;
-  font: inherit; font-size: 1rem; font-weight: 700; color: var(--ink);
-}
-.pc-name::placeholder { color: #b0bdb5; font-weight: 400; }
-.pc-del {
-  background: none; border: none; cursor: pointer;
-  color: #c0ccc6; font-size: 1rem; padding: .3rem;
-  border-radius: 8px; transition: color .14s, background .14s;
-}
-.pc-del:hover { color: #b83232; background: #fff5f5; }
+/* ── PERSON CARD ── */
+.pc{background:var(--white);border:1px solid var(--border);border-radius:var(--r-lg);box-shadow:var(--sh-sm);overflow:hidden;transition:box-shadow .2s}
+.pc:hover{box-shadow:var(--sh)}
+.pc-top{display:flex;align-items:center;gap:.85rem;padding:.95rem 1.15rem;border-bottom:1px solid var(--border-l)}
+.pc-av{width:38px;height:38px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-weight:700;font-size:.95rem;color:#fff;flex-shrink:0}
+.pc-name{flex:1;background:transparent;border:none;outline:none;font:inherit;font-size:1rem;font-weight:700;color:var(--ink)}
+.pc-name::placeholder{color:#b0bdb5;font-weight:400}
+.pc-del{background:none;border:none;cursor:pointer;color:#c0ccc6;font-size:1rem;padding:.3rem;border-radius:8px;transition:color .14s,background .14s}
+.pc-del:hover{color:#b83232;background:#fff5f5}
 
 /* STAGE TRACK */
-.pc-stage { padding: 1rem 1.15rem .85rem; }
-.stage-row {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: .7rem;
-}
-.stage-row-label { font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); }
-.stage-badge {
-  font-size: .75rem; font-weight: 700;
-  padding: .22rem .65rem; border-radius: 999px; color: #fff;
-}
-
-.track-wrap { position: relative; margin-bottom: .8rem; }
-.track-bg {
-  height: 5px; background: var(--border); border-radius: 999px;
-  position: absolute; left: 11px; right: 11px; top: 50%; transform: translateY(-50%);
-}
-.track-progress {
-  height: 5px; border-radius: 999px; position: absolute;
-  left: 11px; top: 50%; transform: translateY(-50%);
-  transition: width .4s cubic-bezier(.4,0,.2,1);
-}
-.track-stops {
-  display: flex; justify-content: space-between; position: relative;
-}
-.track-stop {
-  display: flex; flex-direction: column; align-items: center; gap: .55rem;
-  cursor: pointer; flex: 1; transition: transform .15s;
-}
-.track-stop:hover { transform: translateY(-1px); }
-.stop-node {
-  width: 22px; height: 22px; border-radius: 999px;
-  border: 3px solid var(--border); background: var(--white);
-  transition: all .22s ease; position: relative; z-index: 1;
-}
-.stop-node.past { border-width: 2px; }
-.stop-node.current {
-  width: 28px; height: 28px;
-  box-shadow: 0 0 0 4px rgba(255,255,255,.9), 0 0 0 6px currentColor;
-}
-.stop-node.current::after {
-  content: ''; width: 8px; height: 8px; border-radius: 999px;
-  background: currentColor; position: absolute;
-  top: 50%; left: 50%; transform: translate(-50%, -50%);
-}
-.stop-txt {
-  font-size: .7rem; font-weight: 700; color: var(--muted);
-  text-align: center; line-height: 1.3; transition: color .2s;
-}
-.stop-txt.is-current { font-weight: 800; }
-.stage-desc {
-  font-size: .8rem; color: var(--muted); line-height: 1.5;
-  padding: .5rem .75rem; background: var(--earth-050);
-  border-radius: 8px;
-}
+.pc-stage{padding:.95rem 1.15rem .8rem}
+.stage-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:.65rem}
+.stage-lbl{font-size:.73rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+.stage-badge{font-size:.73rem;font-weight:700;padding:.2rem .62rem;border-radius:999px;color:#fff}
+.track-wrap{position:relative;padding:.6rem 0;margin-bottom:.7rem}
+.track-bg{height:4px;background:var(--border);border-radius:999px;position:absolute;left:11px;right:11px;top:50%;transform:translateY(-50%)}
+.track-fill{height:4px;border-radius:999px;position:absolute;left:11px;top:50%;transform:translateY(-50%);transition:width .4s cubic-bezier(.4,0,.2,1)}
+.track-stops{display:flex;justify-content:space-between;position:relative}
+.tstop{display:flex;flex-direction:column;align-items:center;gap:.5rem;cursor:pointer;flex:1;transition:transform .14s}
+.tstop:hover{transform:translateY(-1px)}
+.snode{width:22px;height:22px;border-radius:999px;border:3px solid var(--border);background:var(--white);transition:all .22s;position:relative;z-index:1}
+.snode.past{border-width:2px}
+.snode.cur{width:28px;height:28px;box-shadow:0 0 0 4px rgba(255,255,255,.9),0 0 0 6px currentColor}
+.snode.cur::after{content:'';width:8px;height:8px;border-radius:999px;background:currentColor;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}
+.stxt{font-size:.69rem;font-weight:700;color:var(--muted);text-align:center;line-height:1.3;transition:color .2s}
+.stxt.cur{font-weight:800}
+.stage-desc{font-size:.79rem;color:var(--muted);line-height:1.5;padding:.45rem .7rem;background:var(--g050);border-radius:8px}
 
 /* BARRIER */
-.pc-barrier {
-  padding: .9rem 1.15rem 1rem;
-  border-top: 1px solid var(--border-light);
-  background: #fafcfb;
-}
-.barrier-heading {
-  font-size: .83rem; font-weight: 700; color: var(--ink);
-  margin-bottom: .65rem; line-height: 1.45;
-}
-.barrier-heading span { color: var(--earth-600); }
-.barrier-list { display: grid; gap: .45rem; }
-.barrier-btn {
-  display: flex; align-items: flex-start; gap: .65rem;
-  border: 1.5px solid var(--border); background: var(--white);
-  border-radius: 11px; padding: .7rem .85rem;
-  font: inherit; font-size: .85rem; color: var(--ink);
-  text-align: left; cursor: pointer; line-height: 1.45;
-  transition: all .15s; width: 100%;
-}
-.barrier-btn:hover { border-color: var(--earth-600); background: var(--earth-050); }
-.barrier-btn.active { border-color: var(--earth-700); background: #f0f7f3; box-shadow: 0 0 0 2px rgba(42,74,50,.1); }
-.barrier-radio {
-  width: 17px; height: 17px; border-radius: 999px;
-  border: 2px solid var(--border); flex-shrink: 0; margin-top: 2px;
-  display: flex; align-items: center; justify-content: center; transition: all .14s;
-}
-.barrier-btn.active .barrier-radio { background: var(--earth-700); border-color: var(--earth-700); }
-.barrier-btn.active .barrier-radio::after { content: ''; width: 5px; height: 5px; border-radius: 999px; background: #fff; }
+.pc-barrier{padding:.85rem 1.15rem .95rem;border-top:1px solid var(--border-l);background:#fafcfb}
+.barrier-hd{font-size:.84rem;font-weight:700;color:var(--ink);margin-bottom:.6rem;line-height:1.45}
+.barrier-hd .arrow{color:var(--g600);font-weight:800}
+.barrier-list{display:grid;gap:.42rem}
+.barr-btn{display:flex;align-items:flex-start;gap:.65rem;border:1.5px solid var(--border);background:var(--white);border-radius:11px;padding:.68rem .85rem;font:inherit;font-size:.85rem;color:var(--ink);text-align:left;cursor:pointer;line-height:1.45;transition:all .14s;width:100%}
+.barr-btn:hover{border-color:var(--g600);background:var(--g050)}
+.barr-btn.active{border-color:var(--g700);background:#f0f7f3;box-shadow:0 0 0 2px rgba(42,74,50,.1)}
+.barr-radio{width:16px;height:16px;border-radius:999px;border:2px solid var(--border);flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;transition:all .14s}
+.barr-btn.active .barr-radio{background:var(--g700);border-color:var(--g700)}
+.barr-btn.active .barr-radio::after{content:'';width:5px;height:5px;border-radius:999px;background:#fff}
 
-/* NEXT MOVE OUTPUT */
-.pc-nextmove {
-  border-top: 2px solid var(--gold-400);
-  background: var(--gold-050);
-  padding: 1rem 1.15rem 1.1rem;
-  animation: fadeUp .25s ease;
-}
-@keyframes fadeUp { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
-.nm-header {
-  display: flex; align-items: center; gap: .5rem; margin-bottom: .75rem;
-}
-.nm-badge {
-  background: var(--gold-400); color: var(--earth-950);
-  font-size: .68rem; font-weight: 800; letter-spacing: .1em;
-  text-transform: uppercase; border-radius: 999px; padding: .22rem .65rem;
-}
-.nm-regen {
-  margin-left: auto; background: none; border: 1px solid rgba(200,146,42,.4);
-  color: var(--gold-500); border-radius: 999px; padding: .22rem .65rem;
-  font: inherit; font-size: .75rem; font-weight: 700; cursor: pointer;
-  transition: all .14s;
-}
-.nm-regen:hover { background: rgba(200,146,42,.1); }
-.nm-loading {
-  display: flex; align-items: center; gap: .65rem;
-  color: var(--gold-500); font-size: .87rem; font-weight: 600;
-}
-.nm-spin {
-  width: 16px; height: 16px; border-radius: 999px;
-  border: 2px solid rgba(200,146,42,.3); border-top-color: var(--gold-400);
-  animation: spin .8s linear infinite; flex-shrink: 0;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-.nm-error { font-size: .83rem; color: #9b3232; }
-
-.nm-items { display: grid; gap: .5rem; }
-.nm-item {
-  display: flex; align-items: flex-start; gap: .65rem;
-  background: var(--white); border: 1px solid rgba(200,146,42,.25);
-  border-radius: 10px; padding: .7rem .85rem;
-}
-.nm-cb {
-  width: 19px; height: 19px; border-radius: 5px;
-  border: 2px solid var(--gold-400); flex-shrink: 0; margin-top: 1px;
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer; transition: all .14s; background: var(--white);
-}
-.nm-cb.done { background: var(--earth-700); border-color: var(--earth-700); }
-.nm-cb.done::after { content: '✓'; color: #fff; font-size: .72rem; font-weight: 800; }
-.nm-text { font-size: .87rem; line-height: 1.5; color: var(--ink); }
-.nm-text.done { text-decoration: line-through; color: var(--muted); }
-.nm-gen-btn {
-  display: inline-flex; align-items: center; gap: .4rem;
-  background: var(--gold-400); color: var(--earth-950);
-  border: none; border-radius: 999px; padding: .62rem 1.1rem;
-  font: inherit; font-size: .85rem; font-weight: 700;
-  cursor: pointer; transition: background .15s, transform .15s;
-}
-.nm-gen-btn:hover { background: var(--gold-300); transform: translateY(-1px); }
+/* NEXT MOVE */
+.pc-nm{border-top:2px solid var(--gold-l);background:var(--gold-bg2);padding:.95rem 1.15rem 1rem;animation:fadeUp .22s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.nm-hdr{display:flex;align-items:center;gap:.5rem;margin-bottom:.7rem}
+.nm-badge{background:var(--gold-l);color:var(--g950);font-size:.68rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;border-radius:999px;padding:.22rem .65rem}
+.nm-regen{margin-left:auto;background:none;border:1px solid rgba(200,146,42,.4);color:var(--gold);border-radius:999px;padding:.22rem .65rem;font:inherit;font-size:.75rem;font-weight:700;cursor:pointer;transition:all .14s}
+.nm-regen:hover{background:rgba(200,146,42,.1)}
+.nm-loading{display:flex;align-items:center;gap:.6rem;color:var(--gold);font-size:.86rem;font-weight:600}
+.nm-spin{width:15px;height:15px;border-radius:999px;border:2px solid rgba(200,146,42,.3);border-top-color:var(--gold-l);animation:spin .8s linear infinite;flex-shrink:0}
+@keyframes spin{to{transform:rotate(360deg)}}
+.nm-err{font-size:.82rem;color:#9b3232}
+.nm-items{display:grid;gap:.48rem}
+.nm-item{display:flex;align-items:flex-start;gap:.65rem;background:var(--white);border:1px solid rgba(200,146,42,.25);border-radius:10px;padding:.68rem .85rem}
+.nm-cb{width:18px;height:18px;border-radius:5px;border:2px solid var(--gold-l);flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .14s;background:var(--white)}
+.nm-cb.done{background:var(--g700);border-color:var(--g700)}
+.nm-cb.done::after{content:'✓';color:#fff;font-size:.7rem;font-weight:800}
+.nm-text{font-size:.87rem;line-height:1.5;color:var(--ink)}
+.nm-text.done{text-decoration:line-through;color:var(--muted)}
+.nm-gen-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--gold-l);color:var(--g950);border:none;border-radius:999px;padding:.6rem 1.1rem;font:inherit;font-size:.85rem;font-weight:700;cursor:pointer;transition:background .15s,transform .15s}
+.nm-gen-btn:hover{background:var(--gold-ll);transform:translateY(-1px)}
 
 /* NOTES */
-.pc-notes {
-  border-top: 1px solid var(--border-light);
-  padding: .7rem 1.15rem .85rem; background: var(--white);
-}
-.notes-toggle-btn {
-  background: none; border: none; cursor: pointer;
-  font: inherit; font-size: .8rem; font-weight: 600; color: var(--muted);
-  display: flex; align-items: center; gap: .35rem; padding: 0;
-  transition: color .14s;
-}
-.notes-toggle-btn:hover { color: var(--earth-700); }
-.notes-input {
-  width: 100%; margin-top: .6rem; padding: .65rem .85rem;
-  border: 1.5px solid var(--border); border-radius: var(--r);
-  font: inherit; font-size: .85rem; color: var(--ink);
-  min-height: 70px; resize: vertical; outline: none; line-height: 1.55;
-  transition: border-color .14s; animation: fadeUp .15s;
-  background: var(--white);
-}
-.notes-input:focus { border-color: var(--earth-700); }
+.pc-notes{border-top:1px solid var(--border-l);padding:.65rem 1.15rem .8rem}
+.notes-tog{background:none;border:none;cursor:pointer;font:inherit;font-size:.79rem;font-weight:600;color:var(--muted);display:flex;align-items:center;gap:.35rem;padding:0;transition:color .14s}
+.notes-tog:hover{color:var(--g700)}
+.notes-ta{width:100%;margin-top:.55rem;padding:.65rem .85rem;border:1.5px solid var(--border);border-radius:var(--r);font:inherit;font-size:.85rem;color:var(--ink);min-height:68px;resize:vertical;outline:none;line-height:1.55;transition:border-color .14s;animation:fadeUp .15s}
+.notes-ta:focus{border-color:var(--g700)}
 
 /* OUTPUT 2 */
-.output2-card {
-  margin-top: 1.5rem;
-  background: var(--earth-900); color: #fff;
-  border-radius: var(--r-xl); padding: 1.5rem 1.4rem;
-  box-shadow: var(--shadow-lg); border: 1px solid rgba(255,255,255,.06);
-}
-.o2-title {
-  font-family: 'Fraunces', serif; font-size: 1.05rem; font-weight: 600;
-  color: #fff; margin-bottom: 1rem;
-}
-.o2-rows { display: grid; gap: .65rem; }
-.o2-row {
-  display: flex; align-items: center; gap: .85rem;
-  background: rgba(255,255,255,.07);
-  border: 1px solid rgba(255,255,255,.1);
-  border-radius: 13px; padding: .8rem 1rem;
-}
-.o2-avatar {
-  width: 36px; height: 36px; border-radius: 999px;
-  display: flex; align-items: center; justify-content: center;
-  font-family: 'Fraunces', serif; font-weight: 700; font-size: .9rem;
-  color: #fff; flex-shrink: 0;
-}
-.o2-body { flex: 1; min-width: 0; }
-.o2-name { font-weight: 700; font-size: .9rem; margin-bottom: .05rem; }
-.o2-meta { font-size: .76rem; color: rgba(255,255,255,.5); }
-.o2-status {
-  font-size: .76rem; font-weight: 700; color: var(--gold-300);
-  white-space: nowrap; flex-shrink: 0;
-}
-.o2-empty { color: rgba(255,255,255,.4); font-size: .87rem; text-align: center; padding: 1.5rem; border: 1px dashed rgba(255,255,255,.15); border-radius: var(--r); }
+.out2{background:var(--g900);color:#fff;border-radius:var(--r-xl);padding:1.5rem 1.4rem;margin-top:1.5rem;box-shadow:var(--sh-lg);border:1px solid rgba(255,255,255,.06)}
+.o2-rows{display:grid;gap:.6rem}
+.o2-row{display:flex;align-items:center;gap:.85rem;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:13px;padding:.8rem 1rem}
+.o2-av{width:34px;height:34px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-weight:700;font-size:.88rem;color:#fff;flex-shrink:0}
+.o2-body{flex:1;min-width:0}
+.o2-name{font-weight:700;font-size:.88rem;margin-bottom:.05rem}
+.o2-meta{font-size:.75rem;color:rgba(255,255,255,.5);line-height:1.4}
+.o2-status{font-size:.75rem;font-weight:700;color:var(--gold-ll);white-space:nowrap;flex-shrink:0}
+.o2-empty{color:rgba(255,255,255,.4);font-size:.86rem;text-align:center;padding:1.5rem;border:1px dashed rgba(255,255,255,.14);border-radius:var(--r)}
 
-/* EMPTY PEOPLE STATE */
-.empty-ppl {
-  border: 2px dashed var(--border); border-radius: var(--r-lg);
-  padding: 2.5rem 1.5rem; text-align: center;
-}
-.empty-ppl .ei { font-size: 2rem; margin-bottom: .75rem; display: block; }
-.empty-ppl p { color: var(--muted); font-size: .9rem; max-width: 340px; margin: 0 auto .85rem; line-height: 1.6; }
+/* EMPTY PEOPLE */
+.ppl-empty{border:2px dashed var(--border);border-radius:var(--r-lg);padding:2.5rem 1.5rem;text-align:center}
+.ppl-empty .ei{font-size:2rem;margin-bottom:.7rem;display:block}
+.ppl-empty p{color:var(--muted);font-size:.9rem;max-width:320px;margin:0 auto .85rem;line-height:1.6}
 
 /* TOAST */
-.toast {
-  position: fixed; bottom: 1.25rem; right: 1.25rem;
-  background: var(--earth-900); color: #fff;
-  padding: .65rem 1.1rem; border-radius: 12px;
-  font-size: .84rem; font-weight: 600;
-  box-shadow: 0 6px 24px rgba(0,0,0,.25);
-  opacity: 0; transform: translateY(6px);
-  transition: opacity .2s, transform .2s; pointer-events: none; z-index: 999;
-}
-.toast.show { opacity: 1; transform: none; }
+.toast{position:fixed;bottom:1.25rem;right:1.25rem;background:var(--g900);color:#fff;padding:.65rem 1.1rem;border-radius:12px;font-size:.83rem;font-weight:600;box-shadow:0 6px 24px rgba(0,0,0,.25);opacity:0;transform:translateY(6px);transition:opacity .2s,transform .2s;pointer-events:none;z-index:999}
+.toast.show{opacity:1;transform:none}
 
-/* UTIL */
-.hidden { display: none !important; }
-.mt-1 { margin-top: 1rem; }
-
-@media (max-width: 640px) {
-  .hero-two-col { grid-template-columns: 1fr; }
-  .lane-grid { grid-template-columns: 1fr; }
-  .oikos-opts { grid-template-columns: 1fr; }
-  .tool-wrap { padding: 1.5rem 1rem 5rem; }
+.hidden{display:none!important}
+@media(max-width:640px){
+  .hero-grid,.lane-grid,.oikos-type-grid{grid-template-columns:1fr}
+  .wrap{padding:1.5rem 1rem 5rem}
+  .rr-lbl{width:60px}
 }
 </style>
 </head>
 <body>
 
-<header class="site-header">
+<header class="hdr">
   <a href="/" class="brand">Covo Multipliers</a>
-  <div class="header-right">
+  <div class="hdr-r">
     <button class="hbtn" id="exportBtn">Export</button>
     <button class="hbtn gold" id="saveBtn">Save ✓</button>
   </div>
 </header>
 
 <section class="hero">
-  <div class="hero-inner">
+  <div class="hero-in">
     <span class="hero-tag">Disciple-Making Pathway</span>
-    <h1>Two problems.<br><span>One practical tool.</span></h1>
-    <p class="hero-sub">Most people are stuck on the same two things. This tool solves them both — step by step, with your real people in your real life.</p>
-    <div class="hero-two-col">
-      <div class="hero-card">
-        <span class="hero-card-num">01</span>
-        <p><strong style="color:#fff;">"I don't know where to start."</strong><br>Find your field, name the setting, design a rhythm you'll actually keep.</p>
+    <h1>Two sticking points.<br><em>One clear pathway.</em></h1>
+    <p class="hero-sub">Stuck on where to start — or how to move things forward. This tool handles both.</p>
+    <div class="hero-grid">
+      <div class="hero-tile">
+        <span class="hero-tile-n">01</span>
+        <p><strong style="color:#fff">"I don't know where to start."</strong><br>Find where you already see the same people and build a rhythm around it.</p>
       </div>
-      <div class="hero-card">
-        <span class="hero-card-num">02</span>
-        <p><strong style="color:#fff;">"I don't know how to move things forward."</strong><br>See where each relationship is stuck. Get one clear next step per person.</p>
+      <div class="hero-tile">
+        <span class="hero-tile-n">02</span>
+        <p><strong style="color:#fff">"How do I move things forward?"</strong><br>See where each relationship is, what's blocking it, and what to do next.</p>
       </div>
     </div>
-    <button class="start-cta" id="heroStart">Build my pathway ↓</button>
+    <button class="hero-cta" id="heroStart">Start my pathway ↓</button>
   </div>
 </section>
 
-<div class="tool-wrap" id="toolWrap">
+<div class="wrap" id="toolWrap">
 
-  <!-- ════════════════════════════════════════════════════════
-       MOVEMENT 1 — BUILD YOUR ENGAGEMENT RHYTHM
-  ═══════════════════════════════════════════════════════════ -->
-  <div class="movement-block" id="m1Block">
-    <div class="movement-header">
-      <div class="movement-num one">1</div>
-      <div>
-        <div class="movement-title">Build your engagement rhythm</div>
-        <p class="movement-desc">Disciple-making happens inside a real setting, with real people, through a repeatable pattern of showing up. This section helps you name where that can actually happen for you.</p>
-      </div>
+<!-- ═══════════════════════════════════════════════════
+     MOVEMENT 1
+════════════════════════════════════════════════════ -->
+<div class="mv-block" id="m1">
+  <div class="mv-hdr">
+    <div class="mv-num one">1</div>
+    <div>
+      <div class="mv-title">Find your field and show up there</div>
+      <p class="mv-desc">Start with where you already see the same people — or where you could.</p>
     </div>
+  </div>
 
-    <!-- 1A: Lane -->
-    <div class="card" style="margin-bottom:1rem;">
-      <div style="padding:1.25rem 1.25rem .5rem;">
-        <span class="step-label">Step 1A</span>
-        <p class="step-q">Where do you have the most natural access to people right now?</p>
-        <p class="step-hint">Pick the one lane that's most obvious. This isn't about what you should do — it's about where God has already placed you.</p>
-      </div>
+  <!-- 1A: Traction -->
+  <div class="card">
+    <div class="cp">
+      <span class="slabel">Step 1A</span>
+      <p class="sq">Where do you already see the same people regularly?</p>
+      <p class="sh">Same faces, repeated contact, a place you already go.</p>
       <div class="lane-grid" id="laneGrid"></div>
     </div>
+  </div>
 
-    <!-- 1B: Setting -->
-    <div class="card" style="margin-bottom:1rem;" id="settingCard">
-      <div class="setting-block">
-        <span class="step-label">Step 1B</span>
-        <p class="step-q">Name the actual setting.</p>
-        <p class="step-hint">Not "work" or "neighborhood" — be specific. The more concrete, the more useful. Pick a suggestion or type your own.</p>
-        <div class="setting-examples" id="settingExamples"></div>
-        <div class="field-row">
-          <input type="text" class="text-input" id="settingInput" placeholder="Or describe your setting…"/>
-        </div>
+  <!-- 1B: Traction type -->
+  <div class="card" id="tractionCard">
+    <div class="cp">
+      <span class="slabel">Step 1B</span>
+      <p class="sq">Do you already know people here, or are you starting from scratch?</p>
+      <div class="oikos-type-grid" id="oikosTypeGrid">
+        <button type="button" class="oikos-type-btn" data-otype="existing">
+          <span class="otb-icon">🌱</span>
+          <span class="otb-label">I already know people here</span>
+          <span class="otb-desc">I have some history here. I just need to be more intentional.</span>
+        </button>
+        <button type="button" class="oikos-type-btn" data-otype="forming">
+          <span class="otb-icon">🔨</span>
+          <span class="otb-label">I see them but don't know them</span>
+          <span class="otb-desc">Same faces, but nothing real yet. I need to keep showing up.</span>
+        </button>
       </div>
-    </div>
-
-    <!-- 1C: Oikos -->
-    <div class="card" style="margin-bottom:1rem;" id="oikosCard">
-      <div class="oikos-block">
-        <span class="step-label">Step 1C</span>
-        <p class="step-q">What kind of oikos exists there — or could?</p>
-        <p class="step-hint">Oikos means household — the natural web of relationships around you. Check everything that fits.</p>
-        <div class="oikos-opts" id="oikosOpts"></div>
-        <p class="oikos-note" id="oikosNote"></p>
-      </div>
-    </div>
-
-    <!-- 1D: Rhythm -->
-    <div class="card" style="margin-bottom:1.25rem;" id="rhythmCard">
-      <div class="rhythm-block">
-        <span class="step-label">Step 1D</span>
-        <p class="step-q">Design a repeatable rhythm for showing up.</p>
-        <p class="step-hint">Use what's already in your week. Don't invent margin you don't have.</p>
-        <div class="rhythm-builder">
-          <div class="rhythm-row">
-            <span class="ri-label">Where</span>
-            <input type="text" class="text-input rhythm-select" id="rhythmWhere" placeholder="e.g. break room, park path, gym floor…" style="flex:1;padding:.5rem .75rem;font-size:.87rem;border-radius:8px;border:1.5px solid var(--border);background:var(--white);font-family:inherit;outline:none;color:var(--ink);">
-          </div>
-          <div class="rhythm-row">
-            <span class="ri-label">When</span>
-            <select class="rhythm-select" id="rhythmWhen">
-              <option value="">Pick a time slot…</option>
-              <option>Monday mornings</option>
-              <option>Weekday lunch breaks</option>
-              <option>Tuesday / Thursday evenings</option>
-              <option>Weekend mornings</option>
-              <option>After work / after school</option>
-              <option>Saturday afternoons</option>
-              <option>Sunday afternoons</option>
-              <option>Whenever I see them</option>
-            </select>
-          </div>
-          <div class="rhythm-row">
-            <span class="ri-label">How</span>
-            <select class="rhythm-select" id="rhythmHow">
-              <option value="">Pick an approach…</option>
-              <option>Staying 10 extra minutes after I'm already there</option>
-              <option>Initiating one-on-one time intentionally</option>
-              <option>Showing up consistently and being present</option>
-              <option>Following up conversations with a text</option>
-              <option>Hosting something at my place</option>
-              <option>Inviting people into something I already do</option>
-            </select>
-          </div>
-        </div>
-        <textarea class="rhythm-ta mt-1" id="rhythmNotes" placeholder="Anything else about this rhythm worth naming? (optional)"></textarea>
-      </div>
-    </div>
-
-    <!-- Output 1 -->
-    <div class="output-card" id="output1Card">
-      <div class="output-card-header">
-        <span class="output-badge">Output 1</span>
-        <span class="output-title">Your engagement rhythm</span>
-      </div>
-      <div class="rhythm-summary" id="rhythmSummary">
-        <div class="output-empty">Fill in the steps above to see your engagement rhythm here.</div>
+      <div id="oikosDetail" class="hidden">
+        <p class="sh" id="oikosDetailNote" style="margin-bottom:.85rem"></p>
+        <div class="traction-grid" id="oikosOpts"></div>
       </div>
     </div>
   </div>
 
-  <!-- ════════════════════════════════════════════════════════
-       MOVEMENT 2 — MOVE CONVERSATIONS FORWARD
-  ═══════════════════════════════════════════════════════════ -->
-  <div class="m2-divider"></div>
-
-  <div class="movement-block" id="m2Block">
-    <div class="movement-header">
-      <div class="movement-num two">2</div>
-      <div>
-        <div class="movement-title">Move conversations forward</div>
-        <p class="movement-desc">Add the real people in your field. Mark where each relationship is on the journey from casual to discovery. Find out what's blocking the next step — and what to do about it.</p>
-      </div>
+  <!-- 1C: Setting -->
+  <div class="card" id="settingCard">
+    <div class="cp">
+      <span class="slabel">Step 1C</span>
+      <p class="sq">Where exactly does this happen?</p>
+      <p class="sh">Be specific. Break room, not "work."</p>
+      <div class="chip-row" id="settingChips"></div>
+      <input type="text" class="text-input" id="settingInput" placeholder="Or describe it in your own words…"/>
     </div>
+  </div>
 
-    <div class="people-top">
-      <div>
-        <span class="step-label">Step 2</span>
-        <p class="step-q" style="margin:0">Who are the real people in this setting?</p>
-      </div>
-      <button class="add-person-btn" id="addPersonBtn">＋ Add person</button>
-    </div>
-
-    <div id="personCards"></div>
-
-    <!-- Output 2 -->
-    <div class="output2-card" id="output2Card">
-      <div class="output-card-header" style="margin-bottom:.75rem;">
-        <span class="output-badge">Output 2</span>
-        <span class="output-title">Your conversation movement plan</span>
-      </div>
-      <div class="o2-rows" id="o2Rows">
-        <div class="o2-empty">Add people above to see your plan here.</div>
+  <!-- 1D: People you expect to see -->
+  <div class="card" id="rhythmPeopleCard">
+    <div class="cp">
+      <span class="slabel">Step 1D</span>
+      <p class="sq">Who do you already see there?</p>
+      <p class="sh">First names only. You'll add detail in Part 2.</p>
+      <div id="settingPeopleInputs">
+        <div class="chip-row" style="gap:.5rem;margin-bottom:0">
+          <input type="text" class="text-input" id="sp1" placeholder="First name" style="margin-bottom:.5rem"/>
+          <input type="text" class="text-input" id="sp2" placeholder="First name" style="margin-bottom:.5rem"/>
+          <input type="text" class="text-input" id="sp3" placeholder="First name (optional)"/>
+        </div>
       </div>
     </div>
   </div>
 
-</div><!-- /tool-wrap -->
+  <!-- 1E: Rhythm -->
+  <div class="card" id="rhythmCard">
+    <div class="cp">
+      <span class="slabel">Step 1E</span>
+      <p class="sq">When and how will you actually show up?</p>
+      <p class="sh">Work with your real week, not a better version of it.</p>
+      <div class="rhythm-rows">
+        <div class="rr">
+          <span class="rr-lbl">When</span>
+          <select class="rsel" id="rWhen">
+            <option value="">Choose a time slot…</option>
+            <option>Monday mornings</option>
+            <option>Weekday lunch breaks</option>
+            <option>Tuesday / Thursday evenings</option>
+            <option>After work / after school</option>
+            <option>Weekend mornings</option>
+            <option>Saturday afternoons</option>
+            <option>Whenever I'm already there</option>
+          </select>
+        </div>
+        <div class="rr">
+          <span class="rr-lbl">How often</span>
+          <select class="rsel" id="rFreq">
+            <option value="">Choose a frequency…</option>
+            <option>Every week — same time, same place</option>
+            <option>2–3 times per week naturally</option>
+            <option>Once a week, intentionally</option>
+            <option>Biweekly — consistent but not daily</option>
+            <option>Whenever I'm already there anyway</option>
+          </select>
+        </div>
+        <div class="rr">
+          <span class="rr-lbl">Approach</span>
+          <select class="rsel" id="rHow">
+            <option value="">Choose an approach…</option>
+            <option>Staying 10–15 extra minutes after I'm already there</option>
+            <option>Initiating one-on-one time intentionally</option>
+            <option>Showing up consistently and being present</option>
+            <option>Following up conversations with a text or voice note</option>
+            <option>Hosting something simple at my place</option>
+            <option>Inviting people into something I already do</option>
+          </select>
+        </div>
+        <div class="rr">
+          <span class="rr-lbl">Where exactly</span>
+          <input type="text" class="rinput" id="rWhere" placeholder="e.g. break room, gym floor, park path, sideline…"/>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<div class="toast" id="toast">Saved ✓</div>
+  <!-- OUTPUT 1 -->
+  <div class="out1" id="out1">
+    <span class="out-badge">Your field</span>
+    <p class="out-title">Where you'll show up — and with whom</p>
+    <div class="out-rows" id="out1Rows">
+      <div class="out-empty">Fill in the steps above to see your plan here.</div>
+    </div>
+  </div>
+</div><!-- /m1 -->
+
+<!-- ═══════════════════════════════════════════════════
+     MOVEMENT 2
+════════════════════════════════════════════════════ -->
+<div class="divider"></div>
+
+<div class="mv-block" id="m2">
+  <div class="mv-hdr">
+    <div class="mv-num two">2</div>
+    <div>
+      <div class="mv-title">Move conversations forward</div>
+      <p class="mv-desc">Mark where each relationship is. Find what's blocking it. Get one next step per person.</p>
+    </div>
+  </div>
+
+  <!-- Context bar: echoes M1 field -->
+  <div class="m2-context empty" id="m2Context">
+    <span class="ctx-icon">📍</span>
+    <span id="m2ContextText">Complete Part 1 above to connect your people to a field.</span>
+  </div>
+
+  <div class="ppl-top">
+    <div>
+      <span class="slabel">Step 2</span>
+      <p class="sq" style="margin:0">Who do you actually see in this setting?</p>
+    </div>
+    <button class="add-btn" id="addBtn">＋ Add person</button>
+  </div>
+
+  <div id="personCards"></div>
+
+  <!-- OUTPUT 2 -->
+  <div class="out2" id="out2">
+    <span class="out-badge">Your people</span>
+    <p class="out-title">Where each relationship is and what to do next</p>
+    <div class="o2-rows" id="o2Rows">
+      <div class="o2-empty">Add people above to see your next steps.</div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /wrap -->
+
+<div class="toast" id="toast"></div>
 
 <script>
 (function(){
 'use strict';
 
-// ── CONSTANTS ──────────────────────────────────────────────────────────────
+// ── CONSTANTS ──────────────────────────────────────────────────────────────────
 
-const SK = 'covo_pathway_v3';
-
-const AVATAR_COLORS = ['#2a4a32','#1e3323','#3a6344','#6b4c9a','#b85c38','#2b7a9b','#8b6914','#3a4a6a'];
+const SK = 'covo_pathway_v4';
+const API_ENDPOINT = '/api/generate-steps';
+const AV_COLORS = ['#2a4a32','#1e3323','#3a6344','#6b4c9a','#b85c38','#2b7a9b','#8b6914','#3a4a6a'];
 
 const STAGES = [
-  { id:'casual',     label:'Casual',     color:'#5b8fa8', desc:'You see each other, but conversations stay surface-level.' },
-  { id:'meaningful', label:'Meaningful', color:'#7c6bb0', desc:'Real conversations are happening. Life is being shared. Trust is building.' },
-  { id:'spiritual',  label:'Spiritual',  color:'#c07840', desc:'Faith has come up. There\'s openness to deeper questions.' },
-  { id:'discovery',  label:'Discovery',  color:'#3d9e6e', desc:'They\'re actively exploring who Jesus is and what following him means.' }
+  { id:'casual',     label:'Casual',     color:'#5b8fa8', desc:'You see each other, but it stays surface-level.' },
+  { id:'meaningful', label:'Meaningful', color:'#7c6bb0', desc:'Real conversations are happening. Life is starting to get shared.' },
+  { id:'spiritual',  label:'Spiritual',  color:'#c07840', desc:'Faith has come up. There\'s some openness there.' },
+  { id:'discovery',  label:'Discovery',  color:'#3d9e6e', desc:'They\'re actively looking at who Jesus is.' }
 ];
 
 const LANES = [
   {
-    id:'profession', icon:'💼', name:'Work or School',
-    plain:'Your job, team, coworkers, clients, or campus',
-    examples:['Break room','Lunch table','Team meetings','Commute','Client calls','Campus quad'],
-    oikosOpts:['Same team or department','Recurring 1:1s or meetings','Shared lunch or break time','Same commute or carpool','Clients I see repeatedly','Study group or class'],
-    settings:['Break room at work','Campus lunch table','Team Slack / after standup','Morning commute','Job site','Coworking space'],
-    oikosNote:'Profession oikos is often the most overlooked. The relationships are already there — the question is whether you\'re present relationally, not just professionally.'
+    id:'profession', icon:'💼',
+    name:'Work or School', framework:'Profession',
+    plain:'Your job, team, clients, or campus',
+    examples:['Break room','Lunch table','Team meetings','Commute','Job site','Campus quad'],
+    settings:['Break room at work','Campus lunch area','Team standup / after meetings','Morning commute','Job site','Co-working space','Office kitchen'],
+    oikosOpts:{
+      existing:['Same team or department I already know','Coworkers I already have real conversations with','A colleague I regularly grab lunch with','People on my commute I see every day'],
+      forming:['People I see daily but only know by name','A new team I just joined','Campus classmates I recognize but haven\'t talked to','Coworkers I\'ve never gotten past small talk with']
+    },
+    existingNote:'The relationships are already there. The question is whether you\'re showing up as a person, not just a coworker.',
+    formingNote:'You share space but don\'t really know each other yet. Same time, same place, no agenda. Let them get used to you.'
   },
   {
-    id:'neighborhood', icon:'🏘️', name:'Neighborhood',
-    plain:'Your block, building, park, and the people you keep seeing',
-    examples:['Dog walk route','Apartment courtyard','School pickup','Driveway conversations','Evening walks','Mailbox / lobby'],
-    oikosOpts:['Same building or floor','School pickup crowd','Dog walkers I see regularly','Neighbors I wave at','Parent group or sports sideline','Evening hangout spot'],
-    settings:['Apartment courtyard','School pickup line','Dog walk route','Playground','Neighborhood street','Front porch / driveway'],
-    oikosNote:'Neighborhood oikos is built through repetition and proximity. The same people every morning. The same faces at pickup. Consistency is the strategy here.'
+    id:'neighborhood', icon:'🏘️',
+    name:'Neighborhood', framework:'Place',
+    plain:'Your block, building, park, and the people who keep appearing',
+    examples:['Dog walk route','Apartment courtyard','School pickup','Driveway','Evening walk','Mailbox / lobby'],
+    settings:['Apartment courtyard or hallway','School pickup line','Dog walk route','Neighborhood playground','Front porch or driveway','Building lobby or mailbox area'],
+    oikosOpts:{
+      existing:['Neighbors I already know by name','Parents I see at school pickup every week','Someone on my block I actually talk to','A neighbor I\'ve been inside their home'],
+      forming:['Neighbors I recognize but have never spoken to','Faces I see at the park but don\'t know','Parents at school pickup I haven\'t approached','People in my building I just wave to']
+    },
+    existingNote:'You already know these people. The move is just going further with what\'s already there.',
+    formingNote:'Same route, same time, same faces. Don\'t rush it. Just keep showing up.'
   },
   {
-    id:'passion', icon:'🔥', name:'A Hobby or Activity',
-    plain:'The gym, a league, a club, or anything you do for fun',
-    examples:['Gym floor','Pickup basketball','Topgolf or golf course','Rec league sidelines','Crossfit class','Coffee shop table'],
-    oikosOpts:['Regular crew I see weekly','People I always end up talking to','Team or group I\'m part of','Same class or training block','Post-activity hangout','Online community I\'m active in'],
-    settings:['Gym floor','Sports league sidelines','After-game hangout','Hobby group meetup','Coffee shop I go to weekly','Class or training block'],
-    oikosNote:'Passion oikos is natural because shared interest already lowers people\'s guard. You don\'t have to manufacture common ground — it\'s already there.'
+    id:'passion', icon:'🔥',
+    name:'Hobby or Activity', framework:'Passion',
+    plain:'The gym, a league, a club, or anything you do consistently for fun',
+    examples:['Gym floor','Pickup basketball','Rec league sidelines','Crossfit class','Coffee shop table','Topgolf'],
+    settings:['Gym floor or locker room','Sports league sidelines','After-game hangout','Hobby group or club','Coffee shop I go to weekly','Training class or group'],
+    oikosOpts:{
+      existing:['A regular crew I already see every week','People I always end up next to or talking to','Teammates I know beyond just the activity','Someone from the group I\'ve hung out with outside of it'],
+      forming:['Regulars I recognize but haven\'t connected with','A new class or group I just joined','Faces I see weekly but don\'t know yet','People I see but only talk to about the activity itself']
+    },
+    existingNote:'Shared interest already breaks the ice. You don\'t have to manufacture anything — just go deeper with people you already click with.',
+    formingNote:'You see the same faces but nothing\'s clicked yet. Stay a few minutes longer. Follow up after. Let repetition do the work.'
   },
   {
-    id:'people', icon:'👥', name:'People You Already Know',
-    plain:'Friends, family, neighbors, or coworkers you\'re already close to',
-    examples:['Old friends','Extended family','Close coworkers','Parents you know well','Neighbors you already talk to','People already opening up'],
-    oikosOpts:['Existing friendships I\'ve let drift','Family I have regular access to','Coworkers I\'m already close to','People who\'ve opened up to me recently','Parents in my kids\' circle','Old connections worth re-engaging'],
-    settings:['Regular hangout with friends','Family dinners or visits','Recurring 1:1 catch-ups','Text / voice note rhythm','Local spot you both go to','Shared activity you already do'],
-    oikosNote:'This lane is the most overlooked. The relational equity is already there. The question is whether you\'re being intentional with it.'
+    id:'people', icon:'👥',
+    name:'People You Already Know', framework:'People',
+    plain:'Friends, family, or anyone you already have real access to',
+    examples:['Old friends','Extended family','Close coworkers','Parents in your kids\' circle','Neighbors you know','People already opening up'],
+    settings:['Regular hangout with existing friends','Family dinners or visits','Recurring 1:1 catch-ups','Shared activity you already do together','Local spot you both go to'],
+    oikosOpts:{
+      existing:['Close friends I have real conversations with','Family I see consistently','Someone who has already started opening up to me','People I have genuine trust with already'],
+      forming:['Old friends I\'ve lost touch with','Extended family I see but don\'t really know','Acquaintances who could become real friendships','People I used to be close to but drifted from']
+    },
+    existingNote:'The access is already there. You just have to be more intentional with it.',
+    formingNote:'There\'s history or proximity, but not much depth. One move to restart: initiate something real instead of waiting.'
   }
 ];
 
 const BARRIERS = {
-  casual: {
-    nextStage: 'meaningful',
-    q: (name) => `What's making it hard to go deeper with ${name || 'this person'}?`,
+  casual:{
+    next:'Meaningful',
+    q:(n)=>`What's making it hard to go deeper with ${n||'this person'}?`,
     opts:[
-      { id:'no_solo',    text:'We only see each other in group settings — never one-on-one' },
-      { id:'transact',   text:'Every interaction stays task-focused or surface-level' },
-      { id:'no_bridge',  text:'I don\'t know how to get from small talk to something real' },
-      { id:'unsure_open',text:'I\'m not sure they\'d actually be open to going deeper' }
+      {id:'no_solo',    text:'We only see each other in a group — never one-on-one'},
+      {id:'transact',   text:'Every conversation stays task-focused or surface-level'},
+      {id:'no_bridge',  text:'I don\'t know how to get past small talk'},
+      {id:'unsure_open',text:'I\'m not sure they\'d actually be open to it'}
     ]
   },
-  meaningful: {
-    nextStage: 'spiritual',
-    q: (name) => `What's blocking the spiritual conversation with ${name || 'this person'}?`,
+  meaningful:{
+    next:'Spiritual',
+    q:(n)=>`What's stopping you from bringing faith up with ${n||'this person'}?`,
     opts:[
-      { id:'fear_weird',  text:'I don\'t want to make it weird or come across as religious' },
-      { id:'no_opening',  text:'I keep waiting for a perfect natural opening that never comes' },
-      { id:'no_language', text:'I don\'t know how to bring up faith without sounding preachy' },
-      { id:'seems_closed',text:'They seem resistant or closed off — I don\'t want to push' }
+      {id:'fear_weird',  text:'I don\'t want to make it weird or seem preachy'},
+      {id:'no_opening',  text:'I keep waiting for a natural opening that never comes'},
+      {id:'no_language', text:'I don\'t know how to bring it up without it sounding religious'},
+      {id:'seems_closed',text:'They seem closed off — I don\'t want to push'}
     ]
   },
-  spiritual: {
-    nextStage: 'discovery',
-    q: (name) => `What's holding back discovery with ${name || 'this person'}?`,
+  spiritual:{
+    next:'Discovery',
+    q:(n)=>`What's keeping ${n||'this person'} from taking a next step?`,
     opts:[
-      { id:'no_invite',   text:'They\'re interested but I don\'t know how to invite them into something concrete' },
-      { id:'talk_no_ask', text:'We talk about faith but I\'m not actually inviting a response' },
-      { id:'church_hurt', text:'They\'ve had bad experiences with church or religion' },
-      { id:'need_time',   text:'There\'s interest, but we need more time and trust built first' }
+      {id:'no_invite',    text:'They\'re open, but I don\'t know what to actually invite them into'},
+      {id:'talk_no_ask',  text:'We talk about faith, but I never actually ask for a response'},
+      {id:'church_hurt',  text:'They\'ve had bad church experiences and I\'m not sure how to work around that'},
+      {id:'need_more',    text:'There\'s interest, but we need more time before it makes sense to push forward'}
     ]
   },
-  discovery: {
-    nextStage: null,
-    q: (name) => `What's the main growth edge for ${name || 'this person'} right now?`,
+  discovery:{
+    next:null,
+    q:(n)=>`Where is ${n||'this person'} stuck right now?`,
     opts:[
-      { id:'inconsistent',    text:'Our time together is inconsistent — no real rhythm yet' },
-      { id:'needs_community', text:'They need to be connected to other believers, not just me' },
-      { id:'needs_obedience', text:'There\'s a next step they know about but haven\'t taken' },
-      { id:'needs_to_share',  text:'They haven\'t started sharing their story or faith with anyone else' }
+      {id:'inconsistent',  text:'We don\'t have a consistent rhythm yet'},
+      {id:'needs_others',  text:'They need to be around other people, not just me'},
+      {id:'needs_step',    text:'There\'s a next step they keep putting off'},
+      {id:'needs_to_share',text:'They haven\'t told anyone else what God has done in their life'}
     ]
   }
 };
 
-// ── STATE ──────────────────────────────────────────────────────────────────
+// ── STATE ──────────────────────────────────────────────────────────────────────
 
-let state = {
-  lane: null,
-  setting: '',
-  oikos: [],
-  rhythmWhere: '', rhythmWhen: '', rhythmHow: '', rhythmNotes: '',
-  people: []
+let pid = 0;
+let S = {
+  lane:null, oikosType:null, oikosSelected:[],
+  setting:'', settingPeople:['','',''],
+  rWhen:'', rFreq:'', rHow:'', rWhere:'',
+  people:[]
 };
-let pidCounter = 0;
 
-function mkPerson(){
-  return { id:'p'+(++pidCounter), name:'', stage:'casual', barrier:null, actions:null, checked:[], notes:'', notesOpen:false };
-}
+function mkP(){ return {id:'p'+(++pid),name:'',stage:'casual',barrier:null,actions:null,checked:[],notes:'',notesOpen:false}; }
 
-// ── STORAGE ────────────────────────────────────────────────────────────────
+// ── STORAGE ────────────────────────────────────────────────────────────────────
 
-function save(){
-  try { localStorage.setItem(SK, JSON.stringify({state, pidCounter})); showToast('Saved ✓'); }
-  catch(e){}
-}
-function load(){
-  try {
-    const raw = localStorage.getItem(SK);
-    if(!raw) return;
-    const d = JSON.parse(raw);
-    if(d.state) state = d.state;
-    if(d.pidCounter) pidCounter = d.pidCounter;
-  } catch(e){}
-}
-function autosave(){
-  try { localStorage.setItem(SK, JSON.stringify({state, pidCounter})); } catch(e){}
-}
+function save(){ try{localStorage.setItem(SK,JSON.stringify({S,pid}));toast('Saved ✓');}catch(e){} }
+function load(){ try{ const r=localStorage.getItem(SK); if(!r)return; const d=JSON.parse(r); if(d.S)S=d.S; if(d.pid)pid=d.pid; }catch(e){} }
+function asave(){ try{localStorage.setItem(SK,JSON.stringify({S,pid}));}catch(e){} }
 
-// ── TOAST ──────────────────────────────────────────────────────────────────
+// ── TOAST ──────────────────────────────────────────────────────────────────────
 
 let _tt;
-function showToast(msg){
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('show');
-  clearTimeout(_tt); _tt = setTimeout(()=>t.classList.remove('show'), 2000);
-}
+function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(_tt); _tt=setTimeout(()=>t.classList.remove('show'),2100); }
 
-// ── UTIL ───────────────────────────────────────────────────────────────────
+// ── UTILS ──────────────────────────────────────────────────────────────────────
 
 function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-function initial(n){ return (n||'').trim() ? n.trim()[0].toUpperCase() : '?'; }
-function avatarBg(id){ const i=parseInt((id||'p0').replace('p',''))-1; return AVATAR_COLORS[i%AVATAR_COLORS.length]; }
+function ini(n){ return (n||'').trim()?n.trim()[0].toUpperCase():'?'; }
+function avBg(id){ const i=parseInt((id||'p0').replace('p',''))-1; return AV_COLORS[i%AV_COLORS.length]; }
 
-// ── RENDER LANES ───────────────────────────────────────────────────────────
+// ── M1: LANES ──────────────────────────────────────────────────────────────────
 
 function renderLanes(){
-  const g = document.getElementById('laneGrid');
-  g.innerHTML = '';
-  LANES.forEach(lane=>{
-    const b = document.createElement('button');
-    b.className = 'lane-btn'+(state.lane===lane.id?' active':'');
-    b.type = 'button';
-    b.innerHTML = `
-      <span class="lane-icon">${lane.icon}</span>
-      <span class="lane-name">${lane.name}</span>
-      <span class="lane-plain">${lane.plain}</span>
-      <div class="lane-examples">
-        <span class="lane-eg-label">Examples</span>
-        <div class="lane-eg-tags">${lane.examples.map(e=>`<span class="eg-tag">${e}</span>`).join('')}</div>
+  const g=document.getElementById('laneGrid');
+  g.innerHTML='';
+  LANES.forEach(l=>{
+    const b=document.createElement('button');
+    b.className='lane-btn'+(S.lane===l.id?' active':'');
+    b.type='button';
+    b.innerHTML=`
+      <span class="lane-icon">${l.icon}</span>
+      <span class="lane-name">${l.name}</span>
+      <span class="lane-plain">${l.plain}</span>
+      <div style="margin-top:.55rem;padding-top:.55rem;border-top:1px solid var(--border-l)">
+        <span class="lane-eg-label">Where this happens</span>
+        <div class="lane-tags">${l.examples.map(e=>`<span class="ltag">${e}</span>`).join('')}</div>
       </div>`;
     b.addEventListener('click',()=>{
-      state.lane = lane.id;
-      state.setting = '';
-      state.oikos = [];
-      renderLanes();
-      renderSettingExamples();
-      renderOikosOpts();
-      updateOutput1();
-      autosave();
+      S.lane=l.id; S.oikosType=null; S.oikosSelected=[];
+      S.setting=''; document.getElementById('settingInput').value='';
+      renderLanes(); renderOikosType(); renderSettingChips();
+      updateOut1(); updateM2Context(); asave();
     });
     g.appendChild(b);
   });
 }
 
-// ── RENDER SETTING EXAMPLES ────────────────────────────────────────────────
+// ── M1: OIKOS TYPE ─────────────────────────────────────────────────────────────
 
-function renderSettingExamples(){
-  const lane = LANES.find(l=>l.id===state.lane);
-  const ex = document.getElementById('settingExamples');
-  ex.innerHTML = '';
-  if(!lane) return;
-  (lane.settings||[]).forEach(s=>{
-    const c = document.createElement('button');
-    c.className = 'setting-chip'+(state.setting===s?' chosen':'');
-    c.type = 'button'; c.textContent = s;
-    c.addEventListener('click',()=>{
-      state.setting = s;
-      document.getElementById('settingInput').value = s;
-      ex.querySelectorAll('.setting-chip').forEach(x=>x.classList.remove('chosen'));
-      c.classList.add('chosen');
-      updateOutput1(); autosave();
-    });
-    ex.appendChild(c);
+function renderOikosType(){
+  const btns=document.querySelectorAll('.oikos-type-btn');
+  btns.forEach(b=>{
+    b.classList.toggle('active', S.oikosType===b.dataset.otype);
+    b.onclick=()=>{
+      S.oikosType=b.dataset.otype; S.oikosSelected=[];
+      renderOikosType(); renderOikosOpts(); updateOut1(); asave();
+    };
   });
+  renderOikosOpts();
 }
-
-// ── RENDER OIKOS OPTS ──────────────────────────────────────────────────────
 
 function renderOikosOpts(){
-  const lane = LANES.find(l=>l.id===state.lane);
-  const wrap = document.getElementById('oikosOpts');
-  const note = document.getElementById('oikosNote');
-  wrap.innerHTML = '';
-  if(!lane){ note.textContent=''; return; }
-  note.textContent = lane.oikosNote;
-  (lane.oikosOpts||[]).forEach(opt=>{
-    const b = document.createElement('button');
-    b.className = 'oikos-opt'+(state.oikos.includes(opt)?' active':'');
-    b.type = 'button';
-    b.innerHTML = `<span class="oikos-check"></span><span>${opt}</span>`;
+  const wrap=document.getElementById('oikosDetail');
+  const noteEl=document.getElementById('oikosDetailNote');
+  const optsEl=document.getElementById('oikosOpts');
+  if(!S.oikosType||!S.lane){ wrap.classList.add('hidden'); return; }
+  wrap.classList.remove('hidden');
+  const lane=LANES.find(l=>l.id===S.lane);
+  const opts=lane?.oikosOpts[S.oikosType]||[];
+  const note=S.oikosType==='existing'?lane?.existingNote:lane?.formingNote;
+  noteEl.textContent=note||'';
+  optsEl.innerHTML='';
+  opts.forEach(opt=>{
+    const b=document.createElement('button');
+    b.type='button';
+    b.className='traction-opt'+(S.oikosSelected.includes(opt)?' active':'');
+    b.innerHTML=`<span class="t-radio"></span><div class="t-body"><span>${opt}</span></div>`;
     b.addEventListener('click',()=>{
-      if(state.oikos.includes(opt)) state.oikos = state.oikos.filter(x=>x!==opt);
-      else state.oikos.push(opt);
-      b.classList.toggle('active', state.oikos.includes(opt));
-      const chk = b.querySelector('.oikos-check');
-      chk && (chk.className = 'oikos-check');
-      updateOutput1(); autosave();
+      if(S.oikosSelected.includes(opt)) S.oikosSelected=S.oikosSelected.filter(x=>x!==opt);
+      else S.oikosSelected.push(opt);
+      b.classList.toggle('active',S.oikosSelected.includes(opt));
+      updateOut1(); asave();
     });
-    wrap.appendChild(b);
+    optsEl.appendChild(b);
   });
 }
 
-// ── OUTPUT 1 ───────────────────────────────────────────────────────────────
+// ── M1: SETTING CHIPS ──────────────────────────────────────────────────────────
 
-function updateOutput1(){
-  const lane = LANES.find(l=>l.id===state.lane);
-  const el = document.getElementById('rhythmSummary');
-  const rows = [];
-
-  if(lane) rows.push(`<div class="rs-row"><span class="rs-icon">${lane.icon}</span><div class="rs-text"><strong>Your field</strong>${lane.name} — ${state.setting||'(setting not named yet)'}</div></div>`);
-
-  if(state.oikos.length){
-    rows.push(`<div class="rs-row"><span class="rs-icon">🌐</span><div class="rs-text"><strong>Your oikos</strong>${state.oikos.join(' · ')}</div></div>`);
-  }
-
-  const where = state.rhythmWhere || document.getElementById('rhythmWhere')?.value || '';
-  const when  = state.rhythmWhen  || document.getElementById('rhythmWhen')?.value  || '';
-  const how   = state.rhythmHow   || document.getElementById('rhythmHow')?.value   || '';
-
-  if(where||when||how){
-    const parts = [where,when,how].filter(Boolean);
-    rows.push(`<div class="rs-row"><span class="rs-icon">🔁</span><div class="rs-text"><strong>Your rhythm</strong>${parts.join(' · ')}</div></div>`);
-  }
-
-  if(state.rhythmNotes){
-    rows.push(`<div class="rs-row"><span class="rs-icon">📝</span><div class="rs-text"><strong>Notes</strong>${esc(state.rhythmNotes)}</div></div>`);
-  }
-
-  el.innerHTML = rows.length ? rows.join('') : '<div class="output-empty">Fill in the steps above to see your engagement rhythm here.</div>';
+function renderSettingChips(){
+  const lane=LANES.find(l=>l.id===S.lane);
+  const row=document.getElementById('settingChips');
+  row.innerHTML='';
+  (lane?.settings||[]).forEach(s=>{
+    const c=document.createElement('button');
+    c.type='button'; c.className='chip'+(S.setting===s?' on':''); c.textContent=s;
+    c.addEventListener('click',()=>{
+      S.setting=s; document.getElementById('settingInput').value=s;
+      row.querySelectorAll('.chip').forEach(x=>x.classList.remove('on'));
+      c.classList.add('on'); updateOut1(); updateM2Context(); asave();
+    });
+    row.appendChild(c);
+  });
 }
 
-// ── PEOPLE ─────────────────────────────────────────────────────────────────
+// ── M1: OUTPUT ─────────────────────────────────────────────────────────────────
+
+function updateOut1(){
+  const el=document.getElementById('out1Rows');
+  const lane=LANES.find(l=>l.id===S.lane);
+  const rows=[];
+
+  if(lane){
+    rows.push(`<div class="out-row"><span class="or-icon">${lane.icon}</span><div class="or-body"><strong>Field</strong><span>${lane.name} <em style="color:rgba(255,255,255,.4);font-size:.78rem">(${lane.framework})</em>${S.setting?' — '+esc(S.setting):''}</span></div></div>`);
+  }
+
+  if(S.oikosType){
+    const typeLabel=S.oikosType==='existing'?'Existing oikos — you already know people here':'Forming oikos — you need to build relationships from scratch';
+    rows.push(`<div class="out-row"><span class="or-icon">${S.oikosType==='existing'?'🌱':'🔨'}</span><div class="or-body"><strong>Relationships here</strong><span>${typeLabel}</span></div></div>`);
+  }
+
+  if(S.oikosSelected.length){
+    rows.push(`<div class="out-row"><span class="or-icon">🌐</span><div class="or-body"><strong>Who specifically</strong><span>${S.oikosSelected.map(esc).join(' · ')}</span></div></div>`);
+  }
+
+  const sps=S.settingPeople.filter(x=>x.trim());
+  if(sps.length){
+    rows.push(`<div class="out-row"><span class="or-icon">👤</span><div class="or-body"><strong>People</strong><span>${sps.map(esc).join(', ')}</span></div></div>`);
+  }
+
+  const rparts=[S.rFreq,S.rWhen,S.rHow,S.rWhere].filter(Boolean);
+  if(rparts.length){
+    rows.push(`<div class="out-row"><span class="or-icon">🔁</span><div class="or-body"><strong>Rhythm</strong><span>${rparts.map(esc).join(' · ')}</span></div></div>`);
+  }
+
+  if(!rows.length){
+    el.innerHTML='<div class="out-empty">Fill in the steps above to see your plan here.</div>';
+    return;
+  }
+  el.innerHTML=rows.join('');
+}
+
+// ── M2: CONTEXT BAR ────────────────────────────────────────────────────────────
+
+function updateM2Context(){
+  const el=document.getElementById('m2Context');
+  const txt=document.getElementById('m2ContextText');
+  const lane=LANES.find(l=>l.id===S.lane);
+  if(!lane){ el.className='m2-context empty'; txt.innerHTML='Finish Part 1 to connect these people to your field.'; return; }
+  el.className='m2-context';
+  const setting=S.setting?` — <strong>${esc(S.setting)}</strong>`:'';
+  const otype=S.oikosType?` · <em style="color:var(--muted)">${S.oikosType==='existing'?'existing oikos':'forming oikos'}</em>`:'';
+  txt.innerHTML=`<strong>${lane.icon} ${lane.name}</strong>${setting}${otype}`;
+}
+
+// ── PEOPLE ─────────────────────────────────────────────────────────────────────
 
 function renderAllPeople(){
-  const wrap = document.getElementById('personCards');
-  wrap.innerHTML = '';
-  if(!state.people.length){
-    wrap.innerHTML = `<div class="empty-ppl"><span class="ei">👤</span><p>Add the real people already in front of you — first names are enough.</p><button class="add-person-btn" onclick="document.getElementById('addPersonBtn').click()" style="margin:0 auto">＋ Add your first person</button></div>`;
-    updateOutput2(); return;
+  const wrap=document.getElementById('personCards');
+  wrap.innerHTML='';
+  if(!S.people.length){
+    wrap.innerHTML=`<div class="ppl-empty"><span class="ei">👤</span><p>Add the people already in front of you.</p><button class="add-btn" onclick="document.getElementById('addBtn').click()" style="margin:0 auto">＋ Add first person</button></div>`;
+    updateOut2(); return;
   }
-  state.people.forEach(p=>{ wrap.appendChild(buildCard(p)); });
-  updateOutput2();
+  S.people.forEach(p=>wrap.appendChild(buildCard(p)));
+  updateOut2();
 }
 
-// ── PERSON CARD ────────────────────────────────────────────────────────────
+// ── PERSON CARD ────────────────────────────────────────────────────────────────
 
 function buildCard(p){
-  const el = document.createElement('div');
-  el.className = 'person-card';
-  el.id = 'pc_'+p.id;
-  el.innerHTML = cardHTML(p);
-  wireCard(el, p);
-  return el;
+  const el=document.createElement('div');
+  el.className='pc'; el.id='pc_'+p.id;
+  el.innerHTML=cardHTML(p);
+  wireCard(el,p); return el;
 }
 
 function cardHTML(p){
-  const si = STAGES.findIndex(s=>s.id===p.stage);
-  const st = STAGES[si];
-  const pct = [0,33.3,66.6,100][si];
-  const bg = avatarBg(p.id);
+  const si=STAGES.findIndex(s=>s.id===p.stage);
+  const st=STAGES[si];
+  const pct=[0,33.3,66.6,100][si];
+  const col=st.color;
+  const bg=avBg(p.id);
 
-  // Stage track
-  const stops = STAGES.map((s,i)=>{
-    const past = i<si, cur = i===si;
-    let cls = 'stop-node'+(cur?' current':past?' past':'');
-    const col = (past||cur)?s.color:'var(--border)';
-    return `<div class="track-stop" data-stage="${s.id}" style="color:${col}">
-      <div class="${cls}" style="${(past||cur)?'border-color:'+col:''}"></div>
-      <span class="stop-txt${cur?' is-current':''}" style="${cur?'color:'+col:''}">${s.label}</span>
+  const stops=STAGES.map((s,i)=>{
+    const past=i<si,cur=i===si;
+    const c=(past||cur)?s.color:'var(--border)';
+    let cls='snode'+(cur?' cur':past?' past':'');
+    return `<div class="tstop" data-stage="${s.id}" style="color:${c}">
+      <div class="${cls}" style="${(past||cur)?'border-color:'+c:''}"></div>
+      <span class="stxt${cur?' cur':''}" style="${cur?'color:'+c:''}">${s.label}</span>
     </div>`;
   }).join('');
 
-  // Barrier section
-  const bdef = BARRIERS[p.stage];
-  const barrierHTML = bdef ? `
+  const bdef=BARRIERS[p.stage];
+  const barrierHTML=bdef?`
     <div class="pc-barrier">
-      <p class="barrier-heading">${bdef.q(p.name)} <span>→ ${STAGES[si+1]?.label||'deeper investment'}</span></p>
+      <p class="barrier-hd">${esc(bdef.q(p.name))} <span class="arrow">→ ${bdef.next||'going further'}</span></p>
       <div class="barrier-list">
-        ${bdef.opts.map(o=>`
-          <button type="button" class="barrier-btn${p.barrier===o.id?' active':''}" data-barrier="${o.id}">
-            <span class="barrier-radio"></span>
-            <span>${o.text}</span>
-          </button>`).join('')}
+        ${bdef.opts.map(o=>`<button type="button" class="barr-btn${p.barrier===o.id?' active':''}" data-barrier="${o.id}">
+          <span class="barr-radio"></span><span>${esc(o.text)}</span>
+        </button>`).join('')}
       </div>
-    </div>` : '';
+    </div>`:'';
 
-  // Actions section
-  let actHTML = '';
+  let actHTML='';
   if(p.barrier){
     if(!p.actions){
-      actHTML = `<div class="pc-nextmove">
-        <div class="nm-header"><span class="nm-badge">Next Move</span></div>
-        <button type="button" class="nm-gen-btn" data-action="gen">⚡ Generate next step →</button>
-      </div>`;
+      actHTML=`<div class="pc-nm"><div class="nm-hdr"><span class="nm-badge">Next Move</span></div><button type="button" class="nm-gen-btn" data-action="gen">⚡ Get my next step →</button></div>`;
     } else {
-      const items = p.actions.map((a,i)=>{
-        const done = p.checked.includes(i);
-        return `<div class="nm-item">
-          <div class="nm-cb${done?' done':''}" data-action="check" data-idx="${i}"></div>
-          <span class="nm-text${done?' done':''}">${esc(a)}</span>
-        </div>`;
-      }).join('');
-      actHTML = `<div class="pc-nextmove">
-        <div class="nm-header">
-          <span class="nm-badge">Next Move</span>
-          <button type="button" class="nm-regen" data-action="regen">↺ Refresh</button>
-        </div>
-        <div class="nm-items">${items}</div>
+      actHTML=`<div class="pc-nm">
+        <div class="nm-hdr"><span class="nm-badge">Next Move</span><button type="button" class="nm-regen" data-action="regen">↺ Refresh</button></div>
+        <div class="nm-items">${p.actions.map((a,i)=>{
+          const done=p.checked.includes(i);
+          return `<div class="nm-item"><div class="nm-cb${done?' done':''}" data-action="check" data-idx="${i}"></div><span class="nm-text${done?' done':''}">${esc(a)}</span></div>`;
+        }).join('')}</div>
       </div>`;
     }
   }
 
   return `
     <div class="pc-top">
-      <div class="pc-avatar" style="background:${bg}">${initial(p.name)}</div>
+      <div class="pc-av" style="background:${bg}">${ini(p.name)}</div>
       <input class="pc-name" type="text" placeholder="First name…" value="${esc(p.name)}" data-field="name"/>
       <button type="button" class="pc-del" data-action="del">✕</button>
     </div>
     <div class="pc-stage">
       <div class="stage-row">
-        <span class="stage-row-label">Where things stand</span>
-        <span class="stage-badge" style="background:${st.color}">${st.label}</span>
+        <span class="stage-lbl">Where things stand</span>
+        <span class="stage-badge" style="background:${col}">${st.label}</span>
       </div>
-      <div class="track-wrap" style="padding:.65rem 0">
+      <div class="track-wrap">
         <div class="track-bg"></div>
-        <div class="track-progress" style="background:${st.color};width:calc(${pct}% - ${pct>0?11:0}px + ${pct===100?11:0}px)"></div>
+        <div class="track-fill" style="background:${col};width:calc(${pct}% - ${pct>0?'11px':'0px'} + ${pct===100?'11px':'0px'})"></div>
         <div class="track-stops">${stops}</div>
       </div>
-      <p class="stage-desc">${st.desc}</p>
+      <p class="stage-desc">${esc(st.desc)}</p>
     </div>
     ${barrierHTML}
     ${actHTML}
     <div class="pc-notes">
-      <button type="button" class="notes-toggle-btn" data-action="notes-toggle">
-        ${p.notesOpen?'▾':'▸'} Notes on ${p.name||'this person'}
-      </button>
-      ${p.notesOpen?`<textarea class="notes-input" placeholder="Anything worth remembering…" data-field="notes">${esc(p.notes)}</textarea>`:''}
+      <button type="button" class="notes-tog" data-action="notes-tog">${p.notesOpen?'▾':'▸'} Notes on ${esc(p.name||'this person')}</button>
+      ${p.notesOpen?`<textarea class="notes-ta" placeholder="Anything worth remembering…" data-field="notes">${esc(p.notes)}</textarea>`:''}
     </div>`;
 }
 
-function wireCard(el, p){
-  // Name
-  el.querySelector('[data-field="name"]').addEventListener('input', e=>{
-    p.name = e.target.value;
-    el.querySelector('.pc-avatar').textContent = initial(p.name);
-    const bh = el.querySelector('.barrier-heading');
-    if(bh) bh.innerHTML = BARRIERS[p.stage].q(p.name)+` <span>→ ${STAGES[STAGES.findIndex(s=>s.id===p.stage)+1]?.label||'deeper investment'}</span>`;
-    const nt = el.querySelector('.notes-toggle-btn');
-    if(nt) nt.innerHTML = `${p.notesOpen?'▾':'▸'} Notes on ${p.name||'this person'}`;
-    autosave(); updateOutput2();
+function wireCard(el,p){
+  el.querySelector('[data-field="name"]').addEventListener('input',e=>{
+    p.name=e.target.value;
+    el.querySelector('.pc-av').textContent=ini(p.name);
+    const bh=el.querySelector('.barrier-hd');
+    if(bh){ const bdef=BARRIERS[p.stage]; bh.innerHTML=esc(bdef.q(p.name))+` <span class="arrow">→ ${bdef.next||'going further'}</span>`; }
+    const nt=el.querySelector('.notes-tog');
+    if(nt) nt.innerHTML=`${p.notesOpen?'▾':'▸'} Notes on ${esc(p.name||'this person')}`;
+    asave(); updateOut2();
   });
 
-  // Delete
   el.querySelector('[data-action="del"]').addEventListener('click',()=>{
-    el.style.opacity='0'; el.style.transform='scale(.97)';
-    el.style.transition='opacity .18s,transform .18s';
-    state.people = state.people.filter(x=>x.id!==p.id);
-    setTimeout(()=>renderAllPeople(), 190);
-    autosave();
+    el.style.opacity='0'; el.style.transform='scale(.97)'; el.style.transition='opacity .18s,transform .18s';
+    S.people=S.people.filter(x=>x.id!==p.id);
+    setTimeout(()=>renderAllPeople(),190); asave();
   });
 
-  // Stage stops
-  el.querySelectorAll('.track-stop').forEach(s=>{
-    s.addEventListener('click',()=>{
-      p.stage=s.dataset.stage; p.barrier=null; p.actions=null; p.checked=[];
-      refresh(el,p);
-    });
+  el.querySelectorAll('.tstop').forEach(s=>{
+    s.addEventListener('click',()=>{ p.stage=s.dataset.stage; p.barrier=null; p.actions=null; p.checked=[]; refresh(el,p); });
   });
 
-  // Barrier
-  el.querySelectorAll('.barrier-btn').forEach(b=>{
-    b.addEventListener('click',()=>{
-      p.barrier=b.dataset.barrier; p.actions=null; p.checked=[];
-      refresh(el,p);
-    });
+  el.querySelectorAll('.barr-btn').forEach(b=>{
+    b.addEventListener('click',()=>{ p.barrier=b.dataset.barrier; p.actions=null; p.checked=[]; refresh(el,p); });
   });
 
-  // Generate
-  const gen = el.querySelector('[data-action="gen"]');
+  const gen=el.querySelector('[data-action="gen"]');
   if(gen) gen.addEventListener('click',()=>genActions(el,p));
 
-  const regen = el.querySelector('[data-action="regen"]');
+  const regen=el.querySelector('[data-action="regen"]');
   if(regen) regen.addEventListener('click',()=>{ p.actions=null; p.checked=[]; refresh(el,p); });
 
-  // Checkboxes
   el.querySelectorAll('[data-action="check"]').forEach(cb=>{
     cb.addEventListener('click',()=>{
       const i=parseInt(cb.dataset.idx);
       if(p.checked.includes(i)) p.checked=p.checked.filter(x=>x!==i);
       else p.checked.push(i);
-      refresh(el,p); autosave();
+      refresh(el,p); asave();
     });
   });
 
-  // Notes toggle
-  el.querySelector('[data-action="notes-toggle"]').addEventListener('click',()=>{
-    p.notesOpen=!p.notesOpen; refresh(el,p);
-  });
+  el.querySelector('[data-action="notes-tog"]').addEventListener('click',()=>{ p.notesOpen=!p.notesOpen; refresh(el,p); });
 
-  // Notes textarea
-  const nta = el.querySelector('[data-field="notes"]');
-  if(nta) nta.addEventListener('input',e=>{ p.notes=e.target.value; autosave(); });
+  const nta=el.querySelector('[data-field="notes"]');
+  if(nta) nta.addEventListener('input',e=>{ p.notes=e.target.value; asave(); });
 }
 
-function refresh(el, p){ el.innerHTML=cardHTML(p); wireCard(el,p); autosave(); updateOutput2(); }
+function refresh(el,p){ el.innerHTML=cardHTML(p); wireCard(el,p); asave(); updateOut2(); }
 
-// ── AI: GENERATE ACTIONS ───────────────────────────────────────────────────
+// ── AI: GENERATE ACTIONS ───────────────────────────────────────────────────────
 
-async function genActions(el, p){
-  const nm = el.querySelector('.pc-nextmove');
+async function genActions(el,p){
+  const nm=el.querySelector('.pc-nm');
   if(!nm) return;
-  nm.innerHTML = `<div class="nm-header"><span class="nm-badge">Next Move</span></div>
-    <div class="nm-loading"><div class="nm-spin"></div>Generating your next step…</div>`;
+  nm.innerHTML=`<div class="nm-hdr"><span class="nm-badge">Next Move</span></div><div class="nm-loading"><div class="nm-spin"></div>Generating next steps…</div>`;
 
-  const laneObj = LANES.find(l=>l.id===state.lane);
-  const si = STAGES.findIndex(s=>s.id===p.stage);
-  const stageObj = STAGES[si];
-  const nextStage = STAGES[si+1];
-  const bdef = BARRIERS[p.stage];
-  const bopt = bdef?.opts.find(o=>o.id===p.barrier);
+  const lane=LANES.find(l=>l.id===S.lane);
+  const si=STAGES.findIndex(s=>s.id===p.stage);
+  const stObj=STAGES[si];
+  const nextSt=STAGES[si+1];
+  const bdef=BARRIERS[p.stage];
+  const bopt=bdef?.opts.find(o=>o.id===p.barrier);
 
-  const sys = `You are a disciple-making coach for covocational believers. You help ordinary people move real relationships forward.
-
-RULES:
-- Write exactly 4 action steps as a JSON array of strings
-- Each step is 1 sentence. Plain English. No jargon. No church-speak.
-- Steps must directly address the specific barrier named
-- Steps must be doable this week, not theoretical
-- Vary the steps: one for initiating, one for the conversation itself, one for follow-through, one mindset or posture shift
-- Current stage: ${stageObj?.label}. Goal: move toward ${nextStage?.label||'multiplication and deeper investment'}.
-- Respond ONLY with a JSON array. No markdown. No preamble. Example: ["Do X.", "Try Y.", "Ask Z.", "Remember W."]`;
-
-  const usr = `Person: ${p.name||'(unnamed)'}
-Current stage: ${stageObj?.label}
-Target stage: ${nextStage?.label||'deeper investment'}
-Setting: ${laneObj?.name||'general'}${state.setting?' — '+state.setting:''}${state.subtype?' ('+state.subtype+')':''}
-Specific barrier: "${bopt?.text||p.barrier}"
-${p.notes?'Notes: '+p.notes:''}
-
-Generate 4 specific, practical action steps that address this exact barrier and help move this relationship to the next stage.`;
+  const payload={
+    person: p.name||'unnamed',
+    stage: stObj?.label,
+    nextStage: nextSt?.label||'deeper investment',
+    lane: lane?.name||'general',
+    laneFramework: lane?.framework||'',
+    setting: S.setting||'',
+    oikosType: S.oikosType||'',
+    barrier: bopt?.text||p.barrier||'',
+    notes: p.notes||''
+  };
 
   try {
-    const r = await fetch('https://api.anthropic.com/v1/messages',{
+    const r=await fetch(API_ENDPOINT,{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',
-        max_tokens:1000,
-        system:sys,
-        messages:[{role:'user',content:usr}]
-      })
+      body:JSON.stringify(payload)
     });
     if(!r.ok) throw new Error('API '+r.status);
-    const data = await r.json();
-    const raw = (data.content||[]).map(b=>b.text||'').join('');
-    const clean = raw.replace(/```json|```/g,'').trim();
-    const acts = JSON.parse(clean);
-    if(!Array.isArray(acts)) throw new Error('Bad format');
-    p.actions = acts.slice(0,4); p.checked = [];
-    refresh(el,p); autosave(); updateOutput2();
+    const data=await r.json();
+    if(!Array.isArray(data.steps)||!data.steps.length) throw new Error('Invalid response format');
+    p.actions=data.steps.slice(0,4); p.checked=[];
+    refresh(el,p); asave(); updateOut2();
   } catch(err){
-    nm.innerHTML = `<div class="nm-header"><span class="nm-badge">Next Move</span></div>
-      <p class="nm-error">Couldn't generate steps — API proxy not configured. <button type="button" class="nm-gen-btn" style="font-size:.78rem;padding:.38rem .8rem;margin-top:.5rem" data-action="gen">Retry</button></p>`;
-    const rb = nm.querySelector('[data-action="gen"]');
+    nm.innerHTML=`<div class="nm-hdr"><span class="nm-badge">Next Move</span></div><p class="nm-err" style="padding:.25rem 0">Something went wrong. <button type="button" class="nm-gen-btn" style="font-size:.78rem;padding:.38rem .85rem;margin-top:.5rem" data-action="gen">Try again</button></p>`;
+    const rb=nm.querySelector('[data-action="gen"]');
     if(rb) rb.addEventListener('click',()=>genActions(el,p));
   }
 }
 
-// ── OUTPUT 2 ───────────────────────────────────────────────────────────────
+// ── OUTPUT 2 ───────────────────────────────────────────────────────────────────
 
-function updateOutput2(){
-  const el = document.getElementById('o2Rows');
-  const active = state.people.filter(p=>p.name.trim());
-  if(!active.length){ el.innerHTML='<div class="o2-empty">Add people above to see your plan here.</div>'; return; }
+function updateOut2(){
+  const el=document.getElementById('o2Rows');
+  const active=S.people.filter(p=>p.name.trim());
+  if(!active.length){ el.innerHTML='<div class="o2-empty">Add people above to see your next steps.</div>'; return; }
 
-  el.innerHTML = active.map(p=>{
-    const si = STAGES.findIndex(s=>s.id===p.stage);
-    const st = STAGES[si];
-    const next = STAGES[si+1];
-    const bdef = BARRIERS[p.stage];
-    const bopt = bdef?.opts.find(o=>o.id===p.barrier);
-    const done = p.checked?.length||0;
-    const total = p.actions?.length||0;
-    const prog = total?` · ${done}/${total} done`:'';
-    const status = p.actions?`⚡ ${done}/${total} done`:(p.barrier?'→ Generate steps':'Set a barrier');
-    const meta = bopt ? `Stuck: ${bopt.text.slice(0,42)}…${prog}` : `${st.label}${next?' → '+next.label:''}${prog}`;
+  el.innerHTML=active.map(p=>{
+    const si=STAGES.findIndex(s=>s.id===p.stage);
+    const st=STAGES[si];
+    const next=STAGES[si+1];
+    const bdef=BARRIERS[p.stage];
+    const bopt=bdef?.opts.find(o=>o.id===p.barrier);
+    const done=p.checked?.length||0;
+    const total=p.actions?.length||0;
+    const status=p.actions?`✓ ${done}/${total}`:(p.barrier?'→ Get steps':'Pick a barrier');
+    const meta=bopt?`"${bopt.text.length>50?bopt.text.slice(0,50)+'…':bopt.text}"${total?` · ${done}/${total} done`:''}`:
+      `${st.label}${next?' → '+next.label:''}`;
     return `<div class="o2-row">
-      <div class="o2-avatar" style="background:${avatarBg(p.id)}">${initial(p.name)}</div>
-      <div class="o2-body">
-        <div class="o2-name">${esc(p.name)}</div>
-        <div class="o2-meta">${esc(meta)}</div>
-      </div>
+      <div class="o2-av" style="background:${avBg(p.id)}">${ini(p.name)}</div>
+      <div class="o2-body"><div class="o2-name">${esc(p.name)}</div><div class="o2-meta">${esc(meta)}</div></div>
       <span class="o2-status">${status}</span>
     </div>`;
   }).join('');
 }
 
-// ── EXPORT ─────────────────────────────────────────────────────────────────
+// ── EXPORT ─────────────────────────────────────────────────────────────────────
 
 function doExport(){
-  const lane = LANES.find(l=>l.id===state.lane);
-  let t = 'DISCIPLE-MAKING PATHWAY\n'+new Date().toLocaleDateString()+'\n\n';
-  t += '── ENGAGEMENT RHYTHM ──\n';
-  if(lane) t += 'Field: '+lane.name+(state.setting?' — '+state.setting:'')+'\n';
-  if(state.oikos.length) t += 'Oikos: '+state.oikos.join(', ')+'\n';
-  if(state.rhythmWhere||state.rhythmWhen||state.rhythmHow){
-    t += 'Rhythm: '+[state.rhythmWhere,state.rhythmWhen,state.rhythmHow].filter(Boolean).join(' · ')+'\n';
-  }
-  t += '\n── CONVERSATION MOVEMENT PLAN ──\n';
-  state.people.forEach(p=>{
+  const lane=LANES.find(l=>l.id===S.lane);
+  let t='DISCIPLE-MAKING PATHWAY\n'+new Date().toLocaleDateString()+'\n\n';
+  t+='── ENGAGEMENT RHYTHM ──\n';
+  if(lane) t+='Field: '+lane.name+' ('+lane.framework+')'+(S.setting?' — '+S.setting:'')+'\n';
+  if(S.oikosType) t+='Oikos: '+(S.oikosType==='existing'?'Existing':'Forming')+'\n';
+  if(S.oikosSelected.length) t+='Specific: '+S.oikosSelected.join(', ')+'\n';
+  const sps=S.settingPeople.filter(x=>x.trim());
+  if(sps.length) t+='People expected: '+sps.join(', ')+'\n';
+  const rp=[S.rFreq,S.rWhen,S.rHow,S.rWhere].filter(Boolean);
+  if(rp.length) t+='Rhythm: '+rp.join(' · ')+'\n';
+  t+='\n── CONVERSATION MOVEMENT PLAN ──\n';
+  S.people.forEach(p=>{
     if(!p.name.trim()) return;
-    const st = STAGES.find(s=>s.id===p.stage);
-    const bdef = BARRIERS[p.stage];
-    const bopt = bdef?.opts.find(o=>o.id===p.barrier);
-    t += '\n'+p.name+' ('+st?.label+')\n';
-    if(bopt) t += 'Barrier: '+bopt.text+'\n';
-    if(p.actions?.length){
-      t += 'Next steps:\n';
-      p.actions.forEach((a,i)=>{ t += (p.checked?.includes(i)?'[x] ':'[ ] ')+a+'\n'; });
-    }
-    if(p.notes) t += 'Notes: '+p.notes+'\n';
+    const st=STAGES.find(s=>s.id===p.stage);
+    const bdef=BARRIERS[p.stage];
+    const bopt=bdef?.opts.find(o=>o.id===p.barrier);
+    t+='\n'+p.name+' ('+st?.label+')\n';
+    if(bopt) t+='Barrier: '+bopt.text+'\n';
+    if(p.actions?.length){ t+='Next steps:\n'; p.actions.forEach((a,i)=>{ t+=(p.checked?.includes(i)?'[x] ':'[ ] ')+a+'\n'; }); }
+    if(p.notes) t+='Notes: '+p.notes+'\n';
   });
-  const blob = new Blob([t],{type:'text/plain'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'pathway-'+Date.now()+'.txt';
-  a.click();
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([t],{type:'text/plain'}));
+  a.download='pathway-'+Date.now()+'.txt'; a.click();
 }
 
-// ── RHYTHM INPUTS ──────────────────────────────────────────────────────────
+// ── WIRE RHYTHM INPUTS ─────────────────────────────────────────────────────────
 
-function wireRhythmInputs(){
-  const rw = document.getElementById('rhythmWhere');
-  const rwh = document.getElementById('rhythmWhen');
-  const rh = document.getElementById('rhythmHow');
-  const rn = document.getElementById('rhythmNotes');
-  const si = document.getElementById('settingInput');
+function wireRhythm(){
+  const ids=['rWhen','rFreq','rHow','rWhere'];
+  ids.forEach(id=>{
+    const el=document.getElementById(id);
+    if(!el) return;
+    el.value=S[id]||'';
+    const ev=el.tagName==='SELECT'?'change':'input';
+    el.addEventListener(ev,e=>{ S[id]=e.target.value; updateOut1(); asave(); });
+  });
+  const si=document.getElementById('settingInput');
+  si.value=S.setting||'';
+  si.addEventListener('input',e=>{ S.setting=e.target.value; updateOut1(); updateM2Context(); asave(); });
 
-  rw.value = state.rhythmWhere||'';
-  rwh.value = state.rhythmWhen||'';
-  rh.value = state.rhythmHow||'';
-  rn.value = state.rhythmNotes||'';
-  si.value = state.setting||'';
-
-  rw.addEventListener('input',e=>{ state.rhythmWhere=e.target.value; updateOutput1(); autosave(); });
-  rwh.addEventListener('change',e=>{ state.rhythmWhen=e.target.value; updateOutput1(); autosave(); });
-  rh.addEventListener('change',e=>{ state.rhythmHow=e.target.value; updateOutput1(); autosave(); });
-  rn.addEventListener('input',e=>{ state.rhythmNotes=e.target.value; updateOutput1(); autosave(); });
-  si.addEventListener('input',e=>{ state.setting=e.target.value; updateOutput1(); autosave(); });
+  ['sp1','sp2','sp3'].forEach((id,i)=>{
+    const el=document.getElementById(id);
+    if(!el) return;
+    el.value=S.settingPeople[i]||'';
+    el.addEventListener('input',e=>{ S.settingPeople[i]=e.target.value; updateOut1(); asave(); });
+  });
 }
 
-// ── INIT ───────────────────────────────────────────────────────────────────
+// ── INIT ───────────────────────────────────────────────────────────────────────
 
 function init(){
   load();
-  if(!state.people.length){ state.people=[mkPerson(),mkPerson(),mkPerson()]; }
+  if(!S.people.length) S.people=[mkP(),mkP(),mkP()];
 
   renderLanes();
-  renderSettingExamples();
-  renderOikosOpts();
-  wireRhythmInputs();
-  updateOutput1();
+  renderOikosType();
+  renderSettingChips();
+  wireRhythm();
+  updateOut1();
+  updateM2Context();
   renderAllPeople();
 
-  document.getElementById('addPersonBtn').addEventListener('click',()=>{
-    if(state.people.length>=8){ showToast('Max 8 people'); return; }
-    state.people.push(mkPerson());
-    renderAllPeople(); autosave();
-    setTimeout(()=>{ document.getElementById('personCards').lastElementChild?.scrollIntoView({behavior:'smooth',block:'start'}); },80);
+  document.getElementById('addBtn').addEventListener('click',()=>{
+    if(S.people.length>=8){ toast('8 people max'); return; }
+    S.people.push(mkP()); renderAllPeople(); asave();
+    setTimeout(()=>document.getElementById('personCards').lastElementChild?.scrollIntoView({behavior:'smooth',block:'start'}),80);
   });
 
-  document.getElementById('saveBtn').addEventListener('click', save);
-  document.getElementById('exportBtn').addEventListener('click', doExport);
-  document.getElementById('heroStart').addEventListener('click',()=>{
-    document.getElementById('toolWrap').scrollIntoView({behavior:'smooth'});
-  });
+  document.getElementById('saveBtn').addEventListener('click',save);
+  document.getElementById('exportBtn').addEventListener('click',doExport);
+  document.getElementById('heroStart').addEventListener('click',()=>
+    document.getElementById('toolWrap').scrollIntoView({behavior:'smooth'})
+  );
 
-  setInterval(autosave, 30000);
+  setInterval(asave,30000);
 }
 
 init();
