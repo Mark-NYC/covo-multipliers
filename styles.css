@@ -115,6 +115,13 @@ img {
     margin-top: 1.75rem;
 }
 
+.hero-secondary-link {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #72867f;
+    text-decoration: underline;
+    text-underline-offset: 0.16em;
+}
 
 /* -----------------------------------------------
    3. BUTTONS
