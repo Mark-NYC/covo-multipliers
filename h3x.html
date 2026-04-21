@@ -369,9 +369,10 @@
 
     .start-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr;
       gap: 1rem;
       margin-top: 2rem;
+      max-width: 720px;
     }
 
     .start-card {
@@ -445,29 +446,6 @@
       line-height: 1.6;
       color: #555555;
       margin: 0;
-    }
-
-    .about-grid {
-      display: grid;
-      grid-template-columns: 360px 1fr;
-      gap: 2rem;
-      align-items: start;
-      margin-top: 2rem;
-    }
-
-    .about-image {
-      background: #1a1a1a;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 16px 40px rgba(16, 40, 31, 0.12);
-      aspect-ratio: 4 / 5;
-    }
-
-    .about-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
     }
 
     .about-copy {
@@ -582,36 +560,6 @@
     .host-link::after {
       content: "→";
       font-weight: 800;
-    }
-
-    .path-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
-      margin-top: 2rem;
-    }
-
-    .path-card {
-      background: #ffffff;
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
-      padding: 1.35rem 1.2rem;
-      box-shadow: 0 8px 24px rgba(16, 40, 31, 0.04);
-    }
-
-    .path-card h3 {
-      font-size: 1.05rem;
-      font-weight: 800;
-      color: #10281f;
-      margin: 0 0 0.55rem;
-      line-height: 1.35;
-    }
-
-    .path-card p {
-      font-size: 0.93rem;
-      line-height: 1.62;
-      color: #555555;
-      margin: 0 0 0.95rem;
     }
 
     .btn-section,
@@ -1021,13 +969,11 @@
 
     @media (max-width: 980px) {
       .podcast-hero-inner,
-      .about-grid,
       .signup-wrap {
         grid-template-columns: 1fr;
       }
 
       .triple-strip-inner,
-      .path-grid,
       .latest-grid,
       .hosts-grid {
         grid-template-columns: 1fr 1fr;
@@ -1035,10 +981,6 @@
 
       .start-grid {
         grid-template-columns: 1fr;
-      }
-
-      .about-image {
-        max-width: 420px;
       }
     }
 
@@ -1073,7 +1015,6 @@
       }
 
       .triple-strip-inner,
-      .path-grid,
       .latest-grid,
       .hosts-grid {
         grid-template-columns: 1fr;
@@ -1182,16 +1123,6 @@
 
       <div class="start-grid">
         <div class="start-card">
-          <h3>What this podcast is about</h3>
-          <p>
-            H3X unpacks the head, heart, and hands of biblical multipliers. Practitioners on the path, sharing what’s working and what’s not.
-          </p>
-          <p>
-            Expect covocational leadership, disciple making, multiplication mindset, and simple tools you can use this week.
-          </p>
-        </div>
-
-        <div class="start-card">
           <h3>Three good places to start</h3>
           <ul class="starter-list">
             <li>
@@ -1261,42 +1192,12 @@
     </div>
   </section>
 
-  <section class="section-shell alt">
-    <div class="section-inner">
-      <span class="section-eyebrow">Listen by pathway</span>
-      <h2 class="section-title">Pick the lane that fits where you are</h2>
-      <p class="section-intro">
-        Grouped by what covocational leaders are actually trying to solve.
-      </p>
-
-      <div class="path-grid">
-        <div class="path-card">
-          <h3>I want to make disciples where I work</h3>
-          <p>Covocational identity and turning your job into the field, not the barrier.</p>
-          <a href="#" class="btn-section">See these episodes</a>
-        </div>
-
-        <div class="path-card">
-          <h3>I need to develop leaders who lead beyond me</h3>
-          <p>Leadership multiplication and building environments where leaders actually grow.</p>
-          <a href="#" class="btn-section">Explore this path</a>
-        </div>
-
-        <div class="path-card">
-          <h3>I want simple tools, not more inspiration</h3>
-          <p>Disciple-making tools, rhythms, and field-tested practices behind multiplying churches.</p>
-          <a href="#" class="btn-section">Start here</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section-shell" id="latest-episodes">
+  <section class="section-shell alt" id="latest-episodes">
     <div class="section-inner">
       <span class="section-eyebrow">Latest episodes</span>
       <h2 class="section-title">Recent conversations from H3X</h2>
       <p class="section-intro">
-        New episode every Tuesday morning. Swap in real episodes or wire to your feed.
+        New episode every Tuesday morning.
       </p>
 
       <div class="latest-grid" id="latest-episodes-grid" aria-live="polite">
@@ -1306,7 +1207,7 @@
     </div>
   </section>
 
-  <section class="section-shell alt">
+  <section class="section-shell">
     <div class="section-inner">
       <span class="section-eyebrow">Stay in the loop</span>
       <h2 class="section-title">Don’t just listen once and leave</h2>
@@ -1314,13 +1215,12 @@
       <div class="signup-wrap">
         <div class="signup-card">
           <div class="signup-inner">
-            <h3>Get new episodes and simple tools in your inbox</h3>
+            <h3>Get hands-on training with real practitioners</h3>
             <p>
-              New content every Tuesday, plus training, labs, and tools for covocational multipliers.
+              Labs are where the podcast becomes practice. Join an upcoming lab to sharpen your tools and develop as a multiplier.
             </p>
             <div class="signup-actions">
-              <a href="#" class="btn-signup">Join the email list</a>
-              <a href="/labs.html" class="btn-hero-secondary">See upcoming labs</a>
+              <a href="/" class="btn-signup">See upcoming labs</a>
             </div>
           </div>
         </div>
@@ -1330,7 +1230,7 @@
           <p>
             Labs, tools, and the covocational pathway for leaders ready to take a step.
           </p>
-          <a href="/vision-and-pathway.html" class="btn-section">Explore the pathway</a>
+          <a href="/vision.html" class="btn-section">Explore the pathway</a>
         </div>
       </div>
     </div>
@@ -1422,7 +1322,7 @@
 
   <footer class="site-footer">
     <a class="footer-brand" href="/">Covo Multipliers</a>
-    <p class="footer-tagline">Making Disciples in Everyday Life</p>
+    <p class="footer-tagline">Live. Work. Play. Multiply.</p>
     <p class="footer-copy">© 2026 Covo Multipliers</p>
   </footer>
 
