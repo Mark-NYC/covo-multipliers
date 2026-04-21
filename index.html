@@ -69,7 +69,7 @@
 
             <div class="labs-list">
 
-                <div class="lab-item">
+                <div class="lab-item" data-slug="from-lost-to-leader-may-2026">
                     <a href="/from-lost-to-leader.html">
                         <span class="lab-datetime">May 20</span>
                         <h3 class="lab-title">From Lost to Leader</h3>
@@ -77,7 +77,7 @@
                     </a>
                 </div>
 
-                <div class="lab-item">
+                <div class="lab-item" data-slug="rhythms-of-a-covo-multiplier-jun-2026">
                     <a href="/rhythms-of-a-covo-multiplier.html">
                         <span class="lab-datetime">Jun 17</span>
                         <h3 class="lab-title">The Rhythms of a Covo Multiplier</h3>
@@ -85,7 +85,7 @@
                     </a>
                 </div>
 
-                <div class="lab-item">
+                <div class="lab-item" data-slug="aquila-and-priscilla-pattern-jul-2026">
                     <a href="/aquila-and-priscilla-pattern.html">
                         <span class="lab-datetime">Jul 15</span>
                         <h3 class="lab-title">The Aquila and Priscilla Pattern</h3>
@@ -146,6 +146,55 @@
         </div>
     </footer>
 
+
+
+    <script>
+        const SUPABASE_URL      = 'https://mryjrvinzbxebzvxtggi.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1yeWpydmluemJ4ZWJ6dnh0Z2dpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYyNzQ3MzksImV4cCI6MjA5MTg1MDczOX0.U1JJQTBVKePsVFXr2oFRCdUZasWaZiTQg6g8QrFdRyw';
+
+        const LAB_SLUGS = [
+            'from-lost-to-leader-may-2026',
+            'rhythms-of-a-covo-multiplier-jun-2026',
+            'aquila-and-priscilla-pattern-jul-2026',
+        ];
+
+        async function loadLabSeats() {
+            try {
+                const url = new URL(`${SUPABASE_URL}/rest/v1/events_with_availability`);
+                url.searchParams.set('slug', `in.(${LAB_SLUGS.join(',')})`);
+                url.searchParams.set('select', 'slug,has_availability,seats_remaining');
+
+                const res = await fetch(url, {
+                    headers: {
+                        'apikey':        SUPABASE_ANON_KEY,
+                        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                    },
+                });
+
+                if (!res.ok) return;
+
+                const events = await res.json();
+                for (const event of events) {
+                    const card = document.querySelector(`.lab-item[data-slug="${event.slug}"]`);
+                    if (!card) continue;
+
+                    const isFull = !event.has_availability;
+                    const label  = isFull
+                        ? 'Event full'
+                        : `${event.seats_remaining} seat${event.seats_remaining === 1 ? '' : 's'} left`;
+
+                    const pill = document.createElement('span');
+                    pill.className   = `lab-seats${isFull ? ' is-full' : ''}`;
+                    pill.textContent = label;
+                    card.appendChild(pill);
+                }
+            } catch {
+                // Non-critical — fail silently if Supabase is unreachable
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadLabSeats);
+    </script>
 
 </body>
 </html>
