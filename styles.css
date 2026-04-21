@@ -77,7 +77,7 @@ img {
 }
 
 .logo-wordmark {
-    font-size: clamp(2.3rem, 6vw, 4.4rem);
+    font-size: clamp(2.1rem, 6vw, 4.4rem);
     font-weight: 900;
     color: #10281f;
     letter-spacing: -0.035em;
