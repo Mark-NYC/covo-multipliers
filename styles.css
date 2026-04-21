@@ -77,13 +77,15 @@ img {
 }
 
 .logo-wordmark {
-    font-size: clamp(2.1rem, 6vw, 4.4rem);
+    font-size: clamp(2rem, 5vw, 3.6rem);
     font-weight: 900;
     color: #10281f;
-    letter-spacing: -0.035em;
-    line-height: 1.04;
+    letter-spacing: -0.04em;
+    line-height: 1.02;
     margin-bottom: 1rem;
-    max-width: 860px;
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .logo-positioning {
