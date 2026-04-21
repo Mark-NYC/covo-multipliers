@@ -19,11 +19,13 @@
 </head>
 <body>
 
-    <!-- ================================================
-         HERO SECTION
-         Main conversion-first hero
-    ================================================ -->
     <section class="hero">
+
+        <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="site-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
 
         <div class="logo-area">
             <span class="logo-accent"></span>
@@ -44,19 +46,26 @@
             <p class="hero-social-line">Join leaders across the country learning how to build a real life of disciple making.</p>
         </div>
 
-        <nav class="hero-nav" aria-label="Main navigation">
-            <a class="btn-pill" href="/resources.html">Resources</a>
-            <a class="btn-pill" href="/h3x.html">H3X Podcast</a>
-            <a class="btn-pill" href="/blog/">Blog</a>
-        </nav>
-
     </section>
 
+    <div class="menu-overlay" id="menu-overlay"></div>
 
-    <!-- ================================================
-         SUPPORTING IMAGE BANNER
-         Kept, but now supports the hero instead of competing with it
-    ================================================ -->
+    <nav class="slideout-menu" id="site-menu" aria-label="Main navigation">
+        <div class="slideout-menu-header">
+            <span class="slideout-menu-title">Menu</span>
+            <button class="menu-close" type="button" aria-label="Close menu">&times;</button>
+        </div>
+
+        <div class="slideout-menu-links">
+            <a href="/">Home</a>
+            <a href="/vision.html">Vision &amp; Pathway</a>
+            <a href="/resources.html">Resources</a>
+            <a href="/blog/">Blog</a>
+            <a href="/h3x.html">H3X Podcast</a>
+            <a href="#upcoming-labs">Upcoming Labs</a>
+        </div>
+    </nav>
+
     <section class="workplace-banner">
         <div class="workplace-content">
             <p class="workplace-trust">Live monthly labs for leaders trying to build a life of disciple making in the middle of normal work and real responsibility.</p>
@@ -64,9 +73,6 @@
         </div>
     </section>
 
-    <!-- ================================================
-         LABS SECTION
-    ================================================ -->
     <section class="labs-section" id="upcoming-labs">
         <div class="labs-container">
 
@@ -107,11 +113,6 @@
         </div>
     </section>
 
-
-    <!-- ================================================
-         TESTIMONIALS
-         Tightened headline and made social proof work harder
-    ================================================ -->
     <section class="testimonials-section">
         <div class="testimonials-container">
             <h2 class="testimonials-title">What leaders are saying</h2>
@@ -147,10 +148,6 @@
         </div>
     </section>
 
-
-    <!-- ================================================
-         FOOTER
-    ================================================ -->
     <footer class="site-footer">
         <div class="footer-inner">
             <div class="footer-brand">
@@ -166,8 +163,6 @@
             </nav>
         </div>
     </footer>
-
-
 
     <script>
         const SUPABASE_URL      = 'https://mryjrvinzbxebzvxtggi.supabase.co';
@@ -187,7 +182,7 @@
 
                 const res = await fetch(url, {
                     headers: {
-                        'apikey':        SUPABASE_ANON_KEY,
+                        'apikey': SUPABASE_ANON_KEY,
                         'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
                     },
                 });
@@ -200,18 +195,52 @@
                     if (!card) continue;
 
                     const isFull = !event.has_availability;
-                    const label  = isFull
+                    const label = isFull
                         ? 'Event full'
                         : `${event.seats_remaining} seat${event.seats_remaining === 1 ? '' : 's'} left`;
 
                     const pill = document.createElement('span');
-                    pill.className   = `lab-seats${isFull ? ' is-full' : ''}`;
+                    pill.className = `lab-seats${isFull ? ' is-full' : ''}`;
                     pill.textContent = label;
                     card.appendChild(pill);
                 }
             } catch {
                 // fail silently
             }
+        }
+
+        const menuToggle = document.querySelector('.menu-toggle');
+        const menuClose = document.querySelector('.menu-close');
+        const slideoutMenu = document.getElementById('site-menu');
+        const menuOverlay = document.getElementById('menu-overlay');
+        const menuLinks = document.querySelectorAll('.slideout-menu a');
+
+        function openMenu() {
+            slideoutMenu.classList.add('is-open');
+            menuOverlay.classList.add('is-open');
+            document.body.classList.add('menu-open');
+            menuToggle.setAttribute('aria-expanded', 'true');
+        }
+
+        function closeMenu() {
+            slideoutMenu.classList.remove('is-open');
+            menuOverlay.classList.remove('is-open');
+            document.body.classList.remove('menu-open');
+            menuToggle.setAttribute('aria-expanded', 'false');
+        }
+
+        if (menuToggle && menuClose && slideoutMenu && menuOverlay) {
+            menuToggle.addEventListener('click', openMenu);
+            menuClose.addEventListener('click', closeMenu);
+            menuOverlay.addEventListener('click', closeMenu);
+
+            menuLinks.forEach(link => {
+                link.addEventListener('click', closeMenu);
+            });
+
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape') closeMenu();
+            });
         }
 
         document.addEventListener('DOMContentLoaded', loadLabSeats);
