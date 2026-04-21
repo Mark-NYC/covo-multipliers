@@ -91,13 +91,22 @@
     }
 
     .hero-label {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
       font-size: 0.72rem;
       font-weight: 800;
       letter-spacing: 0.14em;
       text-transform: uppercase;
       color: #bd5a22;
       margin-bottom: 1.15rem;
+    }
+
+    .hero-label-icon {
+      height: 28px;
+      width: auto;
+      display: block;
+      flex-shrink: 0;
     }
 
     .hero-title {
@@ -1047,7 +1056,10 @@
   <section class="podcast-hero">
     <div class="podcast-hero-inner">
       <div class="hero-copy">
-        <span class="hero-label">H3X Podcast</span>
+        <span class="hero-label">
+          <img src="image/h3x podcast logo header.webp" alt="" class="hero-label-icon" aria-hidden="true" />
+          H3X Podcast
+        </span>
         <h1 class="hero-title">
           The <span class="accent">head, heart, and hands</span> of the multiplying Church and her leaders.
         </h1>
@@ -1105,19 +1117,19 @@
     <div class="triple-strip-inner">
       <div class="triple-item">
         <img src="image/head icon.webp" alt="" class="triple-icon" loading="lazy" aria-hidden="true" />
-        
+        <span class="triple-letter">H — Head</span>
         <p class="triple-word">How a multiplier thinks</p>
         <p class="triple-desc">The convictions and frameworks behind people who actually multiply.</p>
       </div>
       <div class="triple-item">
         <img src="image/heart icon.webp" alt="" class="triple-icon" loading="lazy" aria-hidden="true" />
-        
+        <span class="triple-letter">H — Heart</span>
         <p class="triple-word">Who a multiplier is</p>
         <p class="triple-desc">The character and posture that carry a leader past burnout.</p>
       </div>
       <div class="triple-item">
         <img src="image/hands icon.webp" alt="" class="triple-icon" loading="lazy" aria-hidden="true" />
-        
+        <span class="triple-letter">X — Hands</span>
         <p class="triple-word">What a multiplier does</p>
         <p class="triple-desc">The simple tools and rhythms that turn conviction into movement.</p>
       </div>
@@ -1333,7 +1345,7 @@
 
   <footer class="site-footer">
     <a class="footer-brand" href="/">Covo Multipliers</a>
-    <p class="footer-tagline">Live. Work. Play. Multiply.</p>
+    <p class="footer-tagline">Making Disciples in Everyday Life</p>
     <p class="footer-copy">© 2026 Covo Multipliers</p>
   </footer>
 
