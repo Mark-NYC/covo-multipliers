@@ -28,6 +28,10 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
+body.menu-open {
+    overflow: hidden;
+}
+
 img {
     max-width: 100%;
     display: block;
@@ -39,6 +43,7 @@ img {
 ----------------------------------------------- */
 
 .hero {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -53,7 +58,6 @@ img {
     margin-bottom: 2rem;
 }
 
-/* Thin accent bar above the wordmark */
 .logo-accent {
     display: block;
     width: 40px;
@@ -100,15 +104,8 @@ img {
 
 
 /* -----------------------------------------------
-   3. BUTTONS / HERO NAV
+   3. BUTTONS
 ----------------------------------------------- */
-
-.hero-nav {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.65rem;
-    justify-content: center;
-}
 
 .btn-pill {
     display: inline-block;
@@ -152,7 +149,133 @@ img {
 
 
 /* -----------------------------------------------
-   4. SOCIAL PROOF
+   4. HAMBURGER / SLIDEOUT MENU
+----------------------------------------------- */
+
+.menu-toggle {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    width: 52px;
+    height: 52px;
+    border: 1px solid #d9e2dd;
+    border-radius: 14px;
+    background: #ffffff;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    z-index: 1100;
+    box-shadow: 0 8px 24px rgba(16, 40, 31, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.menu-toggle:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 12px 28px rgba(16, 40, 31, 0.12);
+}
+
+.menu-toggle span {
+    display: block;
+    width: 20px;
+    height: 2px;
+    border-radius: 999px;
+    background: #10281f;
+}
+
+.menu-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 20, 16, 0.42);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+    z-index: 1190;
+}
+
+.menu-overlay.is-open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.slideout-menu {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: min(88vw, 360px);
+    height: 100vh;
+    background: #ffffff;
+    box-shadow: -20px 0 40px rgba(16, 40, 31, 0.18);
+    transform: translateX(100%);
+    transition: transform 0.28s ease;
+    z-index: 1200;
+    padding: 1.25rem 1.25rem 2rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.slideout-menu.is-open {
+    transform: translateX(0);
+}
+
+.slideout-menu-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #e7eeea;
+}
+
+.slideout-menu-title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #10281f;
+}
+
+.menu-close {
+    border: none;
+    background: transparent;
+    color: #10281f;
+    font-size: 2rem;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.slideout-menu-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.slideout-menu-links a {
+    display: block;
+    padding: 0.95rem 0.9rem;
+    border-radius: 12px;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1b4d3e;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.slideout-menu-links a:hover {
+    background: #f3f7f5;
+    color: #10281f;
+}
+
+.menu-toggle:focus-visible,
+.menu-close:focus-visible,
+.slideout-menu a:focus-visible {
+    outline: 3px solid #dcb55a;
+    outline-offset: 3px;
+}
+
+
+/* -----------------------------------------------
+   5. SOCIAL PROOF
 ----------------------------------------------- */
 
 .hero-social-proof {
@@ -198,7 +321,7 @@ img {
 
 
 /* -----------------------------------------------
-   5. WORKPLACE IMAGE BANNER
+   6. WORKPLACE IMAGE BANNER
 ----------------------------------------------- */
 
 .workplace-banner {
@@ -251,7 +374,7 @@ img {
 
 
 /* -----------------------------------------------
-   6. LABS SECTION
+   7. LABS SECTION
 ----------------------------------------------- */
 
 .labs-section {
@@ -410,7 +533,7 @@ img {
 
 
 /* -----------------------------------------------
-   7. TESTIMONIALS
+   8. TESTIMONIALS
 ----------------------------------------------- */
 
 .testimonials-section {
@@ -480,7 +603,7 @@ img {
 
 
 /* -----------------------------------------------
-   8. FOOTER
+   9. FOOTER
 ----------------------------------------------- */
 
 .site-footer {
@@ -536,7 +659,7 @@ img {
 
 
 /* -----------------------------------------------
-   9. RESPONSIVE
+   10. RESPONSIVE
 ----------------------------------------------- */
 
 @media (max-width: 900px) {
@@ -586,8 +709,15 @@ img {
         text-align: center;
     }
 
-    .hero-nav {
-        gap: 0.55rem;
+    .menu-toggle {
+        top: 1rem;
+        right: 1rem;
+        width: 48px;
+        height: 48px;
+    }
+
+    .slideout-menu {
+        width: min(92vw, 340px);
     }
 
     .btn-pill {
