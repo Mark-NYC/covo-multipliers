@@ -48,13 +48,9 @@ img {
     text-align: center;
 }
 
-
-/* -----------------------------------------------
-   3. LOGO / WORDMARK
------------------------------------------------ */
-
 .logo-area {
-    margin-bottom: 2.75rem;
+    max-width: 760px;
+    margin-bottom: 2rem;
 }
 
 /* Thin accent bar above the wordmark */
@@ -67,35 +63,44 @@ img {
     margin: 0 auto 1.25rem;
 }
 
-.logo-wordmark {
-    font-size: clamp(2.2rem, 6vw, 3.75rem);
-    font-weight: 900;
-    color: #10281f;
-    letter-spacing: -0.025em;
-    line-height: 1.1;
-    margin-bottom: 0.6rem;
-}
-
 .logo-tagline {
     font-size: 0.95rem;
-    font-weight: 500;
+    font-weight: 600;
     color: #5a6b65;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     margin-bottom: 1rem;
 }
 
+.logo-wordmark {
+    font-size: clamp(2.3rem, 6vw, 4.4rem);
+    font-weight: 900;
+    color: #10281f;
+    letter-spacing: -0.035em;
+    line-height: 1.04;
+    margin-bottom: 1rem;
+    max-width: 860px;
+}
+
 .logo-positioning {
-    font-size: 1rem;
+    font-size: 1.08rem;
     color: #3a4f47;
-    max-width: 520px;
+    max-width: 660px;
     margin: 0 auto;
-    line-height: 1.6;
+    line-height: 1.7;
+}
+
+.hero-cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.85rem;
+    justify-content: center;
+    margin-top: 1.75rem;
 }
 
 
 /* -----------------------------------------------
-   4. HERO NAV PILLS
+   3. BUTTONS / HERO NAV
 ----------------------------------------------- */
 
 .hero-nav {
@@ -109,14 +114,14 @@ img {
     display: inline-block;
     padding: 0.65rem 1.6rem;
     border-radius: 999px;
-    font-size: 0.9rem;
-    font-weight: 600;
+    font-size: 0.92rem;
+    font-weight: 700;
     text-decoration: none;
     letter-spacing: 0.01em;
     color: #1b4d3e;
     background: transparent;
     border: 2px solid #1b4d3e;
-    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
     white-space: nowrap;
 }
 
@@ -124,12 +129,71 @@ img {
     background: #1b4d3e;
     color: #ffffff;
     border-color: #1b4d3e;
+    transform: translateY(-1px);
 }
 
-/* Subtle active/focus state for accessibility */
 .btn-pill:focus-visible {
     outline: 3px solid #dcb55a;
     outline-offset: 3px;
+}
+
+.btn-pill-primary {
+    background: #1b4d3e;
+    color: #ffffff;
+    border-color: #1b4d3e;
+    box-shadow: 0 10px 24px rgba(27, 77, 62, 0.14);
+}
+
+.btn-pill-primary:hover {
+    background: #10281f;
+    color: #ffffff;
+    border-color: #10281f;
+}
+
+
+/* -----------------------------------------------
+   4. SOCIAL PROOF
+----------------------------------------------- */
+
+.hero-social-proof {
+    padding-top: 1.5rem;
+    text-align: center;
+}
+
+.hero-social-proof img {
+    max-width: 165px;
+    width: 100%;
+    margin: 0 auto;
+    display: block;
+    border-radius: 8px;
+}
+
+.hero-social-line {
+    font-size: 0.95rem;
+    color: #5a6b65;
+    max-width: 420px;
+    margin: 0.85rem auto 0;
+    line-height: 1.55;
+}
+
+.form-social-proof {
+    padding-top: 1.25rem;
+    text-align: center;
+}
+
+.form-social-proof img {
+    max-width: 165px;
+    width: 100%;
+    margin: 0 auto 0.6rem;
+    display: block;
+    border-radius: 8px;
+}
+
+.form-social-proof p {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #5a6b65;
+    letter-spacing: 0.02em;
 }
 
 
@@ -140,7 +204,7 @@ img {
 .workplace-banner {
     position: relative;
     width: 100%;
-    min-height: 520px;
+    min-height: 500px;
     background-image: url('image/covoworkplace.webp');
     background-size: cover;
     background-position: center 25%;
@@ -156,7 +220,7 @@ img {
     background: linear-gradient(
         to bottom,
         rgba(16, 40, 31, 0.08) 0%,
-        rgba(16, 40, 31, 0.52) 48%,
+        rgba(16, 40, 31, 0.5) 48%,
         rgba(16, 40, 31, 0.82) 100%
     );
     z-index: 1;
@@ -165,22 +229,22 @@ img {
 .workplace-content {
     position: relative;
     z-index: 2;
-    max-width: 640px;
+    max-width: 720px;
     padding: 3rem 3.5rem;
 }
 
 .workplace-trust {
-    font-size: 1.05rem;
-    color: rgba(255, 255, 255, 0.82);
-    margin: 0 0 0.875rem;
+    font-size: 1.02rem;
+    color: rgba(255, 255, 255, 0.84);
+    margin: 0 0 0.9rem;
     line-height: 1.65;
 }
 
 .workplace-stakes {
-    font-size: 1.6rem;
-    font-weight: 700;
+    font-size: 1.45rem;
+    font-weight: 750;
     color: #ffffff;
-    line-height: 1.3;
+    line-height: 1.35;
     margin: 0;
     letter-spacing: -0.01em;
 }
@@ -188,7 +252,6 @@ img {
 
 /* -----------------------------------------------
    6. LABS SECTION
-   Preserved closely from the original design.
 ----------------------------------------------- */
 
 .labs-section {
@@ -204,7 +267,6 @@ img {
     overflow: hidden;
 }
 
-/* Subtle texture overlay */
 .labs-section::before {
     content: "";
     position: absolute;
@@ -228,7 +290,7 @@ img {
 }
 
 .labs-title {
-    font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+    font-size: clamp(1.9rem, 3.5vw, 2.6rem);
     font-weight: 900;
     text-align: center;
     margin-bottom: 0.75rem;
@@ -236,10 +298,19 @@ img {
 }
 
 .labs-tagline {
-    font-size: 1.1rem;
+    font-size: 1.08rem;
     text-align: center;
-    color: rgba(255, 255, 255, 0.9);
-    margin-bottom: 2.5rem;
+    color: rgba(255, 255, 255, 0.92);
+    margin-bottom: 0.75rem;
+}
+
+.labs-intro {
+    max-width: 620px;
+    margin: 0 auto 2.5rem;
+    font-size: 1rem;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.82);
+    line-height: 1.65;
 }
 
 .labs-list {
@@ -285,18 +356,32 @@ img {
     line-height: 1.3;
     color: #1a1a1a;
     margin-bottom: 0.9rem;
+    padding-right: 2rem;
 }
 
 .lab-description {
     font-size: 1rem;
-    line-height: 1.6;
+    line-height: 1.65;
     color: #333333;
     margin: 0;
 }
 
+.lab-link-text {
+    display: inline-block;
+    margin-top: 1.15rem;
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: #1b4d3e;
+}
+
+.lab-item:hover .lab-link-text {
+    text-decoration: underline;
+    text-underline-offset: 0.14em;
+}
+
 @keyframes seat-glow {
     0%, 100% { box-shadow: 0 0 6px rgba(220, 181, 90, 0.35); }
-    50%       { box-shadow: 0 0 14px rgba(220, 181, 90, 0.65); }
+    50% { box-shadow: 0 0 14px rgba(220, 181, 90, 0.65); }
 }
 
 .lab-seats {
@@ -325,7 +410,77 @@ img {
 
 
 /* -----------------------------------------------
-   7. FOOTER
+   7. TESTIMONIALS
+----------------------------------------------- */
+
+.testimonials-section {
+    background: #f8faf9;
+    padding: 4rem 2rem;
+}
+
+.testimonials-container {
+    max-width: 980px;
+    margin: 0 auto;
+}
+
+.testimonials-title {
+    font-size: clamp(1.5rem, 2.7vw, 1.9rem);
+    font-weight: 800;
+    color: #10281f;
+    text-align: center;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.75rem;
+}
+
+.testimonials-intro {
+    max-width: 660px;
+    margin: 0 auto 2.5rem;
+    font-size: 1rem;
+    line-height: 1.65;
+    text-align: center;
+    color: #52645d;
+}
+
+.testimonials-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.25rem;
+}
+
+.testimonial-card {
+    background: #ffffff;
+    border: 1px solid #e2eae6;
+    border-radius: 16px;
+    padding: 1.75rem 2rem;
+    box-shadow: 0 2px 12px rgba(16, 40, 31, 0.06);
+}
+
+.testimonial-highlight {
+    font-size: 1rem;
+    font-weight: 750;
+    line-height: 1.5;
+    color: #10281f;
+    margin-bottom: 0.8rem;
+}
+
+.testimonial-quote {
+    font-size: 0.98rem;
+    line-height: 1.72;
+    color: #2a2a2a;
+    font-style: italic;
+    margin-bottom: 1.25rem;
+}
+
+.testimonial-attribution {
+    font-size: 0.825rem;
+    font-weight: 700;
+    color: #1b4d3e;
+    letter-spacing: 0.02em;
+}
+
+
+/* -----------------------------------------------
+   8. FOOTER
 ----------------------------------------------- */
 
 .site-footer {
@@ -381,113 +536,58 @@ img {
 
 
 /* -----------------------------------------------
-   9. SOCIAL PROOF IMAGE
+   9. RESPONSIVE
 ----------------------------------------------- */
 
-/* Homepage: below positioning sentence */
-.hero-social-proof {
-    padding-top: 1.5rem;
-    text-align: center;
-}
-
-.hero-social-proof img {
-    max-width: 165px;
-    width: 100%;
-    margin: 0 auto;
-    display: block;
-    border-radius: 8px;
-}
-
-/* Lab pages: below registration form */
-.form-social-proof {
-    padding-top: 1.25rem;
-    text-align: center;
-}
-
-.form-social-proof img {
-    max-width: 165px;
-    width: 100%;
-    margin: 0 auto 0.6rem;
-    display: block;
-    border-radius: 8px;
-}
-
-.form-social-proof p {
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: #5a6b65;
-    letter-spacing: 0.02em;
-}
-
-
-/* -----------------------------------------------
-   10. TESTIMONIALS
------------------------------------------------ */
-
-.testimonials-section {
-    background: #f8faf9;
-    padding: 4rem 2rem;
-}
-
-.testimonials-container {
-    max-width: 900px;
-    margin: 0 auto;
-}
-
-.testimonials-title {
-    font-size: clamp(1.4rem, 2.5vw, 1.75rem);
-    font-weight: 800;
-    color: #10281f;
-    text-align: center;
-    letter-spacing: -0.01em;
-    margin-bottom: 2.5rem;
-}
-
-.testimonials-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1.25rem;
-}
-
-.testimonial-card {
-    background: #ffffff;
-    border: 1px solid #e2eae6;
-    border-radius: 16px;
-    padding: 1.75rem 2rem;
-    box-shadow: 0 2px 12px rgba(16, 40, 31, 0.06);
-}
-
-.testimonial-quote {
-    font-size: 1rem;
-    line-height: 1.7;
-    color: #2a2a2a;
-    font-style: italic;
-    margin-bottom: 1.25rem;
-}
-
-.testimonial-attribution {
-    font-size: 0.825rem;
-    font-weight: 700;
-    color: #1b4d3e;
-    letter-spacing: 0.02em;
-}
-
-
-/* -----------------------------------------------
-   11. RESPONSIVE (was 8)
------------------------------------------------ */
-
-/* Stack lab cards on tablet and below */
 @media (max-width: 900px) {
     .labs-list {
         grid-template-columns: 1fr;
     }
+
+    .logo-wordmark {
+        font-size: clamp(2.2rem, 8vw, 3.3rem);
+    }
+
+    .logo-positioning {
+        font-size: 1rem;
+    }
 }
 
-/* Tighten hero and image banner on small screens */
+@media (max-width: 600px) {
+    .footer-inner {
+        flex-direction: column;
+    }
+
+    .footer-nav {
+        text-align: left;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0.75rem 1.5rem;
+    }
+}
+
 @media (max-width: 480px) {
     .hero {
         padding: 3.5rem 1.5rem 2.5rem;
+    }
+
+    .logo-wordmark {
+        line-height: 1.08;
+        margin-bottom: 0.9rem;
+    }
+
+    .hero-cta-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .hero-cta-row .btn-pill {
+        width: 100%;
+        text-align: center;
+    }
+
+    .hero-nav {
+        gap: 0.55rem;
     }
 
     .btn-pill {
@@ -509,24 +609,21 @@ img {
     }
 
     .workplace-stakes {
-        font-size: 1.25rem;
+        font-size: 1.2rem;
     }
 
     .labs-section {
         padding: 3rem 1.25rem;
     }
-}
 
-/* Stack footer on mobile */
-@media (max-width: 600px) {
-    .footer-inner {
-        flex-direction: column;
+    .labs-intro,
+    .testimonials-intro,
+    .hero-social-line {
+        font-size: 0.95rem;
     }
 
-    .footer-nav {
-        text-align: left;
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 0.75rem 1.5rem;
+    .testimonial-card,
+    .lab-item {
+        padding: 1.5rem;
     }
 }
