@@ -110,17 +110,30 @@ img {
 .hero-cta-row {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.85rem;
+    gap: 1rem;
     justify-content: center;
+    align-items: center;
     margin-top: 1.75rem;
 }
 
 .hero-secondary-link {
-    font-size: 0.95rem;
-    font-weight: 500;
-    color: #72867f;
+    font-size: 0.98rem;
+    font-weight: 600;
+    color: #5f746c;
     text-decoration: underline;
     text-underline-offset: 0.16em;
+    text-decoration-thickness: 1px;
+    transition: color 0.2s ease;
+}
+
+.hero-secondary-link:hover {
+    color: #1b4d3e;
+}
+
+.hero-secondary-link:focus-visible {
+    outline: 3px solid #dcb55a;
+    outline-offset: 3px;
+    border-radius: 4px;
 }
 
 /* -----------------------------------------------
