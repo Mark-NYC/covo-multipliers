@@ -177,7 +177,7 @@
             try {
                 const url = new URL(`${SUPABASE_URL}/rest/v1/events_with_availability`);
                 url.searchParams.set('slug', `in.(${LAB_SLUGS.join(',')})`);
-                url.searchParams.set('select', 'slug,has_availability,seats_remaining');
+                url.searchParams.set('select', 'slug,has_availability,seats_remaining,event_date');
 
                 const res = await fetch(url, {
                     headers: {
@@ -188,10 +188,16 @@
 
                 if (!res.ok) return;
 
+                const now = new Date();
                 const events = await res.json();
                 for (const event of events) {
                     const card = document.querySelector(`.lab-item[data-slug="${event.slug}"]`);
                     if (!card) continue;
+
+                    if (event.event_date && new Date(event.event_date) < now) {
+                        card.style.display = 'none';
+                        continue;
+                    }
 
                     const isFull = !event.has_availability;
                     const label = isFull
