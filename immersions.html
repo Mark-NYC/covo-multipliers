@@ -1,948 +1,1069 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="See disciple-making in real life through a Covo Immersion in New York City.">
-    <title>Covo Immersions — Covo Multipliers</title>
-
-    <link rel="stylesheet" href="styles.css">
-
-    <style>
-        .site-header {
-            background: #ffffff;
-            border-bottom: 1px solid #e5e7eb;
-            padding: 1rem 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .site-header .brand {
-            font-size: 0.95rem;
-            font-weight: 900;
-            color: #10281f;
-            text-decoration: none;
-            letter-spacing: -0.01em;
-        }
-
-        .site-header .back-link {
-            font-size: 0.875rem;
-            color: #5a6b65;
-            text-decoration: none;
-            transition: color 0.15s ease;
-        }
-
-        .site-header .back-link:hover {
-            color: #1b4d3e;
-        }
-
-        .immersion-hero {
-            padding: 3.75rem 2rem 3.25rem;
-            background: linear-gradient(
-                135deg,
-                #0f1720 0%,
-                #143129 24%,
-                #1f4d46 48%,
-                #4e5f6b 72%,
-                #c18a3a 100%
-            );
-            position: relative;
-            overflow: hidden;
-        }
-
-        .immersion-hero::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-            opacity: 0.12;
-            background-image:
-                radial-gradient(circle at 20% 20%, rgba(255,255,255,0.12) 0.7px, transparent 0.8px),
-                radial-gradient(circle at 80% 30%, rgba(0,0,0,0.10) 0.7px, transparent 0.8px),
-                radial-gradient(circle at 40% 70%, rgba(255,255,255,0.08) 0.6px, transparent 0.7px),
-                radial-gradient(circle at 70% 80%, rgba(0,0,0,0.08) 0.6px, transparent 0.7px);
-            background-size: 120px 120px, 140px 140px, 100px 100px, 160px 160px;
-            mix-blend-mode: soft-light;
-        }
-
-        .immersion-hero-inner {
-            max-width: 1160px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 2;
-            display: grid;
-            grid-template-columns: minmax(0, 1fr) 430px;
-            gap: 3rem;
-            align-items: center;
-        }
-
-        .hero-copy {
-            min-width: 0;
-        }
-
-        .hero-image-wrap {
-            border-radius: 14px;
-            overflow: hidden;
-            box-shadow: 0 24px 64px rgba(0, 0, 0, 0.38);
-            aspect-ratio: 4 / 3;
-            background: rgba(255,255,255,0.08);
-        }
-
-        .hero-image-wrap img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        .event-label {
-            display: inline-block;
-            font-size: 0.72rem;
-            font-weight: 800;
-            letter-spacing: 0.14em;
-            text-transform: uppercase;
-            color: rgba(255, 255, 255, 0.62);
-            margin-bottom: 1rem;
-        }
-
-        .event-title {
-            font-size: clamp(2.8rem, 6vw, 4.8rem);
-            font-weight: 900;
-            color: #ffffff;
-            line-height: 0.95;
-            letter-spacing: -0.05em;
-            margin-bottom: 1rem;
-            max-width: 760px;
-        }
-
-        .hero-lead {
-            font-size: clamp(1.1rem, 2vw, 1.34rem);
-            line-height: 1.55;
-            color: rgba(255,255,255,0.94);
-            max-width: 690px;
-            margin-bottom: 1.35rem;
-        }
-
-        .hero-cta-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            align-items: center;
-            margin-top: 0.3rem;
-        }
-
-        .hero-cta-row .btn-pill {
-            border-color: rgba(255,255,255,0.92);
-            color: #ffffff;
-        }
-
-        .hero-cta-row .btn-pill:hover {
-            background: #ffffff;
-            color: #10281f;
-            border-color: #ffffff;
-        }
-
-        .hero-cta-row .btn-pill-primary {
-            background: #ffffff;
-            color: #10281f;
-            border-color: #ffffff;
-            box-shadow: 0 10px 24px rgba(16, 40, 31, 0.16);
-        }
-
-        .hero-cta-row .btn-pill-primary:hover {
-            background: #f5f5f5;
-            color: #10281f;
-            border-color: #f5f5f5;
-        }
-
-        .hero-support-line {
-            font-size: 0.88rem;
-            line-height: 1.5;
-            color: rgba(255,255,255,0.78);
-            margin-top: 0.85rem;
-        }
-
-        .page-section {
-            background: #ffffff;
-            padding: 3.5rem 2rem;
-            border-bottom: 1px solid #e5e7eb;
-        }
-
-        .page-section-inner {
-            max-width: 960px;
-            margin: 0 auto;
-        }
-
-        .two-col-section .page-section-inner {
-            max-width: 1200px;
-            display: grid;
-            grid-template-columns: minmax(0, 1fr) 400px;
-            gap: 4rem;
-            align-items: start;
-        }
-
-        .eyebrow {
-            display: block;
-            font-size: 0.72rem;
-            font-weight: 800;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: #245c4a;
-            margin-bottom: 0.55rem;
-        }
-
-        .section-title {
-            font-size: clamp(1.9rem, 3vw, 2.7rem);
-            font-weight: 900;
-            color: #10281f;
-            line-height: 1.02;
-            letter-spacing: -0.04em;
-            margin-bottom: 1rem;
-            max-width: 760px;
-        }
-
-        .section-copy {
-            font-size: 1rem;
-            line-height: 1.72;
-            color: #444444;
-            max-width: 760px;
-        }
-
-        .section-copy p + p {
-            margin-top: 0.85rem;
-        }
-
-        .simple-list {
-            list-style: none;
-            padding: 0;
-            margin: 1.4rem 0 0;
-        }
-
-        .simple-list li {
-            display: flex;
-            align-items: flex-start;
-            gap: 0.9rem;
-            padding: 1rem 0;
-            border-bottom: 1px solid #f0f0f0;
-            font-size: 1rem;
-            line-height: 1.65;
-            color: #2a2a2a;
-        }
-
-        .simple-list li:last-child {
-            border-bottom: none;
-        }
-
-        .simple-check {
-            flex-shrink: 0;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: #f0fdf4;
-            border: 1.5px solid #bbf7d0;
-            font-size: 0.6rem;
-            font-weight: 800;
-            color: #15803d;
-            margin-top: 0.25rem;
-        }
-
-        .contrast-block {
-            margin-top: 1.5rem;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-
-        .contrast-card {
-            background: #f8faf9;
-            border: 1px solid #e2eae6;
-            border-radius: 16px;
-            padding: 1.4rem 1.45rem;
-        }
-
-        .contrast-label {
-            display: block;
-            font-size: 0.72rem;
-            font-weight: 800;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: #245c4a;
-            margin-bottom: 0.55rem;
-        }
-
-        .contrast-main {
-            font-size: 1.2rem;
-            font-weight: 900;
-            color: #10281f;
-            line-height: 1.1;
-            letter-spacing: -0.03em;
-        }
-
-        .split-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.25rem;
-            margin-top: 1.5rem;
-        }
-
-        .split-card {
-            background: #f8faf9;
-            border: 1px solid #e2eae6;
-            border-radius: 16px;
-            padding: 1.45rem 1.5rem;
-        }
-
-        .split-card h3 {
-            font-size: 1.1rem;
-            font-weight: 900;
-            color: #10281f;
-            line-height: 1.12;
-            letter-spacing: -0.02em;
-            margin-bottom: 0.85rem;
-        }
-
-        .micro-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .micro-list li {
-            font-size: 0.97rem;
-            line-height: 1.65;
-            color: #3a4a44;
-            padding: 0.35rem 0;
-        }
-
-        .info-card {
-            background: #ffffff;
-            border-radius: 16px;
-            border-top: 4px solid #1b4d3e;
-            box-shadow:
-                0 4px 6px rgba(0, 0, 0, 0.04),
-                0 12px 40px rgba(16, 40, 31, 0.10);
-            padding: 2.1rem 2.2rem;
-            position: sticky;
-            top: 1rem;
-        }
-
-        .info-card h2 {
-            font-size: 1.45rem;
-            font-weight: 900;
-            color: #10281f;
-            line-height: 1.05;
-            letter-spacing: -0.03em;
-            margin-bottom: 0.35rem;
-        }
-
-        .info-card-intro {
-            font-size: 0.9rem;
-            color: #5a6b65;
-            line-height: 1.55;
-            margin-bottom: 1.35rem;
-        }
-
-        .info-list {
-            list-style: none;
-            padding: 0;
-            margin: 0 0 1.35rem;
-        }
-
-        .info-list li {
-            display: flex;
-            justify-content: space-between;
-            gap: 1rem;
-            padding: 0.95rem 0;
-            border-bottom: 1px solid #edf1ef;
-            font-size: 0.94rem;
-            line-height: 1.5;
-        }
-
-        .info-list li:last-child {
-            border-bottom: none;
-        }
-
-        .info-label {
-            font-weight: 800;
-            color: #10281f;
-        }
-
-        .info-value {
-            text-align: right;
-            color: #5a6b65;
-        }
-
-        .info-card-note {
-            font-size: 0.88rem;
-            line-height: 1.6;
-            color: #5a6b65;
-            margin-bottom: 1.2rem;
-        }
-
-        .btn-card {
-            width: 100%;
-            text-align: center;
-        }
-
-        .info-card-secondary {
-            margin-top: 0.9rem;
-            text-align: center;
-            font-size: 0.88rem;
-            color: #5a6b65;
-        }
-
-        .info-card-secondary a {
-            color: #1b4d3e;
-            font-weight: 700;
-            text-decoration: underline;
-            text-underline-offset: 0.15em;
-        }
-
-        .testimonials-section {
-            background: #f8faf9;
-            padding: 4rem 2rem;
-            border-bottom: 1px solid #e5e7eb;
-        }
-
-        .testimonials-inner {
-            max-width: 980px;
-            margin: 0 auto;
-        }
-
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 1.25rem;
-            margin-top: 1.8rem;
-        }
-
-        .testimonial-card {
-            background: #ffffff;
-            border: 1px solid #e2eae6;
-            border-radius: 16px;
-            padding: 1.6rem 1.5rem;
-            box-shadow: 0 2px 12px rgba(16, 40, 31, 0.06);
-        }
-
-        .testimonial-quote {
-            font-size: 1.02rem;
-            line-height: 1.7;
-            color: #2a2a2a;
-            font-style: italic;
-        }
-
-        .testimonial-attribution {
-            margin-top: 1rem;
-            font-size: 0.82rem;
-            font-weight: 800;
-            color: #1b4d3e;
-            letter-spacing: 0.02em;
-        }
-
-        .faq-box {
-            background: #f8faf9;
-            border-left: 3px solid #1b4d3e;
-            border-radius: 0 10px 10px 0;
-            padding: 1.85rem 2rem;
-        }
-
-        .faq-box > strong {
-            display: block;
-            font-size: 0.72rem;
-            font-weight: 800;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: #245c4a;
-            margin-bottom: 1rem;
-        }
-
-        .faq-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .faq-item {
-            border-bottom: 1px solid #e2eae6;
-        }
-
-        .faq-item:last-child {
-            border-bottom: none;
-        }
-
-        .faq-btn {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 1rem;
-            background: none;
-            border: none;
-            padding: 1.1rem 0;
-            cursor: pointer;
-            font-family: inherit;
-            font-size: 0.98rem;
-            font-weight: 800;
-            color: #10281f;
-            text-align: left;
-            line-height: 1.4;
-        }
-
-        .faq-btn:hover {
-            color: #1b4d3e;
-        }
-
-        .faq-icon {
-            flex-shrink: 0;
-            font-size: 1.25rem;
-            font-weight: 300;
-            color: #245c4a;
-            line-height: 1;
-            transition: transform 0.2s ease;
-        }
-
-        .faq-item.is-open .faq-icon {
-            transform: rotate(45deg);
-        }
-
-        .faq-answer {
-            padding: 0 1rem 1.1rem 0;
-            font-size: 0.94rem;
-            line-height: 1.68;
-            color: #3a4a44;
-        }
-
-        .bottom-cta {
-            background: linear-gradient(
-                135deg,
-                #102018 0%,
-                #17362d 35%,
-                #2c4f57 70%,
-                #b68539 100%
-            );
-            padding: 4.75rem 2rem;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .bottom-cta::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-            opacity: 0.1;
-            background-image:
-                radial-gradient(circle at 25% 25%, rgba(255,255,255,0.12) 0.7px, transparent 0.8px),
-                radial-gradient(circle at 75% 75%, rgba(0,0,0,0.10) 0.7px, transparent 0.8px);
-            background-size: 120px 120px, 160px 160px;
-            mix-blend-mode: soft-light;
-        }
-
-        .bottom-cta-inner {
-            max-width: 660px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 2;
-        }
-
-        .bottom-cta-headline {
-            font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 900;
-            color: #ffffff;
-            line-height: 0.98;
-            letter-spacing: -0.05em;
-            margin-bottom: 1rem;
-        }
-
-        .bottom-cta-body {
-            font-size: 1.02rem;
-            line-height: 1.75;
-            color: rgba(255, 255, 255, 0.84);
-            margin-bottom: 2rem;
-        }
-
-        .site-footer {
-            background: #10281f;
-            padding: 1.5rem 2rem;
-            text-align: center;
-        }
-
-        .footer-brand {
-            display: inline-block;
-            font-size: 1rem;
-            font-weight: 900;
-            color: #ffffff;
-            text-decoration: none;
-            letter-spacing: -0.01em;
-            margin-bottom: 0.25rem;
-        }
-
-        .footer-tagline {
-            font-size: 0.75rem;
-            font-weight: 600;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: rgba(255, 255, 255, 0.38);
-            margin-bottom: 0.6rem;
-        }
-
-        .footer-copy {
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.28);
-        }
-
-        @media (max-width: 980px) {
-            .testimonials-grid,
-            .split-grid,
-            .contrast-block {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 860px) {
-            .immersion-hero-inner,
-            .two-col-section .page-section-inner {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-
-            .hero-image-wrap {
-                aspect-ratio: 16 / 9;
-            }
-
-            .info-card {
-                position: static;
-            }
-        }
-
-        @media (max-width: 540px) {
-            .immersion-hero,
-            .page-section,
-            .testimonials-section,
-            .bottom-cta,
-            .site-header,
-            .site-footer {
-                padding-left: 1.25rem;
-                padding-right: 1.25rem;
-            }
-
-            .immersion-hero {
-                padding-top: 1.4rem;
-                padding-bottom: 1.2rem;
-            }
-
-            .event-title {
-                font-size: clamp(2rem, 10vw, 2.95rem);
-                line-height: 0.98;
-            }
-
-            .hero-lead {
-                font-size: 1rem;
-                line-height: 1.45;
-            }
-
-            .section-title {
-                font-size: clamp(1.55rem, 7vw, 2rem);
-            }
-
-            .bottom-cta-headline {
-                font-size: clamp(1.7rem, 8vw, 2.3rem);
-            }
-
-            .info-card,
-            .faq-box {
-                padding: 1.5rem 1.25rem;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Covo Immersions</title>
+  <meta name="description" content="See disciple-making in real life. Not another training. Step into real rhythms with real people in real places.">
+
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    .site-header {
+      background: #ffffff;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .site-header .brand {
+      font-size: 0.95rem;
+      font-weight: 900;
+      color: #10281f;
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+
+    .site-header .back-link {
+      font-size: 0.875rem;
+      color: #5a6b65;
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+
+    .site-header .back-link:hover {
+      color: #1b4d3e;
+    }
+
+    .immersion-hero {
+      padding: 3.75rem 2rem 3.25rem;
+      background: linear-gradient(
+        135deg,
+        #0f1720 0%,
+        #143129 24%,
+        #1f4d46 48%,
+        #4e5f6b 72%,
+        #c18a3a 100%
+      );
+      position: relative;
+      overflow: hidden;
+    }
+
+    .immersion-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.12;
+      background-image:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.12) 0.7px, transparent 0.8px),
+        radial-gradient(circle at 80% 30%, rgba(0,0,0,0.10) 0.7px, transparent 0.8px),
+        radial-gradient(circle at 40% 70%, rgba(255,255,255,0.08) 0.6px, transparent 0.7px),
+        radial-gradient(circle at 70% 80%, rgba(0,0,0,0.08) 0.6px, transparent 0.7px);
+      background-size: 120px 120px, 140px 140px, 100px 100px, 160px 160px;
+      mix-blend-mode: soft-light;
+    }
+
+    .immersion-hero-inner {
+      max-width: 1160px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 430px;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .hero-copy {
+      min-width: 0;
+    }
+
+    .hero-image-wrap {
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.38);
+      aspect-ratio: 4 / 3;
+      background: rgba(255,255,255,0.08);
+    }
+
+    .hero-image-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .event-label {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.62);
+      margin-bottom: 1rem;
+    }
+
+    .event-title {
+      font-size: clamp(2.8rem, 6vw, 4.8rem);
+      font-weight: 900;
+      color: #ffffff;
+      line-height: 0.95;
+      letter-spacing: -0.05em;
+      margin-bottom: 1rem;
+      max-width: 760px;
+    }
+
+    .hero-lead {
+      font-size: clamp(1.1rem, 2vw, 1.34rem);
+      line-height: 1.55;
+      color: rgba(255,255,255,0.94);
+      max-width: 690px;
+      margin-bottom: 1.35rem;
+    }
+
+    .hero-cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+      margin-top: 0.3rem;
+    }
+
+    .hero-cta-row .btn-pill {
+      border-color: rgba(255,255,255,0.92);
+      color: #ffffff;
+    }
+
+    .hero-cta-row .btn-pill:hover {
+      background: #ffffff;
+      color: #10281f;
+      border-color: #ffffff;
+    }
+
+    .hero-cta-row .btn-pill-primary {
+      background: #ffffff;
+      color: #10281f;
+      border-color: #ffffff;
+      box-shadow: 0 10px 24px rgba(16, 40, 31, 0.16);
+    }
+
+    .hero-cta-row .btn-pill-primary:hover {
+      background: #f5f5f5;
+      color: #10281f;
+      border-color: #f5f5f5;
+    }
+
+    .hero-support-line {
+      font-size: 0.88rem;
+      line-height: 1.5;
+      color: rgba(255,255,255,0.78);
+      margin-top: 0.85rem;
+    }
+
+    .page-section {
+      background: #ffffff;
+      padding: 3.5rem 2rem;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .page-section-inner {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .two-col-section .page-section-inner {
+      max-width: 1200px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 400px;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .eyebrow {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #245c4a;
+      margin-bottom: 0.55rem;
+    }
+
+    .section-title {
+      font-size: clamp(1.9rem, 3vw, 2.7rem);
+      font-weight: 900;
+      color: #10281f;
+      line-height: 1.02;
+      letter-spacing: -0.04em;
+      margin-bottom: 1rem;
+      max-width: 760px;
+    }
+
+    .section-copy {
+      font-size: 1rem;
+      line-height: 1.72;
+      color: #444444;
+      max-width: 760px;
+    }
+
+    .section-copy p + p {
+      margin-top: 0.85rem;
+    }
+
+    .simple-list {
+      list-style: none;
+      padding: 0;
+      margin: 1.4rem 0 0;
+    }
+
+    .simple-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.9rem;
+      padding: 1rem 0;
+      border-bottom: 1px solid #f0f0f0;
+      font-size: 1rem;
+      line-height: 1.65;
+      color: #2a2a2a;
+    }
+
+    .simple-list li:last-child {
+      border-bottom: none;
+    }
+
+    .simple-check {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #f0fdf4;
+      border: 1.5px solid #bbf7d0;
+      font-size: 0.6rem;
+      font-weight: 800;
+      color: #15803d;
+      margin-top: 0.25rem;
+    }
+
+    .experience-toggle-wrap {
+      margin-top: 1.6rem;
+      background: #f8faf9;
+      border: 1px solid #e2eae6;
+      border-radius: 20px;
+      padding: 1.2rem;
+    }
+
+    .experience-toggle-shell {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: #edf2ee;
+      border: 1px solid #d9e4dc;
+      border-radius: 999px;
+      padding: 0.3rem;
+      margin-bottom: 1rem;
+    }
+
+    .experience-toggle-btn {
+      border: none;
+      background: transparent;
+      color: #3f514a;
+      font-size: 0.92rem;
+      font-weight: 800;
+      padding: 0.72rem 1.15rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background 0.22s ease, color 0.22s ease, box-shadow 0.22s ease;
+      font-family: inherit;
+    }
+
+    .experience-toggle-btn.active {
+      background: #8fd19e;
+      color: #10281f;
+      box-shadow: 0 4px 12px rgba(16, 40, 31, 0.10);
+    }
+
+    .experience-panel {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 1.2rem;
+      align-items: center;
+    }
+
+    .experience-image-wrap {
+      border-radius: 16px;
+      overflow: hidden;
+      background: #ffffff;
+      box-shadow: 0 8px 24px rgba(16, 40, 31, 0.08);
+      aspect-ratio: 4 / 3;
+    }
+
+    .experience-image-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .experience-copy {
+      min-width: 0;
+    }
+
+    .experience-kicker {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #245c4a;
+      margin-bottom: 0.55rem;
+    }
+
+    .experience-state-title {
+      font-size: clamp(1.6rem, 2.3vw, 2.2rem);
+      font-weight: 900;
+      color: #10281f;
+      line-height: 1.02;
+      letter-spacing: -0.04em;
+      margin-bottom: 0.75rem;
+    }
+
+    .experience-state-copy {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: #444444;
+    }
+
+    .split-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-top: 1.5rem;
+    }
+
+    .split-card {
+      background: #f8faf9;
+      border: 1px solid #e2eae6;
+      border-radius: 16px;
+      padding: 1.45rem 1.5rem;
+    }
+
+    .split-card h3 {
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: #10281f;
+      line-height: 1.12;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.85rem;
+    }
+
+    .micro-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .micro-list li {
+      font-size: 0.97rem;
+      line-height: 1.65;
+      color: #3a4a44;
+      padding: 0.35rem 0;
+    }
+
+    .info-card {
+      background: #ffffff;
+      border-radius: 16px;
+      border-top: 4px solid #1b4d3e;
+      box-shadow:
+        0 4px 6px rgba(0, 0, 0, 0.04),
+        0 12px 40px rgba(16, 40, 31, 0.10);
+      padding: 2.1rem 2.2rem;
+      position: sticky;
+      top: 1rem;
+    }
+
+    .info-card h2 {
+      font-size: 1.45rem;
+      font-weight: 900;
+      color: #10281f;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.35rem;
+    }
+
+    .info-card-intro {
+      font-size: 0.9rem;
+      color: #5a6b65;
+      line-height: 1.55;
+      margin-bottom: 1.35rem;
+    }
+
+    .info-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 1.35rem;
+    }
+
+    .info-list li {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.95rem 0;
+      border-bottom: 1px solid #edf1ef;
+      font-size: 0.94rem;
+      line-height: 1.5;
+    }
+
+    .info-list li:last-child {
+      border-bottom: none;
+    }
+
+    .info-label {
+      font-weight: 800;
+      color: #10281f;
+    }
+
+    .info-value {
+      text-align: right;
+      color: #5a6b65;
+    }
+
+    .info-card-note {
+      font-size: 0.88rem;
+      line-height: 1.6;
+      color: #5a6b65;
+      margin-bottom: 1.2rem;
+    }
+
+    .btn-card {
+      width: 100%;
+      text-align: center;
+    }
+
+    .info-card-secondary {
+      margin-top: 0.9rem;
+      text-align: center;
+      font-size: 0.88rem;
+      color: #5a6b65;
+    }
+
+    .info-card-secondary a {
+      color: #1b4d3e;
+      font-weight: 700;
+      text-decoration: underline;
+      text-underline-offset: 0.15em;
+    }
+
+    .testimonials-section {
+      background: #f8faf9;
+      padding: 4rem 2rem;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .testimonials-inner {
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.25rem;
+      margin-top: 1.8rem;
+    }
+
+    .testimonial-card {
+      background: #ffffff;
+      border: 1px solid #e2eae6;
+      border-radius: 16px;
+      padding: 1.6rem 1.5rem;
+      box-shadow: 0 2px 12px rgba(16, 40, 31, 0.06);
+    }
+
+    .testimonial-quote {
+      font-size: 1.02rem;
+      line-height: 1.7;
+      color: #2a2a2a;
+      font-style: italic;
+    }
+
+    .testimonial-attribution {
+      margin-top: 1rem;
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: #1b4d3e;
+      letter-spacing: 0.02em;
+    }
+
+    .faq-box {
+      background: #f8faf9;
+      border-left: 3px solid #1b4d3e;
+      border-radius: 0 10px 10px 0;
+      padding: 1.85rem 2rem;
+    }
+
+    .faq-box > strong {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #245c4a;
+      margin-bottom: 1rem;
+    }
+
+    .faq-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid #e2eae6;
+    }
+
+    .faq-item:last-child {
+      border-bottom: none;
+    }
+
+    .faq-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      background: none;
+      border: none;
+      padding: 1.1rem 0;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.98rem;
+      font-weight: 800;
+      color: #10281f;
+      text-align: left;
+      line-height: 1.4;
+    }
+
+    .faq-btn:hover {
+      color: #1b4d3e;
+    }
+
+    .faq-icon {
+      flex-shrink: 0;
+      font-size: 1.25rem;
+      font-weight: 300;
+      color: #245c4a;
+      line-height: 1;
+      transition: transform 0.2s ease;
+    }
+
+    .faq-item.is-open .faq-icon {
+      transform: rotate(45deg);
+    }
+
+    .faq-answer {
+      padding: 0 1rem 1.1rem 0;
+      font-size: 0.94rem;
+      line-height: 1.68;
+      color: #3a4a44;
+    }
+
+    .bottom-cta {
+      background: linear-gradient(
+        135deg,
+        #102018 0%,
+        #17362d 35%,
+        #2c4f57 70%,
+        #b68539 100%
+      );
+      padding: 4.75rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .bottom-cta::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.1;
+      background-image:
+        radial-gradient(circle at 25% 25%, rgba(255,255,255,0.12) 0.7px, transparent 0.8px),
+        radial-gradient(circle at 75% 75%, rgba(0,0,0,0.10) 0.7px, transparent 0.8px);
+      background-size: 120px 120px, 160px 160px;
+      mix-blend-mode: soft-light;
+    }
+
+    .bottom-cta-inner {
+      max-width: 660px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .bottom-cta-headline {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 900;
+      color: #ffffff;
+      line-height: 0.98;
+      letter-spacing: -0.05em;
+      margin-bottom: 1rem;
+    }
+
+    .bottom-cta-body {
+      font-size: 1.02rem;
+      line-height: 1.75;
+      color: rgba(255, 255, 255, 0.84);
+      margin-bottom: 2rem;
+    }
+
+    .site-footer {
+      background: #10281f;
+      padding: 1.5rem 2rem;
+      text-align: center;
+    }
+
+    .footer-brand {
+      display: inline-block;
+      font-size: 1rem;
+      font-weight: 900;
+      color: #ffffff;
+      text-decoration: none;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.25rem;
+    }
+
+    .footer-tagline {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.38);
+      margin-bottom: 0.6rem;
+    }
+
+    .footer-copy {
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.28);
+    }
+
+    @media (max-width: 980px) {
+      .testimonials-grid,
+      .split-grid,
+      .experience-panel {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 860px) {
+      .immersion-hero-inner,
+      .two-col-section .page-section-inner {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .hero-image-wrap {
+        aspect-ratio: 16 / 9;
+      }
+
+      .info-card {
+        position: static;
+      }
+    }
+
+    @media (max-width: 540px) {
+      .immersion-hero,
+      .page-section,
+      .testimonials-section,
+      .bottom-cta,
+      .site-header,
+      .site-footer {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+      }
+
+      .immersion-hero {
+        padding-top: 1.4rem;
+        padding-bottom: 1.2rem;
+      }
+
+      .event-title {
+        font-size: clamp(2rem, 10vw, 2.95rem);
+        line-height: 0.98;
+      }
+
+      .hero-lead {
+        font-size: 1rem;
+        line-height: 1.45;
+      }
+
+      .section-title {
+        font-size: clamp(1.55rem, 7vw, 2rem);
+      }
+
+      .bottom-cta-headline {
+        font-size: clamp(1.7rem, 8vw, 2.3rem);
+      }
+
+      .info-card,
+      .faq-box,
+      .experience-toggle-wrap {
+        padding: 1.25rem;
+      }
+
+      .experience-toggle-shell {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .experience-toggle-btn {
+        flex: 1 1 0;
+        text-align: center;
+      }
+    }
+  </style>
 </head>
 <body>
 
-    <header class="site-header">
-        <a class="brand" href="/">Covo Multipliers</a>
-        <a class="back-link" href="/#upcoming-labs">← Back to home</a>
-    </header>
+  <header class="site-header">
+    <a class="brand" href="/">Covo Multipliers</a>
+    <a class="back-link" href="/#upcoming-labs">← Back to home</a>
+  </header>
 
-    <section class="immersion-hero">
-        <div class="immersion-hero-inner">
-            <div class="hero-copy">
-                <span class="event-label">Covo Immersions</span>
-                <h1 class="event-title">See disciple-making in real life.</h1>
+  <section class="immersion-hero">
+    <div class="immersion-hero-inner">
+      <div class="hero-copy">
+        <span class="event-label">Covo Immersions</span>
+        <h1 class="event-title">See disciple-making in real life.</h1>
 
-                <p class="hero-lead">
-                    Not another training. Step into real rhythms with real people in real places so you can stop guessing what this looks like.
-                </p>
+        <p class="hero-lead">
+          Not another training. Step into real rhythms with real people in real places so you can stop guessing what this looks like.
+        </p>
 
-                <div class="hero-cta-row">
-                    <a class="btn-pill btn-pill-primary" href="#next-immersion">Apply for the Next Immersion</a>
-                </div>
-
-                <p class="hero-support-line">
-                    Limited spots. New York City. 2 to 3 days.
-                </p>
-            </div>
-
-            <div class="hero-image-wrap">
-                <img src="image/immersions/immersion-hero.webp" alt="Covo immersion gathering in a real everyday setting" loading="lazy">
-            </div>
+        <div class="hero-cta-row">
+          <a class="btn-pill btn-pill-primary" href="#next-immersion">Apply for the Next Immersion</a>
         </div>
-    </section>
 
-    <section class="page-section">
-        <div class="page-section-inner">
-            <span class="eyebrow">What this actually is</span>
-            <h2 class="section-title">This is not a conference.</h2>
+        <p class="hero-support-line">
+          Limited spots. New York City. 2 to 3 days.
+        </p>
+      </div>
 
-            <div class="section-copy">
-                <p>You won’t sit in a room all day taking notes.</p>
-                <p>You’ll step into normal settings like homes, coffee shops, neighborhoods, meals, and debriefs with people actually living this out.</p>
-                <p>The point is simple. See it up close. Ask questions in the moment. Leave with a clearer picture of what to do in your own context.</p>
-            </div>
+      <div class="hero-image-wrap">
+        <img src="image/immersions/immersion-hero.webp" alt="Covo immersion gathering in a real everyday setting" loading="lazy">
+      </div>
+    </div>
+  </section>
 
-            <div class="contrast-block">
-                <div class="contrast-card">
-                    <span class="contrast-label">Most training</span>
-                    <div class="contrast-main">Hear it</div>
-                </div>
-                <div class="contrast-card">
-                    <span class="contrast-label">Immersion</span>
-                    <div class="contrast-main">See it</div>
-                </div>
-            </div>
+  <section class="page-section">
+    <div class="page-section-inner">
+      <span class="eyebrow">What this actually is</span>
+      <h2 class="section-title">This is not a conference.</h2>
+
+      <div class="section-copy">
+        <p>You won’t sit in a room all day taking notes.</p>
+        <p>You’ll step into normal settings like homes, coffee shops, neighborhoods, meals, and debriefs with people actually living this out.</p>
+        <p>The point is simple. See it up close. Ask questions in the moment. Leave with a clearer picture of what to do in your own context.</p>
+      </div>
+
+      <div class="experience-toggle-wrap">
+        <div class="experience-toggle-shell" role="tablist" aria-label="Training versus immersion">
+          <button class="experience-toggle-btn active" id="toggle-training" type="button" role="tab" aria-selected="true" aria-controls="experience-panel">
+            Most training
+          </button>
+          <button class="experience-toggle-btn" id="toggle-immersion" type="button" role="tab" aria-selected="false" aria-controls="experience-panel">
+            Immersion
+          </button>
         </div>
-    </section>
 
-    <section class="page-section">
-        <div class="page-section-inner">
-            <span class="eyebrow">What you’ll do</span>
-            <h2 class="section-title">What you’ll actually do</h2>
+        <div class="experience-panel" id="experience-panel">
+          <div class="experience-image-wrap">
+            <img id="experience-image" src="image/immersions/whiteboard classroom training.webp" alt="Person teaching at a whiteboard in a classroom setting" loading="lazy">
+          </div>
 
-            <ul class="simple-list">
-                <li>
-                    <span class="simple-check" aria-hidden="true">&#10003;</span>
-                    <span>Observe real rhythms, not staged examples</span>
-                </li>
-                <li>
-                    <span class="simple-check" aria-hidden="true">&#10003;</span>
-                    <span>Watch actual conversations unfold</span>
-                </li>
-                <li>
-                    <span class="simple-check" aria-hidden="true">&#10003;</span>
-                    <span>Ask questions as you go</span>
-                </li>
-                <li>
-                    <span class="simple-check" aria-hidden="true">&#10003;</span>
-                    <span>Debrief what happened and why it mattered</span>
-                </li>
-                <li>
-                    <span class="simple-check" aria-hidden="true">&#10003;</span>
-                    <span>Leave with clearer next steps for your context</span>
-                </li>
-            </ul>
+          <div class="experience-copy">
+            <span class="experience-kicker" id="experience-kicker">Most training</span>
+            <h3 class="experience-state-title" id="experience-title">Hear it</h3>
+            <p class="experience-state-copy" id="experience-copy">
+              Helpful, but still easy to leave without a clear picture of real-life practice.
+            </p>
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <section class="page-section">
-        <div class="page-section-inner">
-            <span class="eyebrow">Who it’s for</span>
-            <h2 class="section-title">Who this is for and not for</h2>
+  <section class="page-section">
+    <div class="page-section-inner">
+      <span class="eyebrow">What you’ll do</span>
+      <h2 class="section-title">What you’ll actually do</h2>
 
-            <div class="split-grid">
-                <div class="split-card">
-                    <h3>Who this is for</h3>
-                    <p class="section-copy" style="font-size:0.96rem; margin-bottom:0.9rem;">
-                        For leaders who are serious about making disciples in everyday life and want to see what that actually looks like on the ground.
-                    </p>
-                    <ul class="micro-list">
-                        <li>You’ve had training but still need a picture</li>
-                        <li>You want practice, not just ideas</li>
-                        <li>You want something reproducible, not impressive</li>
-                    </ul>
-                </div>
+      <ul class="simple-list">
+        <li>
+          <span class="simple-check" aria-hidden="true">&#10003;</span>
+          <span>Observe real rhythms, not staged examples</span>
+        </li>
+        <li>
+          <span class="simple-check" aria-hidden="true">&#10003;</span>
+          <span>Watch actual conversations unfold</span>
+        </li>
+        <li>
+          <span class="simple-check" aria-hidden="true">&#10003;</span>
+          <span>Ask questions as you go</span>
+        </li>
+        <li>
+          <span class="simple-check" aria-hidden="true">&#10003;</span>
+          <span>Debrief what happened and why it mattered</span>
+        </li>
+        <li>
+          <span class="simple-check" aria-hidden="true">&#10003;</span>
+          <span>Leave with clearer next steps for your context</span>
+        </li>
+      </ul>
+    </div>
+  </section>
 
-                <div class="split-card">
-                    <h3>Who this is not for</h3>
-                    <ul class="micro-list">
-                        <li>People looking for a polished conference experience</li>
-                        <li>People who want inspiration without engagement</li>
-                        <li>People who only want theory</li>
-                    </ul>
-                </div>
+  <section class="page-section">
+    <div class="page-section-inner">
+      <span class="eyebrow">Who it’s for</span>
+      <h2 class="section-title">Who this is for and not for</h2>
+
+      <div class="split-grid">
+        <div class="split-card">
+          <h3>Who this is for</h3>
+          <p class="section-copy" style="font-size:0.96rem; margin-bottom:0.9rem;">
+            For leaders who are serious about making disciples in everyday life and want to see what that actually looks like on the ground.
+          </p>
+          <ul class="micro-list">
+            <li>You’ve had training but still need a picture</li>
+            <li>You want practice, not just ideas</li>
+            <li>You want something reproducible, not impressive</li>
+          </ul>
+        </div>
+
+        <div class="split-card">
+          <h3>Who this is not for</h3>
+          <ul class="micro-list">
+            <li>People looking for a polished conference experience</li>
+            <li>People who want inspiration without engagement</li>
+            <li>People who only want theory</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section two-col-section" id="next-immersion">
+    <div class="page-section-inner">
+      <div>
+        <span class="eyebrow">Next immersion</span>
+        <h2 class="section-title">Next immersion</h2>
+        <div class="section-copy">
+          <p>Keep the logistics visible fast. People want to know where, when, how long, what it costs, and how to apply.</p>
+        </div>
+      </div>
+
+      <aside class="info-card">
+        <h2>New York City</h2>
+        <p class="info-card-intro">Simple. Clear. No buried logistics.</p>
+
+        <ul class="info-list">
+          <li>
+            <span class="info-label">Dates</span>
+            <span class="info-value">[Dates]</span>
+          </li>
+          <li>
+            <span class="info-label">Length</span>
+            <span class="info-value">[2 or 3 days]</span>
+          </li>
+          <li>
+            <span class="info-label">Cost</span>
+            <span class="info-value">[Cost or application required]</span>
+          </li>
+          <li>
+            <span class="info-label">Travel</span>
+            <span class="info-value">Arranged separately</span>
+          </li>
+          <li>
+            <span class="info-label">Lodging</span>
+            <span class="info-value">Arranged separately</span>
+          </li>
+        </ul>
+
+        <a class="btn-pill btn-pill-primary btn-card" href="#">Apply for the Next Immersion</a>
+
+        <div class="info-card-secondary">
+          Questions before applying? <a href="#">Reach out here.</a>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="testimonials-section">
+    <div class="testimonials-inner">
+      <span class="eyebrow" style="text-align:center;">Proof</span>
+      <h2 class="section-title" style="text-align:center; margin-left:auto; margin-right:auto;">What people walk away with</h2>
+
+      <div class="testimonials-grid">
+        <article class="testimonial-card">
+          <p class="testimonial-quote">“I had heard this stuff before. This was the first time I could actually picture doing it.”</p>
+          <p class="testimonial-attribution">[Name], [City / Role]</p>
+        </article>
+
+        <article class="testimonial-card">
+          <p class="testimonial-quote">“What helped most was seeing the normal parts, not just the wins.”</p>
+          <p class="testimonial-attribution">[Name], [City / Role]</p>
+        </article>
+
+        <article class="testimonial-card">
+          <p class="testimonial-quote">“I left with a much clearer sense of what needs to change back home.”</p>
+          <p class="testimonial-attribution">[Name], [City / Role]</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section" id="faq">
+    <div class="page-section-inner">
+      <div class="faq-box">
+        <strong>Common questions</strong>
+        <ul class="faq-list">
+          <li class="faq-item">
+            <button class="faq-btn" aria-expanded="false">
+              <span>Do I need prior experience?</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-answer" hidden>
+              No. But you should come ready to learn, observe, and engage.
             </div>
-        </div>
-    </section>
+          </li>
 
-    <section class="page-section two-col-section" id="next-immersion">
-        <div class="page-section-inner">
-            <div>
-                <span class="eyebrow">Next immersion</span>
-                <h2 class="section-title">Next immersion</h2>
-                <div class="section-copy">
-                    <p>Keep the logistics visible fast. People want to know where, when, how long, what it costs, and how to apply.</p>
-                </div>
+          <li class="faq-item">
+            <button class="faq-btn" aria-expanded="false">
+              <span>Is there teaching?</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-answer" hidden>
+              Yes. But this is built around seeing, asking, and debriefing, not just listening.
             </div>
+          </li>
 
-            <aside class="info-card">
-                <h2>New York City</h2>
-                <p class="info-card-intro">Simple. Clear. No buried logistics.</p>
-
-                <ul class="info-list">
-                    <li>
-                        <span class="info-label">Dates</span>
-                        <span class="info-value">[Dates]</span>
-                    </li>
-                    <li>
-                        <span class="info-label">Length</span>
-                        <span class="info-value">[2 or 3 days]</span>
-                    </li>
-                    <li>
-                        <span class="info-label">Cost</span>
-                        <span class="info-value">[Cost or application required]</span>
-                    </li>
-                    <li>
-                        <span class="info-label">Travel</span>
-                        <span class="info-value">Arranged separately</span>
-                    </li>
-                    <li>
-                        <span class="info-label">Lodging</span>
-                        <span class="info-value">Arranged separately</span>
-                    </li>
-                </ul>
-
-                <a class="btn-pill btn-pill-primary btn-card" href="#">Apply for the Next Immersion</a>
-
-                <div class="info-card-secondary">
-                    Questions before applying? <a href="#">Reach out here.</a>
-                </div>
-            </aside>
-        </div>
-    </section>
-
-    <section class="testimonials-section">
-        <div class="testimonials-inner">
-            <span class="eyebrow" style="text-align:center;">Proof</span>
-            <h2 class="section-title" style="text-align:center; margin-left:auto; margin-right:auto;">What people walk away with</h2>
-
-            <div class="testimonials-grid">
-                <article class="testimonial-card">
-                    <p class="testimonial-quote">“I had heard this stuff before. This was the first time I could actually picture doing it.”</p>
-                    <p class="testimonial-attribution">[Name], [City / Role]</p>
-                </article>
-
-                <article class="testimonial-card">
-                    <p class="testimonial-quote">“What helped most was seeing the normal parts, not just the wins.”</p>
-                    <p class="testimonial-attribution">[Name], [City / Role]</p>
-                </article>
-
-                <article class="testimonial-card">
-                    <p class="testimonial-quote">“I left with a much clearer sense of what needs to change back home.”</p>
-                    <p class="testimonial-attribution">[Name], [City / Role]</p>
-                </article>
+          <li class="faq-item">
+            <button class="faq-btn" aria-expanded="false">
+              <span>Can I come with a team?</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-answer" hidden>
+              Yes. Teams are welcome.
             </div>
-        </div>
-    </section>
+          </li>
 
-    <section class="page-section" id="faq">
-        <div class="page-section-inner">
-            <div class="faq-box">
-                <strong>Common questions</strong>
-                <ul class="faq-list">
-                    <li class="faq-item">
-                        <button class="faq-btn" aria-expanded="false">
-                            <span>Do I need prior experience?</span>
-                            <span class="faq-icon" aria-hidden="true">+</span>
-                        </button>
-                        <div class="faq-answer" hidden>
-                            No. But you should come ready to learn, observe, and engage.
-                        </div>
-                    </li>
-
-                    <li class="faq-item">
-                        <button class="faq-btn" aria-expanded="false">
-                            <span>Is there teaching?</span>
-                            <span class="faq-icon" aria-hidden="true">+</span>
-                        </button>
-                        <div class="faq-answer" hidden>
-                            Yes. But this is built around seeing, asking, and debriefing, not just listening.
-                        </div>
-                    </li>
-
-                    <li class="faq-item">
-                        <button class="faq-btn" aria-expanded="false">
-                            <span>Can I come with a team?</span>
-                            <span class="faq-icon" aria-hidden="true">+</span>
-                        </button>
-                        <div class="faq-answer" hidden>
-                            Yes. Teams are welcome.
-                        </div>
-                    </li>
-
-                    <li class="faq-item">
-                        <button class="faq-btn" aria-expanded="false">
-                            <span>Do you provide travel or lodging?</span>
-                            <span class="faq-icon" aria-hidden="true">+</span>
-                        </button>
-                        <div class="faq-answer" hidden>
-                            No. Most attendees arrange that separately.
-                        </div>
-                    </li>
-
-                    <li class="faq-item">
-                        <button class="faq-btn" aria-expanded="false">
-                            <span>How many people can come?</span>
-                            <span class="faq-icon" aria-hidden="true">+</span>
-                        </button>
-                        <div class="faq-answer" hidden>
-                            Limited spots. Keep the group small enough to stay hands-on.
-                        </div>
-                    </li>
-                </ul>
+          <li class="faq-item">
+            <button class="faq-btn" aria-expanded="false">
+              <span>Do you provide travel or lodging?</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-answer" hidden>
+              No. Most attendees arrange that separately.
             </div>
-        </div>
-    </section>
+          </li>
 
-    <section class="bottom-cta">
-        <div class="bottom-cta-inner">
-            <h2 class="bottom-cta-headline">Stop guessing what this looks like.</h2>
-            <div class="bottom-cta-body">
-                <p>If you’ve heard the ideas but still need to see the rhythms up close, this is the bridge.</p>
+          <li class="faq-item">
+            <button class="faq-btn" aria-expanded="false">
+              <span>How many people can come?</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-answer" hidden>
+              Limited spots. Keep the group small enough to stay hands-on.
             </div>
-            <a class="btn-cta" href="#next-immersion">Apply for the Next Immersion</a>
-        </div>
-    </section>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
 
-    <footer class="site-footer">
-        <a class="footer-brand" href="/">Covo Multipliers</a>
-        <p class="footer-tagline">Making Disciples in Everyday Life</p>
-        <p class="footer-copy">&copy; 2026 Covo Multipliers</p>
-    </footer>
+  <section class="bottom-cta">
+    <div class="bottom-cta-inner">
+      <h2 class="bottom-cta-headline">Stop guessing what this looks like.</h2>
+      <div class="bottom-cta-body">
+        <p>If you’ve heard the ideas but still need to see the rhythms up close, this is the bridge.</p>
+      </div>
+      <a class="btn-cta" href="#next-immersion">Apply for the Next Immersion</a>
+    </div>
+  </section>
 
-    <script>
-        document.querySelectorAll('.faq-btn').forEach(function(btn) {
-            btn.addEventListener('click', function() {
-                var item = btn.closest('.faq-item');
-                var answer = item.querySelector('.faq-answer');
-                var isOpen = item.classList.contains('is-open');
+  <footer class="site-footer">
+    <a class="footer-brand" href="/">Covo Multipliers</a>
+    <p class="footer-tagline">Making Disciples in Everyday Life</p>
+    <p class="footer-copy">&copy; 2026 Covo Multipliers</p>
+  </footer>
 
-                document.querySelectorAll('.faq-item.is-open').forEach(function(open) {
-                    open.classList.remove('is-open');
-                    open.querySelector('.faq-btn').setAttribute('aria-expanded', 'false');
-                    open.querySelector('.faq-answer').hidden = true;
-                });
+  <script>
+    const toggleTraining = document.getElementById('toggle-training');
+    const toggleImmersion = document.getElementById('toggle-immersion');
+    const experienceImage = document.getElementById('experience-image');
+    const experienceKicker = document.getElementById('experience-kicker');
+    const experienceTitle = document.getElementById('experience-title');
+    const experienceCopy = document.getElementById('experience-copy');
 
-                if (!isOpen) {
-                    item.classList.add('is-open');
-                    btn.setAttribute('aria-expanded', 'true');
-                    answer.hidden = false;
-                }
-            });
+    function setExperienceState(state) {
+      const isTraining = state === 'training';
+
+      toggleTraining.classList.toggle('active', isTraining);
+      toggleImmersion.classList.toggle('active', !isTraining);
+
+      toggleTraining.setAttribute('aria-selected', isTraining ? 'true' : 'false');
+      toggleImmersion.setAttribute('aria-selected', isTraining ? 'false' : 'true');
+
+      if (isTraining) {
+        experienceImage.src = 'image/immersions/whiteboard classroom training.webp';
+        experienceImage.alt = 'Person teaching at a whiteboard in a classroom setting';
+        experienceKicker.textContent = 'Most training';
+        experienceTitle.textContent = 'Hear it';
+        experienceCopy.textContent = 'Helpful, but still easy to leave without a clear picture of real-life practice.';
+      } else {
+        experienceImage.src = 'image/immersions/hands on immersion.webp';
+        experienceImage.alt = 'Hands-on immersion experience in a lived-in setting';
+        experienceKicker.textContent = 'Immersion';
+        experienceTitle.textContent = 'See it';
+        experienceCopy.textContent = 'Watch real rhythms, ask questions in the moment, and leave with clearer next steps.';
+      }
+    }
+
+    toggleTraining.addEventListener('click', function() {
+      setExperienceState('training');
+    });
+
+    toggleImmersion.addEventListener('click', function() {
+      setExperienceState('immersion');
+    });
+
+    document.querySelectorAll('.faq-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var item = btn.closest('.faq-item');
+        var answer = item.querySelector('.faq-answer');
+        var isOpen = item.classList.contains('is-open');
+
+        document.querySelectorAll('.faq-item.is-open').forEach(function(open) {
+          open.classList.remove('is-open');
+          open.querySelector('.faq-btn').setAttribute('aria-expanded', 'false');
+          open.querySelector('.faq-answer').hidden = true;
         });
-    </script>
+
+        if (!isOpen) {
+          item.classList.add('is-open');
+          btn.setAttribute('aria-expanded', 'true');
+          answer.hidden = false;
+        }
+      });
+    });
+  </script>
 
 </body>
 </html>
