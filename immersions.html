@@ -292,7 +292,7 @@
       display: grid;
       grid-template-columns: 1.1fr 0.9fr;
       gap: 1.2rem;
-      align-items: center;
+      align-items: start;
     }
 
     .experience-image-wrap {
@@ -301,6 +301,7 @@
       background: #ffffff;
       box-shadow: 0 8px 24px rgba(16, 40, 31, 0.08);
       aspect-ratio: 4 / 3;
+      width: 100%;
     }
 
     .experience-image-wrap img {
@@ -312,6 +313,8 @@
 
     .experience-copy {
       min-width: 0;
+      align-self: start;
+      padding-top: 0.1rem;
     }
 
     .experience-kicker {
@@ -346,24 +349,28 @@
       border-radius: 20px;
       padding: 1.2rem;
       overflow: hidden;
+      touch-action: pan-y;
     }
 
     .immersion-slider-stage {
       position: relative;
+      overflow: hidden;
     }
 
     .immersion-slides {
       display: flex;
+      gap: 1rem;
       transition: transform 0.45s ease;
       will-change: transform;
     }
 
     .immersion-slide {
-      min-width: 100%;
+      flex: 0 0 calc(100% - 1rem);
+      min-width: calc(100% - 1rem);
       display: grid;
       grid-template-columns: 1.05fr 0.95fr;
       gap: 1.2rem;
-      align-items: center;
+      align-items: start;
     }
 
     .immersion-slide-image {
@@ -372,6 +379,7 @@
       background: #ffffff;
       box-shadow: 0 8px 24px rgba(16, 40, 31, 0.08);
       aspect-ratio: 4 / 3;
+      width: 100%;
     }
 
     .immersion-slide-image img {
@@ -383,6 +391,8 @@
 
     .immersion-slide-copy {
       min-width: 0;
+      align-self: start;
+      padding-top: 0.1rem;
     }
 
     .immersion-slide-kicker {
@@ -924,7 +934,7 @@
       </ul>
 
       <div class="immersion-slider-wrap">
-        <div class="immersion-slider-stage">
+        <div class="immersion-slider-stage" id="immersion-slider-stage">
           <div class="immersion-slides" id="immersion-slides">
             <article class="immersion-slide">
               <div class="immersion-slide-image">
@@ -1198,46 +1208,138 @@
     });
 
     const slider = document.getElementById('immersion-slides');
+    const sliderStage = document.getElementById('immersion-slider-stage');
     const dots = Array.from(document.querySelectorAll('.immersion-slider-dot'));
+    const slides = Array.from(document.querySelectorAll('.immersion-slide'));
+
     let currentSlide = 0;
     let sliderInterval = null;
+    let isDragging = false;
+    let startX = 0;
+    let currentTranslate = 0;
+    let prevTranslate = 0;
 
-    function goToSlide(index) {
-      currentSlide = index;
-      slider.style.transform = 'translateX(-' + (index * 100) + '%)';
+    function getSlideWidth() {
+      if (!slides.length) return 0;
+      const gap = parseFloat(window.getComputedStyle(slider).gap) || 0;
+      return slides[0].offsetWidth + gap;
+    }
+
+    function setSliderTransition(enabled) {
+      slider.style.transition = enabled ? 'transform 0.45s ease' : 'none';
+    }
+
+    function updateDots() {
       dots.forEach(function(dot, i) {
-        dot.classList.toggle('active', i === index);
+        dot.classList.toggle('active', i === currentSlide);
       });
+    }
+
+    function goToSlide(index, withTransition = true) {
+      const total = slides.length;
+      currentSlide = ((index % total) + total) % total;
+      const slideWidth = getSlideWidth();
+      setSliderTransition(withTransition);
+      currentTranslate = -(currentSlide * slideWidth);
+      prevTranslate = currentTranslate;
+      slider.style.transform = 'translateX(' + currentTranslate + 'px)';
+      updateDots();
     }
 
     function startSlider() {
       stopSlider();
       sliderInterval = setInterval(function() {
-        currentSlide = (currentSlide + 1) % dots.length;
-        goToSlide(currentSlide);
+        goToSlide(currentSlide + 1, true);
       }, 4500);
     }
 
     function stopSlider() {
       if (sliderInterval) {
         clearInterval(sliderInterval);
+        sliderInterval = null;
       }
     }
 
     dots.forEach(function(dot, index) {
       dot.addEventListener('click', function() {
-        goToSlide(index);
+        goToSlide(index, true);
         startSlider();
       });
     });
 
-    const sliderWrap = document.querySelector('.immersion-slider-wrap');
-    sliderWrap.addEventListener('mouseenter', stopSlider);
-    sliderWrap.addEventListener('mouseleave', startSlider);
-    sliderWrap.addEventListener('focusin', stopSlider);
-    sliderWrap.addEventListener('focusout', startSlider);
+    function pointerDown(clientX) {
+      isDragging = true;
+      startX = clientX;
+      stopSlider();
+      setSliderTransition(false);
+    }
 
-    goToSlide(0);
+    function pointerMove(clientX) {
+      if (!isDragging) return;
+      const deltaX = clientX - startX;
+      currentTranslate = prevTranslate + deltaX;
+      slider.style.transform = 'translateX(' + currentTranslate + 'px)';
+    }
+
+    function pointerUp(clientX) {
+      if (!isDragging) return;
+      isDragging = false;
+
+      const movedBy = clientX - startX;
+      const threshold = Math.min(90, getSlideWidth() * 0.18);
+
+      if (movedBy < -threshold) {
+        currentSlide += 1;
+      } else if (movedBy > threshold) {
+        currentSlide -= 1;
+      }
+
+      goToSlide(currentSlide, true);
+      startSlider();
+    }
+
+    sliderStage.addEventListener('touchstart', function(e) {
+      if (e.touches.length !== 1) return;
+      pointerDown(e.touches[0].clientX);
+    }, { passive: true });
+
+    sliderStage.addEventListener('touchmove', function(e) {
+      if (e.touches.length !== 1) return;
+      pointerMove(e.touches[0].clientX);
+    }, { passive: true });
+
+    sliderStage.addEventListener('touchend', function(e) {
+      const touch = e.changedTouches[0];
+      if (!touch) return;
+      pointerUp(touch.clientX);
+    });
+
+    sliderStage.addEventListener('mousedown', function(e) {
+      pointerDown(e.clientX);
+    });
+
+    window.addEventListener('mousemove', function(e) {
+      pointerMove(e.clientX);
+    });
+
+    window.addEventListener('mouseup', function(e) {
+      pointerUp(e.clientX);
+    });
+
+    sliderStage.addEventListener('mouseenter', stopSlider);
+    sliderStage.addEventListener('mouseleave', function() {
+      if (!isDragging) startSlider();
+    });
+    sliderStage.addEventListener('focusin', stopSlider);
+    sliderStage.addEventListener('focusout', function() {
+      if (!isDragging) startSlider();
+    });
+
+    window.addEventListener('resize', function() {
+      goToSlide(currentSlide, false);
+    });
+
+    goToSlide(0, false);
     startSlider();
 
     document.querySelectorAll('.faq-btn').forEach(function(btn) {
