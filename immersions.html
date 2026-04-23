@@ -9,11 +9,6 @@
     <link rel="stylesheet" href="styles.css">
 
     <style>
-        /* ==============================================
-           Covo Immersion Page
-           Stronger type hierarchy and clearer eye path
-           ============================================== */
-
         .site-header {
             background: #ffffff;
             border-bottom: 1px solid #e5e7eb;
@@ -44,13 +39,14 @@
 
         .immersion-hero {
             padding: 3.75rem 2rem 3rem;
-background: linear-gradient(135deg,
-    #13201c 0%,
-    #1b4d3e 28%,
-    #3a6b73 58%,
-    #8b949e 82%,
-    #dcb55a 100%
-);
+            background: linear-gradient(
+                135deg,
+                #0f1720 0%,
+                #143129 24%,
+                #1f4d46 48%,
+                #4e5f6b 72%,
+                #c18a3a 100%
+            );
             position: relative;
             overflow: hidden;
         }
@@ -443,6 +439,80 @@ background: linear-gradient(135deg,
             line-height: 1.5;
         }
 
+        .pathway-section {
+            background: #f8faf9;
+            border-top: 1px solid #e5e7eb;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 4rem 2rem;
+        }
+
+        .pathway-inner {
+            max-width: 980px;
+            margin: 0 auto;
+        }
+
+        .pathway-title {
+            font-size: clamp(1.9rem, 3vw, 2.5rem);
+            font-weight: 900;
+            color: #10281f;
+            text-align: center;
+            letter-spacing: -0.04em;
+            line-height: 1.02;
+            margin-bottom: 0.75rem;
+        }
+
+        .pathway-intro {
+            max-width: 700px;
+            margin: 0 auto 2.75rem;
+            font-size: 1rem;
+            line-height: 1.68;
+            text-align: center;
+            color: #52645d;
+        }
+
+        .pathway-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 1rem;
+        }
+
+        .pathway-card {
+            background: #ffffff;
+            border: 1px solid #e2eae6;
+            border-radius: 18px;
+            padding: 1.6rem;
+            box-shadow: 0 2px 12px rgba(16, 40, 31, 0.06);
+        }
+
+        .pathway-step {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+            border-radius: 999px;
+            background: #1b4d3e;
+            color: #ffffff;
+            font-size: 0.9rem;
+            font-weight: 800;
+            margin-bottom: 0.95rem;
+        }
+
+        .pathway-card h3 {
+            font-size: 1.08rem;
+            font-weight: 900;
+            color: #10281f;
+            letter-spacing: -0.02em;
+            line-height: 1.15;
+            margin-bottom: 0.7rem;
+        }
+
+        .pathway-card p {
+            font-size: 0.95rem;
+            line-height: 1.68;
+            color: #444444;
+        }
+
         .comparison-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -485,9 +555,8 @@ background: linear-gradient(135deg,
         }
 
         .testimonials-section {
-            background: #f8faf9;
+            background: #ffffff;
             padding: 4.5rem 2rem;
-            border-top: 1px solid #e5e7eb;
             border-bottom: 1px solid #e5e7eb;
         }
 
@@ -522,7 +591,7 @@ background: linear-gradient(135deg,
         }
 
         .testimonial-card {
-            background: #ffffff;
+            background: #f8faf9;
             border: 1px solid #e2eae6;
             border-radius: 16px;
             padding: 1.75rem 1.75rem 1.5rem;
@@ -699,10 +768,10 @@ background: linear-gradient(135deg,
         .bottom-cta {
             background: linear-gradient(
                 135deg,
-                #10281f 0%,
-                #1b4d3e 40%,
-                #2c6b5d 75%,
-                #9f7a2f 100%
+                #102018 0%,
+                #17362d 35%,
+                #2c4f57 70%,
+                #b68539 100%
             );
             padding: 4.75rem 2rem;
             text-align: center;
@@ -806,6 +875,12 @@ background: linear-gradient(135deg,
             color: rgba(255, 255, 255, 0.28);
         }
 
+        @media (max-width: 900px) {
+            .pathway-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
         @media (max-width: 860px) {
             .immersion-hero-inner,
             .immersion-details-inner {
@@ -838,6 +913,7 @@ background: linear-gradient(135deg,
 
             .immersion-details-section,
             .event-body,
+            .pathway-section,
             .testimonials-section,
             .visual-story,
             .social-proof,
@@ -888,6 +964,7 @@ background: linear-gradient(135deg,
                 font-size: 1.15rem;
             }
 
+            .pathway-title,
             .testimonials-title {
                 font-size: clamp(1.55rem, 7vw, 2rem);
             }
@@ -923,19 +1000,19 @@ background: linear-gradient(135deg,
         <div class="immersion-hero-inner">
             <div class="hero-copy">
                 <span class="event-label">Covo Immersions</span>
-                <h1 class="event-title">See what disciple-making looks like in real life.</h1>
+                <h1 class="event-title">Frustrated with disciple-making? Get hands-on experience.</h1>
 
                 <p class="hero-lead">
-                    Stop trying to imagine how this fits a real week. Step into it.
+                    You have heard the teaching. Maybe even tried the tools. But if it still feels fuzzy, slow, or hard to picture in real life, this is for you.
                 </p>
 
                 <div class="event-description">
-                    <p>You can hear about disciple-making all day and still not know what it looks like on an actual Tuesday.</p>
-                    <p>A Covo Immersion puts you inside real rhythms with real people in real places. Homes. Coffee shops. Parks. Workplaces. Shared meals. Prayer. Debrief. Not a polished conference. Not just another training.</p>
+                    <p>The problem is not your passion.</p>
+                    <p>Disciple-making is hard to learn from a distance. A Covo Immersion puts you inside real rhythms with real people in real places. Homes. Coffee shops. Parks. Workplaces. Shared meals. Prayer. Debrief. Not a polished conference. Not just another training.</p>
                 </div>
 
                 <p class="hero-anchor-line">
-                    You cannot follow what you cannot see.
+                    Stop guessing. Step into it.
                 </p>
 
                 <div class="hero-cta-row">
@@ -1133,6 +1210,34 @@ background: linear-gradient(135deg,
         </div>
     </section>
 
+    <section class="pathway-section">
+        <div class="pathway-inner">
+            <p class="eyebrow" style="text-align:center;">3 step immersion pathway</p>
+            <h2 class="pathway-title">How this works</h2>
+            <p class="pathway-intro">Keep this simple. Help people understand the journey fast.</p>
+
+            <div class="pathway-grid">
+                <article class="pathway-card">
+                    <div class="pathway-step">1</div>
+                    <h3>Choose an immersion.</h3>
+                    <p>Find a city, date, and setting that fits. Start with the next available immersion or join the waitlist for future ones.</p>
+                </article>
+
+                <article class="pathway-card">
+                    <div class="pathway-step">2</div>
+                    <h3>Step into real rhythms.</h3>
+                    <p>Watch, ask, learn, and process alongside experienced practitioners in active everyday environments.</p>
+                </article>
+
+                <article class="pathway-card">
+                    <div class="pathway-step">3</div>
+                    <h3>Go home with clearer next steps.</h3>
+                    <p>Leave with a sharper picture of what this could look like in your own life, team, neighborhood, or city.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
     <section class="testimonials-section">
         <div class="testimonials-container">
             <p class="eyebrow" style="text-align:center;">What people said</p>
@@ -1256,7 +1361,7 @@ background: linear-gradient(135deg,
 
     <section class="bottom-cta">
         <div class="bottom-cta-inner">
-            <h2 class="bottom-cta-headline">You do not need more theory detached from real life.</h2>
+            <h2 class="bottom-cta-headline">Stop guessing. Start seeing what this can look like for real.</h2>
             <div class="bottom-cta-body">
                 <p>If you have heard the ideas but have never seen the rhythms up close, an immersion closes that gap.</p>
                 <p>Come watch. Ask questions. Process what you saw. Leave with a clearer picture of what this could look like where you are.</p>
