@@ -339,36 +339,98 @@
       color: #444444;
     }
 
-    .image-grid-section {
-      margin-top: 2rem;
-    }
-
-    .image-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 1rem;
-      margin-top: 1rem;
-    }
-
-    .image-card {
+    .immersion-slider-wrap {
+      margin-top: 1.8rem;
       background: #f8faf9;
       border: 1px solid #e2eae6;
-      border-radius: 16px;
+      border-radius: 20px;
+      padding: 1.2rem;
       overflow: hidden;
     }
 
-    .image-card img {
-      width: 100%;
+    .immersion-slider-stage {
+      position: relative;
+    }
+
+    .immersion-slides {
+      display: flex;
+      transition: transform 0.45s ease;
+      will-change: transform;
+    }
+
+    .immersion-slide {
+      min-width: 100%;
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 1.2rem;
+      align-items: center;
+    }
+
+    .immersion-slide-image {
+      border-radius: 16px;
+      overflow: hidden;
+      background: #ffffff;
+      box-shadow: 0 8px 24px rgba(16, 40, 31, 0.08);
       aspect-ratio: 4 / 3;
+    }
+
+    .immersion-slide-image img {
+      width: 100%;
+      height: 100%;
       object-fit: cover;
       display: block;
     }
 
-    .image-card-note {
-      padding: 0.85rem 1rem;
-      font-size: 0.82rem;
-      color: #5a6b65;
-      line-height: 1.5;
+    .immersion-slide-copy {
+      min-width: 0;
+    }
+
+    .immersion-slide-kicker {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #245c4a;
+      margin-bottom: 0.55rem;
+    }
+
+    .immersion-slide-title {
+      font-size: clamp(1.45rem, 2vw, 2rem);
+      font-weight: 900;
+      color: #10281f;
+      line-height: 1.04;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.75rem;
+    }
+
+    .immersion-slide-text {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: #444444;
+    }
+
+    .immersion-slider-dots {
+      display: flex;
+      justify-content: center;
+      gap: 0.55rem;
+      margin-top: 1rem;
+    }
+
+    .immersion-slider-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      border: none;
+      background: #cfd8d3;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.2s ease;
+      padding: 0;
+    }
+
+    .immersion-slider-dot.active {
+      background: #1b4d3e;
+      transform: scale(1.15);
     }
 
     .split-grid {
@@ -689,7 +751,7 @@
       .testimonials-grid,
       .split-grid,
       .experience-panel,
-      .image-grid {
+      .immersion-slide {
         grid-template-columns: 1fr;
       }
     }
@@ -746,7 +808,8 @@
 
       .info-card,
       .faq-box,
-      .experience-toggle-wrap {
+      .experience-toggle-wrap,
+      .immersion-slider-wrap {
         padding: 1.25rem;
       }
 
@@ -860,27 +923,60 @@
         </li>
       </ul>
 
-      <div class="image-grid-section">
-        <div class="image-grid">
-          <figure class="image-card">
-            <img src="image/immersions/immersion-grid-1.webp" alt="Coffee shop immersion moment" loading="lazy">
-            <figcaption class="image-card-note">[Coffee shop / Scripture / abiding image]</figcaption>
-          </figure>
+      <div class="immersion-slider-wrap">
+        <div class="immersion-slider-stage">
+          <div class="immersion-slides" id="immersion-slides">
+            <article class="immersion-slide">
+              <div class="immersion-slide-image">
+                <img src="image/immersions/immersion-grid-1.webp" alt="Immersion moment in a coffee shop setting" loading="lazy">
+              </div>
+              <div class="immersion-slide-copy">
+                <span class="immersion-slide-kicker">What happens</span>
+                <h3 class="immersion-slide-title">See real rhythms in normal places.</h3>
+                <p class="immersion-slide-text">You step into actual environments where disciple-making is happening. Not a staged example. Not a classroom simulation. Real life.</p>
+              </div>
+            </article>
 
-          <figure class="image-card">
-            <img src="image/immersions/immersion-grid-2.webp" alt="Park training during immersion" loading="lazy">
-            <figcaption class="image-card-note">[Park training / whiteboard / outdoor debrief image]</figcaption>
-          </figure>
+            <article class="immersion-slide">
+              <div class="immersion-slide-image">
+                <img src="image/immersions/immersion-grid-2.webp" alt="Immersion training and debrief in an outdoor setting" loading="lazy">
+              </div>
+              <div class="immersion-slide-copy">
+                <span class="immersion-slide-kicker">What happens</span>
+                <h3 class="immersion-slide-title">Ask questions as you go.</h3>
+                <p class="immersion-slide-text">You are not left trying to decode everything later. You get to ask what happened, why it mattered, and how the decisions were made in the moment.</p>
+              </div>
+            </article>
 
-          <figure class="image-card">
-            <img src="image/immersions/immersion-grid-3.webp" alt="Families or activity during immersion" loading="lazy">
-            <figcaption class="image-card-note">[Soccer field / family engagement / practice image]</figcaption>
-          </figure>
+            <article class="immersion-slide">
+              <div class="immersion-slide-image">
+                <img src="image/immersions/immersion-grid-3.webp" alt="Immersion practice in a family or neighborhood setting" loading="lazy">
+              </div>
+              <div class="immersion-slide-copy">
+                <span class="immersion-slide-kicker">What happens</span>
+                <h3 class="immersion-slide-title">Watch the normal parts, not just the wins.</h3>
+                <p class="immersion-slide-text">One of the biggest helps is seeing the texture of real life. The pauses. The conversations. The setting. The kind of stuff most people never see in a normal training.</p>
+              </div>
+            </article>
 
-          <figure class="image-card">
-            <img src="image/immersions/immersion-grid-4.webp" alt="Simple church in a home" loading="lazy">
-            <figcaption class="image-card-note">[Living room / meal / simple church image]</figcaption>
-          </figure>
+            <article class="immersion-slide">
+              <div class="immersion-slide-image">
+                <img src="image/immersions/immersion-grid-4.webp" alt="Immersion gathering in a home setting" loading="lazy">
+              </div>
+              <div class="immersion-slide-copy">
+                <span class="immersion-slide-kicker">What happens</span>
+                <h3 class="immersion-slide-title">Leave with clearer next steps.</h3>
+                <p class="immersion-slide-text">The goal is not inspiration that fades. The goal is a clearer picture of what needs to shift in your own context when you go home.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <div class="immersion-slider-dots" id="immersion-slider-dots" aria-label="Immersion slider navigation">
+          <button class="immersion-slider-dot active" type="button" aria-label="Go to slide 1"></button>
+          <button class="immersion-slider-dot" type="button" aria-label="Go to slide 2"></button>
+          <button class="immersion-slider-dot" type="button" aria-label="Go to slide 3"></button>
+          <button class="immersion-slider-dot" type="button" aria-label="Go to slide 4"></button>
         </div>
       </div>
     </div>
@@ -1100,6 +1196,49 @@
     toggleImmersion.addEventListener('click', function() {
       setExperienceState('immersion');
     });
+
+    const slider = document.getElementById('immersion-slides');
+    const dots = Array.from(document.querySelectorAll('.immersion-slider-dot'));
+    let currentSlide = 0;
+    let sliderInterval = null;
+
+    function goToSlide(index) {
+      currentSlide = index;
+      slider.style.transform = 'translateX(-' + (index * 100) + '%)';
+      dots.forEach(function(dot, i) {
+        dot.classList.toggle('active', i === index);
+      });
+    }
+
+    function startSlider() {
+      stopSlider();
+      sliderInterval = setInterval(function() {
+        currentSlide = (currentSlide + 1) % dots.length;
+        goToSlide(currentSlide);
+      }, 4500);
+    }
+
+    function stopSlider() {
+      if (sliderInterval) {
+        clearInterval(sliderInterval);
+      }
+    }
+
+    dots.forEach(function(dot, index) {
+      dot.addEventListener('click', function() {
+        goToSlide(index);
+        startSlider();
+      });
+    });
+
+    const sliderWrap = document.querySelector('.immersion-slider-wrap');
+    sliderWrap.addEventListener('mouseenter', stopSlider);
+    sliderWrap.addEventListener('mouseleave', startSlider);
+    sliderWrap.addEventListener('focusin', stopSlider);
+    sliderWrap.addEventListener('focusout', startSlider);
+
+    goToSlide(0);
+    startSlider();
 
     document.querySelectorAll('.faq-btn').forEach(function(btn) {
       btn.addEventListener('click', function() {
