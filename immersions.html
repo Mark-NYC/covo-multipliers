@@ -325,7 +325,7 @@
     }
 
     .experience-state-title {
-      font-size: clamp(1.6rem, 2.3vw, 2.2rem);
+      font-size: clamp(1.55rem, 2.3vw, 2.15rem);
       font-weight: 900;
       color: #10281f;
       line-height: 1.02;
@@ -337,6 +337,38 @@
       font-size: 0.98rem;
       line-height: 1.7;
       color: #444444;
+    }
+
+    .image-grid-section {
+      margin-top: 2rem;
+    }
+
+    .image-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .image-card {
+      background: #f8faf9;
+      border: 1px solid #e2eae6;
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .image-card img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      display: block;
+    }
+
+    .image-card-note {
+      padding: 0.85rem 1rem;
+      font-size: 0.82rem;
+      color: #5a6b65;
+      line-height: 1.5;
     }
 
     .split-grid {
@@ -656,7 +688,8 @@
     @media (max-width: 980px) {
       .testimonials-grid,
       .split-grid,
-      .experience-panel {
+      .experience-panel,
+      .image-grid {
         grid-template-columns: 1fr;
       }
     }
@@ -789,9 +822,9 @@
 
           <div class="experience-copy">
             <span class="experience-kicker" id="experience-kicker">Most training</span>
-            <h3 class="experience-state-title" id="experience-title">Hear it</h3>
+            <h3 class="experience-state-title" id="experience-title">Hear it. Practice some. Imagine the rest.</h3>
             <p class="experience-state-copy" id="experience-copy">
-              Helpful, but still easy to leave without a clear picture of real-life practice.
+              Good training can give you language, tools, and even some practice. But most people still leave having to picture what this looks like in actual homes, neighborhoods, workplaces, and normal rhythms.
             </p>
           </div>
         </div>
@@ -826,6 +859,30 @@
           <span>Leave with clearer next steps for your context</span>
         </li>
       </ul>
+
+      <div class="image-grid-section">
+        <div class="image-grid">
+          <figure class="image-card">
+            <img src="image/immersions/immersion-grid-1.webp" alt="Coffee shop immersion moment" loading="lazy">
+            <figcaption class="image-card-note">[Coffee shop / Scripture / abiding image]</figcaption>
+          </figure>
+
+          <figure class="image-card">
+            <img src="image/immersions/immersion-grid-2.webp" alt="Park training during immersion" loading="lazy">
+            <figcaption class="image-card-note">[Park training / whiteboard / outdoor debrief image]</figcaption>
+          </figure>
+
+          <figure class="image-card">
+            <img src="image/immersions/immersion-grid-3.webp" alt="Families or activity during immersion" loading="lazy">
+            <figcaption class="image-card-note">[Soccer field / family engagement / practice image]</figcaption>
+          </figure>
+
+          <figure class="image-card">
+            <img src="image/immersions/immersion-grid-4.webp" alt="Simple church in a home" loading="lazy">
+            <figcaption class="image-card-note">[Living room / meal / simple church image]</figcaption>
+          </figure>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -1025,14 +1082,14 @@
         experienceImage.src = 'image/immersions/whiteboard classroom training.webp';
         experienceImage.alt = 'Person teaching at a whiteboard in a classroom setting';
         experienceKicker.textContent = 'Most training';
-        experienceTitle.textContent = 'Hear it';
-        experienceCopy.textContent = 'Helpful, but still easy to leave without a clear picture of real-life practice.';
+        experienceTitle.textContent = 'Hear it. Practice some. Imagine the rest.';
+        experienceCopy.textContent = 'Good training can give you language, tools, and even some practice. But most people still leave having to picture what this looks like in actual homes, neighborhoods, workplaces, and normal rhythms.';
       } else {
         experienceImage.src = 'image/immersions/hands on immersion.webp';
         experienceImage.alt = 'Hands-on immersion experience in a lived-in setting';
         experienceKicker.textContent = 'Immersion';
-        experienceTitle.textContent = 'See it';
-        experienceCopy.textContent = 'Watch real rhythms, ask questions in the moment, and leave with clearer next steps.';
+        experienceTitle.textContent = 'Hear it. Practice it. Experience it.';
+        experienceCopy.textContent = 'Immersion adds something most training cannot. You do not just hear and practice principles. You watch them lived out in real settings. That gives people not only training, but hands-on experience they can actually reproduce.';
       }
     }
 
