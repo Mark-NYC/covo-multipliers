@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Step into a Covo Immersion and see what disciple-making looks like in real life.">
+    <meta name="description" content="See disciple-making in real life through a Covo Immersion in New York City.">
     <title>Covo Immersions — Covo Multipliers</title>
 
     <link rel="stylesheet" href="styles.css">
@@ -38,7 +38,7 @@
         }
 
         .immersion-hero {
-            padding: 3.75rem 2rem 3rem;
+            padding: 3.75rem 2rem 3.25rem;
             background: linear-gradient(
                 135deg,
                 #0f1720 0%,
@@ -107,42 +107,21 @@
         }
 
         .event-title {
-            font-size: clamp(2.6rem, 6vw, 4.6rem);
+            font-size: clamp(2.8rem, 6vw, 4.8rem);
             font-weight: 900;
             color: #ffffff;
-            line-height: 0.96;
+            line-height: 0.95;
             letter-spacing: -0.05em;
             margin-bottom: 1rem;
             max-width: 760px;
         }
 
         .hero-lead {
-            font-size: clamp(1.12rem, 2vw, 1.38rem);
+            font-size: clamp(1.1rem, 2vw, 1.34rem);
             line-height: 1.55;
             color: rgba(255,255,255,0.94);
             max-width: 690px;
-            margin-bottom: 1rem;
-        }
-
-        .event-description {
-            font-size: 0.99rem;
-            line-height: 1.7;
-            color: rgba(255, 255, 255, 0.88);
-            max-width: 650px;
-        }
-
-        .event-description p + p {
-            margin-top: 0.75rem;
-        }
-
-        .hero-anchor-line {
-            font-size: clamp(1.15rem, 2.2vw, 1.5rem);
-            line-height: 1.35;
-            font-weight: 800;
-            color: #ffffff;
-            max-width: 640px;
-            margin-top: 1.25rem;
-            letter-spacing: -0.02em;
+            margin-bottom: 1.35rem;
         }
 
         .hero-cta-row {
@@ -150,7 +129,7 @@
             flex-wrap: wrap;
             gap: 1rem;
             align-items: center;
-            margin-top: 1.85rem;
+            margin-top: 0.3rem;
         }
 
         .hero-cta-row .btn-pill {
@@ -177,43 +156,26 @@
             border-color: #f5f5f5;
         }
 
-        .hero-secondary-link {
-            color: rgba(255,255,255,0.84);
+        .hero-support-line {
+            font-size: 0.88rem;
+            line-height: 1.5;
+            color: rgba(255,255,255,0.78);
+            margin-top: 0.85rem;
         }
 
-        .hero-secondary-link:hover {
-            color: #ffffff;
-        }
-
-        .immersion-quick-meta {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.75rem;
-            margin-top: 1.5rem;
-        }
-
-        .quick-meta-item {
-            display: inline-flex;
-            align-items: center;
-            padding: 0.45rem 0.85rem;
-            border-radius: 999px;
-            font-size: 0.78rem;
-            font-weight: 700;
-            letter-spacing: 0.04em;
-            background: rgba(255,255,255,0.1);
-            color: rgba(255,255,255,0.92);
-            border: 1px solid rgba(255,255,255,0.16);
-        }
-
-        .immersion-details-section {
+        .page-section {
             background: #ffffff;
-            padding: 3.5rem 2rem 3.75rem;
+            padding: 3.5rem 2rem;
             border-bottom: 1px solid #e5e7eb;
         }
 
-        .immersion-details-inner {
-            max-width: 1200px;
+        .page-section-inner {
+            max-width: 960px;
             margin: 0 auto;
+        }
+
+        .two-col-section .page-section-inner {
+            max-width: 1200px;
             display: grid;
             grid-template-columns: minmax(0, 1fr) 400px;
             gap: 4rem;
@@ -230,50 +192,130 @@
             margin-bottom: 0.55rem;
         }
 
-        .content-h2 {
-            font-size: clamp(1.8rem, 3vw, 2.65rem);
+        .section-title {
+            font-size: clamp(1.9rem, 3vw, 2.7rem);
             font-weight: 900;
             color: #10281f;
             line-height: 1.02;
             letter-spacing: -0.04em;
-            margin-bottom: 0.9rem;
+            margin-bottom: 1rem;
             max-width: 760px;
         }
 
-        .content-h3 {
-            font-size: clamp(1.2rem, 2vw, 1.45rem);
-            font-weight: 800;
-            color: #10281f;
-            line-height: 1.15;
-            letter-spacing: -0.02em;
-            margin-bottom: 0.7rem;
-        }
-
-        .content-p {
-            font-size: 0.98rem;
-            line-height: 1.74;
+        .section-copy {
+            font-size: 1rem;
+            line-height: 1.72;
             color: #444444;
             max-width: 760px;
         }
 
-        .content-p + .content-p {
+        .section-copy p + p {
             margin-top: 0.85rem;
         }
 
-        .content-block + .content-block {
-            margin-top: 2.75rem;
-            padding-top: 2.75rem;
-            border-top: 1px solid #e5e7eb;
+        .simple-list {
+            list-style: none;
+            padding: 0;
+            margin: 1.4rem 0 0;
         }
 
-        .section-anchor-line {
-            font-size: clamp(1.15rem, 2vw, 1.4rem);
-            line-height: 1.35;
+        .simple-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.9rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 1rem;
+            line-height: 1.65;
+            color: #2a2a2a;
+        }
+
+        .simple-list li:last-child {
+            border-bottom: none;
+        }
+
+        .simple-check {
+            flex-shrink: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #f0fdf4;
+            border: 1.5px solid #bbf7d0;
+            font-size: 0.6rem;
             font-weight: 800;
+            color: #15803d;
+            margin-top: 0.25rem;
+        }
+
+        .contrast-block {
+            margin-top: 1.5rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .contrast-card {
+            background: #f8faf9;
+            border: 1px solid #e2eae6;
+            border-radius: 16px;
+            padding: 1.4rem 1.45rem;
+        }
+
+        .contrast-label {
+            display: block;
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #245c4a;
+            margin-bottom: 0.55rem;
+        }
+
+        .contrast-main {
+            font-size: 1.2rem;
+            font-weight: 900;
             color: #10281f;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+        }
+
+        .split-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.25rem;
+            margin-top: 1.5rem;
+        }
+
+        .split-card {
+            background: #f8faf9;
+            border: 1px solid #e2eae6;
+            border-radius: 16px;
+            padding: 1.45rem 1.5rem;
+        }
+
+        .split-card h3 {
+            font-size: 1.1rem;
+            font-weight: 900;
+            color: #10281f;
+            line-height: 1.12;
             letter-spacing: -0.02em;
-            max-width: 720px;
-            margin: 1rem 0 0.25rem;
+            margin-bottom: 0.85rem;
+        }
+
+        .micro-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .micro-list li {
+            font-size: 0.97rem;
+            line-height: 1.65;
+            color: #3a4a44;
+            padding: 0.35rem 0;
         }
 
         .info-card {
@@ -283,7 +325,7 @@
             box-shadow:
                 0 4px 6px rgba(0, 0, 0, 0.04),
                 0 12px 40px rgba(16, 40, 31, 0.10);
-            padding: 2.15rem 2.2rem;
+            padding: 2.1rem 2.2rem;
             position: sticky;
             top: 1rem;
         }
@@ -294,29 +336,29 @@
             color: #10281f;
             line-height: 1.05;
             letter-spacing: -0.03em;
-            margin-bottom: 0.4rem;
+            margin-bottom: 0.35rem;
         }
 
-        .info-card .form-intro {
-            font-size: 0.89rem;
+        .info-card-intro {
+            font-size: 0.9rem;
             color: #5a6b65;
             line-height: 1.55;
-            margin-bottom: 1.4rem;
+            margin-bottom: 1.35rem;
         }
 
         .info-list {
             list-style: none;
             padding: 0;
-            margin: 0 0 1.5rem;
+            margin: 0 0 1.35rem;
         }
 
         .info-list li {
             display: flex;
             justify-content: space-between;
             gap: 1rem;
-            padding: 0.92rem 0;
+            padding: 0.95rem 0;
             border-bottom: 1px solid #edf1ef;
-            font-size: 0.93rem;
+            font-size: 0.94rem;
             line-height: 1.5;
         }
 
@@ -338,297 +380,77 @@
             font-size: 0.88rem;
             line-height: 1.6;
             color: #5a6b65;
-            margin-bottom: 1.25rem;
+            margin-bottom: 1.2rem;
         }
 
         .btn-card {
             width: 100%;
             text-align: center;
-            margin-top: 0.4rem;
         }
 
         .info-card-secondary {
             margin-top: 0.9rem;
             text-align: center;
+            font-size: 0.88rem;
+            color: #5a6b65;
         }
 
         .info-card-secondary a {
-            font-size: 0.88rem;
-            font-weight: 700;
             color: #1b4d3e;
+            font-weight: 700;
             text-decoration: underline;
             text-underline-offset: 0.15em;
         }
 
-        .event-body {
-            background: #ffffff;
-            padding: 3.5rem 2rem 4.75rem;
-        }
-
-        .event-body-inner {
-            max-width: 960px;
-            margin: 0 auto;
-        }
-
-        .takeaway-list {
-            list-style: none;
-            padding: 0;
-            margin: 1.45rem 0 0;
-        }
-
-        .takeaway-list li {
-            display: flex;
-            align-items: flex-start;
-            gap: 0.9rem;
-            padding: 1.05rem 0;
-            border-bottom: 1px solid #f0f0f0;
-            font-size: 1rem;
-            line-height: 1.65;
-            color: #2a2a2a;
-        }
-
-        .takeaway-list li:last-child {
-            border-bottom: none;
-        }
-
-        .take-check {
-            flex-shrink: 0;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: #f0fdf4;
-            border: 1.5px solid #bbf7d0;
-            font-size: 0.6rem;
-            font-weight: 800;
-            color: #15803d;
-            margin-top: 0.25rem;
-        }
-
-        .image-grid-section {
-            margin-top: 2.5rem;
-        }
-
-        .image-grid {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 1rem;
-            margin-top: 1.1rem;
-        }
-
-        .image-card {
+        .testimonials-section {
             background: #f8faf9;
-            border: 1px solid #e2eae6;
-            border-radius: 16px;
-            overflow: hidden;
-        }
-
-        .image-card img {
-            width: 100%;
-            aspect-ratio: 4 / 3;
-            object-fit: cover;
-            display: block;
-        }
-
-        .image-card-note {
-            padding: 0.85rem 1rem;
-            font-size: 0.82rem;
-            color: #5a6b65;
-            line-height: 1.5;
-        }
-
-        .pathway-section {
-            background: #f8faf9;
-            border-top: 1px solid #e5e7eb;
-            border-bottom: 1px solid #e5e7eb;
             padding: 4rem 2rem;
+            border-bottom: 1px solid #e5e7eb;
         }
 
-        .pathway-inner {
+        .testimonials-inner {
             max-width: 980px;
             margin: 0 auto;
         }
 
-        .pathway-title {
-            font-size: clamp(1.9rem, 3vw, 2.5rem);
-            font-weight: 900;
-            color: #10281f;
-            text-align: center;
-            letter-spacing: -0.04em;
-            line-height: 1.02;
-            margin-bottom: 0.75rem;
-        }
-
-        .pathway-intro {
-            max-width: 700px;
-            margin: 0 auto 2.75rem;
-            font-size: 1rem;
-            line-height: 1.68;
-            text-align: center;
-            color: #52645d;
-        }
-
-        .pathway-grid {
+        .testimonials-grid {
             display: grid;
             grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 1rem;
-        }
-
-        .pathway-card {
-            background: #ffffff;
-            border: 1px solid #e2eae6;
-            border-radius: 18px;
-            padding: 1.6rem;
-            box-shadow: 0 2px 12px rgba(16, 40, 31, 0.06);
-        }
-
-        .pathway-step {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 34px;
-            height: 34px;
-            border-radius: 999px;
-            background: #1b4d3e;
-            color: #ffffff;
-            font-size: 0.9rem;
-            font-weight: 800;
-            margin-bottom: 0.95rem;
-        }
-
-        .pathway-card h3 {
-            font-size: 1.08rem;
-            font-weight: 900;
-            color: #10281f;
-            letter-spacing: -0.02em;
-            line-height: 1.15;
-            margin-bottom: 0.7rem;
-        }
-
-        .pathway-card p {
-            font-size: 0.95rem;
-            line-height: 1.68;
-            color: #444444;
-        }
-
-        .comparison-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin-top: 1.35rem;
-        }
-
-        .comparison-card {
-            background: #f8faf9;
-            border: 1px solid #e2eae6;
-            border-radius: 16px;
-            padding: 1.55rem;
-        }
-
-        .comparison-card h3 {
-            font-size: 1.05rem;
-            font-weight: 900;
-            color: #10281f;
-            margin-bottom: 0.85rem;
-            letter-spacing: -0.02em;
-        }
-
-        .comparison-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .comparison-list li {
-            font-size: 0.95rem;
-            color: #3a4a44;
-            line-height: 1.65;
-            padding: 0.35rem 0;
-        }
-
-        .who-section {
-            margin-top: 3rem;
-            padding-top: 3rem;
-            border-top: 1px solid #e5e7eb;
-        }
-
-        .testimonials-section {
-            background: #ffffff;
-            padding: 4.5rem 2rem;
-            border-bottom: 1px solid #e5e7eb;
-        }
-
-        .testimonials-container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .testimonials-title {
-            font-size: clamp(1.9rem, 3vw, 2.5rem);
-            font-weight: 900;
-            color: #10281f;
-            text-align: center;
-            letter-spacing: -0.04em;
-            line-height: 1.02;
-            margin-bottom: 0.75rem;
-        }
-
-        .testimonials-intro {
-            max-width: 700px;
-            margin: 0 auto 2.75rem;
-            font-size: 1rem;
-            line-height: 1.68;
-            text-align: center;
-            color: #52645d;
-        }
-
-        .testimonials-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 1.25rem;
+            margin-top: 1.8rem;
         }
 
         .testimonial-card {
-            background: #f8faf9;
+            background: #ffffff;
             border: 1px solid #e2eae6;
             border-radius: 16px;
-            padding: 1.75rem 1.75rem 1.5rem;
+            padding: 1.6rem 1.5rem;
             box-shadow: 0 2px 12px rgba(16, 40, 31, 0.06);
         }
 
-        .testimonial-stars {
-            font-size: 0.95rem;
-            color: #9f7a2f;
-            letter-spacing: 0.1em;
-            margin-bottom: 0.85rem;
-        }
-
         .testimonial-quote {
-            font-size: 1.03rem;
-            line-height: 1.72;
+            font-size: 1.02rem;
+            line-height: 1.7;
             color: #2a2a2a;
             font-style: italic;
-            margin-bottom: 1.15rem;
         }
 
         .testimonial-attribution {
+            margin-top: 1rem;
             font-size: 0.82rem;
             font-weight: 800;
             color: #1b4d3e;
             letter-spacing: 0.02em;
         }
 
-        .format-note {
-            margin-top: 0;
-            padding: 1.85rem 2rem;
+        .faq-box {
             background: #f8faf9;
             border-left: 3px solid #1b4d3e;
             border-radius: 0 10px 10px 0;
+            padding: 1.85rem 2rem;
         }
 
-        .format-note > strong {
+        .faq-box > strong {
             display: block;
             font-size: 0.72rem;
             font-weight: 800;
@@ -689,80 +511,9 @@
 
         .faq-answer {
             padding: 0 1rem 1.1rem 0;
-            font-size: 0.93rem;
+            font-size: 0.94rem;
             line-height: 1.68;
             color: #3a4a44;
-        }
-
-        .social-proof {
-            background: #ffffff;
-            padding: 3rem 2rem 0;
-        }
-
-        .social-proof-inner {
-            max-width: 860px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            gap: 1.25rem;
-            background: #f8faf9;
-            border: 1px solid #e5e7eb;
-            border-radius: 16px;
-            padding: 1.25rem 1.25rem;
-        }
-
-        .social-proof-icon {
-            flex-shrink: 0;
-            width: 56px;
-            height: 56px;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.10);
-            background: #ffffff;
-        }
-
-        .social-proof-icon img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        .social-proof-text {
-            font-size: 1rem;
-            line-height: 1.68;
-            color: #5a6b65;
-            margin: 0;
-        }
-
-        .social-proof-text strong {
-            color: #2a2a2a;
-            font-weight: 800;
-        }
-
-        .visual-story {
-            background: #ffffff;
-            padding: 3.4rem 2rem 4.2rem;
-        }
-
-        .visual-story-inner {
-            max-width: 980px;
-            margin: 0 auto;
-        }
-
-        .visual-story-image {
-            margin-top: 1.3rem;
-            border-radius: 18px;
-            overflow: hidden;
-            box-shadow: 0 14px 36px rgba(16, 40, 31, 0.10);
-            background: #f8faf9;
-        }
-
-        .visual-story-image img {
-            width: 100%;
-            aspect-ratio: 16 / 8;
-            object-fit: cover;
-            display: block;
         }
 
         .bottom-cta {
@@ -815,36 +566,6 @@
             margin-bottom: 2rem;
         }
 
-        .bottom-cta-body p + p {
-            margin-top: 0.9rem;
-        }
-
-        .btn-cta {
-            display: inline-block;
-            padding: 1rem 2.5rem;
-            background: #dcb55a;
-            color: #10281f;
-            font-size: 1rem;
-            font-weight: 800;
-            font-family: inherit;
-            letter-spacing: 0.01em;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            text-decoration: none;
-            transition: background 0.2s ease, transform 0.15s ease;
-        }
-
-        .btn-cta:hover {
-            background: #c9a24e;
-            transform: translateY(-1px);
-        }
-
-        .btn-cta:focus-visible {
-            outline: 3px solid #ffffff;
-            outline-offset: 3px;
-        }
-
         .site-footer {
             background: #10281f;
             padding: 1.5rem 2rem;
@@ -875,15 +596,17 @@
             color: rgba(255, 255, 255, 0.28);
         }
 
-        @media (max-width: 900px) {
-            .pathway-grid {
+        @media (max-width: 980px) {
+            .testimonials-grid,
+            .split-grid,
+            .contrast-block {
                 grid-template-columns: 1fr;
             }
         }
 
         @media (max-width: 860px) {
             .immersion-hero-inner,
-            .immersion-details-inner {
+            .two-col-section .page-section-inner {
                 grid-template-columns: 1fr;
                 gap: 2rem;
             }
@@ -895,96 +618,45 @@
             .info-card {
                 position: static;
             }
-
-            .comparison-grid,
-            .image-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .social-proof-inner {
-                align-items: flex-start;
-            }
         }
 
         @media (max-width: 540px) {
-            .immersion-hero {
-                padding: 1.35rem 1.25rem 1.15rem;
-            }
-
-            .immersion-details-section,
-            .event-body,
-            .pathway-section,
+            .immersion-hero,
+            .page-section,
             .testimonials-section,
-            .visual-story,
-            .social-proof,
-            .bottom-cta {
-                padding-left: 1.25rem;
-                padding-right: 1.25rem;
-            }
-
+            .bottom-cta,
             .site-header,
             .site-footer {
                 padding-left: 1.25rem;
                 padding-right: 1.25rem;
             }
 
+            .immersion-hero {
+                padding-top: 1.4rem;
+                padding-bottom: 1.2rem;
+            }
+
             .event-title {
-                font-size: clamp(2rem, 10vw, 2.9rem);
+                font-size: clamp(2rem, 10vw, 2.95rem);
                 line-height: 0.98;
-                margin-bottom: 0.55rem;
             }
 
             .hero-lead {
                 font-size: 1rem;
                 line-height: 1.45;
-                margin-bottom: 0.7rem;
             }
 
-            .event-description {
-                font-size: 0.92rem;
-                line-height: 1.5;
-            }
-
-            .hero-anchor-line {
-                font-size: 1.05rem;
-                line-height: 1.32;
-                margin-top: 0.9rem;
-            }
-
-            .hero-image-wrap {
-                border-radius: 8px;
-            }
-
-            .content-h2 {
-                font-size: clamp(1.55rem, 7vw, 2rem);
-                line-height: 1.02;
-            }
-
-            .content-h3 {
-                font-size: 1.15rem;
-            }
-
-            .pathway-title,
-            .testimonials-title {
+            .section-title {
                 font-size: clamp(1.55rem, 7vw, 2rem);
             }
 
             .bottom-cta-headline {
                 font-size: clamp(1.7rem, 8vw, 2.3rem);
-                line-height: 1.02;
             }
 
-            .info-card {
-                padding: 1.7rem 1.5rem;
-            }
-
-            .format-note {
-                padding: 1.45rem 1.25rem;
-            }
-
-            .social-proof-inner {
-                flex-direction: column;
-                gap: 0.9rem;
+            .info-card,
+            .faq-box {
+                padding: 1.5rem 1.25rem;
             }
         }
     </style>
@@ -1000,32 +672,19 @@
         <div class="immersion-hero-inner">
             <div class="hero-copy">
                 <span class="event-label">Covo Immersions</span>
-                <h1 class="event-title">Frustrated with disciple-making? Get hands-on experience.</h1>
+                <h1 class="event-title">See disciple-making in real life.</h1>
 
                 <p class="hero-lead">
-                    You have heard the teaching. Maybe even tried the tools. But if it still feels fuzzy, slow, or hard to picture in real life, this is for you.
-                </p>
-
-                <div class="event-description">
-                    <p>The problem is not your passion.</p>
-                    <p>Disciple-making is hard to learn from a distance. A Covo Immersion puts you inside real rhythms with real people in real places. Homes. Coffee shops. Parks. Workplaces. Shared meals. Prayer. Debrief. Not a polished conference. Not just another training.</p>
-                </div>
-
-                <p class="hero-anchor-line">
-                    Stop guessing. Step into it.
+                    Not another training. Step into real rhythms with real people in real places so you can stop guessing what this looks like.
                 </p>
 
                 <div class="hero-cta-row">
                     <a class="btn-pill btn-pill-primary" href="#next-immersion">Apply for the Next Immersion</a>
-                    <a class="hero-secondary-link" href="#faq">Questions first?</a>
                 </div>
 
-                <div class="immersion-quick-meta">
-                    <span class="quick-meta-item">Location: [City / Cities]</span>
-                    <span class="quick-meta-item">Format: [Weekend / 2-Day / 3-Day]</span>
-                    <span class="quick-meta-item">Cost: [TBD / $X]</span>
-                    <span class="quick-meta-item">Spots: Limited</span>
-                </div>
+                <p class="hero-support-line">
+                    Limited spots. New York City. 2 to 3 days.
+                </p>
             </div>
 
             <div class="hero-image-wrap">
@@ -1034,270 +693,182 @@
         </div>
     </section>
 
-    <section class="immersion-details-section" id="next-immersion">
-        <div class="immersion-details-inner">
-            <div class="details-copy-col">
-                <div class="content-block">
-                    <p class="eyebrow">What it is</p>
-                    <h2 class="content-h2">Not just training. Shared life, real reps, honest debrief.</h2>
-                    <p class="section-anchor-line">You are not coming to sit back and collect ideas.</p>
-                    <p class="content-p">A Covo Immersion is an in-person experience where you step into the real rhythms of co-vocational disciple-makers and simple churches. You do not just sit in a room and hear ideas. You watch the rhythms. You ask questions in the moment. You process what you saw with people actually living it.</p>
-                    <p class="content-p">The goal is not hype. The goal is clarity. We want people to leave saying, “Now I can actually picture what this could look like where I live, work, and play.”</p>
+    <section class="page-section">
+        <div class="page-section-inner">
+            <span class="eyebrow">What this actually is</span>
+            <h2 class="section-title">This is not a conference.</h2>
+
+            <div class="section-copy">
+                <p>You won’t sit in a room all day taking notes.</p>
+                <p>You’ll step into normal settings like homes, coffee shops, neighborhoods, meals, and debriefs with people actually living this out.</p>
+                <p>The point is simple. See it up close. Ask questions in the moment. Leave with a clearer picture of what to do in your own context.</p>
+            </div>
+
+            <div class="contrast-block">
+                <div class="contrast-card">
+                    <span class="contrast-label">Most training</span>
+                    <div class="contrast-main">Hear it</div>
+                </div>
+                <div class="contrast-card">
+                    <span class="contrast-label">Immersion</span>
+                    <div class="contrast-main">See it</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="page-section">
+        <div class="page-section-inner">
+            <span class="eyebrow">What you’ll do</span>
+            <h2 class="section-title">What you’ll actually do</h2>
+
+            <ul class="simple-list">
+                <li>
+                    <span class="simple-check" aria-hidden="true">&#10003;</span>
+                    <span>Observe real rhythms, not staged examples</span>
+                </li>
+                <li>
+                    <span class="simple-check" aria-hidden="true">&#10003;</span>
+                    <span>Watch actual conversations unfold</span>
+                </li>
+                <li>
+                    <span class="simple-check" aria-hidden="true">&#10003;</span>
+                    <span>Ask questions as you go</span>
+                </li>
+                <li>
+                    <span class="simple-check" aria-hidden="true">&#10003;</span>
+                    <span>Debrief what happened and why it mattered</span>
+                </li>
+                <li>
+                    <span class="simple-check" aria-hidden="true">&#10003;</span>
+                    <span>Leave with clearer next steps for your context</span>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="page-section">
+        <div class="page-section-inner">
+            <span class="eyebrow">Who it’s for</span>
+            <h2 class="section-title">Who this is for and not for</h2>
+
+            <div class="split-grid">
+                <div class="split-card">
+                    <h3>Who this is for</h3>
+                    <p class="section-copy" style="font-size:0.96rem; margin-bottom:0.9rem;">
+                        For leaders who are serious about making disciples in everyday life and want to see what that actually looks like on the ground.
+                    </p>
+                    <ul class="micro-list">
+                        <li>You’ve had training but still need a picture</li>
+                        <li>You want practice, not just ideas</li>
+                        <li>You want something reproducible, not impressive</li>
+                    </ul>
                 </div>
 
-                <div class="content-block">
-                    <p class="eyebrow">What makes it different</p>
-                    <h2 class="content-h2">Most people do not need more ideas. They need sight.</h2>
-                    <p class="section-anchor-line">Immersion closes the gap between hearing and seeing.</p>
-                    <p class="content-p">Most training gives categories, language, and tools. That matters. But a lot of people still leave unsure how it fits into real life. Immersion closes that gap. You see normal settings, normal conversations, normal obstacles, and the actual rhythms that hold the work together.</p>
-                    <p class="content-p">You are not stepping into a curated highlight reel. You are stepping into a living environment where disciple-making is happening for real.</p>
+                <div class="split-card">
+                    <h3>Who this is not for</h3>
+                    <ul class="micro-list">
+                        <li>People looking for a polished conference experience</li>
+                        <li>People who want inspiration without engagement</li>
+                        <li>People who only want theory</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="page-section two-col-section" id="next-immersion">
+        <div class="page-section-inner">
+            <div>
+                <span class="eyebrow">Next immersion</span>
+                <h2 class="section-title">Next immersion</h2>
+                <div class="section-copy">
+                    <p>Keep the logistics visible fast. People want to know where, when, how long, what it costs, and how to apply.</p>
                 </div>
             </div>
 
             <aside class="info-card">
-                <h2>Next immersion</h2>
-                <p class="form-intro">Use this card for the next city, date, and application details.</p>
+                <h2>New York City</h2>
+                <p class="info-card-intro">Simple. Clear. No buried logistics.</p>
 
                 <ul class="info-list">
                     <li>
-                        <span class="info-label">City</span>
-                        <span class="info-value">[New York City]</span>
-                    </li>
-                    <li>
                         <span class="info-label">Dates</span>
-                        <span class="info-value">[Month Day to Day, Year]</span>
+                        <span class="info-value">[Dates]</span>
                     </li>
                     <li>
                         <span class="info-label">Length</span>
-                        <span class="info-value">[Weekend / 2 days / 3 days]</span>
+                        <span class="info-value">[2 or 3 days]</span>
                     </li>
                     <li>
                         <span class="info-label">Cost</span>
-                        <span class="info-value">[TBD / $X]</span>
-                    </li>
-                    <li>
-                        <span class="info-label">Capacity</span>
-                        <span class="info-value">[Limited spots]</span>
+                        <span class="info-value">[Cost or application required]</span>
                     </li>
                     <li>
                         <span class="info-label">Travel</span>
-                        <span class="info-value">[Attendees arrange their own]</span>
+                        <span class="info-value">Arranged separately</span>
                     </li>
                     <li>
                         <span class="info-label">Lodging</span>
-                        <span class="info-value">[TBD / On your own / Provided after apply]</span>
+                        <span class="info-value">Arranged separately</span>
                     </li>
                 </ul>
-
-                <p class="info-card-note">If the next immersion is not open yet, switch this to a waitlist card and keep the logistics simple.</p>
 
                 <a class="btn-pill btn-pill-primary btn-card" href="#">Apply for the Next Immersion</a>
 
                 <div class="info-card-secondary">
-                    <a href="#">Or join the waitlist for future cities</a>
+                    Questions before applying? <a href="#">Reach out here.</a>
                 </div>
             </aside>
         </div>
     </section>
 
-    <section class="event-body">
-        <div class="event-body-inner">
-
-            <div>
-                <p class="eyebrow">What you’ll experience</p>
-                <h2 class="content-h2">What you’ll actually step into</h2>
-                <p class="section-anchor-line">Real environments. Real questions. Real debrief.</p>
-
-                <ul class="takeaway-list">
-                    <li>
-                        <span class="take-check" aria-hidden="true">&#10003;</span>
-                        <span>Everyday disciple-making in normal places, not just theory in a classroom.</span>
-                    </li>
-                    <li>
-                        <span class="take-check" aria-hidden="true">&#10003;</span>
-                        <span>Coffee shops, homes, parks, workplaces, neighborhoods, shared meals, prayer, and debrief.</span>
-                    </li>
-                    <li>
-                        <span class="take-check" aria-hidden="true">&#10003;</span>
-                        <span>Short training moments paired with real observation and real questions.</span>
-                    </li>
-                    <li>
-                        <span class="take-check" aria-hidden="true">&#10003;</span>
-                        <span>Honest conversations about barriers, next steps, and what it takes to reproduce this back home.</span>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="image-grid-section">
-                <div class="image-grid">
-                    <figure class="image-card">
-                        <img src="image/immersions/immersion-grid-1.webp" alt="Coffee shop immersion moment" loading="lazy">
-                        <figcaption class="image-card-note">[Coffee shop / Scripture / abiding image]</figcaption>
-                    </figure>
-
-                    <figure class="image-card">
-                        <img src="image/immersions/immersion-grid-2.webp" alt="Park training during immersion" loading="lazy">
-                        <figcaption class="image-card-note">[Park training / whiteboard / outdoor debrief image]</figcaption>
-                    </figure>
-
-                    <figure class="image-card">
-                        <img src="image/immersions/immersion-grid-3.webp" alt="Families or activity during immersion" loading="lazy">
-                        <figcaption class="image-card-note">[Soccer field / family engagement / practice image]</figcaption>
-                    </figure>
-
-                    <figure class="image-card">
-                        <img src="image/immersions/immersion-grid-4.webp" alt="Simple church in a home" loading="lazy">
-                        <figcaption class="image-card-note">[Living room / meal / simple church image]</figcaption>
-                    </figure>
-                </div>
-            </div>
-
-            <div class="who-section">
-                <p class="eyebrow">Why this works</p>
-                <h2 class="content-h2">People stop guessing when they can finally see it.</h2>
-                <p class="section-anchor-line">That is the shift this page is trying to create.</p>
-
-                <div class="comparison-grid">
-                    <div class="comparison-card">
-                        <h3>Typical training</h3>
-                        <ul class="comparison-list">
-                            <li>Concepts can stay theoretical</li>
-                            <li>You may leave inspired but still unclear</li>
-                            <li>Hard to picture what it looks like on a Tuesday</li>
-                            <li>Easy to separate training from real life</li>
-                        </ul>
-                    </div>
-
-                    <div class="comparison-card">
-                        <h3>Immersion</h3>
-                        <ul class="comparison-list">
-                            <li>You see real rhythms in real settings</li>
-                            <li>You ask questions in the moment</li>
-                            <li>You watch both wins and problems</li>
-                            <li>You leave with a clearer picture of how to do it</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <p class="content-p" style="margin-top: 1.2rem;">Not more inspiration detached from real life. Clearer sight. Clearer next steps. A better sense of what this could actually look like where you are.</p>
-            </div>
-
-            <div class="who-section">
-                <p class="eyebrow">Who this is for</p>
-                <h3 class="content-h3">This is for people who want more than ideas.</h3>
-                <p class="section-anchor-line">Hungry. Teachable. Ready to see it up close.</p>
-                <ul class="takeaway-list">
-                    <li>
-                        <span class="take-check" aria-hidden="true">&#10003;</span>
-                        <span>People trying to make disciples in everyday life.</span>
-                    </li>
-                    <li>
-                        <span class="take-check" aria-hidden="true">&#10003;</span>
-                        <span>Leaders who want to connect tools to lived reality.</span>
-                    </li>
-                    <li>
-                        <span class="take-check" aria-hidden="true">&#10003;</span>
-                        <span>Teams who want to see a model up close instead of guessing.</span>
-                    </li>
-                    <li>
-                        <span class="take-check" aria-hidden="true">&#10003;</span>
-                        <span>People who are teachable, serious, and willing to learn in a real setting.</span>
-                    </li>
-                </ul>
-                <p class="content-p" style="margin-top: 1rem;">Probably not for people looking for a polished conference vibe with zero mess and zero friction.</p>
-            </div>
-
-        </div>
-    </section>
-
-    <section class="pathway-section">
-        <div class="pathway-inner">
-            <p class="eyebrow" style="text-align:center;">3 step immersion pathway</p>
-            <h2 class="pathway-title">How this works</h2>
-            <p class="pathway-intro">Keep this simple. Help people understand the journey fast.</p>
-
-            <div class="pathway-grid">
-                <article class="pathway-card">
-                    <div class="pathway-step">1</div>
-                    <h3>Choose an immersion.</h3>
-                    <p>Find a city, date, and setting that fits. Start with the next available immersion or join the waitlist for future ones.</p>
-                </article>
-
-                <article class="pathway-card">
-                    <div class="pathway-step">2</div>
-                    <h3>Step into real rhythms.</h3>
-                    <p>Watch, ask, learn, and process alongside experienced practitioners in active everyday environments.</p>
-                </article>
-
-                <article class="pathway-card">
-                    <div class="pathway-step">3</div>
-                    <h3>Go home with clearer next steps.</h3>
-                    <p>Leave with a sharper picture of what this could look like in your own life, team, neighborhood, or city.</p>
-                </article>
-            </div>
-        </div>
-    </section>
-
     <section class="testimonials-section">
-        <div class="testimonials-container">
-            <p class="eyebrow" style="text-align:center;">What people said</p>
-            <h2 class="testimonials-title">What people walk away with</h2>
-            <p class="testimonials-intro">Use real quotes here. Best ones are the quotes where people say they finally saw it, felt like they could do it, or understood how it fits real life.</p>
+        <div class="testimonials-inner">
+            <span class="eyebrow" style="text-align:center;">Proof</span>
+            <h2 class="section-title" style="text-align:center; margin-left:auto; margin-right:auto;">What people walk away with</h2>
 
-            <div class="testimonials-list">
+            <div class="testimonials-grid">
                 <article class="testimonial-card">
-                    <div class="testimonial-stars" aria-hidden="true">★★★★★</div>
-                    <p class="testimonial-quote">“[Testimonial about finally seeing what this looks like in real life and how it felt more practical than a normal training.]”</p>
-                    <p class="testimonial-attribution">[Name or First Name], [City / Role]</p>
+                    <p class="testimonial-quote">“I had heard this stuff before. This was the first time I could actually picture doing it.”</p>
+                    <p class="testimonial-attribution">[Name], [City / Role]</p>
                 </article>
 
                 <article class="testimonial-card">
-                    <div class="testimonial-stars" aria-hidden="true">★★★★★</div>
-                    <p class="testimonial-quote">“[Testimonial about the immersion making someone feel like they could actually do this in their own context.]”</p>
-                    <p class="testimonial-attribution">[Name or First Name], [City / Role]</p>
+                    <p class="testimonial-quote">“What helped most was seeing the normal parts, not just the wins.”</p>
+                    <p class="testimonial-attribution">[Name], [City / Role]</p>
                 </article>
 
                 <article class="testimonial-card">
-                    <div class="testimonial-stars" aria-hidden="true">★★★★★</div>
-                    <p class="testimonial-quote">“[Testimonial about the value of seeing homes, workplaces, debrief, prayer, and simple church rhythms instead of just hearing about them.]”</p>
-                    <p class="testimonial-attribution">[Name or First Name], [City / Role]</p>
+                    <p class="testimonial-quote">“I left with a much clearer sense of what needs to change back home.”</p>
+                    <p class="testimonial-attribution">[Name], [City / Role]</p>
                 </article>
             </div>
         </div>
     </section>
 
-    <section class="event-body" style="padding-top: 3.25rem;">
-        <div class="event-body-inner">
-            <div class="format-note" id="faq">
+    <section class="page-section" id="faq">
+        <div class="page-section-inner">
+            <div class="faq-box">
                 <strong>Common questions</strong>
                 <ul class="faq-list">
                     <li class="faq-item">
                         <button class="faq-btn" aria-expanded="false">
-                            <span>Is this a conference?</span>
+                            <span>Do I need prior experience?</span>
                             <span class="faq-icon" aria-hidden="true">+</span>
                         </button>
                         <div class="faq-answer" hidden>
-                            No. There may be teaching, but this is more hands-on, more relational, and more grounded in real rhythms than a normal conference.
+                            No. But you should come ready to learn, observe, and engage.
                         </div>
                     </li>
 
                     <li class="faq-item">
                         <button class="faq-btn" aria-expanded="false">
-                            <span>Will there still be teaching?</span>
+                            <span>Is there teaching?</span>
                             <span class="faq-icon" aria-hidden="true">+</span>
                         </button>
                         <div class="faq-answer" hidden>
-                            Yes. But not just teaching. Expect observation, conversations, debrief, and practical processing alongside the input.
-                        </div>
-                    </li>
-
-                    <li class="faq-item">
-                        <button class="faq-btn" aria-expanded="false">
-                            <span>Do I need experience to come?</span>
-                            <span class="faq-icon" aria-hidden="true">+</span>
-                        </button>
-                        <div class="faq-answer" hidden>
-                            No. You do not need to have everything figured out. It helps if you are serious, hungry, and willing to learn.
+                            Yes. But this is built around seeing, asking, and debriefing, not just listening.
                         </div>
                     </li>
 
@@ -1307,27 +878,27 @@
                             <span class="faq-icon" aria-hidden="true">+</span>
                         </button>
                         <div class="faq-answer" hidden>
-                            Yes. Teams can be a great fit, especially if you want shared language and shared vision coming out of the experience.
+                            Yes. Teams are welcome.
                         </div>
                     </li>
 
                     <li class="faq-item">
                         <button class="faq-btn" aria-expanded="false">
-                            <span>What does it cost?</span>
+                            <span>Do you provide travel or lodging?</span>
                             <span class="faq-icon" aria-hidden="true">+</span>
                         </button>
                         <div class="faq-answer" hidden>
-                            Set that per immersion. Some may be free. Others may have a simple registration cost. Keep the answer concrete once details are final.
+                            No. Most attendees arrange that separately.
                         </div>
                     </li>
 
                     <li class="faq-item">
                         <button class="faq-btn" aria-expanded="false">
-                            <span>Do I arrange my own travel and lodging?</span>
+                            <span>How many people can come?</span>
                             <span class="faq-icon" aria-hidden="true">+</span>
                         </button>
                         <div class="faq-answer" hidden>
-                            In most cases, yes. If you are helping people with host homes, recommended lodging, or travel info, add that here.
+                            Limited spots. Keep the group small enough to stay hands-on.
                         </div>
                     </li>
                 </ul>
@@ -1335,36 +906,11 @@
         </div>
     </section>
 
-    <div class="social-proof">
-        <div class="social-proof-inner">
-            <div class="social-proof-icon">
-                <img src="image/immersions/immersion-thumb.webp" alt="Small immersion photo" loading="lazy">
-            </div>
-            <p class="social-proof-text">
-                These immersions are not built from theory alone. They grow out of real rhythms already happening in <strong>homes, workplaces, parks, neighborhoods, and city life</strong>. That is why they help people see the work more clearly and take it home with them.
-            </p>
-        </div>
-    </div>
-
-    <section class="visual-story">
-        <div class="visual-story-inner">
-            <p class="eyebrow">The environment matters</p>
-            <h2 class="content-h2">Homes. Workplaces. Parks. Coffee shops. Real people.</h2>
-            <p class="section-anchor-line">This is where the ideas finally get skin on them.</p>
-            <p class="content-p">This is what immersion is for. Not a staged model. Not a curated highlight reel. A chance to step into the real environment where disciple-making is happening and watch how the rhythms actually hold together.</p>
-
-            <div class="visual-story-image">
-                <img src="image/immersions/immersion-wide.webp" alt="Wide image showing real immersion setting" loading="lazy">
-            </div>
-        </div>
-    </section>
-
     <section class="bottom-cta">
         <div class="bottom-cta-inner">
-            <h2 class="bottom-cta-headline">Stop guessing. Start seeing what this can look like for real.</h2>
+            <h2 class="bottom-cta-headline">Stop guessing what this looks like.</h2>
             <div class="bottom-cta-body">
-                <p>If you have heard the ideas but have never seen the rhythms up close, an immersion closes that gap.</p>
-                <p>Come watch. Ask questions. Process what you saw. Leave with a clearer picture of what this could look like where you are.</p>
+                <p>If you’ve heard the ideas but still need to see the rhythms up close, this is the bridge.</p>
             </div>
             <a class="btn-cta" href="#next-immersion">Apply for the Next Immersion</a>
         </div>
