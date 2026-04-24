@@ -810,6 +810,21 @@ img {
     }
 }
 
+.lab-sub {
+    font-size: 0.98rem;
+    font-weight: 750;
+    line-height: 1.45;
+    color: #10281f;
+    margin: -0.35rem 0 0.9rem;
+}
+
+.lab-meta {
+    font-size: 0.82rem;
+    font-weight: 750;
+    color: #5a6b65;
+    margin-top: 1rem;
+    letter-spacing: 0.02em;
+}
 
 /* -----------------------------------------------
    9. TESTIMONIALS
