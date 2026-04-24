@@ -66,20 +66,20 @@ create index if not exists idx_immersion_applications_immersion_status
 -- ---------------------------------------------------------------------------
 -- 3. View: immersions_with_availability
 -- ---------------------------------------------------------------------------
+-- seats_remaining = capacity minus ALL applications regardless of status.
+-- Deleting a declined/cancelled row in Supabase restores the seat.
 
 create or replace view immersions_with_availability as
 select
   i.*,
-  coalesce(stats.approved_count,  0) as approved_count,
-  coalesce(stats.submitted_count, 0) as submitted_count,
-  i.capacity - coalesce(stats.approved_count, 0) as seats_remaining,
-  (i.capacity - coalesce(stats.approved_count, 0)) > 0 as has_availability
+  coalesce(stats.application_count, 0)                    as application_count,
+  i.capacity - coalesce(stats.application_count, 0)       as seats_remaining,
+  (i.capacity - coalesce(stats.application_count, 0)) > 0 as has_availability
 from immersions i
 left join (
   select
     immersion_id,
-    count(*) filter (where status = 'approved')  as approved_count,
-    count(*) filter (where status = 'submitted') as submitted_count
+    count(*) as application_count
   from immersion_applications
   group by immersion_id
 ) stats on stats.immersion_id = i.id;
