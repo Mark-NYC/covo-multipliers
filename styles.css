@@ -356,6 +356,27 @@ img {
    6. WHY THIS EXISTS
 ----------------------------------------------- */
 
+.why-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    background: #f3f7f5;
+    border: 1px solid #dbe8e2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.why-icon svg {
+    width: 25px;
+    height: 25px;
+    stroke: #1b4d3e;
+    stroke-width: 1.9;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
 .why-section {
     padding: 4.5rem 2rem;
     background: #f8faf9;
