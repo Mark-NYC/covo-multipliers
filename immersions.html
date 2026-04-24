@@ -1116,40 +1116,116 @@
       }
     }
 
-    /* ── Application form ────────────────────────── */
+    /* ── Application modal ───────────────────────── */
 
-    .apply-form-section {
-      background: #f8faf9;
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 900;
+      background: rgba(10, 20, 15, 0.72);
+      backdrop-filter: blur(3px);
+      -webkit-backdrop-filter: blur(3px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-y: auto;
+      padding: 2rem 1rem;
     }
 
-    .apply-form-inner {
-      max-width: 760px;
-    }
-
-    .apply-form-card {
-      background: #ffffff;
-      border-radius: 16px;
-      border: 1px solid #e2eae6;
-      box-shadow: 0 4px 18px rgba(16, 40, 31, 0.06);
-      padding: 2.25rem 2.5rem;
-      margin-top: 1.8rem;
-    }
-
-    .selected-immersion-notice {
-      background: #f0fdf4;
-      border: 1px solid #bbf7d0;
-      border-radius: 10px;
-      padding: 0.72rem 1rem;
-      margin-bottom: 1.5rem;
-      font-size: 0.9rem;
-      color: #15803d;
-      font-weight: 600;
+    .modal-overlay[hidden] {
       display: none;
     }
 
-    .selected-immersion-notice.is-visible {
-      display: block;
+    .modal-panel {
+      background: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 24px 64px rgba(10, 20, 15, 0.32);
+      width: 100%;
+      max-width: 680px;
+      padding: 2rem 2.5rem 2.5rem;
+      flex-shrink: 0;
+      animation: modal-in 0.2s ease;
+      margin: auto;
     }
+
+    @keyframes modal-in {
+      from { opacity: 0; transform: translateY(14px) scale(0.975); }
+      to   { opacity: 1; transform: translateY(0)    scale(1); }
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      padding-bottom: 1.25rem;
+      border-bottom: 1px solid #e2eae6;
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-heading {
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: #10281f;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+      margin: 0;
+      padding-top: 0.2rem;
+    }
+
+    .modal-close-btn {
+      flex-shrink: 0;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1.5px solid #e2eae6;
+      background: #f8faf9;
+      color: #5a6b65;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+      font-family: inherit;
+    }
+
+    .modal-close-btn:hover {
+      background: #10281f;
+      color: #ffffff;
+      border-color: #10281f;
+    }
+
+    .modal-close-btn:focus-visible {
+      outline: 3px solid rgba(27, 77, 62, 0.3);
+      outline-offset: 2px;
+    }
+
+    .modal-success-actions {
+      margin-top: 1.5rem;
+    }
+
+    @media (max-width: 680px) {
+      .modal-panel {
+        padding: 1.5rem 1.25rem 2rem;
+        border-radius: 16px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .modal-overlay {
+        align-items: stretch;
+        padding: 0;
+      }
+
+      .modal-panel {
+        border-radius: 20px 20px 0 0;
+        margin-top: auto;
+        margin-bottom: 0;
+        max-width: 100%;
+      }
+    }
+
+    /* ── Application form fields ─────────────────── */
 
     .form-section-label {
       display: block;
@@ -1292,10 +1368,6 @@
     }
 
     @media (max-width: 680px) {
-      .apply-form-card {
-        padding: 1.5rem 1.25rem;
-      }
-
       .form-row {
         grid-template-columns: 1fr;
       }
@@ -1635,110 +1707,6 @@
     </div>
   </section>
 
-  <section class="page-section apply-form-section" id="apply">
-    <div class="page-section-inner apply-form-inner">
-      <span class="eyebrow">Apply</span>
-      <h2 class="section-title">Apply for an immersion</h2>
-      <p class="section-copy">Fill out the form below. We review every application and will follow up by email.</p>
-
-      <div id="form-success" class="form-success-msg" hidden>
-        Application received. Check your email for confirmation. We&rsquo;ll follow up soon with next steps.
-      </div>
-
-      <form id="immersion-apply-form" class="apply-form-card" novalidate>
-        <input type="hidden" id="apply-immersion-id" name="immersion_id" value="">
-
-        <div id="selected-immersion-notice" class="selected-immersion-notice">
-          Applying for: <span id="selected-immersion-name"></span>
-        </div>
-
-        <span class="form-section-label">About you</span>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label for="f-name">Full name <span aria-hidden="true">*</span></label>
-            <input type="text" id="f-name" name="name" autocomplete="name" required placeholder="Jane Smith">
-          </div>
-
-          <div class="form-group">
-            <label for="f-email">Email <span aria-hidden="true">*</span></label>
-            <input type="email" id="f-email" name="email" autocomplete="email" required placeholder="jane@example.com">
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label for="f-phone">Phone</label>
-            <input type="tel" id="f-phone" name="phone" autocomplete="tel" placeholder="+1 (555) 000-0000">
-          </div>
-
-          <div class="form-group">
-            <label for="f-city-state">City &amp; state <span aria-hidden="true">*</span></label>
-            <input type="text" id="f-city-state" name="city_state" required placeholder="Brooklyn, NY">
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="f-church-org">Church or organization</label>
-          <input type="text" id="f-church-org" name="church_org" placeholder="Redemption Church">
-        </div>
-
-        <hr class="form-divider">
-        <span class="form-section-label">Your team</span>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label for="f-team-status">Coming as part of a team? <span aria-hidden="true">*</span></label>
-            <select id="f-team-status" name="team_status" required>
-              <option value="" disabled selected>Select one&hellip;</option>
-              <option value="individual">Coming individually</option>
-              <option value="team">Coming with a team</option>
-              <option value="unsure">Not sure yet</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label for="f-team-size">Team size (including you) <span aria-hidden="true">*</span></label>
-            <input type="number" id="f-team-size" name="team_size" min="1" max="20" value="1" required>
-          </div>
-        </div>
-
-        <hr class="form-divider">
-        <span class="form-section-label">Your context</span>
-
-        <div class="form-group">
-          <label for="f-why-coming">Why are you coming? <span aria-hidden="true">*</span></label>
-          <textarea id="f-why-coming" name="why_coming" rows="3" required placeholder="What&rsquo;s driving you to apply for this immersion?"></textarea>
-        </div>
-
-        <div class="form-group">
-          <label for="f-hoping-to-learn">What are you hoping to learn or take back? <span aria-hidden="true">*</span></label>
-          <textarea id="f-hoping-to-learn" name="hoping_to_learn" rows="3" required placeholder="What would make this worth the trip?"></textarea>
-        </div>
-
-        <div class="form-group">
-          <label for="f-prior-training">Prior training or background</label>
-          <textarea id="f-prior-training" name="prior_training" rows="2" placeholder="Any training you&rsquo;ve done related to disciple-making, Covo, etc."></textarea>
-        </div>
-
-        <hr class="form-divider">
-
-        <div class="form-group">
-          <div class="form-checkbox-group">
-            <input type="checkbox" id="f-lodging" name="lodging_acknowledged">
-            <label for="f-lodging">I understand that lodging and travel are arranged separately and are not included in the immersion.</label>
-          </div>
-        </div>
-
-        <div id="form-error" class="form-error-msg" hidden></div>
-
-        <div class="form-submit-row">
-          <button type="submit" class="btn-cta btn-submit">Submit Application</button>
-        </div>
-      </form>
-    </div>
-  </section>
-
   <section class="testimonials-section">
     <div class="testimonials-inner">
       <span class="eyebrow" style="text-align:center;">Proof</span>
@@ -1853,6 +1821,127 @@
       <a class="btn-cta" href="#open-immersions">Apply for the Next Immersion</a>
     </div>
   </section>
+
+  <!-- ── Application modal ───────────────────────── -->
+  <div
+    id="apply-modal"
+    class="modal-overlay"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modal-heading"
+    hidden
+  >
+    <div class="modal-panel" id="modal-panel">
+      <div class="modal-header">
+        <h2 id="modal-heading" class="modal-heading">Apply for this Immersion</h2>
+        <button
+          class="modal-close-btn"
+          id="modal-close-btn"
+          type="button"
+          aria-label="Close application form"
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M2 2l12 12M14 2L2 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <div id="modal-success" class="form-success-msg" hidden>
+        <p style="margin:0 0 0.25rem;">Application received. Check your email for confirmation. We&rsquo;ll follow up soon with next steps.</p>
+        <div class="modal-success-actions">
+          <button type="button" class="btn-cta" id="modal-success-close-btn">Close</button>
+        </div>
+      </div>
+
+      <form id="immersion-apply-form" novalidate>
+        <input type="hidden" id="apply-immersion-id" name="immersion_id" value="">
+
+        <span class="form-section-label">About you</span>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="f-name">Full name <span aria-hidden="true">*</span></label>
+            <input type="text" id="f-name" name="name" autocomplete="name" required placeholder="Jane Smith">
+          </div>
+
+          <div class="form-group">
+            <label for="f-email">Email <span aria-hidden="true">*</span></label>
+            <input type="email" id="f-email" name="email" autocomplete="email" required placeholder="jane@example.com">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="f-phone">Phone</label>
+            <input type="tel" id="f-phone" name="phone" autocomplete="tel" placeholder="+1 (555) 000-0000">
+          </div>
+
+          <div class="form-group">
+            <label for="f-city-state">City &amp; state <span aria-hidden="true">*</span></label>
+            <input type="text" id="f-city-state" name="city_state" required placeholder="Brooklyn, NY">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="f-church-org">Church or organization</label>
+          <input type="text" id="f-church-org" name="church_org" placeholder="Redemption Church">
+        </div>
+
+        <hr class="form-divider">
+        <span class="form-section-label">Your team</span>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="f-team-status">Coming as part of a team? <span aria-hidden="true">*</span></label>
+            <select id="f-team-status" name="team_status" required>
+              <option value="" disabled selected>Select one&hellip;</option>
+              <option value="individual">Coming individually</option>
+              <option value="team">Coming with a team</option>
+              <option value="unsure">Not sure yet</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="f-team-size">Team size (including you) <span aria-hidden="true">*</span></label>
+            <input type="number" id="f-team-size" name="team_size" min="1" max="20" value="1" required>
+          </div>
+        </div>
+
+        <hr class="form-divider">
+        <span class="form-section-label">Your context</span>
+
+        <div class="form-group">
+          <label for="f-why-coming">Why are you coming? <span aria-hidden="true">*</span></label>
+          <textarea id="f-why-coming" name="why_coming" rows="3" required placeholder="What&rsquo;s driving you to apply for this immersion?"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="f-hoping-to-learn">What are you hoping to learn or take back? <span aria-hidden="true">*</span></label>
+          <textarea id="f-hoping-to-learn" name="hoping_to_learn" rows="3" required placeholder="What would make this worth the trip?"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="f-prior-training">Prior training or background</label>
+          <textarea id="f-prior-training" name="prior_training" rows="2" placeholder="Any training you&rsquo;ve done related to disciple-making, Covo, etc."></textarea>
+        </div>
+
+        <hr class="form-divider">
+
+        <div class="form-group">
+          <div class="form-checkbox-group">
+            <input type="checkbox" id="f-lodging" name="lodging_acknowledged">
+            <label for="f-lodging">I understand that lodging and travel are arranged separately and are not included in the immersion.</label>
+          </div>
+        </div>
+
+        <div id="form-error" class="form-error-msg" hidden></div>
+
+        <div class="form-submit-row">
+          <button type="submit" class="btn-cta btn-submit">Submit Application</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <footer class="site-footer">
     <a class="footer-brand" href="/">Covo Multipliers</a>
@@ -2038,12 +2127,14 @@
     goToSlide(0, false);
     startSlider();
 
-    /* ── Immersion cards + application form ──────────────── */
+    /* ── Immersion cards + application modal ─────────────── */
 
     (function () {
       var SUPABASE_URL = 'https://mryjrvinzbxebzvxtggi.supabase.co';
       var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1yeWpydmluemJ4ZWJ6dnh0Z2dpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYyNzQ3MzksImV4cCI6MjA5MTg1MDczOX0.U1JJQTBVKePsVFXr2oFRCdUZasWaZiTQg6g8QrFdRyw';
       var EDGE_FUNCTION_URL = 'https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1/immersion-apply';
+
+      var _lastFocusedBtn = null;
 
       function escHtml(str) {
         if (str == null) return '';
@@ -2051,7 +2142,7 @@
           .replace(/&/g, '&amp;')
           .replace(/</g, '&lt;')
           .replace(/>/g, '&gt;')
-          .replace(/"/g, '&quot;')
+          .replace(/”/g, '&quot;')
           .replace(/'/g, '&#x27;');
       }
 
@@ -2076,33 +2167,34 @@
         var count = Math.min(remaining, 10);
         var pips = '';
         for (var i = 0; i < count; i++) {
-          pips += '<span class="seat-pip" aria-hidden="true"></span>';
+          pips += '<span class=”seat-pip” aria-hidden=”true”></span>';
         }
         var label = remaining === 1 ? '1 seat remaining' : remaining + ' seats remaining';
-        return '<div class="seat-pips">' + pips + '</div><span class="seat-label">' + label + '</span>';
+        return '<div class=”seat-pips”>' + pips + '</div><span class=”seat-label”>' + label + '</span>';
       }
 
       function buildCard(im) {
         var seats = Number(im.seats_remaining);
         var isWaitlist = seats <= 0;
         var seatHtml = isWaitlist
-          ? '<span class="waitlist-badge">Waitlist open</span>'
+          ? '<span class=”waitlist-badge”>Waitlist open</span>'
           : buildSeatIndicator(seats);
         var dateStr = formatDates(im.start_date, im.end_date);
 
-        return '<article class="immersion-card">' +
-          '<h3 class="immersion-card-title">' + escHtml(im.title) + '</h3>' +
-          '<ul class="immersion-card-meta">' +
-            '<li><span class="meta-label">City</span><span class="meta-value">' + escHtml(im.city || '—') + '</span></li>' +
-            '<li><span class="meta-label">Dates</span><span class="meta-value">' + escHtml(dateStr) + '</span></li>' +
-            '<li><span class="meta-label">Format</span><span class="meta-value">' + escHtml(im.format || '—') + '</span></li>' +
-            '<li><span class="meta-label">Focus</span><span class="meta-value">' + escHtml(im.platform_focus || '—') + '</span></li>' +
+        return '<article class=”immersion-card”>' +
+          '<h3 class=”immersion-card-title”>' + escHtml(im.title) + '</h3>' +
+          '<ul class=”immersion-card-meta”>' +
+            '<li><span class=”meta-label”>City</span><span class=”meta-value”>' + escHtml(im.city || '—') + '</span></li>' +
+            '<li><span class=”meta-label”>Dates</span><span class=”meta-value”>' + escHtml(dateStr) + '</span></li>' +
+            '<li><span class=”meta-label”>Format</span><span class=”meta-value”>' + escHtml(im.format || '—') + '</span></li>' +
+            '<li><span class=”meta-label”>Focus</span><span class=”meta-value”>' + escHtml(im.platform_focus || '—') + '</span></li>' +
           '</ul>' +
-          '<div class="seat-indicator">' + seatHtml + '</div>' +
-          '<div class="immersion-card-cta">' +
-            '<button class="btn-apply' + (isWaitlist ? ' is-waitlist' : '') + '" type="button"' +
-              ' data-immersion-id="' + escHtml(String(im.id)) + '"' +
-              ' data-immersion-title="' + escHtml(im.title) + '">' +
+          '<div class=”seat-indicator”>' + seatHtml + '</div>' +
+          '<div class=”immersion-card-cta”>' +
+            '<button class=”btn-apply' + (isWaitlist ? ' is-waitlist' : '') + '” type=”button”' +
+              ' data-immersion-id=”' + escHtml(String(im.id)) + '”' +
+              ' data-immersion-title=”' + escHtml(im.title) + '”' +
+              ' data-waitlist=”' + (isWaitlist ? 'true' : 'false') + '”>' +
               (isWaitlist ? 'Join the waitlist' : 'Apply for this immersion') +
             '</button>' +
           '</div>' +
@@ -2112,7 +2204,12 @@
       function attachCardHandlers(grid) {
         grid.querySelectorAll('.btn-apply').forEach(function (btn) {
           btn.addEventListener('click', function () {
-            selectImmersion(btn.dataset.immersionId, btn.dataset.immersionTitle);
+            openModal(
+              btn.dataset.immersionId,
+              btn.dataset.immersionTitle,
+              btn.dataset.waitlist === 'true',
+              btn
+            );
           });
         });
       }
@@ -2121,7 +2218,7 @@
         var grid = document.getElementById('immersion-cards-grid');
         if (!grid) return Promise.resolve();
 
-        grid.innerHTML = '<div class="immersion-cards-loading">Loading available immersions…</div>';
+        grid.innerHTML = '<div class=”immersion-cards-loading”>Loading available immersions…</div>';
 
         var url = new URL(SUPABASE_URL + '/rest/v1/immersions_with_availability');
         url.searchParams.set('select', '*');
@@ -2141,32 +2238,107 @@
           })
           .then(function (data) {
             if (!Array.isArray(data) || data.length === 0) {
-              grid.innerHTML = '<p class="immersion-cards-empty">No immersions are currently open. Check back soon.</p>';
+              grid.innerHTML = '<p class=”immersion-cards-empty”>No immersions are currently open. Check back soon.</p>';
               return;
             }
             grid.innerHTML = data.map(buildCard).join('');
             attachCardHandlers(grid);
           })
           .catch(function () {
-            grid.innerHTML = '<p class="immersion-cards-empty">Unable to load immersions right now. Please try again shortly.</p>';
+            grid.innerHTML = '<p class=”immersion-cards-empty”>Unable to load immersions right now. Please try again shortly.</p>';
           });
       }
 
-      function selectImmersion(id, title) {
-        var hiddenField = document.getElementById('apply-immersion-id');
-        var notice = document.getElementById('selected-immersion-notice');
-        var nameEl = document.getElementById('selected-immersion-name');
+      function openModal(id, title, isWaitlist, triggerBtn) {
+        var modal   = document.getElementById('apply-modal');
+        var heading = document.getElementById('modal-heading');
+        var hidden  = document.getElementById('apply-immersion-id');
+        var form    = document.getElementById('immersion-apply-form');
+        var success = document.getElementById('modal-success');
+        var errorEl = document.getElementById('form-error');
+        var submitBtn = form ? form.querySelector('.btn-submit') : null;
 
-        if (hiddenField) hiddenField.value = id;
-        if (notice && nameEl) {
-          nameEl.textContent = title;
-          notice.classList.add('is-visible');
+        if (hidden)  hidden.value = id;
+        if (heading) heading.textContent = isWaitlist
+          ? 'Join Waitlist — ' + title
+          : 'Apply for ' + title;
+
+        /* reset form to pristine state */
+        if (form) {
+          form.reset();
+          form.hidden = false;
+        }
+        if (success) success.hidden = true;
+        if (errorEl) errorEl.hidden = true;
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Submit Application';
         }
 
-        var formSection = document.getElementById('apply');
-        if (formSection) {
-          formSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        _lastFocusedBtn = triggerBtn || document.activeElement;
+
+        modal.hidden = false;
+        document.body.style.overflow = 'hidden';
+
+        /* move focus into modal */
+        var firstFocusable = modal.querySelector(
+          'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex=”-1”])'
+        );
+        if (firstFocusable) firstFocusable.focus();
+      }
+
+      function closeModal() {
+        var modal = document.getElementById('apply-modal');
+        modal.hidden = true;
+        document.body.style.overflow = '';
+        if (_lastFocusedBtn && _lastFocusedBtn.focus) {
+          _lastFocusedBtn.focus();
         }
+        _lastFocusedBtn = null;
+      }
+
+      /* close button */
+      var closeBtn = document.getElementById('modal-close-btn');
+      if (closeBtn) closeBtn.addEventListener('click', closeModal);
+
+      /* success-state close button */
+      var successCloseBtn = document.getElementById('modal-success-close-btn');
+      if (successCloseBtn) {
+        successCloseBtn.addEventListener('click', closeModal);
+      }
+
+      /* click outside panel */
+      var modal = document.getElementById('apply-modal');
+      if (modal) {
+        modal.addEventListener('click', function (e) {
+          if (e.target === modal) closeModal();
+        });
+      }
+
+      /* Escape key */
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+          var m = document.getElementById('apply-modal');
+          if (m && !m.hidden) closeModal();
+        }
+      });
+
+      /* focus trap inside modal */
+      if (modal) {
+        modal.addEventListener('keydown', function (e) {
+          if (e.key !== 'Tab') return;
+          var focusable = Array.from(modal.querySelectorAll(
+            'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex=”-1”])'
+          )).filter(function (el) { return !el.hidden && el.offsetParent !== null; });
+          if (!focusable.length) return;
+          var first = focusable[0];
+          var last  = focusable[focusable.length - 1];
+          if (e.shiftKey) {
+            if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+          } else {
+            if (document.activeElement === last)  { e.preventDefault(); first.focus(); }
+          }
+        });
       }
 
       var applyForm = document.getElementById('immersion-apply-form');
@@ -2174,17 +2346,15 @@
         applyForm.addEventListener('submit', function (e) {
           e.preventDefault();
 
-          var form = e.target;
+          var form      = e.target;
           var submitBtn = form.querySelector('.btn-submit');
-          var errorEl = document.getElementById('form-error');
-          var successEl = document.getElementById('form-success');
+          var errorEl   = document.getElementById('form-error');
+          var successEl = document.getElementById('modal-success');
 
           var immersionId = form.immersion_id.value;
           if (!immersionId) {
-            errorEl.textContent = 'Please select an immersion by clicking “Apply for this immersion” on one of the cards above.';
+            errorEl.textContent = 'No immersion selected. Please close and click “Apply for this immersion” on a card.';
             errorEl.hidden = false;
-            var cards = document.getElementById('open-immersions');
-            if (cards) cards.scrollIntoView({ behavior: 'smooth', block: 'start' });
             return;
           }
 
@@ -2193,17 +2363,17 @@
           errorEl.hidden = true;
 
           var payload = {
-            immersion_id: immersionId,
-            name: form.name.value.trim(),
-            email: form.email.value.trim(),
-            phone: form.phone.value.trim(),
-            city_state: form.city_state.value.trim(),
-            church_org: form.church_org.value.trim(),
-            team_status: form.team_status.value,
-            team_size: Number(form.team_size.value) || 1,
-            why_coming: form.why_coming.value.trim(),
-            hoping_to_learn: form.hoping_to_learn.value.trim(),
-            prior_training: form.prior_training.value.trim(),
+            immersion_id:        immersionId,
+            name:                form.name.value.trim(),
+            email:               form.email.value.trim(),
+            phone:               form.phone.value.trim(),
+            city_state:          form.city_state.value.trim(),
+            church_org:          form.church_org.value.trim(),
+            team_status:         form.team_status.value,
+            team_size:           Number(form.team_size.value) || 1,
+            why_coming:          form.why_coming.value.trim(),
+            hoping_to_learn:     form.hoping_to_learn.value.trim(),
+            prior_training:      form.prior_training.value.trim(),
             lodging_acknowledged: form.lodging_acknowledged.checked,
           };
 
@@ -2221,10 +2391,13 @@
               return res;
             })
             .then(function () {
+              form.reset();
               form.hidden = true;
-              successEl.hidden = false;
-              successEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+              if (successEl) successEl.hidden = false;
               loadImmersionCards();
+              /* focus the close button inside the success message */
+              var sc = document.getElementById('modal-success-close-btn');
+              if (sc) sc.focus();
             })
             .catch(function (err) {
               errorEl.textContent = err.message || 'Something went wrong. Please try again.';
