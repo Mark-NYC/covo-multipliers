@@ -6,6 +6,3 @@ verify_jwt = false
 
 [functions.contact]
 verify_jwt = false
-
-[functions.notify-lab-interest]
-verify_jwt = false
