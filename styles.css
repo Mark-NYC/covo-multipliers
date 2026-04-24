@@ -692,7 +692,127 @@ img {
 
 
 /* -----------------------------------------------
-   8. TESTIMONIALS
+   8. LAB INTEREST CAPTURE
+----------------------------------------------- */
+
+.lab-interest-section {
+    padding: 3.5rem 2rem;
+    background: #ffffff;
+    border-top: 1px solid #e7eeea;
+    border-bottom: 1px solid #e7eeea;
+}
+
+.lab-interest-container {
+    max-width: 540px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.lab-interest-title {
+    font-size: clamp(1.5rem, 2.7vw, 2rem);
+    font-weight: 900;
+    color: #10281f;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+}
+
+.lab-interest-copy {
+    font-size: 1rem;
+    color: #52645d;
+    line-height: 1.65;
+    margin-bottom: 1.5rem;
+}
+
+.lab-interest-form {
+    display: flex;
+    gap: 0.6rem;
+    justify-content: center;
+}
+
+.lab-interest-input {
+    flex: 1;
+    min-width: 0;
+    padding: 0.7rem 1.1rem;
+    border: 1.5px solid #c5d5cd;
+    border-radius: 999px;
+    font-size: 0.95rem;
+    color: #1a1a1a;
+    background: #ffffff;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.lab-interest-input:focus {
+    border-color: #1b4d3e;
+    box-shadow: 0 0 0 3px rgba(27, 77, 62, 0.1);
+}
+
+.lab-interest-input::placeholder {
+    color: #8fa59c;
+}
+
+.lab-interest-submit {
+    padding: 0.7rem 1.5rem;
+    border-radius: 999px;
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: #ffffff;
+    background: #1b4d3e;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.lab-interest-submit:hover {
+    background: #10281f;
+    transform: translateY(-1px);
+}
+
+.lab-interest-submit:focus-visible {
+    outline: 3px solid #dcb55a;
+    outline-offset: 3px;
+}
+
+.lab-interest-submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.lab-interest-message {
+    margin-top: 1rem;
+    font-size: 0.92rem;
+    line-height: 1.5;
+    min-height: 1.4em;
+}
+
+.lab-interest-message.success {
+    color: #1b4d3e;
+    font-weight: 600;
+}
+
+.lab-interest-message.error {
+    color: #b91c1c;
+}
+
+@media (max-width: 480px) {
+    .lab-interest-section {
+        padding: 2.5rem 1.25rem;
+    }
+
+    .lab-interest-form {
+        flex-direction: column;
+    }
+
+    .lab-interest-submit {
+        width: 100%;
+    }
+}
+
+
+/* -----------------------------------------------
+   9. TESTIMONIALS
 ----------------------------------------------- */
 
 .testimonials-section {
@@ -762,7 +882,7 @@ img {
 
 
 /* -----------------------------------------------
-   9. FOOTER
+   10. FOOTER
 ----------------------------------------------- */
 
 .site-footer {
@@ -818,7 +938,7 @@ img {
 
 
 /* -----------------------------------------------
-   10. RESPONSIVE
+   11. RESPONSIVE
 ----------------------------------------------- */
 
 @media (max-width: 900px) {

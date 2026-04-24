@@ -181,6 +181,26 @@
         </div>
     </section>
 
+    <section class="lab-interest-section">
+        <div class="lab-interest-container">
+            <h2 class="lab-interest-title">Can't make these dates?</h2>
+            <p class="lab-interest-copy">We run these regularly. Get the next labs when they open.</p>
+            <form class="lab-interest-form" id="lab-interest-form" novalidate>
+                <input
+                    class="lab-interest-input"
+                    type="email"
+                    id="lab-interest-email"
+                    name="email"
+                    placeholder="Email address"
+                    autocomplete="email"
+                    required
+                >
+                <button class="lab-interest-submit" type="submit">Notify Me</button>
+            </form>
+            <p class="lab-interest-message" id="lab-interest-message" aria-live="polite"></p>
+        </div>
+    </section>
+
     <section class="testimonials-section">
         <div class="testimonials-container">
             <h2 class="testimonials-title">What leaders are saying</h2>
@@ -310,6 +330,62 @@
         }
 
         document.addEventListener('DOMContentLoaded', loadLabSeats);
+
+        (function () {
+            const form        = document.getElementById('lab-interest-form');
+            const emailInput  = document.getElementById('lab-interest-email');
+            const messageEl   = document.getElementById('lab-interest-message');
+
+            if (!form) return;
+
+            const submitBtn = form.querySelector('button[type="submit"]');
+
+            form.addEventListener('submit', async function (e) {
+                e.preventDefault();
+                const email = emailInput.value.trim().toLowerCase();
+
+                if (!email) {
+                    show('Please enter your email address.', 'error');
+                    return;
+                }
+
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Saving…';
+                show('', '');
+
+                try {
+                    const res = await fetch(`${SUPABASE_URL}/rest/v1/lab_interest`, {
+                        method: 'POST',
+                        headers: {
+                            'apikey':        SUPABASE_ANON_KEY,
+                            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                            'Content-Type':  'application/json',
+                            'Prefer':        'return=minimal',
+                        },
+                        body: JSON.stringify({ email }),
+                    });
+
+                    if (res.status === 201 || res.status === 409) {
+                        // 201 = new row inserted; 409 = duplicate, already on the list
+                        form.style.display = 'none';
+                        show("You’re on the list. We’ll send the next labs when they open.", 'success');
+                    } else {
+                        show('Something went wrong. Please try again.', 'error');
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = 'Notify Me';
+                    }
+                } catch {
+                    show('Something went wrong. Please try again.', 'error');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Notify Me';
+                }
+            });
+
+            function show(text, type) {
+                messageEl.textContent = text;
+                messageEl.className   = 'lab-interest-message' + (type ? ' ' + type : '');
+            }
+        }());
     </script>
 
 </body>
