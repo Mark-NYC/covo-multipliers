@@ -595,6 +595,15 @@ img {
     line-height: 1.65;
 }
 
+.labs-explainer {
+    max-width: 560px;
+    margin: 0 auto 1.75rem;
+    font-size: 0.98rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.88);
+    text-align: center;
+}
+
 .labs-list {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
