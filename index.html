@@ -37,8 +37,9 @@
 
             <div class="hero-cta-row">
                 <a class="btn-pill btn-pill-primary" href="#upcoming-labs">Reserve a Free Lab Seat</a>
-                <a class="hero-secondary-link" href="/vision.html">Explore the Pathway</a>
             </div>
+
+            <p class="hero-microcopy">45 min. Live. Free. Max 25.</p>
 
             <div class="hero-social-proof">
                 <img src="image/social%20proof%20covo%20multipliers.webp" alt="Leaders learning together through Covo Multipliers">
@@ -59,12 +60,47 @@
         <div class="slideout-menu-links">
             <a href="/">Home</a>
             <a href="/vision.html">Vision &amp; Pathway</a>
-            <a href="/resources.html">Resources</a>
             <a href="/h3x.html">H3X Podcast</a>
             <a href="#upcoming-labs">Upcoming Labs</a>
             <a href="/contact.html">Contact</a>
         </div>
     </nav>
+
+    <section class="why-section">
+        <div class="why-container">
+            <p class="why-eyebrow">Why this exists</p>
+            <h2 class="why-title">Most Christians have been taught to split their life in two.</h2>
+
+            <div class="why-copy">
+                <p>
+                    Work over here. Church over there. Ministry if there is extra time left.
+                </p>
+                <p>
+                    But your normal week is not a distraction from disciple making. It is the place where disciple making has to become real.
+                </p>
+                <p>
+                    Covo Multipliers exists to help working leaders build a repeatable path for making disciples where they already live, work, and play.
+                </p>
+            </div>
+
+            <div class="why-cards">
+                <div class="why-card">
+                    <h3>You have a real job.</h3>
+                    <p>You do not need to quit it to live on mission.</p>
+                </div>
+
+                <div class="why-card">
+                    <h3>You have real relationships.</h3>
+                    <p>The people already around you are not random. They are the field.</p>
+                </div>
+
+                <div class="why-card">
+                    <h3>You need a real path.</h3>
+                    <p>Not more inspiration. Something simple enough to practice and pass on.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <section class="workplace-banner">
         <div class="workplace-content">
@@ -158,7 +194,6 @@
                 <a href="/">Home</a>
                 <a href="/vision.html">Vision &amp; Pathway</a>
                 <a href="/blog/">Blog</a>
-                <a href="/resources.html">Resources</a>
                 <a href="/h3x.html">H3X Podcast</a>
                 <a href="/contact.html">Contact</a>
             </nav>
@@ -232,6 +267,7 @@
         function closeMenu() {
             slideoutMenu.classList.remove('is-open');
             menuOverlay.classList.remove('is-open');
+            document.body.classList.remove('menu-open');
             document.body.classList.remove('menu-open');
             menuToggle.setAttribute('aria-expanded', 'false');
         }
