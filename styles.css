@@ -477,7 +477,8 @@ img {
 ----------------------------------------------- */
 
 .why-split-image {
-    width: min(100%, 280px);
+    width: 100%;
+    max-width: 170px; /* adjust this number */
     margin: 0 auto 1.5rem;
     border-radius: 18px;
 }
