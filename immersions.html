@@ -618,6 +618,72 @@
       text-underline-offset: 0.15em;
     }
 
+.day-rhythm-section {
+  background: #f8faf9;
+}
+
+.day-rhythm-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1.6rem;
+}
+
+.day-rhythm-card {
+  background: #ffffff;
+  border: 1px solid #e2eae6;
+  border-radius: 18px;
+  padding: 1.4rem 1.25rem;
+  box-shadow: 0 4px 18px rgba(16, 40, 31, 0.06);
+}
+
+.day-rhythm-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  background: #edf7ef;
+  border: 1px solid #d5ead9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.day-rhythm-icon svg {
+  width: 22px;
+  height: 22px;
+  stroke: #1b4d3e;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.day-rhythm-card h3 {
+  font-size: 1.05rem;
+  font-weight: 900;
+  color: #10281f;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.35rem;
+}
+
+.day-rhythm-card p {
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: #3a4a44;
+}
+
+@media (max-width: 860px) {
+  .day-rhythm-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 540px) {
+  .day-rhythm-grid {
+    grid-template-columns: 1fr;
+  }
+}
+    
     .testimonials-section {
       background: #f8faf9;
       padding: 4rem 2rem;
@@ -1079,6 +1145,73 @@
     </div>
   </section>
 
+<section class="page-section day-rhythm-section">
+  <div class="page-section-inner">
+    <span class="eyebrow">What it feels like</span>
+    <h2 class="section-title">What 2–3 days feels like</h2>
+
+    <div class="day-rhythm-grid">
+      <article class="day-rhythm-card">
+        <div class="day-rhythm-icon">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 3v3" />
+            <path d="M12 18v3" />
+            <path d="M4.22 4.22l2.12 2.12" />
+            <path d="M17.66 17.66l2.12 2.12" />
+            <path d="M3 12h3" />
+            <path d="M18 12h3" />
+            <path d="M4.22 19.78l2.12-2.12" />
+            <path d="M17.66 6.34l2.12-2.12" />
+            <circle cx="12" cy="12" r="4" />
+          </svg>
+        </div>
+        <h3>Morning</h3>
+        <p>Prayer, training, and framing</p>
+      </article>
+
+      <article class="day-rhythm-card">
+        <div class="day-rhythm-icon">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M3 21h18" />
+            <path d="M5 21V8l7-5 7 5v13" />
+            <path d="M9 21v-6h6v6" />
+            <path d="M9 10h.01" />
+            <path d="M15 10h.01" />
+          </svg>
+        </div>
+        <h3>Midday</h3>
+        <p>Visit real locations and hear the stories</p>
+      </article>
+
+      <article class="day-rhythm-card">
+        <div class="day-rhythm-icon">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M7 8h10" />
+            <path d="M7 12h6" />
+            <path d="M21 12c0 4.4-4 8-9 8a10.6 10.6 0 0 1-4.5-1L3 20l1.4-3.5A7.5 7.5 0 0 1 3 12c0-4.4 4-8 9-8s9 3.6 9 8Z" />
+          </svg>
+        </div>
+        <h3>Afternoon</h3>
+        <p>Observe and practice conversations</p>
+      </article>
+
+      <article class="day-rhythm-card">
+        <div class="day-rhythm-icon">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M4 10h16" />
+            <path d="M6 10v8a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-8" />
+            <path d="M8 6v4" />
+            <path d="M16 6v4" />
+            <path d="M12 4v6" />
+          </svg>
+        </div>
+        <h3>Evening</h3>
+        <p>Meal, debrief, questions, next steps</p>
+      </article>
+    </div>
+  </div>
+</section>
+  
   <section class="page-section">
     <div class="page-section-inner">
       <span class="eyebrow">Who it’s for</span>
