@@ -476,6 +476,12 @@ img {
    6. WORKPLACE IMAGE BANNER
 ----------------------------------------------- */
 
+.why-split-image {
+    width: min(100%, 280px);
+    margin: 0 auto 1.5rem;
+    border-radius: 18px;
+}
+
 .workplace-banner {
     position: relative;
     width: 100%;
