@@ -1213,25 +1213,20 @@ img {
 
 .final-cta {
     padding: 4rem 2rem;
-    background: #ffffff;
+    background: #10281f;
     text-align: center;
-}
-
-.final-cta-container {
-    max-width: 560px;
-    margin: 0 auto;
 }
 
 .final-cta-title {
     font-size: 1.8rem;
     font-weight: 900;
-    color: #10281f;
+    color: #ffffff;
     margin-bottom: 0.75rem;
 }
 
 .final-cta-copy {
     font-size: 1rem;
-    color: #52645d;
+    color: rgba(255, 255, 255, 0.8);
     margin-bottom: 1.75rem;
     line-height: 1.6;
 }
