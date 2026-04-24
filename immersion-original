@@ -1,0 +1,2436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Covo Immersions</title>
+
+  <meta
+    name="description"
+    content="You’ve had the training. Now see disciple-making in real life through homes, workplaces, neighborhoods, businesses, and normal rhythms."
+  />
+
+  <link rel="stylesheet" href="styles.css" />
+
+  <style>
+    .site-header {
+      background: #ffffff;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .site-header .brand {
+      font-size: 0.95rem;
+      font-weight: 900;
+      color: #10281f;
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+
+    .site-header .back-link {
+      font-size: 0.875rem;
+      color: #5a6b65;
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+
+    .site-header .back-link:hover {
+      color: #1b4d3e;
+    }
+
+    .immersion-hero {
+      padding: 3.75rem 2rem 3.25rem;
+      background: linear-gradient(
+        135deg,
+        #0f1720 0%,
+        #143129 24%,
+        #1f4d46 48%,
+        #4e5f6b 72%,
+        #c18a3a 100%
+      );
+      position: relative;
+      overflow: hidden;
+    }
+
+    .immersion-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.12;
+      background-image:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.12) 0.7px, transparent 0.8px),
+        radial-gradient(circle at 80% 30%, rgba(0,0,0,0.10) 0.7px, transparent 0.8px),
+        radial-gradient(circle at 40% 70%, rgba(255,255,255,0.08) 0.6px, transparent 0.7px),
+        radial-gradient(circle at 70% 80%, rgba(0,0,0,0.08) 0.6px, transparent 0.7px);
+      background-size: 120px 120px, 140px 140px, 100px 100px, 160px 160px;
+      mix-blend-mode: soft-light;
+    }
+
+    .immersion-hero-inner {
+      max-width: 1160px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 430px;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .hero-copy {
+      min-width: 0;
+    }
+
+    .hero-image-wrap {
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.38);
+      aspect-ratio: 4 / 3;
+      background: rgba(255,255,255,0.08);
+    }
+
+    .hero-image-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .event-label {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.62);
+      margin-bottom: 1rem;
+    }
+
+    .event-title {
+      font-size: clamp(2.8rem, 6vw, 4.8rem);
+      font-weight: 900;
+      color: #ffffff;
+      line-height: 0.95;
+      letter-spacing: -0.05em;
+      margin-bottom: 1rem;
+      max-width: 760px;
+    }
+
+    .hero-lead {
+      font-size: clamp(1.1rem, 2vw, 1.34rem);
+      line-height: 1.55;
+      color: rgba(255,255,255,0.94);
+      max-width: 760px;
+      margin-bottom: 1.35rem;
+    }
+
+    .hero-cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+      margin-top: 0.3rem;
+    }
+
+    .hero-cta-row .btn-pill {
+      border-color: rgba(255,255,255,0.92);
+      color: #ffffff;
+    }
+
+    .hero-cta-row .btn-pill:hover {
+      background: #ffffff;
+      color: #10281f;
+      border-color: #ffffff;
+    }
+
+    .hero-cta-row .btn-pill-primary {
+      background: #ffffff;
+      color: #10281f;
+      border-color: #ffffff;
+      box-shadow: 0 10px 24px rgba(16, 40, 31, 0.16);
+    }
+
+    .hero-cta-row .btn-pill-primary:hover {
+      background: #f5f5f5;
+      color: #10281f;
+      border-color: #f5f5f5;
+    }
+
+    .hero-support-line {
+      font-size: 0.88rem;
+      line-height: 1.5;
+      color: rgba(255,255,255,0.78);
+      margin-top: 0.85rem;
+    }
+
+    .btn-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.95rem 1.5rem;
+      border-radius: 999px;
+      background: #dcb55a;
+      color: #10281f;
+      border: 1px solid #dcb55a;
+      font-size: 0.95rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      text-decoration: none;
+      line-height: 1;
+      transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease, color 0.18s ease;
+      box-shadow: 0 10px 24px rgba(16, 40, 31, 0.16);
+    }
+
+    .btn-cta:hover {
+      background: #e7c574;
+      border-color: #e7c574;
+      color: #10281f;
+      transform: translateY(-1px);
+    }
+
+    .btn-cta:active {
+      transform: translateY(0);
+    }
+
+    .btn-cta:focus-visible {
+      outline: 3px solid rgba(255, 255, 255, 0.4);
+      outline-offset: 3px;
+    }
+
+    .page-section {
+      background: #ffffff;
+      padding: 3.5rem 2rem;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .page-section-inner {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .two-col-section .page-section-inner {
+      max-width: 1200px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 400px;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .eyebrow {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #245c4a;
+      margin-bottom: 0.55rem;
+    }
+
+    .section-title {
+      font-size: clamp(1.9rem, 3vw, 2.7rem);
+      font-weight: 900;
+      color: #10281f;
+      line-height: 1.02;
+      letter-spacing: -0.04em;
+      margin-bottom: 1rem;
+      max-width: 760px;
+    }
+
+    .section-copy {
+      font-size: 1rem;
+      line-height: 1.72;
+      color: #444444;
+      max-width: 760px;
+    }
+
+    .section-copy p + p {
+      margin-top: 0.85rem;
+    }
+
+    .simple-list {
+      list-style: none;
+      padding: 0;
+      margin: 1.4rem 0 0;
+    }
+
+    .simple-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.9rem;
+      padding: 1rem 0;
+      border-bottom: 1px solid #f0f0f0;
+      font-size: 1rem;
+      line-height: 1.65;
+      color: #2a2a2a;
+    }
+
+    .simple-list li:last-child {
+      border-bottom: none;
+    }
+
+    .simple-check {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #f0fdf4;
+      border: 1.5px solid #bbf7d0;
+      font-size: 0.6rem;
+      font-weight: 800;
+      color: #15803d;
+      margin-top: 0.25rem;
+    }
+
+    .experience-toggle-wrap {
+      margin-top: 1.6rem;
+      background: #f8faf9;
+      border: 1px solid #e2eae6;
+      border-radius: 20px;
+      padding: 1.2rem;
+    }
+
+    .experience-toggle-shell {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: #edf2ee;
+      border: 1px solid #d9e4dc;
+      border-radius: 999px;
+      padding: 0.3rem;
+      margin-bottom: 1rem;
+    }
+
+    .experience-toggle-btn {
+      border: none;
+      background: transparent;
+      color: #3f514a;
+      font-size: 0.92rem;
+      font-weight: 800;
+      padding: 0.72rem 1.15rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background 0.22s ease, color 0.22s ease, box-shadow 0.22s ease;
+      font-family: inherit;
+    }
+
+    .experience-toggle-btn.active {
+      background: #8fd19e;
+      color: #10281f;
+      box-shadow: 0 4px 12px rgba(16, 40, 31, 0.10);
+    }
+
+    .experience-panel {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 1.2rem;
+      align-items: start;
+    }
+
+    .experience-image-wrap {
+      border-radius: 16px;
+      overflow: hidden;
+      background: #ffffff;
+      box-shadow: 0 8px 24px rgba(16, 40, 31, 0.08);
+      aspect-ratio: 4 / 3;
+      width: 100%;
+    }
+
+    .experience-image-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .experience-copy {
+      min-width: 0;
+      align-self: start;
+      padding-top: 0.1rem;
+    }
+
+    .experience-kicker {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #245c4a;
+      margin-bottom: 0.55rem;
+    }
+
+    .experience-state-title {
+      font-size: clamp(1.55rem, 2.3vw, 2.15rem);
+      font-weight: 900;
+      color: #10281f;
+      line-height: 1.02;
+      letter-spacing: -0.04em;
+      margin-bottom: 0.75rem;
+    }
+
+    .experience-state-copy {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: #444444;
+    }
+
+    .immersion-slider-wrap {
+      margin-top: 1.8rem;
+      background: #f8faf9;
+      border: 1px solid #e2eae6;
+      border-radius: 20px;
+      padding: 1.2rem;
+      overflow: hidden;
+      touch-action: pan-y;
+    }
+
+    .immersion-slider-stage {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .immersion-slides {
+      display: flex;
+      gap: 1rem;
+      transition: transform 0.45s ease;
+      will-change: transform;
+    }
+
+    .immersion-slide {
+      flex: 0 0 calc(100% - 1rem);
+      min-width: calc(100% - 1rem);
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 1.2rem;
+      align-items: start;
+    }
+
+    .immersion-slide-image {
+      border-radius: 16px;
+      overflow: hidden;
+      background: #ffffff;
+      box-shadow: 0 8px 24px rgba(16, 40, 31, 0.08);
+      aspect-ratio: 4 / 3;
+      width: 100%;
+    }
+
+    .immersion-slide-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .immersion-slide-copy {
+      min-width: 0;
+      align-self: start;
+      padding-top: 0.1rem;
+    }
+
+    .immersion-slide-kicker {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #245c4a;
+      margin-bottom: 0.55rem;
+    }
+
+    .immersion-slide-title {
+      font-size: clamp(1.45rem, 2vw, 2rem);
+      font-weight: 900;
+      color: #10281f;
+      line-height: 1.04;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.75rem;
+    }
+
+    .immersion-slide-text {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: #444444;
+    }
+
+    .immersion-slider-dots {
+      display: flex;
+      justify-content: center;
+      gap: 0.55rem;
+      margin-top: 1rem;
+    }
+
+    .immersion-slider-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      border: none;
+      background: #cfd8d3;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.2s ease;
+      padding: 0;
+    }
+
+    .immersion-slider-dot.active {
+      background: #1b4d3e;
+      transform: scale(1.15);
+    }
+
+    .split-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-top: 1.5rem;
+    }
+
+    .split-card {
+      background: #f8faf9;
+      border: 1px solid #e2eae6;
+      border-radius: 16px;
+      padding: 1.45rem 1.5rem;
+    }
+
+    .split-card h3 {
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: #10281f;
+      line-height: 1.12;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.85rem;
+    }
+
+    .icon-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .icon-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      font-size: 0.97rem;
+      line-height: 1.65;
+      color: #3a4a44;
+      padding: 0.38rem 0;
+    }
+
+    .icon-list-mark {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      font-size: 0.85rem;
+      font-weight: 900;
+      margin-top: 0.1rem;
+    }
+
+    .icon-list-mark.is-yes {
+      color: #15803d;
+    }
+
+    .icon-list-mark.is-no {
+      color: #dc2626;
+    }
+
+    .info-card {
+      background: #ffffff;
+      border-radius: 16px;
+      border-top: 4px solid #1b4d3e;
+      box-shadow:
+        0 4px 6px rgba(0, 0, 0, 0.04),
+        0 12px 40px rgba(16, 40, 31, 0.10);
+      padding: 2.1rem 2.2rem;
+      position: sticky;
+      top: 1rem;
+    }
+
+    .info-card h2 {
+      font-size: 1.45rem;
+      font-weight: 900;
+      color: #10281f;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.35rem;
+    }
+
+    .info-card-intro {
+      font-size: 0.9rem;
+      color: #5a6b65;
+      line-height: 1.55;
+      margin-bottom: 1.35rem;
+    }
+
+    .info-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 1.35rem;
+    }
+
+    .info-list li {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.95rem 0;
+      border-bottom: 1px solid #edf1ef;
+      font-size: 0.94rem;
+      line-height: 1.5;
+    }
+
+    .info-list li:last-child {
+      border-bottom: none;
+    }
+
+    .info-label {
+      font-weight: 800;
+      color: #10281f;
+    }
+
+    .info-value {
+      text-align: right;
+      color: #5a6b65;
+    }
+
+    .btn-card {
+      width: 100%;
+      text-align: center;
+    }
+
+    .info-card-secondary {
+      margin-top: 0.9rem;
+      text-align: center;
+      font-size: 0.88rem;
+      color: #5a6b65;
+    }
+
+    .info-card-secondary a {
+      color: #1b4d3e;
+      font-weight: 700;
+      text-decoration: underline;
+      text-underline-offset: 0.15em;
+    }
+
+.day-rhythm-section {
+  background: #f8faf9;
+}
+
+.day-rhythm-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1.6rem;
+}
+
+.day-rhythm-card {
+  background: #ffffff;
+  border: 1px solid #e2eae6;
+  border-radius: 18px;
+  padding: 1.4rem 1.25rem;
+  box-shadow: 0 4px 18px rgba(16, 40, 31, 0.06);
+}
+
+.day-rhythm-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  background: #edf7ef;
+  border: 1px solid #d5ead9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.day-rhythm-icon svg {
+  width: 22px;
+  height: 22px;
+  stroke: #1b4d3e;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.day-rhythm-card h3 {
+  font-size: 1.05rem;
+  font-weight: 900;
+  color: #10281f;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.35rem;
+}
+
+.day-rhythm-card p {
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: #3a4a44;
+}
+
+@media (max-width: 860px) {
+  .day-rhythm-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 540px) {
+  .day-rhythm-grid {
+    grid-template-columns: 1fr;
+  }
+}
+    
+    .testimonials-section {
+      background: #f8faf9;
+      padding: 4rem 2rem;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .testimonials-inner {
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.25rem;
+      margin-top: 1.8rem;
+    }
+
+    .testimonial-card {
+      background: #ffffff;
+      border: 1px solid #e2eae6;
+      border-radius: 16px;
+      padding: 1.6rem 1.5rem;
+      box-shadow: 0 2px 12px rgba(16, 40, 31, 0.06);
+    }
+
+    .testimonial-quote {
+      font-size: 1.02rem;
+      line-height: 1.7;
+      color: #2a2a2a;
+      font-style: italic;
+    }
+
+    .testimonial-attribution {
+      margin-top: 1rem;
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: #1b4d3e;
+      letter-spacing: 0.02em;
+    }
+
+    .faq-box {
+      background: #f8faf9;
+      border-left: 3px solid #1b4d3e;
+      border-radius: 0 10px 10px 0;
+      padding: 1.85rem 2rem;
+    }
+
+    .faq-box > strong {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #245c4a;
+      margin-bottom: 1rem;
+    }
+
+    .faq-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid #e2eae6;
+    }
+
+    .faq-item:last-child {
+      border-bottom: none;
+    }
+
+    .faq-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      background: none;
+      border: none;
+      padding: 1.1rem 0;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.98rem;
+      font-weight: 800;
+      color: #10281f;
+      text-align: left;
+      line-height: 1.4;
+    }
+
+    .faq-btn:hover {
+      color: #1b4d3e;
+    }
+
+    .faq-icon {
+      flex-shrink: 0;
+      font-size: 1.25rem;
+      font-weight: 300;
+      color: #245c4a;
+      line-height: 1;
+      transition: transform 0.2s ease;
+    }
+
+    .faq-item.is-open .faq-icon {
+      transform: rotate(45deg);
+    }
+
+    .faq-answer {
+      padding: 0 1rem 1.1rem 0;
+      font-size: 0.94rem;
+      line-height: 1.68;
+      color: #3a4a44;
+    }
+
+    .bottom-cta {
+      background: linear-gradient(
+        135deg,
+        #102018 0%,
+        #17362d 35%,
+        #2c4f57 70%,
+        #b68539 100%
+      );
+      padding: 4.75rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .bottom-cta::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.1;
+      background-image:
+        radial-gradient(circle at 25% 25%, rgba(255,255,255,0.12) 0.7px, transparent 0.8px),
+        radial-gradient(circle at 75% 75%, rgba(0,0,0,0.10) 0.7px, transparent 0.8px);
+      background-size: 120px 120px, 160px 160px;
+      mix-blend-mode: soft-light;
+    }
+
+    .bottom-cta-inner {
+      max-width: 660px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .bottom-cta-headline {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 900;
+      color: #ffffff;
+      line-height: 0.98;
+      letter-spacing: -0.05em;
+      margin-bottom: 1rem;
+    }
+
+    .bottom-cta-body {
+      font-size: 1.02rem;
+      line-height: 1.75;
+      color: rgba(255, 255, 255, 0.84);
+      margin-bottom: 2rem;
+    }
+
+    .site-footer {
+      background: #10281f;
+      padding: 1.5rem 2rem;
+      text-align: center;
+    }
+
+    .footer-brand {
+      display: inline-block;
+      font-size: 1rem;
+      font-weight: 900;
+      color: #ffffff;
+      text-decoration: none;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.25rem;
+    }
+
+    .footer-tagline {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.38);
+      margin-bottom: 0.6rem;
+    }
+
+    .footer-copy {
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.28);
+    }
+
+    @media (max-width: 980px) {
+      .testimonials-grid,
+      .split-grid,
+      .experience-panel,
+      .immersion-slide {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 860px) {
+      .immersion-hero-inner,
+      .two-col-section .page-section-inner {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .hero-image-wrap {
+        aspect-ratio: 16 / 9;
+      }
+
+      .info-card {
+        position: static;
+      }
+    }
+
+    @media (max-width: 540px) {
+      .immersion-hero,
+      .page-section,
+      .testimonials-section,
+      .bottom-cta,
+      .site-header,
+      .site-footer {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+      }
+
+      .immersion-hero {
+        padding-top: 1.4rem;
+        padding-bottom: 1.2rem;
+      }
+
+      .event-title {
+        font-size: clamp(2rem, 10vw, 2.95rem);
+        line-height: 0.98;
+      }
+
+      .hero-lead {
+        font-size: 1rem;
+        line-height: 1.45;
+      }
+
+      .section-title {
+        font-size: clamp(1.55rem, 7vw, 2rem);
+      }
+
+      .bottom-cta-headline {
+        font-size: clamp(1.7rem, 8vw, 2.3rem);
+      }
+
+      .info-card,
+      .faq-box,
+      .experience-toggle-wrap,
+      .immersion-slider-wrap {
+        padding: 1.25rem;
+      }
+
+      .experience-toggle-shell {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .experience-toggle-btn {
+        flex: 1 1 0;
+        text-align: center;
+      }
+    }
+
+    /* ── Immersion availability cards ───────────── */
+
+    .immersion-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.25rem;
+      margin-top: 1.8rem;
+    }
+
+    .immersion-card {
+      background: #ffffff;
+      border: 1px solid #e2eae6;
+      border-top: 4px solid #1b4d3e;
+      border-radius: 16px;
+      padding: 1.6rem 1.5rem;
+      box-shadow: 0 4px 18px rgba(16, 40, 31, 0.06);
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+    }
+
+    .immersion-card-title {
+      font-size: 1.2rem;
+      font-weight: 900;
+      color: #10281f;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    .immersion-card-meta {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      flex: 1 1 auto;
+    }
+
+    .immersion-card-meta li {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.55rem 0;
+      border-bottom: 1px solid #f0f4f2;
+      font-size: 0.9rem;
+      line-height: 1.45;
+    }
+
+    .immersion-card-meta li:last-child {
+      border-bottom: none;
+    }
+
+    .meta-label {
+      font-weight: 800;
+      color: #10281f;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .meta-value {
+      color: #5a6b65;
+      text-align: right;
+    }
+
+    .seat-indicator {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .seat-pips {
+      display: flex;
+      gap: 0.25rem;
+      flex-wrap: wrap;
+    }
+
+    .seat-pip {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #86efac;
+      border: 1.5px solid #4ade80;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+
+    .seat-label {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #15803d;
+    }
+
+    .waitlist-badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      background: #fef3c7;
+      color: #92400e;
+      border: 1px solid #fde68a;
+      border-radius: 999px;
+      padding: 0.28rem 0.75rem;
+    }
+
+    .btn-apply {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      justify-content: center;
+      padding: 0.78rem 1.25rem;
+      border-radius: 999px;
+      background: #1b4d3e;
+      color: #ffffff;
+      border: 1.5px solid #1b4d3e;
+      font-size: 0.9rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      cursor: pointer;
+      font-family: inherit;
+      text-decoration: none;
+      line-height: 1;
+      transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+    }
+
+    .btn-apply:hover {
+      background: #245c4a;
+      border-color: #245c4a;
+      transform: translateY(-1px);
+    }
+
+    .btn-apply.is-waitlist {
+      background: transparent;
+      color: #1b4d3e;
+    }
+
+    .btn-apply.is-waitlist:hover {
+      background: #f0fdf4;
+    }
+
+    .immersion-cards-loading,
+    .immersion-cards-empty {
+      grid-column: 1 / -1;
+      text-align: center;
+      color: #5a6b65;
+      padding: 2.5rem 1rem;
+      font-size: 0.96rem;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 980px) {
+      .immersion-cards-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 600px) {
+      .immersion-cards-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ── Application modal ───────────────────────── */
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 900;
+      background: rgba(10, 20, 15, 0.72);
+      backdrop-filter: blur(3px);
+      -webkit-backdrop-filter: blur(3px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-y: auto;
+      padding: 2rem 1rem;
+    }
+
+    .modal-overlay[hidden] {
+      display: none;
+    }
+
+    .modal-panel {
+      background: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 24px 64px rgba(10, 20, 15, 0.32);
+      width: 100%;
+      max-width: 680px;
+      padding: 2rem 2.5rem 2.5rem;
+      flex-shrink: 0;
+      animation: modal-in 0.2s ease;
+      margin: auto;
+    }
+
+    @keyframes modal-in {
+      from { opacity: 0; transform: translateY(14px) scale(0.975); }
+      to   { opacity: 1; transform: translateY(0)    scale(1); }
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      padding-bottom: 1.25rem;
+      border-bottom: 1px solid #e2eae6;
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-heading {
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: #10281f;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+      margin: 0;
+      padding-top: 0.2rem;
+    }
+
+    .modal-close-btn {
+      flex-shrink: 0;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1.5px solid #e2eae6;
+      background: #f8faf9;
+      color: #5a6b65;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+      font-family: inherit;
+    }
+
+    .modal-close-btn:hover {
+      background: #10281f;
+      color: #ffffff;
+      border-color: #10281f;
+    }
+
+    .modal-close-btn:focus-visible {
+      outline: 3px solid rgba(27, 77, 62, 0.3);
+      outline-offset: 2px;
+    }
+
+    .modal-success-actions {
+      margin-top: 1.5rem;
+    }
+
+    @media (max-width: 680px) {
+      .modal-panel {
+        padding: 1.5rem 1.25rem 2rem;
+        border-radius: 16px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .modal-overlay {
+        align-items: stretch;
+        padding: 0;
+      }
+
+      .modal-panel {
+        border-radius: 20px 20px 0 0;
+        margin-top: auto;
+        margin-bottom: 0;
+        max-width: 100%;
+      }
+    }
+
+    /* ── Application form fields ─────────────────── */
+
+    .form-section-label {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #245c4a;
+      margin-bottom: 1rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.1rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #10281f;
+      margin-bottom: 0.38rem;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.68rem 0.9rem;
+      border: 1.5px solid #d5ddd9;
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      color: #2a2a2a;
+      background: #ffffff;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+      box-sizing: border-box;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #1b4d3e;
+      box-shadow: 0 0 0 3px rgba(27, 77, 62, 0.1);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 88px;
+    }
+
+    .form-group select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235a6b65' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.85rem center;
+      padding-right: 2.25rem;
+    }
+
+    .form-checkbox-group {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.72rem;
+      padding: 0.95rem 1rem;
+      background: #f8faf9;
+      border: 1.5px solid #e2eae6;
+      border-radius: 10px;
+    }
+
+    .form-checkbox-group input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      margin-top: 0.1rem;
+      flex-shrink: 0;
+      accent-color: #1b4d3e;
+      cursor: pointer;
+    }
+
+    .form-checkbox-group label {
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-transform: none;
+      letter-spacing: 0;
+      color: #3a4a44;
+      line-height: 1.5;
+      margin: 0;
+      cursor: pointer;
+    }
+
+    .form-divider {
+      border: none;
+      border-top: 1px solid #e2eae6;
+      margin: 1.4rem 0 1.25rem;
+    }
+
+    .form-submit-row {
+      margin-top: 1.6rem;
+    }
+
+    .btn-submit {
+      width: 100%;
+      text-align: center;
+    }
+
+    .btn-submit:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .form-success-msg {
+      background: #f0fdf4;
+      border: 1.5px solid #86efac;
+      border-radius: 12px;
+      padding: 1.5rem 1.75rem;
+      margin-top: 1.6rem;
+      color: #14532d;
+      font-size: 1rem;
+      font-weight: 600;
+      line-height: 1.65;
+    }
+
+    .form-error-msg {
+      background: #fef2f2;
+      border: 1.5px solid #fca5a5;
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+      margin-top: 1rem;
+      color: #dc2626;
+      font-size: 0.9rem;
+      line-height: 1.55;
+    }
+
+    @media (max-width: 680px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="site-header">
+    <a class="brand" href="/">Covo Multipliers</a>
+    <a class="back-link" href="/#upcoming-labs">← Back to home</a>
+  </header>
+
+  <section class="immersion-hero">
+    <div class="immersion-hero-inner">
+      <div class="hero-copy">
+        <span class="event-label">For everyday leaders</span>
+
+        <h1 class="event-title">You’ve had the training. Now see it.</h1>
+
+        <p class="hero-lead">
+          Step into real settings. Homes. Workplaces. Neighborhoods. Businesses. Watch disciple-making happen in normal life so you can stop guessing what this is supposed to look like.
+        </p>
+
+        <div class="hero-cta-row">
+          <a class="btn-pill btn-pill-primary" href="#open-immersions">Apply for the Next Immersion</a>
+        </div>
+
+        <p class="hero-support-line">
+          Limited spots. New York City. 2 to 3 days.
+        </p>
+      </div>
+
+      <div class="hero-image-wrap">
+        <img src="image/immersions/immersion-hero.webp" alt="Covo immersion gathering in a real everyday setting" loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section">
+    <div class="page-section-inner">
+      <span class="eyebrow">What this actually is</span>
+
+      <h2 class="section-title">Most people leave training still guessing.</h2>
+
+      <div class="section-copy">
+        <p>This removes the guesswork.</p>
+
+        <p>You won’t sit in a room all day taking notes. You’ll step into normal places where leaders are trying to live this out: homes, coffee shops, neighborhoods, meals, workplaces, businesses, nonprofit community spaces, and debriefs.</p>
+
+        <p>You’ll visit real locations, see the work environment, hear the story behind it, and ask how vocation and mission actually fit together on the ground.</p>
+
+        <p>You don’t leave trying to imagine it. You’ve already seen it.</p>
+      </div>
+
+      <div class="experience-toggle-wrap">
+        <div class="experience-toggle-shell" role="tablist" aria-label="Training versus immersion">
+          <button class="experience-toggle-btn active" id="toggle-training" type="button" role="tab" aria-selected="true" aria-controls="experience-panel">
+            Most training
+          </button>
+
+          <button class="experience-toggle-btn" id="toggle-immersion" type="button" role="tab" aria-selected="false" aria-controls="experience-panel">
+            Immersion
+          </button>
+        </div>
+
+        <div class="experience-panel" id="experience-panel">
+          <div class="experience-image-wrap">
+            <img id="experience-image" src="image/immersions/whiteboard classroom training.webp" alt="Person teaching at a whiteboard in a classroom setting" loading="lazy" />
+          </div>
+
+          <div class="experience-copy">
+            <span class="experience-kicker" id="experience-kicker">Most training</span>
+            <h3 class="experience-state-title" id="experience-title">Hear it. Practice some. Imagine the rest.</h3>
+            <p class="experience-state-copy" id="experience-copy">
+              Good training gives you language and tools. Sometimes it even gives you practice. But most people still go home trying to picture what this looks like in actual homes, workplaces, neighborhoods, and weekly rhythms.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section">
+    <div class="page-section-inner">
+      <span class="eyebrow">What you’ll do</span>
+
+      <h2 class="section-title">What you’ll actually do</h2>
+
+      <ul class="simple-list">
+        <li>
+          <span class="simple-check" aria-hidden="true">&#10003;</span>
+          <span>Observe real rhythms, not staged examples</span>
+        </li>
+
+        <li>
+          <span class="simple-check" aria-hidden="true">&#10003;</span>
+          <span>Watch actual conversations unfold</span>
+        </li>
+
+        <li>
+          <span class="simple-check" aria-hidden="true">&#10003;</span>
+          <span>Ask why something happened while it’s still fresh</span>
+        </li>
+
+        <li>
+          <span class="simple-check" aria-hidden="true">&#10003;</span>
+          <span>Visit businesses, workplaces, and community spaces and hear the story behind them</span>
+        </li>
+
+        <li>
+          <span class="simple-check" aria-hidden="true">&#10003;</span>
+          <span>Debrief the normal parts, the awkward parts, and the wins</span>
+        </li>
+
+        <li>
+          <span class="simple-check" aria-hidden="true">&#10003;</span>
+          <span>Leave with clearer next steps for your own context</span>
+        </li>
+      </ul>
+
+      <div class="immersion-slider-wrap">
+        <div class="immersion-slider-stage" id="immersion-slider-stage">
+          <div class="immersion-slides" id="immersion-slides">
+
+            <article class="immersion-slide">
+              <div class="immersion-slide-image">
+                <img src="image/immersions/immersion-grid-1.webp" alt="Immersion moment in a coffee shop setting" loading="lazy" />
+              </div>
+
+              <div class="immersion-slide-copy">
+                <span class="immersion-slide-kicker">What happens</span>
+                <h3 class="immersion-slide-title">See real rhythms in normal places.</h3>
+                <p class="immersion-slide-text">
+                  You step into actual environments where disciple-making is being practiced. Not a staged example. Not a classroom simulation. Real people. Real places. Real life.
+                </p>
+              </div>
+            </article>
+
+            <article class="immersion-slide">
+              <div class="immersion-slide-image">
+                <img src="image/immersions/immersion-grid-3.webp" alt="Immersion training and debrief in an outdoor setting" loading="lazy" />
+              </div>
+
+              <div class="immersion-slide-copy">
+                <span class="immersion-slide-kicker">What happens</span>
+                <h3 class="immersion-slide-title">Break things down while they’re fresh.</h3>
+                <p class="immersion-slide-text">
+                  You watch real interactions, then unpack them. Why did they ask that question? Why did they wait? Why did the conversation move there? You are not left trying to decode it later.
+                </p>
+              </div>
+            </article>
+
+            <article class="immersion-slide">
+              <div class="immersion-slide-image">
+                <img src="image/immersions/immersion-grid-2.webp" alt="Immersion practice in a family or neighborhood setting" loading="lazy" />
+              </div>
+
+              <div class="immersion-slide-copy">
+                <span class="immersion-slide-kicker">What happens</span>
+                <h3 class="immersion-slide-title">See how vocation becomes part of the platform.</h3>
+                <p class="immersion-slide-text">
+                  You visit businesses, workplaces, and sometimes nonprofit community spaces. You see the setting, hear the story behind it, and ask how covocational life actually works on the ground.
+                </p>
+              </div>
+            </article>
+
+            <article class="immersion-slide">
+              <div class="immersion-slide-image">
+                <img src="image/immersions/immersion-grid-4.webp" alt="Immersion gathering in a home setting" loading="lazy" />
+              </div>
+
+              <div class="immersion-slide-copy">
+                <span class="immersion-slide-kicker">What happens</span>
+                <h3 class="immersion-slide-title">Go home with fewer excuses.</h3>
+                <p class="immersion-slide-text">
+                  The goal is not inspiration that fades by the time your flight lands. The goal is a clearer picture of what needs to shift in your own context when you go home.
+                </p>
+              </div>
+            </article>
+
+          </div>
+        </div>
+
+        <div class="immersion-slider-dots" id="immersion-slider-dots" aria-label="Immersion slider navigation">
+          <button class="immersion-slider-dot active" type="button" aria-label="Go to slide 1"></button>
+          <button class="immersion-slider-dot" type="button" aria-label="Go to slide 2"></button>
+          <button class="immersion-slider-dot" type="button" aria-label="Go to slide 3"></button>
+          <button class="immersion-slider-dot" type="button" aria-label="Go to slide 4"></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<section class="page-section day-rhythm-section">
+  <div class="page-section-inner">
+    <span class="eyebrow">What it feels like</span>
+    <h2 class="section-title">What 2–3 days feels like</h2>
+
+    <div class="day-rhythm-grid">
+      <article class="day-rhythm-card">
+        <div class="day-rhythm-icon">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 3v3" />
+            <path d="M12 18v3" />
+            <path d="M4.22 4.22l2.12 2.12" />
+            <path d="M17.66 17.66l2.12 2.12" />
+            <path d="M3 12h3" />
+            <path d="M18 12h3" />
+            <path d="M4.22 19.78l2.12-2.12" />
+            <path d="M17.66 6.34l2.12-2.12" />
+            <circle cx="12" cy="12" r="4" />
+          </svg>
+        </div>
+        <h3>Morning</h3>
+        <p>Prayer, training, and framing</p>
+      </article>
+
+      <article class="day-rhythm-card">
+        <div class="day-rhythm-icon">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M3 21h18" />
+            <path d="M5 21V8l7-5 7 5v13" />
+            <path d="M9 21v-6h6v6" />
+            <path d="M9 10h.01" />
+            <path d="M15 10h.01" />
+          </svg>
+        </div>
+        <h3>Midday</h3>
+        <p>Visit real locations and hear the stories</p>
+      </article>
+
+      <article class="day-rhythm-card">
+        <div class="day-rhythm-icon">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M7 8h10" />
+            <path d="M7 12h6" />
+            <path d="M21 12c0 4.4-4 8-9 8a10.6 10.6 0 0 1-4.5-1L3 20l1.4-3.5A7.5 7.5 0 0 1 3 12c0-4.4 4-8 9-8s9 3.6 9 8Z" />
+          </svg>
+        </div>
+        <h3>Afternoon</h3>
+        <p>Observe and practice conversations</p>
+      </article>
+
+      <article class="day-rhythm-card">
+        <div class="day-rhythm-icon">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M4 10h16" />
+            <path d="M6 10v8a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-8" />
+            <path d="M8 6v4" />
+            <path d="M16 6v4" />
+            <path d="M12 4v6" />
+          </svg>
+        </div>
+        <h3>Evening</h3>
+        <p>Meal, debrief, questions, next steps</p>
+      </article>
+    </div>
+  </div>
+</section>
+  
+  <section class="page-section">
+    <div class="page-section-inner">
+      <span class="eyebrow">Who it’s for</span>
+
+      <h2 class="section-title">Who this is for and not for</h2>
+
+      <div class="split-grid">
+        <div class="split-card">
+          <h3>Who this is for</h3>
+
+          <p class="section-copy" style="font-size:0.96rem; margin-bottom:0.9rem;">
+            You’re trying to make disciples in everyday life, but it still feels fuzzy. You’ve heard the principles. You’ve seen the diagrams. Now you need to watch it happen in the wild.
+          </p>
+
+          <ul class="icon-list">
+            <li>
+              <span class="icon-list-mark is-yes" aria-hidden="true">✓</span>
+              <span>You’ve had training but still need a picture</span>
+            </li>
+
+            <li>
+              <span class="icon-list-mark is-yes" aria-hidden="true">✓</span>
+              <span>You want practice, not just ideas</span>
+            </li>
+
+            <li>
+              <span class="icon-list-mark is-yes" aria-hidden="true">✓</span>
+              <span>You want something reproducible, not impressive</span>
+            </li>
+
+            <li>
+              <span class="icon-list-mark is-yes" aria-hidden="true">✓</span>
+              <span>You want to understand what covocational life can actually look like</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="split-card">
+          <h3>Who this is not for</h3>
+
+          <ul class="icon-list">
+            <li>
+              <span class="icon-list-mark is-no" aria-hidden="true">✕</span>
+              <span>People looking for a polished conference experience</span>
+            </li>
+
+            <li>
+              <span class="icon-list-mark is-no" aria-hidden="true">✕</span>
+              <span>People who want inspiration without engagement</span>
+            </li>
+
+            <li>
+              <span class="icon-list-mark is-no" aria-hidden="true">✕</span>
+              <span>People who only want theory</span>
+            </li>
+
+            <li>
+              <span class="icon-list-mark is-no" aria-hidden="true">✕</span>
+              <span>People who do not want their own rhythms challenged</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section" id="open-immersions">
+    <div class="page-section-inner" style="max-width:1200px;">
+      <span class="eyebrow">Upcoming immersions</span>
+      <h2 class="section-title">Open immersions</h2>
+      <p class="section-copy" style="margin-bottom:0;">These are the immersions currently accepting applications. Spots are limited.</p>
+      <div id="immersion-cards-grid" class="immersion-cards-grid" aria-live="polite" aria-label="Available immersions">
+        <div class="immersion-cards-loading">Loading available immersions&hellip;</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="testimonials-section">
+    <div class="testimonials-inner">
+      <span class="eyebrow" style="text-align:center;">Proof</span>
+
+      <h2 class="section-title" style="text-align:center; margin-left:auto; margin-right:auto;">
+        What people walk away with
+      </h2>
+
+      <div class="testimonials-grid">
+        <article class="testimonial-card">
+          <p class="testimonial-quote">“I realized I’ve been overcomplicating this for years.”</p>
+          <p class="testimonial-attribution">[Name], [City / Role]</p>
+        </article>
+
+        <article class="testimonial-card">
+          <p class="testimonial-quote">“I watched a conversation and thought, oh… I can do that.”</p>
+          <p class="testimonial-attribution">[Name], [City / Role]</p>
+        </article>
+
+        <article class="testimonial-card">
+          <p class="testimonial-quote">“Seeing the businesses and hearing the stories made covocational life click for me in a way it never had before.”</p>
+          <p class="testimonial-attribution">[Name], [City / Role]</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section" id="faq">
+    <div class="page-section-inner">
+      <div class="faq-box">
+        <strong>Common questions</strong>
+
+        <ul class="faq-list">
+          <li class="faq-item">
+            <button class="faq-btn" aria-expanded="false">
+              <span>Do I need prior experience?</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+
+            <div class="faq-answer" hidden>
+              No. But you should come ready to learn, observe, ask questions, and engage.
+            </div>
+          </li>
+
+          <li class="faq-item">
+            <button class="faq-btn" aria-expanded="false">
+              <span>Is there teaching?</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+
+            <div class="faq-answer" hidden>
+              Yes. But this is built around seeing, asking, practicing, and debriefing, not just listening.
+            </div>
+          </li>
+
+          <li class="faq-item">
+            <button class="faq-btn" aria-expanded="false">
+              <span>Can I come with a team?</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+
+            <div class="faq-answer" hidden>
+              Yes. Teams are welcome.
+            </div>
+          </li>
+
+          <li class="faq-item">
+            <button class="faq-btn" aria-expanded="false">
+              <span>Will we actually see workplaces or businesses?</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+
+            <div class="faq-answer" hidden>
+              Often, yes. A key part of the immersion is seeing how some people engage as covocational leaders through real businesses, workplaces, and sometimes nonprofit community spaces.
+            </div>
+          </li>
+
+          <li class="faq-item">
+            <button class="faq-btn" aria-expanded="false">
+              <span>Do you provide travel or lodging?</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+
+            <div class="faq-answer" hidden>
+              No. Most attendees arrange that separately.
+            </div>
+          </li>
+
+          <li class="faq-item">
+            <button class="faq-btn" aria-expanded="false">
+              <span>How many people can come?</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+
+            <div class="faq-answer" hidden>
+              Spots are limited because the group has to stay small enough to remain hands-on.
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="bottom-cta">
+    <div class="bottom-cta-inner">
+      <h2 class="bottom-cta-headline">You don’t need another training. You need to see it.</h2>
+
+      <div class="bottom-cta-body">
+        <p>If you’re done guessing what disciple-making looks like in normal life, come see it up close.</p>
+      </div>
+
+      <a class="btn-cta" href="#open-immersions">Apply for the Next Immersion</a>
+    </div>
+  </section>
+
+  <!-- ── Application modal ───────────────────────── -->
+  <div
+    id="apply-modal"
+    class="modal-overlay"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modal-heading"
+    hidden
+  >
+    <div class="modal-panel" id="modal-panel">
+      <div class="modal-header">
+        <h2 id="modal-heading" class="modal-heading">Apply for this Immersion</h2>
+        <button
+          class="modal-close-btn"
+          id="modal-close-btn"
+          type="button"
+          aria-label="Close application form"
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M2 2l12 12M14 2L2 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <div id="modal-success" class="form-success-msg" hidden>
+        <p style="margin:0 0 0.25rem;">Application received. Check your email for confirmation. We&rsquo;ll follow up soon with next steps.</p>
+        <div class="modal-success-actions">
+          <button type="button" class="btn-cta" id="modal-success-close-btn">Close</button>
+        </div>
+      </div>
+
+      <form id="immersion-apply-form" novalidate>
+        <input type="hidden" id="apply-immersion-id" name="immersion_id" value="">
+
+        <span class="form-section-label">About you</span>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="f-name">Full name <span aria-hidden="true">*</span></label>
+            <input type="text" id="f-name" name="name" autocomplete="name" required placeholder="Jane Smith">
+          </div>
+
+          <div class="form-group">
+            <label for="f-email">Email <span aria-hidden="true">*</span></label>
+            <input type="email" id="f-email" name="email" autocomplete="email" required placeholder="jane@example.com">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="f-phone">Phone</label>
+            <input type="tel" id="f-phone" name="phone" autocomplete="tel" placeholder="+1 (555) 000-0000">
+          </div>
+
+          <div class="form-group">
+            <label for="f-city-state">City &amp; state <span aria-hidden="true">*</span></label>
+            <input type="text" id="f-city-state" name="city_state" required placeholder="Brooklyn, NY">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="f-church-org">Church or organization</label>
+          <input type="text" id="f-church-org" name="church_org" placeholder="Redemption Church">
+        </div>
+
+        <hr class="form-divider">
+        <span class="form-section-label">Your team</span>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="f-team-status">Coming as part of a team? <span aria-hidden="true">*</span></label>
+            <select id="f-team-status" name="team_status" required>
+              <option value="" disabled selected>Select one&hellip;</option>
+              <option value="individual">Coming individually</option>
+              <option value="team">Coming with a team</option>
+              <option value="unsure">Not sure yet</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="f-team-size">Team size (including you) <span aria-hidden="true">*</span></label>
+            <input type="number" id="f-team-size" name="team_size" min="1" max="20" value="1" required>
+          </div>
+        </div>
+
+        <hr class="form-divider">
+        <span class="form-section-label">Your context</span>
+
+        <div class="form-group">
+          <label for="f-why-coming">Why are you coming? <span aria-hidden="true">*</span></label>
+          <textarea id="f-why-coming" name="why_coming" rows="3" required placeholder="What&rsquo;s driving you to apply for this immersion?"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="f-hoping-to-learn">What are you hoping to learn or take back? <span aria-hidden="true">*</span></label>
+          <textarea id="f-hoping-to-learn" name="hoping_to_learn" rows="3" required placeholder="What would make this worth the trip?"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="f-prior-training">Prior training or background</label>
+          <textarea id="f-prior-training" name="prior_training" rows="2" placeholder="Any training you&rsquo;ve done related to disciple-making, Covo, etc."></textarea>
+        </div>
+
+        <hr class="form-divider">
+
+        <div class="form-group">
+          <div class="form-checkbox-group">
+            <input type="checkbox" id="f-lodging" name="lodging_acknowledged">
+            <label for="f-lodging">I understand that lodging and travel are arranged separately and are not included in the immersion.</label>
+          </div>
+        </div>
+
+        <div id="form-error" class="form-error-msg" hidden></div>
+
+        <div class="form-submit-row">
+          <button type="submit" class="btn-cta btn-submit">Submit Application</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <a class="footer-brand" href="/">Covo Multipliers</a>
+    <p class="footer-tagline">Live. Work. Play. Multiply.</p>
+    <p class="footer-copy">&copy; 2026 Covo Multipliers</p>
+  </footer>
+
+  <script>
+    const toggleTraining = document.getElementById('toggle-training');
+    const toggleImmersion = document.getElementById('toggle-immersion');
+    const experienceImage = document.getElementById('experience-image');
+    const experienceKicker = document.getElementById('experience-kicker');
+    const experienceTitle = document.getElementById('experience-title');
+    const experienceCopy = document.getElementById('experience-copy');
+
+    function setExperienceState(state) {
+      const isTraining = state === 'training';
+
+      toggleTraining.classList.toggle('active', isTraining);
+      toggleImmersion.classList.toggle('active', !isTraining);
+
+      toggleTraining.setAttribute('aria-selected', isTraining ? 'true' : 'false');
+      toggleImmersion.setAttribute('aria-selected', isTraining ? 'false' : 'true');
+
+      if (isTraining) {
+        experienceImage.src = 'image/immersions/whiteboard classroom training.webp';
+        experienceImage.alt = 'Person teaching at a whiteboard in a classroom setting';
+        experienceKicker.textContent = 'Most training';
+        experienceTitle.textContent = 'Hear it. Practice some. Imagine the rest.';
+        experienceCopy.textContent = 'Good training gives you language and tools. Sometimes it even gives you practice. But most people still go home trying to picture what this looks like in actual homes, workplaces, neighborhoods, and weekly rhythms.';
+      } else {
+        experienceImage.src = 'image/immersions/hands on immersion.webp';
+        experienceImage.alt = 'Hands-on immersion experience in a lived-in setting';
+        experienceKicker.textContent = 'Immersion';
+        experienceTitle.textContent = 'Hear it. Practice it. Experience it.';
+        experienceCopy.textContent = 'Immersion adds what most training cannot. You watch this lived out in real settings, ask questions as it happens, and go home with a picture you can actually reproduce.';
+      }
+    }
+
+    toggleTraining.addEventListener('click', function() {
+      setExperienceState('training');
+    });
+
+    toggleImmersion.addEventListener('click', function() {
+      setExperienceState('immersion');
+    });
+
+    const slider = document.getElementById('immersion-slides');
+    const sliderStage = document.getElementById('immersion-slider-stage');
+    const dots = Array.from(document.querySelectorAll('.immersion-slider-dot'));
+    const slides = Array.from(document.querySelectorAll('.immersion-slide'));
+
+    let currentSlide = 0;
+    let sliderInterval = null;
+    let isDragging = false;
+    let startX = 0;
+    let currentTranslate = 0;
+    let prevTranslate = 0;
+
+    function getSlideWidth() {
+      if (!slides.length) return 0;
+      const gap = parseFloat(window.getComputedStyle(slider).gap) || 0;
+      return slides[0].offsetWidth + gap;
+    }
+
+    function setSliderTransition(enabled) {
+      slider.style.transition = enabled ? 'transform 0.45s ease' : 'none';
+    }
+
+    function updateDots() {
+      dots.forEach(function(dot, i) {
+        dot.classList.toggle('active', i === currentSlide);
+      });
+    }
+
+    function goToSlide(index, withTransition = true) {
+      const total = slides.length;
+      currentSlide = ((index % total) + total) % total;
+      const slideWidth = getSlideWidth();
+      setSliderTransition(withTransition);
+      currentTranslate = -(currentSlide * slideWidth);
+      prevTranslate = currentTranslate;
+      slider.style.transform = 'translateX(' + currentTranslate + 'px)';
+      updateDots();
+    }
+
+    function startSlider() {
+      stopSlider();
+      sliderInterval = setInterval(function() {
+        goToSlide(currentSlide + 1, true);
+      }, 4500);
+    }
+
+    function stopSlider() {
+      if (sliderInterval) {
+        clearInterval(sliderInterval);
+        sliderInterval = null;
+      }
+    }
+
+    dots.forEach(function(dot, index) {
+      dot.addEventListener('click', function() {
+        goToSlide(index, true);
+        startSlider();
+      });
+    });
+
+    function pointerDown(clientX) {
+      isDragging = true;
+      startX = clientX;
+      stopSlider();
+      setSliderTransition(false);
+    }
+
+    function pointerMove(clientX) {
+      if (!isDragging) return;
+      const deltaX = clientX - startX;
+      currentTranslate = prevTranslate + deltaX;
+      slider.style.transform = 'translateX(' + currentTranslate + 'px)';
+    }
+
+    function pointerUp(clientX) {
+      if (!isDragging) return;
+      isDragging = false;
+
+      const movedBy = clientX - startX;
+      const threshold = Math.min(90, getSlideWidth() * 0.18);
+
+      if (movedBy < -threshold) {
+        currentSlide += 1;
+      } else if (movedBy > threshold) {
+        currentSlide -= 1;
+      }
+
+      goToSlide(currentSlide, true);
+      startSlider();
+    }
+
+    sliderStage.addEventListener('touchstart', function(e) {
+      if (e.touches.length !== 1) return;
+      pointerDown(e.touches[0].clientX);
+    }, { passive: true });
+
+    sliderStage.addEventListener('touchmove', function(e) {
+      if (e.touches.length !== 1) return;
+      pointerMove(e.touches[0].clientX);
+    }, { passive: true });
+
+    sliderStage.addEventListener('touchend', function(e) {
+      const touch = e.changedTouches[0];
+      if (!touch) return;
+      pointerUp(touch.clientX);
+    });
+
+    sliderStage.addEventListener('mousedown', function(e) {
+      pointerDown(e.clientX);
+    });
+
+    window.addEventListener('mousemove', function(e) {
+      pointerMove(e.clientX);
+    });
+
+    window.addEventListener('mouseup', function(e) {
+      pointerUp(e.clientX);
+    });
+
+    sliderStage.addEventListener('mouseenter', stopSlider);
+
+    sliderStage.addEventListener('mouseleave', function() {
+      if (!isDragging) startSlider();
+    });
+
+    sliderStage.addEventListener('focusin', stopSlider);
+
+    sliderStage.addEventListener('focusout', function() {
+      if (!isDragging) startSlider();
+    });
+
+    window.addEventListener('resize', function() {
+      goToSlide(currentSlide, false);
+    });
+
+    goToSlide(0, false);
+    startSlider();
+
+    /* ── Immersion cards + application modal ─────────────── */
+
+    (function () {
+      var SUPABASE_URL = 'https://mryjrvinzbxebzvxtggi.supabase.co';
+      var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1yeWpydmluemJ4ZWJ6dnh0Z2dpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYyNzQ3MzksImV4cCI6MjA5MTg1MDczOX0.U1JJQTBVKePsVFXr2oFRCdUZasWaZiTQg6g8QrFdRyw';
+      var EDGE_FUNCTION_URL = 'https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1/immersion-apply';
+
+      var _lastFocusedBtn = null;
+
+      function escHtml(str) {
+        if (str == null) return '';
+        return String(str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#x27;');
+      }
+
+      function formatDates(start, end) {
+        if (!start) return '—';
+        try {
+          var s = new Date(start + 'T00:00:00');
+          if (!end) {
+            return new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).format(s);
+          }
+          var e = new Date(end + 'T00:00:00');
+          if (s.getFullYear() === e.getFullYear() && s.getMonth() === e.getMonth()) {
+            return new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric' }).format(s) + '–' + e.getDate() + ', ' + e.getFullYear();
+          }
+          return new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric' }).format(s) + ' – ' + new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).format(e);
+        } catch (err) {
+          return String(start);
+        }
+      }
+
+      function buildSeatIndicator(remaining) {
+        var count = Math.min(remaining, 10);
+        var pips = '';
+        for (var i = 0; i < count; i++) {
+          pips += '<span class="seat-pip" aria-hidden="true"></span>';
+        }
+        var label = remaining === 1 ? '1 seat remaining' : remaining + ' seats remaining';
+        return '<div class="seat-pips">' + pips + '</div><span class="seat-label">' + label + '</span>';
+      }
+
+      function buildCard(im) {
+        var seats = Number(im.seats_remaining);
+        var isWaitlist = seats <= 0;
+        var seatHtml = isWaitlist
+          ? '<span class="waitlist-badge">Waitlist open</span>'
+          : buildSeatIndicator(seats);
+        var dateStr = formatDates(im.start_date, im.end_date);
+
+        return '<article class="immersion-card">' +
+          '<h3 class="immersion-card-title">' + escHtml(im.title) + '</h3>' +
+          '<ul class="immersion-card-meta">' +
+            '<li><span class="meta-label">City</span><span class="meta-value">' + escHtml(im.city || '—') + '</span></li>' +
+            '<li><span class="meta-label">Dates</span><span class="meta-value">' + escHtml(dateStr) + '</span></li>' +
+            '<li><span class="meta-label">Format</span><span class="meta-value">' + escHtml(im.format || '—') + '</span></li>' +
+            '<li><span class="meta-label">Focus</span><span class="meta-value">' + escHtml(im.platform_focus || '—') + '</span></li>' +
+          '</ul>' +
+          '<div class="seat-indicator">' + seatHtml + '</div>' +
+          '<div class="immersion-card-cta">' +
+            '<button class="btn-apply' + (isWaitlist ? ' is-waitlist' : '') + '" type="button"' +
+              ' data-immersion-id="' + escHtml(String(im.id)) + '"' +
+              ' data-immersion-title="' + escHtml(im.title) + '"' +
+              ' data-waitlist="' + (isWaitlist ? 'true' : 'false') + '">' +
+              (isWaitlist ? 'Join the waitlist' : 'Apply for this immersion') +
+            '</button>' +
+          '</div>' +
+        '</article>';
+      }
+
+      function attachCardHandlers(grid) {
+        grid.querySelectorAll('.btn-apply').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            openModal(
+              btn.dataset.immersionId,
+              btn.dataset.immersionTitle,
+              btn.dataset.waitlist === 'true',
+              btn
+            );
+          });
+        });
+      }
+
+      function loadImmersionCards() {
+        var grid = document.getElementById('immersion-cards-grid');
+        if (!grid) return Promise.resolve();
+
+        grid.innerHTML = '<div class="immersion-cards-loading">Loading available immersions…</div>';
+
+        var url = new URL(SUPABASE_URL + '/rest/v1/immersions_with_availability');
+        url.searchParams.set('select', '*');
+        url.searchParams.set('status', 'eq.open');
+        url.searchParams.set('order', 'start_date.asc');
+        url.searchParams.set('limit', '3');
+
+        return fetch(url.toString(), {
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+          },
+        })
+          .then(function (res) {
+            if (!res.ok) throw new Error('Request failed');
+            return res.json();
+          })
+          .then(function (data) {
+            if (!Array.isArray(data) || data.length === 0) {
+              grid.innerHTML = '<p class="immersion-cards-empty">No immersions are currently open. Check back soon.</p>';
+              return;
+            }
+            grid.innerHTML = data.map(buildCard).join('');
+            attachCardHandlers(grid);
+          })
+          .catch(function () {
+            grid.innerHTML = '<p class="immersion-cards-empty">Unable to load immersions right now. Please try again shortly.</p>';
+          });
+      }
+
+      function openModal(id, title, isWaitlist, triggerBtn) {
+        var modal   = document.getElementById('apply-modal');
+        var heading = document.getElementById('modal-heading');
+        var hidden  = document.getElementById('apply-immersion-id');
+        var form    = document.getElementById('immersion-apply-form');
+        var success = document.getElementById('modal-success');
+        var errorEl = document.getElementById('form-error');
+        var submitBtn = form ? form.querySelector('.btn-submit') : null;
+
+        if (hidden)  hidden.value = id;
+        if (heading) heading.textContent = isWaitlist
+          ? 'Join Waitlist — ' + title
+          : 'Apply for ' + title;
+
+        /* reset form to pristine state */
+        if (form) {
+          form.reset();
+          form.hidden = false;
+        }
+        if (success) success.hidden = true;
+        if (errorEl) errorEl.hidden = true;
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Submit Application';
+        }
+
+        _lastFocusedBtn = triggerBtn || document.activeElement;
+
+        modal.hidden = false;
+        document.body.style.overflow = 'hidden';
+
+        /* move focus into modal */
+        var firstFocusable = modal.querySelector(
+          'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        );
+        if (firstFocusable) firstFocusable.focus();
+      }
+
+      function closeModal() {
+        var modal = document.getElementById('apply-modal');
+        modal.hidden = true;
+        document.body.style.overflow = '';
+        if (_lastFocusedBtn && _lastFocusedBtn.focus) {
+          _lastFocusedBtn.focus();
+        }
+        _lastFocusedBtn = null;
+      }
+
+      /* close button */
+      var closeBtn = document.getElementById('modal-close-btn');
+      if (closeBtn) closeBtn.addEventListener('click', closeModal);
+
+      /* success-state close button */
+      var successCloseBtn = document.getElementById('modal-success-close-btn');
+      if (successCloseBtn) {
+        successCloseBtn.addEventListener('click', closeModal);
+      }
+
+      /* click outside panel */
+      var modal = document.getElementById('apply-modal');
+      if (modal) {
+        modal.addEventListener('click', function (e) {
+          if (e.target === modal) closeModal();
+        });
+      }
+
+      /* Escape key */
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+          var m = document.getElementById('apply-modal');
+          if (m && !m.hidden) closeModal();
+        }
+      });
+
+      /* focus trap inside modal */
+      if (modal) {
+        modal.addEventListener('keydown', function (e) {
+          if (e.key !== 'Tab') return;
+          var focusable = Array.from(modal.querySelectorAll(
+            'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+          )).filter(function (el) { return !el.hidden && el.offsetParent !== null; });
+          if (!focusable.length) return;
+          var first = focusable[0];
+          var last  = focusable[focusable.length - 1];
+          if (e.shiftKey) {
+            if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+          } else {
+            if (document.activeElement === last)  { e.preventDefault(); first.focus(); }
+          }
+        });
+      }
+
+      var applyForm = document.getElementById('immersion-apply-form');
+      if (applyForm) {
+        applyForm.addEventListener('submit', function (e) {
+          e.preventDefault();
+
+          var form      = e.target;
+          var submitBtn = form.querySelector('.btn-submit');
+          var errorEl   = document.getElementById('form-error');
+          var successEl = document.getElementById('modal-success');
+
+          var immersionId = form.immersion_id.value;
+          if (!immersionId) {
+            errorEl.textContent = 'No immersion selected. Please close and click "Apply for this immersion" on a card.';
+            errorEl.hidden = false;
+            return;
+          }
+
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Submitting…';
+          errorEl.hidden = true;
+
+          var payload = {
+            immersion_id:        immersionId,
+            name:                form.name.value.trim(),
+            email:               form.email.value.trim(),
+            phone:               form.phone.value.trim(),
+            city_state:          form.city_state.value.trim(),
+            church_org:          form.church_org.value.trim(),
+            team_status:         form.team_status.value,
+            team_size:           Number(form.team_size.value) || 1,
+            why_coming:          form.why_coming.value.trim(),
+            hoping_to_learn:     form.hoping_to_learn.value.trim(),
+            prior_training:      form.prior_training.value.trim(),
+            lodging_acknowledged: form.lodging_acknowledged.checked,
+          };
+
+          fetch(EDGE_FUNCTION_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          })
+            .then(function (res) {
+              if (!res.ok) {
+                return res.json().catch(function () { return {}; }).then(function (body) {
+                  throw new Error(body.error || 'Something went wrong. Please try again.');
+                });
+              }
+              return res;
+            })
+            .then(function () {
+              form.reset();
+              form.hidden = true;
+              if (successEl) successEl.hidden = false;
+              loadImmersionCards();
+              /* focus the close button inside the success message */
+              var sc = document.getElementById('modal-success-close-btn');
+              if (sc) sc.focus();
+            })
+            .catch(function (err) {
+              errorEl.textContent = err.message || 'Something went wrong. Please try again.';
+              errorEl.hidden = false;
+              submitBtn.disabled = false;
+              submitBtn.textContent = 'Submit Application';
+            });
+        });
+      }
+
+      loadImmersionCards();
+    })();
+
+    document.querySelectorAll('.faq-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var item = btn.closest('.faq-item');
+        var answer = item.querySelector('.faq-answer');
+        var isOpen = item.classList.contains('is-open');
+
+        document.querySelectorAll('.faq-item.is-open').forEach(function(open) {
+          open.classList.remove('is-open');
+          open.querySelector('.faq-btn').setAttribute('aria-expanded', 'false');
+          open.querySelector('.faq-answer').hidden = true;
+        });
+
+        if (!isOpen) {
+          item.classList.add('is-open');
+          btn.setAttribute('aria-expanded', 'true');
+          answer.hidden = false;
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
