@@ -954,6 +954,352 @@
         text-align: center;
       }
     }
+
+    /* ── Immersion availability cards ───────────── */
+
+    .immersion-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.25rem;
+      margin-top: 1.8rem;
+    }
+
+    .immersion-card {
+      background: #ffffff;
+      border: 1px solid #e2eae6;
+      border-top: 4px solid #1b4d3e;
+      border-radius: 16px;
+      padding: 1.6rem 1.5rem;
+      box-shadow: 0 4px 18px rgba(16, 40, 31, 0.06);
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+    }
+
+    .immersion-card-title {
+      font-size: 1.2rem;
+      font-weight: 900;
+      color: #10281f;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    .immersion-card-meta {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      flex: 1 1 auto;
+    }
+
+    .immersion-card-meta li {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.55rem 0;
+      border-bottom: 1px solid #f0f4f2;
+      font-size: 0.9rem;
+      line-height: 1.45;
+    }
+
+    .immersion-card-meta li:last-child {
+      border-bottom: none;
+    }
+
+    .meta-label {
+      font-weight: 800;
+      color: #10281f;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .meta-value {
+      color: #5a6b65;
+      text-align: right;
+    }
+
+    .seat-indicator {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .seat-pips {
+      display: flex;
+      gap: 0.25rem;
+      flex-wrap: wrap;
+    }
+
+    .seat-pip {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #86efac;
+      border: 1.5px solid #4ade80;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+
+    .seat-label {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #15803d;
+    }
+
+    .waitlist-badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      background: #fef3c7;
+      color: #92400e;
+      border: 1px solid #fde68a;
+      border-radius: 999px;
+      padding: 0.28rem 0.75rem;
+    }
+
+    .btn-apply {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      justify-content: center;
+      padding: 0.78rem 1.25rem;
+      border-radius: 999px;
+      background: #1b4d3e;
+      color: #ffffff;
+      border: 1.5px solid #1b4d3e;
+      font-size: 0.9rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      cursor: pointer;
+      font-family: inherit;
+      text-decoration: none;
+      line-height: 1;
+      transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+    }
+
+    .btn-apply:hover {
+      background: #245c4a;
+      border-color: #245c4a;
+      transform: translateY(-1px);
+    }
+
+    .btn-apply.is-waitlist {
+      background: transparent;
+      color: #1b4d3e;
+    }
+
+    .btn-apply.is-waitlist:hover {
+      background: #f0fdf4;
+    }
+
+    .immersion-cards-loading,
+    .immersion-cards-empty {
+      grid-column: 1 / -1;
+      text-align: center;
+      color: #5a6b65;
+      padding: 2.5rem 1rem;
+      font-size: 0.96rem;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 980px) {
+      .immersion-cards-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 600px) {
+      .immersion-cards-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ── Application form ────────────────────────── */
+
+    .apply-form-section {
+      background: #f8faf9;
+    }
+
+    .apply-form-inner {
+      max-width: 760px;
+    }
+
+    .apply-form-card {
+      background: #ffffff;
+      border-radius: 16px;
+      border: 1px solid #e2eae6;
+      box-shadow: 0 4px 18px rgba(16, 40, 31, 0.06);
+      padding: 2.25rem 2.5rem;
+      margin-top: 1.8rem;
+    }
+
+    .selected-immersion-notice {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 10px;
+      padding: 0.72rem 1rem;
+      margin-bottom: 1.5rem;
+      font-size: 0.9rem;
+      color: #15803d;
+      font-weight: 600;
+      display: none;
+    }
+
+    .selected-immersion-notice.is-visible {
+      display: block;
+    }
+
+    .form-section-label {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #245c4a;
+      margin-bottom: 1rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.1rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #10281f;
+      margin-bottom: 0.38rem;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.68rem 0.9rem;
+      border: 1.5px solid #d5ddd9;
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      color: #2a2a2a;
+      background: #ffffff;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+      box-sizing: border-box;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #1b4d3e;
+      box-shadow: 0 0 0 3px rgba(27, 77, 62, 0.1);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 88px;
+    }
+
+    .form-group select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235a6b65' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.85rem center;
+      padding-right: 2.25rem;
+    }
+
+    .form-checkbox-group {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.72rem;
+      padding: 0.95rem 1rem;
+      background: #f8faf9;
+      border: 1.5px solid #e2eae6;
+      border-radius: 10px;
+    }
+
+    .form-checkbox-group input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      margin-top: 0.1rem;
+      flex-shrink: 0;
+      accent-color: #1b4d3e;
+      cursor: pointer;
+    }
+
+    .form-checkbox-group label {
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-transform: none;
+      letter-spacing: 0;
+      color: #3a4a44;
+      line-height: 1.5;
+      margin: 0;
+      cursor: pointer;
+    }
+
+    .form-divider {
+      border: none;
+      border-top: 1px solid #e2eae6;
+      margin: 1.4rem 0 1.25rem;
+    }
+
+    .form-submit-row {
+      margin-top: 1.6rem;
+    }
+
+    .btn-submit {
+      width: 100%;
+      text-align: center;
+    }
+
+    .btn-submit:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .form-success-msg {
+      background: #f0fdf4;
+      border: 1.5px solid #86efac;
+      border-radius: 12px;
+      padding: 1.5rem 1.75rem;
+      margin-top: 1.6rem;
+      color: #14532d;
+      font-size: 1rem;
+      font-weight: 600;
+      line-height: 1.65;
+    }
+
+    .form-error-msg {
+      background: #fef2f2;
+      border: 1.5px solid #fca5a5;
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+      margin-top: 1rem;
+      color: #dc2626;
+      font-size: 0.9rem;
+      line-height: 1.55;
+    }
+
+    @media (max-width: 680px) {
+      .apply-form-card {
+        padding: 1.5rem 1.25rem;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 
@@ -976,7 +1322,7 @@
         </p>
 
         <div class="hero-cta-row">
-          <a class="btn-pill btn-pill-primary" href="#next-immersion">Apply for the Next Immersion</a>
+          <a class="btn-pill btn-pill-primary" href="#open-immersions">Apply for the Next Immersion</a>
         </div>
 
         <p class="hero-support-line">
@@ -1278,58 +1624,118 @@
     </div>
   </section>
 
-  <section class="page-section two-col-section" id="next-immersion">
-    <div class="page-section-inner">
-      <div>
-        <span class="eyebrow">Next immersion</span>
+  <section class="page-section" id="open-immersions">
+    <div class="page-section-inner" style="max-width:1200px;">
+      <span class="eyebrow">Upcoming immersions</span>
+      <h2 class="section-title">Open immersions</h2>
+      <p class="section-copy" style="margin-bottom:0;">These are the immersions currently accepting applications. Spots are limited.</p>
+      <div id="immersion-cards-grid" class="immersion-cards-grid" aria-live="polite" aria-label="Available immersions">
+        <div class="immersion-cards-loading">Loading available immersions&hellip;</div>
+      </div>
+    </div>
+  </section>
 
-        <h2 class="section-title">Come see it up close.</h2>
+  <section class="page-section apply-form-section" id="apply">
+    <div class="page-section-inner apply-form-inner">
+      <span class="eyebrow">Apply</span>
+      <h2 class="section-title">Apply for an immersion</h2>
+      <p class="section-copy">Fill out the form below. We review every application and will follow up by email.</p>
 
-        <div class="section-copy">
-          <p>Small group. Real settings. Debrief as you go. Built for leaders who are ready to stop guessing and start seeing what this can look like in normal life.</p>
-        </div>
+      <div id="form-success" class="form-success-msg" hidden>
+        Application received. Check your email for confirmation. We&rsquo;ll follow up soon with next steps.
       </div>
 
-      <aside class="info-card">
-        <h2>New York City</h2>
+      <form id="immersion-apply-form" class="apply-form-card" novalidate>
+        <input type="hidden" id="apply-immersion-id" name="immersion_id" value="">
 
-        <p class="info-card-intro">
-          2 to 3 days of observation, practice, debrief, and real-life exposure.
-        </p>
-
-        <ul class="info-list">
-          <li>
-            <span class="info-label">Dates</span>
-            <span class="info-value">[Dates]</span>
-          </li>
-
-          <li>
-            <span class="info-label">Length</span>
-            <span class="info-value">[2 or 3 days]</span>
-          </li>
-
-          <li>
-            <span class="info-label">Cost</span>
-            <span class="info-value">[Cost or application required]</span>
-          </li>
-
-          <li>
-            <span class="info-label">Travel</span>
-            <span class="info-value">Arranged separately</span>
-          </li>
-
-          <li>
-            <span class="info-label">Lodging</span>
-            <span class="info-value">Arranged separately</span>
-          </li>
-        </ul>
-
-        <a class="btn-pill btn-pill-primary btn-card" href="#">Apply for the Next Immersion</a>
-
-        <div class="info-card-secondary">
-          Questions before applying? <a href="#">Reach out here.</a>
+        <div id="selected-immersion-notice" class="selected-immersion-notice">
+          Applying for: <span id="selected-immersion-name"></span>
         </div>
-      </aside>
+
+        <span class="form-section-label">About you</span>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="f-name">Full name <span aria-hidden="true">*</span></label>
+            <input type="text" id="f-name" name="name" autocomplete="name" required placeholder="Jane Smith">
+          </div>
+
+          <div class="form-group">
+            <label for="f-email">Email <span aria-hidden="true">*</span></label>
+            <input type="email" id="f-email" name="email" autocomplete="email" required placeholder="jane@example.com">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="f-phone">Phone</label>
+            <input type="tel" id="f-phone" name="phone" autocomplete="tel" placeholder="+1 (555) 000-0000">
+          </div>
+
+          <div class="form-group">
+            <label for="f-city-state">City &amp; state <span aria-hidden="true">*</span></label>
+            <input type="text" id="f-city-state" name="city_state" required placeholder="Brooklyn, NY">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="f-church-org">Church or organization</label>
+          <input type="text" id="f-church-org" name="church_org" placeholder="Redemption Church">
+        </div>
+
+        <hr class="form-divider">
+        <span class="form-section-label">Your team</span>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="f-team-status">Coming as part of a team? <span aria-hidden="true">*</span></label>
+            <select id="f-team-status" name="team_status" required>
+              <option value="" disabled selected>Select one&hellip;</option>
+              <option value="individual">Coming individually</option>
+              <option value="team">Coming with a team</option>
+              <option value="unsure">Not sure yet</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="f-team-size">Team size (including you) <span aria-hidden="true">*</span></label>
+            <input type="number" id="f-team-size" name="team_size" min="1" max="20" value="1" required>
+          </div>
+        </div>
+
+        <hr class="form-divider">
+        <span class="form-section-label">Your context</span>
+
+        <div class="form-group">
+          <label for="f-why-coming">Why are you coming? <span aria-hidden="true">*</span></label>
+          <textarea id="f-why-coming" name="why_coming" rows="3" required placeholder="What&rsquo;s driving you to apply for this immersion?"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="f-hoping-to-learn">What are you hoping to learn or take back? <span aria-hidden="true">*</span></label>
+          <textarea id="f-hoping-to-learn" name="hoping_to_learn" rows="3" required placeholder="What would make this worth the trip?"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="f-prior-training">Prior training or background</label>
+          <textarea id="f-prior-training" name="prior_training" rows="2" placeholder="Any training you&rsquo;ve done related to disciple-making, Covo, etc."></textarea>
+        </div>
+
+        <hr class="form-divider">
+
+        <div class="form-group">
+          <div class="form-checkbox-group">
+            <input type="checkbox" id="f-lodging" name="lodging_acknowledged">
+            <label for="f-lodging">I understand that lodging and travel are arranged separately and are not included in the immersion.</label>
+          </div>
+        </div>
+
+        <div id="form-error" class="form-error-msg" hidden></div>
+
+        <div class="form-submit-row">
+          <button type="submit" class="btn-cta btn-submit">Submit Application</button>
+        </div>
+      </form>
     </div>
   </section>
 
@@ -1444,7 +1850,7 @@
         <p>If you’re done guessing what disciple-making looks like in normal life, come see it up close.</p>
       </div>
 
-      <a class="btn-cta" href="#next-immersion">Apply for the Next Immersion</a>
+      <a class="btn-cta" href="#open-immersions">Apply for the Next Immersion</a>
     </div>
   </section>
 
@@ -1631,6 +2037,206 @@
 
     goToSlide(0, false);
     startSlider();
+
+    /* ── Immersion cards + application form ──────────────── */
+
+    (function () {
+      var SUPABASE_URL = 'https://mryjrvinzbxebzvxtggi.supabase.co';
+      var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1yeWpydmluemJ4ZWJ6dnh0Z2dpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYyNzQ3MzksImV4cCI6MjA5MTg1MDczOX0.U1JJQTBVKePsVFXr2oFRCdUZasWaZiTQg6g8QrFdRyw';
+      var EDGE_FUNCTION_URL = 'https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1/immersion-apply';
+
+      function escHtml(str) {
+        if (str == null) return '';
+        return String(str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#x27;');
+      }
+
+      function formatDates(start, end) {
+        if (!start) return '—';
+        try {
+          var s = new Date(start + 'T00:00:00');
+          if (!end) {
+            return new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).format(s);
+          }
+          var e = new Date(end + 'T00:00:00');
+          if (s.getFullYear() === e.getFullYear() && s.getMonth() === e.getMonth()) {
+            return new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric' }).format(s) + '–' + e.getDate() + ', ' + e.getFullYear();
+          }
+          return new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric' }).format(s) + ' – ' + new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).format(e);
+        } catch (err) {
+          return String(start);
+        }
+      }
+
+      function buildSeatIndicator(remaining) {
+        var count = Math.min(remaining, 10);
+        var pips = '';
+        for (var i = 0; i < count; i++) {
+          pips += '<span class="seat-pip" aria-hidden="true"></span>';
+        }
+        var label = remaining === 1 ? '1 seat remaining' : remaining + ' seats remaining';
+        return '<div class="seat-pips">' + pips + '</div><span class="seat-label">' + label + '</span>';
+      }
+
+      function buildCard(im) {
+        var seats = Number(im.seats_remaining);
+        var isWaitlist = seats <= 0;
+        var seatHtml = isWaitlist
+          ? '<span class="waitlist-badge">Waitlist open</span>'
+          : buildSeatIndicator(seats);
+        var dateStr = formatDates(im.start_date, im.end_date);
+
+        return '<article class="immersion-card">' +
+          '<h3 class="immersion-card-title">' + escHtml(im.title) + '</h3>' +
+          '<ul class="immersion-card-meta">' +
+            '<li><span class="meta-label">City</span><span class="meta-value">' + escHtml(im.city || '—') + '</span></li>' +
+            '<li><span class="meta-label">Dates</span><span class="meta-value">' + escHtml(dateStr) + '</span></li>' +
+            '<li><span class="meta-label">Format</span><span class="meta-value">' + escHtml(im.format || '—') + '</span></li>' +
+            '<li><span class="meta-label">Focus</span><span class="meta-value">' + escHtml(im.platform_focus || '—') + '</span></li>' +
+          '</ul>' +
+          '<div class="seat-indicator">' + seatHtml + '</div>' +
+          '<div class="immersion-card-cta">' +
+            '<button class="btn-apply' + (isWaitlist ? ' is-waitlist' : '') + '" type="button"' +
+              ' data-immersion-id="' + escHtml(String(im.id)) + '"' +
+              ' data-immersion-title="' + escHtml(im.title) + '">' +
+              (isWaitlist ? 'Join the waitlist' : 'Apply for this immersion') +
+            '</button>' +
+          '</div>' +
+        '</article>';
+      }
+
+      function attachCardHandlers(grid) {
+        grid.querySelectorAll('.btn-apply').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            selectImmersion(btn.dataset.immersionId, btn.dataset.immersionTitle);
+          });
+        });
+      }
+
+      function loadImmersionCards() {
+        var grid = document.getElementById('immersion-cards-grid');
+        if (!grid) return Promise.resolve();
+
+        grid.innerHTML = '<div class="immersion-cards-loading">Loading available immersions…</div>';
+
+        var url = new URL(SUPABASE_URL + '/rest/v1/immersions_with_availability');
+        url.searchParams.set('select', '*');
+        url.searchParams.set('status', 'eq.open');
+        url.searchParams.set('order', 'start_date.asc');
+        url.searchParams.set('limit', '3');
+
+        return fetch(url.toString(), {
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+          },
+        })
+          .then(function (res) {
+            if (!res.ok) throw new Error('Request failed');
+            return res.json();
+          })
+          .then(function (data) {
+            if (!Array.isArray(data) || data.length === 0) {
+              grid.innerHTML = '<p class="immersion-cards-empty">No immersions are currently open. Check back soon.</p>';
+              return;
+            }
+            grid.innerHTML = data.map(buildCard).join('');
+            attachCardHandlers(grid);
+          })
+          .catch(function () {
+            grid.innerHTML = '<p class="immersion-cards-empty">Unable to load immersions right now. Please try again shortly.</p>';
+          });
+      }
+
+      function selectImmersion(id, title) {
+        var hiddenField = document.getElementById('apply-immersion-id');
+        var notice = document.getElementById('selected-immersion-notice');
+        var nameEl = document.getElementById('selected-immersion-name');
+
+        if (hiddenField) hiddenField.value = id;
+        if (notice && nameEl) {
+          nameEl.textContent = title;
+          notice.classList.add('is-visible');
+        }
+
+        var formSection = document.getElementById('apply');
+        if (formSection) {
+          formSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+
+      var applyForm = document.getElementById('immersion-apply-form');
+      if (applyForm) {
+        applyForm.addEventListener('submit', function (e) {
+          e.preventDefault();
+
+          var form = e.target;
+          var submitBtn = form.querySelector('.btn-submit');
+          var errorEl = document.getElementById('form-error');
+          var successEl = document.getElementById('form-success');
+
+          var immersionId = form.immersion_id.value;
+          if (!immersionId) {
+            errorEl.textContent = 'Please select an immersion by clicking “Apply for this immersion” on one of the cards above.';
+            errorEl.hidden = false;
+            var cards = document.getElementById('open-immersions');
+            if (cards) cards.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            return;
+          }
+
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Submitting…';
+          errorEl.hidden = true;
+
+          var payload = {
+            immersion_id: immersionId,
+            name: form.name.value.trim(),
+            email: form.email.value.trim(),
+            phone: form.phone.value.trim(),
+            city_state: form.city_state.value.trim(),
+            church_org: form.church_org.value.trim(),
+            team_status: form.team_status.value,
+            team_size: Number(form.team_size.value) || 1,
+            why_coming: form.why_coming.value.trim(),
+            hoping_to_learn: form.hoping_to_learn.value.trim(),
+            prior_training: form.prior_training.value.trim(),
+            lodging_acknowledged: form.lodging_acknowledged.checked,
+          };
+
+          fetch(EDGE_FUNCTION_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          })
+            .then(function (res) {
+              if (!res.ok) {
+                return res.json().catch(function () { return {}; }).then(function (body) {
+                  throw new Error(body.error || 'Something went wrong. Please try again.');
+                });
+              }
+              return res;
+            })
+            .then(function () {
+              form.hidden = true;
+              successEl.hidden = false;
+              successEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+              loadImmersionCards();
+            })
+            .catch(function (err) {
+              errorEl.textContent = err.message || 'Something went wrong. Please try again.';
+              errorEl.hidden = false;
+              submitBtn.disabled = false;
+              submitBtn.textContent = 'Submit Application';
+            });
+        });
+      }
+
+      loadImmersionCards();
+    })();
 
     document.querySelectorAll('.faq-btn').forEach(function(btn) {
       btn.addEventListener('click', function() {
