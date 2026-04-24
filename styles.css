@@ -1070,9 +1070,9 @@ img {
 }
 
 .immersion-cta-section {
-    background: #ffffff;
+    background: linear-gradient(135deg, #f0faf4 0%, #e6f5ec 40%, #f4fbf6 100%);
     padding: 5rem 2rem;
-    border-bottom: 1px solid #eef0ef;
+    border-bottom: 1px solid #d4eddd;
 }
 
 .immersion-cta-inner {
