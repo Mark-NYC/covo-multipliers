@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Covo Immersions</title>
-  <meta name="description" content="See disciple-making in real life. Not another training. Step into real rhythms with real people in real places.">
+  <meta
+    name="description"
+    content="See disciple-making in real life. Not another training. Step into real rhythms with real people in real places."
+  />
 
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css" />
 
   <style>
     .site-header {
@@ -120,7 +123,7 @@
       font-size: clamp(1.1rem, 2vw, 1.34rem);
       line-height: 1.55;
       color: rgba(255,255,255,0.94);
-      max-width: 690px;
+      max-width: 760px;
       margin-bottom: 1.35rem;
     }
 
@@ -466,17 +469,40 @@
       margin-bottom: 0.85rem;
     }
 
-    .micro-list {
+    .icon-list {
       list-style: none;
       padding: 0;
       margin: 0;
     }
 
-    .micro-list li {
+    .icon-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
       font-size: 0.97rem;
       line-height: 1.65;
       color: #3a4a44;
-      padding: 0.35rem 0;
+      padding: 0.38rem 0;
+    }
+
+    .icon-list-mark {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      font-size: 0.85rem;
+      font-weight: 900;
+      margin-top: 0.1rem;
+    }
+
+    .icon-list-mark.is-yes {
+      color: #15803d;
+    }
+
+    .icon-list-mark.is-no {
+      color: #dc2626;
     }
 
     .info-card {
@@ -535,13 +561,6 @@
     .info-value {
       text-align: right;
       color: #5a6b65;
-    }
-
-    .info-card-note {
-      font-size: 0.88rem;
-      line-height: 1.6;
-      color: #5a6b65;
-      margin-bottom: 1.2rem;
     }
 
     .btn-card {
@@ -849,7 +868,7 @@
         <h1 class="event-title">See disciple-making in real life.</h1>
 
         <p class="hero-lead">
-          Not another training. Step into real rhythms with real people in real places so you can stop guessing what this looks like.
+          Not another training. Step into real rhythms with real people in real places, including homes, neighborhoods, workplaces, businesses, and community spaces, so you can stop guessing what this looks like.
         </p>
 
         <div class="hero-cta-row">
@@ -862,7 +881,7 @@
       </div>
 
       <div class="hero-image-wrap">
-        <img src="image/immersions/immersion-hero.webp" alt="Covo immersion gathering in a real everyday setting" loading="lazy">
+        <img src="image/immersions/immersion-hero.webp" alt="Covo immersion gathering in a real everyday setting" loading="lazy" />
       </div>
     </div>
   </section>
@@ -874,7 +893,8 @@
 
       <div class="section-copy">
         <p>You won’t sit in a room all day taking notes.</p>
-        <p>You’ll step into normal settings like homes, coffee shops, neighborhoods, meals, and debriefs with people actually living this out.</p>
+        <p>You’ll step into normal settings like homes, coffee shops, neighborhoods, meals, workplaces, businesses, nonprofit community spaces, and debriefs with people actually living this out.</p>
+        <p>You’ll also visit real locations, see the work environment, hear the story behind it, and ask how vocation and mission actually fit together as covocational leaders live this out on the ground.</p>
         <p>The point is simple. See it up close. Ask questions in the moment. Leave with a clearer picture of what to do in your own context.</p>
       </div>
 
@@ -890,7 +910,7 @@
 
         <div class="experience-panel" id="experience-panel">
           <div class="experience-image-wrap">
-            <img id="experience-image" src="image/immersions/whiteboard classroom training.webp" alt="Person teaching at a whiteboard in a classroom setting" loading="lazy">
+            <img id="experience-image" src="image/immersions/whiteboard classroom training.webp" alt="Person teaching at a whiteboard in a classroom setting" loading="lazy" />
           </div>
 
           <div class="experience-copy">
@@ -925,6 +945,10 @@
         </li>
         <li>
           <span class="simple-check" aria-hidden="true">&#10003;</span>
+          <span>See businesses, workplaces, and community spaces up close and hear the story behind them</span>
+        </li>
+        <li>
+          <span class="simple-check" aria-hidden="true">&#10003;</span>
           <span>Debrief what happened and why it mattered</span>
         </li>
         <li>
@@ -938,7 +962,7 @@
           <div class="immersion-slides" id="immersion-slides">
             <article class="immersion-slide">
               <div class="immersion-slide-image">
-                <img src="image/immersions/immersion-grid-1.webp" alt="Immersion moment in a coffee shop setting" loading="lazy">
+                <img src="image/immersions/immersion-grid-1.webp" alt="Immersion moment in a coffee shop setting" loading="lazy" />
               </div>
               <div class="immersion-slide-copy">
                 <span class="immersion-slide-kicker">What happens</span>
@@ -949,7 +973,7 @@
 
             <article class="immersion-slide">
               <div class="immersion-slide-image">
-                <img src="image/immersions/immersion-grid-2.webp" alt="Immersion training and debrief in an outdoor setting" loading="lazy">
+                <img src="image/immersions/immersion-grid-2.webp" alt="Immersion training and debrief in an outdoor setting" loading="lazy" />
               </div>
               <div class="immersion-slide-copy">
                 <span class="immersion-slide-kicker">What happens</span>
@@ -960,18 +984,18 @@
 
             <article class="immersion-slide">
               <div class="immersion-slide-image">
-                <img src="image/immersions/immersion-grid-3.webp" alt="Immersion practice in a family or neighborhood setting" loading="lazy">
+                <img src="image/immersions/immersion-grid-3.webp" alt="Immersion practice in a family or neighborhood setting" loading="lazy" />
               </div>
               <div class="immersion-slide-copy">
                 <span class="immersion-slide-kicker">What happens</span>
-                <h3 class="immersion-slide-title">Watch the normal parts, not just the wins.</h3>
-                <p class="immersion-slide-text">One of the biggest helps is seeing the texture of real life. The pauses. The conversations. The setting. The kind of stuff most people never see in a normal training.</p>
+                <h3 class="immersion-slide-title">See how vocation becomes part of the platform.</h3>
+                <p class="immersion-slide-text">You visit businesses, workplaces, and sometimes nonprofit community spaces. You see the setting, hear the story behind it, and ask how covocational life actually works on the ground.</p>
               </div>
             </article>
 
             <article class="immersion-slide">
               <div class="immersion-slide-image">
-                <img src="image/immersions/immersion-grid-4.webp" alt="Immersion gathering in a home setting" loading="lazy">
+                <img src="image/immersions/immersion-grid-4.webp" alt="Immersion gathering in a home setting" loading="lazy" />
               </div>
               <div class="immersion-slide-copy">
                 <span class="immersion-slide-kicker">What happens</span>
@@ -1001,21 +1025,43 @@
         <div class="split-card">
           <h3>Who this is for</h3>
           <p class="section-copy" style="font-size:0.96rem; margin-bottom:0.9rem;">
-            For leaders who are serious about making disciples in everyday life and want to see what that actually looks like on the ground.
+            For leaders who are serious about making disciples in everyday life and want to see what that actually looks like on the ground, including how work and mission fit together as covocational leaders.
           </p>
-          <ul class="micro-list">
-            <li>You’ve had training but still need a picture</li>
-            <li>You want practice, not just ideas</li>
-            <li>You want something reproducible, not impressive</li>
+          <ul class="icon-list">
+            <li>
+              <span class="icon-list-mark is-yes" aria-hidden="true">✓</span>
+              <span>You’ve had training but still need a picture</span>
+            </li>
+            <li>
+              <span class="icon-list-mark is-yes" aria-hidden="true">✓</span>
+              <span>You want practice, not just ideas</span>
+            </li>
+            <li>
+              <span class="icon-list-mark is-yes" aria-hidden="true">✓</span>
+              <span>You want something reproducible, not impressive</span>
+            </li>
+            <li>
+              <span class="icon-list-mark is-yes" aria-hidden="true">✓</span>
+              <span>You want to understand what covocational life can actually look like in the wild</span>
+            </li>
           </ul>
         </div>
 
         <div class="split-card">
           <h3>Who this is not for</h3>
-          <ul class="micro-list">
-            <li>People looking for a polished conference experience</li>
-            <li>People who want inspiration without engagement</li>
-            <li>People who only want theory</li>
+          <ul class="icon-list">
+            <li>
+              <span class="icon-list-mark is-no" aria-hidden="true">✕</span>
+              <span>People looking for a polished conference experience</span>
+            </li>
+            <li>
+              <span class="icon-list-mark is-no" aria-hidden="true">✕</span>
+              <span>People who want inspiration without engagement</span>
+            </li>
+            <li>
+              <span class="icon-list-mark is-no" aria-hidden="true">✕</span>
+              <span>People who only want theory</span>
+            </li>
           </ul>
         </div>
       </div>
@@ -1085,7 +1131,7 @@
         </article>
 
         <article class="testimonial-card">
-          <p class="testimonial-quote">“I left with a much clearer sense of what needs to change back home.”</p>
+          <p class="testimonial-quote">“Seeing the businesses and hearing the stories made covocational life click for me in a way it never had before.”</p>
           <p class="testimonial-attribution">[Name], [City / Role]</p>
         </article>
       </div>
@@ -1124,6 +1170,16 @@
             </button>
             <div class="faq-answer" hidden>
               Yes. Teams are welcome.
+            </div>
+          </li>
+
+          <li class="faq-item">
+            <button class="faq-btn" aria-expanded="false">
+              <span>Will we actually see workplaces or businesses?</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-answer" hidden>
+              Often, yes. A key part of the immersion is seeing how some people engage as covocational leaders through real businesses, workplaces, and sometimes nonprofit community spaces.
             </div>
           </li>
 
