@@ -2142,7 +2142,7 @@
           .replace(/&/g, '&amp;')
           .replace(/</g, '&lt;')
           .replace(/>/g, '&gt;')
-          .replace(/”/g, '&quot;')
+          .replace(/"/g, '&quot;')
           .replace(/'/g, '&#x27;');
       }
 
@@ -2167,34 +2167,34 @@
         var count = Math.min(remaining, 10);
         var pips = '';
         for (var i = 0; i < count; i++) {
-          pips += '<span class=”seat-pip” aria-hidden=”true”></span>';
+          pips += '<span class="seat-pip" aria-hidden="true"></span>';
         }
         var label = remaining === 1 ? '1 seat remaining' : remaining + ' seats remaining';
-        return '<div class=”seat-pips”>' + pips + '</div><span class=”seat-label”>' + label + '</span>';
+        return '<div class="seat-pips">' + pips + '</div><span class="seat-label">' + label + '</span>';
       }
 
       function buildCard(im) {
         var seats = Number(im.seats_remaining);
         var isWaitlist = seats <= 0;
         var seatHtml = isWaitlist
-          ? '<span class=”waitlist-badge”>Waitlist open</span>'
+          ? '<span class="waitlist-badge">Waitlist open</span>'
           : buildSeatIndicator(seats);
         var dateStr = formatDates(im.start_date, im.end_date);
 
-        return '<article class=”immersion-card”>' +
-          '<h3 class=”immersion-card-title”>' + escHtml(im.title) + '</h3>' +
-          '<ul class=”immersion-card-meta”>' +
-            '<li><span class=”meta-label”>City</span><span class=”meta-value”>' + escHtml(im.city || '—') + '</span></li>' +
-            '<li><span class=”meta-label”>Dates</span><span class=”meta-value”>' + escHtml(dateStr) + '</span></li>' +
-            '<li><span class=”meta-label”>Format</span><span class=”meta-value”>' + escHtml(im.format || '—') + '</span></li>' +
-            '<li><span class=”meta-label”>Focus</span><span class=”meta-value”>' + escHtml(im.platform_focus || '—') + '</span></li>' +
+        return '<article class="immersion-card">' +
+          '<h3 class="immersion-card-title">' + escHtml(im.title) + '</h3>' +
+          '<ul class="immersion-card-meta">' +
+            '<li><span class="meta-label">City</span><span class="meta-value">' + escHtml(im.city || '—') + '</span></li>' +
+            '<li><span class="meta-label">Dates</span><span class="meta-value">' + escHtml(dateStr) + '</span></li>' +
+            '<li><span class="meta-label">Format</span><span class="meta-value">' + escHtml(im.format || '—') + '</span></li>' +
+            '<li><span class="meta-label">Focus</span><span class="meta-value">' + escHtml(im.platform_focus || '—') + '</span></li>' +
           '</ul>' +
-          '<div class=”seat-indicator”>' + seatHtml + '</div>' +
-          '<div class=”immersion-card-cta”>' +
-            '<button class=”btn-apply' + (isWaitlist ? ' is-waitlist' : '') + '” type=”button”' +
-              ' data-immersion-id=”' + escHtml(String(im.id)) + '”' +
-              ' data-immersion-title=”' + escHtml(im.title) + '”' +
-              ' data-waitlist=”' + (isWaitlist ? 'true' : 'false') + '”>' +
+          '<div class="seat-indicator">' + seatHtml + '</div>' +
+          '<div class="immersion-card-cta">' +
+            '<button class="btn-apply' + (isWaitlist ? ' is-waitlist' : '') + '" type="button"' +
+              ' data-immersion-id="' + escHtml(String(im.id)) + '"' +
+              ' data-immersion-title="' + escHtml(im.title) + '"' +
+              ' data-waitlist="' + (isWaitlist ? 'true' : 'false') + '">' +
               (isWaitlist ? 'Join the waitlist' : 'Apply for this immersion') +
             '</button>' +
           '</div>' +
@@ -2218,7 +2218,7 @@
         var grid = document.getElementById('immersion-cards-grid');
         if (!grid) return Promise.resolve();
 
-        grid.innerHTML = '<div class=”immersion-cards-loading”>Loading available immersions…</div>';
+        grid.innerHTML = '<div class="immersion-cards-loading">Loading available immersions…</div>';
 
         var url = new URL(SUPABASE_URL + '/rest/v1/immersions_with_availability');
         url.searchParams.set('select', '*');
@@ -2238,14 +2238,14 @@
           })
           .then(function (data) {
             if (!Array.isArray(data) || data.length === 0) {
-              grid.innerHTML = '<p class=”immersion-cards-empty”>No immersions are currently open. Check back soon.</p>';
+              grid.innerHTML = '<p class="immersion-cards-empty">No immersions are currently open. Check back soon.</p>';
               return;
             }
             grid.innerHTML = data.map(buildCard).join('');
             attachCardHandlers(grid);
           })
           .catch(function () {
-            grid.innerHTML = '<p class=”immersion-cards-empty”>Unable to load immersions right now. Please try again shortly.</p>';
+            grid.innerHTML = '<p class="immersion-cards-empty">Unable to load immersions right now. Please try again shortly.</p>';
           });
       }
 
@@ -2282,7 +2282,7 @@
 
         /* move focus into modal */
         var firstFocusable = modal.querySelector(
-          'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex=”-1”])'
+          'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
         );
         if (firstFocusable) firstFocusable.focus();
       }
@@ -2328,7 +2328,7 @@
         modal.addEventListener('keydown', function (e) {
           if (e.key !== 'Tab') return;
           var focusable = Array.from(modal.querySelectorAll(
-            'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex=”-1”])'
+            'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
           )).filter(function (el) { return !el.hidden && el.offsetParent !== null; });
           if (!focusable.length) return;
           var first = focusable[0];
@@ -2353,7 +2353,7 @@
 
           var immersionId = form.immersion_id.value;
           if (!immersionId) {
-            errorEl.textContent = 'No immersion selected. Please close and click “Apply for this immersion” on a card.';
+            errorEl.textContent = 'No immersion selected. Please close and click "Apply for this immersion" on a card.';
             errorEl.hidden = false;
             return;
           }
