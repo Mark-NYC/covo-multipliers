@@ -1,2 +1,5 @@
 [functions.register]
 verify_jwt = false
+
+[functions.immersion-apply]
+verify_jwt = false
