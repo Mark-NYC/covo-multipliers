@@ -604,6 +604,14 @@ img {
     text-align: center;
 }
 
+.labs-urgency {
+    font-size: 0.85rem;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.75);
+    margin-top: -0.75rem;
+    margin-bottom: 1.75rem;
+}
+
 .labs-list {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));

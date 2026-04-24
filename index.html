@@ -151,6 +151,10 @@ A lab is a <strong>45-minute live session</strong> with a small group (max 25).
 You'll work through one practical framework you can use the same week.
 </p>
 
+        <p class="labs-urgency">
+Spots are limited to 25 and usually fill.
+</p>
+
         <div class="labs-list">
 
             <div class="lab-item" data-slug="from-lost-to-leader-may-2026">
@@ -337,7 +341,7 @@ You'll work through one practical framework you can use the same week.
                     const isFull = !event.has_availability;
                     const label = isFull
                         ? 'Event full'
-                        : `${event.seats_remaining} seat${event.seats_remaining === 1 ? '' : 's'} left`;
+                        : `${event.seats_remaining} seat${event.seats_remaining === 1 ? '' : 's'} left · usually fills fast`;
 
                     const pill = document.createElement('span');
                     pill.className = `lab-seats${isFull ? ' is-full' : ''}`;
