@@ -341,7 +341,7 @@ Spots are limited to 25 and usually fill.
                     const isFull = !event.has_availability;
                     const label = isFull
                         ? 'Event full'
-                        : `${event.seats_remaining} seat${event.seats_remaining === 1 ? '' : 's'} left · usually fills fast`;
+                        : `${event.seats_remaining} seat${event.seats_remaining === 1 ? '' : 's'} left · fills fast`;
 
                     const pill = document.createElement('span');
                     pill.className = `lab-seats${isFull ? ' is-full' : ''}`;
