@@ -6,16 +6,11 @@
     <meta name="description" content="Vision & Pathway — Covo Multipliers">
     <title>Vision &amp; Pathway — Covo Multipliers</title>
     <link rel="stylesheet" href="styles.css">
+
     <style>
-
         /* ==============================================
-           Vision & Pathway — page styles
+           Vision & Pathway page styles
            ============================================== */
-
-
-        /* -----------------------------------------------
-           SITE HEADER
-        ----------------------------------------------- */
 
         .site-header {
             background: #ffffff;
@@ -44,11 +39,6 @@
         .site-header .back-link:hover {
             color: #1b4d3e;
         }
-
-
-        /* -----------------------------------------------
-           HERO
-        ----------------------------------------------- */
 
         .vp-hero {
             padding: 3.5rem 2.5rem;
@@ -89,14 +79,12 @@
             align-items: center;
         }
 
-        /* Left column — text */
         .vp-hero-content {
             display: flex;
             flex-direction: column;
             align-items: flex-start;
         }
 
-        /* Right column — image */
         .vp-hero-image-wrap {
             aspect-ratio: 1 / 1;
             border-radius: 20px;
@@ -142,13 +130,15 @@
             margin-top: 0.85rem;
         }
 
-        .hero-buttons {
+        .hero-buttons,
+        .cta-buttons {
             display: flex;
             gap: 1rem;
             flex-wrap: wrap;
         }
 
-        .btn-hero-gold {
+        .btn-hero-gold,
+        .btn-cta-gold {
             display: inline-block;
             padding: 0.9rem 2rem;
             background: #dcb55a;
@@ -162,17 +152,14 @@
             transition: background 0.2s ease, transform 0.15s ease;
         }
 
-        .btn-hero-gold:hover {
+        .btn-hero-gold:hover,
+        .btn-cta-gold:hover {
             background: #c9a24e;
             transform: translateY(-1px);
         }
 
-        .btn-hero-gold:focus-visible {
-            outline: 3px solid #ffffff;
-            outline-offset: 3px;
-        }
-
-        .btn-hero-outline {
+        .btn-hero-outline,
+        .btn-cta-outline {
             display: inline-block;
             padding: 0.9rem 2rem;
             background: transparent;
@@ -187,15 +174,11 @@
             transition: border-color 0.2s ease, background 0.2s ease;
         }
 
-        .btn-hero-outline:hover {
+        .btn-hero-outline:hover,
+        .btn-cta-outline:hover {
             border-color: #ffffff;
             background: rgba(255, 255, 255, 0.08);
         }
-
-
-        /* -----------------------------------------------
-           SHARED SECTION STYLES
-        ----------------------------------------------- */
 
         .section-inner {
             max-width: 1000px;
@@ -234,11 +217,6 @@
         .section-body p + p {
             margin-top: 0.85rem;
         }
-
-
-        /* -----------------------------------------------
-           PODCAST SECTION
-        ----------------------------------------------- */
 
         .podcast-section {
             background: #ffffff;
@@ -292,16 +270,6 @@
             background: #10281f;
         }
 
-        .btn-podcast:focus-visible {
-            outline: 3px solid #dcb55a;
-            outline-offset: 3px;
-        }
-
-
-        /* -----------------------------------------------
-           COVO SECTION (3 cards)
-        ----------------------------------------------- */
-
         .covo-section {
             background: #f8faf9;
             padding: 4rem 2rem;
@@ -314,7 +282,8 @@
             margin-top: 2.25rem;
         }
 
-        .covo-card {
+        .covo-card,
+        .stuck-card {
             background: #ffffff;
             border: 1px solid #e2eae6;
             border-radius: 16px;
@@ -322,34 +291,26 @@
             box-shadow: 0 2px 8px rgba(16, 40, 31, 0.05);
         }
 
-        .covo-card-title {
+        .covo-card-title,
+        .stuck-card-title {
             font-size: 1rem;
             font-weight: 800;
             color: #10281f;
             margin-bottom: 0.5rem;
         }
 
-        .covo-card-body {
+        .covo-card-body,
+        .stuck-card-body {
             font-size: 0.925rem;
             line-height: 1.65;
             color: #444444;
             margin: 0;
         }
 
-
-        /* -----------------------------------------------
-           WHY THIS MATTERS
-        ----------------------------------------------- */
-
         .access-section {
             background: #ffffff;
             padding: 4rem 2rem;
         }
-
-
-        /* -----------------------------------------------
-           TWO STUCK BLOCKS
-        ----------------------------------------------- */
 
         .stuck-section {
             background: #f8faf9;
@@ -363,28 +324,6 @@
             margin-top: 2.25rem;
         }
 
-        .stuck-card {
-            background: #ffffff;
-            border: 1px solid #e2eae6;
-            border-radius: 16px;
-            padding: 1.75rem;
-            box-shadow: 0 2px 8px rgba(16, 40, 31, 0.05);
-        }
-
-        .stuck-card-title {
-            font-size: 1rem;
-            font-weight: 800;
-            color: #10281f;
-            margin-bottom: 0.5rem;
-        }
-
-        .stuck-card-body {
-            font-size: 0.925rem;
-            line-height: 1.65;
-            color: #444444;
-            margin: 0;
-        }
-
         .stuck-close {
             margin-top: 1.75rem;
             font-size: 1rem;
@@ -392,10 +331,126 @@
             color: #1b4d3e;
         }
 
+        .immersion-cta-section {
+            background: #ffffff;
+            padding: 5rem 2rem;
+            border-bottom: 1px solid #eef0ef;
+        }
 
-        /* -----------------------------------------------
-           ONE LIE SECTION
-        ----------------------------------------------- */
+        .immersion-cta-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 0.95fr 1.05fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .immersion-cta-image-wrap {
+            position: relative;
+            border-radius: 22px;
+            overflow: hidden;
+            aspect-ratio: 4 / 3;
+            box-shadow: 0 22px 60px rgba(16, 40, 31, 0.18);
+            background: #f8faf9;
+        }
+
+        .immersion-cta-image-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .immersion-cta-copy {
+            max-width: 620px;
+        }
+
+        .immersion-cta-section .section-eyebrow {
+            color: #9f7a2f;
+        }
+
+        .immersion-cta-heading {
+            font-size: clamp(2rem, 4vw, 3.15rem);
+            font-weight: 900;
+            color: #10281f;
+            line-height: 1.02;
+            letter-spacing: -0.045em;
+            margin-bottom: 1rem;
+        }
+
+        .immersion-cta-lead {
+            font-size: 1.12rem;
+            line-height: 1.7;
+            color: #374640;
+            margin-bottom: 1.35rem;
+        }
+
+        .immersion-cta-list {
+            list-style: none;
+            padding: 0;
+            margin: 1.5rem 0 0;
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .immersion-cta-list li {
+            display: flex;
+            gap: 0.75rem;
+            align-items: flex-start;
+            font-size: 0.98rem;
+            line-height: 1.55;
+            color: #3a4a44;
+        }
+
+        .immersion-cta-check {
+            flex-shrink: 0;
+            width: 21px;
+            height: 21px;
+            border-radius: 999px;
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            color: #15803d;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 900;
+            margin-top: 0.15rem;
+        }
+
+        .immersion-cta-actions {
+            margin-top: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn-immersion-primary {
+            display: inline-block;
+            padding: 0.95rem 1.85rem;
+            background: #1b4d3e;
+            color: #ffffff;
+            font-size: 0.95rem;
+            font-weight: 800;
+            font-family: inherit;
+            letter-spacing: 0.01em;
+            border-radius: 999px;
+            text-decoration: none;
+            transition: background 0.2s ease, transform 0.15s ease;
+        }
+
+        .btn-immersion-primary:hover {
+            background: #10281f;
+            transform: translateY(-1px);
+        }
+
+        .immersion-cta-note {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #66736e;
+        }
 
         .lie-section {
             background: #10281f;
@@ -426,11 +481,6 @@
         .lie-body p + p {
             margin-top: 0.75rem;
         }
-
-
-        /* -----------------------------------------------
-           PATHWAY
-        ----------------------------------------------- */
 
         .pathway-section {
             background: #ffffff;
@@ -484,20 +534,10 @@
             padding-top: 0.35rem;
         }
 
-
-        /* -----------------------------------------------
-           TRIBE SECTION
-        ----------------------------------------------- */
-
         .tribe-section {
             background: #f8faf9;
             padding: 4rem 2rem;
         }
-
-
-        /* -----------------------------------------------
-           FINAL CTA
-        ----------------------------------------------- */
 
         .final-cta {
             background: linear-gradient(135deg,
@@ -542,74 +582,26 @@
         }
 
         .cta-buttons {
-            display: flex;
-            gap: 1rem;
             justify-content: center;
-            flex-wrap: wrap;
         }
 
-        .btn-cta-gold {
-            display: inline-block;
-            padding: 0.9rem 2rem;
-            background: #dcb55a;
-            color: #10281f;
-            font-size: 0.975rem;
-            font-weight: 800;
-            font-family: inherit;
-            letter-spacing: 0.01em;
-            border-radius: 10px;
-            text-decoration: none;
-            transition: background 0.2s ease, transform 0.15s ease;
-        }
-
-        .btn-cta-gold:hover {
-            background: #c9a24e;
-            transform: translateY(-1px);
-        }
-
-        .btn-cta-gold:focus-visible {
-            outline: 3px solid #ffffff;
-            outline-offset: 3px;
-        }
-
-        .btn-cta-outline {
-            display: inline-block;
-            padding: 0.9rem 2rem;
-            background: transparent;
-            color: #ffffff;
-            font-size: 0.975rem;
-            font-weight: 700;
-            font-family: inherit;
-            letter-spacing: 0.01em;
-            border: 2px solid rgba(255, 255, 255, 0.5);
-            border-radius: 10px;
-            text-decoration: none;
-            transition: border-color 0.2s ease, background 0.2s ease;
-        }
-
-        .btn-cta-outline:hover {
-            border-color: #ffffff;
-            background: rgba(255, 255, 255, 0.08);
-        }
-
-        .btn-cta-outline:focus-visible {
-            outline: 3px solid #dcb55a;
-            outline-offset: 3px;
-        }
-
-
-        /* -----------------------------------------------
-           RESPONSIVE
-        ----------------------------------------------- */
-
-        /* Tablet: tighten hero gap, keep two columns until it gets cramped */
         @media (max-width: 900px) {
             .vp-hero-inner {
                 gap: 2.25rem;
             }
         }
 
-        /* Stack hero at 700px — columns would feel cramped below this */
+        @media (max-width: 860px) {
+            .immersion-cta-inner {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .immersion-cta-copy {
+                max-width: none;
+            }
+        }
+
         @media (max-width: 700px) {
             .vp-hero {
                 padding: 3rem 1.5rem 2.5rem;
@@ -620,7 +612,6 @@
                 gap: 2rem;
             }
 
-            /* Image goes below text on mobile */
             .vp-hero-image-wrap {
                 order: 1;
                 max-width: 420px;
@@ -641,53 +632,66 @@
         }
 
         @media (max-width: 480px) {
-            .vp-hero        { padding: 2.5rem 1.25rem 2rem; }
-            .podcast-card   { padding: 1.5rem; }
+            .vp-hero {
+                padding: 2.5rem 1.25rem 2rem;
+            }
+
+            .podcast-card {
+                padding: 1.5rem;
+            }
+
             .podcast-section,
             .covo-section,
             .access-section,
             .stuck-section,
+            .immersion-cta-section,
             .pathway-section,
-            .tribe-section  { padding: 3rem 1.25rem; }
-            .lie-section    { padding: 3.5rem 1.25rem; }
-            .final-cta      { padding: 3.5rem 1.25rem; }
-        }
+            .tribe-section {
+                padding: 3rem 1.25rem;
+            }
 
+            .immersion-cta-heading {
+                font-size: clamp(2rem, 10vw, 2.65rem);
+            }
+
+            .lie-section {
+                padding: 3.5rem 1.25rem;
+            }
+
+            .final-cta {
+                padding: 3.5rem 1.25rem;
+            }
+        }
     </style>
 </head>
+
 <body>
 
-    <!-- ================================================
-         SITE HEADER
-    ================================================ -->
     <header class="site-header">
         <a class="brand" href="/">Covo Multipliers</a>
         <a class="back-link" href="/">← Home</a>
     </header>
 
-
-    <!-- ================================================
-         HERO
-    ================================================ -->
     <section class="vp-hero">
         <div class="vp-hero-inner">
 
-            <!-- Left: text content -->
             <div class="vp-hero-content">
                 <p class="vp-label">Vision &amp; Pathway</p>
+
                 <h1 class="vp-headline">Vision &amp; Pathway</h1>
+
                 <div class="vp-copy">
                     <p>Most Christians have been taught to split life into compartments.</p>
                     <p>Work here. Church there. Family over here. Mission somewhere else.</p>
                     <p>Covo Multipliers exists to help leaders bring those parts back together and make disciples where they live, work, and play.</p>
                 </div>
+
                 <div class="hero-buttons">
                     <a class="btn-hero-gold" href="https://podcasts.apple.com/gb/podcast/the-rise-of-covo-multipliers-why-priscilla-aquila/id1562206185?i=1000705387220" target="_blank" rel="noopener">Listen to the Episode</a>
                     <a class="btn-hero-outline" href="/#upcoming-labs">Join a Lab</a>
                 </div>
             </div>
 
-            <!-- Right: image -->
             <div class="vp-hero-image-wrap">
                 <img
                     src="image/watercooler conversation at work.webp"
@@ -699,13 +703,10 @@
         </div>
     </section>
 
-
-    <!-- ================================================
-         START HERE — PODCAST
-    ================================================ -->
     <section class="podcast-section">
         <div class="podcast-inner">
             <span class="section-eyebrow">Start here</span>
+
             <div class="podcast-card">
                 <h2 class="podcast-title">The Rise of Covo Multipliers</h2>
                 <p class="podcast-copy">Listen to the episode on why Priscilla and Aquila offer a blueprint for leaders learning to build disciple making into everyday life.</p>
@@ -714,15 +715,11 @@
         </div>
     </section>
 
-
-    <!-- ================================================
-         WHAT WE MEAN BY COVO
-    ================================================ -->
     <section class="covo-section">
         <div class="section-inner">
             <h2 class="section-heading">What we mean by covo</h2>
-            <div class="covo-grid">
 
+            <div class="covo-grid">
                 <div class="covo-card">
                     <h3 class="covo-card-title">One life, not two</h3>
                     <p class="covo-card-body">Work and mission do not have to live in separate boxes.</p>
@@ -737,18 +734,14 @@
                     <h3 class="covo-card-title">Repeatable rhythms over vague inspiration</h3>
                     <p class="covo-card-body">We want practices that can actually be lived and passed on.</p>
                 </div>
-
             </div>
         </div>
     </section>
 
-
-    <!-- ================================================
-         WHY THIS MATTERS
-    ================================================ -->
     <section class="access-section">
         <div class="section-inner-narrow">
             <h2 class="section-heading">Why this matters</h2>
+
             <div class="section-body">
                 <p>The people around you are already accessible to you in a way they may never be to a pastor, missionary, or church program.</p>
                 <p>Your neighborhood, workplace, friendships, and routines are not distractions from mission. They are often the front door.</p>
@@ -756,15 +749,11 @@
         </div>
     </section>
 
-
-    <!-- ================================================
-         TWO PLACES PEOPLE GET STUCK
-    ================================================ -->
     <section class="stuck-section">
         <div class="section-inner">
             <h2 class="section-heading">Two places people get stuck</h2>
-            <div class="stuck-grid">
 
+            <div class="stuck-grid">
                 <div class="stuck-card">
                     <h3 class="stuck-card-title">You do not yet see it</h3>
                     <p class="stuck-card-body">You are not sure how disciple making fits into your actual week.</p>
@@ -774,19 +763,62 @@
                     <h3 class="stuck-card-title">You see it, but do not know what to do</h3>
                     <p class="stuck-card-body">You need language, models, habits, rhythms, and skills.</p>
                 </div>
-
             </div>
-            <p class="stuck-close">Covo Multipliers exists for both.</p>
+
+            <p class="stuck-close">That is why the pathway starts with exposure, not just more information.</p>
         </div>
     </section>
 
+    <section class="immersion-cta-section">
+        <div class="immersion-cta-inner">
 
-    <!-- ================================================
-         ONE LIE WE ARE TRYING TO BREAK
-    ================================================ -->
+            <div class="immersion-cta-image-wrap">
+                <img
+                    src="image/immersions/hands on immersion.webp"
+                    alt="Hands-on Covo Immersion experience in a real-life setting"
+                    loading="lazy"
+                >
+            </div>
+
+            <div class="immersion-cta-copy">
+                <span class="section-eyebrow">Covo Immersions</span>
+
+                <h2 class="immersion-cta-heading">You do not need to imagine this. Come see it.</h2>
+
+                <p class="immersion-cta-lead">
+                    Most leaders leave training with language, tools, and good intentions, but still feel stuck when they step back into their actual week.
+                </p>
+
+                <ul class="immersion-cta-list">
+                    <li>
+                        <span class="immersion-cta-check">✓</span>
+                        <span>Step into real homes, workplaces, neighborhoods, businesses, meals, conversations, and debriefs.</span>
+                    </li>
+
+                    <li>
+                        <span class="immersion-cta-check">✓</span>
+                        <span>See covocational disciple-making up close instead of trying to picture it from a diagram.</span>
+                    </li>
+
+                    <li>
+                        <span class="immersion-cta-check">✓</span>
+                        <span>Ask questions while it is fresh and leave with a picture you can reproduce.</span>
+                    </li>
+                </ul>
+
+                <div class="immersion-cta-actions">
+                    <a class="btn-immersion-primary" href="/immersions.html">Explore Covo Immersions</a>
+                    <span class="immersion-cta-note">2 to 3 days. Small group. Real settings.</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
     <section class="lie-section">
         <div class="lie-inner">
             <h2 class="lie-headline">One lie we are trying to break</h2>
+
             <div class="lie-body">
                 <p>Our culture trains us to think that if you do not get paid for it, it does not count.</p>
                 <p>We do not buy that.</p>
@@ -795,26 +827,26 @@
         </div>
     </section>
 
-
-    <!-- ================================================
-         PATHWAY
-    ================================================ -->
     <section class="pathway-section">
         <div class="section-inner-narrow">
             <h2 class="section-heading">The pathway</h2>
+
             <ol class="pathway-list">
                 <li class="pathway-item">
                     <span class="pathway-num">1</span>
                     <span class="pathway-text">See your real life differently</span>
                 </li>
+
                 <li class="pathway-item">
                     <span class="pathway-num">2</span>
                     <span class="pathway-text">Learn simple habits and rhythms that fit a normal week</span>
                 </li>
+
                 <li class="pathway-item">
                     <span class="pathway-num">3</span>
                     <span class="pathway-text">Practice alongside others</span>
                 </li>
+
                 <li class="pathway-item">
                     <span class="pathway-num">4</span>
                     <span class="pathway-text">Pass it on</span>
@@ -823,13 +855,10 @@
         </div>
     </section>
 
-
-    <!-- ================================================
-         WHY TRIBE MATTERS
-    ================================================ -->
     <section class="tribe-section">
         <div class="section-inner-narrow">
             <h2 class="section-heading">Why tribe matters</h2>
+
             <div class="section-body">
                 <p>This kind of life is hard to build alone.</p>
                 <p>It helps to be around other people who are actually trying to live this way, learning in public, asking honest questions, and practicing together.</p>
@@ -837,13 +866,10 @@
         </div>
     </section>
 
-
-    <!-- ================================================
-         FINAL CTA
-    ================================================ -->
     <section class="final-cta">
         <div class="final-cta-inner">
             <h2 class="final-cta-headline">Start with the vision. Then take the next step.</h2>
+
             <div class="cta-buttons">
                 <a class="btn-cta-gold" href="https://podcasts.apple.com/gb/podcast/the-rise-of-covo-multipliers-why-priscilla-aquila/id1562206185?i=1000705387220" target="_blank" rel="noopener">Listen to the Episode</a>
                 <a class="btn-cta-outline" href="/#upcoming-labs">Join a Lab</a>
@@ -851,16 +877,13 @@
         </div>
     </section>
 
-
-    <!-- ================================================
-         FOOTER
-    ================================================ -->
     <footer class="site-footer">
         <div class="footer-inner">
             <div class="footer-brand">
                 <span class="footer-wordmark">Covo Multipliers</span>
                 <p class="footer-desc">A tribe of covocational leaders learning to make disciples where they live, work, and play.</p>
             </div>
+
             <nav class="footer-nav" aria-label="Footer navigation">
                 <a href="/">Home</a>
                 <a href="/vision.html">Vision &amp; Pathway</a>
@@ -869,7 +892,6 @@
             </nav>
         </div>
     </footer>
-
 
 </body>
 </html>
