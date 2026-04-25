@@ -1,5 +1,5 @@
 /* ==============================================
-   Covo Multipliers — styles.css
+   Covo Multipliers â€” styles.css
    Static homepage for GitHub Pages
    No frameworks. No dependencies.
    ============================================== */
@@ -472,6 +472,43 @@ img {
         text-align: left;
     }
 }
+
+
+/* -----------------------------------------------
+   6B. STUCK CARDS
+----------------------------------------------- */
+
+.stuck-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.stuck-card-img {
+    width: 72px;
+    height: 72px;
+    flex: 0 0 72px;
+    object-fit: cover;
+    border-radius: 1rem;
+}
+
+.stuck-card-copy {
+    min-width: 0;
+}
+
+@media (max-width: 540px) {
+    .stuck-card {
+        align-items: flex-start;
+    }
+
+    .stuck-card-img {
+        width: 58px;
+        height: 58px;
+        flex-basis: 58px;
+        border-radius: 0.85rem;
+    }
+}
+
 /* -----------------------------------------------
    6. WORKPLACE IMAGE BANNER
 ----------------------------------------------- */
