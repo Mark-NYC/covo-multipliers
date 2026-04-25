@@ -10,7 +10,7 @@
 
     <style>
         /* ==============================================
-           Contact page styles — contact.html
+           Contact page styles
         ============================================== */
 
         /* -----------------------------------------------
@@ -83,6 +83,15 @@
             margin: 0 auto;
         }
 
+        .first-split-image {
+            display: block;
+            width: min(220px, 58vw);
+            height: auto;
+            margin: 0 auto 1.35rem;
+            border-radius: 18px;
+            box-shadow: 0 18px 40px rgba(0,0,0,0.18);
+        }
+
         .contact-hero .eyebrow {
             margin: 0 0 0.6rem;
             font-size: 0.72rem;
@@ -146,7 +155,6 @@
             line-height: 1.55;
         }
 
-        /* Form fields */
         .form-field {
             margin-bottom: 1.25rem;
         }
@@ -204,7 +212,15 @@
             color: #9ca3af;
         }
 
-        /* Submit button */
+        .contact-hidden-field {
+            position: absolute;
+            left: -9999px;
+            height: 0;
+            overflow: hidden;
+            opacity: 0;
+            pointer-events: none;
+        }
+
         .btn-submit {
             display: block;
             width: 100%;
@@ -235,7 +251,6 @@
             cursor: not-allowed;
         }
 
-        /* Inline form message */
         .form-message {
             margin-top: 1rem;
             font-size: 0.9rem;
@@ -263,7 +278,7 @@
 
 
         /* -----------------------------------------------
-           4. FOOTER (mirrors index.html)
+           4. FOOTER
         ----------------------------------------------- */
 
         .site-footer {
@@ -321,30 +336,45 @@
         ----------------------------------------------- */
 
         @media (max-width: 540px) {
-            .contact-hero { padding: 2.5rem 1.25rem 2.25rem; }
-            .contact-section { padding: 2.5rem 1.25rem 3.5rem; }
-            .contact-card { padding: 2rem 1.5rem; }
-            .site-header { padding: 0.875rem 1.25rem; }
+            .contact-hero {
+                padding: 2.5rem 1.25rem 2.25rem;
+            }
+
+            .contact-section {
+                padding: 2.5rem 1.25rem 3.5rem;
+            }
+
+            .contact-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .site-header {
+                padding: 0.875rem 1.25rem;
+            }
+
+            .first-split-image {
+                width: min(180px, 64vw);
+                margin-bottom: 1.1rem;
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- SITE HEADER -->
     <header class="site-header">
         <a class="brand" href="/">Covo Multipliers</a>
         <a class="back-link" href="/">← Back to home</a>
     </header>
 
 
-    <!-- HERO -->
     <section class="contact-hero">
         <div class="contact-hero-inner">
             <img
-    class="first-split-image"
-    src="image/get in touch.webp"
-    alt="Working Christians often feel split between everyday life and ministry"
->
+                class="first-split-image"
+                src="image/get in touch.webp"
+                alt="Working Christians often feel split between everyday life and ministry"
+            >
+
             <p class="eyebrow">Get in touch</p>
             <h1>We&rsquo;d love to <br>hear from you.</h1>
             <p class="hero-sub">
@@ -355,7 +385,6 @@
     </section>
 
 
-    <!-- CONTACT FORM -->
     <section class="contact-section">
         <div class="contact-inner">
             <div class="contact-card">
@@ -410,6 +439,17 @@
                         ></textarea>
                     </div>
 
+                    <div class="form-field contact-hidden-field" aria-hidden="true">
+                        <label for="field-website">Website</label>
+                        <input
+                            type="text"
+                            id="field-website"
+                            name="website"
+                            tabindex="-1"
+                            autocomplete="off"
+                        >
+                    </div>
+
                     <button class="btn-submit" type="submit" id="submit-btn">
                         Send Message
                     </button>
@@ -423,7 +463,6 @@
     </section>
 
 
-    <!-- FOOTER -->
     <footer class="site-footer">
         <div class="footer-inner">
             <div class="footer-brand">
@@ -451,12 +490,12 @@
 
         function setMessage(text, type) {
             msgEl.textContent = text;
-            msgEl.className   = 'form-message ' + (type === 'success' ? 'is-success' : 'is-error');
+            msgEl.className = 'form-message ' + (type === 'success' ? 'is-success' : 'is-error');
         }
 
         function clearMessage() {
             msgEl.textContent = '';
-            msgEl.className   = 'form-message';
+            msgEl.className = 'form-message';
         }
 
         form.addEventListener('submit', async function (e) {
@@ -467,38 +506,40 @@
             const email   = document.getElementById('field-email').value.trim();
             const topic   = document.getElementById('field-topic').value;
             const message = document.getElementById('field-message').value.trim();
+            const website = document.getElementById('field-website').value.trim();
 
-            // Client-side validation
             if (!name || name.length < 2) {
                 setMessage('Please enter your full name.', 'error');
                 document.getElementById('field-name').focus();
                 return;
             }
+
             if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
                 setMessage('Please enter a valid email address.', 'error');
                 document.getElementById('field-email').focus();
                 return;
             }
+
             if (!topic) {
                 setMessage('Please select a topic.', 'error');
                 document.getElementById('field-topic').focus();
                 return;
             }
+
             if (!message || message.length < 5) {
                 setMessage('Please enter a message.', 'error');
                 document.getElementById('field-message').focus();
                 return;
             }
 
-            // Loading state
-            submitBtn.disabled   = true;
+            submitBtn.disabled = true;
             submitBtn.textContent = 'Sending…';
 
             try {
                 const res = await fetch(CONTACT_ENDPOINT, {
-                    method:  'POST',
+                    method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body:    JSON.stringify({ name, email, topic, message }),
+                    body: JSON.stringify({ name, email, topic, message, website })
                 });
 
                 const data = await res.json().catch(() => ({}));
@@ -509,13 +550,13 @@
                 } else {
                     const errMsg = (typeof data.error === 'string' && data.error)
                         ? data.error
-                        : 'Something went wrong. Please try again or email mark.a.goering@gmail.com.';
+                        : 'Something went wrong. Please try again or email h3xpodcast@gmail.com.';
                     setMessage(errMsg, 'error');
                 }
             } catch {
-                setMessage('Something went wrong. Please try again or email mark.a.goering@gmail.com.', 'error');
+                setMessage('Something went wrong. Please try again or email h3xpodcast@gmail.com.', 'error');
             } finally {
-                submitBtn.disabled    = false;
+                submitBtn.disabled = false;
                 submitBtn.textContent = 'Send Message';
             }
         });
