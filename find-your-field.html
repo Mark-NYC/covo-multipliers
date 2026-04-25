@@ -4,55 +4,36 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="description" content="Build a simple disciple-making field plan around the life you already have." />
-<title>Find Your Field — Covo Multipliers</title>
+<title>Find Your Field - Covo Multipliers</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
   body {
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
     background: #f2f2f7;
-    color: #000;
+    color: #111;
     line-height: 1.4;
     min-height: 100vh;
   }
-  button, input, select, textarea { font: inherit; }
+  button, input, select { font: inherit; }
   button { cursor: pointer; }
-  .app {
-    max-width: 480px;
-    margin: 0 auto;
-    min-height: 100vh;
-    background: #f2f2f7;
-  }
+  .app { max-width: 480px; margin: 0 auto; min-height: 100vh; background: #f2f2f7; }
+
   .site-header {
-    position: sticky;
-    top: 0;
-    z-index: 20;
-    background: rgba(255,255,255,.92);
+    position: sticky; top: 0; z-index: 20;
+    background: rgba(255,255,255,.94);
     border-bottom: .5px solid #c6c6c8;
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     padding: 12px 16px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
   }
-  .brand {
-    color: #000;
-    text-decoration: none;
-    font-size: 17px;
-    font-weight: 750;
-    letter-spacing: -.01em;
-  }
+  .brand { color: #000; text-decoration: none; font-size: 17px; font-weight: 750; letter-spacing: -.01em; }
   .header-actions { display: flex; gap: 8px; }
   .hbtn {
-    border: none;
-    background: #f2f2f7;
-    color: #3a3a3c;
-    border-radius: 9px;
-    padding: 8px 12px;
-    font-size: 14px;
-    font-weight: 650;
+    border: none; background: #f2f2f7; color: #3a3a3c;
+    border-radius: 9px; padding: 8px 12px;
+    font-size: 14px; font-weight: 650;
   }
   .hbtn:active { background: #e5e5ea; }
   .hbtn.primary { background: #ff9500; color: #fff; }
@@ -60,276 +41,241 @@
 
   .intro { padding: 16px; }
   .intro-card {
-    background: #fff;
-    border-radius: 18px;
+    background: #fff; border-radius: 20px;
     box-shadow: 0 1px 3px rgba(0,0,0,.08);
-    padding: 22px 18px;
-    text-align: center;
+    padding: 20px 16px; text-align: center;
   }
-  .intro-kicker {
-    display: inline-flex;
-    color: #8e8e93;
-    background: #f2f2f7;
-    border-radius: 999px;
-    padding: 5px 10px;
-    font-size: 12px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: .06em;
-    margin-bottom: 13px;
+  .visual-strip {
+    display: grid; grid-template-columns: repeat(4,1fr); gap: 6px;
+    margin-bottom: 18px;
   }
-  .intro h1 {
-    font-size: 30px;
-    letter-spacing: -.04em;
-    line-height: 1.05;
-    margin-bottom: 8px;
+  .strip-item {
+    background: #f2f2f7; border-radius: 14px; padding: 9px 5px 8px;
+    display: flex; flex-direction: column; align-items: center; gap: 5px;
+    min-width: 0;
   }
-  .intro-sub {
-    font-size: 16px;
-    color: #3a3a3c;
-    line-height: 1.45;
-    max-width: 340px;
-    margin: 0 auto 8px;
+  .mini-icon {
+    width: 28px; height: 28px; border-radius: 10px;
+    background: #fff; display: flex; align-items: center; justify-content: center;
+    color: #ff9500;
   }
-  .intro-support {
-    font-size: 13px;
-    color: #8e8e93;
-    max-width: 320px;
-    margin: 0 auto 16px;
-  }
+  .mini-icon svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .strip-item span { font-size: 11px; font-weight: 700; color: #6e6e73; white-space: nowrap; }
+  .intro h1 { font-size: 31px; line-height: 1.04; letter-spacing: -.045em; margin-bottom: 8px; }
+  .intro-sub { font-size: 16px; color: #3a3a3c; line-height: 1.45; max-width: 340px; margin: 0 auto 8px; }
+  .intro-support { font-size: 13px; color: #8e8e93; max-width: 330px; margin: 0 auto 16px; }
   .primary-cta {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border: none;
-    border-radius: 12px;
-    background: #ff9500;
-    color: #fff;
-    font-size: 16px;
-    font-weight: 750;
-    padding: 12px 22px;
-    min-width: 132px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border: none; border-radius: 13px; background: #ff9500; color: #fff;
+    font-size: 16px; font-weight: 750; padding: 12px 22px; min-width: 132px;
   }
   .primary-cta:active { background: #e08600; transform: scale(.99); }
 
-  .section-header { padding: 20px 16px 7px; }
-  .section-tag {
-    display: block;
-    color: #8e8e93;
-    font-size: 12px;
-    font-weight: 750;
-    text-transform: uppercase;
-    letter-spacing: .05em;
-    margin-bottom: 4px;
+  .progress-wrap { padding: 0 16px 12px; }
+  .progress-card {
+    display: grid; grid-template-columns: repeat(6,1fr); gap: 5px;
+    background: #fff; border-radius: 14px; padding: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.06);
   }
-  .section-title {
-    font-size: 18px;
-    font-weight: 750;
-    letter-spacing: -.01em;
+  .progress-step { height: 7px; border-radius: 999px; background: #e5e5ea; }
+  .progress-step.done { background: #34c759; }
+  .progress-step.active { background: #ff9500; }
+
+  .step { margin-bottom: 12px; transition: opacity .2s, transform .2s; }
+  .step.hidden { display: none; }
+  .section-header { padding: 20px 16px 7px; display: flex; align-items: flex-start; gap: 10px; }
+  .step-num {
+    width: 26px; height: 26px; border-radius: 999px; background: #3a3a3c; color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 800; flex: 0 0 auto; margin-top: 1px;
   }
-  .section-desc {
-    color: #8e8e93;
-    font-size: 13px;
-    margin-top: 3px;
-    line-height: 1.45;
-  }
+  .step.complete .step-num { background: #34c759; }
+  .step.complete .step-num::before { content: '✓'; }
+  .step.complete .step-num span { display: none; }
+  .section-tag { display: block; color: #8e8e93; font-size: 12px; font-weight: 750; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 4px; }
+  .section-title { font-size: 18px; font-weight: 780; letter-spacing: -.015em; }
+  .section-desc { color: #8e8e93; font-size: 13px; margin-top: 3px; line-height: 1.45; }
+
   .group {
-    margin: 0 16px 12px;
-    background: #fff;
-    border-radius: 14px;
-    box-shadow: 0 1px 3px rgba(0,0,0,.08);
-    overflow: hidden;
+    margin: 0 16px 12px; background: #fff; border-radius: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.08); overflow: hidden;
   }
-  .step-intro { padding: 14px 16px 10px; border-bottom: .5px solid #c6c6c8; }
-  .step-q { font-size: 16px; font-weight: 700; letter-spacing: -.01em; }
-  .step-hint { font-size: 13px; color: #8e8e93; margin-top: 3px; }
+  .coach-line {
+    margin: 0 16px 12px; background: #fffaf2; border: 1px solid #ffe0ad;
+    color: #7a4400; border-radius: 14px; padding: 11px 13px;
+    font-size: 13px; line-height: 1.4; font-weight: 600;
+  }
 
   .field-grid { display: grid; grid-template-columns: 1fr 1fr; }
   .field-card {
-    width: 100%;
-    text-align: left;
-    border: none;
-    background: #fff;
-    padding: 14px;
-    border-right: .5px solid #c6c6c8;
-    border-bottom: .5px solid #c6c6c8;
+    width: 100%; text-align: left; border: none; background: #fff;
+    padding: 14px 12px; border-right: .5px solid #c6c6c8; border-bottom: .5px solid #c6c6c8;
+    transition: background .12s, transform .12s;
   }
   .field-card:nth-child(even) { border-right: none; }
   .field-card:nth-child(3), .field-card:nth-child(4) { border-bottom: none; }
+  .field-card:active { transform: scale(.985); }
   .field-card.active { background: #fff6e9; }
-  .field-icon { font-size: 22px; display: block; margin-bottom: 5px; }
-  .field-name { display: block; font-size: 15px; font-weight: 750; margin-bottom: 3px; }
-  .field-card.active .field-name { color: #d57200; }
-  .field-desc { display: block; font-size: 12px; color: #6e6e73; line-height: 1.35; margin-bottom: 7px; }
-  .field-eg { display: block; font-size: 10px; color: #8e8e93; font-weight: 750; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 4px; }
-  .tags { display: flex; flex-wrap: wrap; gap: 3px; }
-  .tag { background: #f2f2f7; color: #6e6e73; border-radius: 5px; padding: 2px 6px; font-size: 11px; font-weight: 550; }
-  .field-card.active .tag { background: #ffe1b3; color: #7a4000; }
-
-  .check-row, .radio-row {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    width: 100%;
-    border: none;
-    border-bottom: .5px solid #c6c6c8;
-    background: #fff;
-    padding: 13px 16px;
-    text-align: left;
+  .scene {
+    height: 54px; border-radius: 14px; background: #f2f2f7;
+    display: flex; align-items: center; justify-content: center;
+    color: #6e6e73; margin-bottom: 9px;
   }
-  .check-row:last-child, .radio-row:last-child { border-bottom: none; }
-  .check-row.active, .radio-row.active { background: #fff6e9; }
+  .field-card.active .scene { background: #ffe3ba; color: #d57200; }
+  .scene svg { width: 42px; height: 42px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .field-name { display: block; font-size: 15px; font-weight: 780; margin-bottom: 3px; }
+  .field-card.active .field-name { color: #d57200; }
+  .field-desc { display: block; font-size: 12px; color: #6e6e73; line-height: 1.34; margin-bottom: 8px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 4px; }
+  .tag { background: #f2f2f7; color: #6e6e73; border-radius: 6px; padding: 3px 6px; font-size: 10.5px; font-weight: 650; }
+  .field-card.active .tag { background: #ffd79d; color: #7a4000; }
+
+  .picture-card {
+    margin: 0 16px 12px; background: #111; color: #fff;
+    border-radius: 17px; padding: 14px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.14);
+    display: none;
+  }
+  .picture-card.show { display: block; animation: fadeUp .18s ease-out; }
+  .picture-title { display: flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 800; color: #ffcc7a; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 6px; }
+  .picture-text { font-size: 14px; line-height: 1.45; color: rgba(255,255,255,.86); }
+
+  .check-row, .option-row {
+    display: flex; align-items: flex-start; gap: 12px; width: 100%; border: none;
+    border-bottom: .5px solid #c6c6c8; background: #fff; padding: 13px 16px; text-align: left;
+  }
+  .check-row:last-child, .option-row:last-child { border-bottom: none; }
+  .check-row.active, .option-row.active { background: #fff6e9; }
   .check-box, .radio-dot {
-    flex: 0 0 auto;
-    width: 22px;
-    height: 22px;
-    border-radius: 7px;
-    border: 1.5px solid #c6c6c8;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 1px;
+    flex: 0 0 auto; width: 22px; height: 22px; border-radius: 7px;
+    border: 1.5px solid #c6c6c8; display: flex; align-items: center; justify-content: center; margin-top: 1px;
   }
   .radio-dot { border-radius: 50%; }
-  .check-row.active .check-box, .radio-row.active .radio-dot { background: #ff9500; border-color: #ff9500; }
+  .check-row.active .check-box, .option-row.active .radio-dot { background: #ff9500; border-color: #ff9500; }
   .check-row.active .check-box::after { content: '✓'; color: #fff; font-size: 13px; font-weight: 800; }
-  .radio-row.active .radio-dot::after { content: ''; width: 8px; height: 8px; border-radius: 999px; background: #fff; }
+  .option-row.active .radio-dot::after { content: ''; width: 8px; height: 8px; border-radius: 999px; background: #fff; }
   .row-main { flex: 1; min-width: 0; }
-  .row-title { display: block; font-size: 15px; font-weight: 650; color: #000; line-height: 1.35; }
-  .row-sub { display: block; font-size: 13px; color: #8e8e93; margin-top: 2px; line-height: 1.35; }
+  .row-title { display: block; font-size: 15px; font-weight: 680; color: #000; line-height: 1.35; }
 
   .score-box {
-    margin: 0 16px 12px;
-    padding: 12px 14px;
-    border-radius: 13px;
-    background: #fff;
+    margin: 0 16px 12px; padding: 13px 14px; border-radius: 15px; background: #fff;
     box-shadow: 0 1px 3px rgba(0,0,0,.08);
   }
-  .score-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-  .score-label { font-size: 15px; font-weight: 750; }
+  .score-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
+  .score-label { font-size: 15px; font-weight: 780; }
   .score-pill { border-radius: 999px; padding: 5px 10px; font-size: 12px; font-weight: 800; background: #f2f2f7; color: #6e6e73; white-space: nowrap; }
+  .meter { display: grid; grid-template-columns: repeat(4,1fr); gap: 6px; margin-bottom: 10px; }
+  .meter-dot { height: 8px; border-radius: 999px; background: #e5e5ea; }
+  .score-box.good .meter-dot.filled { background: #34c759; }
+  .score-box.ok .meter-dot.filled { background: #ff9500; }
+  .score-box.weak .meter-dot.filled { background: #ff3b30; }
   .score-box.good .score-pill { background: #e8f5ee; color: #1f7a3f; }
   .score-box.ok .score-pill { background: #fff6e9; color: #9b5500; }
   .score-box.weak .score-pill { background: #ffecec; color: #c8232c; }
-  .score-warning { display: none; margin-top: 9px; font-size: 13px; color: #c8232c; line-height: 1.4; }
-  .score-box.weak .score-warning { display: block; }
+  .score-copy { font-size: 13px; color: #6e6e73; line-height: 1.4; font-weight: 600; }
+  .score-box.weak .score-copy { color: #c8232c; }
+  .score-box.good .score-copy, .score-box.ok .score-copy { color: #1f7a3f; }
 
-  .toggle-grid { display: grid; grid-template-columns: 1fr 1fr; }
-  .toggle-grid .radio-row { border-right: .5px solid #c6c6c8; border-bottom: none; }
-  .toggle-grid .radio-row:last-child { border-right: none; }
-  .input-wrap { padding: 4px 0; }
-  .input-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 16px;
-    border-bottom: .5px solid #c6c6c8;
+  .input-block { padding: 12px 16px; border-top: .5px solid #c6c6c8; }
+  .input-label { display: block; font-size: 12px; font-weight: 750; color: #8e8e93; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 7px; }
+  .text-input, .select-input {
+    width: 100%; border: none; outline: none; background: #f2f2f7; color: #000;
+    border-radius: 11px; padding: 12px 12px; font-size: 15px;
   }
-  .input-row:last-child { border-bottom: none; }
-  .input-row label { color: #000; font-size: 15px; font-weight: 600; min-width: 94px; }
-  .input-row input, .input-row select {
-    flex: 1;
-    min-width: 0;
-    border: none;
-    outline: none;
-    background: transparent;
-    color: #000;
-    font-size: 15px;
-    text-align: right;
-  }
-  .input-row select { color: #6e6e73; appearance: none; -webkit-appearance: none; }
-  .input-row input::placeholder { color: #c6c6c8; }
-  .hidden { display: none !important; }
+  .text-input::placeholder { color: #a7a7ad; }
+  .input-grid { display: grid; gap: 9px; padding: 12px 16px; }
 
-  .rep-list .radio-row { align-items: center; }
-  .drawer-toggle {
-    width: 100%;
-    background: #fff;
-    border: none;
-    border-top: .5px solid #c6c6c8;
-    padding: 12px 16px;
-    color: #ff9500;
-    text-align: left;
-    font-size: 15px;
-    font-weight: 750;
-  }
-  .drawer {
-    border-top: .5px solid #c6c6c8;
-    background: #f9f9fb;
-    padding: 12px 16px 14px;
-  }
-  .ex-group { margin-bottom: 13px; }
-  .ex-group:last-child { margin-bottom: 0; }
-  .ex-title { font-size: 13px; font-weight: 800; color: #000; margin-bottom: 5px; }
-  .ex-group ul { padding-left: 18px; }
-  .ex-group li { color: #6e6e73; font-size: 13px; margin-bottom: 4px; line-height: 1.35; }
+  .segmented { display: grid; grid-template-columns: 1fr 1fr; padding: 6px; gap: 6px; background: #fff; }
+  .seg-btn { border: none; border-radius: 11px; padding: 10px 8px; background: #f2f2f7; color: #3a3a3c; font-size: 13px; font-weight: 750; }
+  .seg-btn.active { background: #ff9500; color: #fff; }
 
-  .plan-card {
-    margin: 0 16px 12px;
-    background: #fff;
-    border-radius: 16px;
-    box-shadow: 0 1px 3px rgba(0,0,0,.08);
-    overflow: hidden;
+  .chip-wrap { display: flex; flex-wrap: wrap; gap: 8px; padding: 12px 16px; }
+  .chip {
+    border: 1px solid #d8d8dc; background: #f2f2f7; color: #3a3a3c;
+    border-radius: 999px; padding: 8px 11px; font-size: 13px; font-weight: 650;
   }
-  .plan-head { padding: 15px 16px 10px; border-bottom: .5px solid #c6c6c8; }
-  .plan-head h2 { font-size: 18px; letter-spacing: -.02em; }
-  .plan-head p { color: #8e8e93; font-size: 13px; margin-top: 2px; }
-  .plan-output {
-    padding: 14px 16px;
-    white-space: pre-wrap;
-    font-size: 14px;
-    line-height: 1.55;
-    color: #1c1c1e;
-    min-height: 210px;
+  .chip.active { background: #111; color: #fff; border-color: #111; }
+
+  .rhythm-path { padding: 14px 16px; display: grid; gap: 8px; }
+  .path-item { display: grid; grid-template-columns: 36px 1fr; gap: 10px; align-items: center; }
+  .path-icon {
+    width: 36px; height: 36px; border-radius: 13px; background: #fff6e9; color: #ff9500;
+    display: flex; align-items: center; justify-content: center;
   }
-  .plan-output strong { font-weight: 800; }
-  .plan-actions {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    border-top: .5px solid #c6c6c8;
+  .path-icon svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .path-title { display: block; font-size: 12px; font-weight: 800; color: #8e8e93; text-transform: uppercase; letter-spacing: .05em; }
+  .path-value { display: block; font-size: 15px; color: #000; font-weight: 650; margin-top: 1px; }
+
+  .rep-grid { display: grid; grid-template-columns: 1fr 1fr; }
+  .rep-card {
+    border: none; background: #fff; text-align: left; padding: 13px 12px;
+    border-right: .5px solid #c6c6c8; border-bottom: .5px solid #c6c6c8;
+    min-height: 118px;
   }
-  .plan-actions button {
-    border: none;
-    border-right: .5px solid #c6c6c8;
-    background: #fff;
-    padding: 12px 6px;
-    color: #ff9500;
-    font-size: 14px;
-    font-weight: 750;
+  .rep-card:nth-child(even) { border-right: none; }
+  .rep-card:nth-child(5), .rep-card:nth-child(6) { border-bottom: none; }
+  .rep-card.active { background: #fff6e9; }
+  .rep-icon { display: block; color: #6e6e73; margin-bottom: 7px; }
+  .rep-card.active .rep-icon { color: #ff9500; }
+  .rep-icon svg { width: 24px; height: 24px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .rep-title { display: block; font-size: 14px; font-weight: 780; line-height: 1.25; margin-bottom: 5px; }
+  .rep-example { display: none; color: #7a4400; font-size: 12px; line-height: 1.35; }
+  .rep-card.active .rep-example { display: block; }
+
+  .drawer-btn {
+    width: calc(100% - 32px); margin: 0 16px 12px; border: none; border-radius: 13px;
+    background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.08); padding: 12px 14px;
+    text-align: left; font-weight: 750; color: #3a3a3c;
   }
-  .plan-actions button:last-child { border-right: none; }
-  .plan-actions button:active { background: #f2f2f7; }
+  .examples { display: none; margin: 0 16px 12px; background: #fff; border-radius: 16px; box-shadow: 0 1px 3px rgba(0,0,0,.08); overflow: hidden; }
+  .examples.show { display: block; animation: fadeUp .18s ease-out; }
+  .example-group { padding: 12px 16px; border-bottom: .5px solid #c6c6c8; }
+  .example-group:last-child { border-bottom: none; }
+  .example-group h4 { font-size: 13px; color: #000; margin-bottom: 6px; }
+  .example-group p { font-size: 13px; color: #6e6e73; line-height: 1.55; }
+
+  .field-card-final {
+    margin: 0 16px 12px; background: #111; color: #fff; border-radius: 22px;
+    padding: 16px; box-shadow: 0 10px 30px rgba(0,0,0,.16);
+  }
+  .field-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+  .final-kicker { color: #ffcc7a; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 3px; }
+  .final-title { font-size: 25px; line-height: 1.05; letter-spacing: -.035em; font-weight: 850; }
+  .final-score { border-radius: 999px; background: rgba(255,255,255,.1); color: rgba(255,255,255,.82); padding: 6px 9px; font-size: 12px; font-weight: 800; white-space: nowrap; }
+  .final-grid { display: grid; gap: 8px; }
+  .final-row {
+    display: grid; grid-template-columns: 34px 1fr; gap: 10px; align-items: start;
+    background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.08);
+    border-radius: 15px; padding: 10px;
+  }
+  .final-icon { width: 34px; height: 34px; border-radius: 12px; background: rgba(255,149,0,.16); color: #ffcc7a; display: flex; align-items: center; justify-content: center; }
+  .final-icon svg { width: 19px; height: 19px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .final-label { display: block; color: rgba(255,255,255,.55); font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 2px; }
+  .final-value { display: block; color: rgba(255,255,255,.92); font-size: 14px; line-height: 1.35; font-weight: 600; }
+  .quality { margin: 0 16px 12px; border-radius: 15px; padding: 12px 14px; font-size: 13px; line-height: 1.4; font-weight: 700; }
+  .quality.bad { background: #ffecec; color: #c8232c; }
+  .quality.good { background: #e8f5ee; color: #1f7a3f; }
+  .plan-actions { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin: 0 16px 12px; }
+  .action-btn { border: none; border-radius: 12px; background: #fff; color: #3a3a3c; box-shadow: 0 1px 3px rgba(0,0,0,.08); padding: 12px 8px; font-size: 14px; font-weight: 750; }
+  .action-btn.primary { background: #ff9500; color: #fff; }
 
   .toast {
-    position: fixed;
-    bottom: 22px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(0,0,0,.82);
-    color: #fff;
-    padding: 10px 16px;
-    border-radius: 10px;
-    font-size: 14px;
-    font-weight: 650;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity .18s ease;
-    z-index: 40;
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+    background: rgba(0,0,0,.82); color: #fff; padding: 10px 16px; border-radius: 10px;
+    font-size: 14px; font-weight: 650; z-index: 99; opacity: 0; pointer-events: none; transition: opacity .2s;
     white-space: nowrap;
   }
   .toast.show { opacity: 1; }
   .bottom-pad { height: 42px; }
-  :focus-visible { outline: 3px solid rgba(255,149,0,.35); outline-offset: 2px; }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
 
   @media (max-width: 380px) {
-    .field-grid, .toggle-grid { grid-template-columns: 1fr; }
-    .field-card, .toggle-grid .radio-row { border-right: none; }
-    .field-card:nth-child(3) { border-bottom: .5px solid #c6c6c8; }
-    .field-card:nth-child(4) { border-bottom: none; }
-    .toggle-grid .radio-row:first-child { border-bottom: .5px solid #c6c6c8; }
-    .plan-actions { grid-template-columns: 1fr; }
-    .plan-actions button { border-right: none; border-bottom: .5px solid #c6c6c8; }
-    .plan-actions button:last-child { border-bottom: none; }
+    .field-grid, .rep-grid { grid-template-columns: 1fr; }
+    .field-card, .rep-card { border-right: none; border-bottom: .5px solid #c6c6c8; }
+    .field-card:last-child, .rep-card:last-child { border-bottom: none; }
+    .visual-strip { gap: 4px; }
+    .strip-item span { font-size: 10px; }
   }
 </style>
 </head>
@@ -338,90 +284,116 @@
   <header class="site-header">
     <a class="brand" href="/">Covo Multipliers</a>
     <div class="header-actions">
-      <button type="button" class="hbtn" id="headerExport">Export</button>
-      <button type="button" class="hbtn primary" id="headerSave">Save</button>
+      <button class="hbtn" type="button" id="headerExport">Export</button>
+      <button class="hbtn primary" type="button" id="headerSave">Save</button>
     </div>
   </header>
 
   <main>
-    <section class="intro" aria-labelledby="pageTitle">
+    <section class="intro">
       <div class="intro-card">
-        <span class="intro-kicker">First session</span>
-        <h1 id="pageTitle">Find Your Field</h1>
+        <div class="visual-strip" aria-hidden="true">
+          <div class="strip-item"><span class="mini-icon" data-icon="field"></span><span>Field</span></div>
+          <div class="strip-item"><span class="mini-icon" data-icon="people"></span><span>People</span></div>
+          <div class="strip-item"><span class="mini-icon" data-icon="rhythm"></span><span>Rhythm</span></div>
+          <div class="strip-item"><span class="mini-icon" data-icon="speech"></span><span>Rep</span></div>
+        </div>
+        <h1>Find Your Field</h1>
         <p class="intro-sub">Build a simple disciple-making plan around the life you already have.</p>
         <p class="intro-support">Pick your field. Name your people. Build your rhythm. Take the next rep.</p>
-        <button type="button" class="primary-cta" id="startBtn">Start</button>
+        <button class="primary-cta" type="button" id="startBtn">Start</button>
       </div>
     </section>
 
-    <section id="toolStart" aria-labelledby="step1Title">
+    <div class="progress-wrap">
+      <div class="progress-card" id="progressCard" aria-label="Progress"></div>
+    </div>
+
+    <section class="step" id="step1" data-step="1">
       <div class="section-header">
-        <span class="section-tag">Step 1</span>
-        <h2 class="section-title" id="step1Title">Choose one field</h2>
-        <p class="section-desc">Where could disciple-making naturally happen in your real week?</p>
+        <div class="step-num"><span>1</span></div>
+        <div>
+          <span class="section-tag">Choose one field</span>
+          <h2 class="section-title">Where could disciple-making naturally happen?</h2>
+          <p class="section-desc">A field is not a place you care about. It is a place you can repeatedly enter.</p>
+        </div>
       </div>
       <div class="group">
         <div class="field-grid" id="fieldGrid"></div>
       </div>
+      <div class="picture-card" id="pictureCard">
+        <div class="picture-title"><span data-icon="eye"></span> Picture it</div>
+        <p class="picture-text" id="pictureText"></p>
+      </div>
     </section>
 
-    <section aria-labelledby="step2Title">
+    <section class="step hidden" id="step2" data-step="2">
       <div class="section-header">
-        <span class="section-tag">Step 2</span>
-        <h2 class="section-title" id="step2Title">Test the field</h2>
-        <p class="section-desc">Repeated access beats good intentions.</p>
+        <div class="step-num"><span>2</span></div>
+        <div>
+          <span class="section-tag">Reality check</span>
+          <h2 class="section-title">Is this field strong enough?</h2>
+          <p class="section-desc">Repeated access beats good intentions.</p>
+        </div>
       </div>
-      <div class="group" id="fieldStrengthGroup"></div>
-      <div class="score-box weak" id="scoreBox">
+      <div class="group" id="checksGroup"></div>
+      <div class="score-box" id="scoreBox">
         <div class="score-top">
-          <span class="score-label">Field score</span>
+          <span class="score-label">Field strength</span>
           <span class="score-pill" id="scorePill">0/4 Pick another field</span>
         </div>
-        <p class="score-warning">This field may be too thin. Pick somewhere with repeated access and natural conversation.</p>
-      </div>
-    </section>
-
-    <section aria-labelledby="step3Title">
-      <div class="section-header">
-        <span class="section-tag">Step 3</span>
-        <h2 class="section-title" id="step3Title">Name people or scout</h2>
-        <p class="section-desc">Can you name three people in this field?</p>
+        <div class="meter" id="fieldMeter"></div>
+        <p class="score-copy" id="scoreCopy">Don’t build a plan around a place you barely enter. Pick a field where repetition can do some work.</p>
       </div>
       <div class="group">
-        <div class="toggle-grid" id="peopleModeGrid">
-          <button type="button" class="radio-row" data-mode="names">
-            <span class="radio-dot"></span>
-            <span class="row-main"><span class="row-title">I can name them now</span><span class="row-sub">Put three first names down.</span></span>
-          </button>
-          <button type="button" class="radio-row" data-mode="scout">
-            <span class="radio-dot"></span>
-            <span class="row-main"><span class="row-title">I need to identify them this week</span><span class="row-sub">Plan one scouting rep.</span></span>
-          </button>
-        </div>
-        <div class="input-wrap" id="namesWrap">
-          <div class="input-row"><label for="person1">Person 1</label><input id="person1" type="text" placeholder="First name" /></div>
-          <div class="input-row"><label for="person2">Person 2</label><input id="person2" type="text" placeholder="First name" /></div>
-          <div class="input-row"><label for="person3">Person 3</label><input id="person3" type="text" placeholder="First name" /></div>
-        </div>
-        <div class="input-wrap hidden" id="scoutWrap">
-          <div class="input-row"><label for="scoutWhere">Where</label><input id="scoutWhere" type="text" placeholder="Gym, cafe, office…" /></div>
-          <div class="input-row"><label for="scoutWhen">When</label><input id="scoutWhen" type="text" placeholder="This Saturday morning" /></div>
-          <div class="input-row"><label for="scoutAction">What</label><input id="scoutAction" type="text" /></div>
+        <div class="input-block">
+          <label class="input-label" for="fieldName">What do you call this field?</label>
+          <input class="text-input" id="fieldName" type="text" placeholder="Tuesday lunch table, Saturday basketball, break room crew" />
         </div>
       </div>
     </section>
 
-    <section aria-labelledby="step4Title">
+    <section class="step hidden" id="step3" data-step="3">
       <div class="section-header">
-        <span class="section-tag">Step 4</span>
-        <h2 class="section-title" id="step4Title">Build your rhythm</h2>
-        <p class="section-desc">Work with your actual week, not the fake week in your head.</p>
+        <div class="step-num"><span>3</span></div>
+        <div>
+          <span class="section-tag">People</span>
+          <h2 class="section-title">Name three people, or scout this week.</h2>
+          <p class="section-desc">Names beat intentions.</p>
+        </div>
       </div>
       <div class="group">
-        <div class="input-row">
-          <label for="rhythmWhen">When</label>
-          <select id="rhythmWhen">
-            <option value="">Choose…</option>
+        <div class="segmented">
+          <button class="seg-btn" type="button" data-mode="names">I can name them</button>
+          <button class="seg-btn" type="button" data-mode="scout">I need to scout</button>
+        </div>
+        <div class="input-grid" id="namesInputs">
+          <input class="text-input" id="person1" type="text" placeholder="Person 1" />
+          <input class="text-input" id="person2" type="text" placeholder="Person 2" />
+          <input class="text-input" id="person3" type="text" placeholder="Person 3" />
+        </div>
+        <div class="input-grid" id="scoutInputs" style="display:none">
+          <input class="text-input" id="scoutWhere" type="text" placeholder="Where will you go?" />
+          <input class="text-input" id="scoutWhen" type="text" placeholder="When will you go?" />
+          <input class="text-input" id="scoutAction" type="text" placeholder="Show up, learn names, and start one casual conversation" />
+        </div>
+      </div>
+    </section>
+
+    <section class="step hidden" id="step4" data-step="4">
+      <div class="section-header">
+        <div class="step-num"><span>4</span></div>
+        <div>
+          <span class="section-tag">Rhythm</span>
+          <h2 class="section-title">When and how will you show up?</h2>
+          <p class="section-desc">Work with your actual week, not the fake week in your head.</p>
+        </div>
+      </div>
+      <div class="group">
+        <div class="rhythm-path" id="rhythmPreview"></div>
+        <div class="input-grid">
+          <select class="select-input" id="rhythmWhen" aria-label="When">
+            <option value="">When</option>
             <option>Weekday lunch break</option>
             <option>Before work</option>
             <option>After work</option>
@@ -430,429 +402,490 @@
             <option>Whenever I am already there</option>
             <option>Custom</option>
           </select>
-        </div>
-        <div class="input-row">
-          <label for="rhythmFreq">How often</label>
-          <select id="rhythmFreq">
-            <option value="">Choose…</option>
+          <select class="select-input" id="rhythmFreq" aria-label="How often">
+            <option value="">How often</option>
             <option>Every week, same time and place</option>
-            <option>2–3 times per week naturally</option>
+            <option>2-3 times per week naturally</option>
             <option>Once a week intentionally</option>
             <option>Biweekly</option>
             <option>Whenever I am already there anyway</option>
           </select>
-        </div>
-        <div class="input-row">
-          <label for="rhythmApproach">Approach</label>
-          <select id="rhythmApproach">
-            <option value="">Choose…</option>
+          <select class="select-input" id="rhythmApproach" aria-label="Approach">
+            <option value="">Approach</option>
             <option>Arrive early</option>
-            <option>Stay 10–15 extra minutes</option>
+            <option>Stay 10-15 extra minutes</option>
             <option>Follow up by text</option>
             <option>Sit in the common area</option>
             <option>Invite into something I already do</option>
             <option>Host something simple</option>
           </select>
-        </div>
-        <div class="input-row">
-          <label for="exactLocation">Location</label>
-          <input id="exactLocation" type="text" placeholder="Break room, gym floor…" />
+          <input class="text-input" id="rhythmLocation" type="text" placeholder="Exact location" />
         </div>
       </div>
     </section>
 
-    <section aria-labelledby="step5Title">
+    <section class="step hidden" id="step5" data-step="5">
       <div class="section-header">
-        <span class="section-tag">Step 5</span>
-        <h2 class="section-title" id="step5Title">Pick one next rep</h2>
-        <p class="section-desc">Not five things. One faithful rep this week.</p>
+        <div class="step-num"><span>5</span></div>
+        <div>
+          <span class="section-tag">One rep</span>
+          <h2 class="section-title">What is your next faithful rep?</h2>
+          <p class="section-desc">Don’t admire the plan. Take the rep.</p>
+        </div>
       </div>
       <div class="group">
-        <div class="rep-list" id="repList"></div>
-        <button type="button" class="drawer-toggle" id="examplesBtn">Show examples</button>
-        <div class="drawer hidden" id="examplesDrawer">
-          <div class="ex-group">
-            <p class="ex-title">Casual</p>
-            <ul>
-              <li>How long have you been coming here?</li>
-              <li>How’d you get into this?</li>
-              <li>What’s your week been like?</li>
-            </ul>
-          </div>
-          <div class="ex-group">
-            <p class="ex-title">Meaningful</p>
-            <ul>
-              <li>What’s been heavy lately?</li>
-              <li>What are you hoping changes this year?</li>
-              <li>What’s something you’re trying to figure out?</li>
-            </ul>
-          </div>
-          <div class="ex-group">
-            <p class="ex-title">Spiritual</p>
-            <ul>
-              <li>Do you have any kind of spiritual background?</li>
-              <li>Do you ever pray?</li>
-              <li>Would it be weird if I prayed for that?</li>
-            </ul>
-          </div>
-          <div class="ex-group">
-            <p class="ex-title">Discovery</p>
-            <ul>
-              <li>Would you be open to reading a short story about Jesus sometime?</li>
-              <li>I’ve been reading stories of hope with people. Want to try one?</li>
-              <li>Could we look at one passage and just ask what it says?</li>
-            </ul>
-          </div>
-        </div>
+        <div class="rep-grid" id="repGrid"></div>
+      </div>
+      <button class="drawer-btn" type="button" id="examplesToggle">Show conversation examples</button>
+      <div class="examples" id="examplesDrawer">
+        <div class="example-group"><h4>Casual</h4><p>How long have you been coming here?<br>How’d you get into this?<br>What’s your week been like?</p></div>
+        <div class="example-group"><h4>Meaningful</h4><p>What’s been heavy lately?<br>What are you hoping changes this year?<br>What’s something you’re trying to figure out?</p></div>
+        <div class="example-group"><h4>Spiritual</h4><p>Do you have any kind of spiritual background?<br>Do you ever pray?<br>Would it be weird if I prayed for that?</p></div>
+        <div class="example-group"><h4>Discovery</h4><p>Would you be open to reading a short story about Jesus sometime?<br>I’ve been reading stories of hope with people. Want to try one?<br>Could we look at one passage and just ask what it says?</p></div>
       </div>
     </section>
 
-    <section aria-labelledby="planTitle">
+    <section class="step hidden" id="step6" data-step="6">
       <div class="section-header">
-        <span class="section-tag">Step 6</span>
-        <h2 class="section-title" id="planTitle">Your CFC plan</h2>
-        <p class="section-desc">Copy it. Send it. Then go do the rep.</p>
+        <div class="step-num"><span>6</span></div>
+        <div>
+          <span class="section-tag">CFC</span>
+          <h2 class="section-title">Add focus, prayer, and support.</h2>
+          <p class="section-desc">A plan kept private usually gets weaker.</p>
+        </div>
       </div>
-      <div class="plan-card">
-        <div class="plan-head">
-          <h2>My CFC Plan</h2>
-          <p>Commitment. Field. Consistent rhythm.</p>
+      <div class="group">
+        <div class="input-block">
+          <label class="input-label">What will you say no to so this rhythm survives?</label>
         </div>
-        <div class="plan-output" id="planOutput"></div>
-        <div class="plan-actions">
-          <button type="button" id="copyPlan">Copy Plan</button>
-          <button type="button" id="exportPlan">Export .txt</button>
-          <button type="button" id="saveProgress">Save Progress</button>
+        <div class="chip-wrap" id="focusChips"></div>
+        <div class="input-block" id="focusOtherWrap" style="display:none">
+          <input class="text-input" id="focusOther" type="text" placeholder="What will you say no to?" />
         </div>
+      </div>
+      <div class="group">
+        <div class="input-block">
+          <label class="input-label">When will you pray for these people?</label>
+        </div>
+        <div class="chip-wrap" id="prayerChips"></div>
+        <div class="input-block" id="prayerCustomWrap" style="display:none">
+          <input class="text-input" id="prayerCustom" type="text" placeholder="Describe your prayer rhythm" />
+        </div>
+      </div>
+      <div class="group">
+        <div class="input-block">
+          <label class="input-label">Who will know about this plan?</label>
+        </div>
+        <div id="supportOptions"></div>
+      </div>
+      <div class="coach-line" id="privateWarning" style="display:none">Plans kept private usually get weaker. Consider telling one trusted person.</div>
+    </section>
+
+    <section class="step hidden" id="step7" data-step="7">
+      <div class="section-header">
+        <div class="step-num"><span>7</span></div>
+        <div>
+          <span class="section-tag">Your plan</span>
+          <h2 class="section-title">My Field This Season</h2>
+          <p class="section-desc">Clear enough to try this week. Simple enough to repeat.</p>
+        </div>
+      </div>
+      <div class="quality bad" id="qualityBox">Your plan is still too vague to obey. Tighten the field, people, rhythm, or next rep.</div>
+      <div class="field-card-final">
+        <div class="field-card-top">
+          <div>
+            <div class="final-kicker">My Field This Season</div>
+            <div class="final-title" id="finalTitle">Find Your Field</div>
+          </div>
+          <div class="final-score" id="finalScore">0/4</div>
+        </div>
+        <div class="final-grid" id="finalGrid"></div>
+      </div>
+      <div class="plan-actions">
+        <button class="action-btn primary" type="button" id="copyBtn">Copy</button>
+        <button class="action-btn" type="button" id="exportBtn">Export</button>
+        <button class="action-btn" type="button" id="saveBtn">Save</button>
       </div>
     </section>
 
     <div class="bottom-pad"></div>
   </main>
 </div>
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="toast" id="toast"></div>
 
 <script>
 (function(){
   'use strict';
 
-  const STORAGE_KEY = 'covo_find_your_field_v1';
+  const SK = 'covo_find_your_field_v1';
 
-  const FIELDS = [
-    {
-      id: 'work-school',
-      icon: '💼',
-      name: 'Work or School',
-      description: 'Your job, team, clients, coworkers, classmates, or campus.',
-      examples: ['break room', 'lunch table', 'team meetings', 'job site', 'campus']
-    },
-    {
-      id: 'neighborhood',
-      icon: '🏙️',
-      name: 'Neighborhood',
-      description: 'Your block, building, park, school pickup, or regular route.',
-      examples: ['lobby', 'courtyard', 'dog walk', 'playground', 'pickup line']
-    },
-    {
-      id: 'hobby-activity',
-      icon: '🏀',
-      name: 'Hobby or Activity',
-      description: 'A sport, gym, club, class, or weekly activity you already enjoy.',
-      examples: ['gym floor', 'pickup basketball', 'rec league', 'coffee shop', 'art class']
-    },
-    {
-      id: 'existing-people',
-      icon: '👥',
-      name: 'People You Already Know',
-      description: 'Friends, family, neighbors, coworkers, or people already opening up.',
-      examples: ['old friends', 'extended family', 'close coworkers', 'parents circle']
-    }
-  ];
-
-  const STRENGTH_CHECKS = [
-    { id: 'weekly', text: 'I can show up here weekly.' },
-    { id: 'samePeople', text: 'I see the same people repeatedly.' },
-    { id: 'naturalTalk', text: 'Conversations can happen naturally here.' },
-    { id: 'realCare', text: 'I actually care about this space or these people.' }
-  ];
-
-  const REPS = [
-    'Learn three names',
-    'Start one casual conversation',
-    'Ask one meaningful question',
-    'Offer to pray',
-    'Share a short story of hope',
-    'Invite someone to read a story of Jesus'
-  ];
-
-  const DEFAULT_STATE = {
-    fieldId: '',
-    checks: [],
-    peopleMode: 'names',
-    people: ['', '', ''],
-    scoutWhere: '',
-    scoutWhen: '',
-    scoutAction: 'Show up, learn names, and start one casual conversation.',
-    rhythmWhen: '',
-    rhythmFreq: '',
-    rhythmApproach: '',
-    exactLocation: '',
-    nextRep: '',
-    examplesOpen: false
+  const icons = {
+    field:'<svg viewBox="0 0 24 24"><path d="M4 20V8l8-4 8 4v12"/><path d="M9 20v-7h6v7"/><path d="M4 11h16"/></svg>',
+    people:'<svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-8 0v2"/><circle cx="12" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M2 21v-2a4 4 0 0 1 3-3.87"/><path d="M8 3.13a4 4 0 0 0 0 7.75"/></svg>',
+    rhythm:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+    speech:'<svg viewBox="0 0 24 24"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/></svg>',
+    eye:'<svg viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>',
+    work:'<svg viewBox="0 0 48 48"><path d="M10 38V18h28v20"/><path d="M18 18v-6h12v6"/><path d="M10 25h28"/><path d="M22 25v4h4v-4"/></svg>',
+    neighborhood:'<svg viewBox="0 0 48 48"><path d="M7 40h34"/><path d="M12 40V20l10-8 10 8v20"/><path d="M28 40V24h10v16"/><path d="M18 40v-8h8v8"/></svg>',
+    hobby:'<svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="16"/><path d="M8 24h32"/><path d="M24 8c5 5 7 11 0 32"/><path d="M24 8c-5 5-7 11 0 32"/></svg>',
+    known:'<svg viewBox="0 0 48 48"><path d="M10 36c2-6 7-9 14-9s12 3 14 9"/><circle cx="24" cy="17" r="7"/><path d="M8 14c2-3 4-5 8-6"/><path d="M40 14c-2-3-4-5-8-6"/></svg>',
+    target:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg>',
+    spark:'<svg viewBox="0 0 24 24"><path d="M12 2l2.4 6.8L21 12l-6.6 3.2L12 22l-2.4-6.8L3 12l6.6-3.2z"/></svg>',
+    send:'<svg viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></svg>',
+    names:'<svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-8 0v2"/><circle cx="12" cy="7" r="4"/></svg>',
+    book:'<svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5z"/></svg>',
+    hand:'<svg viewBox="0 0 24 24"><path d="M8 11V5a2 2 0 0 1 4 0v6"/><path d="M12 10V4a2 2 0 0 1 4 0v8"/><path d="M16 12V7a2 2 0 0 1 4 0v6c0 5-3 8-8 8h-1a7 7 0 0 1-7-7v-3a2 2 0 0 1 4 0v1"/></svg>',
+    clock:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+    pin:'<svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 12-9 12S3 17 3 10a9 9 0 1 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>',
+    foot:'<svg viewBox="0 0 24 24"><path d="M6 21c3-1 4-4 3-7L8 9c-.4-2-3-2-4 0s-1 5 0 7l2 5z"/><path d="M16 21c3-1 4-4 3-7l-1-5c-.4-2-3-2-4 0s-1 5 0 7l2 5z"/></svg>'
   };
 
-  let state = loadState();
-  let toastTimer;
+  const fields = [
+    { id:'work', icon:'work', title:'Work or School', desc:'Your job, team, clients, coworkers, classmates, or campus.', chips:['break room','lunch table','campus'], picture:'Sit in the break room instead of eating alone. Learn three names. Ask one better question this week.' },
+    { id:'neighborhood', icon:'neighborhood', title:'Neighborhood', desc:'Your block, building, park, school pickup, or regular route.', chips:['lobby','dog walk','pickup line'], picture:'Take the same walk or show up at the same pickup line. Slow down. Learn one name.' },
+    { id:'hobby', icon:'hobby', title:'Hobby or Activity', desc:'A sport, gym, club, class, or weekly activity you already enjoy.', chips:['gym','basketball','coffee shop'], picture:'Show up 15 minutes early. Stay after the game or class. Talk to the same people again.' },
+    { id:'known', icon:'known', title:'People You Already Know', desc:'Friends, family, neighbors, coworkers, or people already opening up.', chips:['old friends','family','neighbors'], picture:'Choose one existing relationship. Initiate real time. Move from catching up to caring well.' }
+  ];
 
-  function $(id){ return document.getElementById(id); }
-  function getField(){ return FIELDS.find(f => f.id === state.fieldId); }
-  function clean(value){ return String(value || '').trim(); }
+  const checks = [
+    'I can show up here weekly.',
+    'I see the same people repeatedly.',
+    'Conversations can happen naturally here.',
+    'I actually care about this space or these people.'
+  ];
 
-  function loadState(){
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return structuredClone(DEFAULT_STATE);
-      return Object.assign(structuredClone(DEFAULT_STATE), JSON.parse(raw));
-    } catch (e) {
-      return structuredClone(DEFAULT_STATE);
-    }
+  const reps = [
+    { id:'names', icon:'names', title:'Learn three names', example:'Start with: “I’m Mark. I don’t think I caught your name.”' },
+    { id:'casual', icon:'speech', title:'Start one casual conversation', example:'Ask: “How long have you been coming here?”' },
+    { id:'meaningful', icon:'people', title:'Ask one meaningful question', example:'Ask: “What’s been heavy lately?”' },
+    { id:'pray', icon:'hand', title:'Offer to pray', example:'Ask: “Would it be weird if I prayed for that?”' },
+    { id:'hope', icon:'book', title:'Share a short story of hope', example:'Try: “That reminds me of a short story about Jesus. Want to hear it?”' },
+    { id:'discovery', icon:'book', title:'Invite someone to read a story of Jesus', example:'Ask: “Would you be open to reading one short story about Jesus sometime?”' }
+  ];
+
+  const focusOptions = ['Eating alone every time','Leaving immediately','Scrolling through the time window','Overcommitting evenings','Treating this rhythm as optional','Staying busy to avoid awkward conversations','Other'];
+  const prayerOptions = ['Before I enter the field','During my commute','Monday morning','Before or after the rhythm','With a friend weekly','Custom'];
+  const supportOptions = ['I’ll send this to a coach','I’ll send this to a friend','I want help from Covo Multipliers','I’m not ready to tell anyone yet'];
+
+  const defaults = {
+    field:'', checks:[], fieldName:'', peopleMode:'names', people:['','',''],
+    scoutWhere:'', scoutWhen:'', scoutAction:'Show up, learn names, and start one casual conversation.',
+    rhythmWhen:'', rhythmFreq:'', rhythmApproach:'', rhythmLocation:'',
+    rep:'', focus:'', focusOther:'', prayer:'', prayerCustom:'', support:'', examplesOpen:false
+  };
+  let S = load();
+
+  function load(){
+    try { return Object.assign({}, defaults, JSON.parse(localStorage.getItem(SK) || '{}')); }
+    catch(e){ return Object.assign({}, defaults); }
+  }
+  function persist(){ localStorage.setItem(SK, JSON.stringify(S)); }
+  function toast(msg){
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.classList.add('show');
+    clearTimeout(window.__toastTimer);
+    window.__toastTimer = setTimeout(()=>t.classList.remove('show'), 1800);
+  }
+  function esc(str){ return String(str || '').replace(/[&<>"]/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[s])); }
+  function fieldObj(){ return fields.find(f => f.id === S.field); }
+  function repObj(){ return reps.find(r => r.id === S.rep); }
+  function score(){ return S.checks.length; }
+  function names(){ return S.people.map(p => p.trim()).filter(Boolean); }
+  function selectedFocus(){ return S.focus === 'Other' ? S.focusOther.trim() : S.focus; }
+  function selectedPrayer(){ return S.prayer === 'Custom' ? S.prayerCustom.trim() : S.prayer; }
+  function fieldLabel(){
+    const f = fieldObj();
+    return S.fieldName.trim() || S.rhythmLocation.trim() || (f ? f.title : 'your field');
   }
 
-  function saveState(showToast){
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-      if (showToast) showToastMessage('Saved');
-    } catch (e) {
-      if (showToast) showToastMessage('Could not save');
-    }
-  }
-
-  function showToastMessage(message){
-    const toast = $('toast');
-    toast.textContent = message;
-    toast.classList.add('show');
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => toast.classList.remove('show'), 1800);
+  function renderStaticIcons(){
+    document.querySelectorAll('[data-icon]').forEach(el => { el.innerHTML = icons[el.dataset.icon] || ''; });
   }
 
   function renderFields(){
-    const grid = $('fieldGrid');
-    grid.innerHTML = FIELDS.map(field => `
-      <button type="button" class="field-card ${state.fieldId === field.id ? 'active' : ''}" data-field-id="${field.id}" aria-pressed="${state.fieldId === field.id}">
-        <span class="field-icon" aria-hidden="true">${field.icon}</span>
-        <span class="field-name">${field.name}</span>
-        <span class="field-desc">${field.description}</span>
-        <span class="field-eg">Examples</span>
-        <span class="tags">${field.examples.map(example => `<span class="tag">${example}</span>`).join('')}</span>
+    const grid = document.getElementById('fieldGrid');
+    grid.innerHTML = fields.map(f => `
+      <button type="button" class="field-card ${S.field === f.id ? 'active' : ''}" data-field="${f.id}">
+        <span class="scene">${icons[f.icon]}</span>
+        <span class="field-name">${f.title}</span>
+        <span class="field-desc">${f.desc}</span>
+        <span class="tags">${f.chips.map(c=>`<span class="tag">${c}</span>`).join('')}</span>
       </button>
     `).join('');
-    grid.querySelectorAll('[data-field-id]').forEach(button => {
-      button.addEventListener('click', () => {
-        state.fieldId = button.dataset.fieldId;
-        saveState(false);
-        render();
-      });
-    });
+    grid.querySelectorAll('[data-field]').forEach(btn => btn.addEventListener('click', () => {
+      S.field = btn.dataset.field;
+      persist(); render();
+      setTimeout(()=>document.getElementById('step2').scrollIntoView({behavior:'smooth', block:'start'}), 90);
+    }));
+
+    const pic = document.getElementById('pictureCard');
+    const f = fieldObj();
+    if(f){ pic.classList.add('show'); document.getElementById('pictureText').textContent = f.picture; }
+    else { pic.classList.remove('show'); document.getElementById('pictureText').textContent = ''; }
   }
 
-  function renderStrength(){
-    const group = $('fieldStrengthGroup');
-    group.innerHTML = STRENGTH_CHECKS.map(check => `
-      <button type="button" class="check-row ${state.checks.includes(check.id) ? 'active' : ''}" data-check-id="${check.id}" aria-pressed="${state.checks.includes(check.id)}">
-        <span class="check-box" aria-hidden="true"></span>
-        <span class="row-main"><span class="row-title">${check.text}</span></span>
+  function renderChecks(){
+    const group = document.getElementById('checksGroup');
+    group.innerHTML = checks.map((c,i)=>`
+      <button type="button" class="check-row ${S.checks.includes(i) ? 'active' : ''}" data-check="${i}">
+        <span class="check-box"></span>
+        <span class="row-main"><span class="row-title">${c}</span></span>
       </button>
     `).join('');
-    group.querySelectorAll('[data-check-id]').forEach(button => {
-      button.addEventListener('click', () => {
-        const id = button.dataset.checkId;
-        state.checks = state.checks.includes(id)
-          ? state.checks.filter(item => item !== id)
-          : [...state.checks, id];
-        saveState(false);
-        render();
-      });
-    });
+    group.querySelectorAll('[data-check]').forEach(btn => btn.addEventListener('click', () => {
+      const i = Number(btn.dataset.check);
+      S.checks = S.checks.includes(i) ? S.checks.filter(x => x !== i) : S.checks.concat(i);
+      persist(); render();
+    }));
 
-    const score = state.checks.length;
-    const scoreBox = $('scoreBox');
-    const scorePill = $('scorePill');
-    let label = '0/4 Pick another field';
-    let cls = 'weak';
-    if (score === 4) { label = '4/4 Strong field'; cls = 'good'; }
-    else if (score === 3) { label = '3/4 Usable field'; cls = 'ok'; }
-    else if (score > 0) { label = `${score}/4 Weak field`; cls = 'weak'; }
-    scoreBox.className = `score-box ${cls}`;
-    scorePill.textContent = label;
+    const sc = score();
+    const box = document.getElementById('scoreBox');
+    box.className = 'score-box ' + (sc >= 4 ? 'good' : sc >= 3 ? 'ok' : 'weak');
+    const label = sc === 4 ? 'Strong field' : sc === 3 ? 'Usable field' : sc > 0 ? 'Weak field' : 'Pick another field';
+    document.getElementById('scorePill').textContent = `${sc}/4 ${label}`;
+    document.getElementById('scoreCopy').textContent = sc >= 3 ? 'This is workable. Repeated presence can turn into real access.' : 'Don’t build a plan around a place you barely enter. Pick a field where repetition can do some work.';
+    document.getElementById('fieldMeter').innerHTML = [0,1,2,3].map(i=>`<span class="meter-dot ${i < sc ? 'filled' : ''}"></span>`).join('');
   }
 
   function renderPeopleMode(){
-    $('peopleModeGrid').querySelectorAll('[data-mode]').forEach(button => {
-      button.classList.toggle('active', state.peopleMode === button.dataset.mode);
-      button.setAttribute('aria-pressed', String(state.peopleMode === button.dataset.mode));
-      button.onclick = () => {
-        state.peopleMode = button.dataset.mode;
-        saveState(false);
-        render();
-      };
-    });
-    $('namesWrap').classList.toggle('hidden', state.peopleMode !== 'names');
-    $('scoutWrap').classList.toggle('hidden', state.peopleMode !== 'scout');
+    document.querySelectorAll('.seg-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.mode === S.peopleMode));
+    document.getElementById('namesInputs').style.display = S.peopleMode === 'names' ? 'grid' : 'none';
+    document.getElementById('scoutInputs').style.display = S.peopleMode === 'scout' ? 'grid' : 'none';
+  }
+
+  function renderRhythmPreview(){
+    const items = [
+      ['clock','When', S.rhythmWhen || 'Choose a time'],
+      ['rhythm','How often', S.rhythmFreq || 'Choose a repeatable rhythm'],
+      ['foot','Approach', S.rhythmApproach || 'Choose how you will enter the space'],
+      ['pin','Where', S.rhythmLocation || 'Name the exact location']
+    ];
+    document.getElementById('rhythmPreview').innerHTML = items.map(([icon,label,value])=>`
+      <div class="path-item">
+        <span class="path-icon">${icons[icon]}</span>
+        <span><span class="path-title">${label}</span><span class="path-value">${esc(value)}</span></span>
+      </div>
+    `).join('');
   }
 
   function renderReps(){
-    const list = $('repList');
-    list.innerHTML = REPS.map(rep => `
-      <button type="button" class="radio-row ${state.nextRep === rep ? 'active' : ''}" data-rep="${rep}" aria-pressed="${state.nextRep === rep}">
-        <span class="radio-dot" aria-hidden="true"></span>
-        <span class="row-main"><span class="row-title">${rep}</span></span>
+    const grid = document.getElementById('repGrid');
+    grid.innerHTML = reps.map(r => `
+      <button type="button" class="rep-card ${S.rep === r.id ? 'active' : ''}" data-rep="${r.id}">
+        <span class="rep-icon">${icons[r.icon]}</span>
+        <span class="rep-title">${r.title}</span>
+        <span class="rep-example">${esc(r.example)}</span>
       </button>
     `).join('');
-    list.querySelectorAll('[data-rep]').forEach(button => {
-      button.addEventListener('click', () => {
-        state.nextRep = button.dataset.rep;
-        saveState(false);
-        render();
-      });
-    });
+    grid.querySelectorAll('[data-rep]').forEach(btn => btn.addEventListener('click', () => {
+      S.rep = btn.dataset.rep;
+      persist(); render();
+    }));
+    document.getElementById('examplesDrawer').classList.toggle('show', !!S.examplesOpen);
+    document.getElementById('examplesToggle').textContent = S.examplesOpen ? 'Hide conversation examples' : 'Show conversation examples';
   }
 
-  function bindInputs(){
-    const inputMap = {
-      person1: ['people', 0],
-      person2: ['people', 1],
-      person3: ['people', 2],
-      scoutWhere: 'scoutWhere',
-      scoutWhen: 'scoutWhen',
-      scoutAction: 'scoutAction',
-      rhythmWhen: 'rhythmWhen',
-      rhythmFreq: 'rhythmFreq',
-      rhythmApproach: 'rhythmApproach',
-      exactLocation: 'exactLocation'
+  function renderChips(containerId, options, current, onPick){
+    const el = document.getElementById(containerId);
+    el.innerHTML = options.map(o => `<button type="button" class="chip ${current === o ? 'active' : ''}" data-val="${esc(o)}">${esc(o)}</button>`).join('');
+    el.querySelectorAll('[data-val]').forEach(btn => btn.addEventListener('click', () => { onPick(btn.dataset.val); persist(); render(); }));
+  }
+
+  function renderSupport(){
+    const el = document.getElementById('supportOptions');
+    el.innerHTML = supportOptions.map(o => `
+      <button type="button" class="option-row ${S.support === o ? 'active' : ''}" data-support="${esc(o)}">
+        <span class="radio-dot"></span>
+        <span class="row-main"><span class="row-title">${esc(o)}</span></span>
+      </button>
+    `).join('');
+    el.querySelectorAll('[data-support]').forEach(btn => btn.addEventListener('click', () => { S.support = btn.dataset.support; persist(); render(); }));
+    document.getElementById('privateWarning').style.display = S.support === 'I’m not ready to tell anyone yet' ? 'block' : 'none';
+  }
+
+  function enoughPeople(){
+    if(S.peopleMode === 'names') return names().length > 0;
+    return !!(S.scoutWhere.trim() || S.scoutWhen.trim());
+  }
+  function hasRhythm(){ return !!(S.rhythmWhen || S.rhythmFreq || S.rhythmApproach || S.rhythmLocation.trim()); }
+  function strongEnough(){
+    return !!S.field && score() >= 3 && enoughPeople() && hasRhythm() && !!(S.rhythmLocation.trim() || S.fieldName.trim()) && !!S.rep;
+  }
+
+  function stepComplete(n){
+    if(n === 1) return !!S.field;
+    if(n === 2) return score() > 0;
+    if(n === 3) return enoughPeople();
+    if(n === 4) return hasRhythm();
+    if(n === 5) return !!S.rep;
+    if(n === 6) return !!(selectedFocus() || selectedPrayer() || S.support);
+    if(n === 7) return strongEnough();
+    return false;
+  }
+
+  function renderStepVisibility(){
+    const show = {
+      1:true,
+      2:!!S.field,
+      3:score() > 0,
+      4:enoughPeople(),
+      5:hasRhythm(),
+      6:!!S.rep,
+      7:!!S.rep
     };
-
-    Object.entries(inputMap).forEach(([id, key]) => {
-      const el = $(id);
-      if (!el) return;
-      if (Array.isArray(key)) el.value = state[key[0]][key[1]] || '';
-      else el.value = state[key] || '';
-
-      const eventName = el.tagName === 'SELECT' ? 'change' : 'input';
-      el.oninput = el.onchange = null;
-      el.addEventListener(eventName, () => {
-        if (Array.isArray(key)) state[key[0]][key[1]] = el.value;
-        else state[key] = el.value;
-        saveState(false);
-        updatePlan();
-      });
-    });
+    for(let i=1;i<=7;i++){
+      const el = document.getElementById('step'+i);
+      el.classList.toggle('hidden', !show[i]);
+      el.classList.toggle('complete', stepComplete(i));
+    }
+    document.getElementById('progressCard').innerHTML = [1,2,3,4,5,6].map(i=>`<span class="progress-step ${stepComplete(i) ? 'done' : (document.getElementById('step'+i)?.classList.contains('hidden') ? '' : 'active')}"></span>`).join('');
   }
 
-  function selectedStrengthReasons(){
-    return STRENGTH_CHECKS
-      .filter(check => state.checks.includes(check.id))
-      .map(check => check.text.replace(/\.$/, '').replace(/^I /, 'I '));
+  function peopleLine(){
+    if(S.peopleMode === 'names'){
+      const n = names();
+      return n.length ? n.join(', ') : 'Name three people or choose a scouting plan.';
+    }
+    const parts = [];
+    if(S.scoutWhere.trim()) parts.push(S.scoutWhere.trim());
+    if(S.scoutWhen.trim()) parts.push(S.scoutWhen.trim());
+    const whereWhen = parts.length ? parts.join(' on ') : 'your field this week';
+    return `Identify three people at ${whereWhen} by ${S.scoutAction.trim() || defaults.scoutAction}`;
   }
 
-  function getPlanText(){
-    const field = getField();
-    const fieldName = field ? field.name : '[choose one field]';
-    const setting = clean(state.exactLocation) || fieldName;
-    const reasons = selectedStrengthReasons();
-    const people = state.people.map(clean).filter(Boolean);
-    const scoutWhere = clean(state.scoutWhere) || '[where you will go]';
-    const scoutWhen = clean(state.scoutWhen) || '[when you will go]';
-    const scoutAction = clean(state.scoutAction) || 'Show up, learn names, and start one casual conversation.';
-    const rhythmFreq = clean(state.rhythmFreq) || '[how often]';
-    const rhythmWhen = clean(state.rhythmWhen) || '[when]';
-    const rhythmApproach = clean(state.rhythmApproach) || '[approach]';
-    const location = clean(state.exactLocation) || '[exact location]';
-    const nextRep = clean(state.nextRep) || '[choose one next rep]';
+  function rhythmLine(){
+    const bits = [];
+    if(S.rhythmFreq) bits.push(S.rhythmFreq);
+    if(S.rhythmWhen) bits.push(S.rhythmWhen);
+    if(S.rhythmLocation.trim()) bits.push('at ' + S.rhythmLocation.trim());
+    if(S.rhythmApproach) bits.push('by ' + S.rhythmApproach.toLowerCase());
+    return bits.length ? bits.join(' ') : 'Choose a repeatable rhythm.';
+  }
 
-    const peopleLine = state.peopleMode === 'names'
-      ? `My focus people are ${people.length ? people.join(', ') : '[name three people]'}.`
-      : `My next rep is to identify three people at ${scoutWhere} ${scoutWhen} by ${scoutAction}`;
-
+  function finalRows(){
+    const f = fieldObj();
+    const rep = repObj();
+    const chosenChecks = S.checks.map(i => checks[i].replace(/\.$/,'').toLowerCase());
+    const fieldWhy = chosenChecks.length ? chosenChecks.join('; ') : 'you are testing whether this is a real field';
     return [
-      'MY CFC PLAN',
+      ['pin','Field', `${fieldLabel()}${f ? ' (' + f.title + ')' : ''}`],
+      ['people','People', peopleLine()],
+      ['rhythm','Rhythm', rhythmLine()],
+      ['target','Focus', selectedFocus() ? `Say no to ${selectedFocus().toLowerCase()}.` : 'Choose what you will say no to.'],
+      ['spark','Prayer', selectedPrayer() ? `Pray ${selectedPrayer().toLowerCase()}.` : 'Choose when you will pray.'],
+      ['speech','Rep this week', rep ? rep.title + '. ' + rep.example : 'Choose one next faithful rep.'],
+      ['send','Support', S.support || 'Choose who will know about this plan.'],
+      ['eye','Why this field', fieldWhy]
+    ];
+  }
+
+  function plainPlan(){
+    const f = fieldObj();
+    const rep = repObj();
+    const chosenChecks = S.checks.map(i => checks[i].replace(/\.$/,'').toLowerCase());
+    return [
+      'MY CFC FIELD PLAN',
       '',
-      'Commitment:',
-      `For the next 8 weeks, I am committing to ${fieldName} at ${setting}.`,
+      `Commitment: For the next 8 weeks, I am making ${fieldLabel()}${f ? ' (' + f.title + ')' : ''} my disciple-making field.`,
+      `Field: This is my field because ${chosenChecks.length ? chosenChecks.join('; ') : 'I am still testing the field'}.`,
+      `People: ${peopleLine()}.`,
+      `Consistent Rhythm: I will show up ${rhythmLine()}.`,
+      `Focus: ${selectedFocus() ? 'I will say no to ' + selectedFocus().toLowerCase() + '.' : 'I need to name what I will say no to.'}`,
+      `Prayer: ${selectedPrayer() ? 'I will pray ' + selectedPrayer().toLowerCase() + '.' : 'I need to choose a prayer rhythm.'}`,
+      `Next Rep: ${rep ? 'This week I will ' + rep.title.toLowerCase() + '.' : 'I need to choose one next rep.'}`,
+      `Support: ${S.support || 'I need to tell one person.'}`,
       '',
-      'Field:',
-      reasons.length
-        ? `This is my field because ${reasons.join('; ')}.`
-        : 'This field still needs to be tested for weekly access, repeated people, natural conversation, and real care.',
-      '',
-      'People:',
-      peopleLine,
-      '',
-      'Consistent Rhythm:',
-      `I will show up ${rhythmFreq} ${rhythmWhen} at ${location} by ${rhythmApproach}.`,
-      '',
-      'Next Rep:',
-      `This week I will ${nextRep.charAt(0).toLowerCase() + nextRep.slice(1)}.`
+      strongEnough() ? 'This is clear enough to try this week. Don’t admire the plan. Take the rep.' : 'This plan is still too vague to obey. Tighten the field, people, rhythm, or next rep.'
     ].join('\n');
   }
 
-  function updatePlan(){
-    $('planOutput').textContent = getPlanText();
+  function renderFinal(){
+    document.getElementById('finalTitle').textContent = fieldLabel();
+    document.getElementById('finalScore').textContent = score() + '/4';
+    document.getElementById('finalGrid').innerHTML = finalRows().map(([icon,label,value]) => `
+      <div class="final-row">
+        <span class="final-icon">${icons[icon]}</span>
+        <span><span class="final-label">${esc(label)}</span><span class="final-value">${esc(value)}</span></span>
+      </div>
+    `).join('');
+    const q = document.getElementById('qualityBox');
+    q.className = 'quality ' + (strongEnough() ? 'good' : 'bad');
+    q.textContent = strongEnough() ? 'This is clear enough to try this week. Don’t admire the plan. Take the rep.' : 'Your plan is still too vague to obey. Tighten the field, people, rhythm, or next rep.';
   }
 
-  async function copyPlan(){
-    const text = getPlanText();
-    try {
-      await navigator.clipboard.writeText(text);
-      showToastMessage('Plan copied');
-    } catch (e) {
-      showToastMessage('Copy failed');
-    }
-  }
-
-  function exportPlan(){
-    const blob = new Blob([getPlanText()], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `cfc-plan-${new Date().toISOString().slice(0,10)}.txt`;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    URL.revokeObjectURL(url);
-    showToastMessage('Exported');
-  }
-
-  function wireStaticButtons(){
-    $('startBtn').addEventListener('click', () => $('toolStart').scrollIntoView({ behavior: 'smooth', block: 'start' }));
-    $('headerSave').addEventListener('click', () => saveState(true));
-    $('saveProgress').addEventListener('click', () => saveState(true));
-    $('headerExport').addEventListener('click', exportPlan);
-    $('exportPlan').addEventListener('click', exportPlan);
-    $('copyPlan').addEventListener('click', copyPlan);
-    $('examplesBtn').addEventListener('click', () => {
-      state.examplesOpen = !state.examplesOpen;
-      saveState(false);
-      renderExamples();
+  function bindInputs(){
+    const bind = (id, key) => {
+      const el = document.getElementById(id);
+      el.value = S[key] || '';
+      el.addEventListener('input', e => { S[key] = e.target.value; persist(); render(); });
+      el.addEventListener('change', e => { S[key] = e.target.value; persist(); render(); });
+    };
+    bind('fieldName','fieldName');
+    ['person1','person2','person3'].forEach((id,i)=>{
+      const el = document.getElementById(id);
+      el.value = S.people[i] || '';
+      el.addEventListener('input', e => { S.people[i] = e.target.value; persist(); render(); });
     });
+    bind('scoutWhere','scoutWhere'); bind('scoutWhen','scoutWhen'); bind('scoutAction','scoutAction');
+    bind('rhythmWhen','rhythmWhen'); bind('rhythmFreq','rhythmFreq'); bind('rhythmApproach','rhythmApproach'); bind('rhythmLocation','rhythmLocation');
+    bind('focusOther','focusOther'); bind('prayerCustom','prayerCustom');
   }
 
-  function renderExamples(){
-    $('examplesDrawer').classList.toggle('hidden', !state.examplesOpen);
-    $('examplesBtn').textContent = state.examplesOpen ? 'Hide examples' : 'Show examples';
+  function renderFormValues(){
+    const set = (id,key) => { const el = document.getElementById(id); if(document.activeElement !== el) el.value = S[key] || ''; };
+    set('fieldName','fieldName');
+    ['person1','person2','person3'].forEach((id,i)=>{ const el=document.getElementById(id); if(document.activeElement!==el) el.value=S.people[i] || ''; });
+    ['scoutWhere','scoutWhen','scoutAction','rhythmWhen','rhythmFreq','rhythmApproach','rhythmLocation','focusOther','prayerCustom'].forEach(id => set(id,id));
   }
 
   function render(){
+    renderStaticIcons();
     renderFields();
-    renderStrength();
+    renderChecks();
     renderPeopleMode();
+    renderRhythmPreview();
     renderReps();
-    bindInputs();
-    renderExamples();
-    updatePlan();
+    renderChips('focusChips', focusOptions, S.focus, val => { S.focus = val; });
+    renderChips('prayerChips', prayerOptions, S.prayer, val => { S.prayer = val; });
+    document.getElementById('focusOtherWrap').style.display = S.focus === 'Other' ? 'block' : 'none';
+    document.getElementById('prayerCustomWrap').style.display = S.prayer === 'Custom' ? 'block' : 'none';
+    renderSupport();
+    renderFinal();
+    renderStepVisibility();
+    renderFormValues();
   }
 
-  wireStaticButtons();
-  render();
+  function saveNow(){ persist(); toast('Saved'); }
+  async function copyPlan(){
+    try { await navigator.clipboard.writeText(plainPlan()); toast('Copied'); }
+    catch(e){ toast('Copy failed'); }
+  }
+  function exportPlan(){
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([plainPlan()], {type:'text/plain'}));
+    a.download = 'covo-field-plan.txt';
+    a.click();
+    URL.revokeObjectURL(a.href);
+    toast('Exported');
+  }
+
+  function init(){
+    renderStaticIcons();
+    renderFields();
+    bindInputs();
+    render();
+
+    document.getElementById('startBtn').addEventListener('click', () => document.getElementById('step1').scrollIntoView({behavior:'smooth', block:'start'}));
+    document.querySelectorAll('.seg-btn').forEach(btn => btn.addEventListener('click', () => { S.peopleMode = btn.dataset.mode; persist(); render(); }));
+    document.getElementById('examplesToggle').addEventListener('click', () => { S.examplesOpen = !S.examplesOpen; persist(); render(); });
+    document.getElementById('headerSave').addEventListener('click', saveNow);
+    document.getElementById('saveBtn').addEventListener('click', saveNow);
+    document.getElementById('headerExport').addEventListener('click', exportPlan);
+    document.getElementById('exportBtn').addEventListener('click', exportPlan);
+    document.getElementById('copyBtn').addEventListener('click', copyPlan);
+  }
+
+  init();
 })();
 </script>
 </body>
