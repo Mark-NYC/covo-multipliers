@@ -498,7 +498,7 @@ img {
 
 @media (max-width: 540px) {
     .stuck-card {
-        align-items: flex-start;
+        align-items: center;
     }
 
     .stuck-card-img {
