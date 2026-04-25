@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Build a simple disciple-making field plan around the life you already have." />
+<title>Find Your Field — Covo Multipliers</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+    background: #f2f2f7;
+    color: #000;
+    line-height: 1.4;
+    min-height: 100vh;
+  }
+  button, input, select, textarea { font: inherit; }
+  button { cursor: pointer; }
+  .app {
+    max-width: 480px;
+    margin: 0 auto;
+    min-height: 100vh;
+    background: #f2f2f7;
+  }
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: rgba(255,255,255,.92);
+    border-bottom: .5px solid #c6c6c8;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .brand {
+    color: #000;
+    text-decoration: none;
+    font-size: 17px;
+    font-weight: 750;
+    letter-spacing: -.01em;
+  }
+  .header-actions { display: flex; gap: 8px; }
+  .hbtn {
+    border: none;
+    background: #f2f2f7;
+    color: #3a3a3c;
+    border-radius: 9px;
+    padding: 8px 12px;
+    font-size: 14px;
+    font-weight: 650;
+  }
+  .hbtn:active { background: #e5e5ea; }
+  .hbtn.primary { background: #ff9500; color: #fff; }
+  .hbtn.primary:active { background: #e08600; }
+
+  .intro { padding: 16px; }
+  .intro-card {
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.08);
+    padding: 22px 18px;
+    text-align: center;
+  }
+  .intro-kicker {
+    display: inline-flex;
+    color: #8e8e93;
+    background: #f2f2f7;
+    border-radius: 999px;
+    padding: 5px 10px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    margin-bottom: 13px;
+  }
+  .intro h1 {
+    font-size: 30px;
+    letter-spacing: -.04em;
+    line-height: 1.05;
+    margin-bottom: 8px;
+  }
+  .intro-sub {
+    font-size: 16px;
+    color: #3a3a3c;
+    line-height: 1.45;
+    max-width: 340px;
+    margin: 0 auto 8px;
+  }
+  .intro-support {
+    font-size: 13px;
+    color: #8e8e93;
+    max-width: 320px;
+    margin: 0 auto 16px;
+  }
+  .primary-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 12px;
+    background: #ff9500;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 750;
+    padding: 12px 22px;
+    min-width: 132px;
+  }
+  .primary-cta:active { background: #e08600; transform: scale(.99); }
+
+  .section-header { padding: 20px 16px 7px; }
+  .section-tag {
+    display: block;
+    color: #8e8e93;
+    font-size: 12px;
+    font-weight: 750;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    margin-bottom: 4px;
+  }
+  .section-title {
+    font-size: 18px;
+    font-weight: 750;
+    letter-spacing: -.01em;
+  }
+  .section-desc {
+    color: #8e8e93;
+    font-size: 13px;
+    margin-top: 3px;
+    line-height: 1.45;
+  }
+  .group {
+    margin: 0 16px 12px;
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.08);
+    overflow: hidden;
+  }
+  .step-intro { padding: 14px 16px 10px; border-bottom: .5px solid #c6c6c8; }
+  .step-q { font-size: 16px; font-weight: 700; letter-spacing: -.01em; }
+  .step-hint { font-size: 13px; color: #8e8e93; margin-top: 3px; }
+
+  .field-grid { display: grid; grid-template-columns: 1fr 1fr; }
+  .field-card {
+    width: 100%;
+    text-align: left;
+    border: none;
+    background: #fff;
+    padding: 14px;
+    border-right: .5px solid #c6c6c8;
+    border-bottom: .5px solid #c6c6c8;
+  }
+  .field-card:nth-child(even) { border-right: none; }
+  .field-card:nth-child(3), .field-card:nth-child(4) { border-bottom: none; }
+  .field-card.active { background: #fff6e9; }
+  .field-icon { font-size: 22px; display: block; margin-bottom: 5px; }
+  .field-name { display: block; font-size: 15px; font-weight: 750; margin-bottom: 3px; }
+  .field-card.active .field-name { color: #d57200; }
+  .field-desc { display: block; font-size: 12px; color: #6e6e73; line-height: 1.35; margin-bottom: 7px; }
+  .field-eg { display: block; font-size: 10px; color: #8e8e93; font-weight: 750; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 4px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 3px; }
+  .tag { background: #f2f2f7; color: #6e6e73; border-radius: 5px; padding: 2px 6px; font-size: 11px; font-weight: 550; }
+  .field-card.active .tag { background: #ffe1b3; color: #7a4000; }
+
+  .check-row, .radio-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    width: 100%;
+    border: none;
+    border-bottom: .5px solid #c6c6c8;
+    background: #fff;
+    padding: 13px 16px;
+    text-align: left;
+  }
+  .check-row:last-child, .radio-row:last-child { border-bottom: none; }
+  .check-row.active, .radio-row.active { background: #fff6e9; }
+  .check-box, .radio-dot {
+    flex: 0 0 auto;
+    width: 22px;
+    height: 22px;
+    border-radius: 7px;
+    border: 1.5px solid #c6c6c8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1px;
+  }
+  .radio-dot { border-radius: 50%; }
+  .check-row.active .check-box, .radio-row.active .radio-dot { background: #ff9500; border-color: #ff9500; }
+  .check-row.active .check-box::after { content: '✓'; color: #fff; font-size: 13px; font-weight: 800; }
+  .radio-row.active .radio-dot::after { content: ''; width: 8px; height: 8px; border-radius: 999px; background: #fff; }
+  .row-main { flex: 1; min-width: 0; }
+  .row-title { display: block; font-size: 15px; font-weight: 650; color: #000; line-height: 1.35; }
+  .row-sub { display: block; font-size: 13px; color: #8e8e93; margin-top: 2px; line-height: 1.35; }
+
+  .score-box {
+    margin: 0 16px 12px;
+    padding: 12px 14px;
+    border-radius: 13px;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,.08);
+  }
+  .score-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .score-label { font-size: 15px; font-weight: 750; }
+  .score-pill { border-radius: 999px; padding: 5px 10px; font-size: 12px; font-weight: 800; background: #f2f2f7; color: #6e6e73; white-space: nowrap; }
+  .score-box.good .score-pill { background: #e8f5ee; color: #1f7a3f; }
+  .score-box.ok .score-pill { background: #fff6e9; color: #9b5500; }
+  .score-box.weak .score-pill { background: #ffecec; color: #c8232c; }
+  .score-warning { display: none; margin-top: 9px; font-size: 13px; color: #c8232c; line-height: 1.4; }
+  .score-box.weak .score-warning { display: block; }
+
+  .toggle-grid { display: grid; grid-template-columns: 1fr 1fr; }
+  .toggle-grid .radio-row { border-right: .5px solid #c6c6c8; border-bottom: none; }
+  .toggle-grid .radio-row:last-child { border-right: none; }
+  .input-wrap { padding: 4px 0; }
+  .input-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-bottom: .5px solid #c6c6c8;
+  }
+  .input-row:last-child { border-bottom: none; }
+  .input-row label { color: #000; font-size: 15px; font-weight: 600; min-width: 94px; }
+  .input-row input, .input-row select {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: #000;
+    font-size: 15px;
+    text-align: right;
+  }
+  .input-row select { color: #6e6e73; appearance: none; -webkit-appearance: none; }
+  .input-row input::placeholder { color: #c6c6c8; }
+  .hidden { display: none !important; }
+
+  .rep-list .radio-row { align-items: center; }
+  .drawer-toggle {
+    width: 100%;
+    background: #fff;
+    border: none;
+    border-top: .5px solid #c6c6c8;
+    padding: 12px 16px;
+    color: #ff9500;
+    text-align: left;
+    font-size: 15px;
+    font-weight: 750;
+  }
+  .drawer {
+    border-top: .5px solid #c6c6c8;
+    background: #f9f9fb;
+    padding: 12px 16px 14px;
+  }
+  .ex-group { margin-bottom: 13px; }
+  .ex-group:last-child { margin-bottom: 0; }
+  .ex-title { font-size: 13px; font-weight: 800; color: #000; margin-bottom: 5px; }
+  .ex-group ul { padding-left: 18px; }
+  .ex-group li { color: #6e6e73; font-size: 13px; margin-bottom: 4px; line-height: 1.35; }
+
+  .plan-card {
+    margin: 0 16px 12px;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.08);
+    overflow: hidden;
+  }
+  .plan-head { padding: 15px 16px 10px; border-bottom: .5px solid #c6c6c8; }
+  .plan-head h2 { font-size: 18px; letter-spacing: -.02em; }
+  .plan-head p { color: #8e8e93; font-size: 13px; margin-top: 2px; }
+  .plan-output {
+    padding: 14px 16px;
+    white-space: pre-wrap;
+    font-size: 14px;
+    line-height: 1.55;
+    color: #1c1c1e;
+    min-height: 210px;
+  }
+  .plan-output strong { font-weight: 800; }
+  .plan-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    border-top: .5px solid #c6c6c8;
+  }
+  .plan-actions button {
+    border: none;
+    border-right: .5px solid #c6c6c8;
+    background: #fff;
+    padding: 12px 6px;
+    color: #ff9500;
+    font-size: 14px;
+    font-weight: 750;
+  }
+  .plan-actions button:last-child { border-right: none; }
+  .plan-actions button:active { background: #f2f2f7; }
+
+  .toast {
+    position: fixed;
+    bottom: 22px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,.82);
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 650;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .18s ease;
+    z-index: 40;
+    white-space: nowrap;
+  }
+  .toast.show { opacity: 1; }
+  .bottom-pad { height: 42px; }
+  :focus-visible { outline: 3px solid rgba(255,149,0,.35); outline-offset: 2px; }
+
+  @media (max-width: 380px) {
+    .field-grid, .toggle-grid { grid-template-columns: 1fr; }
+    .field-card, .toggle-grid .radio-row { border-right: none; }
+    .field-card:nth-child(3) { border-bottom: .5px solid #c6c6c8; }
+    .field-card:nth-child(4) { border-bottom: none; }
+    .toggle-grid .radio-row:first-child { border-bottom: .5px solid #c6c6c8; }
+    .plan-actions { grid-template-columns: 1fr; }
+    .plan-actions button { border-right: none; border-bottom: .5px solid #c6c6c8; }
+    .plan-actions button:last-child { border-bottom: none; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="site-header">
+    <a class="brand" href="/">Covo Multipliers</a>
+    <div class="header-actions">
+      <button type="button" class="hbtn" id="headerExport">Export</button>
+      <button type="button" class="hbtn primary" id="headerSave">Save</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="intro" aria-labelledby="pageTitle">
+      <div class="intro-card">
+        <span class="intro-kicker">First session</span>
+        <h1 id="pageTitle">Find Your Field</h1>
+        <p class="intro-sub">Build a simple disciple-making plan around the life you already have.</p>
+        <p class="intro-support">Pick your field. Name your people. Build your rhythm. Take the next rep.</p>
+        <button type="button" class="primary-cta" id="startBtn">Start</button>
+      </div>
+    </section>
+
+    <section id="toolStart" aria-labelledby="step1Title">
+      <div class="section-header">
+        <span class="section-tag">Step 1</span>
+        <h2 class="section-title" id="step1Title">Choose one field</h2>
+        <p class="section-desc">Where could disciple-making naturally happen in your real week?</p>
+      </div>
+      <div class="group">
+        <div class="field-grid" id="fieldGrid"></div>
+      </div>
+    </section>
+
+    <section aria-labelledby="step2Title">
+      <div class="section-header">
+        <span class="section-tag">Step 2</span>
+        <h2 class="section-title" id="step2Title">Test the field</h2>
+        <p class="section-desc">Repeated access beats good intentions.</p>
+      </div>
+      <div class="group" id="fieldStrengthGroup"></div>
+      <div class="score-box weak" id="scoreBox">
+        <div class="score-top">
+          <span class="score-label">Field score</span>
+          <span class="score-pill" id="scorePill">0/4 Pick another field</span>
+        </div>
+        <p class="score-warning">This field may be too thin. Pick somewhere with repeated access and natural conversation.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="step3Title">
+      <div class="section-header">
+        <span class="section-tag">Step 3</span>
+        <h2 class="section-title" id="step3Title">Name people or scout</h2>
+        <p class="section-desc">Can you name three people in this field?</p>
+      </div>
+      <div class="group">
+        <div class="toggle-grid" id="peopleModeGrid">
+          <button type="button" class="radio-row" data-mode="names">
+            <span class="radio-dot"></span>
+            <span class="row-main"><span class="row-title">I can name them now</span><span class="row-sub">Put three first names down.</span></span>
+          </button>
+          <button type="button" class="radio-row" data-mode="scout">
+            <span class="radio-dot"></span>
+            <span class="row-main"><span class="row-title">I need to identify them this week</span><span class="row-sub">Plan one scouting rep.</span></span>
+          </button>
+        </div>
+        <div class="input-wrap" id="namesWrap">
+          <div class="input-row"><label for="person1">Person 1</label><input id="person1" type="text" placeholder="First name" /></div>
+          <div class="input-row"><label for="person2">Person 2</label><input id="person2" type="text" placeholder="First name" /></div>
+          <div class="input-row"><label for="person3">Person 3</label><input id="person3" type="text" placeholder="First name" /></div>
+        </div>
+        <div class="input-wrap hidden" id="scoutWrap">
+          <div class="input-row"><label for="scoutWhere">Where</label><input id="scoutWhere" type="text" placeholder="Gym, cafe, office…" /></div>
+          <div class="input-row"><label for="scoutWhen">When</label><input id="scoutWhen" type="text" placeholder="This Saturday morning" /></div>
+          <div class="input-row"><label for="scoutAction">What</label><input id="scoutAction" type="text" /></div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="step4Title">
+      <div class="section-header">
+        <span class="section-tag">Step 4</span>
+        <h2 class="section-title" id="step4Title">Build your rhythm</h2>
+        <p class="section-desc">Work with your actual week, not the fake week in your head.</p>
+      </div>
+      <div class="group">
+        <div class="input-row">
+          <label for="rhythmWhen">When</label>
+          <select id="rhythmWhen">
+            <option value="">Choose…</option>
+            <option>Weekday lunch break</option>
+            <option>Before work</option>
+            <option>After work</option>
+            <option>Weekend morning</option>
+            <option>Weekly activity time</option>
+            <option>Whenever I am already there</option>
+            <option>Custom</option>
+          </select>
+        </div>
+        <div class="input-row">
+          <label for="rhythmFreq">How often</label>
+          <select id="rhythmFreq">
+            <option value="">Choose…</option>
+            <option>Every week, same time and place</option>
+            <option>2–3 times per week naturally</option>
+            <option>Once a week intentionally</option>
+            <option>Biweekly</option>
+            <option>Whenever I am already there anyway</option>
+          </select>
+        </div>
+        <div class="input-row">
+          <label for="rhythmApproach">Approach</label>
+          <select id="rhythmApproach">
+            <option value="">Choose…</option>
+            <option>Arrive early</option>
+            <option>Stay 10–15 extra minutes</option>
+            <option>Follow up by text</option>
+            <option>Sit in the common area</option>
+            <option>Invite into something I already do</option>
+            <option>Host something simple</option>
+          </select>
+        </div>
+        <div class="input-row">
+          <label for="exactLocation">Location</label>
+          <input id="exactLocation" type="text" placeholder="Break room, gym floor…" />
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="step5Title">
+      <div class="section-header">
+        <span class="section-tag">Step 5</span>
+        <h2 class="section-title" id="step5Title">Pick one next rep</h2>
+        <p class="section-desc">Not five things. One faithful rep this week.</p>
+      </div>
+      <div class="group">
+        <div class="rep-list" id="repList"></div>
+        <button type="button" class="drawer-toggle" id="examplesBtn">Show examples</button>
+        <div class="drawer hidden" id="examplesDrawer">
+          <div class="ex-group">
+            <p class="ex-title">Casual</p>
+            <ul>
+              <li>How long have you been coming here?</li>
+              <li>How’d you get into this?</li>
+              <li>What’s your week been like?</li>
+            </ul>
+          </div>
+          <div class="ex-group">
+            <p class="ex-title">Meaningful</p>
+            <ul>
+              <li>What’s been heavy lately?</li>
+              <li>What are you hoping changes this year?</li>
+              <li>What’s something you’re trying to figure out?</li>
+            </ul>
+          </div>
+          <div class="ex-group">
+            <p class="ex-title">Spiritual</p>
+            <ul>
+              <li>Do you have any kind of spiritual background?</li>
+              <li>Do you ever pray?</li>
+              <li>Would it be weird if I prayed for that?</li>
+            </ul>
+          </div>
+          <div class="ex-group">
+            <p class="ex-title">Discovery</p>
+            <ul>
+              <li>Would you be open to reading a short story about Jesus sometime?</li>
+              <li>I’ve been reading stories of hope with people. Want to try one?</li>
+              <li>Could we look at one passage and just ask what it says?</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="planTitle">
+      <div class="section-header">
+        <span class="section-tag">Step 6</span>
+        <h2 class="section-title" id="planTitle">Your CFC plan</h2>
+        <p class="section-desc">Copy it. Send it. Then go do the rep.</p>
+      </div>
+      <div class="plan-card">
+        <div class="plan-head">
+          <h2>My CFC Plan</h2>
+          <p>Commitment. Field. Consistent rhythm.</p>
+        </div>
+        <div class="plan-output" id="planOutput"></div>
+        <div class="plan-actions">
+          <button type="button" id="copyPlan">Copy Plan</button>
+          <button type="button" id="exportPlan">Export .txt</button>
+          <button type="button" id="saveProgress">Save Progress</button>
+        </div>
+      </div>
+    </section>
+
+    <div class="bottom-pad"></div>
+  </main>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  'use strict';
+
+  const STORAGE_KEY = 'covo_find_your_field_v1';
+
+  const FIELDS = [
+    {
+      id: 'work-school',
+      icon: '💼',
+      name: 'Work or School',
+      description: 'Your job, team, clients, coworkers, classmates, or campus.',
+      examples: ['break room', 'lunch table', 'team meetings', 'job site', 'campus']
+    },
+    {
+      id: 'neighborhood',
+      icon: '🏙️',
+      name: 'Neighborhood',
+      description: 'Your block, building, park, school pickup, or regular route.',
+      examples: ['lobby', 'courtyard', 'dog walk', 'playground', 'pickup line']
+    },
+    {
+      id: 'hobby-activity',
+      icon: '🏀',
+      name: 'Hobby or Activity',
+      description: 'A sport, gym, club, class, or weekly activity you already enjoy.',
+      examples: ['gym floor', 'pickup basketball', 'rec league', 'coffee shop', 'art class']
+    },
+    {
+      id: 'existing-people',
+      icon: '👥',
+      name: 'People You Already Know',
+      description: 'Friends, family, neighbors, coworkers, or people already opening up.',
+      examples: ['old friends', 'extended family', 'close coworkers', 'parents circle']
+    }
+  ];
+
+  const STRENGTH_CHECKS = [
+    { id: 'weekly', text: 'I can show up here weekly.' },
+    { id: 'samePeople', text: 'I see the same people repeatedly.' },
+    { id: 'naturalTalk', text: 'Conversations can happen naturally here.' },
+    { id: 'realCare', text: 'I actually care about this space or these people.' }
+  ];
+
+  const REPS = [
+    'Learn three names',
+    'Start one casual conversation',
+    'Ask one meaningful question',
+    'Offer to pray',
+    'Share a short story of hope',
+    'Invite someone to read a story of Jesus'
+  ];
+
+  const DEFAULT_STATE = {
+    fieldId: '',
+    checks: [],
+    peopleMode: 'names',
+    people: ['', '', ''],
+    scoutWhere: '',
+    scoutWhen: '',
+    scoutAction: 'Show up, learn names, and start one casual conversation.',
+    rhythmWhen: '',
+    rhythmFreq: '',
+    rhythmApproach: '',
+    exactLocation: '',
+    nextRep: '',
+    examplesOpen: false
+  };
+
+  let state = loadState();
+  let toastTimer;
+
+  function $(id){ return document.getElementById(id); }
+  function getField(){ return FIELDS.find(f => f.id === state.fieldId); }
+  function clean(value){ return String(value || '').trim(); }
+
+  function loadState(){
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return structuredClone(DEFAULT_STATE);
+      return Object.assign(structuredClone(DEFAULT_STATE), JSON.parse(raw));
+    } catch (e) {
+      return structuredClone(DEFAULT_STATE);
+    }
+  }
+
+  function saveState(showToast){
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      if (showToast) showToastMessage('Saved');
+    } catch (e) {
+      if (showToast) showToastMessage('Could not save');
+    }
+  }
+
+  function showToastMessage(message){
+    const toast = $('toast');
+    toast.textContent = message;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 1800);
+  }
+
+  function renderFields(){
+    const grid = $('fieldGrid');
+    grid.innerHTML = FIELDS.map(field => `
+      <button type="button" class="field-card ${state.fieldId === field.id ? 'active' : ''}" data-field-id="${field.id}" aria-pressed="${state.fieldId === field.id}">
+        <span class="field-icon" aria-hidden="true">${field.icon}</span>
+        <span class="field-name">${field.name}</span>
+        <span class="field-desc">${field.description}</span>
+        <span class="field-eg">Examples</span>
+        <span class="tags">${field.examples.map(example => `<span class="tag">${example}</span>`).join('')}</span>
+      </button>
+    `).join('');
+    grid.querySelectorAll('[data-field-id]').forEach(button => {
+      button.addEventListener('click', () => {
+        state.fieldId = button.dataset.fieldId;
+        saveState(false);
+        render();
+      });
+    });
+  }
+
+  function renderStrength(){
+    const group = $('fieldStrengthGroup');
+    group.innerHTML = STRENGTH_CHECKS.map(check => `
+      <button type="button" class="check-row ${state.checks.includes(check.id) ? 'active' : ''}" data-check-id="${check.id}" aria-pressed="${state.checks.includes(check.id)}">
+        <span class="check-box" aria-hidden="true"></span>
+        <span class="row-main"><span class="row-title">${check.text}</span></span>
+      </button>
+    `).join('');
+    group.querySelectorAll('[data-check-id]').forEach(button => {
+      button.addEventListener('click', () => {
+        const id = button.dataset.checkId;
+        state.checks = state.checks.includes(id)
+          ? state.checks.filter(item => item !== id)
+          : [...state.checks, id];
+        saveState(false);
+        render();
+      });
+    });
+
+    const score = state.checks.length;
+    const scoreBox = $('scoreBox');
+    const scorePill = $('scorePill');
+    let label = '0/4 Pick another field';
+    let cls = 'weak';
+    if (score === 4) { label = '4/4 Strong field'; cls = 'good'; }
+    else if (score === 3) { label = '3/4 Usable field'; cls = 'ok'; }
+    else if (score > 0) { label = `${score}/4 Weak field`; cls = 'weak'; }
+    scoreBox.className = `score-box ${cls}`;
+    scorePill.textContent = label;
+  }
+
+  function renderPeopleMode(){
+    $('peopleModeGrid').querySelectorAll('[data-mode]').forEach(button => {
+      button.classList.toggle('active', state.peopleMode === button.dataset.mode);
+      button.setAttribute('aria-pressed', String(state.peopleMode === button.dataset.mode));
+      button.onclick = () => {
+        state.peopleMode = button.dataset.mode;
+        saveState(false);
+        render();
+      };
+    });
+    $('namesWrap').classList.toggle('hidden', state.peopleMode !== 'names');
+    $('scoutWrap').classList.toggle('hidden', state.peopleMode !== 'scout');
+  }
+
+  function renderReps(){
+    const list = $('repList');
+    list.innerHTML = REPS.map(rep => `
+      <button type="button" class="radio-row ${state.nextRep === rep ? 'active' : ''}" data-rep="${rep}" aria-pressed="${state.nextRep === rep}">
+        <span class="radio-dot" aria-hidden="true"></span>
+        <span class="row-main"><span class="row-title">${rep}</span></span>
+      </button>
+    `).join('');
+    list.querySelectorAll('[data-rep]').forEach(button => {
+      button.addEventListener('click', () => {
+        state.nextRep = button.dataset.rep;
+        saveState(false);
+        render();
+      });
+    });
+  }
+
+  function bindInputs(){
+    const inputMap = {
+      person1: ['people', 0],
+      person2: ['people', 1],
+      person3: ['people', 2],
+      scoutWhere: 'scoutWhere',
+      scoutWhen: 'scoutWhen',
+      scoutAction: 'scoutAction',
+      rhythmWhen: 'rhythmWhen',
+      rhythmFreq: 'rhythmFreq',
+      rhythmApproach: 'rhythmApproach',
+      exactLocation: 'exactLocation'
+    };
+
+    Object.entries(inputMap).forEach(([id, key]) => {
+      const el = $(id);
+      if (!el) return;
+      if (Array.isArray(key)) el.value = state[key[0]][key[1]] || '';
+      else el.value = state[key] || '';
+
+      const eventName = el.tagName === 'SELECT' ? 'change' : 'input';
+      el.oninput = el.onchange = null;
+      el.addEventListener(eventName, () => {
+        if (Array.isArray(key)) state[key[0]][key[1]] = el.value;
+        else state[key] = el.value;
+        saveState(false);
+        updatePlan();
+      });
+    });
+  }
+
+  function selectedStrengthReasons(){
+    return STRENGTH_CHECKS
+      .filter(check => state.checks.includes(check.id))
+      .map(check => check.text.replace(/\.$/, '').replace(/^I /, 'I '));
+  }
+
+  function getPlanText(){
+    const field = getField();
+    const fieldName = field ? field.name : '[choose one field]';
+    const setting = clean(state.exactLocation) || fieldName;
+    const reasons = selectedStrengthReasons();
+    const people = state.people.map(clean).filter(Boolean);
+    const scoutWhere = clean(state.scoutWhere) || '[where you will go]';
+    const scoutWhen = clean(state.scoutWhen) || '[when you will go]';
+    const scoutAction = clean(state.scoutAction) || 'Show up, learn names, and start one casual conversation.';
+    const rhythmFreq = clean(state.rhythmFreq) || '[how often]';
+    const rhythmWhen = clean(state.rhythmWhen) || '[when]';
+    const rhythmApproach = clean(state.rhythmApproach) || '[approach]';
+    const location = clean(state.exactLocation) || '[exact location]';
+    const nextRep = clean(state.nextRep) || '[choose one next rep]';
+
+    const peopleLine = state.peopleMode === 'names'
+      ? `My focus people are ${people.length ? people.join(', ') : '[name three people]'}.`
+      : `My next rep is to identify three people at ${scoutWhere} ${scoutWhen} by ${scoutAction}`;
+
+    return [
+      'MY CFC PLAN',
+      '',
+      'Commitment:',
+      `For the next 8 weeks, I am committing to ${fieldName} at ${setting}.`,
+      '',
+      'Field:',
+      reasons.length
+        ? `This is my field because ${reasons.join('; ')}.`
+        : 'This field still needs to be tested for weekly access, repeated people, natural conversation, and real care.',
+      '',
+      'People:',
+      peopleLine,
+      '',
+      'Consistent Rhythm:',
+      `I will show up ${rhythmFreq} ${rhythmWhen} at ${location} by ${rhythmApproach}.`,
+      '',
+      'Next Rep:',
+      `This week I will ${nextRep.charAt(0).toLowerCase() + nextRep.slice(1)}.`
+    ].join('\n');
+  }
+
+  function updatePlan(){
+    $('planOutput').textContent = getPlanText();
+  }
+
+  async function copyPlan(){
+    const text = getPlanText();
+    try {
+      await navigator.clipboard.writeText(text);
+      showToastMessage('Plan copied');
+    } catch (e) {
+      showToastMessage('Copy failed');
+    }
+  }
+
+  function exportPlan(){
+    const blob = new Blob([getPlanText()], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `cfc-plan-${new Date().toISOString().slice(0,10)}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+    showToastMessage('Exported');
+  }
+
+  function wireStaticButtons(){
+    $('startBtn').addEventListener('click', () => $('toolStart').scrollIntoView({ behavior: 'smooth', block: 'start' }));
+    $('headerSave').addEventListener('click', () => saveState(true));
+    $('saveProgress').addEventListener('click', () => saveState(true));
+    $('headerExport').addEventListener('click', exportPlan);
+    $('exportPlan').addEventListener('click', exportPlan);
+    $('copyPlan').addEventListener('click', copyPlan);
+    $('examplesBtn').addEventListener('click', () => {
+      state.examplesOpen = !state.examplesOpen;
+      saveState(false);
+      renderExamples();
+    });
+  }
+
+  function renderExamples(){
+    $('examplesDrawer').classList.toggle('hidden', !state.examplesOpen);
+    $('examplesBtn').textContent = state.examplesOpen ? 'Hide examples' : 'Show examples';
+  }
+
+  function render(){
+    renderFields();
+    renderStrength();
+    renderPeopleMode();
+    renderReps();
+    bindInputs();
+    renderExamples();
+    updatePlan();
+  }
+
+  wireStaticButtons();
+  render();
+})();
+</script>
+</body>
+</html>
