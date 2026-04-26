@@ -417,6 +417,10 @@
 
   .phase-screen-header { padding: 14px 16px 12px; }
 
+  .phase-screen-header.tutorial-mode { padding-bottom: 0; }
+
+  .phase-screen-header.tutorial-mode .phase-intro-card { display: none; }
+
   .back-btn {
     border: none;
     background: transparent;
@@ -1756,6 +1760,12 @@
   function renderPhase() {
     const phase = phases.find(function (p) { return p.id === state.activePhase; }) || phases[0];
     const index = phaseIndex(phase.id);
+    const tutorialActive =
+      (phase.id === "field" && !state.fieldTutorialDone) ||
+      (phase.id === "people" && !state.peopleTutorialDone) ||
+      (phase.id === "rhythm" && !state.rhythmTutorialDone);
+
+    document.querySelector(".phase-screen-header").classList.toggle("tutorial-mode", tutorialActive);
 
     document.getElementById("phaseNumber").textContent = index + 1;
     document.getElementById("phaseTitle").textContent = phase.title;
