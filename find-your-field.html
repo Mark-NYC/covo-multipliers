@@ -1329,6 +1329,24 @@
     }
   ];
 
+  const rhythmTutorialCards = [
+    {
+      image: "image/tool/buildyourrhythm-card1.webp",
+      title: "Why rhythm matters",
+      caption: "Growth usually comes through repeated presence, not random moments. A rhythm means returning to the same place often enough for trust, familiarity, and natural conversations to build."
+    },
+    {
+      image: "image/tool/buildyourrhythm-card2.webp",
+      title: "What a rhythm looks like",
+      caption: "A rhythm can be simple: arrive, stay present, and linger afterward. You do not need a complicated strategy. Just a repeatable pattern you can actually keep."
+    },
+    {
+      image: "image/tool/buildyourrhythm-card3.webp",
+      title: "Example rhythm",
+      caption: "For example, you might show up at the same soccer field each week, spend time with people there, and talk briefly afterward. Small repeated moments create real opportunities."
+    }
+  ];
+
   const phases = [
     {
       id: "field",
@@ -1469,6 +1487,8 @@
     fieldTutorialIndex: 0,
     peopleTutorialDone: false,
     peopleTutorialIndex: 0,
+    rhythmTutorialDone: false,
+    rhythmTutorialIndex: 0,
     fieldType: "",
     fieldChecks: [],
     fieldName: "",
@@ -1764,6 +1784,12 @@
       return;
     }
 
+    if (phase.id === "rhythm" && !state.rhythmTutorialDone) {
+      prevBtn.style.visibility = state.rhythmTutorialIndex > 0 ? "visible" : "hidden";
+      nextBtn.textContent = state.rhythmTutorialIndex >= rhythmTutorialCards.length - 1 ? "Start building rhythm" : "Next card";
+      return;
+    }
+
     prevBtn.style.visibility = index === 0 ? "hidden" : "visible";
 
     if (index >= phases.length - 1 || phase.id === "review") {
@@ -1925,6 +1951,37 @@
     });
   }
 
+  function renderRhythmTutorial() {
+    const i = Math.max(0, Math.min(state.rhythmTutorialIndex || 0, rhythmTutorialCards.length - 1));
+    const card = rhythmTutorialCards[i];
+
+    document.getElementById("phaseContent").innerHTML = [
+      '<div class="tutorial-card">',
+        '<div class="tutorial-image-wrap">',
+          '<img class="tutorial-image" src="' + safe(card.image) + '" alt="" loading="eager" />',
+        '</div>',
+        '<div class="tutorial-body">',
+          '<h3 class="tutorial-title">' + safe(card.title) + '</h3>',
+          '<p class="tutorial-caption">' + safe(card.caption) + '</p>',
+          '<div class="tutorial-meta">',
+            '<div class="tutorial-dots" aria-hidden="true">',
+              rhythmTutorialCards.map(function (_, idx) {
+                return '<span class="tutorial-dot' + (idx === i ? ' active' : '') + '"></span>';
+              }).join(""),
+            '</div>',
+            '<button type="button" class="tutorial-skip" id="skipRhythmTutorial">Skip</button>',
+          '</div>',
+        '</div>',
+      '</div>'
+    ].join("");
+
+    document.getElementById("skipRhythmTutorial").addEventListener("click", function () {
+      state.rhythmTutorialDone = true;
+      saveState(false);
+      renderPhase();
+    });
+  }
+
   function renderPeoplePhase() {
     if (!state.peopleTutorialDone) {
       renderPeopleTutorial();
@@ -1992,6 +2049,11 @@
   }
 
   function renderRhythmPhase() {
+    if (!state.rhythmTutorialDone) {
+      renderRhythmTutorial();
+      return;
+    }
+
     const rwv = rhythmWhenValue();
     const rav = rhythmApproachValue();
 
@@ -2000,6 +2062,7 @@
       : "";
 
     document.getElementById("phaseContent").innerHTML = [
+      '<button type="button" class="tutorial-replay" id="viewRhythmTutorial">View tutorial again</button>',
       '<div class="group">',
         '<div class="rhythm-path">',
           pathItem("clock", "When", rwv || null),
@@ -2019,6 +2082,13 @@
       nudge,
       renderPhaseOutputPreview("rhythm")
     ].join("");
+
+    document.getElementById("viewRhythmTutorial").addEventListener("click", function () {
+      state.rhythmTutorialDone = false;
+      state.rhythmTutorialIndex = 0;
+      saveState(false);
+      renderPhase();
+    });
 
     ["rhythmWhen", "rhythmFreq", "rhythmApproach"].forEach(function (id) {
       document.getElementById(id).addEventListener("change", function (e) {
@@ -2293,6 +2363,13 @@
         return;
       }
 
+      if (state.activePhase === "rhythm" && !state.rhythmTutorialDone && state.rhythmTutorialIndex > 0) {
+        state.rhythmTutorialIndex -= 1;
+        saveState(false);
+        renderPhase();
+        return;
+      }
+
       const i = phaseIndex(state.activePhase);
       if (i > 0) showPhase(phases[i - 1].id);
     });
@@ -2314,6 +2391,17 @@
           state.peopleTutorialIndex += 1;
         } else {
           state.peopleTutorialDone = true;
+        }
+        saveState(false);
+        renderPhase();
+        return;
+      }
+
+      if (state.activePhase === "rhythm" && !state.rhythmTutorialDone) {
+        if (state.rhythmTutorialIndex < rhythmTutorialCards.length - 1) {
+          state.rhythmTutorialIndex += 1;
+        } else {
+          state.rhythmTutorialDone = true;
         }
         saveState(false);
         renderPhase();
