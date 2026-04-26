@@ -415,7 +415,10 @@
 
   .action-btn.primary { background: #ff9500; color: #fff; }
 
-  .phase-screen-header { padding: 14px 16px 12px; }
+  .phase-screen-header { padding: 14px 16px 10px; }
+
+  .phase-screen-header.tutorial-mode { padding-bottom: 0; }
+
 
   .back-btn {
     border: none;
@@ -424,13 +427,14 @@
     font-size: 15px;
     font-weight: 720;
     padding: 0;
-    margin-bottom: 14px;
+    margin-bottom: 0;
     display: flex;
     align-items: center;
     gap: 4px;
   }
 
   .phase-intro-card {
+    display: none;
     background: #fff;
     border-radius: 20px;
     box-shadow: 0 1px 3px rgba(0,0,0,.08);
@@ -505,6 +509,44 @@
     display: block;
     aspect-ratio: 1 / 1;
     object-fit: cover;
+  }
+
+  .tutorial-phase-wrap {
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .tutorial-phase-mark {
+    width: 78px;
+    height: 78px;
+    border-radius: 24px;
+    background: #fff6e9;
+    color: #ff9500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .tutorial-phase-mark svg {
+    width: 38px;
+    height: 38px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .tutorial-phase-label {
+    font-size: 11px;
+    font-weight: 820;
+    color: #8e8e93;
+    text-transform: uppercase;
+    letter-spacing: .08em;
   }
 
   .tutorial-body {
@@ -1323,19 +1365,27 @@
       caption: "A field becomes real when you can name actual people, not just a category of people."
     },
     {
-      image: "image/tool/nameyourpeople-card2.webp",
-      title: "Look for connected people",
-      caption: "Pay attention to people who already know each other: friends, coworkers, neighbors, teammates, families, or regulars."
-    },
-    {
-      image: "image/tool/nameyourpeople-card3.webp",
-      title: "Look for access",
-      caption: "Ask: Can I be with them again? Can conversation happen naturally? Is there a doorway into their circle?"
-    },
-    {
       image: "image/tool/nameyourpeople-card4.webp",
       title: "Scout for a doorway",
       caption: "If you do not have names yet, show up again, learn who is connected, and look for one person who can open access to others."
+    }
+  ];
+
+  const rhythmTutorialCards = [
+    {
+      image: "image/tool/buildyourrhythm-card1.webp",
+      title: "Why rhythm matters",
+      caption: "Growth usually comes through repeated presence, not random moments. A rhythm means returning to the same place often enough for trust, familiarity, and natural conversations to build."
+    },
+    {
+      image: "image/tool/buildyourrhythm-card2.webp",
+      title: "What a rhythm looks like",
+      caption: "A rhythm can be simple: arrive, stay present, and linger afterward. You do not need a complicated strategy. Just a repeatable pattern you can actually keep."
+    },
+    {
+      image: "image/tool/buildyourrhythm-card3.webp",
+      title: "Example rhythm",
+      caption: "For example, you might show up at the same soccer field each week, spend time with people there, and talk briefly afterward. Small repeated moments create real opportunities."
     }
   ];
 
@@ -1450,7 +1500,7 @@
   ];
 
   const checks = [
-    "I can show up here weekly.",
+    "I can show up here consistently.",
     "I see the same people repeatedly.",
     "Conversations can happen naturally here.",
     "I actually care about this space or these people."
@@ -1497,8 +1547,14 @@
     fieldTutorialIndex: 0,
     peopleTutorialDone: false,
     peopleTutorialIndex: 0,
+    rhythmTutorialDone: false,
+    rhythmTutorialIndex: 0,
     repTutorialDone: false,
     repTutorialIndex: 0,
+    strengthenTutorialDone: false,
+    strengthenTutorialIndex: 0,
+    reviewTutorialDone: false,
+    reviewTutorialIndex: 0,
     fieldType: "",
     fieldChecks: [],
     fieldName: "",
@@ -1655,6 +1711,7 @@
 
   function showPhase(id) {
     state.activePhase = id;
+    resetTutorialFor(id);
     saveState(false);
     document.getElementById("homeScreen").classList.remove("active");
     document.getElementById("phaseScreen").classList.add("active");
@@ -1763,6 +1820,91 @@
     }
   }
 
+
+  function tutorialDoneKey(id) { return id + "TutorialDone"; }
+  function tutorialIndexKey(id) { return id + "TutorialIndex"; }
+
+  function getTutorialIndex(id) {
+    return Math.max(0, Number(state[tutorialIndexKey(id)] || 0));
+  }
+
+  function setTutorialIndex(id, value) {
+    state[tutorialIndexKey(id)] = Math.max(0, value);
+  }
+
+  function resetTutorialFor(id) {
+    state[tutorialDoneKey(id)] = false;
+    state[tutorialIndexKey(id)] = 0;
+  }
+
+  function isTutorialActive(id) {
+    return !state[tutorialDoneKey(id)];
+  }
+
+  function phaseIntroCard(id) {
+    const phase = phases.find(function (p) { return p.id === id; }) || phases[0];
+    const index = phaseIndex(id);
+    return {
+      type: "phase",
+      icon: phase.icon,
+      number: index + 1,
+      title: phase.title,
+      caption: phase.desc + " This phase gives you: " + phase.gives
+    };
+  }
+
+  function tutorialCardsFor(id) {
+    let cards = [];
+    if (id === "field") cards = fieldTutorialCards.slice();
+    else if (id === "people") cards = peopleTutorialCards.slice();
+    else if (id === "rhythm") cards = rhythmTutorialCards.slice();
+    else if (id === "rep") cards = repTutorialCards.slice();
+    return cards.concat(phaseIntroCard(id));
+  }
+
+  function startTutorialLabel(id) {
+    if (id === "field") return "Start choosing field";
+    if (id === "people") return "Start naming people";
+    if (id === "rhythm") return "Start building rhythm";
+    if (id === "rep") return "Start choosing rep";
+    if (id === "strengthen") return "Start strengthening plan";
+    if (id === "review") return "Start review";
+    return "Start phase";
+  }
+
+  function renderTutorial(id) {
+    const cards = tutorialCardsFor(id);
+    const i = Math.max(0, Math.min(getTutorialIndex(id), cards.length - 1));
+    const card = cards[i];
+    const visual = card.image
+      ? '<div class="tutorial-image-wrap"><img class="tutorial-image" src="' + safe(card.image) + '" alt="" loading="eager" /></div>'
+      : '<div class="tutorial-image-wrap tutorial-phase-wrap"><div class="tutorial-phase-mark">' + icons[card.icon] + '</div><div class="tutorial-phase-label">Phase ' + card.number + '</div></div>';
+
+    document.getElementById("phaseContent").innerHTML = [
+      '<div class="tutorial-card">',
+        visual,
+        '<div class="tutorial-body">',
+          '<h3 class="tutorial-title">' + safe(card.title) + '</h3>',
+          '<p class="tutorial-caption">' + safe(card.caption) + '</p>',
+          '<div class="tutorial-meta">',
+            '<div class="tutorial-dots" aria-hidden="true">',
+              cards.map(function (_, idx) {
+                return '<span class="tutorial-dot' + (idx === i ? ' active' : '') + '"></span>';
+              }).join(""),
+            '</div>',
+            '<button type="button" class="tutorial-skip" id="skipTutorial">Skip</button>',
+          '</div>',
+        '</div>',
+      '</div>'
+    ].join("");
+
+    document.getElementById("skipTutorial").addEventListener("click", function () {
+      state[tutorialDoneKey(id)] = true;
+      saveState(false);
+      renderPhase();
+    });
+  }
+
   function renderPhase() {
     const phase = phases.find(function (p) { return p.id === state.activePhase; }) || phases[0];
     const index = phaseIndex(phase.id);
@@ -1782,21 +1924,11 @@
     const prevBtn = document.getElementById("prevPhase");
     const nextBtn = document.getElementById("nextPhase");
 
-    if (phase.id === "field" && !state.fieldTutorialDone) {
-      prevBtn.style.visibility = state.fieldTutorialIndex > 0 ? "visible" : "hidden";
-      nextBtn.textContent = state.fieldTutorialIndex >= fieldTutorialCards.length - 1 ? "Start choosing field" : "Next card";
-      return;
-    }
-
-    if (phase.id === "people" && !state.peopleTutorialDone) {
-      prevBtn.style.visibility = state.peopleTutorialIndex > 0 ? "visible" : "hidden";
-      nextBtn.textContent = state.peopleTutorialIndex >= peopleTutorialCards.length - 1 ? "Start naming people" : "Next card";
-      return;
-    }
-
-    if (phase.id === "rep" && !state.repTutorialDone) {
-      prevBtn.style.visibility = state.repTutorialIndex > 0 ? "visible" : "hidden";
-      nextBtn.textContent = state.repTutorialIndex >= repTutorialCards.length - 1 ? "Start choosing rep" : "Next card";
+    if (isTutorialActive(phase.id)) {
+      const tutorialIndex = getTutorialIndex(phase.id);
+      const tutorialLength = tutorialCardsFor(phase.id).length;
+      prevBtn.style.visibility = tutorialIndex > 0 ? "visible" : "hidden";
+      nextBtn.textContent = tutorialIndex >= tutorialLength - 1 ? startTutorialLabel(phase.id) : "Next card";
       return;
     }
 
@@ -1819,7 +1951,6 @@
     const sc = score();
 
     document.getElementById("phaseContent").innerHTML = [
-      '<button type="button" class="tutorial-replay" id="viewFieldTutorial">View tutorial again</button>',
       '<div class="group"><div class="field-grid" id="fieldGrid"></div></div>',
       field ? [
         '<div class="picture-card show" id="pictureCard">',
@@ -1844,12 +1975,6 @@
       ].join("") : ""
     ].join("");
 
-    document.getElementById("viewFieldTutorial").addEventListener("click", function () {
-      state.fieldTutorialDone = false;
-      state.fieldTutorialIndex = 0;
-      saveState(false);
-      renderPhase();
-    });
 
     document.getElementById("fieldGrid").innerHTML = fieldTypes.map(function (item) {
       return [
@@ -1900,65 +2025,15 @@
   }
 
   function renderFieldTutorial() {
-    const i = Math.max(0, Math.min(state.fieldTutorialIndex || 0, fieldTutorialCards.length - 1));
-    const card = fieldTutorialCards[i];
-
-    document.getElementById("phaseContent").innerHTML = [
-      '<div class="tutorial-card">',
-        '<div class="tutorial-image-wrap">',
-          '<img class="tutorial-image" src="' + safe(card.image) + '" alt="" loading="eager" />',
-        '</div>',
-        '<div class="tutorial-body">',
-          '<h3 class="tutorial-title">' + safe(card.title) + '</h3>',
-          '<p class="tutorial-caption">' + safe(card.caption) + '</p>',
-          '<div class="tutorial-meta">',
-            '<div class="tutorial-dots" aria-hidden="true">',
-              fieldTutorialCards.map(function (_, idx) {
-                return '<span class="tutorial-dot' + (idx === i ? ' active' : '') + '"></span>';
-              }).join(""),
-            '</div>',
-            '<button type="button" class="tutorial-skip" id="skipFieldTutorial">Skip</button>',
-          '</div>',
-        '</div>',
-      '</div>'
-    ].join("");
-
-    document.getElementById("skipFieldTutorial").addEventListener("click", function () {
-      state.fieldTutorialDone = true;
-      saveState(false);
-      renderPhase();
-    });
+    renderTutorial("field");
   }
 
   function renderPeopleTutorial() {
-    const i = Math.max(0, Math.min(state.peopleTutorialIndex || 0, peopleTutorialCards.length - 1));
-    const card = peopleTutorialCards[i];
+    renderTutorial("people");
+  }
 
-    document.getElementById("phaseContent").innerHTML = [
-      '<div class="tutorial-card">',
-        '<div class="tutorial-image-wrap">',
-          '<img class="tutorial-image" src="' + safe(card.image) + '" alt="" loading="eager" />',
-        '</div>',
-        '<div class="tutorial-body">',
-          '<h3 class="tutorial-title">' + safe(card.title) + '</h3>',
-          '<p class="tutorial-caption">' + safe(card.caption) + '</p>',
-          '<div class="tutorial-meta">',
-            '<div class="tutorial-dots" aria-hidden="true">',
-              peopleTutorialCards.map(function (_, idx) {
-                return '<span class="tutorial-dot' + (idx === i ? ' active' : '') + '"></span>';
-              }).join(""),
-            '</div>',
-            '<button type="button" class="tutorial-skip" id="skipPeopleTutorial">Skip</button>',
-          '</div>',
-        '</div>',
-      '</div>'
-    ].join("");
-
-    document.getElementById("skipPeopleTutorial").addEventListener("click", function () {
-      state.peopleTutorialDone = true;
-      saveState(false);
-      renderPhase();
-    });
+  function renderRhythmTutorial() {
+    renderTutorial("rhythm");
   }
 
   function renderPeoplePhase() {
@@ -1972,7 +2047,6 @@
       : "";
 
     document.getElementById("phaseContent").innerHTML = [
-      '<button type="button" class="tutorial-replay" id="viewPeopleTutorial">View tutorial again</button>',
       '<div class="group">',
         '<div class="segmented">',
           '<button class="seg-btn' + (state.peopleMode === "names" ? " active" : "") + '" type="button" data-mode="names">I can name them</button>',
@@ -1993,12 +2067,6 @@
       renderPhaseOutputPreview("people")
     ].join("");
 
-    document.getElementById("viewPeopleTutorial").addEventListener("click", function () {
-      state.peopleTutorialDone = false;
-      state.peopleTutorialIndex = 0;
-      saveState(false);
-      renderPhase();
-    });
 
     document.querySelectorAll("[data-mode]").forEach(function (btn) {
       btn.addEventListener("click", function () {
@@ -2028,6 +2096,11 @@
   }
 
   function renderRhythmPhase() {
+    if (!state.rhythmTutorialDone) {
+      renderRhythmTutorial();
+      return;
+    }
+
     const rwv = rhythmWhenValue();
     const rav = rhythmApproachValue();
 
@@ -2055,6 +2128,7 @@
       nudge,
       renderPhaseOutputPreview("rhythm")
     ].join("");
+
 
     ["rhythmWhen", "rhythmFreq", "rhythmApproach"].forEach(function (id) {
       document.getElementById(id).addEventListener("change", function (e) {
@@ -2097,40 +2171,9 @@
     ].join("");
   }
 
-  function renderRepTutorial() {
-    const i = Math.max(0, Math.min(state.repTutorialIndex || 0, repTutorialCards.length - 1));
-    const card = repTutorialCards[i];
-
-    document.getElementById("phaseContent").innerHTML = [
-      '<div class="tutorial-card">',
-        '<div class="tutorial-image-wrap">',
-          '<img class="tutorial-image" src="' + safe(card.image) + '" alt="" loading="eager" />',
-        '</div>',
-        '<div class="tutorial-body">',
-          '<h3 class="tutorial-title">' + safe(card.title) + '</h3>',
-          '<p class="tutorial-caption">' + safe(card.caption) + '</p>',
-          '<div class="tutorial-meta">',
-            '<div class="tutorial-dots" aria-hidden="true">',
-              repTutorialCards.map(function (_, idx) {
-                return '<span class="tutorial-dot' + (idx === i ? ' active' : '') + '"></span>';
-              }).join(""),
-            '</div>',
-            '<button type="button" class="tutorial-skip" id="skipRepTutorial">Skip</button>',
-          '</div>',
-        '</div>',
-      '</div>'
-    ].join("");
-
-    document.getElementById("skipRepTutorial").addEventListener("click", function () {
-      state.repTutorialDone = true;
-      saveState(false);
-      renderPhase();
-    });
-  }
-
   function renderRepPhase() {
-    if (!state.repTutorialDone) {
-      renderRepTutorial();
+    if (isTutorialActive("rep")) {
+      renderTutorial("rep");
       return;
     }
 
@@ -2139,7 +2182,6 @@
       : "";
 
     document.getElementById("phaseContent").innerHTML = [
-      '<button type="button" class="tutorial-replay" id="viewRepTutorial">View tutorial again</button>',
       '<div class="group"><div class="rep-grid">',
         reps.map(function (rep) {
           return [
@@ -2155,13 +2197,6 @@
       renderPhaseOutputPreview("rep")
     ].join("");
 
-    document.getElementById("viewRepTutorial").addEventListener("click", function () {
-      state.repTutorialDone = false;
-      state.repTutorialIndex = 0;
-      saveState(false);
-      renderPhase();
-    });
-
     document.querySelectorAll("[data-rep]").forEach(function (btn) {
       btn.addEventListener("click", function () {
         state.rep = btn.dataset.rep;
@@ -2172,6 +2207,11 @@
   }
 
   function renderStrengthenPhase() {
+    if (isTutorialActive("strengthen")) {
+      renderTutorial("strengthen");
+      return;
+    }
+
     document.getElementById("phaseContent").innerHTML = [
       '<div class="group">',
         '<div class="input-block"><label class="input-label">What will you say no to?</label></div>',
@@ -2253,6 +2293,11 @@
   }
 
   function renderReviewPhase() {
+    if (isTutorialActive("review")) {
+      renderTutorial("review");
+      return;
+    }
+
     document.getElementById("phaseContent").innerHTML = [
       '<div class="review-banner">Come back after you show up once. This phase is for after the first rep.</div>',
       '<div class="review-card">',
@@ -2359,22 +2404,8 @@
     document.getElementById("backHome").addEventListener("click", showHome);
 
     document.getElementById("prevPhase").addEventListener("click", function () {
-      if (state.activePhase === "field" && !state.fieldTutorialDone && state.fieldTutorialIndex > 0) {
-        state.fieldTutorialIndex -= 1;
-        saveState(false);
-        renderPhase();
-        return;
-      }
-
-      if (state.activePhase === "people" && !state.peopleTutorialDone && state.peopleTutorialIndex > 0) {
-        state.peopleTutorialIndex -= 1;
-        saveState(false);
-        renderPhase();
-        return;
-      }
-
-      if (state.activePhase === "rep" && !state.repTutorialDone && state.repTutorialIndex > 0) {
-        state.repTutorialIndex -= 1;
+      if (isTutorialActive(state.activePhase) && getTutorialIndex(state.activePhase) > 0) {
+        setTutorialIndex(state.activePhase, getTutorialIndex(state.activePhase) - 1);
         saveState(false);
         renderPhase();
         return;
@@ -2385,33 +2416,13 @@
     });
 
     document.getElementById("nextPhase").addEventListener("click", function () {
-      if (state.activePhase === "field" && !state.fieldTutorialDone) {
-        if (state.fieldTutorialIndex < fieldTutorialCards.length - 1) {
-          state.fieldTutorialIndex += 1;
+      if (isTutorialActive(state.activePhase)) {
+        const i = getTutorialIndex(state.activePhase);
+        const total = tutorialCardsFor(state.activePhase).length;
+        if (i < total - 1) {
+          setTutorialIndex(state.activePhase, i + 1);
         } else {
-          state.fieldTutorialDone = true;
-        }
-        saveState(false);
-        renderPhase();
-        return;
-      }
-
-      if (state.activePhase === "people" && !state.peopleTutorialDone) {
-        if (state.peopleTutorialIndex < peopleTutorialCards.length - 1) {
-          state.peopleTutorialIndex += 1;
-        } else {
-          state.peopleTutorialDone = true;
-        }
-        saveState(false);
-        renderPhase();
-        return;
-      }
-
-      if (state.activePhase === "rep" && !state.repTutorialDone) {
-        if (state.repTutorialIndex < repTutorialCards.length - 1) {
-          state.repTutorialIndex += 1;
-        } else {
-          state.repTutorialDone = true;
+          state[tutorialDoneKey(state.activePhase)] = true;
         }
         saveState(false);
         renderPhase();
