@@ -33,7 +33,6 @@
     background: #f2f2f7;
   }
 
-  /* ─── HEADER ─── */
   .site-header {
     position: sticky;
     top: 0;
@@ -71,16 +70,12 @@
 
   .hbtn.primary { background: #ff9500; color: #fff; }
 
-  /* ─── MAIN / SCREEN ─── */
   .main { padding-bottom: 44px; }
 
   .screen { display: none; }
   .screen.active { display: block; }
 
-  /* ─── HOME HERO ─── */
-  .home-hero {
-    padding: 20px 16px 8px;
-  }
+  .home-hero { padding: 20px 16px 8px; }
 
   .hero-card {
     background: #fff;
@@ -122,10 +117,7 @@
     margin-top: 10px;
   }
 
-  /* ─── CONTEXTUAL CTA ─── */
-  .cta-wrap {
-    padding: 10px 16px 4px;
-  }
+  .cta-wrap { padding: 10px 16px 4px; }
 
   .primary-cta {
     width: 100%;
@@ -151,7 +143,6 @@
     box-shadow: 0 1px 3px rgba(0,0,0,.08);
   }
 
-  /* ─── SECTION HEADER ─── */
   .section-header {
     padding: 22px 16px 8px;
     display: flex;
@@ -168,7 +159,6 @@
     letter-spacing: .06em;
   }
 
-  /* ─── PHASE LIST ─── */
   .phase-list {
     margin: 0 16px 12px;
     background: #fff;
@@ -191,7 +181,6 @@
   }
 
   .phase-row:last-child { border-bottom: none; }
-
   .phase-row.dim { opacity: .48; }
 
   .phase-icon-wrap {
@@ -261,10 +250,7 @@
   .phase-row.done .phase-badge { background: #e8f5ee; color: #1f7a3f; }
   .phase-row.next .phase-badge { background: #fff6e9; color: #ff9500; }
 
-  /* ─── LIVE PLAN CARD ─── */
-  .plan-section {
-    margin: 0 16px 8px;
-  }
+  .plan-section { margin: 0 16px 8px; }
 
   .quality-nudge {
     border-radius: 12px;
@@ -311,11 +297,11 @@
   }
 
   .plan-field-type {
+    display: block;
+    margin-top: 4px;
     font-size: 12px;
-    font-weight: 600;
-    color: rgba(255,255,255,.38);
-    margin-top: 3px;
-    letter-spacing: 0;
+    color: rgba(255,255,255,.48);
+    font-weight: 700;
   }
 
   .plan-strength {
@@ -409,7 +395,6 @@
     color: #ffcc7a;
   }
 
-  /* ─── PLAN ACTIONS ─── */
   .plan-actions {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -430,10 +415,7 @@
 
   .action-btn.primary { background: #ff9500; color: #fff; }
 
-  /* ─── PHASE SCREEN ─── */
-  .phase-screen-header {
-    padding: 14px 16px 12px;
-  }
+  .phase-screen-header { padding: 14px 16px 12px; }
 
   .back-btn {
     border: none;
@@ -505,7 +487,91 @@
     font-weight: 820;
   }
 
-  /* ─── GROUPS / INPUTS ─── */
+  .tutorial-card {
+    margin: 0 16px 12px;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.08);
+    overflow: hidden;
+  }
+
+  .tutorial-image-wrap {
+    background: #f8f4e9;
+    border-bottom: 0.5px solid #e5e5ea;
+  }
+
+  .tutorial-image {
+    width: 100%;
+    display: block;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+  }
+
+  .tutorial-body {
+    padding: 15px 16px 16px;
+  }
+
+  .tutorial-title {
+    font-size: 21px;
+    font-weight: 860;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: 6px;
+  }
+
+  .tutorial-caption {
+    font-size: 14px;
+    color: #6e6e73;
+    line-height: 1.45;
+  }
+
+  .tutorial-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 14px;
+  }
+
+  .tutorial-dots {
+    display: flex;
+    gap: 5px;
+  }
+
+  .tutorial-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 999px;
+    background: #d1d1d6;
+  }
+
+  .tutorial-dot.active {
+    width: 18px;
+    background: #ff9500;
+  }
+
+  .tutorial-skip {
+    border: none;
+    background: transparent;
+    color: #8e8e93;
+    font-size: 13px;
+    font-weight: 760;
+  }
+
+  .tutorial-replay {
+    margin: 0 16px 12px;
+    width: calc(100% - 32px);
+    border: none;
+    background: #fff;
+    color: #ff9500;
+    border-radius: 14px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.08);
+    padding: 11px 14px;
+    font-size: 14px;
+    font-weight: 760;
+    text-align: left;
+  }
+
   .group {
     margin: 0 16px 12px;
     background: #fff;
@@ -521,6 +587,14 @@
     color: #8e8e93;
     text-transform: uppercase;
     letter-spacing: .06em;
+  }
+
+  .group-helper {
+    padding: 3px 14px 10px;
+    color: #8e8e93;
+    font-size: 12.5px;
+    font-weight: 650;
+    line-height: 1.35;
   }
 
   .field-grid { display: grid; grid-template-columns: 1fr 1fr; }
@@ -688,7 +762,6 @@
     margin-top: 2px;
   }
 
-  /* ─── SCORE BOX ─── */
   .score-box {
     margin: 0 16px 12px;
     padding: 12px 14px;
@@ -742,7 +815,6 @@
     font-weight: 650;
   }
 
-  /* ─── PHASE OUTPUT PREVIEW ─── */
   .phase-output {
     margin: 0 16px 12px;
     background: #f2f2f7;
@@ -790,7 +862,6 @@
     font-weight: 500;
   }
 
-  /* ─── NUDGE ─── */
   .nudge {
     margin: 0 16px 10px;
     background: #fff3e0;
@@ -802,7 +873,6 @@
     line-height: 1.4;
   }
 
-  /* ─── INPUT BLOCKS ─── */
   .input-block {
     padding: 12px 14px;
     border-top: 0.5px solid #e5e5ea;
@@ -841,7 +911,6 @@
     padding: 12px 14px;
   }
 
-  /* ─── SEGMENTED ─── */
   .segmented {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -863,7 +932,6 @@
 
   .seg-btn.active { background: #ff9500; color: #fff; }
 
-  /* ─── RHYTHM PATH ─── */
   .rhythm-path {
     padding: 13px 14px;
     display: grid;
@@ -921,7 +989,6 @@
   .custom-wrap { display: none; }
   .custom-wrap.show { display: block; }
 
-  /* ─── REP GRID ─── */
   .rep-grid { display: grid; grid-template-columns: 1fr 1fr; }
 
   .rep-card {
@@ -973,7 +1040,6 @@
 
   .rep-card.active .rep-example { display: block; }
 
-  /* ─── CHIPS ─── */
   .chip-wrap {
     display: flex;
     flex-wrap: wrap;
@@ -993,7 +1059,6 @@
 
   .chip.active { background: #111; color: #fff; border-color: #111; }
 
-  /* ─── OPTION ROWS ─── */
   .option-row {
     display: flex;
     align-items: flex-start;
@@ -1034,7 +1099,6 @@
     background: #fff;
   }
 
-  /* ─── REVIEW CARD ─── */
   .review-card {
     margin: 0 16px 12px;
     background: #fff;
@@ -1061,7 +1125,6 @@
     font-weight: 650;
   }
 
-  /* ─── BOTTOM NAV ─── */
   .bottom-nav {
     position: sticky;
     bottom: 0;
@@ -1087,7 +1150,6 @@
     white-space: nowrap;
   }
 
-  /* ─── TOAST ─── */
   .toast {
     position: fixed;
     bottom: 20px;
@@ -1131,7 +1193,6 @@
 
   <main class="main">
 
-    <!-- HOME SCREEN -->
     <section class="screen active" id="homeScreen">
       <div class="home-hero">
         <div class="hero-card">
@@ -1163,7 +1224,7 @@
             <div>
               <div class="plan-kicker">My Field This Season</div>
               <div class="plan-field-name" id="planTitle">Choose one field.</div>
-              <div class="plan-field-type" id="planFieldType" style="display:none;"></div>
+              <span class="plan-field-type" id="planFieldType"></span>
             </div>
             <div class="plan-strength" id="planScore">0/4</div>
           </div>
@@ -1179,7 +1240,6 @@
       </div>
     </section>
 
-    <!-- PHASE SCREEN -->
     <section class="screen" id="phaseScreen">
       <div class="phase-screen-header">
         <button class="back-btn" type="button" id="backHome">← Plan home</button>
@@ -1232,6 +1292,29 @@
     pin: '<svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 12-9 12S3 17 3 10a9 9 0 1 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>',
     foot: '<svg viewBox="0 0 24 24"><path d="M6 21c3-1 4-4 3-7L8 9c-.4-2-3-2-4 0s-1 5 0 7l2 5z"/><path d="M16 21c3-1 4-4 3-7l-1-5c-.4-2-3-2-4 0s-1 5 0 7l2 5z"/></svg>'
   };
+
+  const fieldTutorialCards = [
+    {
+      image: "image/tool/findyourfield-card1.webp",
+      title: "What is a field?",
+      caption: "A field is a place you can enter repeatedly where relationships can grow."
+    },
+    {
+      image: "image/tool/findyourfield-card2.webp",
+      title: "What makes a field strong?",
+      caption: "A strong field has repeated access, familiar faces, natural conversation, and people already connected to each other."
+    },
+    {
+      image: "image/tool/findyourfield-card3.webp",
+      title: "It may already be in your week",
+      caption: "Your field might be work, your neighborhood, a hobby, or people you already know."
+    },
+    {
+      image: "image/tool/findyourfield-card4.webp",
+      title: "Choose one for this season",
+      caption: "Don’t choose the most inspiring place. Choose the place where you can actually show up."
+    }
+  ];
 
   const phases = [
     {
@@ -1333,12 +1416,12 @@
   ];
 
   const reps = [
-    { id: "names", icon: "names", title: "Learn three names", example: "Start with: \u201cI\u2019m Mark. I don\u2019t think I caught your name.\u201d" },
-    { id: "casual", icon: "speech", title: "Start one casual conversation", example: "Ask: \u201cHow long have you been coming here?\u201d" },
-    { id: "meaningful", icon: "people", title: "Ask one meaningful question", example: "Ask: \u201cWhat\u2019s been heavy lately?\u201d" },
-    { id: "pray", icon: "hand", title: "Offer to pray", example: "Ask: \u201cWould it be weird if I prayed for that?\u201d" },
-    { id: "hope", icon: "book", title: "Share a short story of hope", example: "Try: \u201cThat reminds me of a short story about Jesus. Want to hear it?\u201d" },
-    { id: "discovery", icon: "book", title: "Invite someone to read a story of Jesus", example: "Ask: \u201cWould you be open to reading one short story about Jesus sometime?\u201d" }
+    { id: "names", icon: "names", title: "Learn three names", example: "Start with: “I’m Mark. I don’t think I caught your name.”" },
+    { id: "casual", icon: "speech", title: "Start one casual conversation", example: "Ask: “How long have you been coming here?”" },
+    { id: "meaningful", icon: "people", title: "Ask one meaningful question", example: "Ask: “What’s been heavy lately?”" },
+    { id: "pray", icon: "hand", title: "Offer to pray", example: "Ask: “Would it be weird if I prayed for that?”" },
+    { id: "hope", icon: "book", title: "Share a short story of hope", example: "Try: “That reminds me of a short story about Jesus. Want to hear it?”" },
+    { id: "discovery", icon: "book", title: "Invite someone to read a story of Jesus", example: "Ask: “Would you be open to reading one short story about Jesus sometime?”" }
   ];
 
   const focusOptions = [
@@ -1361,14 +1444,16 @@
   ];
 
   const supportOptions = [
-    "I\u2019ll send this to a coach",
-    "I\u2019ll send this to a friend",
+    "I’ll send this to a coach",
+    "I’ll send this to a friend",
     "I want help from Covo Multipliers",
-    "I\u2019m not ready to tell anyone yet"
+    "I’m not ready to tell anyone yet"
   ];
 
   const defaultState = {
     activePhase: "field",
+    fieldTutorialDone: false,
+    fieldTutorialIndex: 0,
     fieldType: "",
     fieldChecks: [],
     fieldName: "",
@@ -1544,7 +1629,6 @@
 
   function renderPhaseList() {
     const nextId = nextRecommendedPhase();
-    const coreIds = ["field", "people", "rhythm", "rep"];
 
     document.getElementById("phaseList").innerHTML = phases.map(function (phase, index) {
       const done = isComplete(phase.id);
@@ -1583,19 +1667,15 @@
   function renderPlan() {
     const rep = selectedRep();
     const fl = fieldLabel();
+    const field = selectedField();
     const pl = peopleLine();
     const rl = rhythmLine();
     const fv = focusValue();
     const pv = prayerValue();
 
     document.getElementById("planTitle").textContent = fl || "Choose one field.";
+    document.getElementById("planFieldType").textContent = field ? field.title : "";
     document.getElementById("planScore").textContent = score() + "/4";
-    const fieldTypeEl = document.getElementById("planFieldType");
-    const selField = selectedField();
-    if (fieldTypeEl) {
-      fieldTypeEl.textContent = selField ? selField.title : "";
-      fieldTypeEl.style.display = selField ? "block" : "none";
-    }
 
     const coreRows = [
       { icon: "people", label: "People", value: pl || "Name three people or scout this week." },
@@ -1604,7 +1684,7 @@
     ];
 
     document.getElementById("planCoreRows").innerHTML = coreRows.map(function (row) {
-      const isEmpty = !row.value || row.value === "Name three people or scout this week." || row.value === "Build a repeatable rhythm." || row.value === "Pick one faithful rep.";
+      const isEmpty = row.value === "Name three people or scout this week." || row.value === "Build a repeatable rhythm." || row.value === "Pick one faithful rep.";
       return [
         '<div class="plan-core-row">',
           '<span class="plan-core-icon">' + icons[row.icon] + '</span>',
@@ -1617,9 +1697,9 @@
     }).join("");
 
     const chips = [
-      { label: "Focus", value: fv ? "No: " + fv : "Focus" },
-      { label: "Prayer", value: pv ? "Pray: " + pv : "Prayer" },
-      { label: "Support", value: state.support ? state.support.replace("I\u2019ll ", "").replace("I want ", "").replace("I\u2019m not ", "Not ") : "Support" }
+      { value: fv ? "No: " + fv : "Focus" },
+      { value: pv ? "Pray: " + pv : "Prayer" },
+      { value: state.support ? state.support.replace("I’ll ", "").replace("I want ", "").replace("I’m not ", "Not ") : "Support" }
     ];
 
     const isSet = [Boolean(fv), Boolean(pv), Boolean(state.support)];
@@ -1631,7 +1711,7 @@
     const qbox = document.getElementById("qualityBox");
     if (corePlanDone()) {
       qbox.className = "quality-nudge good";
-      qbox.textContent = "Clear enough to try this week. Don\u2019t admire the plan. Take the rep.";
+      qbox.textContent = "Clear enough to try this week. Don’t admire the plan. Take the rep.";
     } else {
       qbox.className = "quality-nudge bad";
       qbox.textContent = "Complete the first four phases to build a workable plan.";
@@ -1656,47 +1736,63 @@
 
     const prevBtn = document.getElementById("prevPhase");
     const nextBtn = document.getElementById("nextPhase");
+
+    if (phase.id === "field" && !state.fieldTutorialDone) {
+      prevBtn.style.visibility = state.fieldTutorialIndex > 0 ? "visible" : "hidden";
+      nextBtn.textContent = state.fieldTutorialIndex >= fieldTutorialCards.length - 1 ? "Start choosing field" : "Next card";
+      return;
+    }
+
     prevBtn.style.visibility = index === 0 ? "hidden" : "visible";
 
-    if (index >= phases.length - 1) {
-      nextBtn.textContent = "Return to plan";
-    } else if (phase.id === "review") {
+    if (index >= phases.length - 1 || phase.id === "review") {
       nextBtn.textContent = "Return to plan";
     } else {
-      nextBtn.textContent = "Save \u0026 continue";
+      nextBtn.textContent = "Save & continue";
     }
   }
 
   function renderFieldPhase() {
+    if (!state.fieldTutorialDone) {
+      renderFieldTutorial();
+      return;
+    }
+
     const field = selectedField();
     const sc = score();
-    const fieldSelected = Boolean(state.fieldType);
-
-    const postFieldHTML = fieldSelected ? [
-      '<div class="picture-card show" id="pictureCard">',
-        '<div class="picture-title">' + icons.eye + ' Picture it</div>',
-        '<p class="picture-text">' + safe(field ? field.picture : "") + '</p>',
-      '</div>',
-      '<div class="group" id="checksGroup">',
-        '<div class="group-label" style="padding:12px 14px 6px;">Reality check</div>',
-        '<div style="padding:0 14px 10px;font-size:12px;color:#8e8e93;line-height:1.4;">Repeated access beats good intentions.</div>',
-      '</div>',
-      '<div class="score-box">',
-        '<div class="score-top"><span class="score-label">Field strength</span><span class="score-pill ' + (sc >= 3 ? "good" : "bad") + '">' + sc + '/4 ' + (sc >= 3 ? "Workable" : "Too thin") + '</span></div>',
-        '<div class="meter">' + [0,1,2,3].map(function (i) { return '<span class="meter-dot ' + (i < sc ? "filled" : "") + '"></span>'; }).join("") + '</div>',
-        '<p class="score-copy">' + (sc >= 3 ? "This is workable. Repeated presence can turn into real access." : "This field may be too thin. Repeated access matters.") + '</p>',
-      '</div>',
-      '<div class="group"><div class="input-block">',
-        '<label class="input-label" for="fieldName">What do you call this field? <span style="font-weight:500;text-transform:none;letter-spacing:0;color:#b0b0b8;">(optional)</span></label>',
-        '<input class="text-input" id="fieldName" type="text" value="' + safe(state.fieldName) + '" placeholder="e.g. Tuesday lunch table, Saturday basketball" />',
-      '</div></div>',
-      renderPhaseOutputPreview("field")
-    ].join("") : '<div style="padding:8px 16px 12px;font-size:13px;color:#8e8e93;line-height:1.45;">A field is not a place you care about. It is a place you can repeatedly enter.</div>';
 
     document.getElementById("phaseContent").innerHTML = [
+      '<button type="button" class="tutorial-replay" id="viewFieldTutorial">View tutorial again</button>',
       '<div class="group"><div class="field-grid" id="fieldGrid"></div></div>',
-      postFieldHTML
+      field ? [
+        '<div class="picture-card show" id="pictureCard">',
+          '<div class="picture-title">' + icons.eye + ' Picture it</div>',
+          '<p class="picture-text">' + safe(field.picture) + '</p>',
+        '</div>',
+        '<div class="group">',
+          '<div class="group-label">Reality check</div>',
+          '<div class="group-helper">Repeated access beats good intentions.</div>',
+          '<div id="checksGroup"></div>',
+        '</div>',
+        '<div class="score-box">',
+          '<div class="score-top"><span class="score-label">Field strength</span><span class="score-pill ' + (sc >= 3 ? "good" : "bad") + '">' + sc + '/4 ' + (sc >= 3 ? "Workable" : "Too thin") + '</span></div>',
+          '<div class="meter">' + [0,1,2,3].map(function (i) { return '<span class="meter-dot ' + (i < sc ? "filled" : "") + '"></span>'; }).join("") + '</div>',
+          '<p class="score-copy">' + (sc >= 3 ? "This is workable. Repeated presence can turn into real access." : "This field may be too thin. Repeated access matters.") + '</p>',
+        '</div>',
+        '<div class="group"><div class="input-block">',
+          '<label class="input-label" for="fieldName">What do you call this field? Optional.</label>',
+          '<input class="text-input" id="fieldName" type="text" value="' + safe(state.fieldName) + '" placeholder="e.g. Tuesday lunch table, Saturday basketball" />',
+        '</div></div>',
+        renderPhaseOutputPreview("field")
+      ].join("") : ""
     ].join("");
+
+    document.getElementById("viewFieldTutorial").addEventListener("click", function () {
+      state.fieldTutorialDone = false;
+      state.fieldTutorialIndex = 0;
+      saveState(false);
+      renderPhase();
+    });
 
     document.getElementById("fieldGrid").innerHTML = fieldTypes.map(function (item) {
       return [
@@ -1717,9 +1813,8 @@
       });
     });
 
-    if (fieldSelected) {
-      const checksContainer = document.getElementById("checksGroup");
-      const checksHTML = checks.map(function (check, i) {
+    if (field) {
+      document.getElementById("checksGroup").innerHTML = checks.map(function (check, i) {
         return [
           '<button type="button" class="check-row' + (state.fieldChecks.includes(i) ? " active" : "") + '" data-check="' + i + '">',
             '<span class="check-box"></span>',
@@ -1727,7 +1822,6 @@
           '</button>'
         ].join("");
       }).join("");
-      checksContainer.insertAdjacentHTML("beforeend", checksHTML);
 
       document.querySelectorAll("[data-check]").forEach(function (btn) {
         btn.addEventListener("click", function () {
@@ -1740,13 +1834,43 @@
         });
       });
 
-      const fnEl = document.getElementById("fieldName");
-      if (fnEl) fnEl.addEventListener("input", function (e) {
+      document.getElementById("fieldName").addEventListener("input", function (e) {
         state.fieldName = e.target.value;
         saveState(false);
         renderHome();
       });
     }
+  }
+
+  function renderFieldTutorial() {
+    const i = Math.max(0, Math.min(state.fieldTutorialIndex || 0, fieldTutorialCards.length - 1));
+    const card = fieldTutorialCards[i];
+
+    document.getElementById("phaseContent").innerHTML = [
+      '<div class="tutorial-card">',
+        '<div class="tutorial-image-wrap">',
+          '<img class="tutorial-image" src="' + safe(card.image) + '" alt="" loading="eager" />',
+        '</div>',
+        '<div class="tutorial-body">',
+          '<h3 class="tutorial-title">' + safe(card.title) + '</h3>',
+          '<p class="tutorial-caption">' + safe(card.caption) + '</p>',
+          '<div class="tutorial-meta">',
+            '<div class="tutorial-dots" aria-hidden="true">',
+              fieldTutorialCards.map(function (_, idx) {
+                return '<span class="tutorial-dot' + (idx === i ? ' active' : '') + '"></span>';
+              }).join(""),
+            '</div>',
+            '<button type="button" class="tutorial-skip" id="skipFieldTutorial">Skip</button>',
+          '</div>',
+        '</div>',
+      '</div>'
+    ].join("");
+
+    document.getElementById("skipFieldTutorial").addEventListener("click", function () {
+      state.fieldTutorialDone = true;
+      saveState(false);
+      renderPhase();
+    });
   }
 
   function renderPeoplePhase() {
@@ -1991,7 +2115,7 @@
         reviewRow("reviewPrayed", "Did you pray?", "When did you pray?"),
         reviewRow("reviewConversation", "Did you start or move one conversation?", "What happened?"),
         '<div class="review-row"><label class="input-label" for="reviewLearned">What did you learn?</label><textarea class="textarea-input" id="reviewLearned" placeholder="Write one honest sentence.">' + safe(state.reviewLearned) + '</textarea></div>',
-        '<div class="review-row"><label class="input-label" for="reviewNextRep">What is next week\u2019s rep?</label><textarea class="textarea-input" id="reviewNextRep" placeholder="Name the next faithful rep.">' + safe(state.reviewNextRep) + '</textarea></div>',
+        '<div class="review-row"><label class="input-label" for="reviewNextRep">What is next week’s rep?</label><textarea class="textarea-input" id="reviewNextRep" placeholder="Name the next faithful rep.">' + safe(state.reviewNextRep) + '</textarea></div>',
       '</div>'
     ].join("");
 
@@ -2090,11 +2214,29 @@
     document.getElementById("backHome").addEventListener("click", showHome);
 
     document.getElementById("prevPhase").addEventListener("click", function () {
+      if (state.activePhase === "field" && !state.fieldTutorialDone && state.fieldTutorialIndex > 0) {
+        state.fieldTutorialIndex -= 1;
+        saveState(false);
+        renderPhase();
+        return;
+      }
+
       const i = phaseIndex(state.activePhase);
       if (i > 0) showPhase(phases[i - 1].id);
     });
 
     document.getElementById("nextPhase").addEventListener("click", function () {
+      if (state.activePhase === "field" && !state.fieldTutorialDone) {
+        if (state.fieldTutorialIndex < fieldTutorialCards.length - 1) {
+          state.fieldTutorialIndex += 1;
+        } else {
+          state.fieldTutorialDone = true;
+        }
+        saveState(false);
+        renderPhase();
+        return;
+      }
+
       const i = phaseIndex(state.activePhase);
       if (i >= phases.length - 1 || state.activePhase === "review") {
         saveState(false);
