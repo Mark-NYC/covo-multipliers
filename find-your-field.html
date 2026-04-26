@@ -1316,6 +1316,29 @@
     }
   ];
 
+  const peopleTutorialCards = [
+    {
+      image: "image/tool/nameyourpeople-card1.webp",
+      title: "Names beat intentions",
+      caption: "A field becomes real when you can name actual people, not just a category of people."
+    },
+    {
+      image: "image/tool/nameyourpeople-card2.webp",
+      title: "Look for connected people",
+      caption: "Pay attention to people who already know each other: friends, coworkers, neighbors, teammates, families, or regulars."
+    },
+    {
+      image: "image/tool/nameyourpeople-card3.webp",
+      title: "Look for access",
+      caption: "Ask: Can I be with them again? Can conversation happen naturally? Is there a doorway into their circle?"
+    },
+    {
+      image: "image/tool/nameyourpeople-card4.webp",
+      title: "Scout for a doorway",
+      caption: "If you do not have names yet, show up again, learn who is connected, and look for one person who can open access to others."
+    }
+  ];
+
   const phases = [
     {
       id: "field",
@@ -1454,6 +1477,8 @@
     activePhase: "field",
     fieldTutorialDone: false,
     fieldTutorialIndex: 0,
+    peopleTutorialDone: false,
+    peopleTutorialIndex: 0,
     fieldType: "",
     fieldChecks: [],
     fieldName: "",
@@ -1743,6 +1768,12 @@
       return;
     }
 
+    if (phase.id === "people" && !state.peopleTutorialDone) {
+      prevBtn.style.visibility = state.peopleTutorialIndex > 0 ? "visible" : "hidden";
+      nextBtn.textContent = state.peopleTutorialIndex >= peopleTutorialCards.length - 1 ? "Start naming people" : "Next card";
+      return;
+    }
+
     prevBtn.style.visibility = index === 0 ? "hidden" : "visible";
 
     if (index >= phases.length - 1 || phase.id === "review") {
@@ -1873,12 +1904,49 @@
     });
   }
 
+  function renderPeopleTutorial() {
+    const i = Math.max(0, Math.min(state.peopleTutorialIndex || 0, peopleTutorialCards.length - 1));
+    const card = peopleTutorialCards[i];
+
+    document.getElementById("phaseContent").innerHTML = [
+      '<div class="tutorial-card">',
+        '<div class="tutorial-image-wrap">',
+          '<img class="tutorial-image" src="' + safe(card.image) + '" alt="" loading="eager" />',
+        '</div>',
+        '<div class="tutorial-body">',
+          '<h3 class="tutorial-title">' + safe(card.title) + '</h3>',
+          '<p class="tutorial-caption">' + safe(card.caption) + '</p>',
+          '<div class="tutorial-meta">',
+            '<div class="tutorial-dots" aria-hidden="true">',
+              peopleTutorialCards.map(function (_, idx) {
+                return '<span class="tutorial-dot' + (idx === i ? ' active' : '') + '"></span>';
+              }).join(""),
+            '</div>',
+            '<button type="button" class="tutorial-skip" id="skipPeopleTutorial">Skip</button>',
+          '</div>',
+        '</div>',
+      '</div>'
+    ].join("");
+
+    document.getElementById("skipPeopleTutorial").addEventListener("click", function () {
+      state.peopleTutorialDone = true;
+      saveState(false);
+      renderPhase();
+    });
+  }
+
   function renderPeoplePhase() {
+    if (!state.peopleTutorialDone) {
+      renderPeopleTutorial();
+      return;
+    }
+
     const nudge = state.peopleMode === "names" && names().length === 0
       ? '<div class="nudge">Names beat intentions. Add at least one name or plan a scouting rep.</div>'
       : "";
 
     document.getElementById("phaseContent").innerHTML = [
+      '<button type="button" class="tutorial-replay" id="viewPeopleTutorial">View tutorial again</button>',
       '<div class="group">',
         '<div class="segmented">',
           '<button class="seg-btn' + (state.peopleMode === "names" ? " active" : "") + '" type="button" data-mode="names">I can name them</button>',
@@ -1898,6 +1966,13 @@
       nudge,
       renderPhaseOutputPreview("people")
     ].join("");
+
+    document.getElementById("viewPeopleTutorial").addEventListener("click", function () {
+      state.peopleTutorialDone = false;
+      state.peopleTutorialIndex = 0;
+      saveState(false);
+      renderPhase();
+    });
 
     document.querySelectorAll("[data-mode]").forEach(function (btn) {
       btn.addEventListener("click", function () {
@@ -2221,6 +2296,13 @@
         return;
       }
 
+      if (state.activePhase === "people" && !state.peopleTutorialDone && state.peopleTutorialIndex > 0) {
+        state.peopleTutorialIndex -= 1;
+        saveState(false);
+        renderPhase();
+        return;
+      }
+
       const i = phaseIndex(state.activePhase);
       if (i > 0) showPhase(phases[i - 1].id);
     });
@@ -2231,6 +2313,17 @@
           state.fieldTutorialIndex += 1;
         } else {
           state.fieldTutorialDone = true;
+        }
+        saveState(false);
+        renderPhase();
+        return;
+      }
+
+      if (state.activePhase === "people" && !state.peopleTutorialDone) {
+        if (state.peopleTutorialIndex < peopleTutorialCards.length - 1) {
+          state.peopleTutorialIndex += 1;
+        } else {
+          state.peopleTutorialDone = true;
         }
         saveState(false);
         renderPhase();
