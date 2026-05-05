@@ -120,7 +120,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
     .maybeSingle();
 
   if (immersionErr) {
-    console.error("Immersion lookup error:", immersionErr);
+    console.error("[immersion-apply] immersion lookup error:", JSON.stringify(immersionErr));
     return json(500, { error: "Could not verify immersion. Please try again." }, cors);
   }
   if (!immersion) {
@@ -133,6 +133,8 @@ Deno.serve(async (req: Request): Promise<Response> => {
   }
 
   // Insert application
+  console.log(`[immersion-apply] inserting application for immersion_id=${immersion_id} email=${email}`);
+
   const { data: application, error: insertErr } = await supabase
     .from("immersion_applications")
     .insert({
@@ -154,28 +156,43 @@ Deno.serve(async (req: Request): Promise<Response> => {
     .single();
 
   if (insertErr || !application) {
-    console.error("Insert error:", insertErr);
+    console.error("[immersion-apply] insert error:", JSON.stringify(insertErr));
     return json(500, {
       error: "Could not save your application. Please try again.",
     }, cors);
   }
 
+  console.log(`[immersion-apply] application inserted successfully, id=${application.id}`);
+
   // Send confirmation email (non-fatal — application is already saved)
-  const sent = await sendConfirmationEmail({
+  console.log(`[immersion-apply] attempting confirmation email to=${email} immersion="${immersion.title}"`);
+
+  const resendMessageId = await sendConfirmationEmail({
     to: email,
     toName: name,
     immersionTitle: immersion.title,
   });
 
-  if (sent) {
+  console.log(`[immersion-apply] Resend result: ${resendMessageId ? `sent, id=${resendMessageId}` : "FAILED — email not sent"}`);
+
+  // Update confirmation_sent_at only after a confirmed successful send.
+  // This field is exclusively for the initial application confirmation.
+  // It must never be touched by reminder or follow-up logic.
+  if (resendMessageId) {
+    console.log(`[immersion-apply] updating confirmation_sent_at for application id=${application.id}`);
+
     const { error: updateErr } = await supabase
       .from("immersion_applications")
       .update({ confirmation_sent_at: new Date().toISOString() })
       .eq("id", application.id);
 
     if (updateErr) {
-      console.warn("Could not update confirmation_sent_at:", updateErr);
+      console.error("[immersion-apply] confirmation_sent_at update FAILED:", JSON.stringify(updateErr));
+    } else {
+      console.log("[immersion-apply] confirmation_sent_at updated successfully");
     }
+  } else {
+    console.warn("[immersion-apply] skipping confirmation_sent_at update — email was not sent");
   }
 
   return json(200, { success: true }, cors);
@@ -183,6 +200,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
 
 // ---------------------------------------------------------------------------
 // Confirmation email
+// Returns the Resend message ID on success, or null on failure.
 // ---------------------------------------------------------------------------
 async function sendConfirmationEmail({
   to,
@@ -192,13 +210,13 @@ async function sendConfirmationEmail({
   to: string;
   toName: string;
   immersionTitle: string;
-}): Promise<boolean> {
+}): Promise<string | null> {
   const apiKey = Deno.env.get("RESEND_API_KEY");
   const from = Deno.env.get("RESEND_FROM_EMAIL") ?? "labs@covomultipliers.com";
 
   if (!apiKey) {
-    console.error("RESEND_API_KEY not set — skipping confirmation email.");
-    return false;
+    console.error("[immersion-apply] RESEND_API_KEY is not set — skipping confirmation email. Set it with: supabase secrets set RESEND_API_KEY=...");
+    return null;
   }
 
   const html = `<!DOCTYPE html>
@@ -270,16 +288,19 @@ async function sendConfirmationEmail({
       }),
     });
 
+    const resBody = await res.json().catch(() => ({}));
+
     if (!res.ok) {
-      console.error(`Resend error ${res.status}:`, await res.text());
-      return false;
+      console.error(`[immersion-apply] Resend API error status=${res.status}:`, JSON.stringify(resBody));
+      return null;
     }
 
-    console.log(`Confirmation email sent to ${to}`);
-    return true;
+    const messageId: string | null = (resBody as Record<string, unknown>)?.id as string ?? null;
+    console.log(`[immersion-apply] Resend accepted email, message_id=${messageId}`);
+    return messageId;
   } catch (err) {
-    console.error("Email send failed:", err);
-    return false;
+    console.error("[immersion-apply] fetch to Resend threw an exception:", err);
+    return null;
   }
 }
 
