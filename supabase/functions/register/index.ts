@@ -103,6 +103,8 @@ Deno.serve(async (req: Request): Promise<Response> => {
   // Call the registration RPC.
   // register_for_event() uses SELECT ... FOR UPDATE to lock the event row,
   // preventing two simultaneous requests from both seeing an open seat.
+  console.log(`[register] calling register_for_event RPC for event=${event_id} email=${cleanEmail}`);
+
   const { data, error: rpcError } = await supabase.rpc("register_for_event", {
     p_event_id: event_id,
     p_name: cleanName,
@@ -110,11 +112,15 @@ Deno.serve(async (req: Request): Promise<Response> => {
   });
 
   if (rpcError) {
-    console.error("RPC error:", rpcError);
+    console.error("[register] RPC error:", JSON.stringify(rpcError));
     return json(500, { error: "Registration failed. Please try again." }, cors);
   }
 
   const result = data as RpcResult;
+
+  // Log the full RPC result so we can see its shape in production logs.
+  // This catches cases where the RPC was modified and no longer returns registration_id.
+  console.log("[register] RPC result:", JSON.stringify(result));
 
   if (!result.success) {
     switch (result.error) {
@@ -131,14 +137,19 @@ Deno.serve(async (req: Request): Promise<Response> => {
           error: "This event is full. No seats are remaining.",
         }, cors);
       default:
-        console.error("Unexpected RPC result:", result);
+        console.error("[register] unexpected RPC result:", JSON.stringify(result));
         return json(500, { error: "Registration failed. Please try again." }, cors);
     }
   }
 
+  // Log that the registration row exists in the database at this point.
+  console.log(`[register] registration inserted successfully, registration_id=${result.registration_id ?? "MISSING — RPC may not be returning this field"}`);
+
   // Send confirmation email. Non-fatal — a failed email does not roll back
   // the registration. The row is already committed in the RPC transaction.
-  const sent = await sendEmail({
+  console.log(`[register] attempting confirmation email to=${cleanEmail} event="${result.event_title}"`);
+
+  const resendMessageId = await sendEmail({
     to: cleanEmail,
     toName: cleanName,
     eventTitle: result.event_title!,
@@ -146,15 +157,31 @@ Deno.serve(async (req: Request): Promise<Response> => {
     zoomLink: result.zoom_link ?? null,
   });
 
-  // Record that the email was sent (best-effort)
-  if (sent && result.registration_id) {
+  console.log(`[register] Resend result: ${resendMessageId ? `sent, id=${resendMessageId}` : "FAILED — email not sent"}`);
+
+  // Update confirmation_sent_at only after a confirmed successful send.
+  // This field is exclusively for the initial registration confirmation.
+  // Reminder fields (reminder_week_sent_at, reminder_day_sent_at) are managed
+  // by the reminder system and must never be set here.
+  if (resendMessageId && result.registration_id) {
+    console.log(`[register] updating confirmation_sent_at for registration_id=${result.registration_id}`);
+
     const { error: updateErr } = await supabase
       .from("registrations")
       .update({ confirmation_sent_at: new Date().toISOString() })
       .eq("id", result.registration_id);
 
     if (updateErr) {
-      console.warn("Could not update confirmation_sent_at:", updateErr);
+      console.error("[register] confirmation_sent_at update FAILED:", JSON.stringify(updateErr));
+    } else {
+      console.log("[register] confirmation_sent_at updated successfully");
+    }
+  } else {
+    if (!resendMessageId) {
+      console.warn("[register] skipping confirmation_sent_at update — email was not sent");
+    }
+    if (!result.registration_id) {
+      console.error("[register] skipping confirmation_sent_at update — registration_id missing from RPC result. Check that register_for_event() still returns registration_id.");
     }
   }
 
@@ -168,6 +195,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
 // ---------------------------------------------------------------------------
 // Confirmation email
 // Plain fetch against the Resend REST API — no SDK dependency.
+// Returns the Resend message ID on success, or null on failure.
 // ---------------------------------------------------------------------------
 async function sendEmail({
   to,
@@ -181,13 +209,13 @@ async function sendEmail({
   eventTitle: string;
   eventDate: string;
   zoomLink: string | null;
-}): Promise<boolean> {
+}): Promise<string | null> {
   const apiKey = Deno.env.get("RESEND_API_KEY");
   const from = Deno.env.get("RESEND_FROM_EMAIL") ?? "labs@covomultipliers.com";
 
   if (!apiKey) {
-    console.error("RESEND_API_KEY not set — skipping confirmation email.");
-    return false;
+    console.error("[register] RESEND_API_KEY is not set — skipping confirmation email. Set it with: supabase secrets set RESEND_API_KEY=...");
+    return null;
   }
 
   const zoomRow = zoomLink
@@ -288,16 +316,19 @@ async function sendEmail({
       }),
     });
 
+    const resBody = await res.json().catch(() => ({}));
+
     if (!res.ok) {
-      console.error(`Resend error ${res.status}:`, await res.text());
-      return false;
+      console.error(`[register] Resend API error status=${res.status}:`, JSON.stringify(resBody));
+      return null;
     }
 
-    console.log(`Confirmation email sent to ${to}`);
-    return true;
+    const messageId: string | null = (resBody as Record<string, unknown>)?.id as string ?? null;
+    console.log(`[register] Resend accepted email, message_id=${messageId}`);
+    return messageId;
   } catch (err) {
-    console.error("Email send failed:", err);
-    return false;
+    console.error("[register] fetch to Resend threw an exception:", err);
+    return null;
   }
 }
 
