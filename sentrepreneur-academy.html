@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Sentrepreneur Academy | Covo Multipliers</title>
+
+  <meta
+    name="description"
+    content="A skills-based academy for emerging leaders who want to build real businesses, live sent, and make disciples through everyday work."
+  />
+
+  <link rel="stylesheet" href="styles.css" />
+
+  <style>
+    .site-header {
+      background: #ffffff;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .site-header .brand {
+      font-size: 0.95rem;
+      font-weight: 900;
+      color: #10281f;
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+
+    .site-header .back-link {
+      font-size: 0.875rem;
+      color: #5a6b65;
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+
+    .site-header .back-link:hover {
+      color: #1b4d3e;
+    }
+
+    .academy-hero {
+      padding: 3.75rem 2rem 3.25rem;
+      background: linear-gradient(
+        135deg,
+        #0f1720 0%,
+        #143129 24%,
+        #1f4d46 48%,
+        #4e5f6b 72%,
+        #c18a3a 100%
+      );
+      position: relative;
+      overflow: hidden;
+    }
+
+    .academy-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.12;
+      background-image:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.12) 0.7px, transparent 0.8px),
+        radial-gradient(circle at 80% 30%, rgba(0,0,0,0.10) 0.7px, transparent 0.8px),
+        radial-gradient(circle at 40% 70%, rgba(255,255,255,0.08) 0.6px, transparent 0.7px),
+        radial-gradient(circle at 70% 80%, rgba(0,0,0,0.08) 0.6px, transparent 0.7px);
+      background-size: 120px 120px, 140px 140px, 100px 100px, 160px 160px;
+      mix-blend-mode: soft-light;
+    }
+
+    .academy-hero-inner {
+      max-width: 1160px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 430px;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .hero-copy {
+      min-width: 0;
+    }
+
+    .hero-image-wrap {
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.38);
+      aspect-ratio: 4 / 3;
+      background: rgba(255,255,255,0.08);
+    }
+
+    .hero-image-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .event-label {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.62);
+      margin-bottom: 1rem;
+    }
+
+    .event-title {
+      font-size: clamp(2.8rem, 6vw, 4.8rem);
+      font-weight: 900;
+      color: #ffffff;
+      line-height: 0.95;
+      letter-spacing: -0.05em;
+      margin-bottom: 1rem;
+      max-width: 780px;
+    }
+
+    .hero-lead {
+      font-size: clamp(1.1rem, 2vw, 1.34rem);
+      line-height: 1.55;
+      color: rgba(255,255,255,0.94);
+      max-width: 760px;
+      margin-bottom: 1.35rem;
+    }
+
+    .hero-cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+      margin-top: 0.3rem;
+    }
+
+    .btn-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.9rem 1.35rem;
+      border-radius: 999px;
+      border: 1.5px solid #1b4d3e;
+      color: #1b4d3e;
+      background: transparent;
+      font-size: 0.92rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      text-decoration: none;
+      line-height: 1;
+      transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease, color 0.18s ease;
+    }
+
+    .btn-pill:hover {
+      background: #1b4d3e;
+      border-color: #1b4d3e;
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
+
+    .hero-cta-row .btn-pill {
+      border-color: rgba(255,255,255,0.92);
+      color: #ffffff;
+    }
+
+    .hero-cta-row .btn-pill:hover {
+      background: #ffffff;
+      color: #10281f;
+      border-color: #ffffff;
+    }
+
+    .hero-cta-row .btn-pill-primary {
+      background: #ffffff;
+      color: #10281f;
+      border-color: #ffffff;
+      box-shadow: 0 10px 24px rgba(16, 40, 31, 0.16);
+    }
+
+    .hero-cta-row .btn-pill-primary:hover {
+      background: #f5f5f5;
+      color: #10281f;
+      border-color: #f5f5f5;
+    }
+
+    .hero-support-line {
+      font-size: 0.88rem;
+      line-height: 1.5;
+      color: rgba(255,255,255,0.78);
+      margin-top: 0.85rem;
+    }
+
+    .btn-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.95rem 1.5rem;
+      border-radius: 999px;
+      background: #dcb55a;
+      color: #10281f;
+      border: 1px solid #dcb55a;
+      font-size: 0.95rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      text-decoration: none;
+      line-height: 1;
+      transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease, color 0.18s ease;
+      box-shadow: 0 10px 24px rgba(16, 40, 31, 0.16);
+    }
+
+    .btn-cta:hover {
+      background: #e7c574;
+      border-color: #e7c574;
+      color: #10281f;
+      transform: translateY(-1px);
+    }
+
+    .page-section {
+      background: #ffffff;
+      padding: 3.5rem 2rem;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .page-section.is-tinted {
+      background: #f8faf9;
+    }
+
+    .page-section-inner {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .wide-inner {
+      max-width: 1200px;
+    }
+
+    .eyebrow {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #245c4a;
+      margin-bottom: 0.55rem;
+    }
+
+    .section-title {
+      font-size: clamp(1.9rem, 3vw, 2.7rem);
+      font-weight: 900;
+      color: #10281f;
+      line-height: 1.02;
+      letter-spacing: -0.04em;
+      margin-bottom: 1rem;
+      max-width: 780px;
+    }
+
+    .section-copy {
+      font-size: 1rem;
+      line-height: 1.72;
+      color: #444444;
+      max-width: 760px;
+    }
+
+    .section-copy p + p {
+      margin-top: 0.85rem;
+    }
+
+    .problem-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-top: 1.5rem;
+    }
+
+    .problem-card {
+      background: #f8faf9;
+      border: 1px solid #e2eae6;
+      border-radius: 18px;
+      padding: 1.55rem 1.5rem;
+    }
+
+    .problem-card h3 {
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: #10281f;
+      line-height: 1.12;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.65rem;
+    }
+
+    .problem-card p {
+      font-size: 0.97rem;
+      line-height: 1.65;
+      color: #3a4a44;
+    }
+
+    .definition-card {
+      background: #10281f;
+      border-radius: 22px;
+      padding: 2.2rem;
+      margin-top: 1.7rem;
+      color: #ffffff;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .definition-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: 0.10;
+      background-image:
+        radial-gradient(circle at 25% 25%, rgba(255,255,255,0.18) 0.7px, transparent 0.8px),
+        radial-gradient(circle at 75% 75%, rgba(0,0,0,0.12) 0.7px, transparent 0.8px);
+      background-size: 120px 120px, 160px 160px;
+      pointer-events: none;
+    }
+
+    .definition-card-inner {
+      position: relative;
+      z-index: 2;
+    }
+
+    .definition-card h3 {
+      font-size: clamp(1.7rem, 3vw, 2.35rem);
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -0.04em;
+      margin-bottom: 0.9rem;
+      color: #ffffff;
+    }
+
+    .definition-card p {
+      font-size: 1.02rem;
+      line-height: 1.72;
+      color: rgba(255,255,255,0.86);
+      max-width: 760px;
+    }
+
+    .pathway-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 1rem;
+      margin-top: 1.7rem;
+    }
+
+    .pathway-card {
+      background: #ffffff;
+      border: 1px solid #e2eae6;
+      border-radius: 18px;
+      padding: 1.45rem 1.25rem;
+      box-shadow: 0 4px 18px rgba(16, 40, 31, 0.06);
+    }
+
+    .pathway-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      background: #edf7ef;
+      border: 1px solid #d5ead9;
+      color: #1b4d3e;
+      font-size: 0.78rem;
+      font-weight: 900;
+      margin-bottom: 0.9rem;
+    }
+
+    .pathway-card h3 {
+      font-size: 1rem;
+      font-weight: 900;
+      color: #10281f;
+      line-height: 1.12;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.55rem;
+    }
+
+    .pathway-card p {
+      font-size: 0.92rem;
+      line-height: 1.55;
+      color: #3a4a44;
+    }
+
+    .academy-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-top: 1.5rem;
+    }
+
+    .split-card {
+      background: #ffffff;
+      border: 1px solid #e2eae6;
+      border-radius: 18px;
+      padding: 1.55rem 1.5rem;
+      box-shadow: 0 4px 18px rgba(16, 40, 31, 0.06);
+    }
+
+    .split-card h3 {
+      font-size: 1.12rem;
+      font-weight: 900;
+      color: #10281f;
+      line-height: 1.12;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.85rem;
+    }
+
+    .icon-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .icon-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      font-size: 0.97rem;
+      line-height: 1.65;
+      color: #3a4a44;
+      padding: 0.45rem 0;
+      border-bottom: 1px solid #f0f4f2;
+    }
+
+    .icon-list li:last-child {
+      border-bottom: none;
+    }
+
+    .icon-list-mark {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      font-size: 0.85rem;
+      font-weight: 900;
+      margin-top: 0.1rem;
+    }
+
+    .icon-list-mark.is-yes {
+      color: #15803d;
+    }
+
+    .icon-list-mark.is-no {
+      color: #dc2626;
+    }
+
+    .tracks-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.25rem;
+      margin-top: 1.7rem;
+    }
+
+    .track-card {
+      background: #f8faf9;
+      border: 1px solid #e2eae6;
+      border-top: 4px solid #1b4d3e;
+      border-radius: 18px;
+      padding: 1.6rem 1.5rem;
+      box-shadow: 0 4px 18px rgba(16, 40, 31, 0.06);
+    }
+
+    .track-card h3 {
+      font-size: 1.12rem;
+      font-weight: 900;
+      color: #10281f;
+      line-height: 1.12;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.7rem;
+    }
+
+    .track-card p {
+      font-size: 0.96rem;
+      line-height: 1.65;
+      color: #3a4a44;
+    }
+
+    .rhythm-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1rem;
+      margin-top: 1.7rem;
+    }
+
+    .rhythm-card {
+      background: #ffffff;
+      border: 1px solid #e2eae6;
+      border-radius: 18px;
+      padding: 1.4rem 1.25rem;
+      box-shadow: 0 4px 18px rgba(16, 40, 31, 0.06);
+    }
+
+    .rhythm-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      background: #edf7ef;
+      border: 1px solid #d5ead9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+
+    .rhythm-icon svg {
+      width: 22px;
+      height: 22px;
+      stroke: #1b4d3e;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .rhythm-card h3 {
+      font-size: 1.05rem;
+      font-weight: 900;
+      color: #10281f;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.35rem;
+    }
+
+    .rhythm-card p {
+      font-size: 0.95rem;
+      line-height: 1.55;
+      color: #3a4a44;
+    }
+
+    .bottom-cta {
+      background: linear-gradient(
+        135deg,
+        #102018 0%,
+        #17362d 35%,
+        #2c4f57 70%,
+        #b68539 100%
+      );
+      padding: 4.75rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .bottom-cta::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.1;
+      background-image:
+        radial-gradient(circle at 25% 25%, rgba(255,255,255,0.12) 0.7px, transparent 0.8px),
+        radial-gradient(circle at 75% 75%, rgba(0,0,0,0.10) 0.7px, transparent 0.8px);
+      background-size: 120px 120px, 160px 160px;
+      mix-blend-mode: soft-light;
+    }
+
+    .bottom-cta-inner {
+      max-width: 680px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .bottom-cta-headline {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 900;
+      color: #ffffff;
+      line-height: 0.98;
+      letter-spacing: -0.05em;
+      margin-bottom: 1rem;
+    }
+
+    .bottom-cta-body {
+      font-size: 1.02rem;
+      line-height: 1.75;
+      color: rgba(255, 255, 255, 0.84);
+      margin-bottom: 2rem;
+    }
+
+    .site-footer {
+      background: #10281f;
+      padding: 1.5rem 2rem;
+      text-align: center;
+    }
+
+    .footer-brand {
+      display: inline-block;
+      font-size: 1rem;
+      font-weight: 900;
+      color: #ffffff;
+      text-decoration: none;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.25rem;
+    }
+
+    .footer-tagline {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.38);
+      margin-bottom: 0.6rem;
+    }
+
+    .footer-copy {
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.28);
+    }
+
+    @media (max-width: 1080px) {
+      .pathway-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .tracks-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 860px) {
+      .academy-hero-inner {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .hero-image-wrap {
+        aspect-ratio: 16 / 9;
+      }
+
+      .problem-grid,
+      .academy-split,
+      .rhythm-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .pathway-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 540px) {
+      .academy-hero,
+      .page-section,
+      .bottom-cta,
+      .site-header,
+      .site-footer {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+      }
+
+      .academy-hero {
+        padding-top: 1.4rem;
+        padding-bottom: 1.2rem;
+      }
+
+      .event-title {
+        font-size: clamp(2rem, 10vw, 2.95rem);
+        line-height: 0.98;
+      }
+
+      .hero-lead {
+        font-size: 1rem;
+        line-height: 1.45;
+      }
+
+      .section-title {
+        font-size: clamp(1.55rem, 7vw, 2rem);
+      }
+
+      .pathway-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .definition-card {
+        padding: 1.45rem 1.35rem;
+      }
+
+      .bottom-cta-headline {
+        font-size: clamp(1.7rem, 8vw, 2.3rem);
+      }
+
+      .hero-cta-row .btn-pill {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="site-header">
+    <a class="brand" href="/">Covo Multipliers</a>
+    <a class="back-link" href="/#upcoming-labs">← Back to home</a>
+  </header>
+
+  <section class="academy-hero">
+    <div class="academy-hero-inner">
+      <div class="hero-copy">
+        <span class="event-label">Sentrepreneur Academy</span>
+
+        <h1 class="event-title">Learn a skill. Build real work. Make disciples through it.</h1>
+
+        <p class="hero-lead">
+          A skills-based academy for emerging leaders who want practical business training, hands-on coaching, and a pathway to live sent through everyday work.
+        </p>
+
+        <div class="hero-cta-row">
+          <a class="btn-pill btn-pill-primary" href="#interest">Join the Interest List</a>
+          <a class="btn-pill" href="#pathway">See the Pathway</a>
+        </div>
+
+        <p class="hero-support-line">
+          Built for young builders, tradesmen, service business starters, marketplace missionaries, and leaders who do not want to split business and mission.
+        </p>
+      </div>
+
+      <div class="hero-image-wrap">
+        <img src="image/sentrepreneur/academy-hero.webp" alt="Emerging leaders learning practical business and disciple-making skills" loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section">
+    <div class="page-section-inner">
+      <span class="eyebrow">The gap</span>
+
+      <h2 class="section-title">Most young leaders are trained for jobs, not ownership.</h2>
+
+      <div class="section-copy">
+        <p>You can learn a trade, finish a business degree, or pick up a practical skill and still not know how to build something real.</p>
+
+        <p>You still need to learn how to get customers, manage money, create a simple offer, take ownership, and turn your work into a field for disciple-making.</p>
+
+        <p>That is the gap Sentrepreneur Academy is built to close.</p>
+      </div>
+
+      <div class="problem-grid">
+        <article class="problem-card">
+          <h3>Business school often stops too soon.</h3>
+          <p>Concepts are helpful. But a young leader still needs reps, customers, decisions, pressure, and coaching from people who have actually built.</p>
+        </article>
+
+        <article class="problem-card">
+          <h3>Ministry training often floats above real life.</h3>
+          <p>Disciple-making cannot stay in a classroom. It has to move into work, customers, neighborhoods, teams, and the relationships already forming around daily life.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section is-tinted">
+    <div class="page-section-inner">
+      <span class="eyebrow">What is a sentrepreneur?</span>
+
+      <h2 class="section-title">A sent entrepreneur.</h2>
+
+      <div class="section-copy">
+        <p>A sentrepreneur builds profitable work as a platform for disciple-making, leadership development, and church multiplication.</p>
+      </div>
+
+      <div class="definition-card">
+        <div class="definition-card-inner">
+          <h3>Not just a Christian business owner.</h3>
+          <p>
+            The goal is not to slap faith language on a company. The goal is to build work that creates real value, forms leaders, opens relational access, and helps disciples multiply through everyday life.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section" id="pathway">
+    <div class="page-section-inner wide-inner">
+      <span class="eyebrow">The pathway</span>
+
+      <h2 class="section-title">From skill to ownership to multiplication.</h2>
+
+      <p class="section-copy">
+        The academy is staged on purpose. We are not trying to launch everyone on day one. Leaders learn, practice, build, test ownership, and grow into greater responsibility over time.
+      </p>
+
+      <div class="pathway-grid">
+        <article class="pathway-card">
+          <span class="pathway-number">01</span>
+          <h3>Learn the foundations</h3>
+          <p>Business basics, disciple-making habits, simple tools, and how to see work as a field.</p>
+        </article>
+
+        <article class="pathway-card">
+          <span class="pathway-number">02</span>
+          <h3>Take real reps</h3>
+          <p>Practice with customers, conversations, rhythms, service, follow-up, and simple weekly action.</p>
+        </article>
+
+        <article class="pathway-card">
+          <span class="pathway-number">03</span>
+          <h3>Build low-overhead work</h3>
+          <p>Start with practical businesses or simple offers that force ownership and customer learning fast.</p>
+        </article>
+
+        <article class="pathway-card">
+          <span class="pathway-number">04</span>
+          <h3>Live sent through the work</h3>
+          <p>Make disciples through the relationships forming around your business, community, and daily rhythms.</p>
+        </article>
+
+        <article class="pathway-card">
+          <span class="pathway-number">05</span>
+          <h3>Return and multiply</h3>
+          <p>Launched builders help train, coach, fund, and encourage the next wave of sent entrepreneurs.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section is-tinted">
+    <div class="page-section-inner wide-inner">
+      <span class="eyebrow">Training tracks</span>
+
+      <h2 class="section-title">Start with practical work that can actually get moving.</h2>
+
+      <p class="section-copy">
+        We are especially interested in low-overhead businesses and practical service lanes because they create ownership fast. No fantasy entrepreneurship. Real offers. Real customers. Real responsibility.
+      </p>
+
+      <div class="tracks-grid">
+        <article class="track-card">
+          <h3>Home service businesses</h3>
+          <p>Window washing, lawn care, cleaning, repair, and other simple services that can start lean and teach customer ownership quickly.</p>
+        </article>
+
+        <article class="track-card">
+          <h3>Trades and apprenticeships</h3>
+          <p>Practical skill paths like HVAC, electrical, maintenance, and other work that can become a platform for business and mission.</p>
+        </article>
+
+        <article class="track-card">
+          <h3>AI and business systems</h3>
+          <p>Helping small businesses improve processes, save time, and build better systems through practical AI implementation.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section">
+    <div class="page-section-inner">
+      <span class="eyebrow">What you learn</span>
+
+      <h2 class="section-title">This is skills training, not vague inspiration.</h2>
+
+      <div class="academy-split">
+        <article class="split-card">
+          <h3>Business skills</h3>
+
+          <ul class="icon-list">
+            <li>
+              <span class="icon-list-mark is-yes" aria-hidden="true">✓</span>
+              <span>Choose a simple offer people will actually pay for</span>
+            </li>
+
+            <li>
+              <span class="icon-list-mark is-yes" aria-hidden="true">✓</span>
+              <span>Get customers without hiding behind endless planning</span>
+            </li>
+
+            <li>
+              <span class="icon-list-mark is-yes" aria-hidden="true">✓</span>
+              <span>Understand pricing, cash flow, expectations, and ownership</span>
+            </li>
+
+            <li>
+              <span class="icon-list-mark is-yes" aria-hidden="true">✓</span>
+              <span>Build a simple business plan you can actually execute</span>
+            </li>
+          </ul>
+        </article>
+
+        <article class="split-card">
+          <h3>Mission skills</h3>
+
+          <ul class="icon-list">
+            <li>
+              <span class="icon-list-mark is-yes" aria-hidden="true">✓</span>
+              <span>See your work as a field, not a distraction from mission</span>
+            </li>
+
+            <li>
+              <span class="icon-list-mark is-yes" aria-hidden="true">✓</span>
+              <span>Move conversations from casual to meaningful to spiritual</span>
+            </li>
+
+            <li>
+              <span class="icon-list-mark is-yes" aria-hidden="true">✓</span>
+              <span>Build simple rhythms of prayer, discovery, and obedience</span>
+            </li>
+
+            <li>
+              <span class="icon-list-mark is-yes" aria-hidden="true">✓</span>
+              <span>Multiply disciples without separating work from calling</span>
+            </li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section is-tinted">
+    <div class="page-section-inner wide-inner">
+      <span class="eyebrow">How it works</span>
+
+      <h2 class="section-title">A school feel, but built around reps.</h2>
+
+      <div class="rhythm-grid">
+        <article class="rhythm-card">
+          <div class="rhythm-icon">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M4 19.5V5a2 2 0 0 1 2-2h11" />
+              <path d="M8 7h8" />
+              <path d="M8 11h8" />
+              <path d="M8 15h5" />
+              <path d="M6 21h12a2 2 0 0 0 2-2V7" />
+            </svg>
+          </div>
+          <h3>Short teaching</h3>
+          <p>Simple frameworks for business, mission, ownership, and disciple-making.</p>
+        </article>
+
+        <article class="rhythm-card">
+          <div class="rhythm-icon">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M3 21h18" />
+              <path d="M5 21V8l7-5 7 5v13" />
+              <path d="M9 21v-6h6v6" />
+            </svg>
+          </div>
+          <h3>Field work</h3>
+          <p>Real customers, real places, real conversations, and weekly action.</p>
+        </article>
+
+        <article class="rhythm-card">
+          <div class="rhythm-icon">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M7 8h10" />
+              <path d="M7 12h6" />
+              <path d="M21 12c0 4.4-4 8-9 8a10.6 10.6 0 0 1-4.5-1L3 20l1.4-3.5A7.5 7.5 0 0 1 3 12c0-4.4 4-8 9-8s9 3.6 9 8Z" />
+            </svg>
+          </div>
+          <h3>Coaching</h3>
+          <p>Help from people who understand both business and disciple-making.</p>
+        </article>
+
+        <article class="rhythm-card">
+          <div class="rhythm-icon">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 3v18" />
+              <path d="M5 8h14" />
+              <path d="M7 8l-3 6h6L7 8Z" />
+              <path d="M17 8l-3 6h6l-3-6Z" />
+            </svg>
+          </div>
+          <h3>Accountability</h3>
+          <p>Clear expectations, ownership, next steps, and no hiding behind ideas.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section">
+    <div class="page-section-inner">
+      <span class="eyebrow">Who it is for</span>
+
+      <h2 class="section-title">This is for emerging leaders who want more than a job.</h2>
+
+      <div class="academy-split">
+        <article class="split-card">
+          <h3>Good fit</h3>
+
+          <ul class="icon-list">
+            <li>
+              <span class="icon-list-mark is-yes" aria-hidden="true">✓</span>
+              <span>You want to build practical work, not just talk about calling</span>
+            </li>
+
+            <li>
+              <span class="icon-list-mark is-yes" aria-hidden="true">✓</span>
+              <span>You want business skills without separating them from mission</span>
+            </li>
+
+            <li>
+              <span class="icon-list-mark is-yes" aria-hidden="true">✓</span>
+              <span>You are willing to take ownership and stay focused</span>
+            </li>
+
+            <li>
+              <span class="icon-list-mark is-yes" aria-hidden="true">✓</span>
+              <span>You want coaching, reps, and a real pathway</span>
+            </li>
+          </ul>
+        </article>
+
+        <article class="split-card">
+          <h3>Not a good fit</h3>
+
+          <ul class="icon-list">
+            <li>
+              <span class="icon-list-mark is-no" aria-hidden="true">✕</span>
+              <span>People who want ideas but avoid action</span>
+            </li>
+
+            <li>
+              <span class="icon-list-mark is-no" aria-hidden="true">✕</span>
+              <span>People looking for hype, shortcuts, or passive income fantasies</span>
+            </li>
+
+            <li>
+              <span class="icon-list-mark is-no" aria-hidden="true">✕</span>
+              <span>People who want mission without responsibility</span>
+            </li>
+
+            <li>
+              <span class="icon-list-mark is-no" aria-hidden="true">✕</span>
+              <span>People who want someone else to build the thing for them</span>
+            </li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="bottom-cta" id="interest">
+    <div class="bottom-cta-inner">
+      <h2 class="bottom-cta-headline">Interested in the first Sentrepreneur Academy cohort?</h2>
+
+      <div class="bottom-cta-body">
+        <p>We are looking for emerging leaders who are ready to learn, build, and live sent through real work.</p>
+      </div>
+
+      <a class="btn-cta" href="mailto:hello@covomultipliers.com?subject=Sentrepreneur%20Academy%20Interest">Join the Interest List</a>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <a class="footer-brand" href="/">Covo Multipliers</a>
+    <p class="footer-tagline">Live. Work. Play. Multiply.</p>
+    <p class="footer-copy">&copy; 2026 Covo Multipliers</p>
+  </footer>
+
+</body>
+</html>
