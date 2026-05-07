@@ -314,7 +314,7 @@ img {
     margin-top: 12px;
     padding: 14px 18px;
     border-radius: 999px;
-    background: #2f7d4f;
+    background: #22c55e;
     color: #fff;
     font-weight: 700;
     text-align: center;
@@ -322,7 +322,7 @@ img {
 }
 
 .slideout-menu-links a.menu-lab-button:hover {
-    background: #25663f;
+    background: #16a34a;
     color: #fff;
 }
 
