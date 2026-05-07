@@ -306,6 +306,25 @@ img {
     outline-offset: 3px;
 }
 
+.slideout-menu-links a.menu-lab-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 12px;
+    padding: 14px 18px;
+    border-radius: 999px;
+    background: #111;
+    color: #fff;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none;
+}
+
+.slideout-menu-links a.menu-lab-button:hover {
+    background: #000;
+    color: #fff;
+}
 
 /* -----------------------------------------------
    5. SOCIAL PROOF
