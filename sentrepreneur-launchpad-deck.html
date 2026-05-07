@@ -1,0 +1,1659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sentrepreneur Academy Launchpad — Investor Deck</title>
+
+  <style>
+    /* ─── Reset ──────────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ─── Fonts ──────────────────────────────────────────────────────── */
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+      background: #1a1a1a;
+      color: #1a1a1a;
+    }
+
+    /* ─── Slide wrapper ──────────────────────────────────────────────── */
+    /*
+      Each slide is 16:9. We render them stacked as a continuous scroll
+      so the file can be opened in any browser or printed as PDF.
+      Width is fixed at 1280px; height is 720px.
+    */
+    .deck {
+      width: 1280px;
+      margin: 0 auto;
+      padding: 0;
+    }
+
+    .slide {
+      width: 1280px;
+      height: 720px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      border-bottom: 4px solid #0a0a0a;
+    }
+
+    /* ─── Color tokens ───────────────────────────────────────────────── */
+    :root {
+      --green-deep:  #10281f;
+      --green-mid:   #1b4d3e;
+      --green-light: #e8f2ee;
+      --gold:        #c18a3a;
+      --gold-light:  #f5e8cf;
+      --charcoal:    #2c2c2c;
+      --neutral:     #f7f4f0;
+      --warm-gray:   #8a9e97;
+      --white:       #ffffff;
+      --text:        #1a1a1a;
+      --text-muted:  #5a6b65;
+    }
+
+    /* ─── Utility ────────────────────────────────────────────────────── */
+    .bg-white    { background: var(--white); }
+    .bg-deep     { background: var(--green-deep); }
+    .bg-neutral  { background: var(--neutral); }
+    .bg-green    { background: var(--green-mid); }
+
+    .eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 100px;
+    }
+    .tag-gold  { background: var(--gold-light); color: #7a5010; }
+    .tag-green { background: var(--green-light); color: var(--green-mid); }
+
+    /* Slide number badge */
+    .slide-num {
+      position: absolute;
+      bottom: 28px;
+      right: 36px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.30);
+    }
+    .slide-num-dark {
+      color: rgba(0,0,0,0.18);
+    }
+
+    /* Academy wordmark */
+    .wordmark {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    /* Divider line */
+    .rule {
+      width: 48px;
+      height: 3px;
+      border-radius: 2px;
+      background: var(--gold);
+      margin: 0;
+      flex-shrink: 0;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       SLIDE 01 — TITLE
+    ───────────────────────────────────────────────────────────────── */
+    #s1 {
+      background: linear-gradient(135deg,
+        #0f1720 0%, #143129 22%, #1f4d46 48%, #4e5f6b 74%, #7a5010 100%
+      );
+      flex-direction: row;
+    }
+
+    /* noise overlay */
+    #s1::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    #s1 .left {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 72px 64px 72px 72px;
+      position: relative;
+      z-index: 2;
+    }
+
+    #s1 .right {
+      width: 420px;
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-end;
+      padding: 0 0 0 0;
+    }
+
+    #s1 .right-pattern {
+      width: 100%;
+      height: 100%;
+      background:
+        radial-gradient(ellipse 60% 80% at 70% 40%, rgba(193,138,58,0.12) 0%, transparent 70%),
+        repeating-linear-gradient(
+          -45deg,
+          transparent 0px,
+          transparent 18px,
+          rgba(255,255,255,0.025) 18px,
+          rgba(255,255,255,0.025) 19px
+        );
+    }
+
+    #s1 .s1-eyebrow {
+      color: var(--gold);
+      margin-bottom: 24px;
+    }
+
+    #s1 h1 {
+      font-size: 58px;
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      margin-bottom: 24px;
+    }
+
+    #s1 h1 span { color: var(--gold); }
+
+    #s1 .rule-s1 {
+      background: var(--gold);
+      margin-bottom: 24px;
+    }
+
+    #s1 .sub {
+      font-size: 15px;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.65;
+      max-width: 460px;
+      margin-bottom: 40px;
+    }
+
+    #s1 .wordmark { color: rgba(255,255,255,0.35); }
+
+    #s1 .slide-num { color: rgba(255,255,255,0.20); }
+
+    /* ─────────────────────────────────────────────────────────────────
+       SLIDE 02 — PROBLEM
+    ───────────────────────────────────────────────────────────────── */
+    #s2 {
+      background: var(--white);
+      flex-direction: column;
+      padding: 60px 72px;
+    }
+
+    #s2 .top {
+      display: flex;
+      align-items: flex-start;
+      gap: 64px;
+      margin-bottom: 48px;
+    }
+
+    #s2 .top-left { flex: 1; }
+
+    #s2 h2 {
+      font-size: 46px;
+      font-weight: 900;
+      color: var(--green-deep);
+      line-height: 1.1;
+      letter-spacing: -0.025em;
+      margin: 16px 0 16px;
+      max-width: 500px;
+    }
+
+    #s2 .body-copy {
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.65;
+      max-width: 440px;
+    }
+
+    #s2 .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    #s2 .split-cell {
+      border-radius: 10px;
+      padding: 24px 28px;
+    }
+
+    #s2 .split-cell-left {
+      background: var(--green-light);
+      border: 1px solid #c9e0d6;
+    }
+
+    #s2 .split-cell-right {
+      background: #fdf8ee;
+      border: 1px solid #e9d9b4;
+    }
+
+    #s2 .split-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    #s2 .split-label-green { color: var(--green-mid); }
+    #s2 .split-label-gold  { color: #7a5010; }
+
+    #s2 .split-item {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--charcoal);
+      line-height: 1.5;
+      padding: 5px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    #s2 .split-item:last-child { border-bottom: none; }
+
+    #s2 .split-icon {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    #s2 .split-icon-green { background: var(--green-mid); }
+    #s2 .split-icon-gold  { background: var(--gold); }
+
+    /* ─────────────────────────────────────────────────────────────────
+       SLIDE 03 — EDUCATION GAP
+    ───────────────────────────────────────────────────────────────── */
+    #s3 {
+      background: var(--white);
+      flex-direction: row;
+    }
+
+    #s3 .left {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 72px;
+      border-right: 1px solid #efefef;
+    }
+
+    #s3 h2 {
+      font-size: 44px;
+      font-weight: 900;
+      color: var(--green-deep);
+      line-height: 1.1;
+      letter-spacing: -0.025em;
+      margin: 16px 0 20px;
+      max-width: 420px;
+    }
+
+    #s3 .body-copy {
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.65;
+      max-width: 380px;
+    }
+
+    #s3 .right {
+      width: 480px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 40px;
+      background: var(--neutral);
+    }
+
+    /* Gap diagram */
+    .gap-diagram {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .gap-node {
+      width: 100%;
+      background: var(--white);
+      border-radius: 10px;
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .gap-node-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 20px;
+    }
+
+    .gap-node-green { background: var(--green-light); }
+    .gap-node-gold  { background: var(--gold-light); }
+    .gap-node-muted { background: #f0f0f0; }
+
+    .gap-node-text { flex: 1; }
+    .gap-node-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--warm-gray);
+      margin-bottom: 3px;
+    }
+    .gap-node-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--charcoal);
+    }
+
+    .gap-arrow {
+      text-align: center;
+      font-size: 20px;
+      color: var(--warm-gray);
+      opacity: 0.5;
+    }
+
+    .gap-barrier {
+      width: 100%;
+      background: #fdf4e3;
+      border: 1.5px dashed var(--gold);
+      border-radius: 8px;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .gap-barrier-text {
+      font-size: 12px;
+      font-weight: 600;
+      color: #7a5010;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       SLIDE 04 — MISSION GAP
+    ───────────────────────────────────────────────────────────────── */
+    #s4 {
+      background: var(--white);
+      flex-direction: column;
+      padding: 60px 72px;
+    }
+
+    #s4 .header { margin-bottom: 44px; }
+
+    #s4 h2 {
+      font-size: 44px;
+      font-weight: 900;
+      color: var(--green-deep);
+      line-height: 1.1;
+      letter-spacing: -0.025em;
+      margin: 16px 0 16px;
+      max-width: 700px;
+    }
+
+    #s4 .body-copy {
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.65;
+      max-width: 580px;
+    }
+
+    .transition-diagram {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+      height: 220px;
+    }
+
+    .trans-cell {
+      flex: 1;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 24px 20px;
+      position: relative;
+    }
+
+    .trans-icon { font-size: 32px; margin-bottom: 12px; }
+
+    .trans-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .trans-title {
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .trans-from {
+      background: var(--neutral);
+      border: 1px solid #e0dbd4;
+    }
+
+    .trans-from .trans-label { color: var(--warm-gray); }
+    .trans-from .trans-title { color: var(--charcoal); }
+
+    .trans-arrow-cell {
+      width: 60px;
+      flex: 0 0 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .trans-arrow-svg {
+      width: 32px;
+      height: 32px;
+      color: var(--gold);
+    }
+
+    .trans-to {
+      background: var(--green-light);
+      border: 1.5px solid #b0d4c5;
+    }
+
+    .trans-to .trans-label { color: var(--green-mid); }
+    .trans-to .trans-title { color: var(--green-deep); }
+
+    /* ─────────────────────────────────────────────────────────────────
+       SLIDE 05 — OPPORTUNITY
+    ───────────────────────────────────────────────────────────────── */
+    #s5 {
+      background: var(--white);
+      flex-direction: row;
+    }
+
+    #s5 .left {
+      width: 420px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 72px 48px 72px 72px;
+      border-right: 1px solid #efefef;
+    }
+
+    #s5 h2 {
+      font-size: 40px;
+      font-weight: 900;
+      color: var(--green-deep);
+      line-height: 1.1;
+      letter-spacing: -0.025em;
+      margin: 16px 0 20px;
+    }
+
+    #s5 .point-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    #s5 .point-list li {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.5;
+      padding: 9px 0;
+      border-bottom: 1px solid #efefef;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    #s5 .point-list li:last-child { border-bottom: none; }
+
+    #s5 .point-dot {
+      width: 7px;
+      height: 7px;
+      background: var(--gold);
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 5px;
+    }
+
+    #s5 .right {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px;
+      background: var(--neutral);
+    }
+
+    /* Network diagram */
+    .network {
+      position: relative;
+      width: 400px;
+      height: 400px;
+    }
+
+    .net-center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: var(--green-deep);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      color: white;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-align: center;
+      text-transform: uppercase;
+      z-index: 3;
+    }
+
+    .net-center-icon { font-size: 22px; margin-bottom: 3px; }
+
+    .net-spoke {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 140px;
+      height: 1.5px;
+      background: rgba(27,77,62,0.2);
+      transform-origin: left center;
+    }
+
+    .net-node {
+      position: absolute;
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: var(--white);
+      border: 1.5px solid #d0e4dc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+      z-index: 2;
+    }
+
+    .net-node-icon { font-size: 18px; margin-bottom: 3px; }
+    .net-node-label {
+      font-size: 8.5px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      line-height: 1.2;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       SLIDE 06 — SOLUTION
+    ───────────────────────────────────────────────────────────────── */
+    #s6 {
+      background: var(--white);
+      flex-direction: column;
+      padding: 56px 72px 48px;
+    }
+
+    #s6 .header { margin-bottom: 36px; }
+
+    #s6 h2 {
+      font-size: 44px;
+      font-weight: 900;
+      color: var(--green-deep);
+      line-height: 1.1;
+      letter-spacing: -0.025em;
+      margin: 14px 0 14px;
+      max-width: 700px;
+    }
+
+    #s6 .body-copy {
+      font-size: 15px;
+      color: var(--text-muted);
+      max-width: 560px;
+      line-height: 1.6;
+    }
+
+    .six-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .six-card {
+      background: var(--neutral);
+      border-radius: 10px;
+      padding: 22px 22px;
+      border: 1px solid #e5e0d8;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .six-num {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--gold);
+      letter-spacing: 0.04em;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .six-text { flex: 1; }
+
+    .six-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--green-deep);
+      line-height: 1.25;
+      margin-bottom: 4px;
+    }
+
+    .six-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       SLIDE 07 — DEFINITION
+    ───────────────────────────────────────────────────────────────── */
+    #s7 {
+      background: var(--green-deep);
+      flex-direction: row;
+    }
+
+    #s7 .left {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 72px;
+      position: relative;
+    }
+
+    #s7 .s7-eyebrow { color: var(--gold); margin-bottom: 20px; }
+
+    #s7 h2 {
+      font-size: 56px;
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-bottom: 24px;
+    }
+
+    #s7 h2 em {
+      color: var(--gold);
+      font-style: normal;
+    }
+
+    #s7 .definition {
+      font-size: 16px;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.65;
+      max-width: 420px;
+      margin-bottom: 32px;
+      border-left: 3px solid var(--gold);
+      padding-left: 18px;
+    }
+
+    #s7 .clarifiers {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    #s7 .clarifier {
+      font-size: 13.5px;
+      color: rgba(255,255,255,0.50);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    #s7 .clarifier::before {
+      content: "";
+      display: inline-block;
+      width: 16px;
+      height: 1.5px;
+      background: var(--gold);
+      opacity: 0.6;
+      flex-shrink: 0;
+    }
+
+    #s7 .clarifier strong {
+      color: rgba(255,255,255,0.80);
+      font-weight: 700;
+    }
+
+    #s7 .right {
+      width: 460px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px;
+    }
+
+    /* Three-circle Venn */
+    .venn {
+      position: relative;
+      width: 340px;
+      height: 340px;
+    }
+
+    .venn-circle {
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .venn-c1 {
+      top: 0; left: 50%; transform: translateX(-50%);
+      background: rgba(193,138,58,0.18);
+      border: 1.5px solid rgba(193,138,58,0.35);
+    }
+
+    .venn-c2 {
+      bottom: 0; left: 0;
+      background: rgba(27,77,62,0.25);
+      border: 1.5px solid rgba(27,77,62,0.45);
+    }
+
+    .venn-c3 {
+      bottom: 0; right: 0;
+      background: rgba(255,255,255,0.08);
+      border: 1.5px solid rgba(255,255,255,0.18);
+    }
+
+    .venn-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.80);
+      line-height: 1.3;
+    }
+
+    .venn-sub {
+      font-size: 10px;
+      color: rgba(255,255,255,0.45);
+      margin-top: 3px;
+      line-height: 1.3;
+    }
+
+    .venn-center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -28%);
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .venn-center-icon { font-size: 22px; }
+
+    #s7 .slide-num { color: rgba(255,255,255,0.18); }
+
+    /* ─────────────────────────────────────────────────────────────────
+       SLIDE 08 — LAUNCHPAD PILOT
+    ───────────────────────────────────────────────────────────────── */
+    #s8 {
+      background: var(--white);
+      flex-direction: column;
+      padding: 56px 72px 48px;
+    }
+
+    #s8 .header { margin-bottom: 36px; }
+
+    #s8 h2 {
+      font-size: 44px;
+      font-weight: 900;
+      color: var(--green-deep);
+      line-height: 1.1;
+      letter-spacing: -0.025em;
+      margin: 14px 0;
+      max-width: 640px;
+    }
+
+    #s8 .body-copy {
+      font-size: 15px;
+      color: var(--text-muted);
+      max-width: 520px;
+    }
+
+    #s8 .stats-row {
+      display: flex;
+      gap: 18px;
+      margin-bottom: 36px;
+    }
+
+    #s8 .stat-card {
+      flex: 1;
+      background: var(--neutral);
+      border-radius: 10px;
+      padding: 20px 24px;
+      border: 1px solid #e5e0d8;
+      text-align: center;
+    }
+
+    #s8 .stat-num {
+      font-size: 34px;
+      font-weight: 900;
+      color: var(--green-deep);
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    #s8 .stat-num span { color: var(--gold); }
+
+    #s8 .stat-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--warm-gray);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    /* Timeline */
+    .timeline {
+      position: relative;
+      padding-top: 8px;
+    }
+
+    .timeline-track {
+      position: absolute;
+      top: 20px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: #e5e0d8;
+      z-index: 0;
+    }
+
+    .timeline-fill {
+      position: absolute;
+      top: 0; left: 0;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(to right, var(--green-mid), var(--gold));
+      border-radius: 2px;
+    }
+
+    .timeline-steps {
+      display: flex;
+      gap: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .tl-step {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .tl-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      margin-bottom: 12px;
+      border: 2px solid var(--white);
+    }
+
+    .tl-dot-active { background: var(--green-mid); box-shadow: 0 0 0 3px rgba(27,77,62,0.2); }
+    .tl-dot-pending { background: #d0cdc8; }
+    .tl-dot-gold { background: var(--gold); box-shadow: 0 0 0 3px rgba(193,138,58,0.2); }
+
+    .tl-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--warm-gray);
+      margin-bottom: 3px;
+    }
+
+    .tl-name {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--charcoal);
+      line-height: 1.3;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       SLIDE 09 — STAGED PATHWAY
+    ───────────────────────────────────────────────────────────────── */
+    #s9 {
+      background: var(--white);
+      flex-direction: column;
+      padding: 60px 72px 52px;
+    }
+
+    #s9 .header { margin-bottom: 44px; }
+
+    #s9 h2 {
+      font-size: 44px;
+      font-weight: 900;
+      color: var(--green-deep);
+      line-height: 1.1;
+      letter-spacing: -0.025em;
+      margin: 14px 0 16px;
+      max-width: 640px;
+    }
+
+    #s9 .body-copy {
+      font-size: 15px;
+      color: var(--text-muted);
+      max-width: 520px;
+    }
+
+    /* Staircase */
+    .stair-wrap {
+      display: flex;
+      align-items: flex-end;
+      gap: 10px;
+      height: 260px;
+    }
+
+    .stair {
+      flex: 1;
+      border-radius: 8px 8px 0 0;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-end;
+      padding: 16px 16px 18px;
+      position: relative;
+      transition: height 0s;
+    }
+
+    .stair-1 { height: 40%; background: #dde9e4; }
+    .stair-2 { height: 52%; background: #c5d9d1; }
+    .stair-3 { height: 64%; background: #a8c8bc; }
+    .stair-4 { height: 80%; background: var(--green-mid); }
+    .stair-5 { height: 96%; background: var(--green-deep); }
+
+    .stair-num {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+      margin-bottom: 6px;
+    }
+
+    .stair-name {
+      font-size: 13px;
+      font-weight: 800;
+      color: rgba(255,255,255,0.95);
+      line-height: 1.25;
+    }
+
+    .stair-1 .stair-num,
+    .stair-2 .stair-num,
+    .stair-3 .stair-num { color: rgba(27,77,62,0.55); }
+
+    .stair-1 .stair-name,
+    .stair-2 .stair-name,
+    .stair-3 .stair-name { color: var(--green-deep); }
+
+    .stair-5 .stair-num { color: rgba(193,138,58,0.7); }
+    .stair-5 .stair-name { color: var(--gold); }
+
+    /* ─────────────────────────────────────────────────────────────────
+       SLIDE 10 — LAUNCH LANES
+    ───────────────────────────────────────────────────────────────── */
+    #s10 {
+      background: var(--white);
+      flex-direction: column;
+      padding: 56px 72px 48px;
+    }
+
+    #s10 .header { margin-bottom: 36px; }
+
+    #s10 h2 {
+      font-size: 44px;
+      font-weight: 900;
+      color: var(--green-deep);
+      line-height: 1.1;
+      letter-spacing: -0.025em;
+      margin: 14px 0 14px;
+      max-width: 700px;
+    }
+
+    #s10 .body-copy {
+      font-size: 15px;
+      color: var(--text-muted);
+      max-width: 540px;
+    }
+
+    .lane-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .lane-card {
+      background: var(--neutral);
+      border-radius: 12px;
+      padding: 28px 28px 32px;
+      border: 1px solid #e5e0d8;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .lane-card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      border-radius: 12px 12px 0 0;
+    }
+
+    .lane-card-1::before { background: var(--green-mid); }
+    .lane-card-2::before { background: var(--gold); }
+    .lane-card-3::before { background: #4e5f6b; }
+
+    .lane-num {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--warm-gray);
+      margin-bottom: 14px;
+    }
+
+    .lane-icon {
+      font-size: 36px;
+      margin-bottom: 14px;
+      display: block;
+    }
+
+    .lane-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--green-deep);
+      line-height: 1.2;
+      margin-bottom: 10px;
+    }
+
+    .lane-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    .lane-tags {
+      margin-top: 14px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .lane-tag {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: var(--green-mid);
+      background: var(--green-light);
+      border-radius: 100px;
+      padding: 3px 9px;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       Shared slide-footer brand bar
+    ───────────────────────────────────────────────────────────────── */
+    .slide-brand {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(to right, var(--green-deep) 0%, var(--green-mid) 60%, var(--gold) 100%);
+    }
+  </style>
+</head>
+<body>
+<div class="deck">
+
+  <!-- ═══════════════════════════════════════════════════════════════════
+       SLIDE 01 — TITLE
+  ══════════════════════════════════════════════════════════════════════ -->
+  <section class="slide" id="s1">
+    <div class="left">
+      <p class="eyebrow s1-eyebrow">Sentrepreneur Academy</p>
+      <div class="rule" style="margin-bottom:24px;"></div>
+      <h1>Train builders.<br><span>Launch</span> businesses.<br>Multiply disciples.</h1>
+      <p class="sub">A pilot pathway for emerging leaders building practical businesses as disciple-making platforms.</p>
+      <span class="wordmark">Launchpad — Founding Investor Deck</span>
+    </div>
+    <div class="right">
+      <div class="right-pattern"></div>
+    </div>
+    <div class="slide-num">01 / 10</div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════
+       SLIDE 02 — PROBLEM
+  ══════════════════════════════════════════════════════════════════════ -->
+  <section class="slide bg-white" id="s2">
+    <div style="position:absolute;top:0;left:0;right:0;bottom:0;padding:60px 72px;display:flex;flex-direction:column;">
+      <div class="top">
+        <div class="top-left">
+          <span class="tag tag-gold eyebrow">The Problem</span>
+          <h2>Practical skills are not enough.</h2>
+          <p class="body-copy">Young leaders can learn trades, service skills, AI systems, or business concepts — and still not know how to build real, sustainable work.</p>
+        </div>
+      </div>
+
+      <div class="split">
+        <div class="split-cell split-cell-left">
+          <p class="split-label split-label-green">Skill Acquired</p>
+          <div class="split-item"><span class="split-icon split-icon-green"></span>Trade certificate or training</div>
+          <div class="split-item"><span class="split-icon split-icon-green"></span>Business concepts or course</div>
+          <div class="split-item"><span class="split-icon split-icon-green"></span>AI systems knowledge</div>
+          <div class="split-item"><span class="split-icon split-icon-green"></span>Service or technical skill</div>
+        </div>
+        <div class="split-cell split-cell-right">
+          <p class="split-label split-label-gold">Still Missing</p>
+          <div class="split-item"><span class="split-icon split-icon-gold"></span>Customers and cash flow</div>
+          <div class="split-item"><span class="split-icon split-icon-gold"></span>Ownership mindset and accountability</div>
+          <div class="split-item"><span class="split-icon split-icon-gold"></span>Real coaching through failure</div>
+          <div class="split-item"><span class="split-icon split-icon-gold"></span>Disciple-making rhythms in daily work</div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-brand"></div>
+    <div class="slide-num slide-num-dark">02 / 10</div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════
+       SLIDE 03 — EDUCATION GAP
+  ══════════════════════════════════════════════════════════════════════ -->
+  <section class="slide bg-white" id="s3">
+    <div class="left">
+      <span class="tag tag-gold eyebrow">Gap 1</span>
+      <h2>A degree can leave you unprepared to build.</h2>
+      <p class="body-copy">Many young leaders leave school with concepts but no real reps — no experience getting customers, pricing offers, managing expectations, or carrying ownership.</p>
+    </div>
+    <div class="right">
+      <div class="gap-diagram">
+        <div class="gap-node">
+          <div class="gap-node-icon gap-node-green">🎓</div>
+          <div class="gap-node-text">
+            <div class="gap-node-label">Starting point</div>
+            <div class="gap-node-title">Degree, cert, or training program</div>
+          </div>
+        </div>
+
+        <div class="gap-arrow">↓</div>
+
+        <div class="gap-barrier">
+          <span style="font-size:16px;">⚠️</span>
+          <span class="gap-barrier-text">No customers · No cash flow · No ownership · No coaching</span>
+        </div>
+
+        <div class="gap-arrow">↓</div>
+
+        <div class="gap-node">
+          <div class="gap-node-icon gap-node-muted">❓</div>
+          <div class="gap-node-text">
+            <div class="gap-node-label">Expected destination</div>
+            <div class="gap-node-title">A real, running business</div>
+          </div>
+        </div>
+
+        <div class="gap-arrow">↓</div>
+
+        <div class="gap-node" style="border-color:#b0d4c5;background:#f0f7f3;">
+          <div class="gap-node-icon" style="background:#c5ddd5;">🏗️</div>
+          <div class="gap-node-text">
+            <div class="gap-node-label">What actually bridges it</div>
+            <div class="gap-node-title" style="color:var(--green-mid);">Staged training + coaching + real reps</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-brand"></div>
+    <div class="slide-num slide-num-dark">03 / 10</div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════
+       SLIDE 04 — MISSION GAP
+  ══════════════════════════════════════════════════════════════════════ -->
+  <section class="slide bg-white" id="s4">
+    <div class="header">
+      <span class="tag tag-gold eyebrow">Gap 2</span>
+      <h2>Ministry training often floats above real life.</h2>
+      <p class="body-copy">Disciple-making has to happen in workplaces, homes, neighborhoods, and daily rhythms — not only in training rooms.</p>
+    </div>
+
+    <div class="transition-diagram">
+      <div class="trans-cell trans-from" style="border-radius:10px;">
+        <div class="trans-icon">🏫</div>
+        <div class="trans-label" style="color:var(--warm-gray);">Typical Training</div>
+        <div class="trans-title" style="color:var(--charcoal);">Classroom tools<br>and concepts</div>
+      </div>
+
+      <div class="trans-arrow-cell">
+        <svg class="trans-arrow-svg" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 16h20M19 9l7 7-7 7" stroke="#c18a3a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+
+      <div class="trans-cell trans-to" style="border-radius:10px;">
+        <div class="trans-icon">💼</div>
+        <div class="trans-label">Where It Must Happen</div>
+        <div class="trans-title">Workplaces and<br>customer relationships</div>
+      </div>
+
+      <div class="trans-arrow-cell" style="opacity:0.3;">
+        <svg class="trans-arrow-svg" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 16h20M19 9l7 7-7 7" stroke="#c18a3a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+
+      <div class="trans-cell trans-to" style="border-radius:10px;">
+        <div class="trans-icon">🏘️</div>
+        <div class="trans-label">Where It Must Happen</div>
+        <div class="trans-title">Homes and<br>neighborhoods</div>
+      </div>
+
+      <div class="trans-arrow-cell" style="opacity:0.3;">
+        <svg class="trans-arrow-svg" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 16h20M19 9l7 7-7 7" stroke="#c18a3a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+
+      <div class="trans-cell trans-to" style="border-radius:10px;">
+        <div class="trans-icon">🔁</div>
+        <div class="trans-label">Where It Must Happen</div>
+        <div class="trans-title">Daily rhythms<br>and life</div>
+      </div>
+    </div>
+
+    <div class="slide-brand"></div>
+    <div class="slide-num slide-num-dark">04 / 10</div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════
+       SLIDE 05 — OPPORTUNITY
+  ══════════════════════════════════════════════════════════════════════ -->
+  <section class="slide bg-white" id="s5">
+    <div class="left">
+      <span class="tag tag-green eyebrow">The Opportunity</span>
+      <h2>Work is a mission field hiding in plain sight.</h2>
+      <ul class="point-list">
+        <li><span class="point-dot"></span>Repeated relationships with customers and crews</li>
+        <li><span class="point-dot"></span>Community access and neighborhood presence</li>
+        <li><span class="point-dot"></span>Natural service opportunities and trust-building</li>
+        <li><span class="point-dot"></span>Leadership formation through real responsibility</li>
+        <li><span class="point-dot"></span>Natural, everyday conversations</li>
+      </ul>
+    </div>
+    <div class="right">
+      <!-- Network diagram: CSS-positioned -->
+      <div class="network">
+        <!-- Spokes (SVG layer) -->
+        <svg style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:1;" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+          <line x1="200" y1="200" x2="200" y2="48"  stroke="#1b4d3e" stroke-width="1.5" opacity="0.2"/>
+          <line x1="200" y1="200" x2="352" y2="130" stroke="#1b4d3e" stroke-width="1.5" opacity="0.2"/>
+          <line x1="200" y1="200" x2="352" y2="280" stroke="#1b4d3e" stroke-width="1.5" opacity="0.2"/>
+          <line x1="200" y1="200" x2="200" y2="352" stroke="#1b4d3e" stroke-width="1.5" opacity="0.2"/>
+          <line x1="200" y1="200" x2="48"  y2="280" stroke="#1b4d3e" stroke-width="1.5" opacity="0.2"/>
+          <line x1="200" y1="200" x2="48"  y2="130" stroke="#1b4d3e" stroke-width="1.5" opacity="0.2"/>
+        </svg>
+
+        <!-- Center node -->
+        <div class="net-center">
+          <div class="net-center-icon">🏗️</div>
+          <span>Builder</span>
+        </div>
+
+        <!-- Outer nodes -->
+        <div class="net-node" style="top:12px;left:50%;transform:translateX(-50%);">
+          <div class="net-node-icon">👤</div>
+          <div class="net-node-label">Customers</div>
+        </div>
+        <div class="net-node" style="top:105px;right:10px;">
+          <div class="net-node-icon">🤝</div>
+          <div class="net-node-label">Vendors</div>
+        </div>
+        <div class="net-node" style="bottom:105px;right:10px;">
+          <div class="net-node-icon">👷</div>
+          <div class="net-node-label">Crew</div>
+        </div>
+        <div class="net-node" style="bottom:12px;left:50%;transform:translateX(-50%);">
+          <div class="net-node-icon">🏘️</div>
+          <div class="net-node-label">Neighbors</div>
+        </div>
+        <div class="net-node" style="bottom:105px;left:10px;">
+          <div class="net-node-icon">🏛️</div>
+          <div class="net-node-label">Church</div>
+        </div>
+        <div class="net-node" style="top:105px;left:10px;">
+          <div class="net-node-icon">👨‍👩‍👧</div>
+          <div class="net-node-label">Family</div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-brand"></div>
+    <div class="slide-num slide-num-dark">05 / 10</div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════
+       SLIDE 06 — SOLUTION
+  ══════════════════════════════════════════════════════════════════════ -->
+  <section class="slide bg-white" id="s6">
+    <div class="header">
+      <span class="tag tag-green eyebrow">The Solution</span>
+      <h2>Sentrepreneur Academy closes the gap.</h2>
+      <p class="body-copy">A skills-based pathway that trains emerging leaders to build practical businesses, live sent, and make disciples through everyday work.</p>
+    </div>
+
+    <div class="six-grid">
+      <div class="six-card">
+        <span class="six-num">01</span>
+        <div class="six-text">
+          <div class="six-title">Business Basics</div>
+          <div class="six-desc">Customers, pricing, cash flow, and applied skills in real market conditions.</div>
+        </div>
+      </div>
+      <div class="six-card">
+        <span class="six-num">02</span>
+        <div class="six-text">
+          <div class="six-title">Disciple-Making Habits</div>
+          <div class="six-desc">Practical rhythms for sharing life, starting conversations, and multiplying disciples through work.</div>
+        </div>
+      </div>
+      <div class="six-card">
+        <span class="six-num">03</span>
+        <div class="six-text">
+          <div class="six-title">Weekly Coaching</div>
+          <div class="six-desc">Regular accountability, skill-building, and real-time problem-solving with experienced coaches.</div>
+        </div>
+      </div>
+      <div class="six-card">
+        <span class="six-num">04</span>
+        <div class="six-text">
+          <div class="six-title">Field Reps</div>
+          <div class="six-desc">Real work with real customers. Learning through doing, not only through concepts.</div>
+        </div>
+      </div>
+      <div class="six-card">
+        <span class="six-num">05</span>
+        <div class="six-text">
+          <div class="six-title">Ownership from Day One</div>
+          <div class="six-desc">Participants own their work from the start. We support — we do not build it for them.</div>
+        </div>
+      </div>
+      <div class="six-card" style="background:var(--green-deep);border-color:var(--green-deep);">
+        <span class="six-num" style="color:var(--gold);">06</span>
+        <div class="six-text">
+          <div class="six-title" style="color:white;">Launch Support</div>
+          <div class="six-desc" style="color:rgba(255,255,255,0.65);">Legal setup, tools, startup kits, and ecosystem connections to carry the business forward.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-brand"></div>
+    <div class="slide-num slide-num-dark">06 / 10</div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════
+       SLIDE 07 — DEFINITION
+  ══════════════════════════════════════════════════════════════════════ -->
+  <section class="slide" id="s7">
+    <div class="left">
+      <p class="eyebrow s7-eyebrow">Definition</p>
+      <h2>A <em>sent</em> entrepreneur.</h2>
+      <p class="definition">A sentrepreneur builds profitable work as a platform for disciple-making, leadership development, and church multiplication.</p>
+      <div class="clarifiers">
+        <div class="clarifier"><strong>Not</strong> just a Christian business owner.</div>
+        <div class="clarifier"><strong>Not</strong> just a missionary with a side hustle.</div>
+        <div class="clarifier"><strong>A builder</strong> who lives sent through work.</div>
+      </div>
+    </div>
+    <div class="right">
+      <div class="venn">
+        <div class="venn-circle venn-c1">
+          <div class="venn-label">Business</div>
+          <div class="venn-sub">Profitable &<br>sustainable</div>
+        </div>
+        <div class="venn-circle venn-c2">
+          <div class="venn-label">Disciples</div>
+          <div class="venn-sub">Making &<br>multiplying</div>
+        </div>
+        <div class="venn-circle venn-c3">
+          <div class="venn-label">Leaders</div>
+          <div class="venn-sub">Developing<br>& sending</div>
+        </div>
+        <div class="venn-center">
+          <span class="venn-center-icon">🧭</span>
+        </div>
+      </div>
+    </div>
+    <div class="slide-num">07 / 10</div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════
+       SLIDE 08 — LAUNCHPAD PILOT
+  ══════════════════════════════════════════════════════════════════════ -->
+  <section class="slide bg-white" id="s8">
+    <div class="header">
+      <span class="tag tag-green eyebrow">The Pilot</span>
+      <h2>Start small. Prove the process.</h2>
+      <p class="body-copy">Launchpad is the first-stage pilot cohort inside Sentrepreneur Academy.</p>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-num"><span>5</span>–<span>10</span></div>
+        <div class="stat-label">Emerging Leaders</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num"><span>6</span>–<span>12</span></div>
+        <div class="stat-label">Month Program</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" style="font-size:26px;padding-top:4px;">Low<br>Overhead</div>
+        <div class="stat-label">Business Lanes</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" style="font-size:22px;padding-top:4px;">Weekly<br>Coaching</div>
+        <div class="stat-label">+ Field Reps</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" style="font-size:22px;padding-top:4px;">Case<br>Studies</div>
+        <div class="stat-label">Documented</div>
+      </div>
+    </div>
+
+    <!-- Timeline -->
+    <div class="timeline">
+      <div class="timeline-track">
+        <div class="timeline-fill"></div>
+      </div>
+      <div class="timeline-steps">
+        <div class="tl-step">
+          <div class="tl-dot tl-dot-active"></div>
+          <div class="tl-label">Month 0</div>
+          <div class="tl-name">Selection &<br>Onboarding</div>
+        </div>
+        <div class="tl-step">
+          <div class="tl-dot tl-dot-active"></div>
+          <div class="tl-label">Month 1–2</div>
+          <div class="tl-name">Training &<br>Business Basics</div>
+        </div>
+        <div class="tl-step">
+          <div class="tl-dot tl-dot-gold"></div>
+          <div class="tl-label">Month 3–6</div>
+          <div class="tl-name">Reps, Customers<br>& Coaching</div>
+        </div>
+        <div class="tl-step">
+          <div class="tl-dot tl-dot-pending"></div>
+          <div class="tl-label">Month 6–12</div>
+          <div class="tl-name">Launch &<br>Refinement</div>
+        </div>
+        <div class="tl-step">
+          <div class="tl-dot tl-dot-pending"></div>
+          <div class="tl-label">Post-Cohort</div>
+          <div class="tl-name">Case Study &<br>Next Stage</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-brand"></div>
+    <div class="slide-num slide-num-dark">08 / 10</div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════
+       SLIDE 09 — STAGED PATHWAY
+  ══════════════════════════════════════════════════════════════════════ -->
+  <section class="slide bg-white" id="s9">
+    <div class="header">
+      <span class="tag tag-gold eyebrow">The Pathway</span>
+      <h2>A pathway, not a one-time grant.</h2>
+      <p class="body-copy">Each stage tests ownership, faithfulness, skill, and readiness for more responsibility.</p>
+    </div>
+
+    <div class="stair-wrap">
+      <div class="stair stair-1">
+        <div class="stair-num">Stage 1</div>
+        <div class="stair-name">Trainees</div>
+      </div>
+      <div class="stair stair-2">
+        <div class="stair-num">Stage 2</div>
+        <div class="stair-name">Apprentices</div>
+      </div>
+      <div class="stair stair-3">
+        <div class="stair-num">Stage 3</div>
+        <div class="stair-name">Incubating<br>Builders</div>
+      </div>
+      <div class="stair stair-4">
+        <div class="stair-num">Stage 4</div>
+        <div class="stair-name">Launched<br>Sentrepreneurs</div>
+      </div>
+      <div class="stair stair-5">
+        <div class="stair-num">Stage 5</div>
+        <div class="stair-name">Returning<br>Multipliers</div>
+      </div>
+    </div>
+
+    <div style="margin-top:18px;font-size:12px;color:var(--warm-gray);font-style:italic;">
+      People are not funded before they are known, trained, and tested. The pathway earns trust before it extends resources.
+    </div>
+
+    <div class="slide-brand"></div>
+    <div class="slide-num slide-num-dark">09 / 10</div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════
+       SLIDE 10 — LAUNCH LANES
+  ══════════════════════════════════════════════════════════════════════ -->
+  <section class="slide bg-white" id="s10">
+    <div class="header">
+      <span class="tag tag-green eyebrow">Launch Lanes</span>
+      <h2>We start where ownership can happen fast.</h2>
+      <p class="body-copy">Launchpad begins with practical lanes that create quick reps and lower startup risk.</p>
+    </div>
+
+    <div class="lane-grid">
+      <div class="lane-card lane-card-1">
+        <div class="lane-num">Lane 01</div>
+        <span class="lane-icon">🔧</span>
+        <div class="lane-title">Home Service Businesses</div>
+        <div class="lane-desc">Lawn care, window washing, pressure washing, cleaning, handyman. Fast customer acquisition, low overhead, repeatable reps from week one.</div>
+        <div class="lane-tags">
+          <span class="lane-tag">Low capital</span>
+          <span class="lane-tag">Fast reps</span>
+          <span class="lane-tag">Repeatable</span>
+        </div>
+      </div>
+
+      <div class="lane-card lane-card-2">
+        <div class="lane-num">Lane 02</div>
+        <span class="lane-icon">⚙️</span>
+        <div class="lane-title">Trades & Apprenticeships</div>
+        <div class="lane-desc">HVAC, electrical, plumbing, carpentry. Paired with licensed tradespeople. Longer ramp, deeper ownership, strong earning potential.</div>
+        <div class="lane-tags">
+          <span class="lane-tag">High skill</span>
+          <span class="lane-tag">Mentored</span>
+          <span class="lane-tag">Long-term</span>
+        </div>
+      </div>
+
+      <div class="lane-card lane-card-3">
+        <div class="lane-num">Lane 03</div>
+        <span class="lane-icon">⬡</span>
+        <div class="lane-title">AI & Business Systems</div>
+        <div class="lane-desc">Workflow automation and business tools for small businesses. Low capital, high leverage, scalable through existing relationships.</div>
+        <div class="lane-tags">
+          <span class="lane-tag">High leverage</span>
+          <span class="lane-tag">Scalable</span>
+          <span class="lane-tag">Low overhead</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-brand"></div>
+    <div class="slide-num slide-num-dark">10 / 10</div>
+  </section>
+
+</div>
+</body>
+</html>
