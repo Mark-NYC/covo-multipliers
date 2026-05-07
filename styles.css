@@ -605,7 +605,7 @@ img {
 }
 
 .hero-social-proof {
-    margin-top: 0.5rem;
+    margin-top: 1.0 rem;
 }
 
 .hero-social-line {
@@ -1293,7 +1293,7 @@ img {
     .immersion-cta-heading {
         font-size: clamp(2rem, 10vw, 2.65rem);
     }
-}
+} 
 
 .final-cta {
     padding: 4rem 2rem;
