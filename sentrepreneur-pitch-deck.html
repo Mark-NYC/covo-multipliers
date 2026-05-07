@@ -1,0 +1,1940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sentrepreneur Academy Launchpad — Pitch Deck Content Plan</title>
+  <meta name="description" content="Investor-facing pitch deck content plan for Sentrepreneur Academy Launchpad." />
+  <link rel="stylesheet" href="styles.css" />
+
+  <style>
+    /* ─── Global ─────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f9f7f4;
+      color: #1a1a1a;
+    }
+
+    /* ─── Site header ────────────────────────────────────────────── */
+    .site-header {
+      background: #ffffff;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .site-header .brand {
+      font-size: 0.95rem;
+      font-weight: 900;
+      color: #10281f;
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+    .site-header .back-link {
+      font-size: 0.875rem;
+      color: #5a6b65;
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .site-header .back-link:hover { color: #1b4d3e; }
+
+    /* ─── Page hero ──────────────────────────────────────────────── */
+    .deck-hero {
+      background: linear-gradient(135deg, #0f1720 0%, #143129 28%, #1f4d46 56%, #4e5f6b 80%, #c18a3a 100%);
+      padding: 4rem 2rem 3.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .deck-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: 0.10;
+      background-image:
+        radial-gradient(circle at 20% 25%, rgba(255,255,255,0.14) 0.7px, transparent 0.8px),
+        radial-gradient(circle at 75% 60%, rgba(193,138,58,0.18) 0.7px, transparent 0.8px);
+      background-size: 110px 110px, 150px 150px;
+      pointer-events: none;
+    }
+    .deck-hero-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+    .deck-hero .eyebrow {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #c18a3a;
+      margin-bottom: 1rem;
+    }
+    .deck-hero h1 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 900;
+      color: #ffffff;
+      line-height: 1.12;
+      letter-spacing: -0.025em;
+      margin-bottom: 1rem;
+    }
+    .deck-hero .sub {
+      font-size: 1rem;
+      color: rgba(255,255,255,0.72);
+      max-width: 560px;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+    .deck-meta {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .deck-meta span {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.55);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .deck-meta strong { color: rgba(255,255,255,0.9); font-weight: 700; }
+
+    /* ─── Slide index ────────────────────────────────────────────── */
+    .slide-index {
+      background: #ffffff;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 1.5rem 2rem;
+    }
+    .slide-index-inner {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .slide-index h2 {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #6b7b74;
+      margin-bottom: 0.875rem;
+    }
+    .slide-index ol {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 0.25rem 1.5rem;
+      padding-left: 1.25rem;
+    }
+    .slide-index li {
+      font-size: 0.83rem;
+      color: #3d4f48;
+      line-height: 1.6;
+    }
+    .slide-index a {
+      color: inherit;
+      text-decoration: none;
+    }
+    .slide-index a:hover { color: #1b4d3e; text-decoration: underline; }
+
+    /* ─── Main content ───────────────────────────────────────────── */
+    .main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 3rem 2rem 6rem;
+    }
+
+    /* ─── Section dividers ───────────────────────────────────────── */
+    .section-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #c18a3a;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid #e9e0d1;
+    }
+
+    /* ─── Slide card ─────────────────────────────────────────────── */
+    .slide-card {
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      margin-bottom: 2.25rem;
+      overflow: hidden;
+      scroll-margin-top: 2rem;
+    }
+
+    .slide-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.5rem 0.875rem;
+      border-bottom: 1px solid #f0f0f0;
+      background: #fafafa;
+    }
+    .slide-number {
+      width: 2rem;
+      height: 2rem;
+      border-radius: 6px;
+      background: #10281f;
+      color: #ffffff;
+      font-size: 0.75rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      letter-spacing: -0.02em;
+    }
+    .slide-header-text { flex: 1; }
+    .slide-name {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #10281f;
+      line-height: 1.2;
+    }
+    .slide-category {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #8a9e97;
+      margin-top: 0.15rem;
+    }
+
+    .slide-body {
+      padding: 1.5rem;
+    }
+
+    /* ─── Field groups ───────────────────────────────────────────── */
+    .field-group {
+      margin-bottom: 1.375rem;
+    }
+    .field-group:last-child { margin-bottom: 0; }
+
+    .field-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #8a9e97;
+      margin-bottom: 0.4rem;
+    }
+    .field-value {
+      font-size: 0.92rem;
+      color: #2a2a2a;
+      line-height: 1.6;
+    }
+
+    /* Headline emphasis */
+    .field-headline {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #10281f;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+    }
+
+    /* Bullet lists */
+    .field-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .field-list li {
+      font-size: 0.92rem;
+      color: #2a2a2a;
+      line-height: 1.6;
+      padding-left: 1.1rem;
+      position: relative;
+      margin-bottom: 0.2rem;
+    }
+    .field-list li::before {
+      content: "–";
+      position: absolute;
+      left: 0;
+      color: #c18a3a;
+      font-weight: 700;
+    }
+
+    /* Speaker note */
+    .speaker-note {
+      background: #f4f9f6;
+      border-left: 3px solid #1b4d3e;
+      border-radius: 0 6px 6px 0;
+      padding: 0.75rem 1rem;
+      font-size: 0.88rem;
+      color: #2e4039;
+      line-height: 1.65;
+      font-style: italic;
+    }
+
+    /* Visual concept */
+    .visual-concept {
+      background: #f8f6f2;
+      border: 1px dashed #d9cfc0;
+      border-radius: 6px;
+      padding: 0.75rem 1rem;
+      font-size: 0.88rem;
+      color: #5a4e3a;
+      line-height: 1.6;
+    }
+
+    /* Design notes */
+    .design-note {
+      background: #fdf8ee;
+      border-left: 3px solid #c18a3a;
+      border-radius: 0 6px 6px 0;
+      padding: 0.75rem 1rem;
+      font-size: 0.88rem;
+      color: #5a4416;
+      line-height: 1.65;
+    }
+
+    /* Editable tag */
+    .editable-list li::before { color: #1b4d3e; }
+
+    /* Two-col grid for comparison slides */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .two-col-cell {
+      background: #f4f9f6;
+      border-radius: 6px;
+      padding: 0.875rem 1rem;
+    }
+    .two-col-cell .cell-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #6b8f82;
+      margin-bottom: 0.4rem;
+    }
+    .two-col-cell .cell-text {
+      font-size: 0.88rem;
+      color: #2a2a2a;
+      line-height: 1.55;
+    }
+
+    /* Three-col grid */
+    .three-col {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+    .three-col-cell {
+      background: #f4f9f6;
+      border-radius: 6px;
+      padding: 0.875rem 1rem;
+    }
+    .three-col-cell .cell-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #6b8f82;
+      margin-bottom: 0.5rem;
+    }
+    .three-col-cell .cell-text {
+      font-size: 0.85rem;
+      color: #2a2a2a;
+      line-height: 1.55;
+    }
+    .three-col-cell.highlight {
+      background: #10281f;
+    }
+    .three-col-cell.highlight .cell-label { color: #7ab89e; }
+    .three-col-cell.highlight .cell-text { color: #e8f0ec; }
+
+    /* Stage pathway */
+    .pathway {
+      display: flex;
+      gap: 0;
+      overflow-x: auto;
+    }
+    .pathway-step {
+      flex: 1;
+      min-width: 130px;
+      padding: 0.875rem 1rem;
+      background: #f4f9f6;
+      border-right: 1px solid #e2ede9;
+      text-align: center;
+    }
+    .pathway-step:last-child { border-right: none; border-radius: 0 6px 6px 0; }
+    .pathway-step:first-child { border-radius: 6px 0 0 6px; }
+    .pathway-step .step-num {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #c18a3a;
+      margin-bottom: 0.35rem;
+    }
+    .pathway-step .step-name {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #10281f;
+      line-height: 1.3;
+    }
+
+    /* Flywheel list */
+    .flywheel {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      align-items: center;
+    }
+    .flywheel-item {
+      background: #10281f;
+      color: #e8f0ec;
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 0.4rem 0.875rem;
+      border-radius: 100px;
+    }
+    .flywheel-arrow {
+      color: #c18a3a;
+      font-weight: 900;
+      font-size: 1rem;
+    }
+
+    /* Metric columns */
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+    .metric-col {
+      background: #f4f9f6;
+      border-radius: 6px;
+      padding: 0.875rem 1rem;
+    }
+    .metric-col .metric-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #c18a3a;
+      margin-bottom: 0.625rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid #dceae3;
+    }
+    .metric-col ul {
+      list-style: none;
+      padding: 0;
+    }
+    .metric-col li {
+      font-size: 0.83rem;
+      color: #2a2a2a;
+      line-height: 1.65;
+      padding-left: 0.9rem;
+      position: relative;
+    }
+    .metric-col li::before {
+      content: "·";
+      position: absolute;
+      left: 0;
+      color: #1b4d3e;
+      font-weight: 900;
+    }
+
+    /* Partnership cards */
+    .partner-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 0.75rem;
+    }
+    .partner-card {
+      background: #f4f9f6;
+      border: 1px solid #dceae3;
+      border-radius: 8px;
+      padding: 0.875rem 1rem;
+      text-align: center;
+    }
+    .partner-card .pc-num {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #8a9e97;
+      margin-bottom: 0.35rem;
+    }
+    .partner-card .pc-title {
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: #10281f;
+      line-height: 1.3;
+    }
+
+    /* Big ask number */
+    .ask-number {
+      font-size: clamp(2.5rem, 6vw, 3.5rem);
+      font-weight: 900;
+      color: #10281f;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: 0.25rem;
+    }
+    .ask-sub {
+      font-size: 0.9rem;
+      color: #5a6b65;
+      line-height: 1.5;
+    }
+
+    /* Horizontal rule between groups */
+    .group-divider {
+      border: none;
+      border-top: 1px solid #eaeaea;
+      margin: 1.25rem 0;
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .two-col, .three-col, .metric-grid { grid-template-columns: 1fr; }
+      .pathway { flex-direction: column; }
+      .pathway-step:last-child, .pathway-step:first-child { border-radius: 6px; }
+      .pathway-step { border-right: none; border-bottom: 1px solid #e2ede9; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── Site header ─────────────────────────────────────────────────────── -->
+<header class="site-header">
+  <a href="index.html" class="brand">Covo Multipliers</a>
+  <a href="sentrepreneur-academy.html" class="back-link">← Sentrepreneur Academy</a>
+</header>
+
+<!-- ─── Hero ────────────────────────────────────────────────────────────── -->
+<section class="deck-hero">
+  <div class="deck-hero-inner">
+    <p class="eyebrow">Pitch Deck — Content Plan</p>
+    <h1>Sentrepreneur Academy<br>Launchpad</h1>
+    <p class="sub">Investor-facing deck for founding partners, churches, business owners, and kingdom-minded marketplace leaders. 20 slides · 16:9 widescreen.</p>
+    <div class="deck-meta">
+      <span><strong>Format:</strong> 16:9 Widescreen</span>
+      <span><strong>Slides:</strong> 20</span>
+      <span><strong>Tone:</strong> Clear · Concrete · Non-hypey</span>
+      <span><strong>Brand:</strong> Dark green · Muted gold · Charcoal · Warm neutral</span>
+    </div>
+  </div>
+</section>
+
+<!-- ─── Slide index ───────────────────────────────────────────────────────── -->
+<nav class="slide-index" aria-label="Slide index">
+  <div class="slide-index-inner">
+    <h2>Slides</h2>
+    <ol>
+      <li><a href="#slide-1">Title Slide</a></li>
+      <li><a href="#slide-2">The Problem</a></li>
+      <li><a href="#slide-3">The Education Gap</a></li>
+      <li><a href="#slide-4">The Mission Gap</a></li>
+      <li><a href="#slide-5">The Opportunity</a></li>
+      <li><a href="#slide-6">The Solution</a></li>
+      <li><a href="#slide-7">What Is a Sentrepreneur?</a></li>
+      <li><a href="#slide-8">The Launchpad Pilot</a></li>
+      <li><a href="#slide-9">The Staged Pathway</a></li>
+      <li><a href="#slide-10">Initial Launch Lanes</a></li>
+      <li><a href="#slide-11">The Ecosystem Flywheel</a></li>
+      <li><a href="#slide-12">Why This Is Different</a></li>
+      <li><a href="#slide-13">Investment Thesis</a></li>
+      <li><a href="#slide-14">Risk and Mitigation</a></li>
+      <li><a href="#slide-15">Ownership Philosophy</a></li>
+      <li><a href="#slide-16">What Funding Supports</a></li>
+      <li><a href="#slide-17">Pilot Metrics</a></li>
+      <li><a href="#slide-18">The Ask</a></li>
+      <li><a href="#slide-19">Ways to Participate</a></li>
+      <li><a href="#slide-20">Closing Slide</a></li>
+    </ol>
+  </div>
+</nav>
+
+<!-- ─── Main content ─────────────────────────────────────────────────────── -->
+<main class="main">
+
+  <!-- ──────────────────────────────────────────────────────────────────────
+       SECTION 1: CONTEXT
+  ─────────────────────────────────────────────────────────────────────── -->
+  <p class="section-label">Opening — Slides 1–5</p>
+
+  <!-- SLIDE 1 -->
+  <article class="slide-card" id="slide-1">
+    <div class="slide-header">
+      <div class="slide-number">01</div>
+      <div class="slide-header-text">
+        <div class="slide-name">Title Slide</div>
+        <div class="slide-category">Opening</div>
+      </div>
+    </div>
+    <div class="slide-body">
+
+      <div class="field-group">
+        <div class="field-label">Main Headline</div>
+        <div class="field-headline">Train builders. Launch businesses. Multiply disciples.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Supporting Copy</div>
+        <div class="field-value">A pilot pathway for emerging leaders building practical businesses as disciple-making platforms.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Visual Concept</div>
+        <div class="visual-concept">
+          Large bold logotype. Full-bleed or split image: young builders at work — hands on tools, a crew starting a job, or a simple abstract pathway line. Muted, warm photography. Dark green overlay with gold accent on the title bar.
+        </div>
+      </div>
+
+      <hr class="group-divider">
+
+      <div class="field-group">
+        <div class="field-label">Speaker Note</div>
+        <div class="speaker-note">We are not pitching a random training program. We are pitching the first stage of a repeatable pathway for forming sent entrepreneurs — people who build real businesses and live sent through that work.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Design Notes</div>
+        <div class="design-note">White text on dark background (exception to the white-background rule for the title only). Academy wordmark top-left. Tagline below headline in muted gold. Subtitle in warm neutral. Date or cohort number bottom-right.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Editable Later</div>
+        <ul class="field-list editable-list">
+          <li>Cohort name or number</li>
+          <li>Presentation date</li>
+          <li>Contact name and email</li>
+          <li>Background image</li>
+        </ul>
+      </div>
+
+    </div>
+  </article>
+
+  <!-- SLIDE 2 -->
+  <article class="slide-card" id="slide-2">
+    <div class="slide-header">
+      <div class="slide-number">02</div>
+      <div class="slide-header-text">
+        <div class="slide-name">The Problem</div>
+        <div class="slide-category">Opening</div>
+      </div>
+    </div>
+    <div class="slide-body">
+
+      <div class="field-group">
+        <div class="field-label">Main Headline</div>
+        <div class="field-headline">Practical skills are not enough.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Copy Block</div>
+        <div class="field-value">Young leaders can learn HVAC, lawn care, window washing, AI systems, or business concepts and still not know how to build real work.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">They Still Need</div>
+        <ul class="field-list">
+          <li>Customers</li>
+          <li>Cash flow</li>
+          <li>Ownership mindset</li>
+          <li>Coaching and accountability</li>
+          <li>Disciple-making rhythms inside daily work</li>
+        </ul>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Visual Concept</div>
+        <div class="visual-concept">
+          Two-column split. Left: "Skill acquired" — icon of a diploma, tool badge, or training cert. Right: "Business + mission gap" — blank storefront, no customers, no coaching, no mission. Simple, high-contrast icons. Muted colors. Small arrow pointing right from skill to gap.
+        </div>
+      </div>
+
+      <hr class="group-divider">
+
+      <div class="field-group">
+        <div class="field-label">Speaker Note</div>
+        <div class="speaker-note">The gap comes after the skill. The question is: now how do I build something real and live sent through it? Skills alone do not answer that question. Neither does hustle or a good attitude.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Design Notes</div>
+        <div class="design-note">White background. Bold headline top-left. Two equal columns below. Left column tinted green (very light). Right column tinted warm neutral. Keep icons consistent in weight and style.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Editable Later</div>
+        <ul class="field-list editable-list">
+          <li>Specific skill examples in the body copy</li>
+          <li>Bullet list items under "They still need"</li>
+          <li>Left/right column icons</li>
+        </ul>
+      </div>
+
+    </div>
+  </article>
+
+  <!-- SLIDE 3 -->
+  <article class="slide-card" id="slide-3">
+    <div class="slide-header">
+      <div class="slide-number">03</div>
+      <div class="slide-header-text">
+        <div class="slide-name">The Education Gap</div>
+        <div class="slide-category">Opening</div>
+      </div>
+    </div>
+    <div class="slide-body">
+
+      <div class="field-group">
+        <div class="field-label">Main Headline</div>
+        <div class="field-headline">A degree can leave you unprepared to build.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Copy Block</div>
+        <div class="field-value">Many young leaders leave school with concepts but no reps. They have studied business but have not learned how to get customers, price offers, manage expectations, or carry ownership.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Visual Concept</div>
+        <div class="visual-concept">
+          Simple classroom icon on the left fading or dissolving rightward into a blank business plan, an empty storefront, or a question mark. Could be a horizontal fade with an arrow showing the gap. Minimal, diagrammatic — not photographic.
+        </div>
+      </div>
+
+      <hr class="group-divider">
+
+      <div class="field-group">
+        <div class="field-label">Speaker Note</div>
+        <div class="speaker-note">This is not anti-education. It is honest about what traditional education often does not provide: ownership, reps, and real market pressure. We are building the bridge between learning and building.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Design Notes</div>
+        <div class="design-note">White background. Large single diagram centered below the headline. No photography needed. Use charcoal line art on a warm neutral base. Keep the diagram clean — two nodes, one gap, one arrow.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Editable Later</div>
+        <ul class="field-list editable-list">
+          <li>Specific gaps listed in copy (can be updated as research evolves)</li>
+          <li>Diagram icons</li>
+        </ul>
+      </div>
+
+    </div>
+  </article>
+
+  <!-- SLIDE 4 -->
+  <article class="slide-card" id="slide-4">
+    <div class="slide-header">
+      <div class="slide-number">04</div>
+      <div class="slide-header-text">
+        <div class="slide-name">The Mission Gap</div>
+        <div class="slide-category">Opening</div>
+      </div>
+    </div>
+    <div class="slide-body">
+
+      <div class="field-group">
+        <div class="field-label">Main Headline</div>
+        <div class="field-headline">Ministry training often floats above real life.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Copy Block</div>
+        <div class="field-value">Most training teaches tools in a room. But disciple-making has to happen in workplaces, homes, neighborhoods, customer relationships, and daily rhythms.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Visual Concept</div>
+        <div class="visual-concept">
+          Left: a training-room icon (whiteboard, chairs in rows). Right: cluster of destination icons — workplace desk, home, city block, handshake. An arrow or bridge connects them. The left side is isolated; the right side is where life actually happens.
+        </div>
+      </div>
+
+      <hr class="group-divider">
+
+      <div class="field-group">
+        <div class="field-label">Speaker Note</div>
+        <div class="speaker-note">We are not anti-training-room. We are saying: if mission only happens inside the training room, it never actually becomes a way of life. We are bringing it back into the actual places people live and work.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Design Notes</div>
+        <div class="design-note">Mirror the structure of slide 03 visually. Same diagram style. Consistency reinforces that slides 03 and 04 are parallel problems. The bridge or arrow is the hero element.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Editable Later</div>
+        <ul class="field-list editable-list">
+          <li>List of "where it actually happens" locations (right side icons)</li>
+          <li>Copy block wording</li>
+        </ul>
+      </div>
+
+    </div>
+  </article>
+
+  <!-- SLIDE 5 -->
+  <article class="slide-card" id="slide-5">
+    <div class="slide-header">
+      <div class="slide-number">05</div>
+      <div class="slide-header-text">
+        <div class="slide-name">The Opportunity</div>
+        <div class="slide-category">Opening</div>
+      </div>
+    </div>
+    <div class="slide-body">
+
+      <div class="field-group">
+        <div class="field-label">Main Headline</div>
+        <div class="field-headline">Work is a mission field hiding in plain sight.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Copy Block</div>
+        <div class="field-value">Every business creates repeated relationships, community access, and natural space for leadership formation.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">What Every Business Creates</div>
+        <ul class="field-list">
+          <li>Repeated relationships with customers, crews, and vendors</li>
+          <li>Community access and neighborhood presence</li>
+          <li>Service opportunities and trust-building</li>
+          <li>Leadership formation through responsibility</li>
+          <li>Natural, everyday conversations</li>
+        </ul>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Visual Concept</div>
+        <div class="visual-concept">
+          Network map centered on a single person or business node. Radiating outward: customers, crew, neighbors, vendors, family, church. Simple node-and-spoke diagram. Warm green and gold node colors. Not a complex org chart — keep it to 6–8 nodes max.
+        </div>
+      </div>
+
+      <hr class="group-divider">
+
+      <div class="field-group">
+        <div class="field-label">Speaker Note</div>
+        <div class="speaker-note">Business is not just income. It is access, formation, responsibility, and relational presence. Every job creates a sphere. The question is whether the person in the middle knows how to live sent through it.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Design Notes</div>
+        <div class="design-note">Let the network diagram take 60–70% of the slide. Headline top-left. Copy block bottom-left in a smaller column. Diagram on the right. Green center node, muted gold spokes, charcoal outer nodes.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Editable Later</div>
+        <ul class="field-list editable-list">
+          <li>Network node labels</li>
+          <li>Bullet list items</li>
+          <li>Number of nodes in the diagram</li>
+        </ul>
+      </div>
+
+    </div>
+  </article>
+
+  <!-- ──────────────────────────────────────────────────────────────────────
+       SECTION 2: THE MODEL
+  ─────────────────────────────────────────────────────────────────────── -->
+  <p class="section-label">The Model — Slides 6–12</p>
+
+  <!-- SLIDE 6 -->
+  <article class="slide-card" id="slide-6">
+    <div class="slide-header">
+      <div class="slide-number">06</div>
+      <div class="slide-header-text">
+        <div class="slide-name">The Solution</div>
+        <div class="slide-category">Model</div>
+      </div>
+    </div>
+    <div class="slide-body">
+
+      <div class="field-group">
+        <div class="field-label">Main Headline</div>
+        <div class="field-headline">Sentrepreneur Academy closes the gap.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Copy Block</div>
+        <div class="field-value">A skills-based pathway that trains emerging leaders to build practical businesses, live sent, and make disciples through everyday work.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Core Pieces</div>
+        <div class="three-col" style="margin-top:0.5rem;">
+          <div class="three-col-cell">
+            <div class="cell-label">01</div>
+            <div class="cell-text">Business basics and applied skills</div>
+          </div>
+          <div class="three-col-cell">
+            <div class="cell-label">02</div>
+            <div class="cell-text">Disciple-making habits and rhythms</div>
+          </div>
+          <div class="three-col-cell">
+            <div class="cell-label">03</div>
+            <div class="cell-text">Weekly coaching and real reps</div>
+          </div>
+          <div class="three-col-cell">
+            <div class="cell-label">04</div>
+            <div class="cell-text">Ownership from day one</div>
+          </div>
+          <div class="three-col-cell">
+            <div class="cell-label">05</div>
+            <div class="cell-text">Field experience and launch support</div>
+          </div>
+          <div class="three-col-cell">
+            <div class="cell-label">06</div>
+            <div class="cell-text">Community accountability and ecosystem</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Visual Concept</div>
+        <div class="visual-concept">
+          Six-part system diagram — a hexagon, a 2×3 grid of cards, or a spoke model with the Academy at center. Each piece is one node or card. Clean, diagrammatic. Dark green and muted gold accents on labels.
+        </div>
+      </div>
+
+      <hr class="group-divider">
+
+      <div class="field-group">
+        <div class="field-label">Speaker Note</div>
+        <div class="speaker-note">This is not business school with prayer added. It is integrated formation — business and mission woven together from the start, not bolted on after the fact.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Design Notes</div>
+        <div class="design-note">Diagram is the hero — takes up the right 55% of the slide. Headline and body copy left-aligned on the left. Use a simple number label (01–06) on each piece so presenters can reference them by number. Avoid overly complex diagrams.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Editable Later</div>
+        <ul class="field-list editable-list">
+          <li>Six core piece labels</li>
+          <li>Diagram layout style (grid vs. hexagon vs. spoke)</li>
+          <li>Number of core pieces if the model evolves</li>
+        </ul>
+      </div>
+
+    </div>
+  </article>
+
+  <!-- SLIDE 7 -->
+  <article class="slide-card" id="slide-7">
+    <div class="slide-header">
+      <div class="slide-number">07</div>
+      <div class="slide-header-text">
+        <div class="slide-name">What Is a Sentrepreneur?</div>
+        <div class="slide-category">Model</div>
+      </div>
+    </div>
+    <div class="slide-body">
+
+      <div class="field-group">
+        <div class="field-label">Main Headline</div>
+        <div class="field-headline">A sent entrepreneur.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Definition Block</div>
+        <div class="field-value">A sentrepreneur builds profitable work as a platform for disciple-making, leadership development, and church multiplication.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Clarifying Lines</div>
+        <ul class="field-list">
+          <li>Not just a Christian business owner.</li>
+          <li>Not just a missionary with a side hustle.</li>
+          <li>A builder who lives sent through work.</li>
+        </ul>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Visual Concept</div>
+        <div class="visual-concept">
+          One person figure at center. Three overlapping or radiating circles: Business (profitable, sustainable), Disciples (multiplication), Leaders (development). Three circles form a Venn or spoke model. Person is at the intersection. Simple, bold, uncluttered.
+        </div>
+      </div>
+
+      <hr class="group-divider">
+
+      <div class="field-group">
+        <div class="field-label">Speaker Note</div>
+        <div class="speaker-note">This definition matters. We are not just helping people make money. And we are not pulling them out of work to do ministry somewhere else. We are forming people whose work and mission are the same thing.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Design Notes</div>
+        <div class="design-note">This is a defining slide — it deserves slightly more visual weight. Use the three-circle diagram large and centered. Clarifying bullet lines can appear as small callouts beneath the diagram. Font weight on "sent" in the headline can be slightly heavier or in gold to emphasize the root word.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Editable Later</div>
+        <ul class="field-list editable-list">
+          <li>Three circle labels</li>
+          <li>Definition wording</li>
+          <li>Clarifying bullet lines</li>
+        </ul>
+      </div>
+
+    </div>
+  </article>
+
+  <!-- SLIDE 8 -->
+  <article class="slide-card" id="slide-8">
+    <div class="slide-header">
+      <div class="slide-number">08</div>
+      <div class="slide-header-text">
+        <div class="slide-name">The Launchpad Pilot</div>
+        <div class="slide-category">Model</div>
+      </div>
+    </div>
+    <div class="slide-body">
+
+      <div class="field-group">
+        <div class="field-label">Main Headline</div>
+        <div class="field-headline">Start small. Prove the process.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Copy Block</div>
+        <div class="field-value">Launchpad is the first-stage pilot cohort inside Sentrepreneur Academy.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Pilot Focus</div>
+        <ul class="field-list">
+          <li>5–10 emerging leaders per cohort</li>
+          <li>6–12 month program duration</li>
+          <li>Low-overhead business lanes with fast feedback</li>
+          <li>Weekly coaching and real-world reps</li>
+          <li>Documented case studies from each participant</li>
+        </ul>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Visual Concept</div>
+        <div class="visual-concept">
+          Horizontal timeline: Pre-cohort → Month 1–2 (Training + Basics) → Month 3–6 (Reps + Coaching) → Month 6–12 (Launch + Documentation) → Post-cohort (Case Study + Next Stage). Simple horizontal bar or milestone line. Muted gold milestone dots.
+        </div>
+      </div>
+
+      <hr class="group-divider">
+
+      <div class="field-group">
+        <div class="field-label">Speaker Note</div>
+        <div class="speaker-note">We are not trying to build the whole institution on day one. We are proving the first repeatable stage. A small, documented cohort is worth more than a large, undocumented program.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Design Notes</div>
+        <div class="design-note">Timeline runs horizontally across the bottom third of the slide. Bullet list above-left. Copy block above-right or inline. Timeline dots in muted gold. Phase labels in charcoal. Keep the timeline clean — 4 to 5 phases max.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Editable Later</div>
+        <ul class="field-list editable-list">
+          <li>Cohort size range</li>
+          <li>Program duration</li>
+          <li>Timeline phase names and lengths</li>
+        </ul>
+      </div>
+
+    </div>
+  </article>
+
+  <!-- SLIDE 9 -->
+  <article class="slide-card" id="slide-9">
+    <div class="slide-header">
+      <div class="slide-number">09</div>
+      <div class="slide-header-text">
+        <div class="slide-name">The Staged Pathway</div>
+        <div class="slide-category">Model</div>
+      </div>
+    </div>
+    <div class="slide-body">
+
+      <div class="field-group">
+        <div class="field-label">Main Headline</div>
+        <div class="field-headline">A pathway, not a one-time grant.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Copy Block</div>
+        <div class="field-value">Each stage tests ownership, faithfulness, skill, and readiness for more responsibility.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Pathway Stages</div>
+        <div class="pathway">
+          <div class="pathway-step">
+            <div class="step-num">Stage 1</div>
+            <div class="step-name">Trainees</div>
+          </div>
+          <div class="pathway-step">
+            <div class="step-num">Stage 2</div>
+            <div class="step-name">Apprentices</div>
+          </div>
+          <div class="pathway-step">
+            <div class="step-num">Stage 3</div>
+            <div class="step-name">Incubating Builders</div>
+          </div>
+          <div class="pathway-step">
+            <div class="step-num">Stage 4</div>
+            <div class="step-name">Launched Sentrepreneurs</div>
+          </div>
+          <div class="pathway-step">
+            <div class="step-num">Stage 5</div>
+            <div class="step-name">Returning Multipliers</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Visual Concept</div>
+        <div class="visual-concept">
+          Horizontal staircase rising left to right, or a clean horizontal pathway with five labeled steps and upward-angled arrows between them. Each step is a distinct block. Stage 4 and 5 can be slightly elevated or a different green shade to show completion.
+        </div>
+      </div>
+
+      <hr class="group-divider">
+
+      <div class="field-group">
+        <div class="field-label">Speaker Note</div>
+        <div class="speaker-note">This is the key risk-reduction mechanism for investors. People are not funded before they are known, trained, and tested. The pathway earns trust before it extends resources.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Design Notes</div>
+        <div class="design-note">Let the pathway diagram take the full lower 50% of the slide. Headline and copy block top-left. The staircase or path should feel progressional — each step slightly higher or more prominent than the last. Light green shading on the final stage to signal completion.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Editable Later</div>
+        <ul class="field-list editable-list">
+          <li>Stage names</li>
+          <li>Number of stages</li>
+          <li>Stage descriptor text (sub-labels beneath each step)</li>
+        </ul>
+      </div>
+
+    </div>
+  </article>
+
+  <!-- SLIDE 10 -->
+  <article class="slide-card" id="slide-10">
+    <div class="slide-header">
+      <div class="slide-number">10</div>
+      <div class="slide-header-text">
+        <div class="slide-name">Initial Launch Lanes</div>
+        <div class="slide-category">Model</div>
+      </div>
+    </div>
+    <div class="slide-body">
+
+      <div class="field-group">
+        <div class="field-label">Main Headline</div>
+        <div class="field-headline">We start where ownership can happen fast.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Copy Block</div>
+        <div class="field-value">Launchpad begins with practical lanes that create quick reps and lower startup risk.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Launch Lanes</div>
+        <div class="three-col" style="margin-top:0.5rem;">
+          <div class="three-col-cell">
+            <div class="cell-label" style="font-size:1.5rem; letter-spacing:0; margin-bottom:0.5rem;">🔧</div>
+            <div class="cell-label">Lane 1</div>
+            <div class="cell-text"><strong>Home Service Businesses</strong><br>Lawn care, window washing, pressure washing, cleaning, handyman. Fast customer acquisition, low overhead, repeatable reps.</div>
+          </div>
+          <div class="three-col-cell">
+            <div class="cell-label" style="font-size:1.5rem; letter-spacing:0; margin-bottom:0.5rem;">⚙️</div>
+            <div class="cell-label">Lane 2</div>
+            <div class="cell-text"><strong>Trades and Apprenticeships</strong><br>HVAC, electrical, plumbing, carpentry. Paired with licensed tradespeople. Longer ramp, deeper ownership.</div>
+          </div>
+          <div class="three-col-cell">
+            <div class="cell-label" style="font-size:1.5rem; letter-spacing:0; margin-bottom:0.5rem;">⬡</div>
+            <div class="cell-label">Lane 3</div>
+            <div class="cell-text"><strong>AI and Business Systems</strong><br>Workflow automation and business tools for small businesses. Low capital, high leverage, scalable.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Visual Concept</div>
+        <div class="visual-concept">
+          Three vertical cards side by side. Each card: a simple icon at top, lane number label, lane name bold, two-line descriptor below. Cards have a slight shadow and warm white background on dark green card edge. No photography.
+        </div>
+      </div>
+
+      <hr class="group-divider">
+
+      <div class="field-group">
+        <div class="field-label">Speaker Note</div>
+        <div class="speaker-note">These lanes are not glamorous. That is the point. They force customer learning, discipline, and real ownership fast. Glamorous is easy to say yes to and hard to build. These are the other way around.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Design Notes</div>
+        <div class="design-note">Three equal-width cards. Icon at top of each card in muted gold or charcoal line art. Lane number in small uppercase label. Lane name in bold dark green. Descriptor text below in regular weight charcoal. Cards should feel like the inside of a product catalog, not a flyer.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Editable Later</div>
+        <ul class="field-list editable-list">
+          <li>Lane names</li>
+          <li>Lane descriptor text</li>
+          <li>Number of lanes (can expand to 4–5 as the program grows)</li>
+          <li>Icons</li>
+        </ul>
+      </div>
+
+    </div>
+  </article>
+
+  <!-- SLIDE 11 -->
+  <article class="slide-card" id="slide-11">
+    <div class="slide-header">
+      <div class="slide-number">11</div>
+      <div class="slide-header-text">
+        <div class="slide-name">The Ecosystem Flywheel</div>
+        <div class="slide-category">Model</div>
+      </div>
+    </div>
+    <div class="slide-body">
+
+      <div class="field-group">
+        <div class="field-label">Main Headline</div>
+        <div class="field-headline">The academy sits inside a larger ecosystem.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Copy Block</div>
+        <div class="field-value">Investors are not funding isolated entrepreneurs. They are helping build a pipeline.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Flywheel Loop</div>
+        <div class="flywheel">
+          <span class="flywheel-item">Labs</span>
+          <span class="flywheel-arrow">→</span>
+          <span class="flywheel-item">Immersions</span>
+          <span class="flywheel-arrow">→</span>
+          <span class="flywheel-item">Hubs</span>
+          <span class="flywheel-arrow">→</span>
+          <span class="flywheel-item">Launchpad</span>
+          <span class="flywheel-arrow">→</span>
+          <span class="flywheel-item">Businesses</span>
+          <span class="flywheel-arrow">→</span>
+          <span class="flywheel-item">Disciples</span>
+          <span class="flywheel-arrow">→</span>
+          <span class="flywheel-item">New Leaders</span>
+          <span class="flywheel-arrow">→</span>
+          <span class="flywheel-item">Reinvestment</span>
+          <span class="flywheel-arrow">↩</span>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Visual Concept</div>
+        <div class="visual-concept">
+          Circular flywheel diagram. Eight labeled nodes arranged in a ring with directional arrows between them. "Launchpad" node is highlighted in dark green (it is the entry point for this pitch). Other nodes are charcoal or muted green. Arrows in muted gold. No clutter — labels only, no descriptors on the diagram itself.
+        </div>
+      </div>
+
+      <hr class="group-divider">
+
+      <div class="field-group">
+        <div class="field-label">Speaker Note</div>
+        <div class="speaker-note">This is the strongest slide in the deck. The academy is not floating alone — it connects to labs, immersions, hubs, relationships, and future multiplication. The flywheel is self-reinforcing. Each funded cohort eventually produces leaders who come back and reinvest.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Design Notes</div>
+        <div class="design-note">Let the flywheel take 65% of the slide. Place it center-right. Headline and two-line copy block on the left. "Launchpad" node should visually stand out — bolder border, slightly larger, or filled green. Arrows should be rotational (circular), not linear. Use a circular layout, not a left-to-right row.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Editable Later</div>
+        <ul class="field-list editable-list">
+          <li>Flywheel node labels</li>
+          <li>Number of nodes</li>
+          <li>Which node is highlighted (changes depending on audience)</li>
+        </ul>
+      </div>
+
+    </div>
+  </article>
+
+  <!-- SLIDE 12 -->
+  <article class="slide-card" id="slide-12">
+    <div class="slide-header">
+      <div class="slide-number">12</div>
+      <div class="slide-header-text">
+        <div class="slide-name">Why This Is Different</div>
+        <div class="slide-category">Model</div>
+      </div>
+    </div>
+    <div class="slide-body">
+
+      <div class="field-group">
+        <div class="field-label">Main Headline</div>
+        <div class="field-headline">Not business school. Not ministry training. Not startup hype.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Comparison Table</div>
+        <div class="three-col" style="margin-top:0.5rem;">
+          <div class="three-col-cell">
+            <div class="cell-label">Business School</div>
+            <div class="cell-text">Often teaches concepts without ownership. No real customers, no coaching, no mission integration.</div>
+          </div>
+          <div class="three-col-cell">
+            <div class="cell-label">Ministry Training</div>
+            <div class="cell-text">Often teaches mission apart from work. Disciple-making happens in a room, not a real-life context.</div>
+          </div>
+          <div class="three-col-cell">
+            <div class="cell-label">Startup Hype</div>
+            <div class="cell-text">Often chases ideas without discipline. Big vision, no reps, no accountability, no formation.</div>
+          </div>
+          <div class="three-col-cell highlight">
+            <div class="cell-label">Sentrepreneur Academy</div>
+            <div class="cell-text">Trains builders through real work, real coaching, real disciple-making, and staged responsibility.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Visual Concept</div>
+        <div class="visual-concept">
+          Four-column comparison table. First three columns in light neutral with charcoal text (representing alternatives). Fourth column in dark green with white text (Sentrepreneur Academy). Each column has a bold label at top and a two-sentence descriptor below. No checkmarks or X marks — just clear language.
+        </div>
+      </div>
+
+      <hr class="group-divider">
+
+      <div class="field-group">
+        <div class="field-label">Speaker Note</div>
+        <div class="speaker-note">The differentiation has to be brutally clear. We are combining what usually stays separated — business formation and mission integration, ownership and coaching, practical work and disciple-making. That combination is the product.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Design Notes</div>
+        <div class="design-note">Avoid a traditional feature-comparison table with checkmarks. Instead, use a four-column card layout. The Academy column stands visually apart through color, not just a checkmark column. The contrast should feel decisive, not defensive.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Editable Later</div>
+        <ul class="field-list editable-list">
+          <li>Comparison column labels</li>
+          <li>Descriptor text under each column</li>
+          <li>Number of comparison columns</li>
+        </ul>
+      </div>
+
+    </div>
+  </article>
+
+  <!-- ──────────────────────────────────────────────────────────────────────
+       SECTION 3: INVESTOR CASE
+  ─────────────────────────────────────────────────────────────────────── -->
+  <p class="section-label">The Investor Case — Slides 13–17</p>
+
+  <!-- SLIDE 13 -->
+  <article class="slide-card" id="slide-13">
+    <div class="slide-header">
+      <div class="slide-number">13</div>
+      <div class="slide-header-text">
+        <div class="slide-name">Investment Thesis</div>
+        <div class="slide-category">Investor Case</div>
+      </div>
+    </div>
+    <div class="slide-body">
+
+      <div class="field-group">
+        <div class="field-label">Main Headline</div>
+        <div class="field-headline">Fund the process, not just the person.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Copy Block</div>
+        <div class="field-value">One-off funding for young entrepreneurs is risky. Launchpad reduces risk through a structured process.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">How the Process Reduces Risk</div>
+        <ul class="field-list">
+          <li>Selection — not everyone gets in</li>
+          <li>Staged training before funding increases</li>
+          <li>Weekly coaching and accountability</li>
+          <li>Low-overhead business starts limit early burn</li>
+          <li>Clear ownership expectations from day one</li>
+          <li>Measurable milestones at each stage gate</li>
+          <li>Community accountability through the hub and cohort</li>
+        </ul>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Visual Concept</div>
+        <div class="visual-concept">
+          Risk funnel diagram. Wide at top: "Many interested." Narrowing: "Fewer selected." Narrower: "Trained and coached." Narrow: "Launched with support." Narrowest: "Funded at scale." The funnel shape communicates that the process filters for readiness, not just enthusiasm. Labels at each funnel stage.
+        </div>
+      </div>
+
+      <hr class="group-divider">
+
+      <div class="field-group">
+        <div class="field-label">Speaker Note</div>
+        <div class="speaker-note">This is the investor logic. The process is the asset — not any individual participant. The process can be repeated, improved, and scaled. That is what investors are actually funding.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Design Notes</div>
+        <div class="design-note">Funnel graphic right side of slide. Bullet list left side. Keep the funnel visually clean — no clip art funnels. Use layered trapezoid shapes in progressively darker shades of green. Label each layer with text to the right of the funnel.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Editable Later</div>
+        <ul class="field-list editable-list">
+          <li>Risk reduction bullet list items</li>
+          <li>Funnel stage labels and counts</li>
+        </ul>
+      </div>
+
+    </div>
+  </article>
+
+  <!-- SLIDE 14 -->
+  <article class="slide-card" id="slide-14">
+    <div class="slide-header">
+      <div class="slide-number">14</div>
+      <div class="slide-header-text">
+        <div class="slide-name">Risk and Mitigation</div>
+        <div class="slide-category">Investor Case</div>
+      </div>
+    </div>
+    <div class="slide-body">
+
+      <div class="field-group">
+        <div class="field-label">Main Headline</div>
+        <div class="field-headline">The risk is real. That is why the process matters.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Risk / Mitigation Grid</div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; margin-top:0.5rem;">
+
+          <div class="two-col-cell">
+            <div class="cell-label">Risk</div>
+            <div class="cell-text">Not everyone who applies is ready to build.</div>
+          </div>
+          <div class="two-col-cell" style="background:#f0f7f3;">
+            <div class="cell-label">Mitigation</div>
+            <div class="cell-text">Staged selection and entry requirements before funding begins.</div>
+          </div>
+
+          <div class="two-col-cell">
+            <div class="cell-label">Risk</div>
+            <div class="cell-text">Young builders can chase the next idea instead of executing.</div>
+          </div>
+          <div class="two-col-cell" style="background:#f0f7f3;">
+            <div class="cell-label">Mitigation</div>
+            <div class="cell-text">Weekly coaching, defined milestones, and small starts that require focus.</div>
+          </div>
+
+          <div class="two-col-cell">
+            <div class="cell-label">Risk</div>
+            <div class="cell-text">Unclear financial arrangements create conflict.</div>
+          </div>
+          <div class="two-col-cell" style="background:#f0f7f3;">
+            <div class="cell-label">Mitigation</div>
+            <div class="cell-text">Clear terms written before funds are released. No ambiguity.</div>
+          </div>
+
+          <div class="two-col-cell">
+            <div class="cell-label">Risk</div>
+            <div class="cell-text">Mission and business goals can drift apart or create confusion.</div>
+          </div>
+          <div class="two-col-cell" style="background:#f0f7f3;">
+            <div class="cell-label">Mitigation</div>
+            <div class="cell-text">Integrated coaching holds both together. Metrics track both business and mission outcomes.</div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Visual Concept</div>
+        <div class="visual-concept">
+          Two-column grid. Left column header "Risk" in charcoal. Right column header "Mitigation" in dark green. Four rows. Left cells warm neutral. Right cells light green. Alternating rows subtle — not striped — just distinct enough to track horizontally. Keep font small enough to fit cleanly.
+        </div>
+      </div>
+
+      <hr class="group-divider">
+
+      <div class="field-group">
+        <div class="field-label">Speaker Note</div>
+        <div class="speaker-note">Do not hide risk. Name it and show how the pathway is designed to handle it. Investors who have funded people before have seen every one of these risks. Showing them you have thought it through builds trust faster than minimizing the risks.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Design Notes</div>
+        <div class="design-note">Keep the table clean and readable at presentation distance. Risk column slightly indented. Mitigation column in a lighter background to signal "resolved." Headline at top. No need for other body copy — the table is the content.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Editable Later</div>
+        <ul class="field-list editable-list">
+          <li>Risk rows (add, remove, or reword as the model evolves)</li>
+          <li>Mitigation descriptions</li>
+        </ul>
+      </div>
+
+    </div>
+  </article>
+
+  <!-- SLIDE 15 -->
+  <article class="slide-card" id="slide-15">
+    <div class="slide-header">
+      <div class="slide-number">15</div>
+      <div class="slide-header-text">
+        <div class="slide-name">Ownership Philosophy</div>
+        <div class="slide-category">Investor Case</div>
+      </div>
+    </div>
+    <div class="slide-body">
+
+      <div class="field-group">
+        <div class="field-label">Main Headline</div>
+        <div class="field-headline">We do not build businesses for people.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Core Conviction</div>
+        <div class="field-value">The founder must come in saying: "I want to do this. Help me build it." Ownership has to be present from the beginning — it cannot be handed to someone later and expected to stick.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">What This Means Practically</div>
+        <ul class="field-list">
+          <li>Participants pursue the opportunity, not the other way around</li>
+          <li>The work belongs to the builder, not the academy</li>
+          <li>Coaching supports ownership — it does not replace it</li>
+          <li>Funding comes alongside initiative, not instead of it</li>
+        </ul>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Visual Concept</div>
+        <div class="visual-concept">
+          A single person holding a steering wheel, a set of keys, or the reins of something — a clear visual metaphor for ownership and agency. Simple, bold, not overly literal. Could be illustrated or a clean photograph. Dark background optional for this slide to give it weight.
+        </div>
+      </div>
+
+      <hr class="group-divider">
+
+      <div class="field-group">
+        <div class="field-label">Speaker Note</div>
+        <div class="speaker-note">This is a core conviction, not just a program policy. You cannot hand someone ownership later and hope the DNA sticks. It has to start in their posture from day one. We look for it during selection, and we reinforce it throughout the program.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Design Notes</div>
+        <div class="design-note">This slide can afford a slightly bolder visual treatment — larger image, minimal text. The headline is the strongest copy line in the deck. Let it breathe. Bullet list small and to one side. Image takes the dominant visual real estate.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Editable Later</div>
+        <ul class="field-list editable-list">
+          <li>"What this means practically" bullet list</li>
+          <li>Visual metaphor / image</li>
+          <li>Core conviction wording</li>
+        </ul>
+      </div>
+
+    </div>
+  </article>
+
+  <!-- SLIDE 16 -->
+  <article class="slide-card" id="slide-16">
+    <div class="slide-header">
+      <div class="slide-number">16</div>
+      <div class="slide-header-text">
+        <div class="slide-name">What Funding Supports</div>
+        <div class="slide-category">Investor Case</div>
+      </div>
+    </div>
+    <div class="slide-body">
+
+      <div class="field-group">
+        <div class="field-label">Main Headline</div>
+        <div class="field-headline">What investor dollars make possible.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Funding Buckets</div>
+        <ul class="field-list">
+          <li>Cohort training and facilitation</li>
+          <li>Coaching fees and mentor compensation</li>
+          <li>Curriculum development and tools</li>
+          <li>Apprenticeship support and placement</li>
+          <li>Startup kits or micro-grants for participants</li>
+          <li>Legal and accounting setup assistance</li>
+          <li>Reporting, documentation, and case study production</li>
+          <li>Hub and immersion infrastructure</li>
+        </ul>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Visual Concept</div>
+        <div class="visual-concept">
+          Budget allocation graphic. Horizontal bar chart or donut chart with each funding bucket as a labeled segment. Percentages should be editable placeholders. Color coding: dark green for largest allocation, gold for secondary, charcoal for operational items. Exact percentages to be filled in based on actual budget.
+        </div>
+      </div>
+
+      <hr class="group-divider">
+
+      <div class="field-group">
+        <div class="field-label">Speaker Note</div>
+        <div class="speaker-note">Make the money concrete. Investors need to see where it goes. Vague use-of-funds slides signal unclear planning. If percentages change before the pitch, update this slide — it matters more than most.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Design Notes</div>
+        <div class="design-note">Use a horizontal stacked bar or a simple donut chart — not a pie chart. Bar chart is easier to read at distance. Each segment labeled directly (not in a legend). Percentages as editable text. Headline top-left. Chart takes bottom 50% of slide.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Editable Later</div>
+        <ul class="field-list editable-list">
+          <li>All funding bucket labels</li>
+          <li>All allocation percentages</li>
+          <li>Chart type (bar vs. donut)</li>
+          <li>Total budget amount (if shown)</li>
+        </ul>
+      </div>
+
+    </div>
+  </article>
+
+  <!-- SLIDE 17 -->
+  <article class="slide-card" id="slide-17">
+    <div class="slide-header">
+      <div class="slide-number">17</div>
+      <div class="slide-header-text">
+        <div class="slide-name">Pilot Metrics</div>
+        <div class="slide-category">Investor Case</div>
+      </div>
+    </div>
+    <div class="slide-body">
+
+      <div class="field-group">
+        <div class="field-label">Main Headline</div>
+        <div class="field-headline">We will measure business, mission, and formation.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Metric Columns</div>
+        <div class="metric-grid">
+          <div class="metric-col">
+            <div class="metric-label">Business Metrics</div>
+            <ul>
+              <li>Participants trained</li>
+              <li>Customers served</li>
+              <li>Businesses launched</li>
+              <li>Revenue generated</li>
+              <li>Repeat customers</li>
+              <li>Profitability progress</li>
+            </ul>
+          </div>
+          <div class="metric-col">
+            <div class="metric-label">Mission Metrics</div>
+            <ul>
+              <li>Gospel conversations</li>
+              <li>Discovery groups started</li>
+              <li>Baptisms</li>
+              <li>Disciples trained</li>
+              <li>Leaders identified</li>
+              <li>Simple churches or gatherings formed</li>
+            </ul>
+          </div>
+          <div class="metric-col">
+            <div class="metric-label">Formation Metrics</div>
+            <ul>
+              <li>Weekly reps completed</li>
+              <li>Coaching session participation</li>
+              <li>Ownership demonstrated</li>
+              <li>Commit, focus, continue rate</li>
+              <li>Stage advancement</li>
+              <li>Cohort completion</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Visual Concept</div>
+        <div class="visual-concept">
+          Three equal columns with vertical label headers in muted gold. Each column lists 5–6 bullet metrics. Columns separated by a thin charcoal line or subtle background variation. Clean, minimal, readable at presentation scale.
+        </div>
+      </div>
+
+      <hr class="group-divider">
+
+      <div class="field-group">
+        <div class="field-label">Speaker Note</div>
+        <div class="speaker-note">We are not only counting money. But we are also not avoiding business metrics. Both matter. This is what makes Sentrepreneur Academy different from a ministry program: we are willing to track the business numbers alongside everything else.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Design Notes</div>
+        <div class="design-note">Three-column layout. Column labels in muted gold uppercase. Bullet list items in charcoal, regular weight. No icons needed — keep it list-clean. Columns should be visually equal even if the number of metrics differs slightly. Use consistent bullet markers across all three columns.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Editable Later</div>
+        <ul class="field-list editable-list">
+          <li>All metric line items in each column</li>
+          <li>Column header labels</li>
+          <li>Number of metrics per column</li>
+        </ul>
+      </div>
+
+    </div>
+  </article>
+
+  <!-- ──────────────────────────────────────────────────────────────────────
+       SECTION 4: CLOSE
+  ─────────────────────────────────────────────────────────────────────── -->
+  <p class="section-label">The Close — Slides 18–20</p>
+
+  <!-- SLIDE 18 -->
+  <article class="slide-card" id="slide-18">
+    <div class="slide-header">
+      <div class="slide-number">18</div>
+      <div class="slide-header-text">
+        <div class="slide-name">The Ask</div>
+        <div class="slide-category">Close</div>
+      </div>
+    </div>
+    <div class="slide-body">
+
+      <div class="field-group">
+        <div class="field-label">Main Headline</div>
+        <div class="field-headline">Help us launch the first cohort.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Copy Block</div>
+        <div class="field-value">We are seeking founding partners to fund the first Sentrepreneur Academy Launchpad pilot.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Example Ask</div>
+        <div class="ask-number">$50,000</div>
+        <div class="ask-sub">to train 5–10 emerging leaders over 6–12 months</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Use of Funds</div>
+        <ul class="field-list">
+          <li>Training and coaching</li>
+          <li>Startup support and micro-grants</li>
+          <li>Tools and curriculum</li>
+          <li>Documentation and case study production</li>
+          <li>Reporting to partners</li>
+          <li>Hub and immersion support</li>
+        </ul>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Visual Concept</div>
+        <div class="visual-concept">
+          Big bold ask number centered or left-anchored. Beneath it: "to train 5–10 leaders over 6–12 months." Below that: three partnership tier cards (if using tiered options) or simple use-of-funds list. Clean, specific, unadorned.
+        </div>
+      </div>
+
+      <hr class="group-divider">
+
+      <div class="field-group">
+        <div class="field-label">Speaker Note</div>
+        <div class="speaker-note">This slide must be specific. If the amount changes later, keep the structure — just update the number and use-of-funds breakdown. Vague asks produce vague responses. Specific asks move conversations forward.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Design Notes</div>
+        <div class="design-note">The ask number should be the largest typographic element on the slide — larger than the headline. Use a clean, heavy font weight. Muted gold or dark green for the number itself. The use-of-funds list should be secondary and understated. Do not compete with the number.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Editable Later</div>
+        <ul class="field-list editable-list">
+          <li>Ask amount</li>
+          <li>Cohort size and timeline in the sub-line</li>
+          <li>Use-of-funds bullet list</li>
+          <li>Partnership tier amounts (if tiered)</li>
+        </ul>
+      </div>
+
+    </div>
+  </article>
+
+  <!-- SLIDE 19 -->
+  <article class="slide-card" id="slide-19">
+    <div class="slide-header">
+      <div class="slide-number">19</div>
+      <div class="slide-header-text">
+        <div class="slide-name">Ways to Participate</div>
+        <div class="slide-category">Close</div>
+      </div>
+    </div>
+    <div class="slide-body">
+
+      <div class="field-group">
+        <div class="field-label">Main Headline</div>
+        <div class="field-headline">There is more than one way to invest.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Partnership Options</div>
+        <div class="partner-cards">
+          <div class="partner-card">
+            <div class="pc-num">Option 1</div>
+            <div class="pc-title">Cohort Sponsor</div>
+          </div>
+          <div class="partner-card">
+            <div class="pc-num">Option 2</div>
+            <div class="pc-title">Startup Kit Sponsor</div>
+          </div>
+          <div class="partner-card">
+            <div class="pc-num">Option 3</div>
+            <div class="pc-title">Recoverable Investment Fund</div>
+          </div>
+          <div class="partner-card">
+            <div class="pc-num">Option 4</div>
+            <div class="pc-title">Business Mentor</div>
+          </div>
+          <div class="partner-card">
+            <div class="pc-num">Option 5</div>
+            <div class="pc-title">Hub Partner</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Visual Concept</div>
+        <div class="visual-concept">
+          Five equal cards arranged in a row or 2+3 grid. Each card: option number label, option title bold, optional one-line descriptor below. Cards have a clean border and subtle shadow. Keep descriptors short — one line max per card.
+        </div>
+      </div>
+
+      <hr class="group-divider">
+
+      <div class="field-group">
+        <div class="field-label">Speaker Note</div>
+        <div class="speaker-note">Give different kinds of investors a way in. Some will give money. Some will mentor. Some will open business lanes or workspace. Not everyone leads with a check, but everyone can contribute something the program needs. Give them a door.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Design Notes</div>
+        <div class="design-note">Five-card layout. Cards should be uniform in size. Option number in small muted label above the title. Title bold dark green. One-line descriptor below in regular charcoal. If you add dollar amounts to the cards, keep them secondary to the option label — the type of participation matters more than the number at this slide.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Editable Later</div>
+        <ul class="field-list editable-list">
+          <li>Partnership option titles</li>
+          <li>Number of options</li>
+          <li>Dollar amounts per tier (if added)</li>
+          <li>One-line descriptors per card</li>
+        </ul>
+      </div>
+
+    </div>
+  </article>
+
+  <!-- SLIDE 20 -->
+  <article class="slide-card" id="slide-20">
+    <div class="slide-header">
+      <div class="slide-number">20</div>
+      <div class="slide-header-text">
+        <div class="slide-name">Closing Slide</div>
+        <div class="slide-category">Close</div>
+      </div>
+    </div>
+    <div class="slide-body">
+
+      <div class="field-group">
+        <div class="field-label">Main Headline</div>
+        <div class="field-headline">The next generation needs more than jobs.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Copy Block</div>
+        <div class="field-value">They need ownership, coaching, discipleship, and a pathway to build work that serves people and multiplies the kingdom.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Final Line (Call to Action)</div>
+        <div class="field-value" style="font-weight:700; color:#10281f;">Join us as a founding investor in Sentrepreneur Academy Launchpad.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Contact Block</div>
+        <ul class="field-list">
+          <li>[Name]</li>
+          <li>[Email]</li>
+          <li>[Website]</li>
+        </ul>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Visual Concept</div>
+        <div class="visual-concept">
+          Strong full-bleed image or a clean dark background with a single upward pathway line ending with a small glow or light at the horizon. Alternatively: simple text-only treatment with the call-to-action in large type against a dark green background. Minimalist and resolute — not celebratory or loud.
+        </div>
+      </div>
+
+      <hr class="group-divider">
+
+      <div class="field-group">
+        <div class="field-label">Speaker Note</div>
+        <div class="speaker-note">End with the why. We are not building a training program. We are forming builders who can carry work and mission together — and whose lives become the evidence that this model works. That is what investors are joining.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Design Notes</div>
+        <div class="design-note">Mirror the title slide in visual weight — dark background, white text. The headline and copy block should take top 50%. The CTA line in muted gold. Contact info at bottom in a lighter tint. Academy wordmark above the contact block. No clutter. This slide should feel like a period at the end of a strong sentence.</div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Editable Later</div>
+        <ul class="field-list editable-list">
+          <li>Contact name, email, website</li>
+          <li>CTA wording</li>
+          <li>Background image</li>
+          <li>Academy wordmark / logo variant</li>
+        </ul>
+      </div>
+
+    </div>
+  </article>
+
+</main>
+
+</body>
+</html>
