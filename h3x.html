@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta
     name="description"
-    content="H3X Podcast — Head, heart, and hands of a biblical multiplier. Interviews, conversations, and simple tools for covocational leaders. New episode every Tuesday morning."
+    content="H3X Podcast helps covocational leaders make disciples where they already live, work, and play. Field-tested conversations, tools, and stories for multiplying disciples in everyday life."
   />
-  <title>H3X Podcast — Covo Multipliers</title>
+  <title>H3X Podcast - Covo Multipliers</title>
 
   <link rel="stylesheet" href="styles.css" />
 
@@ -15,8 +15,8 @@
     /* =========================================================
        H3X Podcast page
        Brand accents pulled from podcast art:
-         #1a1a1a  charcoal
-         #bd5a22  burnt orange
+         #1a1a1a charcoal
+         #bd5a22 burnt orange
        ========================================================= */
 
     .site-header {
@@ -49,9 +49,8 @@
       color: #1b4d3e;
     }
 
-    /* Hero uses the podcast art palette */
     .podcast-hero {
-      padding: 3.25rem 2rem 3rem;
+      padding: 3.25rem 2rem 2.6rem;
       background:
         radial-gradient(circle at 85% 15%, rgba(189, 90, 34, 0.35) 0%, transparent 55%),
         radial-gradient(circle at 15% 85%, rgba(189, 90, 34, 0.18) 0%, transparent 50%),
@@ -90,18 +89,18 @@
       min-width: 0;
     }
 
-.hero-label {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.5rem;
-  font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: #bd5a22;
-  margin-bottom: 1.15rem;
-}
+    .hero-label {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #bd5a22;
+      margin-bottom: 1.15rem;
+    }
 
     .hero-label-icon {
       height: 12px;
@@ -117,7 +116,7 @@
       line-height: 1.06;
       letter-spacing: -0.025em;
       margin: 0 0 1rem;
-      max-width: 760px;
+      max-width: 800px;
     }
 
     .hero-title .accent {
@@ -127,8 +126,8 @@
     .hero-subtitle {
       font-size: 1.08rem;
       line-height: 1.72;
-      color: rgba(255, 255, 255, 0.82);
-      max-width: 680px;
+      color: rgba(255, 255, 255, 0.84);
+      max-width: 700px;
       margin: 0 0 1.5rem;
     }
 
@@ -142,7 +141,7 @@
     .hero-microcopy {
       font-size: 0.92rem;
       line-height: 1.6;
-      color: rgba(255, 255, 255, 0.62);
+      color: rgba(255, 255, 255, 0.64);
       max-width: 620px;
       margin: 0;
     }
@@ -261,7 +260,6 @@
       border-color: rgba(189, 90, 34, 0.5);
     }
 
-    /* Image-based platform buttons (Apple, Spotify, YouTube) */
     .btn-platform-img {
       display: inline-block;
       padding: 0;
@@ -290,7 +288,43 @@
       outline-offset: 3px;
     }
 
-    /* H3X triple pillar strip */
+    .proof-strip {
+      background: #141414;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      border-bottom: 1px solid #2a2a2a;
+      padding: 1.15rem 2rem;
+    }
+
+    .proof-strip-inner {
+      max-width: 1140px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.8rem;
+    }
+
+    .proof-item {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 0.9rem 0.95rem;
+    }
+
+    .proof-item strong {
+      display: block;
+      color: #ffffff;
+      font-size: 0.88rem;
+      line-height: 1.35;
+      margin-bottom: 0.25rem;
+    }
+
+    .proof-item span {
+      display: block;
+      color: rgba(255,255,255,0.58);
+      font-size: 0.78rem;
+      line-height: 1.45;
+    }
+
     .triple-strip {
       background: #1a1a1a;
       padding: 2.25rem 2rem;
@@ -306,9 +340,8 @@
     }
 
     .triple-item {
-      padding: 0.4rem 0;
+      padding: 0.4rem 0 0.4rem 1rem;
       border-left: 2px solid #bd5a22;
-      padding-left: 1rem;
     }
 
     .triple-icon {
@@ -317,16 +350,6 @@
       margin-bottom: 0.75rem;
       display: block;
       object-fit: contain;
-    }
-
-    .triple-letter {
-      display: block;
-      font-size: 0.72rem;
-      font-weight: 800;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: #bd5a22;
-      margin-bottom: 0.35rem;
     }
 
     .triple-word {
@@ -484,7 +507,6 @@
       margin-bottom: 0;
     }
 
-    /* Host cards — two-up grid below the main about copy */
     .hosts-label {
       display: block;
       font-size: 0.72rem;
@@ -655,7 +677,14 @@
       margin: 0 0 0.55rem;
     }
 
-    /* Status / fallback message shown while loading or if feed fails */
+    .episode-card p {
+      font-size: 0.93rem;
+      line-height: 1.62;
+      color: #555555;
+      margin: 0 0 1rem;
+      flex-grow: 1;
+    }
+
     .episodes-status {
       grid-column: 1 / -1;
       margin: 0;
@@ -676,14 +705,6 @@
 
     .episodes-status a:hover {
       text-decoration: underline;
-    }
-
-    .episode-card p {
-      font-size: 0.93rem;
-      line-height: 1.62;
-      color: #555555;
-      margin: 0 0 1rem;
-      flex-grow: 1;
     }
 
     .btn-featured {
@@ -991,6 +1012,7 @@
         grid-template-columns: 1fr;
       }
 
+      .proof-strip-inner,
       .triple-strip-inner,
       .latest-grid,
       .hosts-grid {
@@ -1008,6 +1030,7 @@
       }
 
       .podcast-hero,
+      .proof-strip,
       .triple-strip,
       .section-shell,
       .social-proof,
@@ -1032,6 +1055,7 @@
         line-height: 1.56;
       }
 
+      .proof-strip-inner,
       .triple-strip-inner,
       .latest-grid,
       .hosts-grid {
@@ -1045,9 +1069,14 @@
       .social-proof-inner {
         align-items: flex-start;
       }
+
+      .host-card {
+        flex-direction: column;
+      }
     }
   </style>
 </head>
+
 <body>
   <header class="site-header">
     <a class="brand" href="/">Covo Multipliers</a>
@@ -1061,20 +1090,22 @@
           <img src="image/h3x podcast logo header.webp" alt="" class="hero-label-icon" aria-hidden="true" />
           H3X Podcast
         </span>
+
         <h1 class="hero-title">
           The <span class="accent">head, heart, and hands</span> of the multiplying Church and her leaders.
         </h1>
+
         <p class="hero-subtitle">
-          Interviews, conversations, and simple tools for covocational leaders who want to make disciples and develop multipliers.
+          H3X helps covocational leaders make disciples where they already live, work, and play through field-tested conversations, tools, and stories from people doing the work.
         </p>
 
         <div class="hero-actions">
-          <a href="#start-here" class="btn-hero-primary">Start here</a>
-          <a href="#latest-episodes" class="btn-hero-secondary">Browse episodes</a>
+          <a href="#start-here" class="btn-hero-primary">Start with the best episodes</a>
+          <a href="https://open.spotify.com/show/2NNDtnQaRLeqRU2N3LVayR" class="btn-hero-secondary" target="_blank" rel="noopener">Listen on Spotify</a>
         </div>
 
         <p class="hero-microcopy">
-          New episode <strong>every Tuesday morning</strong>.
+          New episode <strong>every Tuesday morning</strong>. Built from real disciple-making reps, not theory.
         </p>
       </div>
 
@@ -1083,7 +1114,7 @@
           <div class="hero-card-label">Featured episode</div>
           <h2 class="hero-card-title">The Rise of Covo Multipliers: Why Priscilla &amp; Aquila Hold the Blueprint</h2>
           <p class="hero-card-desc">
-            Why Priscilla and Aquila are the clearest biblical model for covocational disciple making today.
+            Why Priscilla and Aquila give us a clear biblical model for disciple making in everyday work, relationships, and mission.
           </p>
         </div>
 
@@ -1114,25 +1145,45 @@
     </div>
   </section>
 
+  <section class="proof-strip" aria-label="Why listen to H3X">
+    <div class="proof-strip-inner">
+      <div class="proof-item">
+        <strong>Field-tested</strong>
+        <span>Stories and tools from real disciple-making reps.</span>
+      </div>
+      <div class="proof-item">
+        <strong>Built for covo leaders</strong>
+        <span>Not just paid ministry professionals.</span>
+      </div>
+      <div class="proof-item">
+        <strong>Practical next steps</strong>
+        <span>Episodes aim toward what you can do this week.</span>
+      </div>
+      <div class="proof-item">
+        <strong>New every Tuesday</strong>
+        <span>A steady rhythm for leaders learning to multiply.</span>
+      </div>
+    </div>
+  </section>
+
   <section class="triple-strip" aria-label="What H3X stands for">
     <div class="triple-strip-inner">
       <div class="triple-item">
         <img src="image/head icon.webp" alt="" class="triple-icon" loading="lazy" aria-hidden="true" />
-        
         <p class="triple-word">How a multiplier thinks</p>
-        <p class="triple-desc">The convictions and frameworks behind people who actually multiply.</p>
+        <p class="triple-desc">The convictions and frameworks that help leaders see the field in front of them.</p>
       </div>
+
       <div class="triple-item">
         <img src="image/heart icon.webp" alt="" class="triple-icon" loading="lazy" aria-hidden="true" />
-        
         <p class="triple-word">Who a multiplier is</p>
-        <p class="triple-desc">The character and habits that reproduce lifestyle.</p>
+        <p class="triple-desc">The character, obedience, and habits that can actually reproduce in others.</p>
       </div>
+
       <div class="triple-item">
         <img src="image/hands icon.webp" alt="" class="triple-icon" loading="lazy" aria-hidden="true" />
-        
         <p class="triple-word">What a multiplier does</p>
-        <p class="triple-desc">The simple tools and rhythms that turn conviction into movement.</p>
+        <p class="triple-desc">Simple tools and rhythms that move from conviction to action.</p>
       </div>
     </div>
   </section>
@@ -1140,25 +1191,28 @@
   <section class="section-shell alt" id="start-here">
     <div class="section-inner">
       <span class="section-eyebrow">New here?</span>
-      <h2 class="section-title">Start here so the podcast makes sense fast</h2>
+      <h2 class="section-title">Start here if you want the podcast to click fast</h2>
       <p class="section-intro">
-        Don’t start with a random episode. H3X is for covocational leaders trying to make disciples, develop leaders, and live on mission in real life.
+        Don’t start with a random episode. These three give you the core problem, the core habits, and a practical first step for disciple making in ordinary life.
       </p>
 
       <div class="start-grid">
         <div class="start-card">
           <h3>Three good places to start</h3>
+
           <ul class="starter-list">
             <li>
               <span class="starter-kicker">Start with tools</span>
               <a href="https://open.spotify.com/episode/6apjtnX4URNrbCy8B0l6Mk" class="starter-title" target="_blank" rel="noopener">How to Actually Have Spiritual Conversations</a>
-              <p class="starter-desc">Move from small talk to real gospel conversations.</p>
+              <p class="starter-desc">Move from small talk to real gospel conversations without forcing it.</p>
             </li>
+
             <li>
               <span class="starter-kicker">Start with habits</span>
               <a href="https://open.spotify.com/episode/6J4sgxTS7LXX6Wpn02w2er" class="starter-title" target="_blank" rel="noopener">You Don’t Have a Vision Problem. You Have a Habit Problem.</a>
-              <p class="starter-desc">Daily rhythms, not abstract ideas, drive multiplication.</p>
+              <p class="starter-desc">Why daily rhythms, not abstract ideas, drive multiplication.</p>
             </li>
+
             <li>
               <span class="starter-kicker">Start with margin</span>
               <a href="https://open.spotify.com/episode/1XLYxDbz5Zb2PV3WEeP3Nq" class="starter-title" target="_blank" rel="noopener">Margin Is Your Superpower</a>
@@ -1173,14 +1227,17 @@
   <section class="section-shell">
     <div class="section-inner">
       <span class="section-eyebrow">About the show</span>
-      <h2 class="section-title">Practitioners on the path, not experts on a stage</h2>
+      <h2 class="section-title">Real conversations for leaders actually trying to obey Jesus</h2>
 
       <div class="about-copy" style="max-width: 780px; margin-top: 2rem;">
         <p>
-          H3X is made by people doing the work. Not sideline content. Real interviews, conversations, and training from leaders who are multiplying right now.
+          H3X is made by practitioners, not commentators. These are interviews, conversations, and training moments from leaders learning to multiply disciples in real places, with real people, under real constraints.
         </p>
         <p>
-          Every episode aims at one thing: equipping you to be and find multipliers. If you’re a covocational leader, disciple maker, or church planter looking for something you can use Monday morning, this is for you.
+          Every episode helps you answer one practical question: what do I do next with the people God has already put around me?
+        </p>
+        <p>
+          If you are a covocational leader, disciple maker, church planter, or ordinary believer looking for something you can use this week, this is for you.
         </p>
       </div>
 
@@ -1191,10 +1248,11 @@
           <div class="host-photo">
             <img src="image/Mark Goering bio pic.jpg" alt="Mark Goering" loading="lazy" />
           </div>
+
           <div class="host-info">
             <h3 class="host-name">Mark Goering</h3>
             <p class="host-bio">
-              Field-tested biblical insights as we obey the Great Commission to steward multiplying disciples. What we tried. What changed. What stuck. 📍 NYC
+              Mark serves in NYC helping ordinary believers and covocational leaders make disciples through simple, repeatable tools. He writes about what was tried, what changed, and what actually stuck.
             </p>
             <a href="https://substack.com/@multiplyingdisciples" class="host-link" target="_blank" rel="noopener">Read on Substack</a>
           </div>
@@ -1204,10 +1262,11 @@
           <div class="host-photo">
             <img src="image/Dave Miller bio pic.jpg" alt="Dave Miller" loading="lazy" />
           </div>
+
           <div class="host-info">
             <h3 class="host-name">Dave Miller</h3>
             <p class="host-bio">
-              Jesus’ Kingdom work of family in all pursuits. Chief Socackoke Tribe. Small business partner. Songwriter at DAMillertime Music. Covocational disciple maker at Sentergy.us.
+              Dave is a covocational disciple maker, small business partner, songwriter, and tribal leader helping people follow Jesus in the middle of everyday work and relationships.
             </p>
             <a href="https://substack.com/@damillertime" class="host-link" target="_blank" rel="noopener">Read on Substack</a>
           </div>
@@ -1221,11 +1280,10 @@
       <span class="section-eyebrow">Latest episodes</span>
       <h2 class="section-title">Recent conversations from H3X</h2>
       <p class="section-intro">
-        New episode every Tuesday morning.
+        New episode every Tuesday morning. Listen, take one step, and bring it into real life.
       </p>
 
       <div class="latest-grid" id="latest-episodes-grid" aria-live="polite">
-        <!-- Loading skeleton - replaced by JS once the feed loads -->
         <p class="episodes-status" id="episodes-status">Loading latest episodes…</p>
       </div>
     </div>
@@ -1233,26 +1291,27 @@
 
   <section class="section-shell">
     <div class="section-inner">
-      <span class="section-eyebrow">Stay in the loop</span>
-      <h2 class="section-title">Don’t just listen once and leave</h2>
+      <span class="section-eyebrow">Take the next step</span>
+      <h2 class="section-title">Don’t just listen. Practice this with people.</h2>
 
       <div class="signup-wrap">
         <div class="signup-card">
           <div class="signup-inner">
-            <h3>Get hands-on training with real practitioners</h3>
+            <h3>Labs are where the podcast becomes practice</h3>
             <p>
-              Labs are where the podcast becomes practice. Join an upcoming lab to sharpen your tools and develop as a multiplier.
+              Join an upcoming lab to work through simple disciple-making tools with real practitioners and take a concrete next step.
             </p>
+
             <div class="signup-actions">
-              <a href="/#upcoming-labs" class="btn-signup">See upcoming labs</a>
+              <a href="/#upcoming-labs" class="btn-signup">Join a Lab</a>
             </div>
           </div>
         </div>
 
         <div class="next-step-card">
-          <h3>Want more than a podcast?</h3>
+          <h3>Want the bigger pathway?</h3>
           <p>
-            Labs, tools, and the covocational pathway for leaders ready to take a step.
+            See how Covo Multipliers helps leaders make disciples across the places, people, passions, and professions already in their lives.
           </p>
           <a href="/vision.html" class="btn-section">Explore the pathway</a>
         </div>
@@ -1265,7 +1324,9 @@
       <div class="social-proof-icon">
         <img src="image/Substack.png" alt="Substack" width="34" height="34" />
       </div>
-      <p class="social-proof-text">This is not theory we keep to ourselves. Dave and Mark share these ideas each week with a combined <strong>300+ Substack subscribers</strong> who care about disciple making in real life.
+
+      <p class="social-proof-text">
+        This is not theory we keep to ourselves. Dave and Mark share these ideas each week with a combined <strong>300+ Substack subscribers</strong> who care about disciple making in real life.
       </p>
     </div>
   </div>
@@ -1277,6 +1338,7 @@
 
       <div class="faq-wrap">
         <strong>FAQ</strong>
+
         <ul class="faq-list">
           <li class="faq-item">
             <button class="faq-btn" aria-expanded="false">
@@ -1284,7 +1346,7 @@
               <span class="faq-icon" aria-hidden="true">+</span>
             </button>
             <div class="faq-answer" hidden>
-              Head, Heart, and Hands — how a multiplier thinks, who they are, and what they do. Every episode unpacks one of the three.
+              Head, Heart, and Hands. How a multiplier thinks, who they are, and what they do.
             </div>
           </li>
 
@@ -1294,7 +1356,7 @@
               <span class="faq-icon" aria-hidden="true">+</span>
             </button>
             <div class="faq-answer" hidden>
-              Covocational leaders, disciple makers, church planters, and anyone who wants to make disciples where they live, work, and play.
+              Covocational leaders, disciple makers, church planters, and ordinary believers who want to make disciples where they live, work, and play.
             </div>
           </li>
 
@@ -1314,7 +1376,7 @@
               <span class="faq-icon" aria-hidden="true">+</span>
             </button>
             <div class="faq-answer" hidden>
-              The three episodes in the “Start here” section above. You’ll get the framework, the covocational angle, and the simple tools in under two hours.
+              Start with the three episodes in the “Start here” section above. They give you the core framework, the habit shift, and a practical conversation step.
             </div>
           </li>
 
@@ -1334,9 +1396,9 @@
 
   <section class="bottom-cta">
     <div class="bottom-cta-inner">
-      <h2 class="bottom-cta-headline">Don’t just listen and move on</h2>
+      <h2 class="bottom-cta-headline">Pick one episode. Take one real step.</h2>
       <p class="bottom-cta-body">
-        Pick one strong episode. Take the next step.
+        Start with the strongest episodes and bring one idea into your relationships this week.
       </p>
       <a href="#start-here" class="btn-signup">Start with the best episodes</a>
     </div>
@@ -1370,14 +1432,6 @@
     });
   </script>
 
-  <!--
-    Latest Episodes feed loader
-    - Pulls the H3X RSS feed and renders the 6 most recent episodes
-    - Tries direct fetch first. Anchor/Spotify RSS typically blocks CORS on
-      the browser, so if that fails we fall back to rss2json.com (free,
-      widely used, no API key required for basic use).
-    - Keeps all existing episode-card CSS classes intact.
-  -->
   <script>
     (function () {
       var FEED_URL = 'https://anchor.fm/s/111b03cec/podcast/rss';
@@ -1385,12 +1439,8 @@
       var SUMMARY_MAX_CHARS = 140;
 
       var grid = document.getElementById('latest-episodes-grid');
-      var statusEl = document.getElementById('episodes-status');
       if (!grid) return;
 
-      // ---------- helpers ----------
-
-      // Strip HTML tags from RSS description and collapse whitespace
       function stripHtml(html) {
         if (!html) return '';
         var tmp = document.createElement('div');
@@ -1399,7 +1449,6 @@
         return text.replace(/\s+/g, ' ').trim();
       }
 
-      // Truncate cleanly at a word boundary and add an ellipsis
       function truncate(text, max) {
         if (!text || text.length <= max) return text;
         var slice = text.slice(0, max);
@@ -1408,14 +1457,12 @@
         return slice.replace(/[.,;:!?-]+$/, '') + '…';
       }
 
-      // Format ISO or RFC date string as "March 2026"
       function formatMonthYear(dateStr) {
         var d = new Date(dateStr);
         if (isNaN(d.getTime())) return '';
         return d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
       }
 
-      // Basic HTML escaping so odd titles/descriptions can't break markup
       function escapeHtml(str) {
         if (!str) return '';
         return str
@@ -1426,7 +1473,6 @@
           .replace(/'/g, '&#39;');
       }
 
-      // Render an array of normalized episode objects into the grid
       function renderEpisodes(episodes) {
         if (!episodes || episodes.length === 0) {
           showStatus(
@@ -1456,16 +1502,10 @@
         grid.innerHTML = html;
       }
 
-      // Swap the grid contents for a status/fallback message
       function showStatus(messageHtml) {
         grid.innerHTML = '<p class="episodes-status">' + messageHtml + '</p>';
       }
 
-      // ---------- fetch strategies ----------
-
-      // Strategy 1: direct fetch + parse XML ourselves.
-      // Most podcast RSS hosts (Anchor/Spotify) don't send CORS headers,
-      // so this will typically throw and we'll fall through to strategy 2.
       function fetchDirect() {
         return fetch(FEED_URL)
           .then(function (res) {
@@ -1475,6 +1515,7 @@
           .then(function (xmlText) {
             var doc = new DOMParser().parseFromString(xmlText, 'application/xml');
             var items = Array.prototype.slice.call(doc.querySelectorAll('item'));
+
             return items.map(function (item) {
               return {
                 title: (item.querySelector('title') || {}).textContent || '',
@@ -1486,10 +1527,9 @@
           });
       }
 
-      // Strategy 2: rss2json.com proxy. Returns JSON, CORS-friendly.
-      // No API key needed for low volume usage.
       function fetchViaRss2Json() {
         var url = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(FEED_URL);
+
         return fetch(url)
           .then(function (res) {
             if (!res.ok) throw new Error('HTTP ' + res.status);
@@ -1499,6 +1539,7 @@
             if (data.status !== 'ok' || !data.items) {
               throw new Error('rss2json returned no items');
             }
+
             return data.items.map(function (item) {
               return {
                 title: item.title,
@@ -1510,7 +1551,6 @@
           });
       }
 
-      // Try direct first, fall back to rss2json on any failure
       function loadFeed() {
         fetchDirect()
           .then(renderEpisodes)
@@ -1527,7 +1567,6 @@
           });
       }
 
-      // Run after DOM is ready
       if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', loadFeed);
       } else {
