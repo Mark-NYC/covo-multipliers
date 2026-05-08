@@ -1,0 +1,1754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Sentrepreneur Launchpad | Covo Multipliers</title>
+
+  <meta
+    name="description"
+    content="A covocational startup launchpad for emerging founders who want to build real businesses, generate income, and make disciples through everyday work."
+  />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&family=Source+Serif+4:opsz,wght@8..60,700;8..60,800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --ink: #08231c;
+      --ink-2: #12382f;
+      --green: #174f40;
+      --green-2: #0e352c;
+      --mint: #e9f4ee;
+      --cream: #fbf8f0;
+      --paper: #fffdf8;
+      --gold: #e7bb57;
+      --gold-2: #f2d283;
+      --muted: #63746d;
+      --line: rgba(8, 35, 28, 0.11);
+      --shadow: 0 22px 70px rgba(8, 35, 28, 0.14);
+      --shadow-soft: 0 12px 36px rgba(8, 35, 28, 0.08);
+      --radius: 28px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img,
+    svg {
+      display: block;
+      max-width: 100%;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .site-shell {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top left, rgba(231, 187, 87, 0.12), transparent 32rem),
+        linear-gradient(180deg, #fffdf8 0%, #f9faf7 100%);
+    }
+
+    .topbar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 20;
+      padding: 1.35rem clamp(1.1rem, 4vw, 4rem);
+    }
+
+    .topbar-inner {
+      max-width: 1240px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      color: #ffffff;
+      font-size: 1rem;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+    }
+
+    .brand-mark {
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      background: rgba(231, 187, 87, 0.13);
+      border: 1px solid rgba(231, 187, 87, 0.28);
+      color: var(--gold);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 1.35rem;
+      color: rgba(255, 255, 255, 0.78);
+      font-size: 0.86rem;
+      font-weight: 750;
+    }
+
+    .nav a:hover {
+      color: #ffffff;
+    }
+
+    .nav-cta {
+      padding: 0.78rem 1rem;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-2));
+      color: #132820 !important;
+      box-shadow: 0 12px 30px rgba(231, 187, 87, 0.24);
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 8.6rem clamp(1.1rem, 4vw, 4rem) 4.25rem;
+      background:
+        radial-gradient(circle at 85% 20%, rgba(231, 187, 87, 0.26), transparent 18rem),
+        radial-gradient(circle at 55% 95%, rgba(52, 118, 111, 0.5), transparent 34rem),
+        linear-gradient(135deg, #061d18 0%, #0d3028 44%, #1e4a45 73%, #9b7132 100%);
+      color: #ffffff;
+      min-height: 720px;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.16) 0.7px, transparent 0.9px),
+        radial-gradient(circle at 70% 80%, rgba(255,255,255,0.10) 0.7px, transparent 0.9px);
+      background-size: 86px 86px, 128px 128px;
+      opacity: 0.16;
+      mix-blend-mode: soft-light;
+      pointer-events: none;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -12rem;
+      top: -10rem;
+      width: 48rem;
+      height: 48rem;
+      border: 1px solid rgba(231, 187, 87, 0.18);
+      border-radius: 50%;
+      box-shadow: inset 0 0 80px rgba(231, 187, 87, 0.08);
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      max-width: 1240px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: minmax(0, 0.94fr) minmax(420px, 0.88fr);
+      align-items: center;
+      gap: 4rem;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      color: var(--gold-2);
+      font-size: 0.76rem;
+      font-weight: 900;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 24px;
+      height: 1px;
+      background: currentColor;
+      opacity: 0.7;
+    }
+
+    h1,
+    h2 {
+      font-family: "Source Serif 4", Georgia, serif;
+      font-weight: 800;
+      letter-spacing: -0.055em;
+    }
+
+    h1 {
+      font-size: clamp(3.35rem, 7vw, 6.8rem);
+      line-height: 0.88;
+      max-width: 780px;
+      margin-bottom: 1.35rem;
+    }
+
+    .gold-text {
+      color: var(--gold-2);
+    }
+
+    .italic {
+      font-style: italic;
+    }
+
+    .hero-lead {
+      max-width: 650px;
+      font-size: clamp(1.06rem, 1.45vw, 1.24rem);
+      line-height: 1.68;
+      color: rgba(255, 255, 255, 0.84);
+      margin-bottom: 1.8rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.9rem;
+      margin-bottom: 2rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      min-height: 48px;
+      padding: 0.92rem 1.18rem;
+      border-radius: 999px;
+      font-size: 0.92rem;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--gold), var(--gold-2));
+      color: #132820;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: 0 18px 34px rgba(231, 187, 87, 0.23);
+    }
+
+    .btn-secondary {
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(14px);
+    }
+
+    .hero-proof {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.8rem;
+      max-width: 680px;
+    }
+
+    .proof-item {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.85rem 0.75rem;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.055);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: rgba(255, 255, 255, 0.78);
+      font-size: 0.69rem;
+      font-weight: 850;
+      line-height: 1.25;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .proof-icon {
+      width: 26px;
+      height: 26px;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      background: rgba(231, 187, 87, 0.12);
+      color: var(--gold-2);
+      flex: 0 0 auto;
+    }
+
+    .visual-stage {
+      position: relative;
+      min-height: 520px;
+    }
+
+    .orbit-line {
+      position: absolute;
+      inset: -2rem -3rem auto auto;
+      width: 470px;
+      height: 470px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 50%;
+      transform: rotate(-18deg);
+    }
+
+    .rocket {
+      position: absolute;
+      right: -1.2rem;
+      bottom: 1.2rem;
+      width: 160px;
+      height: 320px;
+      filter: drop-shadow(0 22px 46px rgba(231, 187, 87, 0.28));
+      z-index: 1;
+    }
+
+    .rocket-body {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      width: 64px;
+      height: 190px;
+      transform: translateX(-50%);
+      background: linear-gradient(180deg, #fff7dc, #d8d2c3 58%, #8d9694);
+      border-radius: 34px 34px 13px 13px;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      overflow: hidden;
+    }
+
+    .rocket-body::before {
+      content: "";
+      position: absolute;
+      top: 26px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      background: #15372e;
+      border: 4px solid rgba(231, 187, 87, 0.75);
+    }
+
+    .rocket-body::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 42px;
+      background: linear-gradient(90deg, rgba(8, 35, 28, 0.25), rgba(255,255,255,0.3), rgba(8, 35, 28, 0.25));
+    }
+
+    .fin {
+      position: absolute;
+      bottom: 116px;
+      width: 44px;
+      height: 72px;
+      background: linear-gradient(135deg, #b87931, #e7bb57);
+      clip-path: polygon(50% 0, 100% 100%, 0 100%);
+    }
+
+    .fin-left { left: 24px; transform: rotate(-28deg); }
+    .fin-right { right: 24px; transform: rotate(28deg); }
+
+    .flame {
+      position: absolute;
+      left: 50%;
+      top: 168px;
+      transform: translateX(-50%);
+      width: 82px;
+      height: 150px;
+      background: radial-gradient(circle at 50% 18%, #fff6cf 0 14%, #f2c35f 26%, #e7822e 47%, rgba(231, 130, 46, 0) 72%);
+      filter: blur(0.2px);
+      clip-path: ellipse(38% 50% at 50% 32%);
+      opacity: 0.98;
+    }
+
+    .smoke {
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      transform: translateX(-50%);
+      width: 220px;
+      height: 92px;
+      background:
+        radial-gradient(circle at 24% 55%, rgba(255,255,255,0.45), transparent 34%),
+        radial-gradient(circle at 55% 48%, rgba(255,255,255,0.38), transparent 42%),
+        radial-gradient(circle at 82% 62%, rgba(255,255,255,0.32), transparent 38%);
+      filter: blur(5px);
+      opacity: 0.6;
+    }
+
+    .dashboard {
+      position: relative;
+      z-index: 3;
+      margin-top: 1.2rem;
+      margin-left: auto;
+      width: min(100%, 520px);
+      border-radius: 30px;
+      padding: 1.15rem;
+      background: linear-gradient(135deg, rgba(255,255,255,0.17), rgba(255,255,255,0.05));
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      box-shadow: 0 28px 90px rgba(0,0,0,0.28);
+      backdrop-filter: blur(20px);
+    }
+
+    .dashboard-inner {
+      border-radius: 24px;
+      padding: 1.2rem;
+      background: rgba(5, 25, 21, 0.66);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .dash-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.05rem;
+    }
+
+    .dash-title {
+      font-size: 0.95rem;
+      font-weight: 900;
+      color: #ffffff;
+      margin-bottom: 0.25rem;
+    }
+
+    .dash-subtitle {
+      font-size: 0.76rem;
+      color: rgba(255,255,255,0.62);
+      line-height: 1.4;
+    }
+
+    .dash-pill {
+      padding: 0.42rem 0.55rem;
+      border-radius: 999px;
+      background: rgba(231, 187, 87, 0.12);
+      color: var(--gold-2);
+      font-size: 0.68rem;
+      font-weight: 900;
+      white-space: nowrap;
+      border: 1px solid rgba(231, 187, 87, 0.22);
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.65rem;
+      margin-bottom: 1rem;
+    }
+
+    .metric {
+      padding: 0.85rem 0.75rem;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.075);
+      border: 1px solid rgba(255,255,255,0.09);
+    }
+
+    .metric-label {
+      font-size: 0.62rem;
+      color: rgba(255,255,255,0.52);
+      margin-bottom: 0.32rem;
+    }
+
+    .metric-value {
+      font-size: 1.08rem;
+      color: #ffffff;
+      font-weight: 950;
+      letter-spacing: -0.04em;
+    }
+
+    .metric-note {
+      font-size: 0.58rem;
+      color: rgba(255,255,255,0.45);
+      margin-top: 0.3rem;
+    }
+
+    .progress-card,
+    .task-card {
+      padding: 0.95rem;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.09);
+    }
+
+    .progress-card {
+      margin-bottom: 0.7rem;
+    }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      font-size: 0.72rem;
+      font-weight: 850;
+      color: rgba(255,255,255,0.76);
+      margin-bottom: 1.05rem;
+    }
+
+    .progress-line {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.2rem;
+      align-items: start;
+    }
+
+    .progress-line::before {
+      content: "";
+      position: absolute;
+      left: 7%;
+      right: 7%;
+      top: 10px;
+      height: 2px;
+      background: rgba(255,255,255,0.16);
+    }
+
+    .progress-line::after {
+      content: "";
+      position: absolute;
+      left: 7%;
+      width: 48%;
+      top: 10px;
+      height: 2px;
+      background: linear-gradient(90deg, #78e08f, var(--gold));
+      box-shadow: 0 0 18px rgba(120, 224, 143, 0.45);
+    }
+
+    .step {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      justify-items: center;
+      gap: 0.42rem;
+      color: rgba(255,255,255,0.54);
+      font-size: 0.58rem;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .dot {
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      background: #14352d;
+      border: 2px solid rgba(255,255,255,0.28);
+    }
+
+    .step.done .dot,
+    .step.active .dot {
+      border-color: rgba(120, 224, 143, 0.95);
+      background: #78e08f;
+      box-shadow: 0 0 0 5px rgba(120,224,143,0.12);
+    }
+
+    .step.active .dot {
+      background: var(--gold);
+      border-color: var(--gold-2);
+      box-shadow: 0 0 0 5px rgba(231,187,87,0.13);
+    }
+
+    .task-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.85rem;
+    }
+
+    .task-eyebrow {
+      font-size: 0.62rem;
+      font-weight: 900;
+      color: var(--gold-2);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.28rem;
+    }
+
+    .task-title {
+      font-size: 0.82rem;
+      color: #ffffff;
+      font-weight: 900;
+      margin-bottom: 0.2rem;
+    }
+
+    .task-copy {
+      font-size: 0.68rem;
+      color: rgba(255,255,255,0.55);
+    }
+
+    .task-button {
+      flex: 0 0 auto;
+      padding: 0.62rem 0.78rem;
+      border-radius: 999px;
+      border: 1px solid rgba(231,187,87,0.35);
+      color: var(--gold-2);
+      font-size: 0.68rem;
+      font-weight: 900;
+    }
+
+    .floating-badge {
+      position: absolute;
+      z-index: 4;
+      left: 12px;
+      bottom: 34px;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      max-width: 270px;
+      padding: 0.9rem 1rem;
+      border-radius: 20px;
+      background: rgba(8, 35, 28, 0.86);
+      border: 1px solid rgba(231,187,87,0.28);
+      box-shadow: 0 18px 54px rgba(0,0,0,0.28);
+      backdrop-filter: blur(18px);
+    }
+
+    .badge-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: rgba(231,187,87,0.12);
+      color: var(--gold-2);
+      flex: 0 0 auto;
+    }
+
+    .badge-copy {
+      color: #ffffff;
+      font-family: "Source Serif 4", Georgia, serif;
+      font-size: 1.08rem;
+      font-weight: 800;
+      line-height: 1.02;
+      letter-spacing: -0.03em;
+    }
+
+    .section {
+      padding: 5.4rem clamp(1.1rem, 4vw, 4rem);
+      position: relative;
+    }
+
+    .section-inner {
+      max-width: 1240px;
+      margin: 0 auto;
+    }
+
+    .section-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 0.76fr) minmax(420px, 1fr);
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .section-kicker {
+      display: block;
+      color: var(--green);
+      font-size: 0.72rem;
+      font-weight: 950;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+
+    .section-title {
+      color: var(--ink);
+      font-size: clamp(2.4rem, 4vw, 4rem);
+      line-height: 0.95;
+      max-width: 760px;
+      margin-bottom: 1rem;
+    }
+
+    .section-copy {
+      color: #4d5d57;
+      font-size: 1.02rem;
+      line-height: 1.78;
+      max-width: 720px;
+    }
+
+    .card-grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .mini-card {
+      padding: 1.35rem;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.75);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .mini-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 15px;
+      display: grid;
+      place-items: center;
+      background: rgba(231,187,87,0.12);
+      color: #b57b1c;
+      margin-bottom: 0.95rem;
+    }
+
+    .mini-card h3 {
+      font-size: 1rem;
+      line-height: 1.1;
+      letter-spacing: -0.035em;
+      margin-bottom: 0.55rem;
+    }
+
+    .mini-card p {
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.55;
+    }
+
+    .solution-panel {
+      margin-top: 2.2rem;
+      padding: 1.4rem;
+      border-radius: 30px;
+      background:
+        radial-gradient(circle at 92% 10%, rgba(231,187,87,0.19), transparent 18rem),
+        linear-gradient(135deg, #08231c, #0f3a31 72%, #1d5448);
+      color: #ffffff;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .pillar-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.8rem;
+    }
+
+    .pillar {
+      padding: 1.25rem;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.055);
+      border: 1px solid rgba(255,255,255,0.10);
+    }
+
+    .pillar svg {
+      color: var(--gold-2);
+      margin-bottom: 0.95rem;
+    }
+
+    .pillar h3 {
+      color: #ffffff;
+      font-size: 0.96rem;
+      margin-bottom: 0.55rem;
+      letter-spacing: -0.025em;
+    }
+
+    .pillar p {
+      color: rgba(255,255,255,0.66);
+      font-size: 0.88rem;
+      line-height: 1.56;
+    }
+
+    .tinted {
+      background: linear-gradient(180deg, #f6faf7 0%, #fffdf8 100%);
+      border-block: 1px solid var(--line);
+    }
+
+    .pathway-wrap {
+      margin-top: 2rem;
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 1rem;
+      position: relative;
+    }
+
+    .pathway-card {
+      position: relative;
+      padding: 1.4rem 1.15rem 1.3rem;
+      border-radius: 24px;
+      background: #fffdf8;
+      border: 1px solid rgba(192, 146, 57, 0.18);
+      box-shadow: var(--shadow-soft);
+      min-height: 190px;
+    }
+
+    .pathway-card:not(:last-child)::after {
+      content: "→";
+      position: absolute;
+      right: -0.82rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #ba8427;
+      font-weight: 900;
+      z-index: 2;
+    }
+
+    .stage-number {
+      color: #ba8427;
+      font-weight: 950;
+      margin-bottom: 1.4rem;
+    }
+
+    .pathway-card h3 {
+      font-size: 0.98rem;
+      text-transform: uppercase;
+      letter-spacing: 0.055em;
+      margin-bottom: 0.65rem;
+    }
+
+    .pathway-card p {
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.56;
+    }
+
+    .track-band {
+      margin-top: 2.4rem;
+      border-radius: 34px;
+      overflow: hidden;
+      background:
+        linear-gradient(90deg, rgba(8,35,28,0.96) 0%, rgba(8,35,28,0.9) 52%, rgba(8,35,28,0.35) 100%),
+        radial-gradient(circle at 90% 40%, rgba(231,187,87,0.32), transparent 24rem),
+        linear-gradient(135deg, #071f1a, #153f36 54%, #875f2a 100%);
+      color: #ffffff;
+      padding: 2rem;
+      position: relative;
+      box-shadow: var(--shadow);
+    }
+
+    .track-band::after {
+      content: "";
+      position: absolute;
+      right: -2rem;
+      top: 0;
+      bottom: 0;
+      width: 45%;
+      background:
+        radial-gradient(circle at 80% 50%, rgba(255,255,255,0.12), transparent 10rem),
+        linear-gradient(135deg, transparent 0%, rgba(231,187,87,0.1) 100%);
+      clip-path: polygon(28% 0, 100% 0, 100% 100%, 0 100%);
+    }
+
+    .track-band-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .track-band h2 {
+      font-size: clamp(2rem, 3vw, 3.2rem);
+      line-height: 0.98;
+      max-width: 680px;
+      margin-bottom: 0.6rem;
+    }
+
+    .track-band p {
+      color: rgba(255,255,255,0.72);
+      margin-bottom: 1.45rem;
+      line-height: 1.65;
+    }
+
+    .tracks-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.9rem;
+      max-width: 980px;
+    }
+
+    .track-card {
+      padding: 1.15rem;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.075);
+      border: 1px solid rgba(255,255,255,0.12);
+      backdrop-filter: blur(12px);
+    }
+
+    .track-card svg {
+      color: var(--gold-2);
+      margin-bottom: 0.8rem;
+    }
+
+    .track-card h3 {
+      color: #ffffff;
+      font-size: 0.98rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .track-card ul {
+      padding-left: 1rem;
+      color: rgba(255,255,255,0.66);
+      font-size: 0.83rem;
+      line-height: 1.65;
+      margin-top: 0.55rem;
+    }
+
+    .curriculum-grid {
+      margin-top: 1.8rem;
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .skill-card {
+      padding: 1.25rem;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.82);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow-soft);
+      min-height: 164px;
+    }
+
+    .skill-card svg {
+      color: #bb8322;
+      margin-bottom: 1rem;
+    }
+
+    .skill-card h3 {
+      font-size: 0.94rem;
+      line-height: 1.12;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.5rem;
+    }
+
+    .skill-card p {
+      color: var(--muted);
+      font-size: 0.83rem;
+      line-height: 1.52;
+    }
+
+    .works-row {
+      margin-top: 1.9rem;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .works-item {
+      display: flex;
+      gap: 0.9rem;
+      align-items: flex-start;
+      padding: 1.1rem;
+      border-radius: 22px;
+      background: #ffffff;
+      border: 1px solid var(--line);
+    }
+
+    .works-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      background: var(--mint);
+      color: var(--green);
+      flex: 0 0 auto;
+    }
+
+    .works-item h3 {
+      font-size: 0.96rem;
+      margin-bottom: 0.35rem;
+      letter-spacing: -0.03em;
+    }
+
+    .works-item p {
+      color: var(--muted);
+      font-size: 0.84rem;
+      line-height: 1.5;
+    }
+
+    .fit-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 0.72fr) minmax(0, 1fr) minmax(0, 1fr);
+      gap: 1.25rem;
+      align-items: stretch;
+      margin-top: 1.6rem;
+    }
+
+    .fit-card {
+      padding: 1.45rem;
+      border-radius: 24px;
+      border: 1px solid var(--line);
+      background: #ffffff;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .fit-card.good {
+      background: linear-gradient(180deg, #f0fbf3, #ffffff);
+    }
+
+    .fit-card.bad {
+      background: linear-gradient(180deg, #fff0f0, #ffffff);
+    }
+
+    .fit-card h3 {
+      margin-bottom: 0.9rem;
+      font-size: 1rem;
+      letter-spacing: -0.025em;
+    }
+
+    .check-list {
+      list-style: none;
+      display: grid;
+      gap: 0.65rem;
+      color: #485b54;
+      font-size: 0.9rem;
+      line-height: 1.45;
+    }
+
+    .check-list li {
+      display: flex;
+      gap: 0.55rem;
+      align-items: flex-start;
+    }
+
+    .check,
+    .x {
+      font-weight: 950;
+      flex: 0 0 auto;
+      margin-top: 0.02rem;
+    }
+
+    .check { color: #16823a; }
+    .x { color: #d53030; }
+
+    .cta-section {
+      position: relative;
+      overflow: hidden;
+      padding: 5.2rem clamp(1.1rem, 4vw, 4rem);
+      background:
+        radial-gradient(circle at 82% 20%, rgba(231,187,87,0.26), transparent 20rem),
+        linear-gradient(135deg, #061d18, #10362d 52%, #8c652c);
+      color: #ffffff;
+    }
+
+    .cta-inner {
+      max-width: 1240px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(0, 0.85fr) 420px;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .cta-section h2 {
+      font-size: clamp(2.6rem, 4.8vw, 5rem);
+      line-height: 0.92;
+      max-width: 760px;
+      margin-bottom: 1rem;
+    }
+
+    .cta-section p {
+      color: rgba(255,255,255,0.76);
+      font-size: 1.05rem;
+      line-height: 1.72;
+      margin-bottom: 1.5rem;
+      max-width: 640px;
+    }
+
+    .cohort-card {
+      padding: 1.35rem;
+      border-radius: 28px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.16);
+      box-shadow: 0 24px 70px rgba(0,0,0,0.2);
+      backdrop-filter: blur(18px);
+    }
+
+    .cohort-card .section-kicker {
+      color: var(--gold-2);
+    }
+
+    .cohort-card h3 {
+      color: #ffffff;
+      font-size: 1.15rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .cohort-card ul {
+      list-style: none;
+      display: grid;
+      gap: 0.6rem;
+      color: rgba(255,255,255,0.7);
+      font-size: 0.92rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .avatar-row {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      color: rgba(255,255,255,0.72);
+      font-size: 0.84rem;
+      font-weight: 800;
+    }
+
+    .avatars {
+      display: flex;
+    }
+
+    .avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #f1d38b, #8f5c35);
+      border: 2px solid rgba(255,255,255,0.5);
+      margin-left: -9px;
+    }
+
+    .avatar:first-child {
+      margin-left: 0;
+    }
+
+    .footer {
+      padding: 1.45rem clamp(1.1rem, 4vw, 4rem);
+      background: #061d18;
+      color: rgba(255,255,255,0.58);
+    }
+
+    .footer-inner {
+      max-width: 1240px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      font-size: 0.82rem;
+    }
+
+    .footer .brand {
+      color: #ffffff;
+    }
+
+    @media (max-width: 1120px) {
+      .hero-inner,
+      .section-grid,
+      .cta-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .visual-stage {
+        min-height: 500px;
+      }
+
+      .dashboard {
+        margin-left: 0;
+      }
+
+      .hero-proof,
+      .card-grid-4,
+      .pillar-grid,
+      .tracks-grid,
+      .works-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .pathway-wrap {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .pathway-card::after {
+        display: none;
+      }
+
+      .curriculum-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .fit-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .topbar {
+        padding-top: 1rem;
+      }
+
+      .nav a:not(.nav-cta) {
+        display: none;
+      }
+
+      .hero {
+        padding-top: 6.7rem;
+        min-height: auto;
+      }
+
+      .hero-inner {
+        gap: 2.4rem;
+      }
+
+      h1 {
+        font-size: clamp(3rem, 15vw, 4.2rem);
+      }
+
+      .hero-proof,
+      .card-grid-4,
+      .pillar-grid,
+      .tracks-grid,
+      .works-row,
+      .pathway-wrap,
+      .curriculum-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .visual-stage {
+        min-height: auto;
+        padding-bottom: 8.5rem;
+      }
+
+      .rocket {
+        width: 120px;
+        right: -1rem;
+        bottom: -1rem;
+        transform: scale(0.82);
+        transform-origin: bottom right;
+      }
+
+      .dashboard {
+        width: 100%;
+      }
+
+      .metrics {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .floating-badge {
+        left: 0;
+        bottom: 0;
+        right: 4rem;
+      }
+
+      .task-card {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .section {
+        padding-top: 4rem;
+        padding-bottom: 4rem;
+      }
+
+      .track-band {
+        padding: 1.25rem;
+        border-radius: 26px;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    @media (max-width: 430px) {
+      .brand {
+        font-size: 0.92rem;
+      }
+
+      .nav-cta {
+        padding: 0.7rem 0.82rem;
+        font-size: 0.78rem;
+      }
+
+      .hero-actions .btn {
+        width: 100%;
+      }
+
+      .progress-line {
+        grid-template-columns: 1fr;
+        gap: 0.55rem;
+      }
+
+      .progress-line::before,
+      .progress-line::after {
+        display: none;
+      }
+
+      .step {
+        grid-template-columns: 22px 1fr;
+        justify-items: start;
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="site-shell">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a class="brand" href="/">
+          <span class="brand-mark" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <path d="M12 2v20M2 12h20M4.9 4.9l14.2 14.2M19.1 4.9 4.9 19.1" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+            </svg>
+          </span>
+          Covo Multipliers
+        </a>
+
+        <nav class="nav" aria-label="Primary navigation">
+          <a href="#pathway">Pathway</a>
+          <a href="#tracks">Tracks</a>
+          <a href="#curriculum">Curriculum</a>
+          <a href="#fit">Fit</a>
+          <a class="nav-cta" href="#interest">Join Interest List</a>
+        </nav>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="hero-inner">
+        <div class="hero-copy">
+          <span class="eyebrow">Sentrepreneur Launchpad</span>
+
+          <h1>Launch a real business. <span class="gold-text">Build income, skill, and <span class="italic">mission</span> together.</span></h1>
+
+          <p class="hero-lead">
+            Practical startup training for emerging founders who want to build businesses that create real value and become platforms for disciple-making in everyday life.
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#interest">Join the Interest List</a>
+            <a class="btn btn-secondary" href="#pathway">Explore the Pathway <span aria-hidden="true">→</span></a>
+          </div>
+
+          <div class="hero-proof" aria-label="Program highlights">
+            <div class="proof-item">
+              <span class="proof-icon" aria-hidden="true">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 3v18M4 12h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              </span>
+              Covocational by design
+            </div>
+            <div class="proof-item">
+              <span class="proof-icon" aria-hidden="true">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 12h16M12 4v16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              </span>
+              Faith + work integrated
+            </div>
+            <div class="proof-item">
+              <span class="proof-icon" aria-hidden="true">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 19 19 5M8 5h11v11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              Practice-first training
+            </div>
+            <div class="proof-item">
+              <span class="proof-icon" aria-hidden="true">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M8 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM16 21v-2a4 4 0 0 0-4-4H4a4 4 0 0 0-4 4v2M19 8v6M22 11h-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              </span>
+              Coach-guided journey
+            </div>
+          </div>
+        </div>
+
+        <div class="visual-stage" aria-label="Founder dashboard mockup">
+          <div class="orbit-line" aria-hidden="true"></div>
+
+          <div class="dashboard">
+            <div class="dashboard-inner">
+              <div class="dash-top">
+                <div>
+                  <p class="dash-title">Founder Dashboard</p>
+                  <p class="dash-subtitle">You’re building traction. Keep going.</p>
+                </div>
+                <span class="dash-pill">Week 7 of 12</span>
+              </div>
+
+              <div class="metrics">
+                <div class="metric">
+                  <p class="metric-label">Revenue</p>
+                  <p class="metric-value">$480</p>
+                  <p class="metric-note">First paid tests</p>
+                </div>
+                <div class="metric">
+                  <p class="metric-label">Customer talks</p>
+                  <p class="metric-value">18</p>
+                  <p class="metric-note">Discovery reps</p>
+                </div>
+                <div class="metric">
+                  <p class="metric-label">Offer clarity</p>
+                  <p class="metric-value">72%</p>
+                  <p class="metric-note">Sharper weekly</p>
+                </div>
+                <div class="metric">
+                  <p class="metric-label">Next milestone</p>
+                  <p class="metric-value">1st</p>
+                  <p class="metric-note">Paid customer</p>
+                </div>
+              </div>
+
+              <div class="progress-card">
+                <div class="progress-header">
+                  <span>Launch Progress</span>
+                  <span>Validation Sprint</span>
+                </div>
+
+                <div class="progress-line">
+                  <div class="step done"><span class="dot"></span><span>Foundation</span></div>
+                  <div class="step done"><span class="dot"></span><span>Validate</span></div>
+                  <div class="step active"><span class="dot"></span><span>Build</span></div>
+                  <div class="step"><span class="dot"></span><span>Launch</span></div>
+                  <div class="step"><span class="dot"></span><span>Multiply</span></div>
+                </div>
+              </div>
+
+              <div class="task-card">
+                <div>
+                  <p class="task-eyebrow">Next Rep</p>
+                  <p class="task-title">Book 5 customer discovery conversations</p>
+                  <p class="task-copy">Learn what people will actually pay for this week.</p>
+                </div>
+                <a class="task-button" href="#curriculum">View Sprint</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="rocket" aria-hidden="true">
+            <div class="rocket-body"></div>
+            <div class="fin fin-left"></div>
+            <div class="fin fin-right"></div>
+            <div class="flame"></div>
+            <div class="smoke"></div>
+          </div>
+
+          <div class="floating-badge">
+            <div class="badge-icon" aria-hidden="true">
+              <svg width="23" height="23" viewBox="0 0 24 24" fill="none"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </div>
+            <p class="badge-copy">Build a business. Multiply impact.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-inner section-grid">
+        <div>
+          <span class="section-kicker">The problem</span>
+          <h2 class="section-title">The traditional path wasn’t built for modern founders.</h2>
+          <p class="section-copy">
+            Most leadership tracks focus on positions, not platforms. They assume you have all the time, money, and connections. And they rarely prepare you to build a business that funds your mission.
+          </p>
+        </div>
+
+        <div class="card-grid-4">
+          <article class="mini-card">
+            <div class="mini-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 7h18M7 7V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2M6 7v13h12V7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+            <h3>Jobs, not ownership</h3>
+            <p>You are trained to get hired, not to build.</p>
+          </article>
+
+          <article class="mini-card">
+            <div class="mini-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 3v18M5 8h14M7 8l-3 6h6L7 8ZM17 8l-3 6h6l-3-6Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+            <h3>Theory over reps</h3>
+            <p>Too much information. Not enough practice.</p>
+          </article>
+
+          <article class="mini-card">
+            <div class="mini-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 1 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+            <h3>Life vs. calling</h3>
+            <p>Faith and work feel separate, not integrated.</p>
+          </article>
+
+          <article class="mini-card">
+            <div class="mini-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7H14a3.5 3.5 0 0 1 0 7H6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+            <h3>Income uncertainty</h3>
+            <p>Good intentions do not pay the bills.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section tinted">
+      <div class="section-inner section-grid">
+        <div>
+          <span class="section-kicker">The solution</span>
+          <h2 class="section-title">A sentrepreneur builds businesses that fund mission and freedom.</h2>
+          <p class="section-copy">
+            A sentrepreneur is a founder who builds real businesses in the real world, creating value, generating income, and multiplying impact. You do not need to quit your job. You need a proven pathway, practical training, and a community that goes with you.
+          </p>
+        </div>
+
+        <div class="solution-panel">
+          <div class="pillar-grid">
+            <article class="pillar">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M3 21h18M5 21V8l7-5 7 5v13M9 21v-6h6v6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              <h3>Real Business</h3>
+              <p>Create products and services people will pay for.</p>
+            </article>
+
+            <article class="pillar">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7H14a3.5 3.5 0 0 1 0 7H6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              <h3>Sustainable Income</h3>
+              <p>Build profit on purpose to fund your life and mission.</p>
+            </article>
+
+            <article class="pillar">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM23 21v-2a4 4 0 0 0-3-3.87" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              <h3>Kingdom Impact</h3>
+              <p>Use your business as a platform for discipleship and good.</p>
+            </article>
+
+            <article class="pillar">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M5 19 19 5M8 5h11v11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <h3>Freedom by Design</h3>
+              <p>Build margin, meaning, and multiplication into the model.</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="pathway">
+      <div class="section-inner">
+        <span class="section-kicker">The pathway</span>
+        <h2 class="section-title">From training to traction, then multiplication.</h2>
+        <p class="section-copy">A proven five-stage journey that turns ideas into income and calling into impact.</p>
+
+        <div class="pathway-wrap">
+          <article class="pathway-card">
+            <p class="stage-number">1</p>
+            <h3>Foundation</h3>
+            <p>Clarify your calling, validate your idea, and define your offer.</p>
+          </article>
+
+          <article class="pathway-card">
+            <p class="stage-number">2</p>
+            <h3>Validate</h3>
+            <p>Talk to customers, solve real problems, and confirm demand.</p>
+          </article>
+
+          <article class="pathway-card">
+            <p class="stage-number">3</p>
+            <h3>Build</h3>
+            <p>Create your offer, systemize delivery, and set up operations.</p>
+          </article>
+
+          <article class="pathway-card">
+            <p class="stage-number">4</p>
+            <h3>Launch</h3>
+            <p>Get your first customers, deliver value, and earn income.</p>
+          </article>
+
+          <article class="pathway-card">
+            <p class="stage-number">5</p>
+            <h3>Multiply</h3>
+            <p>Reinvest, build systems, train others, and multiply impact.</p>
+          </article>
+        </div>
+
+        <div class="track-band" id="tracks">
+          <div class="track-band-content">
+            <span class="section-kicker" style="color: var(--gold-2);">Choose your startup track</span>
+            <h2>Build in the lane that fits your gifts and your world.</h2>
+            <p>Real businesses. Real customers. Real impact.</p>
+
+            <div class="tracks-grid">
+              <article class="track-card">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                <h3>Service Businesses</h3>
+                <p>Solve problems for local and online customers.</p>
+                <ul><li>Consulting</li><li>Marketing and design</li><li>Operations support</li></ul>
+              </article>
+
+              <article class="track-card">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M4 5h16v11H4zM8 21h8M12 16v5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                <h3>Digital Products</h3>
+                <p>Create once. Serve many.</p>
+                <ul><li>Online courses</li><li>Templates and tools</li><li>Memberships</li></ul>
+              </article>
+
+              <article class="track-card">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4H6ZM3 6h18M16 10a4 4 0 0 1-8 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                <h3>E-commerce Brands</h3>
+                <p>Products that solve real needs.</p>
+                <ul><li>Private label</li><li>Dropshipping</li><li>Niche brands</li></ul>
+              </article>
+
+              <article class="track-card">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="m8 12 2 2 4-4M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                <h3>Marketplace Services</h3>
+                <p>Connect people. Create value.</p>
+                <ul><li>Platforms</li><li>Agencies</li><li>Communities</li></ul>
+              </article>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section tinted" id="curriculum">
+      <div class="section-inner">
+        <span class="section-kicker">What you’ll learn</span>
+        <h2 class="section-title">Practical skills. Real-world reps. Measurable results.</h2>
+        <p class="section-copy">The curriculum is built around doing, not just knowing.</p>
+
+        <div class="curriculum-grid">
+          <article class="skill-card">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M21 15a4 4 0 0 1-4 4H7l-4 4V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4v8Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            <h3>Customer Discovery</h3>
+            <p>Find and validate problems worth solving.</p>
+          </article>
+
+          <article class="skill-card">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M12 20V10M18 20V4M6 20v-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            <h3>Offer and Positioning</h3>
+            <p>Build offers that stand out and sell.</p>
+          </article>
+
+          <article class="skill-card">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M3 11l18-8-8 18-2-8-8-2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <h3>Marketing That Works</h3>
+            <p>Attract and convert your ideal customers.</p>
+          </article>
+
+          <article class="skill-card">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <h3>Sales and Fulfillment</h3>
+            <p>Close deals and deliver exceptional value.</p>
+          </article>
+
+          <article class="skill-card">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06A1.65 1.65 0 0 0 15 19.4a1.65 1.65 0 0 0-1 .6 1.65 1.65 0 0 0-.33 1.82 2 2 0 1 1-3.34 0A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-.6-1 1.65 1.65 0 0 0-1.82-.33 2 2 0 1 1 0-3.34A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-.6 1.65 1.65 0 0 0 .33-1.82 2 2 0 1 1 3.34 0A1.65 1.65 0 0 0 15 4.6a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 .6 1 1.65 1.65 0 0 0 1.82.33 2 2 0 1 1 0 3.34A1.65 1.65 0 0 0 19.4 15Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            <h3>Operations and Systems</h3>
+            <p>Build processes that create freedom.</p>
+          </article>
+
+          <article class="skill-card">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7H14a3.5 3.5 0 0 1 0 7H6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            <h3>Financial Confidence</h3>
+            <p>Track numbers, price with confidence, and grow profit.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-inner">
+        <span class="section-kicker">How it works</span>
+        <h2 class="section-title">Coached. Community. Covocational.</h2>
+        <p class="section-copy">We walk with you from idea to impact.</p>
+
+        <div class="works-row">
+          <article class="works-item">
+            <div class="works-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M21 15a4 4 0 0 1-4 4H7l-4 4V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4v8Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+            <div><h3>Live Coaching</h3><p>Weekly coaching and expert guidance.</p></div>
+          </article>
+
+          <article class="works-item">
+            <div class="works-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM23 21v-2a4 4 0 0 0-3-3.87" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+            <div><h3>Practitioner Community</h3><p>Learn and grow with fellow founders.</p></div>
+          </article>
+
+          <article class="works-item">
+            <div class="works-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M5 19 19 5M8 5h11v11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div><h3>Action Sprints</h3><p>Short, focused sprints that create momentum.</p></div>
+          </article>
+
+          <article class="works-item">
+            <div class="works-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M9 11l3 3L22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div><h3>Accountability</h3><p>Stay on track with measurable goals.</p></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section tinted" id="fit">
+      <div class="section-inner fit-grid">
+        <div>
+          <span class="section-kicker">Who it’s for</span>
+          <h2 class="section-title">Made for emerging founders who want more than a job.</h2>
+          <p class="section-copy">You do not need permission. You need preparation.</p>
+        </div>
+
+        <article class="fit-card good">
+          <h3>You are a good fit if you...</h3>
+          <ul class="check-list">
+            <li><span class="check">✓</span><span>Want to build a business around your calling</span></li>
+            <li><span class="check">✓</span><span>Desire income, impact, and freedom</span></li>
+            <li><span class="check">✓</span><span>Want practical training with real accountability</span></li>
+            <li><span class="check">✓</span><span>Are ready to learn by doing</span></li>
+          </ul>
+        </article>
+
+        <article class="fit-card bad">
+          <h3>This may not be for you if you...</h3>
+          <ul class="check-list">
+            <li><span class="x">×</span><span>Want a shortcut to get rich quick</span></li>
+            <li><span class="x">×</span><span>Prefer theory over practice</span></li>
+            <li><span class="x">×</span><span>Aren’t willing to put in consistent work</span></li>
+            <li><span class="x">×</span><span>Don’t care about impact beyond income</span></li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="cta-section" id="interest">
+      <div class="cta-inner">
+        <div>
+          <h2>Your business can be the launchpad for your calling.</h2>
+          <p>Join the next cohort of sentrepreneurs building what matters.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="mailto:hello@covomultipliers.com?subject=Sentrepreneur%20Launchpad%20Interest">Join the Interest List</a>
+            <a class="btn btn-secondary" href="#pathway">Explore the Pathway <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+
+        <aside class="cohort-card">
+          <span class="section-kicker">Next cohort</span>
+          <h3>Applications open soon.</h3>
+          <ul>
+            <li><span class="check">✓</span> Live cohort experience</li>
+            <li><span class="check">✓</span> 12-week guided journey</li>
+            <li><span class="check">✓</span> Limited seats for quality coaching</li>
+          </ul>
+          <div class="avatar-row">
+            <div class="avatars" aria-hidden="true">
+              <span class="avatar"></span>
+              <span class="avatar"></span>
+              <span class="avatar"></span>
+              <span class="avatar"></span>
+            </div>
+            <span>Be the first to know.</span>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        <a class="brand" href="/">
+          <span class="brand-mark" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <path d="M12 2v20M2 12h20M4.9 4.9l14.2 14.2M19.1 4.9 4.9 19.1" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+            </svg>
+          </span>
+          Covo Multipliers
+        </a>
+        <p>Build a business. Multiply impact. Change the world.</p>
+        <p>© 2026 Covo Multipliers.</p>
+      </div>
+    </footer>
+  </main>
+</body>
+</html>
