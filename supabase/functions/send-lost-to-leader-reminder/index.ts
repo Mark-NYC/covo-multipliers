@@ -4,7 +4,12 @@
 //
 // POST /functions/v1/send-lost-to-leader-reminder
 // Headers: x-admin-secret: <ADMIN_EMAIL_SEND_SECRET>
-// Body: { "type": "24_hour" | "1_hour" }
+// Body: { "type": "24_hour" | "1_hour", "test_email"?: string, "dry_run"?: boolean }
+//
+// Modes:
+//   (default)              — send to all eligible registrants; stamp sent timestamps.
+//   test_email: "a@b.com"  — send one real email to that address only; nothing stamped.
+//   dry_run: true          — no emails sent; returns who would receive them.
 //
 // 1. Verify the admin secret header — returns 401 if missing or wrong.
 // 2. Resolve the Lost to Leader event ID from the events table.
@@ -63,7 +68,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
     return jsonResp(400, { error: "Request body must be valid JSON." });
   }
 
-  const { type } = body;
+  const { type, test_email, dry_run } = body;
   if (type !== "24_hour" && type !== "1_hour") {
     return jsonResp(400, { error: "type must be \"24_hour\" or \"1_hour\"." });
   }
@@ -73,13 +78,24 @@ Deno.serve(async (req: Request): Promise<Response> => {
     ? "reminder_24h_sent_at"
     : "reminder_1h_sent_at";
 
+  const isTestMode = typeof test_email === "string" && test_email.trim().length > 0;
+  const isDryRun = dry_run === true;
+
+  if (isTestMode && isDryRun) {
+    return jsonResp(400, { error: "test_email and dry_run cannot both be set." });
+  }
+  if (isTestMode && !isEmail(test_email as string)) {
+    return jsonResp(400, { error: "test_email must be a valid email address." });
+  }
+
   // --- Env vars ---
+  // In dry_run mode we never call Resend, so skip the key check.
   const resendApiKey = Deno.env.get("RESEND_API_KEY");
   const fromEmail = Deno.env.get("FROM_EMAIL") ?? "labs@covomultipliers.com";
   const zoomLink = Deno.env.get("LOST_TO_LEADER_ZOOM_LINK") ?? "(Zoom link not configured)";
   const startTime = Deno.env.get("LOST_TO_LEADER_START_TIME") ?? "(time not configured)";
 
-  if (!resendApiKey) {
+  if (!resendApiKey && !isDryRun) {
     console.error("[reminder] RESEND_API_KEY is not set");
     return jsonResp(500, { error: "RESEND_API_KEY is not configured." });
   }
@@ -111,6 +127,8 @@ Deno.serve(async (req: Request): Promise<Response> => {
   // Fetch registrations for this event that:
   //   (a) have an email address, and
   //   (b) have not yet received this reminder (column is null).
+  // In test_email mode we still query the real list so total_found reflects
+  // reality, but we only send to the provided address.
   const { data: rows, error: queryErr } = await supabase
     .from("registrations")
     .select("id, name, email")
@@ -124,31 +142,42 @@ Deno.serve(async (req: Request): Promise<Response> => {
   }
 
   // Filter out rows with an empty email just in case
-  const recipients = (rows ?? []).filter((r) => r.email && r.email.trim().length > 0);
-  const totalFound = recipients.length;
+  const allRecipients = (rows ?? []).filter((r) => r.email && r.email.trim().length > 0);
+  const totalFound = allRecipients.length;
 
-  console.log(`[reminder] type=${reminderType} event_id=${event.id} recipients=${totalFound}`);
+  console.log(
+    `[reminder] type=${reminderType} event_id=${event.id} total_eligible=${totalFound}` +
+    (isTestMode ? ` [TEST MODE → ${test_email}]` : "") +
+    (isDryRun ? " [DRY RUN]" : ""),
+  );
 
-  if (totalFound === 0) {
+  // --- Dry run: return the list, touch nothing ---
+  if (isDryRun) {
     return jsonResp(200, {
       type: reminderType,
-      total_found: 0,
-      sent_count: 0,
-      failed_count: 0,
-      failed_emails: [],
+      mode: "dry_run",
+      total_found: totalFound,
+      would_email: allRecipients.map((r) => r.email),
     });
   }
 
-  // --- Send in batches ---
+  // --- Determine who actually gets emailed ---
+  // test_email: send one email to the provided address (name defaults to "there"
+  // since we're not looking up a real registration for that address).
+  // Production: send to every eligible registrant.
+  const sendList = isTestMode
+    ? [{ id: null, name: "there", email: (test_email as string).trim().toLowerCase() }]
+    : allRecipients;
+
+  const subject = reminderType === "24_hour"
+    ? "Tomorrow: Lost to Leader Lab"
+    : "Starting in 1 hour: Lost to Leader Lab";
+
   let sentCount = 0;
   const failedEmails: string[] = [];
 
-  for (let i = 0; i < recipients.length; i += BATCH_SIZE) {
-    const chunk = recipients.slice(i, i + BATCH_SIZE);
-
-    const subject = reminderType === "24_hour"
-      ? "Tomorrow: Lost to Leader Lab"
-      : "Starting in 1 hour: Lost to Leader Lab";
+  for (let i = 0; i < sendList.length; i += BATCH_SIZE) {
+    const chunk = sendList.slice(i, i + BATCH_SIZE);
 
     const batchPayload = chunk.map((r) => ({
       from: `Mark <${fromEmail}>`,
@@ -195,32 +224,43 @@ Deno.serve(async (req: Request): Promise<Response> => {
     }
 
     // Update rows individually — only mark sent for emails with a returned ID.
+    // In test_email mode we never stamp the database (id is null for the test
+    // recipient, and the real registrants were not emailed).
     for (let j = 0; j < chunk.length; j++) {
       const r = chunk[j];
       const result = batchOk ? (batchResults[j] ?? null) : null;
 
-      if (result?.id) {
-        const { error: updateErr } = await supabase
-          .from("registrations")
-          .update({ [sentAtColumn]: new Date().toISOString() })
-          .eq("id", r.id);
-
-        if (updateErr) {
-          console.error(
-            `[reminder] update failed for registration_id=${r.id} email=${r.email}:`,
-            JSON.stringify(updateErr),
-          );
-          failedEmails.push(r.email);
-        } else {
-          console.log(`[reminder] sent + marked: email=${r.email} msg_id=${result.id}`);
-          sentCount++;
-        }
-      } else {
+      if (!result?.id) {
         console.error(
           `[reminder] no Resend message ID for email=${r.email}, result=`,
           JSON.stringify(result),
         );
         failedEmails.push(r.email);
+        continue;
+      }
+
+      console.log(`[reminder] sent: email=${r.email} msg_id=${result.id}`);
+
+      if (isTestMode) {
+        // Test send succeeded — do not touch the database.
+        sentCount++;
+        continue;
+      }
+
+      const { error: updateErr } = await supabase
+        .from("registrations")
+        .update({ [sentAtColumn]: new Date().toISOString() })
+        .eq("id", r.id);
+
+      if (updateErr) {
+        console.error(
+          `[reminder] update failed for registration_id=${r.id} email=${r.email}:`,
+          JSON.stringify(updateErr),
+        );
+        failedEmails.push(r.email);
+      } else {
+        console.log(`[reminder] marked sent: registration_id=${r.id}`);
+        sentCount++;
       }
     }
   }
@@ -231,6 +271,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
 
   return jsonResp(200, {
     type: reminderType,
+    ...(isTestMode ? { mode: "test", test_email: (test_email as string).trim().toLowerCase() } : {}),
     total_found: totalFound,
     sent_count: sentCount,
     failed_count: failedEmails.length,
@@ -294,6 +335,10 @@ Mark`;
 
 function firstWord(name: string): string {
   return name.trim().split(/\s+/)[0] ?? name.trim();
+}
+
+function isEmail(s: string): boolean {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s.trim());
 }
 
 function jsonResp(status: number, body: Record<string, unknown>): Response {
