@@ -6,3 +6,6 @@ verify_jwt = false
 
 [functions.contact]
 verify_jwt = false
+
+[functions.whatsapp-request]
+verify_jwt = false
