@@ -9,3 +9,6 @@ verify_jwt = false
 
 [functions.whatsapp-request]
 verify_jwt = false
+
+[functions.send-lost-to-leader-reminder]
+verify_jwt = false
