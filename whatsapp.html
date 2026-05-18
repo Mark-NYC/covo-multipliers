@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Join the Covo Multipliers WhatsApp community. Stay connected after the lab with prompts, next steps, prayer requests, and real-time updates.">
+    <title>Join the WhatsApp — Covo Multipliers</title>
+    <link rel="canonical" href="https://covomultipliers.com/whatsapp.html">
+
+    <style>
+        /* ==============================================
+           WhatsApp Landing Page — Covo Multipliers
+        ============================================== */
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                         Helvetica, Arial, sans-serif;
+            background: #f7f6f2;
+            color: #1a1a1a;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        img { max-width: 100%; display: block; }
+
+
+        /* -----------------------------------------------
+           SITE HEADER
+        ----------------------------------------------- */
+
+        .site-header {
+            background: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .site-header .brand {
+            font-size: 0.95rem;
+            font-weight: 900;
+            color: #10281f;
+            text-decoration: none;
+            letter-spacing: -0.01em;
+        }
+
+        .site-header .back-link {
+            font-size: 0.875rem;
+            color: #5a6b65;
+            text-decoration: none;
+            transition: color 0.15s ease;
+        }
+
+        .site-header .back-link:hover { color: #1b4d3e; }
+
+
+        /* -----------------------------------------------
+           HERO
+        ----------------------------------------------- */
+
+        .hero {
+            background: linear-gradient(160deg,
+                #10281f 0%,
+                #1b4d3e 40%,
+                #2c6b5d 70%,
+                #9f7a2f 90%,
+                #dcb55a 100%
+            );
+            padding: 3.5rem 1.5rem 4rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background:
+                radial-gradient(ellipse at 15% 15%, rgba(255,255,255,0.06) 0%, transparent 55%),
+                radial-gradient(ellipse at 85% 85%, rgba(220,181,90,0.10) 0%, transparent 55%);
+        }
+
+        .hero-inner {
+            position: relative;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .hero-eyebrow {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 1rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5.5vw, 3rem);
+            font-weight: 900;
+            color: #ffffff;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            margin-bottom: 1.1rem;
+        }
+
+        .hero-sub {
+            font-size: 1.05rem;
+            color: rgba(255,255,255,0.8);
+            line-height: 1.65;
+            max-width: 480px;
+            margin: 0 auto 2.25rem;
+        }
+
+        /* WhatsApp CTA button */
+        .btn-whatsapp {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.65rem;
+            padding: 1rem 2rem;
+            background: #25D366;
+            color: #ffffff;
+            font-size: 1.05rem;
+            font-weight: 800;
+            font-family: inherit;
+            text-decoration: none;
+            border-radius: 999px;
+            border: none;
+            cursor: pointer;
+            letter-spacing: 0.01em;
+            box-shadow: 0 8px 28px rgba(37,211,102,0.35), 0 2px 8px rgba(0,0,0,0.18);
+            transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .btn-whatsapp:hover {
+            background: #1da851;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(37,211,102,0.4), 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .btn-whatsapp:active {
+            transform: translateY(0);
+        }
+
+        .btn-whatsapp:focus-visible {
+            outline: 3px solid #dcb55a;
+            outline-offset: 4px;
+        }
+
+        .whatsapp-icon {
+            width: 22px;
+            height: 22px;
+            flex-shrink: 0;
+        }
+
+        .hero-microcopy {
+            margin-top: 1rem;
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.45);
+        }
+
+
+        /* -----------------------------------------------
+           SECTION WRAPPER
+        ----------------------------------------------- */
+
+        .section-stack {
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 2.5rem 1.25rem 4rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 18px;
+            padding: 2rem 1.75rem;
+            box-shadow: 0 2px 16px rgba(16,40,31,0.06);
+        }
+
+        .card-eyebrow {
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #5a6b65;
+            margin-bottom: 0.5rem;
+        }
+
+        .card h2 {
+            font-size: 1.25rem;
+            font-weight: 900;
+            color: #10281f;
+            letter-spacing: -0.01em;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-body {
+            font-size: 0.92rem;
+            color: #5a6b65;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+
+        /* -----------------------------------------------
+           QR CODE CARD
+        ----------------------------------------------- */
+
+        .qr-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.25rem;
+        }
+
+        .qr-box {
+            width: 180px;
+            height: 180px;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(16,40,31,0.12);
+            background: #ffffff;
+            padding: 12px;
+            border: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #qr-code {
+            width: 156px;
+            height: 156px;
+        }
+
+        #qr-code canvas,
+        #qr-code img {
+            width: 156px !important;
+            height: 156px !important;
+        }
+
+        .qr-link-row {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #f7f6f2;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 0.55rem 0.85rem;
+            width: 100%;
+            max-width: 360px;
+        }
+
+        .qr-link-text {
+            font-size: 0.78rem;
+            color: #5a6b65;
+            word-break: break-all;
+            flex: 1;
+            font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        }
+
+        .btn-copy {
+            flex-shrink: 0;
+            padding: 0.3rem 0.65rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            font-family: inherit;
+            color: #1b4d3e;
+            background: transparent;
+            border: 1.5px solid #1b4d3e;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.15s ease, color 0.15s ease;
+            white-space: nowrap;
+        }
+
+        .btn-copy:hover {
+            background: #1b4d3e;
+            color: #ffffff;
+        }
+
+        .btn-copy.copied {
+            background: #1b4d3e;
+            color: #ffffff;
+        }
+
+
+        /* -----------------------------------------------
+           REQUEST ACCESS FORM
+        ----------------------------------------------- */
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-field {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .form-field.full { grid-column: 1 / -1; }
+
+        .form-field label {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #1b3a2d;
+        }
+
+        .form-field .req {
+            color: #c0392b;
+            margin-left: 2px;
+        }
+
+        .form-field input,
+        .form-field select {
+            width: 100%;
+            padding: 0.68rem 0.85rem;
+            font-size: 0.93rem;
+            font-family: inherit;
+            color: #10281f;
+            background: #f9fafb;
+            border: 1.5px solid #d1d5db;
+            border-radius: 8px;
+            outline: none;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+            appearance: none;
+            -webkit-appearance: none;
+        }
+
+        .form-field select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%235a6b65' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-color: #f9fafb;
+            padding-right: 2.5rem;
+            cursor: pointer;
+        }
+
+        .form-field input:focus,
+        .form-field select:focus {
+            border-color: #1b4d3e;
+            box-shadow: 0 0 0 3px rgba(27,77,62,0.12);
+            background: #ffffff;
+        }
+
+        .form-field input.is-invalid,
+        .form-field select.is-invalid {
+            border-color: #ef4444;
+            box-shadow: 0 0 0 3px rgba(239,68,68,0.1);
+        }
+
+        .form-field input::placeholder { color: #9ca3af; }
+
+        /* Consent checkbox */
+        .consent-row {
+            grid-column: 1 / -1;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.9rem 1rem;
+            background: #f0faf5;
+            border: 1px solid #a7d7c5;
+            border-radius: 10px;
+        }
+
+        .consent-row input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+            margin-top: 2px;
+            accent-color: #1b4d3e;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .consent-label {
+            font-size: 0.85rem;
+            color: #1b3a2d;
+            line-height: 1.55;
+            cursor: pointer;
+        }
+
+        /* Honeypot */
+        .honeypot-field {
+            position: absolute;
+            left: -9999px;
+            height: 0;
+            overflow: hidden;
+            opacity: 0;
+            pointer-events: none;
+            tabindex: -1;
+        }
+
+        /* Submit */
+        .btn-submit {
+            display: block;
+            width: 100%;
+            margin-top: 1.25rem;
+            padding: 0.9rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 800;
+            font-family: inherit;
+            color: #ffffff;
+            background: #1b4d3e;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background 0.18s ease, transform 0.1s ease;
+            letter-spacing: 0.01em;
+        }
+
+        .btn-submit:hover:not(:disabled) { background: #10281f; }
+        .btn-submit:active:not(:disabled) { transform: scale(0.98); }
+        .btn-submit:disabled { opacity: 0.55; cursor: not-allowed; }
+
+        .form-message {
+            margin-top: 1rem;
+            font-size: 0.88rem;
+            line-height: 1.5;
+            border-radius: 8px;
+        }
+
+        .form-message:not(:empty) { padding: 0.75rem 1rem; }
+
+        .form-message.is-success {
+            background: #f0faf5;
+            color: #1b4d3e;
+            border: 1px solid #a7d7c5;
+        }
+
+        .form-message.is-error {
+            background: #fff5f5;
+            color: #b91c1c;
+            border: 1px solid #fca5a5;
+        }
+
+
+        /* -----------------------------------------------
+           SUCCESS STATE
+        ----------------------------------------------- */
+
+        .success-state {
+            display: none;
+            text-align: center;
+            padding: 1.5rem 0;
+        }
+
+        .success-state.is-visible { display: block; }
+
+        .success-icon {
+            width: 56px;
+            height: 56px;
+            background: #f0faf5;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+        }
+
+        .success-icon svg { width: 28px; height: 28px; }
+
+        .success-state h3 {
+            font-size: 1.15rem;
+            font-weight: 900;
+            color: #10281f;
+            margin-bottom: 0.5rem;
+        }
+
+        .success-state p {
+            font-size: 0.92rem;
+            color: #5a6b65;
+            line-height: 1.6;
+        }
+
+
+        /* -----------------------------------------------
+           FOOTER
+        ----------------------------------------------- */
+
+        .site-footer {
+            background: #10281f;
+            padding: 2.5rem 1.5rem;
+        }
+
+        .footer-inner {
+            max-width: 960px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem 3rem;
+            align-items: flex-start;
+        }
+
+        .footer-wordmark {
+            display: block;
+            font-size: 1rem;
+            font-weight: 900;
+            color: #ffffff;
+            letter-spacing: -0.01em;
+            margin-bottom: 0.4rem;
+        }
+
+        .footer-desc {
+            margin: 0;
+            font-size: 0.825rem;
+            color: rgba(255,255,255,0.5);
+            line-height: 1.55;
+            max-width: 280px;
+        }
+
+        .footer-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem 1.5rem;
+            align-items: center;
+        }
+
+        .footer-nav a {
+            font-size: 0.875rem;
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            transition: color 0.15s ease;
+        }
+
+        .footer-nav a:hover { color: #ffffff; }
+
+
+        /* -----------------------------------------------
+           RESPONSIVE
+        ----------------------------------------------- */
+
+        @media (max-width: 520px) {
+            .hero { padding: 2.75rem 1.25rem 3.25rem; }
+            .hero h1 { font-size: 1.9rem; }
+            .hero-sub { font-size: 0.95rem; }
+            .btn-whatsapp { font-size: 0.97rem; padding: 0.9rem 1.6rem; }
+            .section-stack { padding: 2rem 1rem 3rem; }
+            .card { padding: 1.5rem 1.25rem; }
+            .form-grid { grid-template-columns: 1fr; }
+            .form-field.full { grid-column: auto; }
+            .consent-row { grid-column: auto; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="site-header">
+        <a class="brand" href="/">Covo Multipliers</a>
+        <a class="back-link" href="/">← Back to home</a>
+    </header>
+
+
+    <!-- =============================================
+         HERO
+    ============================================= -->
+
+    <section class="hero">
+        <div class="hero-inner">
+            <span class="hero-eyebrow">Covo Multipliers Community</span>
+
+            <h1>Join the Covo Multipliers WhatsApp</h1>
+
+            <p class="hero-sub">
+                Stay connected after the lab. Get prompts, next steps, prayer requests,
+                and real-time updates from the Covo Multipliers community.
+            </p>
+
+            <a
+                class="btn-whatsapp"
+                href="https://chat.whatsapp.com/HBFSp1fsSW79V3iqelxTWh?mode=gi_t"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Join the Covo Multipliers WhatsApp group"
+            >
+                <svg class="whatsapp-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                </svg>
+                Join WhatsApp Now
+            </a>
+
+            <p class="hero-microcopy">Opens the WhatsApp app or web — your choice.</p>
+        </div>
+    </section>
+
+
+    <!-- =============================================
+         CARDS
+    ============================================= -->
+
+    <div class="section-stack">
+
+        <!-- QR Code card -->
+        <div class="card">
+            <p class="card-eyebrow">On desktop?</p>
+            <h2>Scan to join from your phone</h2>
+            <p class="card-body">
+                Scan this QR code with your phone camera to open WhatsApp and join the group instantly.
+            </p>
+
+            <div class="qr-wrapper">
+                <div class="qr-box">
+                    <div id="qr-code"></div>
+                </div>
+
+                <div class="qr-link-row">
+                    <span class="qr-link-text" id="wa-link-text">https://chat.whatsapp.com/HBFSp1fsSW79V3iqelxTWh?mode=gi_t</span>
+                    <button class="btn-copy" id="btn-copy" type="button" aria-label="Copy WhatsApp link">
+                        Copy
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Request access form card -->
+        <div class="card" id="request-card">
+            <p class="card-eyebrow">Can't join right now?</p>
+            <h2>Request access</h2>
+            <p class="card-body">
+                Drop your info below and we'll send you the WhatsApp link after the lab.
+            </p>
+
+            <div class="success-state" id="success-state" role="alert" aria-live="polite">
+                <div class="success-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#1b4d3e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                </div>
+                <h3>You're on the list.</h3>
+                <p>We'll text or email you the WhatsApp link after the lab.</p>
+            </div>
+
+            <form id="request-form" novalidate>
+
+                <!-- Honeypot (hidden from real users) -->
+                <div class="honeypot-field" aria-hidden="true">
+                    <label for="field-website">Website</label>
+                    <input
+                        type="text"
+                        id="field-website"
+                        name="website"
+                        tabindex="-1"
+                        autocomplete="off"
+                    >
+                </div>
+
+                <div class="form-grid">
+
+                    <div class="form-field">
+                        <label for="field-first-name">
+                            First name <span class="req" aria-hidden="true">*</span>
+                        </label>
+                        <input
+                            type="text"
+                            id="field-first-name"
+                            name="first_name"
+                            autocomplete="given-name"
+                            placeholder="e.g. Sarah"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-field">
+                        <label for="field-last-name">Last name</label>
+                        <input
+                            type="text"
+                            id="field-last-name"
+                            name="last_name"
+                            autocomplete="family-name"
+                            placeholder="e.g. Johnson"
+                        >
+                    </div>
+
+                    <div class="form-field full">
+                        <label for="field-phone">
+                            Mobile number (with country code) <span class="req" aria-hidden="true">*</span>
+                        </label>
+                        <input
+                            type="tel"
+                            id="field-phone"
+                            name="phone"
+                            autocomplete="tel"
+                            placeholder="e.g. +1 555 000 1234"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-field full">
+                        <label for="field-email">Email address</label>
+                        <input
+                            type="email"
+                            id="field-email"
+                            name="email"
+                            autocomplete="email"
+                            placeholder="you@example.com"
+                        >
+                    </div>
+
+                    <div class="form-field">
+                        <label for="field-city">City</label>
+                        <input
+                            type="text"
+                            id="field-city"
+                            name="city"
+                            autocomplete="address-level2"
+                            placeholder="e.g. Lagos"
+                        >
+                    </div>
+
+                    <div class="form-field">
+                        <label for="field-church">Church / organization</label>
+                        <input
+                            type="text"
+                            id="field-church"
+                            name="church_org"
+                            placeholder="e.g. Redeemed Church"
+                        >
+                    </div>
+
+                    <div class="form-field full">
+                        <label for="field-lab">Lab attended</label>
+                        <select id="field-lab" name="lab_attended">
+                            <option value="" disabled selected>Select a lab&hellip;</option>
+                            <option value="How to Make Disciples Without Quitting Your Job">How to Make Disciples Without Quitting Your Job</option>
+                            <option value="Aquila & Priscilla Pattern">Aquila &amp; Priscilla Pattern</option>
+                            <option value="Find Your Marketplace Field">Find Your Marketplace Field</option>
+                            <option value="Rhythms of a Covo Multiplier">Rhythms of a Covo Multiplier</option>
+                            <option value="From Lost to Leader">From Lost to Leader</option>
+                            <option value="Six-Week Multiplier Plan">Six-Week Multiplier Plan</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="consent-row">
+                        <input
+                            type="checkbox"
+                            id="field-consent"
+                            name="consent"
+                            required
+                        >
+                        <label class="consent-label" for="field-consent">
+                            I agree to be contacted about joining the Covo Multipliers WhatsApp group. <span class="req" aria-hidden="true">*</span>
+                        </label>
+                    </div>
+
+                </div>
+
+                <button class="btn-submit" type="submit" id="submit-btn">
+                    Request Access
+                </button>
+
+                <div class="form-message" id="form-message" role="alert" aria-live="polite"></div>
+
+            </form>
+        </div>
+
+    </div>
+
+
+    <!-- =============================================
+         FOOTER
+    ============================================= -->
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div>
+                <span class="footer-wordmark">Covo Multipliers</span>
+                <p class="footer-desc">Practical training for everyday leaders who want to make disciples where they live, work, and play.</p>
+            </div>
+            <nav class="footer-nav" aria-label="Footer navigation">
+                <a href="/">Home</a>
+                <a href="/vision.html">Vision &amp; Pathway</a>
+                <a href="/blog/">Blog</a>
+                <a href="/resources.html">Resources</a>
+                <a href="/h3x.html">H3X Podcast</a>
+                <a href="/contact.html">Contact</a>
+            </nav>
+        </div>
+    </footer>
+
+
+    <!-- QR Code library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
+            integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSQX0FslNhTDadL4O5SAGapGt4FodqL8My0mA=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script>
+        /* -----------------------------------------------
+           Config
+        ----------------------------------------------- */
+        const WA_LINK    = 'https://chat.whatsapp.com/HBFSp1fsSW79V3iqelxTWh?mode=gi_t';
+        const API_URL    = 'https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1/whatsapp-request';
+
+
+        /* -----------------------------------------------
+           QR Code
+        ----------------------------------------------- */
+        try {
+            new QRCode(document.getElementById('qr-code'), {
+                text:           WA_LINK,
+                width:          156,
+                height:         156,
+                colorDark:      '#10281f',
+                colorLight:     '#ffffff',
+                correctLevel:   QRCode.CorrectLevel.M,
+            });
+        } catch (e) {
+            // If the CDN fails, show the raw link as fallback
+            document.getElementById('qr-code').textContent = WA_LINK;
+        }
+
+
+        /* -----------------------------------------------
+           Copy link button
+        ----------------------------------------------- */
+        document.getElementById('btn-copy').addEventListener('click', async function () {
+            try {
+                await navigator.clipboard.writeText(WA_LINK);
+                this.textContent = 'Copied!';
+                this.classList.add('copied');
+                setTimeout(() => {
+                    this.textContent = 'Copy';
+                    this.classList.remove('copied');
+                }, 2000);
+            } catch {
+                // Fallback: select the text
+                const range = document.createRange();
+                range.selectNode(document.getElementById('wa-link-text'));
+                window.getSelection().removeAllRanges();
+                window.getSelection().addRange(range);
+            }
+        });
+
+
+        /* -----------------------------------------------
+           Form submission
+        ----------------------------------------------- */
+        const form      = document.getElementById('request-form');
+        const submitBtn = document.getElementById('submit-btn');
+        const msgEl     = document.getElementById('form-message');
+        const successEl = document.getElementById('success-state');
+
+        function setMsg(text, type) {
+            msgEl.textContent = text;
+            msgEl.className   = 'form-message ' + (type === 'success' ? 'is-success' : 'is-error');
+        }
+
+        function clearMsg() {
+            msgEl.textContent = '';
+            msgEl.className   = 'form-message';
+        }
+
+        function markInvalid(id) {
+            const el = document.getElementById(id);
+            if (el) el.classList.add('is-invalid');
+            return el;
+        }
+
+        function clearInvalid() {
+            form.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+        }
+
+        form.addEventListener('submit', async function (e) {
+            e.preventDefault();
+            clearMsg();
+            clearInvalid();
+
+            const honeypot  = document.getElementById('field-website').value.trim();
+            const firstName = document.getElementById('field-first-name').value.trim();
+            const lastName  = document.getElementById('field-last-name').value.trim();
+            const phone     = document.getElementById('field-phone').value.trim();
+            const email     = document.getElementById('field-email').value.trim();
+            const city      = document.getElementById('field-city').value.trim();
+            const church    = document.getElementById('field-church').value.trim();
+            const lab       = document.getElementById('field-lab').value;
+            const consent   = document.getElementById('field-consent').checked;
+
+            // Client-side validation
+            if (!firstName || firstName.length < 2) {
+                setMsg('Please enter your first name.', 'error');
+                markInvalid('field-first-name')?.focus();
+                return;
+            }
+
+            if (!phone || phone.length < 7) {
+                setMsg('Please enter a valid mobile number with country code.', 'error');
+                markInvalid('field-phone')?.focus();
+                return;
+            }
+
+            if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                setMsg('Please enter a valid email address, or leave it blank.', 'error');
+                markInvalid('field-email')?.focus();
+                return;
+            }
+
+            if (!consent) {
+                setMsg('Please check the consent box to continue.', 'error');
+                document.getElementById('field-consent').focus();
+                return;
+            }
+
+            submitBtn.disabled     = true;
+            submitBtn.textContent  = 'Sending…';
+
+            try {
+                const res = await fetch(API_URL, {
+                    method:  'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body:    JSON.stringify({
+                        honeypot,
+                        first_name:   firstName,
+                        last_name:    lastName,
+                        phone,
+                        email:        email || null,
+                        city:         city  || null,
+                        church_org:   church || null,
+                        lab_attended: lab   || null,
+                        consent,
+                    }),
+                });
+
+                const data = await res.json().catch(() => ({}));
+
+                if (res.ok && data.success) {
+                    form.style.display  = 'none';
+                    successEl.classList.add('is-visible');
+                } else {
+                    const errMsg = (typeof data.error === 'string' && data.error)
+                        ? data.error
+                        : 'Something went wrong. Please try again.';
+                    setMsg(errMsg, 'error');
+                }
+            } catch {
+                setMsg('Something went wrong. Please check your connection and try again.', 'error');
+            } finally {
+                submitBtn.disabled    = false;
+                submitBtn.textContent = 'Request Access';
+            }
+        });
+
+        // Clear validation state on input
+        form.querySelectorAll('input, select').forEach(el => {
+            el.addEventListener('input', () => el.classList.remove('is-invalid'));
+        });
+    </script>
+
+</body>
+</html>
