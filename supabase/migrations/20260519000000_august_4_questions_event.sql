@@ -9,15 +9,35 @@
 --             3pm EDT = 19:00 UTC
 -- =============================================================================
 
-insert into events
-  (slug, title, description, event_date, capacity, status)
-values
-  (
-    '4-questions-to-get-started-august-2026',
-    '4 Questions to Get Started Making Disciples',
-    'Why. Who. How. When. A simple lab to help ordinary disciples move from good intentions to real obedience.',
-    '2026-08-19 19:00:00+00',
-    25,
-    'open'
-  )
-on conflict (slug) do nothing;
+INSERT INTO public.events (
+  id,
+  slug,
+  title,
+  description,
+  event_date,
+  zoom_link,
+  seat_limit,
+  is_published,
+  created_at,
+  updated_at
+)
+VALUES (
+  gen_random_uuid(),
+  '4-questions-to-get-started-august-2026',
+  '4 Questions to Get Started Making Disciples',
+  'Why. Who. How. When. A simple lab to help ordinary disciples move from good intentions to real obedience.',
+  '2026-08-19 19:00:00+00',
+  NULL,
+  25,
+  true,
+  now(),
+  now()
+)
+ON CONFLICT (slug) DO UPDATE SET
+  title = EXCLUDED.title,
+  description = EXCLUDED.description,
+  event_date = EXCLUDED.event_date,
+  zoom_link = EXCLUDED.zoom_link,
+  seat_limit = EXCLUDED.seat_limit,
+  is_published = EXCLUDED.is_published,
+  updated_at = now();
