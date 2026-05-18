@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/4-questions", "destination": "/4-questions.html" }
+  ]
+}
