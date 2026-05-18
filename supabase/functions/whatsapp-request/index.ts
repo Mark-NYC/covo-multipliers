@@ -31,7 +31,6 @@ const VALID_LABS = new Set([
   "Rhythms of a Covo Multiplier",
   "From Lost to Leader",
   "Six-Week Multiplier Plan",
-  "4 Questions to Get Started Making Disciples",
   "Other",
 ]);
 
