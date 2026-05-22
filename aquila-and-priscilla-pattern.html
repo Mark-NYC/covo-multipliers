@@ -1,17 +1,18 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Register for an upcoming Covo Multipliers Lab.">
-    <title>Lab Registration — Covo Multipliers</title>
+    <meta name="description" content="The Aquila and Priscilla Pattern — a free 45-minute live lab from Covo Multipliers for covocational leaders who want to make disciples in everyday life.">
+    <title>The Aquila and Priscilla Pattern — Covo Multipliers</title>
 
     <!-- Shared site styles (reset, fonts, .btn-pill, etc.) -->
     <link rel="stylesheet" href="styles.css">
 
     <style>
         /* ==============================================
-           Event page styles — event.html
+           Event page styles — aquila-and-priscilla-pattern.html
            Colors and type choices match styles.css
            ============================================== */
 
@@ -97,24 +98,9 @@
             min-width: 0;
         }
 
-        .hero-image-wrap {
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 24px 64px rgba(0, 0, 0, 0.38);
-            aspect-ratio: 4 / 3;
-        }
-
-        .hero-image-wrap img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
 
         /* -----------------------------------------------
-           3. HERO CONTENT — classes injected by renderEvent()
-              Do not rename without updating the JS.
+           3. HERO CONTENT
         ----------------------------------------------- */
 
         .event-label {
@@ -174,12 +160,16 @@
             line-height: 1.72;
             color: rgba(255, 255, 255, 0.88);
             max-width: 640px;
+            margin-bottom: 1.25rem;
         }
 
-        /* Neutralise browser <p> margins so the block reads the same as the
-           previous <br>-separated copy on desktop */
-        .hero-desc-block p {
-            margin: 0;
+        .hero-proof {
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.5);
+            margin: 0 0 1.5rem;
         }
 
         /* Countdown timer */
@@ -225,6 +215,70 @@
             font-style: italic;
         }
 
+        /* Seats are the primary urgency element — make them prominent */
+        .event-hero .event-seats {
+            font-size: 0.88rem;
+            padding: 0.4rem 1.1rem;
+            font-weight: 800;
+        }
+
+        /* Countdown is secondary — event is still weeks away */
+        .event-hero .countdown-wrap {
+            margin-top: 1rem;
+            gap: 0.5rem;
+        }
+
+        .event-hero .countdown-unit {
+            padding: 0.4rem 0.65rem;
+            min-width: 50px;
+            background: rgba(255, 255, 255, 0.07);
+            border-color: rgba(255, 255, 255, 0.12);
+        }
+
+        .event-hero .countdown-num {
+            font-size: 1.15rem;
+        }
+
+        .event-hero .countdown-label {
+            font-size: 0.52rem;
+        }
+
+        /* Trust line below registration card */
+        .form-trust {
+            margin-top: 0.75rem;
+            font-size: 0.78rem;
+            color: rgba(255, 255, 255, 0.5);
+            text-align: center;
+            letter-spacing: 0.01em;
+        }
+
+        /* Social proof image block below registration card */
+        .form-social-proof {
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        .form-social-proof img {
+            display: block;
+            margin: 0 auto;
+            max-width: 150px;
+            width: 100%;
+        }
+
+        .form-col .form-social-proof .form-social-proof-caption {
+            margin-top: 0.45rem;
+            font-size: 0.75rem;
+            color: #ffffff !important;
+            opacity: 0.88;
+            line-height: 1.45;
+            letter-spacing: 0.01em;
+        }
+
+        /* Hide countdown boxes — seat pill is the urgency signal */
+        #event-countdown {
+            display: none;
+        }
+
 
         /* -----------------------------------------------
            4. HERO LOADING / ERROR STATES
@@ -248,82 +302,7 @@
 
 
         /* -----------------------------------------------
-           5. EVENT DETAILS SECTION — two-column
-              id="registration-section" revealed by renderEvent()
-        ----------------------------------------------- */
-
-        .event-details-section {
-            background: #ffffff;
-            padding: 3rem 2rem 3.5rem;
-            border-bottom: 1px solid #e5e7eb;
-        }
-
-        .event-details-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 400px;
-            gap: 4rem;
-            align-items: start;
-        }
-
-        /* Scoped overrides: event data rendered on white background */
-        .event-info-col .event-label {
-            color: #245c4a;
-        }
-
-        .event-info-col .event-title {
-            font-size: clamp(1.75rem, 4vw, 2.5rem);
-            color: #10281f;
-        }
-
-        .event-info-col .event-date {
-            color: #2a2a2a;
-        }
-
-        .event-info-col .event-description {
-            color: #444444;
-            font-size: 1rem;
-        }
-
-        .event-info-col .event-seats {
-            background: rgba(159, 122, 47, 0.1);
-            color: #7a5515;
-            border-color: rgba(159, 122, 47, 0.35);
-        }
-
-        .event-info-col .event-seats.is-full {
-            background: #f3f4f6;
-            color: #6b7280;
-            border-color: #e5e7eb;
-        }
-
-        /* Countdown: light-background treatment */
-        .event-info-col .countdown-wrap {
-            margin-top: 1rem;
-        }
-
-        .event-info-col .countdown-unit {
-            background: #f0fdf4;
-            border-color: #bbf7d0;
-        }
-
-        .event-info-col .countdown-num {
-            color: #10281f;
-        }
-
-        .event-info-col .countdown-label {
-            color: #5a6b65;
-        }
-
-        .event-info-col .countdown-closed {
-            color: #5a6b65;
-            margin-top: 1rem;
-        }
-
-
-        /* -----------------------------------------------
-           6. SUPPORTING CONTENT — takeaways, quotes, FAQ
+           5. SUPPORTING CONTENT
         ----------------------------------------------- */
 
         .event-body {
@@ -335,11 +314,6 @@
             max-width: 820px;
             margin: 0 auto;
         }
-
-
-        /* -----------------------------------------------
-           6. LEFT COLUMN — static supporting content
-        ----------------------------------------------- */
 
         .eyebrow {
             display: block;
@@ -358,6 +332,25 @@
             line-height: 1.25;
         }
 
+        .content-h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #10281f;
+            line-height: 1.3;
+            margin-bottom: 0.65rem;
+        }
+
+        .content-p {
+            font-size: 0.975rem;
+            line-height: 1.72;
+            color: #444444;
+        }
+
+        .content-p + .content-p {
+            margin-top: 0.85rem;
+        }
+
+        /* Takeaway / bullet lists */
         .takeaway-list {
             list-style: none;
             padding: 0;
@@ -395,44 +388,41 @@
             margin-top: 0.25rem;
         }
 
-        .who-section {
+        .content-section {
             margin-top: 2.75rem;
             padding-top: 2.75rem;
             border-top: 1px solid #e5e7eb;
         }
 
-        .content-h3 {
-            font-size: 1.15rem;
-            font-weight: 700;
-            color: #10281f;
-            line-height: 1.3;
-            margin-bottom: 0.65rem;
-        }
-
-        .content-p {
-            font-size: 0.975rem;
-            line-height: 1.72;
-            color: #444444;
-        }
-
-        /* Quote cards — struggle section */
-        .quote-grid {
+        /* Four questions 2×2 card grid */
+        .questions-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 0.65rem;
-            margin: 1rem 0 1.25rem;
+            gap: 0.85rem;
+            margin: 1.5rem 0 0;
         }
 
-        .quote-card {
+        .question-card {
             background: #f8faf9;
             border: 1px solid #e2eae6;
-            border-left: 3px solid #1b4d3e;
-            border-radius: 0 8px 8px 0;
-            padding: 0.85rem 1rem;
+            border-top: 3px solid #1b4d3e;
+            border-radius: 0 0 10px 10px;
+            padding: 1.25rem;
+        }
+
+        .question-word {
+            display: block;
+            font-size: 1.35rem;
+            font-weight: 900;
+            color: #1b4d3e;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.4rem;
+        }
+
+        .question-body {
             font-size: 0.9rem;
-            line-height: 1.55;
-            color: #2a2a2a;
-            font-style: italic;
+            line-height: 1.6;
+            color: #444444;
         }
 
         /* FAQ block */
@@ -512,14 +502,11 @@
 
 
         /* -----------------------------------------------
-           7. RIGHT COLUMN — registration card (sticky)
-              id="registration-card" innerHTML replaced by JS
-              on full-event and on successful submission
+           6. REGISTRATION CARD (in hero right col)
         ----------------------------------------------- */
 
-        .form-col {
-            position: sticky;
-            top: 1rem;
+        .event-hero .form-col {
+            position: static;
         }
 
         .registration-card {
@@ -548,7 +535,7 @@
 
 
         /* -----------------------------------------------
-           8. FORM FIELDS
+           7. FORM FIELDS
         ----------------------------------------------- */
 
         .form-field {
@@ -589,7 +576,7 @@
 
 
         /* -----------------------------------------------
-           9. SUBMIT BUTTON
+           8. SUBMIT BUTTON
         ----------------------------------------------- */
 
         .btn-submit {
@@ -624,8 +611,7 @@
 
 
         /* -----------------------------------------------
-           10. FORM MESSAGE
-               id="form-message" — JS adds .is-error class
+           9. FORM MESSAGE
         ----------------------------------------------- */
 
         .form-message {
@@ -646,8 +632,7 @@
 
 
         /* -----------------------------------------------
-           11. FULL-EVENT NOTICE
-               Injected by JS into #registration-card
+           10. FULL-EVENT NOTICE
         ----------------------------------------------- */
 
         .full-notice {
@@ -664,8 +649,7 @@
 
 
         /* -----------------------------------------------
-           12. SUCCESS STATE
-               Injected by JS into #registration-card
+           11. SUCCESS STATE
         ----------------------------------------------- */
 
         .success-state {
@@ -702,7 +686,7 @@
 
 
         /* -----------------------------------------------
-           13. LAB TESTIMONIAL
+           12. LAB TESTIMONIAL
         ----------------------------------------------- */
 
         .lab-testimonial {
@@ -718,7 +702,7 @@
 
 
         /* -----------------------------------------------
-           14. SOCIAL PROOF
+           13. SOCIAL PROOF
         ----------------------------------------------- */
 
         .social-proof {
@@ -808,18 +792,20 @@
             color: #ffffff;
             line-height: 1.2;
             letter-spacing: -0.02em;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.25rem;
         }
 
         .bottom-cta-body {
             font-size: 1rem;
             line-height: 1.75;
             color: rgba(255, 255, 255, 0.82);
-            margin-bottom: 2.25rem;
+            margin-bottom: 2rem;
         }
 
-        .bottom-cta-body p + p {
+        .bottom-cta-date {
             margin-top: 1rem;
+            font-size: 0.875rem;
+            color: rgba(255, 255, 255, 0.55);
         }
 
         .btn-cta {
@@ -894,41 +880,23 @@
                 gap: 2rem;
             }
 
-            .hero-image-wrap {
-                aspect-ratio: 16 / 7;
-            }
-
-            .event-details-inner {
-                grid-template-columns: 1fr;
-                gap: 2.5rem;
-            }
-
-            /* Un-stick the form card on mobile so it flows naturally */
-            .form-col {
-                position: static;
-            }
-
-            .quote-grid {
-                grid-template-columns: 1fr;
+            .questions-grid {
+                grid-template-columns: 1fr 1fr;
             }
         }
 
         @media (max-width: 540px) {
-            .event-details-section { padding: 2.5rem 1.25rem 3rem; }
             .event-body            { padding: 2.5rem 1.25rem 3.5rem; }
             .registration-card     { padding: 1.75rem 1.5rem; }
-            .quote-grid            { gap: 0.5rem; }
             .bottom-cta            { padding: 3.5rem 1.25rem; }
-            .event-info-col .countdown-num  { font-size: 1.5rem; }
-            .event-info-col .countdown-unit { padding: 0.6rem 0.85rem; min-width: 58px; }
+            .questions-grid        { grid-template-columns: 1fr; }
 
-            /* Hero: tighter, grouped block on mobile */
-            .event-hero                    { padding: 1.2rem 1.25rem 1rem; }
-            .event-hero-inner              { gap: 0.75rem; }
-            .event-hero .event-title       { font-size: clamp(1.6rem, 6vw, 2.25rem); margin-bottom: 0.35rem; }
-            .event-hero .event-description { font-size: 0.9rem; line-height: 1.38; margin-bottom: 0.5rem; }
-            .event-hero .hero-desc-block p + p { margin-top: 0.35em; }
-            .hero-image-wrap               { aspect-ratio: 16 / 7; border-radius: 8px; }
+            .event-hero                    { padding: 1.75rem 1.25rem 2rem; }
+            .event-hero-inner              { gap: 1.5rem; }
+            .event-hero .event-title       { font-size: clamp(1.6rem, 6vw, 2.25rem); margin-bottom: 0.5rem; }
+            .event-hero .event-description { font-size: 0.95rem; line-height: 1.5; }
+
+            .form-social-proof img         { max-width: 145px; }
         }
     </style>
 </head>
@@ -944,20 +912,19 @@
 
 
     <!-- ================================================
-         EVENT HERO
-         All content inside #event-content is injected
-         by renderEvent() after Supabase fetch.
+         EVENT HERO — copy left, registration card right
     ================================================ -->
     <section class="event-hero">
         <div class="event-hero-inner">
 
             <div class="hero-copy">
-                <p class="event-title">Trying to make disciples but never sure where it fits in your week?</p>
-                <div class="event-description hero-desc-block">
-                    <p>You&#8217;ve got a job. Responsibilities. A calendar that keeps blowing up. You want your life to matter for the Kingdom, not just your church attendance.</p>
-                    <br><p>In <b>45 minutes</b> you&#8217;ll get practical help for building a life that makes disciples where you live, work, and play.</p>
-                    <br><p><b>🔴LIVE. Practical. Free.</b></p>
-                </div>
+                <span class="event-label">July Covo Multipliers Lab</span>
+                <p class="event-title">What if your work, home, and friendships became your disciple-making platform?</p>
+                <p class="event-description">In 45 minutes, you&rsquo;ll learn the Aquila and Priscilla pattern for making disciples as a team, using the life you already have.</p>
+                <p class="hero-proof">Live &middot; Practical &middot; Free &middot; Small group</p>
+
+                <!-- Populated by JS: formatted date + seat pill -->
+                <div id="hero-event-meta" class="event-meta" hidden></div>
 
                 <!-- Shown while fetching; hidden by renderEvent() on success -->
                 <p class="hero-status" id="hero-loading">Loading event&hellip;</p>
@@ -969,38 +936,17 @@
                     <br><br>
                     <a class="btn-pill" href="/#upcoming-labs">See all upcoming labs</a>
                 </div>
-            </div>
 
-            <div class="hero-image-wrap">
-                <img src="image/two-young-men-sharing-their-faith-in-Jesus.jpg" alt="Two young men sharing their faith in Jesus" loading="lazy">
-            </div>
-
-        </div>
-    </section>
-
-
-    <!-- ================================================
-         EVENT DETAILS — live event info + registration form
-         Hidden until renderEvent() calls:
-           document.getElementById('registration-section').hidden = false
-    ================================================ -->
-    <section class="event-details-section" id="registration-section" hidden>
-        <div class="event-details-inner">
-
-            <!-- Left: live event title, date, seats, description + countdown -->
-            <div class="event-info-col">
-                <!-- Populated by renderEvent(): label, title, meta, description -->
-                <div id="event-content"></div>
-                <!-- Countdown — populated and shown by startCountdown() -->
+                <!-- Countdown — populated by startCountdown() -->
                 <div id="event-countdown" hidden></div>
             </div>
 
-            <!-- Right: registration form -->
+            <!-- Registration card — always visible; JS enables submit once event loads -->
             <div class="form-col">
                 <div class="registration-card" id="registration-card">
 
-                    <h2>Reserve your seat</h2>
-                    <p class="form-intro">Seats are limited to 25. One registration per email address.</p>
+                    <h2>Save Your Seat</h2>
+                    <p class="form-intro">Free 45-minute live lab<br>Live &middot; Practical &middot; Limited seats</p>
 
                     <form id="registration-form" novalidate>
                         <div class="form-field">
@@ -1028,17 +974,16 @@
                         </div>
 
                         <button class="btn-submit" type="submit" id="submit-btn">
-                            Register
+                            Save My Seat
                         </button>
 
                         <div class="form-message" id="form-message" role="alert" aria-live="polite"></div>
                     </form>
 
                 </div>
-
                 <div class="form-social-proof">
-                    <img src="image/social%20proof%20covo%20multipliers.webp" alt="Join a tribe of covocational leaders">
-                    <p>Join a tribe of covocational leaders.</p>
+                    <img src="image/social-proof-covo-multipliers-transparent.webp" alt="Covo Multipliers community" loading="lazy">
+                    <p class="form-social-proof-caption">Joined by covocational leaders learning simple obedience together.</p>
                 </div>
             </div>
 
@@ -1047,117 +992,150 @@
 
 
     <!-- ================================================
-         SUPPORTING CONTENT — takeaways, struggle quotes, FAQ
+         SUPPORTING CONTENT
     ================================================ -->
     <section class="event-body">
         <div class="event-body-inner">
 
-            <div class="content-col">
-
-                <div>
-                    <p class="eyebrow">What you&rsquo;ll walk away with</p>
-                    <h2 class="content-h2">What you&rsquo;ll walk away with</h2>
-                    <ul class="takeaway-list">
-                        <li>
-                            <span class="take-check" aria-hidden="true">&#10003;</span>
-                            <span>Clarity about what matters.</span>
-                        </li>
-                        <li>
-                            <span class="take-check" aria-hidden="true">&#10003;</span>
-                            <span>A rhythm you can repeat.</span>
-                        </li>
-                        <li>
-                            <span class="take-check" aria-hidden="true">&#10003;</span>
-                            <span>One step to take immediately.</span>
-                        </li>
-                        <li>
-                            <span class="take-check" aria-hidden="true">&#10003;</span>
-                            <span>Not inspiration that fades by Friday.</span>
-                        </li>
-                    </ul>
+            <!-- Problem -->
+            <div>
+                <p class="eyebrow">The real problem</p>
+                <h2 class="content-h2">Most Disciple-Making Training Assumes You Have Extra Margin</h2>
+                <div style="margin-top: 1.25rem;">
+                    <p class="content-p">But most people don&rsquo;t. You have work, family, bills, responsibilities, and a calendar that already feels full. You don&rsquo;t need a fantasy version of ministry. You need a pattern that works inside ordinary life.</p>
                 </div>
+            </div>
 
-                <div class="who-section">
-                    <p class="eyebrow">If any of this hits, you&rsquo;re in the right place.</p>
-                    <h3 class="content-h3">You&rsquo;re not crazy for feeling this</h3>
-                    <div class="quote-grid">
-                        <div class="quote-card">&ldquo;I start the week strong and lose it by Thursday.&rdquo;</div>
-                        <div class="quote-card">&ldquo;I feel like I&rsquo;m the only one trying to live this way.&rdquo;</div>
-                        <div class="quote-card">&ldquo;I want consistency but life keeps winning.&rdquo;</div>
-                        <div class="quote-card">&ldquo;I don&rsquo;t know what deserves my attention anymore.&rdquo;</div>
+            <!-- Testimonial -->
+            <div class="content-section">
+                <span class="eyebrow">From a recent lab</span>
+                <div class="testimonial-card" style="margin-top: 1rem;">
+                    <p class="testimonial-quote">&ldquo;I live a busy life with 2 jobs and a family. I&rsquo;ve started to invest more deeply and focus more intently on my relational network &mdash; watching and waiting for the right time for the next conversation and steps.&rdquo;</p>
+                    <p class="testimonial-attribution">&mdash; Nathan E.</p>
+                </div>
+            </div>
+
+            <!-- Pattern -->
+            <div class="content-section">
+                <p class="eyebrow">The pattern</p>
+                <h2 class="content-h2">The Aquila and Priscilla Pattern</h2>
+                <div class="questions-grid">
+                    <div class="question-card">
+                        <span class="question-word">Work</span>
+                        <p class="question-body">They made tents and followed Jesus in the marketplace.</p>
                     </div>
-                    <p class="content-p">Good news. You don&rsquo;t need more guilt. You need a repeatable way to live.</p>
+                    <div class="question-card">
+                        <span class="question-word">Home</span>
+                        <p class="question-body">Their household became a base for ministry and hospitality.</p>
+                    </div>
+                    <div class="question-card">
+                        <span class="question-word">Team</span>
+                        <p class="question-body">They served with Paul and strengthened the work together.</p>
+                    </div>
+                    <div class="question-card">
+                        <span class="question-word">Train</span>
+                        <p class="question-body">They helped Apollos take his next step and pass on what he learned.</p>
+                    </div>
                 </div>
+            </div>
 
-                <div class="format-note">
-                    <strong>Common questions</strong>
-                    <ul class="faq-list">
-                        <li class="faq-item">
-                            <button class="faq-btn" aria-expanded="false">
-                                <span>Can&rsquo;t come live?</span>
-                                <span class="faq-icon" aria-hidden="true">+</span>
-                            </button>
-                            <div class="faq-answer" hidden>
-                                Labs are live-only and not recorded. The value comes from participating in the room, asking questions, and engaging with the framework in real time.
-                            </div>
-                        </li>
-                        <li class="faq-item">
-                            <button class="faq-btn" aria-expanded="false">
-                                <span>Who fits here?</span>
-                                <span class="faq-icon" aria-hidden="true">+</span>
-                            </button>
-                            <div class="faq-answer" hidden>
-                                These labs are built for marketplace multipliers, sentrepreneurs, and tent making leaders balancing work and mission who feel scattered and want to multiply disciples without burning out.
-                            </div>
-                        </li>
-                        <li class="faq-item">
-                            <button class="faq-btn" aria-expanded="false">
-                                <span>Do I need prep?</span>
-                                <span class="faq-icon" aria-hidden="true">+</span>
-                            </button>
-                            <div class="faq-answer" hidden>
-                                No preparation is required. Some labs offer optional prep reading, but you&rsquo;ll get full value even if you just show up ready to engage.
-                            </div>
-                        </li>
-                        <li class="faq-item">
-                            <button class="faq-btn" aria-expanded="false">
-                                <span>How is this different from a typical webinar?</span>
-                                <span class="faq-icon" aria-hidden="true">+</span>
-                            </button>
-                            <div class="faq-answer" hidden>
-                                These are not passive webinars. Each 45-minute lab is interactive, practical, and focused on giving you one breakthrough framework you can immediately apply in your context.
-                            </div>
-                        </li>
-                        <li class="faq-item">
-                            <button class="faq-btn" aria-expanded="false">
-                                <span>What does it cost?</span>
-                                <span class="faq-icon" aria-hidden="true">+</span>
-                            </button>
-                            <div class="faq-answer" hidden>
-                                The labs are free, but seats are intentionally limited so every participant can engage and ask questions. We encourage you to secure your spot early.
-                            </div>
-                        </li>
-                    </ul>
-                </div>
+            <!-- Outcomes -->
+            <div class="content-section">
+                <p class="eyebrow">What you&rsquo;ll walk away with</p>
+                <h2 class="content-h2">You&rsquo;ll Leave With a Simple Pattern for Your Real Life</h2>
+                <ul class="takeaway-list">
+                    <li>
+                        <span class="take-check" aria-hidden="true">&#10003;</span>
+                        <span>A way to see your work and relationships as a mission field</span>
+                    </li>
+                    <li>
+                        <span class="take-check" aria-hidden="true">&#10003;</span>
+                        <span>A simple map of your current relational network</span>
+                    </li>
+                    <li>
+                        <span class="take-check" aria-hidden="true">&#10003;</span>
+                        <span>One person or household to intentionally pursue</span>
+                    </li>
+                    <li>
+                        <span class="take-check" aria-hidden="true">&#10003;</span>
+                        <span>One weekly rhythm of prayer, presence, and invitation</span>
+                    </li>
+                    <li>
+                        <span class="take-check" aria-hidden="true">&#10003;</span>
+                        <span>A pattern you can pass on without overcomplicating it</span>
+                    </li>
+                </ul>
+            </div>
 
+            <!-- Who it's for -->
+            <div class="content-section">
+                <p class="eyebrow">Is this for you?</p>
+                <h2 class="content-h2">Who This Lab Is For</h2>
+                <ul class="takeaway-list">
+                    <li>
+                        <span class="take-check" aria-hidden="true">&#10003;</span>
+                        <span>Covocational leaders balancing work, family, and mission</span>
+                    </li>
+                    <li>
+                        <span class="take-check" aria-hidden="true">&#10003;</span>
+                        <span>Disciple-makers who feel scattered and need a repeatable pattern</span>
+                    </li>
+                    <li>
+                        <span class="take-check" aria-hidden="true">&#10003;</span>
+                        <span>Church leaders trying to activate ordinary believers</span>
+                    </li>
+                    <li>
+                        <span class="take-check" aria-hidden="true">&#10003;</span>
+                        <span>Entrepreneurs and sentrepreneurs who want their work to serve the Kingdom</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- FAQ -->
+            <div class="format-note">
+                <strong>Common questions</strong>
+                <ul class="faq-list">
+                    <li class="faq-item">
+                        <button class="faq-btn" aria-expanded="false">
+                            <span>What is the Aquila and Priscilla pattern?</span>
+                            <span class="faq-icon" aria-hidden="true">+</span>
+                        </button>
+                        <div class="faq-answer" hidden>
+                            It is a simple way to see work, household, team, and training as part of disciple-making. Aquila and Priscilla did not separate everyday life from mission. They used ordinary life as the platform.
+                        </div>
+                    </li>
+                    <li class="faq-item">
+                        <button class="faq-btn" aria-expanded="false">
+                            <span>Is this only for pastors or church leaders?</span>
+                            <span class="faq-icon" aria-hidden="true">+</span>
+                        </button>
+                        <div class="faq-answer" hidden>
+                            No. This lab is especially useful for ordinary believers, marketplace leaders, families, and covocational people who want to make disciples without pretending they have unlimited time.
+                        </div>
+                    </li>
+                    <li class="faq-item">
+                        <button class="faq-btn" aria-expanded="false">
+                            <span>What does it cost?</span>
+                            <span class="faq-icon" aria-hidden="true">+</span>
+                        </button>
+                        <div class="faq-answer" hidden>
+                            Free. Seats are limited to 25 so every participant can engage and ask questions. Secure your spot early.
+                        </div>
+                    </li>
+                    <li class="faq-item">
+                        <button class="faq-btn" aria-expanded="false">
+                            <span>Who leads this?</span>
+                            <span class="faq-icon" aria-hidden="true">+</span>
+                        </button>
+                        <div class="faq-answer" hidden>
+                            Dave and Mark lead these labs. Both are covocational leaders who practice disciple-making in everyday life and run these labs regularly with ordinary believers.
+                        </div>
+                    </li>
+                </ul>
             </div>
 
         </div>
     </section>
-
-
-    <!-- ================================================
-         TESTIMONIAL
-    ================================================ -->
-    <div class="lab-testimonial">
-        <div class="lab-testimonial-inner">
-            <span class="eyebrow">From a recent lab</span>
-            <div class="testimonial-card">
-                <p class="testimonial-quote">&ldquo;I live a busy life with 2 jobs and a family. I&rsquo;ve started to invest more deeply and focus more intently on my relational network &mdash; watching and waiting for the right time for the next conversation and steps.&rdquo;</p>
-                <p class="testimonial-attribution">&mdash; Nathan E.</p>
-            </div>
-        </div>
-    </div>
 
 
     <!-- ================================================
@@ -1181,17 +1159,10 @@
     ================================================ -->
     <section class="bottom-cta">
         <div class="bottom-cta-inner">
-            <img
-    class="first-split-image"
-    src="image/Covo Multipliers Winging It.webp"
-    alt="Working Christians often feel split between everyday life and ministry"
->
-            <h2 class="bottom-cta-headline">You can keep winging it. But that won&rsquo;t move anything forward.</h2>
-            <div class="bottom-cta-body">
-                <p>If you do not join, next month probably looks a lot like this month. You stay busy, keep hoping things will become more fruitful, and still feel unsure where disciple making actually fits in your real week.</p>
-                <p>This lab will not fix everything in 45 minutes. But it can help you stop drifting and take one clear step with a repeatable plan.</p>
-            </div>
-            <button class="btn-cta" id="cta-scroll-btn">Reserve My Seat</button>
+            <h2 class="bottom-cta-headline">Stop Treating Mission Like Something Extra</h2>
+            <p class="bottom-cta-body">Join the July lab and leave with one simple pattern you can practice where you already live, work, and relate.</p>
+            <button class="btn-cta" id="cta-scroll-btn">Save My Seat</button>
+            <p class="bottom-cta-date">Live &middot; 45 minutes &middot; Free &middot; Limited seats</p>
         </div>
     </section>
 
@@ -1225,13 +1196,19 @@
         // -------------------------------------------------------
         // Boot
         // -------------------------------------------------------
-        document.addEventListener('DOMContentLoaded', loadEvent);
+        document.addEventListener('DOMContentLoaded', function() {
+            loadEvent();
+
+            // Wire up form submit immediately so the handler is in place
+            // before the event loads; handleSubmit guards against null eventId.
+            document.getElementById('registration-form')
+                .addEventListener('submit', handleSubmit);
+        });
 
 
         // -------------------------------------------------------
         // Fetch event from Supabase REST API
         // Reads from the events_with_availability view.
-        // That view is SELECT-accessible to the anon role via RLS.
         // -------------------------------------------------------
         async function loadEvent() {
             const url = new URL(`${SUPABASE_URL}/rest/v1/events_with_availability`);
@@ -1268,55 +1245,43 @@
 
 
         // -------------------------------------------------------
-        // Render event info into the hero, then show the form
+        // Render event info into the hero, then handle form state
         // -------------------------------------------------------
         function renderEvent(event) {
             eventId = event.id;
 
-            const isFull        = !event.has_availability;
-            const seatsLabel    = isFull
+            const isFull     = !event.has_availability;
+            const seatsLabel = isFull
                 ? 'Event full'
                 : `${event.seats_remaining} seat${event.seats_remaining === 1 ? '' : 's'} remaining`;
 
             // Update <title>
             document.title = `${event.title} — Covo Multipliers`;
 
-            // Build hero content
-            const content = document.getElementById('event-content');
-            content.innerHTML = `
-                <span class="event-label">Covo Multipliers Lab</span>
-                <h1 class="event-title">${esc(event.title)}</h1>
-                <div class="event-meta">
-                    <span class="event-date">${formatDate(event.event_date)}</span>
+            // Inject date + seat pill into hero left col
+            const heroMeta = document.getElementById('hero-event-meta');
+            if (heroMeta) {
+                heroMeta.innerHTML = `
                     <span class="event-seats${isFull ? ' is-full' : ''}">${esc(seatsLabel)}</span>
-                </div>
-                ${event.description
-                    ? `<p class="event-description">${esc(event.description)}</p>`
-                    : ''}
-            `;
+                    <span class="event-date">${formatDate(event.event_date)}</span>
+                `;
+                heroMeta.hidden = false;
+            }
 
             document.getElementById('hero-loading').hidden = true;
-            content.hidden = false;
 
-            // Show the registration section
-            document.getElementById('registration-section').hidden = false;
-
-            // Start countdown timer using the live event date
+            // Start countdown in hero left col
             startCountdown(event.event_date);
 
             if (isFull) {
-                // Replace form with a full-event message
+                // Replace form card with full-event message
                 document.getElementById('registration-card').innerHTML = `
-                    <h2>Register for this lab</h2>
+                    <h2>Save Your Seat</h2>
                     <div class="full-notice">
                         <p>This event is full. Check back for future labs with open seats.</p>
                         <a class="btn-pill" href="/#upcoming-labs">← See all upcoming labs</a>
                     </div>
                 `;
-            } else {
-                // Attach form handler
-                document.getElementById('registration-form')
-                    .addEventListener('submit', handleSubmit);
             }
         }
 
@@ -1328,10 +1293,16 @@
             e.preventDefault();
             clearMessage();
 
+            // Guard: event not yet loaded from Supabase
+            if (!eventId) {
+                showError('Event details are still loading. Please try again in a moment.');
+                return;
+            }
+
             const name  = document.getElementById('field-name').value.trim();
             const email = document.getElementById('field-email').value.trim();
 
-            // Client-side validation (belt-and-suspenders — Edge Function validates too)
+            // Client-side validation
             if (name.length < 2) {
                 showError('Please enter your full name.');
                 document.getElementById('field-name').focus();
@@ -1370,7 +1341,7 @@
             // Replace the entire card with a success state
             document.getElementById('registration-card').innerHTML = `
                 <div class="success-state">
-                    <div class="success-icon" aria-hidden="true">✓</div>
+                    <div class="success-icon" aria-hidden="true">&#10003;</div>
                     <h3>You&rsquo;re registered!</h3>
                     <p>A confirmation email is on its way to <strong>${esc(email)}</strong>
                     with your event details and Zoom link.</p>
@@ -1390,7 +1361,7 @@
             btn.disabled   = active;
             name.disabled  = active;
             email.disabled = active;
-            btn.textContent = active ? 'Registering\u2026' : 'Register';
+            btn.textContent = active ? 'Registering…' : 'Save My Seat';
         }
 
         function showError(msg) {
@@ -1416,7 +1387,6 @@
         // -------------------------------------------------------
 
         // Formats a UTC ISO timestamp for Eastern Time display
-        // e.g. "Tuesday, May 20, 2025 at 7:00 PM EDT"
         function formatDate(iso) {
             try {
                 return new Date(iso).toLocaleDateString('en-US', {
@@ -1439,7 +1409,6 @@
         }
 
         // Safe HTML escaping for injecting DB/user strings into innerHTML.
-        // Uses the browser's own text node serialization — no regex hacks.
         function esc(str) {
             const node = document.createElement('span');
             node.appendChild(document.createTextNode(String(str)));
@@ -1449,7 +1418,6 @@
 
         // -------------------------------------------------------
         // Countdown timer
-        // Called by renderEvent() with the live event_date from Supabase.
         // -------------------------------------------------------
         let countdownInterval = null;
 
@@ -1514,10 +1482,10 @@
 
 
         // -------------------------------------------------------
-        // Bottom CTA — scroll to registration card
+        // Bottom CTA — scroll to registration card in hero
         // -------------------------------------------------------
         document.getElementById('cta-scroll-btn').addEventListener('click', function() {
-            var target = document.getElementById('registration-section');
+            var target = document.getElementById('registration-card');
             if (target) {
                 target.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
