@@ -3,18 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Register for an upcoming Covo Multipliers Lab.">
-    <title>Lab Registration — Covo Multipliers</title>
+    <meta name="description" content="Rhythms of a Covo Multiplier - a free 45-minute live lab from Covo Multipliers on the 5 rhythms of the 4 Fields pathway: Go, Gospel, Grow, Gather, Guide.">
+    <title>Rhythms of a Covo Multiplier - Covo Multipliers</title>
 
-    <!-- Shared site styles (reset, fonts, .btn-pill, etc.) -->
+    <!-- Shared site styles (reset, fonts, .btn-pill, testimonial cards, etc.) -->
     <link rel="stylesheet" href="styles.css">
 
     <style>
         /* ==============================================
-           Event page styles — event.html
-           Colors and type choices match styles.css
+           Event page styles - Rhythms of a Covo Multiplier
            ============================================== */
-
 
         /* -----------------------------------------------
            1. SITE HEADER
@@ -50,7 +48,7 @@
 
 
         /* -----------------------------------------------
-           2. EVENT HERO — gradient matches labs-section
+           2. EVENT HERO
         ----------------------------------------------- */
 
         .event-hero {
@@ -66,7 +64,6 @@
             overflow: hidden;
         }
 
-        /* Same texture overlay as labs-section */
         .event-hero::before {
             content: "";
             position: absolute;
@@ -97,24 +94,9 @@
             min-width: 0;
         }
 
-        .hero-image-wrap {
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 24px 64px rgba(0, 0, 0, 0.38);
-            aspect-ratio: 4 / 3;
-        }
-
-        .hero-image-wrap img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
 
         /* -----------------------------------------------
-           3. HERO CONTENT — classes injected by renderEvent()
-              Do not rename without updating the JS.
+           3. HERO CONTENT
         ----------------------------------------------- */
 
         .event-label {
@@ -136,12 +118,29 @@
             margin-bottom: 1.25rem;
         }
 
+        .event-description {
+            font-size: 1.1rem;
+            line-height: 1.72;
+            color: rgba(255, 255, 255, 0.88);
+            max-width: 640px;
+            margin-bottom: 1.25rem;
+        }
+
+        .hero-proof {
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.5);
+            margin: 0 0 1.5rem;
+        }
+
         .event-meta {
             display: flex;
             flex-wrap: wrap;
             align-items: center;
             gap: 0.5rem 1rem;
-            margin-bottom: 1.75rem;
+            margin-bottom: 1.25rem;
         }
 
         .event-date {
@@ -150,13 +149,12 @@
             color: rgba(255, 255, 255, 0.9);
         }
 
-        /* Gold when seats open, muted when full */
         .event-seats {
             display: inline-block;
-            font-size: 0.78rem;
-            font-weight: 700;
+            font-size: 0.88rem;
+            font-weight: 800;
             letter-spacing: 0.04em;
-            padding: 0.3rem 0.9rem;
+            padding: 0.4rem 1.1rem;
             border-radius: 999px;
             background: rgba(220, 181, 90, 0.2);
             color: #dcb55a;
@@ -169,60 +167,8 @@
             border-color: rgba(255, 255, 255, 0.15);
         }
 
-        .event-description {
-            font-size: 1.1rem;
-            line-height: 1.72;
-            color: rgba(255, 255, 255, 0.88);
-            max-width: 640px;
-        }
-
-        /* Neutralise browser <p> margins so the block reads the same as the
-           previous <br>-separated copy on desktop */
-        .hero-desc-block p {
-            margin: 0;
-        }
-
-        /* Countdown timer */
-        .countdown-wrap {
-            display: flex;
-            gap: 0.75rem;
-            margin-top: 1.75rem;
-            flex-wrap: wrap;
-        }
-
-        .countdown-unit {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            border-radius: 10px;
-            padding: 0.7rem 1.1rem;
-            min-width: 68px;
-        }
-
-        .countdown-num {
-            font-size: 1.85rem;
-            font-weight: 900;
-            color: #ffffff;
-            line-height: 1;
-            letter-spacing: -0.02em;
-        }
-
-        .countdown-label {
-            font-size: 0.6rem;
-            font-weight: 700;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: rgba(255, 255, 255, 0.5);
-            margin-top: 0.3rem;
-        }
-
-        .countdown-closed {
-            margin-top: 1.5rem;
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.6);
-            font-style: italic;
+        #event-countdown {
+            display: none;
         }
 
 
@@ -248,82 +194,187 @@
 
 
         /* -----------------------------------------------
-           5. EVENT DETAILS SECTION — two-column
-              id="registration-section" revealed by renderEvent()
+           5. REGISTRATION CARD
         ----------------------------------------------- */
 
-        .event-details-section {
+        .event-hero .form-col {
+            position: static;
+        }
+
+        .registration-card {
             background: #ffffff;
-            padding: 3rem 2rem 3.5rem;
-            border-bottom: 1px solid #e5e7eb;
+            border-radius: 16px;
+            border-top: 4px solid #1b4d3e;
+            box-shadow:
+                0 4px 6px rgba(0, 0, 0, 0.04),
+                0 12px 40px rgba(16, 40, 31, 0.10);
+            padding: 2.25rem 2.5rem;
         }
 
-        .event-details-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 400px;
-            gap: 4rem;
-            align-items: start;
-        }
-
-        /* Scoped overrides: event data rendered on white background */
-        .event-info-col .event-label {
-            color: #245c4a;
-        }
-
-        .event-info-col .event-title {
-            font-size: clamp(1.75rem, 4vw, 2.5rem);
+        .registration-card h2 {
+            font-size: 1.3rem;
+            font-weight: 800;
             color: #10281f;
+            margin-bottom: 0.35rem;
         }
 
-        .event-info-col .event-date {
-            color: #2a2a2a;
+        .registration-card .form-intro {
+            font-size: 0.875rem;
+            color: #5a6b65;
+            line-height: 1.5;
+            margin-bottom: 1.75rem;
         }
 
-        .event-info-col .event-description {
-            color: #444444;
+        .form-field {
+            margin-bottom: 1.1rem;
+        }
+
+        .form-field label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 0.4rem;
+        }
+
+        .form-field input {
+            width: 100%;
+            padding: 0.75rem 1rem;
             font-size: 1rem;
+            font-family: inherit;
+            color: #1a1a1a;
+            background: #ffffff;
+            border: 1.5px solid #d1d5db;
+            border-radius: 10px;
+            outline: none;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
         }
 
-        .event-info-col .event-seats {
-            background: rgba(159, 122, 47, 0.1);
-            color: #7a5515;
-            border-color: rgba(159, 122, 47, 0.35);
+        .form-field input:focus {
+            border-color: #1b4d3e;
+            box-shadow: 0 0 0 3px rgba(27, 77, 62, 0.1);
         }
 
-        .event-info-col .event-seats.is-full {
+        .form-field input:disabled {
             background: #f3f4f6;
-            color: #6b7280;
-            border-color: #e5e7eb;
+            color: #9ca3af;
+            cursor: not-allowed;
         }
 
-        /* Countdown: light-background treatment */
-        .event-info-col .countdown-wrap {
+        .btn-submit {
+            width: 100%;
+            padding: 0.9rem 1.5rem;
+            margin-top: 0.5rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            background: #1b4d3e;
+            color: #ffffff;
+            letter-spacing: 0.01em;
+            transition: background 0.2s ease;
+        }
+
+        .btn-submit:hover:not(:disabled) {
+            background: #10281f;
+        }
+
+        .btn-submit:focus-visible {
+            outline: 3px solid #dcb55a;
+            outline-offset: 3px;
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .form-message {
+            display: none;
             margin-top: 1rem;
+            padding: 0.85rem 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            line-height: 1.55;
         }
 
-        .event-info-col .countdown-unit {
-            background: #f0fdf4;
-            border-color: #bbf7d0;
+        .form-message.is-error {
+            display: block;
+            background: #fef2f2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
         }
 
-        .event-info-col .countdown-num {
+        .full-notice {
+            padding: 0.5rem 0 0.25rem;
+            text-align: center;
+        }
+
+        .full-notice p {
+            font-size: 0.95rem;
+            color: #5a6b65;
+            margin-bottom: 1.25rem;
+            line-height: 1.6;
+        }
+
+        .success-state {
+            text-align: center;
+            padding: 1rem 0;
+        }
+
+        .success-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: #dcfce7;
+            color: #15803d;
+            font-size: 1.4rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.25rem;
+        }
+
+        .success-state h3 {
+            font-size: 1.3rem;
+            font-weight: 800;
             color: #10281f;
+            margin-bottom: 0.5rem;
         }
 
-        .event-info-col .countdown-label {
+        .success-state p {
+            font-size: 0.95rem;
             color: #5a6b65;
+            line-height: 1.65;
         }
 
-        .event-info-col .countdown-closed {
-            color: #5a6b65;
+        .form-social-proof {
             margin-top: 1rem;
+            text-align: center;
+        }
+
+        .form-social-proof img {
+            display: block;
+            margin: 0 auto;
+            max-width: 150px;
+            width: 100%;
+        }
+
+        .form-col .form-social-proof .form-social-proof-caption {
+            margin-top: 0.45rem;
+            font-size: 0.75rem;
+            color: #ffffff !important;
+            opacity: 0.88;
+            line-height: 1.45;
+            letter-spacing: 0.01em;
         }
 
 
         /* -----------------------------------------------
-           6. SUPPORTING CONTENT — takeaways, quotes, FAQ
+           6. SUPPORTING CONTENT
         ----------------------------------------------- */
 
         .event-body {
@@ -335,11 +386,6 @@
             max-width: 820px;
             margin: 0 auto;
         }
-
-
-        /* -----------------------------------------------
-           6. LEFT COLUMN — static supporting content
-        ----------------------------------------------- */
 
         .eyebrow {
             display: block;
@@ -356,6 +402,69 @@
             font-weight: 800;
             color: #10281f;
             line-height: 1.25;
+        }
+
+        .content-h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #10281f;
+            line-height: 1.3;
+            margin-bottom: 0.65rem;
+        }
+
+        .content-p {
+            font-size: 0.975rem;
+            line-height: 1.72;
+            color: #444444;
+        }
+
+        .content-p + .content-p {
+            margin-top: 0.85rem;
+        }
+
+        .content-section {
+            margin-top: 2.75rem;
+            padding-top: 2.75rem;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .rhythm-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.85rem;
+            margin: 1.5rem 0 0;
+        }
+
+        .rhythm-card {
+            background: #f8faf9;
+            border: 1px solid #e2eae6;
+            border-top: 3px solid #1b4d3e;
+            border-radius: 0 0 10px 10px;
+            padding: 1.25rem;
+        }
+
+        .rhythm-word {
+            display: block;
+            font-size: 1.35rem;
+            font-weight: 900;
+            color: #1b4d3e;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.25rem;
+        }
+
+        .rhythm-question {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 800;
+            color: #10281f;
+            line-height: 1.35;
+            margin-bottom: 0.45rem;
+        }
+
+        .rhythm-body {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #444444;
         }
 
         .takeaway-list {
@@ -395,47 +504,10 @@
             margin-top: 0.25rem;
         }
 
-        .who-section {
-            margin-top: 2.75rem;
-            padding-top: 2.75rem;
-            border-top: 1px solid #e5e7eb;
+        .testimonial-card {
+            margin-top: 1rem;
         }
 
-        .content-h3 {
-            font-size: 1.15rem;
-            font-weight: 700;
-            color: #10281f;
-            line-height: 1.3;
-            margin-bottom: 0.65rem;
-        }
-
-        .content-p {
-            font-size: 0.975rem;
-            line-height: 1.72;
-            color: #444444;
-        }
-
-        /* Quote cards — struggle section */
-        .quote-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0.65rem;
-            margin: 1rem 0 1.25rem;
-        }
-
-        .quote-card {
-            background: #f8faf9;
-            border: 1px solid #e2eae6;
-            border-left: 3px solid #1b4d3e;
-            border-radius: 0 8px 8px 0;
-            padding: 0.85rem 1rem;
-            font-size: 0.9rem;
-            line-height: 1.55;
-            color: #2a2a2a;
-            font-style: italic;
-        }
-
-        /* FAQ block */
         .format-note {
             margin-top: 2.75rem;
             padding: 1.75rem 2rem;
@@ -512,213 +584,7 @@
 
 
         /* -----------------------------------------------
-           7. RIGHT COLUMN — registration card (sticky)
-              id="registration-card" innerHTML replaced by JS
-              on full-event and on successful submission
-        ----------------------------------------------- */
-
-        .form-col {
-            position: sticky;
-            top: 1rem;
-        }
-
-        .registration-card {
-            background: #ffffff;
-            border-radius: 16px;
-            border-top: 4px solid #1b4d3e;
-            box-shadow:
-                0 4px 6px rgba(0, 0, 0, 0.04),
-                0 12px 40px rgba(16, 40, 31, 0.10);
-            padding: 2.25rem 2.5rem;
-        }
-
-        .registration-card h2 {
-            font-size: 1.3rem;
-            font-weight: 800;
-            color: #10281f;
-            margin-bottom: 0.35rem;
-        }
-
-        .registration-card .form-intro {
-            font-size: 0.875rem;
-            color: #5a6b65;
-            line-height: 1.5;
-            margin-bottom: 1.75rem;
-        }
-
-
-        /* -----------------------------------------------
-           8. FORM FIELDS
-        ----------------------------------------------- */
-
-        .form-field {
-            margin-bottom: 1.1rem;
-        }
-
-        .form-field label {
-            display: block;
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: #1a1a1a;
-            margin-bottom: 0.4rem;
-        }
-
-        .form-field input {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            font-size: 1rem;
-            font-family: inherit;
-            color: #1a1a1a;
-            background: #ffffff;
-            border: 1.5px solid #d1d5db;
-            border-radius: 10px;
-            outline: none;
-            transition: border-color 0.15s ease, box-shadow 0.15s ease;
-        }
-
-        .form-field input:focus {
-            border-color: #1b4d3e;
-            box-shadow: 0 0 0 3px rgba(27, 77, 62, 0.1);
-        }
-
-        .form-field input:disabled {
-            background: #f3f4f6;
-            color: #9ca3af;
-            cursor: not-allowed;
-        }
-
-
-        /* -----------------------------------------------
-           9. SUBMIT BUTTON
-        ----------------------------------------------- */
-
-        .btn-submit {
-            width: 100%;
-            padding: 0.9rem 1.5rem;
-            margin-top: 0.5rem;
-            border: none;
-            border-radius: 10px;
-            font-size: 1rem;
-            font-weight: 700;
-            font-family: inherit;
-            cursor: pointer;
-            background: #1b4d3e;
-            color: #ffffff;
-            letter-spacing: 0.01em;
-            transition: background 0.2s ease;
-        }
-
-        .btn-submit:hover:not(:disabled) {
-            background: #10281f;
-        }
-
-        .btn-submit:focus-visible {
-            outline: 3px solid #dcb55a;
-            outline-offset: 3px;
-        }
-
-        .btn-submit:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-
-        /* -----------------------------------------------
-           10. FORM MESSAGE
-               id="form-message" — JS adds .is-error class
-        ----------------------------------------------- */
-
-        .form-message {
-            display: none;
-            margin-top: 1rem;
-            padding: 0.85rem 1rem;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            line-height: 1.55;
-        }
-
-        .form-message.is-error {
-            display: block;
-            background: #fef2f2;
-            color: #991b1b;
-            border: 1px solid #fecaca;
-        }
-
-
-        /* -----------------------------------------------
-           11. FULL-EVENT NOTICE
-               Injected by JS into #registration-card
-        ----------------------------------------------- */
-
-        .full-notice {
-            padding: 0.5rem 0 0.25rem;
-            text-align: center;
-        }
-
-        .full-notice p {
-            font-size: 0.95rem;
-            color: #5a6b65;
-            margin-bottom: 1.25rem;
-            line-height: 1.6;
-        }
-
-
-        /* -----------------------------------------------
-           12. SUCCESS STATE
-               Injected by JS into #registration-card
-        ----------------------------------------------- */
-
-        .success-state {
-            text-align: center;
-            padding: 1rem 0;
-        }
-
-        .success-icon {
-            width: 52px;
-            height: 52px;
-            border-radius: 50%;
-            background: #dcfce7;
-            color: #15803d;
-            font-size: 1.4rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1.25rem;
-        }
-
-        .success-state h3 {
-            font-size: 1.3rem;
-            font-weight: 800;
-            color: #10281f;
-            margin-bottom: 0.5rem;
-        }
-
-        .success-state p {
-            font-size: 0.95rem;
-            color: #5a6b65;
-            line-height: 1.65;
-        }
-
-
-        /* -----------------------------------------------
-           13. LAB TESTIMONIAL
-        ----------------------------------------------- */
-
-        .lab-testimonial {
-            padding: 2.5rem 2rem;
-            background: #ffffff;
-            border-top: 1px solid #e5e7eb;
-        }
-
-        .lab-testimonial-inner {
-            max-width: 820px;
-            margin: 0 auto;
-        }
-
-
-        /* -----------------------------------------------
-           14. SOCIAL PROOF
+           7. SOCIAL PROOF STRIP
         ----------------------------------------------- */
 
         .social-proof {
@@ -766,7 +632,7 @@
 
 
         /* -----------------------------------------------
-           14. BOTTOM CTA
+           8. BOTTOM CTA
         ----------------------------------------------- */
 
         .bottom-cta {
@@ -802,24 +668,29 @@
             z-index: 2;
         }
 
+        .first-split-image {
+            display: block;
+            width: 100%;
+            max-width: 420px;
+            margin: 0 auto 2rem;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.26);
+        }
+
         .bottom-cta-headline {
             font-size: clamp(1.5rem, 3.5vw, 2rem);
             font-weight: 900;
             color: #ffffff;
             line-height: 1.2;
             letter-spacing: -0.02em;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.25rem;
         }
 
         .bottom-cta-body {
             font-size: 1rem;
             line-height: 1.75;
             color: rgba(255, 255, 255, 0.82);
-            margin-bottom: 2.25rem;
-        }
-
-        .bottom-cta-body p + p {
-            margin-top: 1rem;
+            margin-bottom: 2rem;
         }
 
         .btn-cta {
@@ -848,9 +719,15 @@
             outline-offset: 3px;
         }
 
+        .bottom-cta-date {
+            margin-top: 1rem;
+            font-size: 0.875rem;
+            color: rgba(255, 255, 255, 0.55);
+        }
+
 
         /* -----------------------------------------------
-           15. FOOTER
+           9. FOOTER
         ----------------------------------------------- */
 
         .site-footer {
@@ -885,7 +762,7 @@
 
 
         /* -----------------------------------------------
-           16. RESPONSIVE
+           10. RESPONSIVE
         ----------------------------------------------- */
 
         @media (max-width: 860px) {
@@ -894,41 +771,26 @@
                 gap: 2rem;
             }
 
-            .hero-image-wrap {
-                aspect-ratio: 16 / 7;
-            }
-
-            .event-details-inner {
-                grid-template-columns: 1fr;
-                gap: 2.5rem;
-            }
-
-            /* Un-stick the form card on mobile so it flows naturally */
-            .form-col {
-                position: static;
-            }
-
-            .quote-grid {
-                grid-template-columns: 1fr;
+            .rhythm-grid {
+                grid-template-columns: 1fr 1fr;
             }
         }
 
         @media (max-width: 540px) {
-            .event-details-section { padding: 2.5rem 1.25rem 3rem; }
-            .event-body            { padding: 2.5rem 1.25rem 3.5rem; }
-            .registration-card     { padding: 1.75rem 1.5rem; }
-            .quote-grid            { gap: 0.5rem; }
-            .bottom-cta            { padding: 3.5rem 1.25rem; }
-            .event-info-col .countdown-num  { font-size: 1.5rem; }
-            .event-info-col .countdown-unit { padding: 0.6rem 0.85rem; min-width: 58px; }
-
-            /* Hero: tighter, grouped block on mobile */
-            .event-hero                    { padding: 1.2rem 1.25rem 1rem; }
-            .event-hero-inner              { gap: 0.75rem; }
-            .event-hero .event-title       { font-size: clamp(1.6rem, 6vw, 2.25rem); margin-bottom: 0.35rem; }
-            .event-hero .event-description { font-size: 0.9rem; line-height: 1.38; margin-bottom: 0.5rem; }
-            .event-hero .hero-desc-block p + p { margin-top: 0.35em; }
-            .hero-image-wrap               { aspect-ratio: 16 / 7; border-radius: 8px; }
+            .site-header          { padding: 0.9rem 1.25rem; }
+            .event-hero           { padding: 1.75rem 1.25rem 2rem; }
+            .event-hero-inner     { gap: 1.5rem; }
+            .event-title          { font-size: clamp(1.65rem, 7vw, 2.25rem); margin-bottom: 0.75rem; }
+            .event-description    { font-size: 0.95rem; line-height: 1.55; }
+            .event-body           { padding: 2.5rem 1.25rem 3.5rem; }
+            .registration-card    { padding: 1.75rem 1.5rem; }
+            .rhythm-grid          { grid-template-columns: 1fr; }
+            .format-note          { padding: 1.5rem 1.25rem; }
+            .social-proof         { padding: 2rem 1.25rem; }
+            .social-proof-inner   { align-items: flex-start; }
+            .bottom-cta           { padding: 3.5rem 1.25rem; }
+            .first-split-image    { max-width: 320px; border-radius: 12px; margin-bottom: 1.5rem; }
+            .form-social-proof img { max-width: 145px; }
         }
     </style>
 </head>
@@ -945,19 +807,18 @@
 
     <!-- ================================================
          EVENT HERO
-         All content inside #event-content is injected
-         by renderEvent() after Supabase fetch.
     ================================================ -->
-    <section class="event-hero">
+    <section class="event-hero" id="registration-section">
         <div class="event-hero-inner">
 
             <div class="hero-copy">
-                <p class="event-title">Trying to make disciples but never sure where it fits in your week?</p>
-                <div class="event-description hero-desc-block">
-                    <p>You&#8217;ve got a job. Responsibilities. A calendar that keeps blowing up. You want your life to matter for the Kingdom, not just your church attendance.</p>
-                    <br><p>In <b>45 minutes</b> you&#8217;ll get practical help for building a life that makes disciples where you live, work, and play.</p>
-                    <br><p><b>🔴LIVE. Practical. Free.</b></p>
-                </div>
+                <span class="event-label">June Covo Multipliers Lab</span>
+                <h1 class="event-title">Trying to make disciples, but don&rsquo;t have a rhythm for it?</h1>
+                <p class="event-description">In 45 minutes, you&rsquo;ll learn the 5 rhythms of the 4 Fields pathway: where to go, how to start spiritual conversations, how to share the gospel, how to disciple, how to gather believers, and how to guide emerging leaders.</p>
+                <p class="hero-proof">Live &middot; Practical &middot; Free &middot; Small group</p>
+
+                <!-- Populated by JS: formatted date + seat pill -->
+                <div id="hero-event-meta" class="event-meta" hidden></div>
 
                 <!-- Shown while fetching; hidden by renderEvent() on success -->
                 <p class="hero-status" id="hero-loading">Loading event&hellip;</p>
@@ -969,38 +830,17 @@
                     <br><br>
                     <a class="btn-pill" href="/#upcoming-labs">See all upcoming labs</a>
                 </div>
-            </div>
 
-            <div class="hero-image-wrap">
-                <img src="image/two-young-men-sharing-their-faith-in-Jesus.jpg" alt="Two young men sharing their faith in Jesus" loading="lazy">
-            </div>
-
-        </div>
-    </section>
-
-
-    <!-- ================================================
-         EVENT DETAILS — live event info + registration form
-         Hidden until renderEvent() calls:
-           document.getElementById('registration-section').hidden = false
-    ================================================ -->
-    <section class="event-details-section" id="registration-section" hidden>
-        <div class="event-details-inner">
-
-            <!-- Left: live event title, date, seats, description + countdown -->
-            <div class="event-info-col">
-                <!-- Populated by renderEvent(): label, title, meta, description -->
-                <div id="event-content"></div>
-                <!-- Countdown — populated and shown by startCountdown() -->
+                <!-- Hidden countdown. Kept in place so existing logic does not break. -->
                 <div id="event-countdown" hidden></div>
             </div>
 
-            <!-- Right: registration form -->
+            <!-- Registration card - always visible; JS enables submit once event loads -->
             <div class="form-col">
                 <div class="registration-card" id="registration-card">
 
-                    <h2>Reserve your seat</h2>
-                    <p class="form-intro">Seats are limited to 25. One registration per email address.</p>
+                    <h2>Save Your Seat</h2>
+                    <p class="form-intro">Free 45-minute live lab<br><span id="form-date-line">Event date loading&hellip;</span></p>
 
                     <form id="registration-form" novalidate>
                         <div class="form-field">
@@ -1028,17 +868,16 @@
                         </div>
 
                         <button class="btn-submit" type="submit" id="submit-btn">
-                            Register
+                            Save My Seat
                         </button>
 
                         <div class="form-message" id="form-message" role="alert" aria-live="polite"></div>
                     </form>
 
                 </div>
-
                 <div class="form-social-proof">
-                    <img src="image/social%20proof%20covo%20multipliers.webp" alt="Join a tribe of covocational leaders">
-                    <p>Join a tribe of covocational leaders.</p>
+                    <img src="image/social-proof-covo-multipliers-transparent.webp" alt="Covo Multipliers community" loading="lazy">
+                    <p class="form-social-proof-caption">Joined by disciple-makers learning simple obedience together.</p>
                 </div>
             </div>
 
@@ -1047,117 +886,171 @@
 
 
     <!-- ================================================
-         SUPPORTING CONTENT — takeaways, struggle quotes, FAQ
+         SUPPORTING CONTENT
     ================================================ -->
     <section class="event-body">
         <div class="event-body-inner">
 
-            <div class="content-col">
-
-                <div>
-                    <p class="eyebrow">What you&rsquo;ll walk away with</p>
-                    <h2 class="content-h2">What you&rsquo;ll walk away with</h2>
-                    <ul class="takeaway-list">
-                        <li>
-                            <span class="take-check" aria-hidden="true">&#10003;</span>
-                            <span>Clarity about what matters.</span>
-                        </li>
-                        <li>
-                            <span class="take-check" aria-hidden="true">&#10003;</span>
-                            <span>A rhythm you can repeat.</span>
-                        </li>
-                        <li>
-                            <span class="take-check" aria-hidden="true">&#10003;</span>
-                            <span>One step to take immediately.</span>
-                        </li>
-                        <li>
-                            <span class="take-check" aria-hidden="true">&#10003;</span>
-                            <span>Not inspiration that fades by Friday.</span>
-                        </li>
-                    </ul>
+            <!-- Problem -->
+            <div>
+                <p class="eyebrow">The real problem</p>
+                <h2 class="content-h2">Good Intentions Don&rsquo;t Create Movement</h2>
+                <div style="margin-top: 1.25rem;">
+                    <p class="content-p">A lot of believers want to make disciples. But they don&rsquo;t know where to go, what to say, how to follow up, or how ordinary people become churches and leaders.</p>
+                    <p class="content-p">So they stay busy. They stay sincere. But nothing becomes repeatable.</p>
+                    <p class="content-p">This lab gives you a simple rhythm for the whole pathway.</p>
                 </div>
+            </div>
 
-                <div class="who-section">
-                    <p class="eyebrow">If any of this hits, you&rsquo;re in the right place.</p>
-                    <h3 class="content-h3">You&rsquo;re not crazy for feeling this</h3>
-                    <div class="quote-grid">
-                        <div class="quote-card">&ldquo;I start the week strong and lose it by Thursday.&rdquo;</div>
-                        <div class="quote-card">&ldquo;I feel like I&rsquo;m the only one trying to live this way.&rdquo;</div>
-                        <div class="quote-card">&ldquo;I want consistency but life keeps winning.&rdquo;</div>
-                        <div class="quote-card">&ldquo;I don&rsquo;t know what deserves my attention anymore.&rdquo;</div>
+            <!-- Framework -->
+            <div class="content-section">
+                <p class="eyebrow">The rhythm</p>
+                <h2 class="content-h2">The 5 Rhythms of a Covo Multiplier</h2>
+                <p class="content-p" style="margin-top: 1.25rem;">Disciple making breaks down when it stays vague. The 4 Fields gives you a simple pathway. This lab turns that pathway into weekly rhythms you can actually practice.</p>
+
+                <div class="rhythm-grid">
+                    <div class="rhythm-card">
+                        <span class="rhythm-word">Go</span>
+                        <span class="rhythm-question">Where are you already sent?</span>
+                        <p class="rhythm-body">Identify the people and places God has already put in your normal life.</p>
                     </div>
-                    <p class="content-p">Good news. You don&rsquo;t need more guilt. You need a repeatable way to live.</p>
+                    <div class="rhythm-card">
+                        <span class="rhythm-word">Gospel</span>
+                        <span class="rhythm-question">How do you start spiritual conversations?</span>
+                        <p class="rhythm-body">Learn simple ways to move from everyday conversation to gospel opportunity.</p>
+                    </div>
+                    <div class="rhythm-card">
+                        <span class="rhythm-word">Grow</span>
+                        <span class="rhythm-question">How do you help someone take next steps?</span>
+                        <p class="rhythm-body">Build short-term and long-term discipleship rhythms that move people toward obedience.</p>
+                    </div>
+                    <div class="rhythm-card">
+                        <span class="rhythm-word">Gather</span>
+                        <span class="rhythm-question">How do disciples become church?</span>
+                        <p class="rhythm-body">Learn how to gather new disciples around Scripture, prayer, obedience, and mission.</p>
+                    </div>
+                    <div class="rhythm-card">
+                        <span class="rhythm-word">Guide</span>
+                        <span class="rhythm-question">How do emerging leaders multiply the pattern?</span>
+                        <p class="rhythm-body">Learn how to guide others to practice the same rhythms with their people.</p>
+                    </div>
                 </div>
+            </div>
 
-                <div class="format-note">
-                    <strong>Common questions</strong>
-                    <ul class="faq-list">
-                        <li class="faq-item">
-                            <button class="faq-btn" aria-expanded="false">
-                                <span>Can&rsquo;t come live?</span>
-                                <span class="faq-icon" aria-hidden="true">+</span>
-                            </button>
-                            <div class="faq-answer" hidden>
-                                Labs are live-only and not recorded. The value comes from participating in the room, asking questions, and engaging with the framework in real time.
-                            </div>
-                        </li>
-                        <li class="faq-item">
-                            <button class="faq-btn" aria-expanded="false">
-                                <span>Who fits here?</span>
-                                <span class="faq-icon" aria-hidden="true">+</span>
-                            </button>
-                            <div class="faq-answer" hidden>
-                                These labs are built for marketplace multipliers, sentrepreneurs, and tent making leaders balancing work and mission who feel scattered and want to multiply disciples without burning out.
-                            </div>
-                        </li>
-                        <li class="faq-item">
-                            <button class="faq-btn" aria-expanded="false">
-                                <span>Do I need prep?</span>
-                                <span class="faq-icon" aria-hidden="true">+</span>
-                            </button>
-                            <div class="faq-answer" hidden>
-                                No preparation is required. Some labs offer optional prep reading, but you&rsquo;ll get full value even if you just show up ready to engage.
-                            </div>
-                        </li>
-                        <li class="faq-item">
-                            <button class="faq-btn" aria-expanded="false">
-                                <span>How is this different from a typical webinar?</span>
-                                <span class="faq-icon" aria-hidden="true">+</span>
-                            </button>
-                            <div class="faq-answer" hidden>
-                                These are not passive webinars. Each 45-minute lab is interactive, practical, and focused on giving you one breakthrough framework you can immediately apply in your context.
-                            </div>
-                        </li>
-                        <li class="faq-item">
-                            <button class="faq-btn" aria-expanded="false">
-                                <span>What does it cost?</span>
-                                <span class="faq-icon" aria-hidden="true">+</span>
-                            </button>
-                            <div class="faq-answer" hidden>
-                                The labs are free, but seats are intentionally limited so every participant can engage and ask questions. We encourage you to secure your spot early.
-                            </div>
-                        </li>
-                    </ul>
+            <!-- Outcomes -->
+            <div class="content-section">
+                <p class="eyebrow">What you&rsquo;ll walk away with</p>
+                <h2 class="content-h2">You&rsquo;ll Leave With a Repeatable Disciple-Making Rhythm</h2>
+                <ul class="takeaway-list">
+                    <li>
+                        <span class="take-check" aria-hidden="true">&#10003;</span>
+                        <span>one field where you already have access</span>
+                    </li>
+                    <li>
+                        <span class="take-check" aria-hidden="true">&#10003;</span>
+                        <span>one simple way to start a spiritual conversation</span>
+                    </li>
+                    <li>
+                        <span class="take-check" aria-hidden="true">&#10003;</span>
+                        <span>one gospel-sharing tool you can practice</span>
+                    </li>
+                    <li>
+                        <span class="take-check" aria-hidden="true">&#10003;</span>
+                        <span>one short-term discipleship rhythm for follow-up</span>
+                    </li>
+                    <li>
+                        <span class="take-check" aria-hidden="true">&#10003;</span>
+                        <span>one picture of how disciples can gather as church</span>
+                    </li>
+                    <li>
+                        <span class="take-check" aria-hidden="true">&#10003;</span>
+                        <span>one way to guide an emerging leader into the same pattern</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Who it's for -->
+            <div class="content-section">
+                <p class="eyebrow">Is this for you?</p>
+                <h2 class="content-h2">Who This Lab Is For</h2>
+                <ul class="takeaway-list">
+                    <li>
+                        <span class="take-check" aria-hidden="true">&#10003;</span>
+                        <span>believers who care about making disciples but feel scattered</span>
+                    </li>
+                    <li>
+                        <span class="take-check" aria-hidden="true">&#10003;</span>
+                        <span>covocational leaders trying to multiply without burning out</span>
+                    </li>
+                    <li>
+                        <span class="take-check" aria-hidden="true">&#10003;</span>
+                        <span>leaders who want disciple making to fit real life, not just church programs</span>
+                    </li>
+                    <li>
+                        <span class="take-check" aria-hidden="true">&#10003;</span>
+                        <span>people who need a simple way to train others</span>
+                    </li>
+                    <li>
+                        <span class="take-check" aria-hidden="true">&#10003;</span>
+                        <span>anyone who wants to move from random conversations to a repeatable pathway</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Testimonial -->
+            <div class="content-section">
+                <span class="eyebrow">From a recent lab</span>
+                <div class="testimonial-card">
+                    <p class="testimonial-quote">&ldquo;I live a busy life with 2 jobs and a family. I&rsquo;ve started to invest more deeply and focus more intently on my relational network, watching and waiting for the right time for the next conversation and steps.&rdquo;</p>
+                    <p class="testimonial-attribution">&mdash; Nathan E.</p>
                 </div>
+            </div>
 
+            <!-- FAQ -->
+            <div class="format-note">
+                <strong>Common questions</strong>
+                <ul class="faq-list">
+                    <li class="faq-item">
+                        <button class="faq-btn" aria-expanded="false">
+                            <span>Can&rsquo;t come live?</span>
+                            <span class="faq-icon" aria-hidden="true">+</span>
+                        </button>
+                        <div class="faq-answer" hidden>
+                            Labs are live-only and not recorded. The value comes from participating in the room, asking questions, and engaging with the framework in real time.
+                        </div>
+                    </li>
+                    <li class="faq-item">
+                        <button class="faq-btn" aria-expanded="false">
+                            <span>Who fits here?</span>
+                            <span class="faq-icon" aria-hidden="true">+</span>
+                        </button>
+                        <div class="faq-answer" hidden>
+                            This lab is built for believers, marketplace multipliers, sentrepreneurs, and covocational leaders who want disciple making to become a repeatable rhythm in normal life.
+                        </div>
+                    </li>
+                    <li class="faq-item">
+                        <button class="faq-btn" aria-expanded="false">
+                            <span>Do I need prep?</span>
+                            <span class="faq-icon" aria-hidden="true">+</span>
+                        </button>
+                        <div class="faq-answer" hidden>
+                            No preparation is required. Just show up ready to think honestly about where you already go, who you already know, and what obedience could look like this week.
+                        </div>
+                    </li>
+                    <li class="faq-item">
+                        <button class="faq-btn" aria-expanded="false">
+                            <span>How is this different from a typical webinar?</span>
+                            <span class="faq-icon" aria-hidden="true">+</span>
+                        </button>
+                        <div class="faq-answer" hidden>
+                            This is not a passive webinar. It is a practical lab focused on one usable pathway: Go, Gospel, Grow, Gather, and Guide.
+                        </div>
+                    </li>
+                </ul>
             </div>
 
         </div>
     </section>
-
-
-    <!-- ================================================
-         TESTIMONIAL
-    ================================================ -->
-    <div class="lab-testimonial">
-        <div class="lab-testimonial-inner">
-            <span class="eyebrow">From a recent lab</span>
-            <div class="testimonial-card">
-                <p class="testimonial-quote">&ldquo;I live a busy life with 2 jobs and a family. I&rsquo;ve started to invest more deeply and focus more intently on my relational network &mdash; watching and waiting for the right time for the next conversation and steps.&rdquo;</p>
-                <p class="testimonial-attribution">&mdash; Nathan E.</p>
-            </div>
-        </div>
-    </div>
 
 
     <!-- ================================================
@@ -1179,21 +1072,30 @@
     <!-- ================================================
          BOTTOM CTA
     ================================================ -->
-    <section class="bottom-cta">
-        <div class="bottom-cta-inner">
-            <img
-    class="first-split-image lab-cta-image"
-    src="image/Covo Multipliers Winging It.webp"
-    alt="Working Christians often feel split between everyday life and ministry"
->
-            <h2 class="bottom-cta-headline">You can keep winging it. But that won&rsquo;t move anything forward.</h2>
-            <div class="bottom-cta-body">
-                <p>If you do not join, next month probably looks a lot like this month. You stay busy, keep hoping things will become more fruitful, and still feel unsure where disciple making actually fits in your real week.</p>
-                <p>This lab will not fix everything in 45 minutes. But it can help you stop drifting and take one clear step with a repeatable plan.</p>
-            </div>
-            <button class="btn-cta" id="cta-scroll-btn">Reserve My Seat</button>
-        </div>
-    </section>
+<section class="bottom-cta">
+    <div class="bottom-cta-inner">
+        <img
+            class="first-split-image lab-cta-image"
+            src="image/Covo Multipliers Winging It.webp"
+            alt="Working Christians often feel split between everyday life and ministry"
+            loading="lazy"
+        >
+
+        <h2 class="bottom-cta-headline">Stop Winging It With Disciple Making</h2>
+
+        <p class="bottom-cta-body">
+            If nothing changes, next month probably looks like this month. You stay busy, keep hoping for fruit, and still lack a simple rhythm for helping people move from lost to leader.
+        </p>
+
+        <p class="bottom-cta-body">
+            This lab will help you practice the whole pathway: Go, Gospel, Grow, Gather, and Guide.
+        </p>
+
+        <button class="btn-cta" id="cta-scroll-btn">Save My Seat</button>
+
+        <p class="bottom-cta-date" id="bottom-date-line">Date loading&hellip;</p>
+    </div>
+</section>
 
 
     <!-- ================================================
@@ -1209,7 +1111,6 @@
     <script>
         // ============================================================
         // CONFIG
-        // Update these four values for each event page you deploy.
         // ============================================================
         const SUPABASE_URL          = 'https://mryjrvinzbxebzvxtggi.supabase.co';
         const SUPABASE_ANON_KEY     = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1yeWpydmluemJ4ZWJ6dnh0Z2dpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYyNzQ3MzksImV4cCI6MjA5MTg1MDczOX0.U1JJQTBVKePsVFXr2oFRCdUZasWaZiTQg6g8QrFdRyw';
@@ -1217,22 +1118,16 @@
         const EVENT_SLUG            = 'rhythms-of-a-covo-multiplier-jun-2026';
         // ============================================================
 
-
-        // Current event id — set once the event loads
         let eventId = null;
+        let countdownInterval = null;
 
+        document.addEventListener('DOMContentLoaded', function() {
+            loadEvent();
 
-        // -------------------------------------------------------
-        // Boot
-        // -------------------------------------------------------
-        document.addEventListener('DOMContentLoaded', loadEvent);
+            document.getElementById('registration-form')
+                .addEventListener('submit', handleSubmit);
+        });
 
-
-        // -------------------------------------------------------
-        // Fetch event from Supabase REST API
-        // Reads from the events_with_availability view.
-        // That view is SELECT-accessible to the anon role via RLS.
-        // -------------------------------------------------------
         async function loadEvent() {
             const url = new URL(`${SUPABASE_URL}/rest/v1/events_with_availability`);
             url.searchParams.set('slug', `eq.${EVENT_SLUG}`);
@@ -1243,8 +1138,8 @@
             try {
                 const res = await fetch(url, {
                     headers: {
-                        'apikey':         SUPABASE_ANON_KEY,
-                        'Authorization':  `Bearer ${SUPABASE_ANON_KEY}`,
+                        'apikey':        SUPABASE_ANON_KEY,
+                        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
                     },
                 });
 
@@ -1266,72 +1161,64 @@
             renderEvent(event);
         }
 
-
-        // -------------------------------------------------------
-        // Render event info into the hero, then show the form
-        // -------------------------------------------------------
         function renderEvent(event) {
             eventId = event.id;
 
-            const isFull        = !event.has_availability;
-            const seatsLabel    = isFull
+            const isFull = !event.has_availability;
+            const seatsLabel = isFull
                 ? 'Event full'
                 : `${event.seats_remaining} seat${event.seats_remaining === 1 ? '' : 's'} remaining`;
 
-            // Update <title>
-            document.title = `${event.title} — Covo Multipliers`;
+            if (event.title) {
+                document.title = `${event.title} - Covo Multipliers`;
+            }
 
-            // Build hero content
-            const content = document.getElementById('event-content');
-            content.innerHTML = `
-                <span class="event-label">Covo Multipliers Lab</span>
-                <h1 class="event-title">${esc(event.title)}</h1>
-                <div class="event-meta">
-                    <span class="event-date">${formatDate(event.event_date)}</span>
+            const heroMeta = document.getElementById('hero-event-meta');
+            if (heroMeta) {
+                heroMeta.innerHTML = `
                     <span class="event-seats${isFull ? ' is-full' : ''}">${esc(seatsLabel)}</span>
-                </div>
-                ${event.description
-                    ? `<p class="event-description">${esc(event.description)}</p>`
-                    : ''}
-            `;
+                    <span class="event-date">${formatDate(event.event_date)}</span>
+                `;
+                heroMeta.hidden = false;
+            }
+
+            const formDateLine = document.getElementById('form-date-line');
+            if (formDateLine) {
+                formDateLine.textContent = formatShortDate(event.event_date);
+            }
+
+            const bottomDateLine = document.getElementById('bottom-date-line');
+            if (bottomDateLine) {
+                bottomDateLine.textContent = formatShortDate(event.event_date);
+            }
 
             document.getElementById('hero-loading').hidden = true;
-            content.hidden = false;
 
-            // Show the registration section
-            document.getElementById('registration-section').hidden = false;
-
-            // Start countdown timer using the live event date
             startCountdown(event.event_date);
 
             if (isFull) {
-                // Replace form with a full-event message
                 document.getElementById('registration-card').innerHTML = `
-                    <h2>Register for this lab</h2>
+                    <h2>Save Your Seat</h2>
                     <div class="full-notice">
                         <p>This event is full. Check back for future labs with open seats.</p>
                         <a class="btn-pill" href="/#upcoming-labs">← See all upcoming labs</a>
                     </div>
                 `;
-            } else {
-                // Attach form handler
-                document.getElementById('registration-form')
-                    .addEventListener('submit', handleSubmit);
             }
         }
 
-
-        // -------------------------------------------------------
-        // Handle registration form submission
-        // -------------------------------------------------------
         async function handleSubmit(e) {
             e.preventDefault();
             clearMessage();
 
+            if (!eventId) {
+                showError('Event details are still loading. Please try again in a moment.');
+                return;
+            }
+
             const name  = document.getElementById('field-name').value.trim();
             const email = document.getElementById('field-email').value.trim();
 
-            // Client-side validation (belt-and-suspenders — Edge Function validates too)
             if (name.length < 2) {
                 showError('Please enter your full name.');
                 document.getElementById('field-name').focus();
@@ -1348,9 +1235,9 @@
             let data;
             try {
                 const res = await fetch(REGISTER_FUNCTION_URL, {
-                    method:  'POST',
+                    method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body:    JSON.stringify({ event_id: eventId, name, email }),
+                    body: JSON.stringify({ event_id: eventId, name, email }),
                 });
 
                 data = await res.json();
@@ -1367,10 +1254,9 @@
                 return;
             }
 
-            // Replace the entire card with a success state
             document.getElementById('registration-card').innerHTML = `
                 <div class="success-state">
-                    <div class="success-icon" aria-hidden="true">✓</div>
+                    <div class="success-icon" aria-hidden="true">&#10003;</div>
                     <h3>You&rsquo;re registered!</h3>
                     <p>A confirmation email is on its way to <strong>${esc(email)}</strong>
                     with your event details and Zoom link.</p>
@@ -1378,19 +1264,17 @@
             `;
         }
 
-
-        // -------------------------------------------------------
-        // UI state helpers
-        // -------------------------------------------------------
         function setSubmitting(active) {
-            const btn    = document.getElementById('submit-btn');
-            const name   = document.getElementById('field-name');
-            const email  = document.getElementById('field-email');
+            const btn   = document.getElementById('submit-btn');
+            const name  = document.getElementById('field-name');
+            const email = document.getElementById('field-email');
+
+            if (!btn || !name || !email) return;
 
             btn.disabled   = active;
             name.disabled  = active;
             email.disabled = active;
-            btn.textContent = active ? 'Registering\u2026' : 'Register';
+            btn.textContent = active ? 'Saving...' : 'Save My Seat';
         }
 
         function showError(msg) {
@@ -1407,26 +1291,35 @@
 
         function showHeroError() {
             document.getElementById('hero-loading').hidden = true;
-            document.getElementById('hero-error').hidden   = false;
+            document.getElementById('hero-error').hidden = false;
         }
 
-
-        // -------------------------------------------------------
-        // Utilities
-        // -------------------------------------------------------
-
-        // Formats a UTC ISO timestamp for Eastern Time display
-        // e.g. "Tuesday, May 20, 2025 at 7:00 PM EDT"
         function formatDate(iso) {
             try {
                 return new Date(iso).toLocaleDateString('en-US', {
-                    weekday:    'long',
-                    year:       'numeric',
-                    month:      'long',
-                    day:        'numeric',
-                    hour:       'numeric',
-                    minute:     '2-digit',
-                    timeZone:   'America/New_York',
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: 'numeric',
+                    minute: '2-digit',
+                    timeZone: 'America/New_York',
+                    timeZoneName: 'short',
+                });
+            } catch {
+                return iso;
+            }
+        }
+
+        function formatShortDate(iso) {
+            try {
+                return new Date(iso).toLocaleDateString('en-US', {
+                    weekday: 'long',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: 'numeric',
+                    minute: '2-digit',
+                    timeZone: 'America/New_York',
                     timeZoneName: 'short',
                 });
             } catch {
@@ -1438,27 +1331,16 @@
             return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
         }
 
-        // Safe HTML escaping for injecting DB/user strings into innerHTML.
-        // Uses the browser's own text node serialization — no regex hacks.
         function esc(str) {
             const node = document.createElement('span');
             node.appendChild(document.createTextNode(String(str)));
             return node.innerHTML;
         }
 
-
-        // -------------------------------------------------------
-        // Countdown timer
-        // Called by renderEvent() with the live event_date from Supabase.
-        // -------------------------------------------------------
-        let countdownInterval = null;
-
         function startCountdown(iso) {
             const target = new Date(iso).getTime();
-            const el     = document.getElementById('event-countdown');
+            const el = document.getElementById('event-countdown');
             if (!el || isNaN(target)) return;
-
-            function pad(n) { return String(n).padStart(2, '0'); }
 
             function render() {
                 const diff = target - Date.now();
@@ -1468,42 +1350,25 @@
                     el.hidden = false;
                     return;
                 }
-                const days  = Math.floor(diff / 86400000);
-                const hours = Math.floor((diff % 86400000) / 3600000);
-                const mins  = Math.floor((diff % 3600000)  / 60000);
-                const secs  = Math.floor((diff % 60000)    / 1000);
-                el.innerHTML = `
-                    <div class="countdown-wrap">
-                        <div class="countdown-unit"><span class="countdown-num">${pad(days)}</span><span class="countdown-label">Days</span></div>
-                        <div class="countdown-unit"><span class="countdown-num">${pad(hours)}</span><span class="countdown-label">Hours</span></div>
-                        <div class="countdown-unit"><span class="countdown-num">${pad(mins)}</span><span class="countdown-label">Minutes</span></div>
-                        <div class="countdown-unit"><span class="countdown-num">${pad(secs)}</span><span class="countdown-label">Seconds</span></div>
-                    </div>`;
-                el.hidden = false;
+                el.hidden = true;
             }
 
             render();
             countdownInterval = setInterval(render, 1000);
         }
 
-
-        // -------------------------------------------------------
-        // FAQ accordion — one item open at a time
-        // -------------------------------------------------------
         document.querySelectorAll('.faq-btn').forEach(function(btn) {
             btn.addEventListener('click', function() {
-                var item   = btn.closest('.faq-item');
+                var item = btn.closest('.faq-item');
                 var answer = item.querySelector('.faq-answer');
                 var isOpen = item.classList.contains('is-open');
 
-                // Close all open items
                 document.querySelectorAll('.faq-item.is-open').forEach(function(open) {
                     open.classList.remove('is-open');
                     open.querySelector('.faq-btn').setAttribute('aria-expanded', 'false');
                     open.querySelector('.faq-answer').hidden = true;
                 });
 
-                // Open this item if it was previously closed
                 if (!isOpen) {
                     item.classList.add('is-open');
                     btn.setAttribute('aria-expanded', 'true');
@@ -1512,10 +1377,6 @@
             });
         });
 
-
-        // -------------------------------------------------------
-        // Bottom CTA — scroll to registration card
-        // -------------------------------------------------------
         document.getElementById('cta-scroll-btn').addEventListener('click', function() {
             var target = document.getElementById('registration-section');
             if (target) {
