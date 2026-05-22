@@ -251,6 +251,32 @@
             letter-spacing: 0.01em;
         }
 
+        /* Social proof image block below registration card */
+        .form-social-proof {
+            margin-top: 1.1rem;
+            text-align: center;
+        }
+
+        .form-social-proof img {
+            display: block;
+            margin: 0 auto;
+            max-width: 300px;
+            width: 100%;
+        }
+
+        .form-social-proof-caption {
+            margin-top: 0.55rem;
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.45);
+            line-height: 1.45;
+            letter-spacing: 0.01em;
+        }
+
+        /* Hide countdown boxes — seat pill is the urgency signal */
+        #event-countdown {
+            display: none;
+        }
+
 
         /* -----------------------------------------------
            4. HERO LOADING / ERROR STATES
@@ -867,6 +893,8 @@
             .event-hero-inner              { gap: 1.5rem; }
             .event-hero .event-title       { font-size: clamp(1.6rem, 6vw, 2.25rem); margin-bottom: 0.5rem; }
             .event-hero .event-description { font-size: 0.95rem; line-height: 1.5; }
+
+            .form-social-proof img         { max-width: 245px; }
         }
     </style>
 </head>
@@ -891,7 +919,7 @@
                 <span class="event-label">August Covo Multipliers Lab</span>
                 <p class="event-title">Want to make disciples but don&rsquo;t know where to start?</p>
                 <p class="event-description">In 45 minutes, you&rsquo;ll learn 4 simple questions that help ordinary believers know who to reach, what to say, when to follow up, and what to do next.</p>
-                <p class="hero-proof">Live &middot; Practical &middot; Free &middot; Limited seats</p>
+                <p class="hero-proof">Live &middot; Practical &middot; Free &middot; Small group</p>
 
                 <!-- Populated by JS: formatted date + seat pill -->
                 <div id="hero-event-meta" class="event-meta" hidden></div>
@@ -916,7 +944,7 @@
                 <div class="registration-card" id="registration-card">
 
                     <h2>Save Your Seat</h2>
-                    <p class="form-intro">Free 45-minute live training &middot; Wednesday, August 19 &middot; 3pm ET / 2pm CT</p>
+                    <p class="form-intro">Free 45-minute live lab<br>Wednesday, August 19 &middot; 3 PM ET / 2 PM CT</p>
 
                     <form id="registration-form" novalidate>
                         <div class="form-field">
@@ -951,7 +979,10 @@
                     </form>
 
                 </div>
-                <p class="form-trust">Led by Dave + Mark from Covo Multipliers</p>
+                <div class="form-social-proof">
+                    <img src="image/social-proof-covo-multipliers-transparent.webp" alt="Covo Multipliers community" loading="lazy">
+                    <p class="form-social-proof-caption">Joined by disciple-makers learning simple obedience together.</p>
+                </div>
             </div>
 
         </div>
