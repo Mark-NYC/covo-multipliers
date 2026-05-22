@@ -526,6 +526,12 @@ img {
         flex-basis: 58px;
         border-radius: 0.85rem;
     }
+
+    .first-split-image {
+        max-width: 185px;
+        margin-bottom: 1.25rem;
+        box-shadow: none;
+    }
 }
 
 /* -----------------------------------------------
@@ -540,10 +546,12 @@ img {
 }
 
 .first-split-image {
+    display: block;
     width: 100%;
-    max-width: 100px; /* adjust this number */
+    max-width: 280px;
     margin: 0 auto 1.5rem;
-    border-radius: 18px;
+    border-radius: 12px;
+    box-shadow: none;
 }
 
 .workplace-banner {
