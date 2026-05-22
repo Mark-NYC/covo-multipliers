@@ -97,20 +97,6 @@
             min-width: 0;
         }
 
-        .hero-image-wrap {
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 24px 64px rgba(0, 0, 0, 0.38);
-            aspect-ratio: 4 / 3;
-        }
-
-        .hero-image-wrap img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
 
         /* -----------------------------------------------
            3. HERO CONTENT
@@ -173,10 +159,16 @@
             line-height: 1.72;
             color: rgba(255, 255, 255, 0.88);
             max-width: 640px;
+            margin-bottom: 1.25rem;
         }
 
-        .hero-desc-block p {
-            margin: 0;
+        .hero-proof {
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.5);
+            margin: 0 0 1.5rem;
         }
 
         /* Countdown timer */
@@ -245,80 +237,7 @@
 
 
         /* -----------------------------------------------
-           5. EVENT DETAILS SECTION — two-column
-        ----------------------------------------------- */
-
-        .event-details-section {
-            background: #ffffff;
-            padding: 3rem 2rem 3.5rem;
-            border-bottom: 1px solid #e5e7eb;
-        }
-
-        .event-details-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 400px;
-            gap: 4rem;
-            align-items: start;
-        }
-
-        /* Scoped overrides: event data on white background */
-        .event-info-col .event-label {
-            color: #245c4a;
-        }
-
-        .event-info-col .event-title {
-            font-size: clamp(1.75rem, 4vw, 2.5rem);
-            color: #10281f;
-        }
-
-        .event-info-col .event-date {
-            color: #2a2a2a;
-        }
-
-        .event-info-col .event-description {
-            color: #444444;
-            font-size: 1rem;
-        }
-
-        .event-info-col .event-seats {
-            background: rgba(159, 122, 47, 0.1);
-            color: #7a5515;
-            border-color: rgba(159, 122, 47, 0.35);
-        }
-
-        .event-info-col .event-seats.is-full {
-            background: #f3f4f6;
-            color: #6b7280;
-            border-color: #e5e7eb;
-        }
-
-        .event-info-col .countdown-wrap {
-            margin-top: 1rem;
-        }
-
-        .event-info-col .countdown-unit {
-            background: #f0fdf4;
-            border-color: #bbf7d0;
-        }
-
-        .event-info-col .countdown-num {
-            color: #10281f;
-        }
-
-        .event-info-col .countdown-label {
-            color: #5a6b65;
-        }
-
-        .event-info-col .countdown-closed {
-            color: #5a6b65;
-            margin-top: 1rem;
-        }
-
-
-        /* -----------------------------------------------
-           6. SUPPORTING CONTENT
+           5. SUPPORTING CONTENT
         ----------------------------------------------- */
 
         .event-body {
@@ -441,25 +360,6 @@
             color: #444444;
         }
 
-        /* Callout block — 4-1-1 explanation */
-        .callout-block {
-            margin-top: 2.75rem;
-            padding: 1.75rem 2rem;
-            background: #f8faf9;
-            border-left: 3px solid #1b4d3e;
-            border-radius: 0 10px 10px 0;
-        }
-
-        .callout-block > strong {
-            display: block;
-            font-size: 0.72rem;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: #245c4a;
-            margin-bottom: 0.75rem;
-        }
-
         /* FAQ block */
         .format-note {
             margin-top: 2.75rem;
@@ -537,12 +437,11 @@
 
 
         /* -----------------------------------------------
-           7. RIGHT COLUMN — registration card (sticky)
+           6. REGISTRATION CARD (in hero right col)
         ----------------------------------------------- */
 
-        .form-col {
-            position: sticky;
-            top: 1rem;
+        .event-hero .form-col {
+            position: static;
         }
 
         .registration-card {
@@ -571,7 +470,7 @@
 
 
         /* -----------------------------------------------
-           8. FORM FIELDS
+           7. FORM FIELDS
         ----------------------------------------------- */
 
         .form-field {
@@ -612,7 +511,7 @@
 
 
         /* -----------------------------------------------
-           9. SUBMIT BUTTON
+           8. SUBMIT BUTTON
         ----------------------------------------------- */
 
         .btn-submit {
@@ -647,7 +546,7 @@
 
 
         /* -----------------------------------------------
-           10. FORM MESSAGE
+           9. FORM MESSAGE
         ----------------------------------------------- */
 
         .form-message {
@@ -668,7 +567,7 @@
 
 
         /* -----------------------------------------------
-           11. FULL-EVENT NOTICE
+           10. FULL-EVENT NOTICE
         ----------------------------------------------- */
 
         .full-notice {
@@ -685,7 +584,7 @@
 
 
         /* -----------------------------------------------
-           12. SUCCESS STATE
+           11. SUCCESS STATE
         ----------------------------------------------- */
 
         .success-state {
@@ -722,7 +621,7 @@
 
 
         /* -----------------------------------------------
-           13. LAB TESTIMONIAL
+           12. LAB TESTIMONIAL
         ----------------------------------------------- */
 
         .lab-testimonial {
@@ -738,7 +637,7 @@
 
 
         /* -----------------------------------------------
-           14. SOCIAL PROOF
+           13. SOCIAL PROOF
         ----------------------------------------------- */
 
         .social-proof {
@@ -786,7 +685,7 @@
 
 
         /* -----------------------------------------------
-           15. BOTTOM CTA
+           14. BOTTOM CTA
         ----------------------------------------------- */
 
         .bottom-cta {
@@ -828,18 +727,14 @@
             color: #ffffff;
             line-height: 1.2;
             letter-spacing: -0.02em;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.25rem;
         }
 
         .bottom-cta-body {
             font-size: 1rem;
             line-height: 1.75;
             color: rgba(255, 255, 255, 0.82);
-            margin-bottom: 2.25rem;
-        }
-
-        .bottom-cta-body p + p {
-            margin-top: 1rem;
+            margin-bottom: 2rem;
         }
 
         .bottom-cta-date {
@@ -876,7 +771,7 @@
 
 
         /* -----------------------------------------------
-           16. FOOTER
+           15. FOOTER
         ----------------------------------------------- */
 
         .site-footer {
@@ -911,7 +806,7 @@
 
 
         /* -----------------------------------------------
-           17. RESPONSIVE
+           16. RESPONSIVE
         ----------------------------------------------- */
 
         @media (max-width: 860px) {
@@ -920,40 +815,21 @@
                 gap: 2rem;
             }
 
-            .hero-image-wrap {
-                aspect-ratio: 16 / 7;
-            }
-
-            .event-details-inner {
-                grid-template-columns: 1fr;
-                gap: 2.5rem;
-            }
-
-            .form-col {
-                position: static;
-            }
-
             .questions-grid {
                 grid-template-columns: 1fr 1fr;
             }
         }
 
         @media (max-width: 540px) {
-            .event-details-section { padding: 2.5rem 1.25rem 3rem; }
             .event-body            { padding: 2.5rem 1.25rem 3.5rem; }
             .registration-card     { padding: 1.75rem 1.5rem; }
             .bottom-cta            { padding: 3.5rem 1.25rem; }
-            .event-info-col .countdown-num  { font-size: 1.5rem; }
-            .event-info-col .countdown-unit { padding: 0.6rem 0.85rem; min-width: 58px; }
             .questions-grid        { grid-template-columns: 1fr; }
 
-            /* Hero: tighter, grouped block on mobile */
-            .event-hero                    { padding: 1.2rem 1.25rem 1rem; }
-            .event-hero-inner              { gap: 0.75rem; }
-            .event-hero .event-title       { font-size: clamp(1.6rem, 6vw, 2.25rem); margin-bottom: 0.35rem; }
-            .event-hero .event-description { font-size: 0.9rem; line-height: 1.38; margin-bottom: 0.5rem; }
-            .event-hero .hero-desc-block p + p { margin-top: 0.35em; }
-            .hero-image-wrap               { aspect-ratio: 16 / 7; border-radius: 8px; }
+            .event-hero                    { padding: 1.75rem 1.25rem 2rem; }
+            .event-hero-inner              { gap: 1.5rem; }
+            .event-hero .event-title       { font-size: clamp(1.6rem, 6vw, 2.25rem); margin-bottom: 0.5rem; }
+            .event-hero .event-description { font-size: 0.95rem; line-height: 1.5; }
         }
     </style>
 </head>
@@ -969,20 +845,19 @@
 
 
     <!-- ================================================
-         EVENT HERO
+         EVENT HERO — copy left, registration card right
     ================================================ -->
     <section class="event-hero">
         <div class="event-hero-inner">
 
             <div class="hero-copy">
                 <span class="event-label">August Covo Multipliers Lab</span>
-                <p class="event-title">Want to make disciples but stuck at &ldquo;where do I start?&rdquo;</p>
-                <div class="event-description hero-desc-block">
-                    <p>You want to obey Jesus. You know disciple-making matters. But when real life hits, good intentions get vague fast.</p>
-                    <br><p>Who do I talk to? What do I say? How do I start without making it weird? And when will I actually take the next step?</p>
-                    <br><p>In <b>45 minutes</b> you&rsquo;ll answer the four basic questions every disciple needs to move from intention to obedience: why, who, how, and when.</p>
-                    <br><p><b>🔴LIVE. Practical. Free.</b></p>
-                </div>
+                <p class="event-title">Want to make disciples but don&rsquo;t know where to start?</p>
+                <p class="event-description">In 45 minutes, you&rsquo;ll learn 4 simple questions that help ordinary believers know who to reach, what to say, when to follow up, and what to do next.</p>
+                <p class="hero-proof">Live &middot; Practical &middot; Free &middot; Limited seats</p>
+
+                <!-- Populated by JS: formatted date + seat pill -->
+                <div id="hero-event-meta" class="event-meta" hidden></div>
 
                 <!-- Shown while fetching; hidden by renderEvent() on success -->
                 <p class="hero-status" id="hero-loading">Loading event&hellip;</p>
@@ -994,29 +869,12 @@
                     <br><br>
                     <a class="btn-pill" href="/#upcoming-labs">See all upcoming labs</a>
                 </div>
-            </div>
 
-            <div class="hero-image-wrap">
-                <img src="image/4-questions-lab-image.webp" alt="4 Questions to Get Started Making Disciples" loading="lazy">
-            </div>
-
-        </div>
-    </section>
-
-
-    <!-- ================================================
-         EVENT DETAILS — live event info + registration form
-    ================================================ -->
-    <section class="event-details-section" id="registration-section" hidden>
-        <div class="event-details-inner">
-
-            <!-- Left: live event title, date, seats, description + countdown -->
-            <div class="event-info-col">
-                <div id="event-content"></div>
+                <!-- Countdown — populated by startCountdown() -->
                 <div id="event-countdown" hidden></div>
             </div>
 
-            <!-- Right: registration form -->
+            <!-- Registration card — always visible; JS enables submit once event loads -->
             <div class="form-col">
                 <div class="registration-card" id="registration-card">
 
@@ -1056,11 +914,6 @@
                     </form>
 
                 </div>
-
-                <div class="form-social-proof">
-                    <img src="image/social%20proof%20covo%20multipliers.webp" alt="Join a tribe of covocational leaders">
-                    <p>Join a tribe of covocational leaders.</p>
-                </div>
             </div>
 
         </div>
@@ -1073,52 +926,40 @@
     <section class="event-body">
         <div class="event-body-inner">
 
-            <!-- Core problem section -->
+            <!-- Problem -->
             <div>
                 <p class="eyebrow">The real problem</p>
                 <h2 class="content-h2">Good Intentions Don&rsquo;t Multiply Disciples</h2>
                 <div style="margin-top: 1.25rem;">
-                    <p class="content-p">A lot of believers want to make disciples. They hear the command. They agree with the mission. They may even feel convicted.</p>
-                    <p class="content-p">But then Monday comes.</p>
-                    <p class="content-p">They don&rsquo;t know who to start with. They don&rsquo;t know what to say. They don&rsquo;t know how to move from conversation to obedience. And they never put a date on the next step.</p>
-                    <p class="content-p">So nothing happens.</p>
-                    <p class="content-p">This lab is designed to fix that.</p>
+                    <p class="content-p">A lot of believers care about making disciples. They just lack a simple starting point. They don&rsquo;t know who to reach, how to begin, or what step to take after the first conversation.</p>
                 </div>
             </div>
 
-            <!-- Four questions section -->
+            <!-- Four questions -->
             <div class="content-section">
                 <p class="eyebrow">Four questions</p>
                 <h2 class="content-h2">The Four Questions Every Disciple Needs Answered</h2>
                 <div class="questions-grid">
                     <div class="question-card">
                         <span class="question-word">Why?</span>
-                        <p class="question-body">Why does disciple-making matter, and why is it normal for every believer&mdash;not just the trained ones?</p>
+                        <p class="question-body">Every disciple can make disciples &mdash; not just the trained ones.</p>
                     </div>
                     <div class="question-card">
                         <span class="question-word">Who?</span>
-                        <p class="question-body">Who has God already placed in your life, relationships, workplace, neighborhood, or network?</p>
+                        <p class="question-body">God has already placed people in your life who are ready.</p>
                     </div>
                     <div class="question-card">
                         <span class="question-word">How?</span>
-                        <p class="question-body">How do you start with a simple story, a simple gospel tool, and a simple invitation to respond?</p>
+                        <p class="question-body">Start with a simple story, a simple tool, and a clear invitation.</p>
                     </div>
                     <div class="question-card">
                         <span class="question-word">When?</span>
-                        <p class="question-body">When will you actually obey? Not someday. Not eventually. A real next step this week.</p>
+                        <p class="question-body">Not someday. A real next step this week.</p>
                     </div>
                 </div>
             </div>
 
-            <!-- 4-1-1 explanation -->
-            <div class="callout-block">
-                <strong>A simple tool you can pass on</strong>
-                <h3 class="content-h3">Based on the 4-1-1 Training Tool</h3>
-                <p class="content-p">This lab is based on the simple 4-1-1 training tool: four questions, one sheet, one hour or less.</p>
-                <p class="content-p" style="margin-top: 0.75rem;">The goal is not to give people more information. The goal is to give ordinary disciples enough clarity to obey and enough simplicity to pass it on to someone else.</p>
-            </div>
-
-            <!-- What you'll leave with -->
+            <!-- Outcomes -->
             <div class="content-section">
                 <p class="eyebrow">What you&rsquo;ll walk away with</p>
                 <h2 class="content-h2">You&rsquo;ll Leave With a Concrete Obedience Plan</h2>
@@ -1133,15 +974,15 @@
                     </li>
                     <li>
                         <span class="take-check" aria-hidden="true">&#10003;</span>
-                        <span>A simple starting point for gospel conversations</span>
+                        <span>One gospel conversation starter</span>
                     </li>
                     <li>
                         <span class="take-check" aria-hidden="true">&#10003;</span>
-                        <span>A clear next step scheduled for the week after the lab</span>
+                        <span>One next step scheduled for the week after the lab</span>
                     </li>
                     <li>
                         <span class="take-check" aria-hidden="true">&#10003;</span>
-                        <span>A reproducible tool you can immediately use with someone else</span>
+                        <span>A tool you can pass on to someone else</span>
                     </li>
                 </ul>
             </div>
@@ -1161,11 +1002,7 @@
                     </li>
                     <li>
                         <span class="take-check" aria-hidden="true">&#10003;</span>
-                        <span>Co-vocational leaders wanting simple reproducible practices</span>
-                    </li>
-                    <li>
-                        <span class="take-check" aria-hidden="true">&#10003;</span>
-                        <span>Church planters who need a basic training pathway</span>
+                        <span>Co-vocational leaders wanting simple, reproducible practices</span>
                     </li>
                     <li>
                         <span class="take-check" aria-hidden="true">&#10003;</span>
@@ -1174,35 +1011,26 @@
                 </ul>
             </div>
 
-            <!-- Positioning section -->
+            <!-- FAQ -->
             <div class="format-note">
-                <strong>This is not more information</strong>
+                <strong>Common questions</strong>
                 <ul class="faq-list">
                     <li class="faq-item">
                         <button class="faq-btn" aria-expanded="false">
-                            <span>What makes this different from a typical training?</span>
+                            <span>What makes this different from typical training?</span>
                             <span class="faq-icon" aria-hidden="true">+</span>
                         </button>
                         <div class="faq-answer" hidden>
-                            Information alone does not produce multiplication. Obedience does. This lab doesn&rsquo;t add to your reading list&mdash;it helps you move from vague desire to a concrete action you can take the same week.
+                            Information alone does not produce multiplication. Obedience does. This lab doesn&rsquo;t add to your reading list &mdash; it helps you move from vague desire to a concrete action you can take this week.
                         </div>
                     </li>
                     <li class="faq-item">
                         <button class="faq-btn" aria-expanded="false">
-                            <span>Can&rsquo;t come live?</span>
+                            <span>Can I come if I&rsquo;m new?</span>
                             <span class="faq-icon" aria-hidden="true">+</span>
                         </button>
                         <div class="faq-answer" hidden>
-                            Labs are live-only and not recorded. The value comes from participating in the room, asking questions, and working through the four questions in real time with other disciples.
-                        </div>
-                    </li>
-                    <li class="faq-item">
-                        <button class="faq-btn" aria-expanded="false">
-                            <span>Do I need prep?</span>
-                            <span class="faq-icon" aria-hidden="true">+</span>
-                        </button>
-                        <div class="faq-answer" hidden>
-                            No preparation required. Show up ready to think honestly about the four questions. That&rsquo;s it.
+                            Yes. No prior training or experience needed. Show up ready to think honestly about four questions. That&rsquo;s it.
                         </div>
                     </li>
                     <li class="faq-item">
@@ -1211,16 +1039,16 @@
                             <span class="faq-icon" aria-hidden="true">+</span>
                         </button>
                         <div class="faq-answer" hidden>
-                            The lab is free. Seats are limited so every participant can engage and ask questions. Secure your spot early.
+                            Free. Seats are limited to 25 so every participant can engage and ask questions. Secure your spot early.
                         </div>
                     </li>
                     <li class="faq-item">
                         <button class="faq-btn" aria-expanded="false">
-                            <span>Who fits here?</span>
+                            <span>Who leads this?</span>
                             <span class="faq-icon" aria-hidden="true">+</span>
                         </button>
                         <div class="faq-answer" hidden>
-                            Anyone who wants to make disciples but keeps running into the same wall: knowing it matters but not knowing what to do next. You don&rsquo;t need prior training experience to get value from this lab.
+                            Dave and Mark lead these labs. Both are covocational leaders who practice disciple-making in everyday life and run these labs regularly with ordinary believers.
                         </div>
                     </li>
                 </ul>
@@ -1266,10 +1094,7 @@
     <section class="bottom-cta">
         <div class="bottom-cta-inner">
             <h2 class="bottom-cta-headline">Help People Move From Intention to Action</h2>
-            <div class="bottom-cta-body">
-                <p>Join the August lab and leave with a simple obedience plan you can use immediately.</p>
-                <p>The four questions take less than an hour. The clarity lasts a lot longer than that.</p>
-            </div>
+            <p class="bottom-cta-body">Join the August lab and leave with a simple obedience plan you can use this week.</p>
             <button class="btn-cta" id="cta-scroll-btn">Register for the August Lab</button>
             <p class="bottom-cta-date">Wednesday, August 19, 2026 &middot; 3pm ET / 2pm CT</p>
         </div>
@@ -1305,7 +1130,14 @@
         // -------------------------------------------------------
         // Boot
         // -------------------------------------------------------
-        document.addEventListener('DOMContentLoaded', loadEvent);
+        document.addEventListener('DOMContentLoaded', function() {
+            loadEvent();
+
+            // Wire up form submit immediately so the handler is in place
+            // before the event loads; handleSubmit guards against null eventId.
+            document.getElementById('registration-form')
+                .addEventListener('submit', handleSubmit);
+        });
 
 
         // -------------------------------------------------------
@@ -1347,44 +1179,36 @@
 
 
         // -------------------------------------------------------
-        // Render event info into the hero, then show the form
+        // Render event info into the hero, then handle form state
         // -------------------------------------------------------
         function renderEvent(event) {
             eventId = event.id;
 
-            const isFull        = !event.has_availability;
-            const seatsLabel    = isFull
+            const isFull     = !event.has_availability;
+            const seatsLabel = isFull
                 ? 'Event full'
                 : `${event.seats_remaining} seat${event.seats_remaining === 1 ? '' : 's'} remaining`;
 
             // Update <title>
             document.title = `${event.title} — Covo Multipliers`;
 
-            // Build event detail content (shown in left column below hero)
-            const content = document.getElementById('event-content');
-            content.innerHTML = `
-                <span class="event-label">August Covo Multipliers Lab</span>
-                <h1 class="event-title">${esc(event.title)}</h1>
-                <div class="event-meta">
+            // Inject date + seat pill into hero left col
+            const heroMeta = document.getElementById('hero-event-meta');
+            if (heroMeta) {
+                heroMeta.innerHTML = `
                     <span class="event-date">${formatDate(event.event_date)}</span>
                     <span class="event-seats${isFull ? ' is-full' : ''}">${esc(seatsLabel)}</span>
-                </div>
-                ${event.description
-                    ? `<p class="event-description">${esc(event.description)}</p>`
-                    : ''}
-            `;
+                `;
+                heroMeta.hidden = false;
+            }
 
             document.getElementById('hero-loading').hidden = true;
-            content.hidden = false;
 
-            // Show the registration section
-            document.getElementById('registration-section').hidden = false;
-
-            // Start countdown timer using the live event date
+            // Start countdown in hero left col
             startCountdown(event.event_date);
 
             if (isFull) {
-                // Replace form with a full-event message
+                // Replace form card with full-event message
                 document.getElementById('registration-card').innerHTML = `
                     <h2>Register for this lab</h2>
                     <div class="full-notice">
@@ -1392,10 +1216,6 @@
                         <a class="btn-pill" href="/#upcoming-labs">← See all upcoming labs</a>
                     </div>
                 `;
-            } else {
-                // Attach form handler
-                document.getElementById('registration-form')
-                    .addEventListener('submit', handleSubmit);
             }
         }
 
@@ -1406,6 +1226,12 @@
         async function handleSubmit(e) {
             e.preventDefault();
             clearMessage();
+
+            // Guard: event not yet loaded from Supabase
+            if (!eventId) {
+                showError('Event details are still loading. Please try again in a moment.');
+                return;
+            }
 
             const name  = document.getElementById('field-name').value.trim();
             const email = document.getElementById('field-email').value.trim();
@@ -1590,10 +1416,10 @@
 
 
         // -------------------------------------------------------
-        // Bottom CTA — scroll to registration card
+        // Bottom CTA — scroll to registration card in hero
         // -------------------------------------------------------
         document.getElementById('cta-scroll-btn').addEventListener('click', function() {
-            var target = document.getElementById('registration-section');
+            var target = document.getElementById('registration-card');
             if (target) {
                 target.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
