@@ -527,11 +527,6 @@ img {
         border-radius: 0.85rem;
     }
 
-    .first-split-image {
-        max-width: 185px;
-        margin-bottom: 1.25rem;
-        box-shadow: none;
-    }
 }
 
 /* -----------------------------------------------
@@ -546,12 +541,30 @@ img {
 }
 
 .first-split-image {
+    width: 100%;
+    max-width: 100px; /* adjust this number */
+    margin: 0 auto 1.5rem;
+    border-radius: 18px;
+}
+
+/* Lab page bottom CTA image — smaller on mobile, no shadow */
+.bottom-cta .lab-cta-image {
     display: block;
     width: 100%;
-    max-width: 280px;
+    max-width: 220px;
     margin: 0 auto 1.5rem;
     border-radius: 12px;
-    box-shadow: none;
+    box-shadow: none !important;
+    filter: none !important;
+}
+
+@media (max-width: 540px) {
+    .bottom-cta .lab-cta-image {
+        max-width: 135px;
+        margin-bottom: 1.1rem;
+        box-shadow: none !important;
+        filter: none !important;
+    }
 }
 
 .workplace-banner {
