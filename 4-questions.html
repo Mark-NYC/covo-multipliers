@@ -214,6 +214,43 @@
             font-style: italic;
         }
 
+        /* Seats are the primary urgency element — make them prominent */
+        .event-hero .event-seats {
+            font-size: 0.88rem;
+            padding: 0.4rem 1.1rem;
+            font-weight: 800;
+        }
+
+        /* Countdown is secondary — event is still weeks away */
+        .event-hero .countdown-wrap {
+            margin-top: 1rem;
+            gap: 0.5rem;
+        }
+
+        .event-hero .countdown-unit {
+            padding: 0.4rem 0.65rem;
+            min-width: 50px;
+            background: rgba(255, 255, 255, 0.07);
+            border-color: rgba(255, 255, 255, 0.12);
+        }
+
+        .event-hero .countdown-num {
+            font-size: 1.15rem;
+        }
+
+        .event-hero .countdown-label {
+            font-size: 0.52rem;
+        }
+
+        /* Trust line below registration card */
+        .form-trust {
+            margin-top: 0.75rem;
+            font-size: 0.78rem;
+            color: rgba(255, 255, 255, 0.5);
+            text-align: center;
+            letter-spacing: 0.01em;
+        }
+
 
         /* -----------------------------------------------
            4. HERO LOADING / ERROR STATES
@@ -878,7 +915,7 @@
             <div class="form-col">
                 <div class="registration-card" id="registration-card">
 
-                    <h2>Register for the August Lab</h2>
+                    <h2>Save Your Seat</h2>
                     <p class="form-intro">Free 45-minute live training &middot; Wednesday, August 19 &middot; 3pm ET / 2pm CT</p>
 
                     <form id="registration-form" novalidate>
@@ -907,13 +944,14 @@
                         </div>
 
                         <button class="btn-submit" type="submit" id="submit-btn">
-                            Register for the August Lab
+                            Save My Seat
                         </button>
 
                         <div class="form-message" id="form-message" role="alert" aria-live="polite"></div>
                     </form>
 
                 </div>
+                <p class="form-trust">Led by Dave + Mark from Covo Multipliers</p>
             </div>
 
         </div>
@@ -932,6 +970,15 @@
                 <h2 class="content-h2">Good Intentions Don&rsquo;t Multiply Disciples</h2>
                 <div style="margin-top: 1.25rem;">
                     <p class="content-p">A lot of believers care about making disciples. They just lack a simple starting point. They don&rsquo;t know who to reach, how to begin, or what step to take after the first conversation.</p>
+                </div>
+            </div>
+
+            <!-- Testimonial — moved here for social proof right after the problem -->
+            <div class="content-section">
+                <span class="eyebrow">From a recent lab</span>
+                <div class="testimonial-card" style="margin-top: 1rem;">
+                    <p class="testimonial-quote">&ldquo;I live a busy life with 2 jobs and a family. I&rsquo;ve started to invest more deeply and focus more intently on my relational network &mdash; watching and waiting for the right time for the next conversation and steps.&rdquo;</p>
+                    <p class="testimonial-attribution">&mdash; Nathan E.</p>
                 </div>
             </div>
 
@@ -1059,20 +1106,6 @@
 
 
     <!-- ================================================
-         TESTIMONIAL
-    ================================================ -->
-    <div class="lab-testimonial">
-        <div class="lab-testimonial-inner">
-            <span class="eyebrow">From a recent lab</span>
-            <div class="testimonial-card">
-                <p class="testimonial-quote">&ldquo;I live a busy life with 2 jobs and a family. I&rsquo;ve started to invest more deeply and focus more intently on my relational network &mdash; watching and waiting for the right time for the next conversation and steps.&rdquo;</p>
-                <p class="testimonial-attribution">&mdash; Nathan E.</p>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- ================================================
          SOCIAL PROOF
     ================================================ -->
     <div class="social-proof">
@@ -1095,7 +1128,7 @@
         <div class="bottom-cta-inner">
             <h2 class="bottom-cta-headline">Help People Move From Intention to Action</h2>
             <p class="bottom-cta-body">Join the August lab and leave with a simple obedience plan you can use this week.</p>
-            <button class="btn-cta" id="cta-scroll-btn">Register for the August Lab</button>
+            <button class="btn-cta" id="cta-scroll-btn">Save My Seat</button>
             <p class="bottom-cta-date">Wednesday, August 19, 2026 &middot; 3pm ET / 2pm CT</p>
         </div>
     </section>
@@ -1196,8 +1229,8 @@
             const heroMeta = document.getElementById('hero-event-meta');
             if (heroMeta) {
                 heroMeta.innerHTML = `
-                    <span class="event-date">${formatDate(event.event_date)}</span>
                     <span class="event-seats${isFull ? ' is-full' : ''}">${esc(seatsLabel)}</span>
+                    <span class="event-date">${formatDate(event.event_date)}</span>
                 `;
                 heroMeta.hidden = false;
             }
@@ -1210,7 +1243,7 @@
             if (isFull) {
                 // Replace form card with full-event message
                 document.getElementById('registration-card').innerHTML = `
-                    <h2>Register for this lab</h2>
+                    <h2>Save Your Seat</h2>
                     <div class="full-notice">
                         <p>This event is full. Check back for future labs with open seats.</p>
                         <a class="btn-pill" href="/#upcoming-labs">← See all upcoming labs</a>
@@ -1295,7 +1328,7 @@
             btn.disabled   = active;
             name.disabled  = active;
             email.disabled = active;
-            btn.textContent = active ? 'Registering…' : 'Register for the August Lab';
+            btn.textContent = active ? 'Registering…' : 'Save My Seat';
         }
 
         function showError(msg) {
