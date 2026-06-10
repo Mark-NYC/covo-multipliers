@@ -842,6 +842,11 @@
                     <h2>Save Your Seat</h2>
                     <p class="form-intro">Free 45-minute live lab<br><span id="form-date-line">Event date loading&hellip;</span></p>
 
+                    <!-- Shown only when registration is in the 7-seat bonus window -->
+                    <div id="bonus-seats-notice" style="display:none; margin-bottom:1.25rem; padding:0.75rem 1rem; background:#fffbeb; border:1px solid #fde68a; border-radius:8px; font-size:0.875rem; line-height:1.55; color:#78350f;">
+                        <strong>Update:</strong> this Lab filled its first 25 seats, so we opened 7 additional spots for this cohort. <span id="bonus-seats-label"></span>
+                    </div>
+
                     <form id="registration-form" novalidate>
                         <div class="form-field">
                             <label for="field-name">Full name</label>
@@ -1161,13 +1166,28 @@
             renderEvent(event);
         }
 
+        // This cohort has 7 bonus seats beyond the public cap of 25.
+        // The DB event capacity is set to 32; we surface the bonus framing
+        // only once we're within those final 7 seats.
+        const BONUS_SEATS = 7;
+
         function renderEvent(event) {
             eventId = event.id;
 
-            const isFull = !event.has_availability;
-            const seatsLabel = isFull
-                ? 'Event full'
-                : `${event.seats_remaining} seat${event.seats_remaining === 1 ? '' : 's'} remaining`;
+            const isFull      = !event.has_availability;
+            const remaining   = isFull ? 0 : event.seats_remaining;
+            const inBonusWindow = remaining <= BONUS_SEATS;
+
+            // Hero seat pill: in bonus window show "X additional spots remaining"
+            // or "Event full"; otherwise show normal seat count.
+            let seatsLabel;
+            if (isFull) {
+                seatsLabel = 'Registration full';
+            } else if (inBonusWindow) {
+                seatsLabel = `${remaining} additional spot${remaining === 1 ? '' : 's'} remaining`;
+            } else {
+                seatsLabel = `${remaining} seat${remaining === 1 ? '' : 's'} remaining`;
+            }
 
             if (event.title) {
                 document.title = `${event.title} - Covo Multipliers`;
@@ -1204,6 +1224,19 @@
                         <a class="btn-pill" href="/#upcoming-labs">← See all upcoming labs</a>
                     </div>
                 `;
+                return;
+            }
+
+            // Show bonus-seats notice only when we're in the final 7 spots
+            if (inBonusWindow) {
+                const notice     = document.getElementById('bonus-seats-notice');
+                const bonusLabel = document.getElementById('bonus-seats-label');
+                if (notice && bonusLabel) {
+                    bonusLabel.textContent = remaining === 0
+                        ? 'Registration is now full.'
+                        : `${remaining} additional spot${remaining === 1 ? '' : 's'} remaining.`;
+                    notice.style.display = 'block';
+                }
             }
         }
 
