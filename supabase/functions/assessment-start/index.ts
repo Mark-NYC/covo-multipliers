@@ -136,16 +136,38 @@ Deno.serve(async (req: Request): Promise<Response> => {
     return json(500, { error: "Could not create participant. Please try again." }, cors);
   }
 
-  // Get active version
+  // Get active version — must be active, publicly_available, not unapproved
   const { data: version, error: versionErr } = await supabase
     .from("assessment_versions")
-    .select("id")
+    .select("id, version_tag, config")
     .eq("is_active", true)
     .single();
 
   if (versionErr || !version) {
     console.error("[assessment-start] no active version found:", versionErr);
-    return json(500, { error: "Assessment is not currently available." }, cors);
+    return json(503, { error: "The assessment is not currently available." }, cors);
+  }
+
+  const vConfig = version.config as Record<string, unknown> ?? {};
+  if (vConfig.unapproved === true) {
+    console.error(`[assessment-start] active version ${version.version_tag} is marked unapproved — blocking`);
+    return json(503, { error: "The assessment is not currently available." }, cors);
+  }
+  if (vConfig.publicly_available === false) {
+    console.error(`[assessment-start] active version ${version.version_tag} is not publicly_available — blocking`);
+    return json(503, { error: "The assessment is not currently available." }, cors);
+  }
+
+  // Verify the version has active items
+  const { count: itemCount } = await supabase
+    .from("assessment_items")
+    .select("id", { count: "exact", head: true })
+    .eq("version_id", version.id)
+    .eq("is_active", true);
+
+  if (!itemCount || itemCount === 0) {
+    console.error(`[assessment-start] version ${version.version_tag} has no active items — blocking`);
+    return json(503, { error: "The assessment is not currently available." }, cors);
   }
 
   // Fetch active items and build ordered item list (shuffled within domain sections)
