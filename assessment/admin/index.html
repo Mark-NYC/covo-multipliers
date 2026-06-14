@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — Fivefold Stewardship Assessment</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="../assessment.css">
+  <meta name="robots" content="noindex, nofollow">
+</head>
+<body>
+
+  <header class="assess-header">
+    <a class="assess-header-brand" href="/">Covo Multipliers</a>
+    <span class="assess-header-title">Assessment Admin</span>
+  </header>
+
+  <main class="assess-main" style="max-width:900px;">
+
+    <!-- Auth gate -->
+    <div id="auth-view" class="assess-card">
+      <p class="assess-eyebrow">Admin Access</p>
+      <h1 class="assess-h1" style="font-size:22px;">Enter admin secret</h1>
+      <div class="form-group">
+        <label class="form-label" for="admin-secret">Admin secret</label>
+        <input class="form-input" type="password" id="admin-secret" autocomplete="current-password">
+        <p class="form-error" id="err-auth" style="display:none;color:#b91c1c;margin-top:4px;"></p>
+      </div>
+      <button class="btn-primary" onclick="authenticate()">Sign In</button>
+    </div>
+
+    <!-- Admin dashboard -->
+    <div id="admin-view" style="display:none;">
+
+      <div class="admin-nav">
+        <a href="#overview" class="admin-nav-link active" onclick="showTab('overview',this)">Overview</a>
+        <a href="#pilot-analytics" class="admin-nav-link" onclick="showTab('pilot-analytics',this)">Pilot Analytics</a>
+        <a href="#sessions" class="admin-nav-link" onclick="showTab('sessions',this)">Sessions</a>
+        <a href="#items" class="admin-nav-link" onclick="showTab('items',this)">Items</a>
+      </div>
+
+      <!-- Overview tab -->
+      <div id="tab-overview">
+        <div class="assess-note" style="margin-bottom:20px;">
+          <strong>Pilot Analytics Only.</strong> This assessment is unvalidated. All statistics below are raw pilot data and must not be reported as psychometrically validated findings.
+        </div>
+
+        <div class="stat-grid" id="stat-grid">
+          <div class="stat-card"><div class="stat-num" id="stat-total">—</div><div class="stat-label">Total Sessions</div></div>
+          <div class="stat-card"><div class="stat-num" id="stat-scored">—</div><div class="stat-label">Completed</div></div>
+          <div class="stat-card"><div class="stat-num" id="stat-in-progress">—</div><div class="stat-label">In Progress</div></div>
+          <div class="stat-card"><div class="stat-num" id="stat-completion">—</div><div class="stat-label">Completion Rate</div></div>
+        </div>
+
+        <div class="assess-card">
+          <h2 class="assess-h2">Active Version</h2>
+          <div id="version-info" class="assess-body">Loading…</div>
+        </div>
+      </div>
+
+      <!-- Pilot analytics tab -->
+      <div id="tab-pilot-analytics" style="display:none;">
+        <div class="assess-card">
+          <h2 class="assess-h2">Domain Score Distribution — Pilot Data</h2>
+          <p class="assess-note">
+            <strong>Not validated.</strong> These are raw pilot distributions based on self-report only. Thresholds have not been psychometrically established. Label all reporting as "Pilot Analytics."
+          </p>
+          <div id="domain-analytics">
+            <div class="loading-state"><div class="loading-spinner"></div><p>Loading analytics…</p></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sessions tab -->
+      <div id="tab-sessions" style="display:none;">
+        <div class="assess-card">
+          <h2 class="assess-h2">Recent Sessions</h2>
+          <div id="sessions-list">
+            <div class="loading-state"><div class="loading-spinner"></div><p>Loading sessions…</p></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Items tab -->
+      <div id="tab-items" style="display:none;">
+        <div class="assess-card">
+          <h2 class="assess-h2">Assessment Items (88)</h2>
+          <p class="assess-body">Items are managed via database migration. Contact the development team to add, remove, or modify items.</p>
+          <div id="items-list">
+            <div class="loading-state"><div class="loading-spinner"></div><p>Loading items…</p></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <script>
+    const SUPABASE_FUNCTIONS = 'https://YOUR_SUPABASE_PROJECT.supabase.co/functions/v1';
+    let adminSecret = null;
+
+    function authenticate() {
+      const secret = document.getElementById('admin-secret').value.trim();
+      if (!secret) return;
+      adminSecret = secret;
+      // Test the secret by calling admin endpoint
+      loadOverview();
+    }
+
+    document.getElementById('admin-secret').addEventListener('keydown', e => {
+      if (e.key === 'Enter') authenticate();
+    });
+
+    function showTab(name, linkEl) {
+      ['overview','pilot-analytics','sessions','items'].forEach(t => {
+        document.getElementById('tab-' + t).style.display = t === name ? '' : 'none';
+      });
+      document.querySelectorAll('.admin-nav-link').forEach(el => el.classList.remove('active'));
+      if (linkEl) linkEl.classList.add('active');
+
+      if (name === 'pilot-analytics') loadAnalytics();
+      if (name === 'sessions') loadSessions();
+      if (name === 'items') loadItems();
+    }
+
+    async function adminFetch(endpoint, body = {}) {
+      const res = await fetch(SUPABASE_FUNCTIONS + '/assessment-admin', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-admin-secret': adminSecret,
+        },
+        body: JSON.stringify({ action: endpoint, ...body }),
+      });
+      if (res.status === 401) throw new Error('Invalid admin secret');
+      return res.json();
+    }
+
+    async function loadOverview() {
+      try {
+        const data = await adminFetch('overview');
+        document.getElementById('auth-view').style.display = 'none';
+        document.getElementById('admin-view').style.display = '';
+
+        document.getElementById('stat-total').textContent = data.total_sessions ?? '—';
+        document.getElementById('stat-scored').textContent = data.scored_sessions ?? '—';
+        document.getElementById('stat-in-progress').textContent = data.in_progress_sessions ?? '—';
+        const rate = data.total_sessions > 0
+          ? Math.round((data.scored_sessions / data.total_sessions) * 100) + '%'
+          : '—';
+        document.getElementById('stat-completion').textContent = rate;
+
+        document.getElementById('version-info').innerHTML = data.active_version
+          ? `<strong>${escHtml(data.active_version.label)}</strong> (${escHtml(data.active_version.version_tag)}) — ${data.active_version.item_count ?? '—'} items`
+          : 'No active version configured.';
+
+      } catch (err) {
+        const errEl = document.getElementById('err-auth');
+        errEl.textContent = err.message ?? 'Authentication failed.';
+        errEl.style.display = 'block';
+      }
+    }
+
+    async function loadAnalytics() {
+      try {
+        const data = await adminFetch('analytics');
+        const container = document.getElementById('domain-analytics');
+        if (!data.domain_averages || data.domain_averages.length === 0) {
+          container.innerHTML = '<p class="assess-body">No scored sessions yet.</p>';
+          return;
+        }
+        const maxAvg = Math.max(...data.domain_averages.map(d => d.average ?? 0), 1);
+        container.innerHTML = data.domain_averages.map(d => `
+          <div class="domain-bar-item" style="margin-bottom:14px;">
+            <div class="domain-bar-header">
+              <span class="domain-bar-label">${escHtml(d.label)}</span>
+              <span class="domain-bar-band">avg ${(d.average ?? 0).toFixed(2)} (n=${d.count ?? 0})</span>
+            </div>
+            <div class="domain-bar-track">
+              <div class="domain-bar-fill" style="width:${Math.round(((d.average ?? 0) / maxAvg) * 100)}%"></div>
+            </div>
+          </div>`).join('');
+      } catch (err) {
+        document.getElementById('domain-analytics').innerHTML = `<p class="assess-body" style="color:#b91c1c;">${escHtml(err.message)}</p>`;
+      }
+    }
+
+    async function loadSessions() {
+      try {
+        const data = await adminFetch('sessions', { limit: 50 });
+        const container = document.getElementById('sessions-list');
+        if (!data.sessions || data.sessions.length === 0) {
+          container.innerHTML = '<p class="assess-body">No sessions yet.</p>';
+          return;
+        }
+        container.innerHTML = `<table style="width:100%;font-size:13px;border-collapse:collapse;">
+          <thead>
+            <tr style="border-bottom:2px solid #e5e7eb;text-align:left;">
+              <th style="padding:8px 6px;color:#888;">Email</th>
+              <th style="padding:8px 6px;color:#888;">Status</th>
+              <th style="padding:8px 6px;color:#888;">Started</th>
+              <th style="padding:8px 6px;color:#888;">Responses</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${data.sessions.map(s => `
+              <tr style="border-bottom:1px solid #f3f4f6;">
+                <td style="padding:8px 6px;">${escHtml(s.email ?? '—')}</td>
+                <td style="padding:8px 6px;">
+                  <span style="font-size:11px;font-weight:700;padding:2px 8px;border-radius:9999px;background:${s.status === 'scored' ? '#dcfce7' : '#fef3c7'};color:${s.status === 'scored' ? '#166534' : '#713f12'};">
+                    ${escHtml(s.status)}
+                  </span>
+                </td>
+                <td style="padding:8px 6px;color:#666;">${s.started_at ? new Date(s.started_at).toLocaleDateString() : '—'}</td>
+                <td style="padding:8px 6px;">${s.response_count ?? '—'}/88</td>
+              </tr>`).join('')}
+          </tbody>
+        </table>`;
+      } catch (err) {
+        document.getElementById('sessions-list').innerHTML = `<p class="assess-body" style="color:#b91c1c;">${escHtml(err.message)}</p>`;
+      }
+    }
+
+    async function loadItems() {
+      try {
+        const data = await adminFetch('items');
+        const container = document.getElementById('items-list');
+        if (!data.items || data.items.length === 0) {
+          container.innerHTML = '<p class="assess-body">No items found.</p>';
+          return;
+        }
+        container.innerHTML = `<table style="width:100%;font-size:13px;border-collapse:collapse;">
+          <thead>
+            <tr style="border-bottom:2px solid #e5e7eb;text-align:left;">
+              <th style="padding:8px 6px;color:#888;">ID</th>
+              <th style="padding:8px 6px;color:#888;">Domain</th>
+              <th style="padding:8px 6px;color:#888;">Construct</th>
+              <th style="padding:8px 6px;color:#888;">Format</th>
+              <th style="padding:8px 6px;color:#888;">Evidence</th>
+              <th style="padding:8px 6px;color:#888;">Active</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${data.items.map(i => `
+              <tr style="border-bottom:1px solid #f3f4f6;">
+                <td style="padding:8px 6px;font-family:monospace;font-weight:700;">${escHtml(i.pilot_id)}</td>
+                <td style="padding:8px 6px;color:#666;">${escHtml(i.domain_key)}</td>
+                <td style="padding:8px 6px;color:#666;">${escHtml(i.construct_key ?? '—')}</td>
+                <td style="padding:8px 6px;font-family:monospace;font-size:11px;">${escHtml(i.response_format)}</td>
+                <td style="padding:8px 6px;font-family:monospace;font-size:11px;">${escHtml(i.evidence_label)}</td>
+                <td style="padding:8px 6px;">${i.is_active ? '✓' : '✗'}</td>
+              </tr>`).join('')}
+          </tbody>
+        </table>`;
+      } catch (err) {
+        document.getElementById('items-list').innerHTML = `<p class="assess-body" style="color:#b91c1c;">${escHtml(err.message)}</p>`;
+      }
+    }
+
+    function escHtml(str) {
+      return String(str ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+  </script>
+
+</body>
+</html>

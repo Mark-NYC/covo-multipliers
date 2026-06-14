@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Getting Started — Fivefold Stewardship Assessment</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="assessment.css">
+</head>
+<body>
+
+  <header class="assess-header">
+    <a class="assess-header-brand" href="/">Covo Multipliers</a>
+    <span class="assess-header-title">Fivefold Stewardship Assessment</span>
+  </header>
+
+  <main class="assess-main">
+
+    <div class="assess-card">
+      <p class="assess-eyebrow">Step 1 of 3</p>
+      <h1 class="assess-h1">Tell us a bit about yourself</h1>
+      <p class="assess-body">
+        This helps us save your progress so you can return if needed. Your information is kept private and used only for this assessment.
+      </p>
+    </div>
+
+    <form id="intake-form" novalidate>
+      <div class="assess-card">
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+          <div class="form-group">
+            <label class="form-label" for="first_name">First name <span class="required">*</span></label>
+            <input class="form-input" type="text" id="first_name" name="first_name" autocomplete="given-name" required>
+            <p class="form-error" id="err-first_name">Please enter your first name.</p>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="last_name">Last name</label>
+            <input class="form-input" type="text" id="last_name" name="last_name" autocomplete="family-name">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="email">Email address <span class="required">*</span></label>
+          <input class="form-input" type="email" id="email" name="email" autocomplete="email" required>
+          <p class="form-hint">Your results will be sent here. Used to save and resume your assessment.</p>
+          <p class="form-error" id="err-email">Please enter a valid email address.</p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="church_org">Church or organization <span style="font-weight:400;color:#888;">(optional)</span></label>
+          <input class="form-input" type="text" id="church_org" name="church_org" autocomplete="organization">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="role_context">Your current role or context <span style="font-weight:400;color:#888;">(optional)</span></label>
+          <input class="form-input" type="text" id="role_context" name="role_context" placeholder="e.g. small group leader, pastor, marketplace professional">
+          <p class="form-hint">Helps provide context when reviewing results. Not used in scoring.</p>
+        </div>
+
+      </div>
+
+      <div class="assess-card">
+        <h2 class="assess-h2" style="margin-bottom:16px;">Privacy &amp; Consent</h2>
+        <p class="assess-body">Before continuing, please read and acknowledge the following:</p>
+
+        <ul style="font-size:14px;color:#444;line-height:1.7;padding-left:20px;margin-bottom:20px;">
+          <li style="margin-bottom:8px;">Your responses are stored securely and used only to generate your personal results.</li>
+          <li style="margin-bottom:8px;">Results are accessed through a private link sent to your email — they are not published publicly.</li>
+          <li style="margin-bottom:8px;">Anonymized, aggregated pilot data may be used to improve the assessment instrument.</li>
+          <li style="margin-bottom:8px;">This is an unvalidated pilot instrument. Results are for personal reflection only.</li>
+          <li style="margin-bottom:8px;">You may request deletion of your data by contacting us at <a href="mailto:info@covomultipliers.com">info@covomultipliers.com</a>.</li>
+        </ul>
+
+        <div class="consent-row">
+          <input class="consent-checkbox" type="checkbox" id="consent" name="consent" required>
+          <label class="consent-label" for="consent">
+            I have read the above and consent to my responses being stored and used as described.
+          </label>
+        </div>
+        <p class="form-error" id="err-consent">You must consent to continue.</p>
+
+        <div id="form-error-msg" class="assess-note" style="display:none;border-left-color:#b91c1c;background:#fef2f2;color:#7f1d1d;"></div>
+
+        <button type="submit" class="btn-primary" id="submit-btn">
+          Continue to Instructions
+        </button>
+
+      </div>
+    </form>
+
+  </main>
+
+  <script>
+    const SUPABASE_FUNCTIONS = 'https://YOUR_SUPABASE_PROJECT.supabase.co/functions/v1';
+
+    const form = document.getElementById('intake-form');
+    const submitBtn = document.getElementById('submit-btn');
+    const formErrorMsg = document.getElementById('form-error-msg');
+
+    function setError(id, show) {
+      const el = document.getElementById('err-' + id);
+      if (el) {
+        el.classList.toggle('visible', show);
+        const input = document.getElementById(id);
+        if (input) input.classList.toggle('error', show);
+      }
+    }
+
+    function clearErrors() {
+      ['first_name', 'email', 'consent'].forEach(id => setError(id, false));
+      formErrorMsg.style.display = 'none';
+    }
+
+    function showFormError(msg) {
+      formErrorMsg.textContent = msg;
+      formErrorMsg.style.display = 'block';
+      formErrorMsg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      clearErrors();
+
+      const firstName = document.getElementById('first_name').value.trim();
+      const lastName = document.getElementById('last_name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const churchOrg = document.getElementById('church_org').value.trim();
+      const roleContext = document.getElementById('role_context').value.trim();
+      const consent = document.getElementById('consent').checked;
+
+      let valid = true;
+      if (!firstName) { setError('first_name', true); valid = false; }
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setError('email', true); valid = false; }
+      if (!consent) { setError('consent', true); valid = false; }
+      if (!valid) return;
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Please wait…';
+
+      try {
+        const res = await fetch(SUPABASE_FUNCTIONS + '/assessment-start', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            first_name: firstName,
+            last_name: lastName || null,
+            email,
+            church_org: churchOrg || null,
+            role_context: roleContext || null,
+            consent: true,
+          }),
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          showFormError(data.error ?? 'Something went wrong. Please try again.');
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Continue to Instructions';
+          return;
+        }
+
+        // Store session credentials in sessionStorage (tab-scoped)
+        sessionStorage.setItem('assess_session_id', data.session_id);
+        sessionStorage.setItem('assess_resume_token', data.resume_token);
+        sessionStorage.setItem('assess_first_name', data.first_name);
+        sessionStorage.setItem('assess_item_count', data.item_count);
+
+        window.location.href = 'instructions.html';
+
+      } catch (err) {
+        console.error('[intake] error:', err);
+        showFormError('A network error occurred. Please check your connection and try again.');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Continue to Instructions';
+      }
+    });
+  </script>
+
+</body>
+</html>
