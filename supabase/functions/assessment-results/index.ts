@@ -16,10 +16,15 @@ const ALLOWED_ORIGINS = new Set([
   "https://www.covomultipliers.com",
 ]);
 
+function isAllowedOrigin(origin: string): boolean {
+  return ALLOWED_ORIGINS.has(origin) ||
+    /^https:\/\/[a-z0-9-]+\.vercel\.app$/i.test(origin);
+}
+
 function corsHeaders(req: Request): Record<string, string> {
   const origin = req.headers.get("Origin") ?? "";
   return {
-    "Access-Control-Allow-Origin": ALLOWED_ORIGINS.has(origin)
+    "Access-Control-Allow-Origin": isAllowedOrigin(origin)
       ? origin
       : "https://covomultipliers.com",
     "Access-Control-Allow-Headers": "content-type",
