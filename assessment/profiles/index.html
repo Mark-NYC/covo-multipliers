@@ -4,6 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fivefold Stewardship Profiles — Covo Multipliers</title>
+  <meta name="description" content="A reference guide to the seven Fivefold Stewardship patterns and their two-profile combinations. Use for team discernment, coaching, and shared language.">
+  <meta property="og:title" content="Fivefold Stewardship Profiles — Covo Multipliers">
+  <meta property="og:description" content="A reference guide to the seven Fivefold Stewardship patterns and their two-profile combinations. Use for team discernment, coaching, and shared language.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://covomultipliers.com/assessment/profiles/">
+  <link rel="canonical" href="https://covomultipliers.com/assessment/profiles/">
   <link rel="stylesheet" href="/styles.css">
   <link rel="stylesheet" href="../assessment.css">
   <style>
@@ -41,7 +47,82 @@
       font-size: 16px;
       line-height: 1.7;
       color: #444;
+      margin: 0 0 28px;
+    }
+    .hero-cta-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .hero-btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #1b4d3e;
+      color: #fff;
+      font-size: 15px;
+      font-weight: 700;
+      padding: 12px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background .15s;
+    }
+    .hero-btn-primary:hover { background: #10281f; }
+    .hero-btn-primary:focus-visible { outline: 3px solid #1b4d3e; outline-offset: 2px; }
+    .hero-btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #1b4d3e;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    .hero-btn-secondary:hover { color: #10281f; }
+    .hero-btn-secondary:focus-visible { outline: 2px solid #1b4d3e; outline-offset: 2px; border-radius: 2px; }
+
+    /* ── Guardrails callout ───────────────────────────────────────── */
+    .guardrails-callout {
+      max-width: 720px;
+      margin: 0 auto 48px;
+      padding: 0 16px;
+    }
+    .guardrails-inner {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-left: 4px solid #d97706;
+      border-radius: 10px;
+      padding: 20px 22px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+    .guardrails-icon {
+      color: #b45309;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .guardrails-content { flex: 1; }
+    .guardrails-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: #92400e;
+      margin: 0 0 8px;
+    }
+    .guardrails-list {
       margin: 0;
+      padding: 0 0 0 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .guardrails-list li {
+      font-size: 13px;
+      color: #78350f;
+      line-height: 1.5;
     }
 
     /* ── Section wrapper ──────────────────────────────────────────── */
@@ -157,12 +238,58 @@
       margin: 0;
     }
 
+    /* ── Diagnostic matrix ────────────────────────────────────────── */
+    .matrix-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .matrix-table th {
+      background: #f0f9f4;
+      color: #10281f;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      padding: 10px 14px;
+      text-align: left;
+      border-bottom: 1px solid #d1fae5;
+    }
+    .matrix-table td {
+      padding: 10px 14px;
+      vertical-align: top;
+      color: #444;
+      line-height: 1.5;
+      border-bottom: 1px solid #f3f4f6;
+    }
+    .matrix-table tr:last-child td { border-bottom: none; }
+    .matrix-table tr:nth-child(even) td { background: #fafafa; }
+    .matrix-pattern {
+      font-weight: 700;
+      color: #10281f;
+      white-space: nowrap;
+    }
+
     /* ── Combination accordion ────────────────────────────────────── */
     .combos-list {
       display: flex;
       flex-direction: column;
       gap: 2px;
     }
+    .combo-category-header {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: #9f7a2f;
+      padding: 18px 4px 6px;
+      border-bottom: 1px solid #e5e7eb;
+      margin-bottom: 4px;
+    }
+    .combo-category-header:first-child { padding-top: 0; }
     .combo-item {
       border: 1px solid #e5e7eb;
       border-radius: 8px;
@@ -220,6 +347,185 @@
       color: #888;
       margin-bottom: 1px;
     }
+
+    /* ── Teaming dynamics ─────────────────────────────────────────── */
+    .dynamics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+    }
+    .dynamic-card {
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 18px;
+      background: #fff;
+    }
+    .dynamic-card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .dynamic-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: #f0f9f4;
+      color: #1b4d3e;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .dynamic-name {
+      font-size: 14px;
+      font-weight: 800;
+      color: #10281f;
+      margin: 0;
+    }
+    .dynamic-field {
+      font-size: 12.5px;
+      line-height: 1.55;
+      color: #555;
+      margin: 0 0 6px;
+    }
+    .dynamic-field:last-child { margin: 0; }
+    .dynamic-field strong {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      color: #999;
+      display: block;
+      margin-bottom: 1px;
+    }
+
+    /* ── Biblical examples ────────────────────────────────────────── */
+    .biblical-disclaimer {
+      background: #f8f9fa;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 13px;
+      color: #666;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    .biblical-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+    }
+    .biblical-card {
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 18px;
+      background: #fff;
+    }
+    .biblical-card-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    .biblical-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: #f0f9f4;
+      color: #1b4d3e;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .biblical-name {
+      font-size: 15px;
+      font-weight: 800;
+      color: #10281f;
+      margin: 0 0 2px;
+    }
+    .biblical-tag {
+      font-size: 11px;
+      font-weight: 700;
+      color: #9f7a2f;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+    .biblical-desc {
+      font-size: 13px;
+      color: #555;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    /* ── Results integration ──────────────────────────────────────── */
+    .results-integration {
+      background: #f0f9f4;
+      border: 1px solid #d1fae5;
+      border-radius: 12px;
+      padding: 28px;
+    }
+    .results-integration-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: #10281f;
+      margin: 0 0 8px;
+    }
+    .results-integration-lead {
+      font-size: 14px;
+      color: #555;
+      line-height: 1.6;
+      margin: 0 0 16px;
+    }
+    .results-features {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .results-feature {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .results-feature-icon {
+      color: #1b4d3e;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .results-feature-text {
+      font-size: 13px;
+      color: #444;
+      line-height: 1.5;
+    }
+    .results-feature-text strong {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: #10281f;
+      margin-bottom: 1px;
+    }
+    .results-link-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .results-link-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: #1b4d3e;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 10px 20px;
+      border-radius: 7px;
+      text-decoration: none;
+      transition: background .15s;
+    }
+    .results-link-primary:hover { background: #10281f; }
+    .results-link-primary:focus-visible { outline: 3px solid #1b4d3e; outline-offset: 2px; }
 
     /* ── Team section ─────────────────────────────────────────────── */
     .team-prompts {
@@ -287,7 +593,14 @@
       .profile-cards-grid { grid-template-columns: 1fr; }
       .missing-grid { grid-template-columns: 1fr; }
       .team-prompts { grid-template-columns: 1fr; }
+      .dynamics-grid { grid-template-columns: 1fr; }
+      .biblical-grid { grid-template-columns: 1fr; }
+      .results-features { grid-template-columns: 1fr; }
       .combo-body { padding-left: 16px; }
+      .matrix-table { font-size: 12px; }
+      .matrix-table th, .matrix-table td { padding: 8px 10px; }
+      .hero-cta-row { flex-direction: column; gap: 12px; }
+      .guardrails-inner { flex-direction: column; gap: 10px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -310,7 +623,37 @@
       <h1 class="profiles-hero-title" id="page-title">Fivefold Stewardship Profiles</h1>
       <p class="profiles-hero-sub">Stewardship patterns, not identity labels.</p>
       <p class="profiles-hero-copy">These profiles describe ways disciples may contribute to the body of Christ. They do not determine calling, office, maturity, or readiness. Use them for reflection, team discernment, coaching, and shared language.</p>
+      <div class="hero-cta-row">
+        <a href="/assessment/" class="hero-btn-primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="m12 16 4-4-4-4"/></svg>
+          Take the Assessment
+        </a>
+        <a href="#combinations" class="hero-btn-secondary">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>
+          Jump to Combinations
+        </a>
+      </div>
     </section>
+
+    <!-- ── How not to use this ───────────────────────────────────── -->
+    <div class="guardrails-callout" role="note" aria-label="How not to use this guide">
+      <div class="guardrails-inner">
+        <span class="guardrails-icon" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </span>
+        <div class="guardrails-content">
+          <p class="guardrails-title">How Not to Use This</p>
+          <ul class="guardrails-list">
+            <li>Do not assign roles, titles, or authority based on profile patterns.</li>
+            <li>Do not treat a high score as a fixed identity or a low score as a deficiency.</li>
+            <li>Do not confuse stewardship patterns with spiritual maturity, readiness, or qualification.</li>
+            <li>Do not use profiles to excuse shadow behavior or avoid accountability.</li>
+            <li>Do not rank people, compare profiles as better or worse, or use them to sort teams.</li>
+            <li>Do not apply these patterns to someone without their participation and consent.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
 
     <!-- ── Seven profiles ────────────────────────────────────────── -->
     <section class="profiles-section" aria-labelledby="profiles-heading">
@@ -528,12 +871,69 @@
       </div>
     </section>
 
+    <!-- ── Team Diagnostic Matrix ─────────────────────────────────── -->
+    <section class="profiles-section" aria-labelledby="matrix-heading">
+      <h2 class="profiles-section-title" id="matrix-heading">Team Diagnostic Matrix</h2>
+      <p class="profiles-section-lead">Use this table to help a team identify what each pattern looks like when it is functioning well and what gaps it tends to leave when it is absent or overextended.</p>
+
+      <div style="overflow-x:auto;">
+        <table class="matrix-table" aria-labelledby="matrix-heading">
+          <thead>
+            <tr>
+              <th scope="col">Pattern</th>
+              <th scope="col">When healthy</th>
+              <th scope="col">When missing or silent</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="matrix-pattern">Prophetic</span></td>
+              <td>The team names drift early, asks hard questions, and holds itself accountable to what it says it believes.</td>
+              <td>Compromise goes unaddressed, uncomfortable truths are avoided, and alignment erodes slowly.</td>
+            </tr>
+            <tr>
+              <td><span class="matrix-pattern">Evangelistic</span></td>
+              <td>The team stays connected to people outside the community and keeps the gospel visible in relationships.</td>
+              <td>The community becomes insular and the people it most wants to reach rarely encounter anyone from it.</td>
+            </tr>
+            <tr>
+              <td><span class="matrix-pattern">Shepherding</span></td>
+              <td>People feel known, conflict is addressed with care, and those in difficulty are not left alone.</td>
+              <td>People disappear without notice, burnout goes unchecked, and belonging becomes transactional.</td>
+            </tr>
+            <tr>
+              <td><span class="matrix-pattern">Teaching</span></td>
+              <td>People understand why, not just what — Scripture is explained clearly and applied to real situations.</td>
+              <td>Practices become tradition without understanding, biblical grounding weakens, and error spreads unchallenged.</td>
+            </tr>
+            <tr>
+              <td><span class="matrix-pattern">Apostolic Direction</span></td>
+              <td>The team moves toward new people and places, takes initiative, and acts on discerned opportunity.</td>
+              <td>Activity stays within existing relationships, good ideas stall, and the team becomes reactive.</td>
+            </tr>
+            <tr>
+              <td><span class="matrix-pattern">Apostolic Formation</span></td>
+              <td>Mission is grounded in prayer and testing, spiritual depth supports outward activity, and endurance is built.</td>
+              <td>Momentum outpaces character, prayer feels peripheral, and the roots of the work are shallow.</td>
+            </tr>
+            <tr>
+              <td><span class="matrix-pattern">Apostolic Multiplying</span></td>
+              <td>New disciples and leaders are developed, authority is shared, and the work continues beyond its originators.</td>
+              <td>A few people carry everything, others remain consumers, and growth is limited by who is present.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
     <!-- ── Combinations ───────────────────────────────────────────── -->
-    <section class="profiles-section" aria-labelledby="combos-heading">
+    <section class="profiles-section" id="combinations" aria-labelledby="combos-heading">
       <h2 class="profiles-section-title" id="combos-heading">Two-Profile Combination Directory</h2>
       <p class="profiles-section-lead">When two patterns are both consistently present, they tend to shape a distinctive contribution and a distinctive risk. These are patterns to observe — not fixed types.</p>
 
       <div class="combos-list">
+
+        <p class="combo-category-header">Prophetic Blends</p>
 
         <details class="combo-item">
           <summary>
@@ -601,6 +1001,8 @@
           </div>
         </details>
 
+        <p class="combo-category-header">Evangelistic Blends</p>
+
         <details class="combo-item">
           <summary>
             <span class="combo-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg></span>
@@ -656,6 +1058,8 @@
           </div>
         </details>
 
+        <p class="combo-category-header">Shepherding Blends</p>
+
         <details class="combo-item">
           <summary>
             <span class="combo-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg></span>
@@ -700,6 +1104,8 @@
           </div>
         </details>
 
+        <p class="combo-category-header">Teaching Blends</p>
+
         <details class="combo-item">
           <summary>
             <span class="combo-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg></span>
@@ -732,6 +1138,8 @@
             <p class="combo-row"><strong>Risk</strong>Can control reproduction through preferred language, methods, or theological systems.</p>
           </div>
         </details>
+
+        <p class="combo-category-header">Apostolic Blends</p>
 
         <details class="combo-item">
           <summary>
@@ -769,6 +1177,191 @@
       </div>
     </section>
 
+    <!-- ── Teaming Dynamics ───────────────────────────────────────── -->
+    <section class="profiles-section" aria-labelledby="dynamics-heading">
+      <h2 class="profiles-section-title" id="dynamics-heading">Teaming Dynamics</h2>
+      <p class="profiles-section-lead">How patterns interact on a team matters as much as which patterns are present. These six dynamics describe common situations that emerge when people with different stewardship orientations work together.</p>
+
+      <div class="dynamics-grid">
+
+        <div class="dynamic-card">
+          <div class="dynamic-card-header">
+            <div class="dynamic-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <h3 class="dynamic-name">One Pattern Dominates</h3>
+          </div>
+          <p class="dynamic-field"><strong>What this looks like</strong>One stewardship orientation consistently drives framing, decisions, and energy. Others may defer or go quiet.</p>
+          <p class="dynamic-field"><strong>Strength</strong>Clarity and focus. Movement is often fast.</p>
+          <p class="dynamic-field"><strong>Watch for</strong>Other patterns becoming invisible. The team narrows what it can notice and respond to.</p>
+        </div>
+
+        <div class="dynamic-card">
+          <div class="dynamic-card-header">
+            <div class="dynamic-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+            </div>
+            <h3 class="dynamic-name">A Pattern Is Absent</h3>
+          </div>
+          <p class="dynamic-field"><strong>What this looks like</strong>No one on the team consistently brings a particular orientation. That voice is not in the room.</p>
+          <p class="dynamic-field"><strong>Strength</strong>Identifying the gap is the first step toward filling it deliberately.</p>
+          <p class="dynamic-field"><strong>Watch for</strong>Blind spots becoming systemic. The team may not know what it is missing.</p>
+        </div>
+
+        <div class="dynamic-card">
+          <div class="dynamic-card-header">
+            <div class="dynamic-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><path d="M11 18H8a2 2 0 0 1-2-2V9"/></svg>
+            </div>
+            <h3 class="dynamic-name">Similar Patterns Cluster</h3>
+          </div>
+          <p class="dynamic-field"><strong>What this looks like</strong>Several people share the same orientation and naturally align. Energy is high. Decisions come quickly.</p>
+          <p class="dynamic-field"><strong>Strength</strong>Deep alignment, shared instincts, fast trust.</p>
+          <p class="dynamic-field"><strong>Watch for</strong>Echo chamber dynamics. Challenge and correction are harder to receive.</p>
+        </div>
+
+        <div class="dynamic-card">
+          <div class="dynamic-card-header">
+            <div class="dynamic-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M21 8V5a2 2 0 0 0-2-2h-3"/><path d="M3 16v3a2 2 0 0 0 2 2h3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
+            </div>
+            <h3 class="dynamic-name">Contrasting Patterns in Tension</h3>
+          </div>
+          <p class="dynamic-field"><strong>What this looks like</strong>Differently oriented people frequently see the same situation differently. Conversation can feel slow or conflicted.</p>
+          <p class="dynamic-field"><strong>Strength</strong>Mutual correction. More dimensions of a problem are named before decisions are made.</p>
+          <p class="dynamic-field"><strong>Watch for</strong>Tension mistaken for incompatibility. Friction that should produce insight becoming personal.</p>
+        </div>
+
+        <div class="dynamic-card">
+          <div class="dynamic-card-header">
+            <div class="dynamic-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            </div>
+            <h3 class="dynamic-name">Patterns Shift by Season</h3>
+          </div>
+          <p class="dynamic-field"><strong>What this looks like</strong>The situation calls for a different orientation than the team's strongest patterns. Someone steps forward who is not usually the primary voice.</p>
+          <p class="dynamic-field"><strong>Strength</strong>Adaptive contribution. The team is not locked into one mode.</p>
+          <p class="dynamic-field"><strong>Watch for</strong>Unclear authority. People may not know whose voice carries in a given situation.</p>
+        </div>
+
+        <div class="dynamic-card">
+          <div class="dynamic-card-header">
+            <div class="dynamic-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+            </div>
+            <h3 class="dynamic-name">Shadow Tendencies Reinforce</h3>
+          </div>
+          <p class="dynamic-field"><strong>What this looks like</strong>Two or more people share shadow tendencies — avoidance, urgency, over-control — and normalize them for each other.</p>
+          <p class="dynamic-field"><strong>Strength</strong>Naming the pattern is possible once the team develops shared vocabulary for it.</p>
+          <p class="dynamic-field"><strong>Watch for</strong>Compounding blind spots. Patterns that would correct each other instead amplify one another.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── Biblical Examples ──────────────────────────────────────── -->
+    <section class="profiles-section" aria-labelledby="biblical-heading">
+      <h2 class="profiles-section-title" id="biblical-heading">Biblical Examples</h2>
+      <p class="profiles-section-lead">Scripture offers examples of people whose observed patterns of contribution may illuminate these stewardship orientations. These are reflective illustrations, not definitive assessments. Biblical figures carried complexity, growth, and failure that no profile can fully capture.</p>
+
+      <p class="biblical-disclaimer">These examples are offered for reflection and shared language — not as authoritative typology. Each figure's full story, character, and relationship with God is far richer than any single pattern describes.</p>
+
+      <div class="biblical-grid">
+
+        <article class="biblical-card" aria-labelledby="bib-jeremiah">
+          <div class="biblical-card-top">
+            <div class="biblical-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+            </div>
+            <div>
+              <h3 class="biblical-name" id="bib-jeremiah">Jeremiah</h3>
+              <p class="biblical-tag">Prophetic pattern</p>
+            </div>
+          </div>
+          <p class="biblical-desc">Jeremiah's ministry was marked by persistent naming of spiritual drift, hard truths spoken at great personal cost, and unwillingness to soften what he perceived as necessary correction — even when the message was rejected.</p>
+        </article>
+
+        <article class="biblical-card" aria-labelledby="bib-philip">
+          <div class="biblical-card-top">
+            <div class="biblical-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+            </div>
+            <div>
+              <h3 class="biblical-name" id="bib-philip">Philip</h3>
+              <p class="biblical-tag">Evangelistic pattern</p>
+            </div>
+          </div>
+          <p class="biblical-desc">Philip moved toward gospel opportunities with readiness — preaching in Samaria, then responding to a nudge to encounter the Ethiopian official on the road. He explained Scripture clearly and connected people to Jesus across significant relational and cultural distance.</p>
+        </article>
+
+        <article class="biblical-card" aria-labelledby="bib-barnabas">
+          <div class="biblical-card-top">
+            <div class="biblical-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+            </div>
+            <div>
+              <h3 class="biblical-name" id="bib-barnabas">Barnabas</h3>
+              <p class="biblical-tag">Shepherding pattern</p>
+            </div>
+          </div>
+          <p class="biblical-desc">Barnabas was known for staying with people — advocating for Paul when others would not, restoring John Mark when Paul moved on, encouraging new believers in Antioch. His contribution was marked by presence, patience, and belief in people over time.</p>
+        </article>
+
+        <article class="biblical-card" aria-labelledby="bib-apollos">
+          <div class="biblical-card-top">
+            <div class="biblical-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            </div>
+            <div>
+              <h3 class="biblical-name" id="bib-apollos">Apollos</h3>
+              <p class="biblical-tag">Teaching pattern</p>
+            </div>
+          </div>
+          <p class="biblical-desc">Apollos is described as learned in the Scriptures, fervent in spirit, and able to show from the texts that Jesus was the Messiah. He taught with accuracy and was open to correction — receiving Priscilla and Aquila's fuller instruction before continuing.</p>
+        </article>
+
+        <article class="biblical-card" aria-labelledby="bib-paul-direction">
+          <div class="biblical-card-top">
+            <div class="biblical-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+            </div>
+            <div>
+              <h3 class="biblical-name" id="bib-paul-direction">Paul</h3>
+              <p class="biblical-tag">Apostolic Direction pattern</p>
+            </div>
+          </div>
+          <p class="biblical-desc">Paul moved consistently toward unreached people and places — to Gentiles, to cities without churches, across cultural and geographic boundaries. He named vision, initiated, and mobilized others toward expanding the reach of the gospel.</p>
+        </article>
+
+        <article class="biblical-card" aria-labelledby="bib-paul-formation">
+          <div class="biblical-card-top">
+            <div class="biblical-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="5" r="3"/><line x1="12" y1="22" x2="12" y2="8"/><path d="M5 12H2a10 10 0 0 0 20 0h-3"/></svg>
+            </div>
+            <div>
+              <h3 class="biblical-name" id="bib-paul-formation">Paul</h3>
+              <p class="biblical-tag">Apostolic Formation pattern</p>
+            </div>
+          </div>
+          <p class="biblical-desc">Alongside his movement outward, Paul grounded mission in suffering, prayer, communal testing, and endurance. His letters point to formation as inseparable from expansion — dependence on God, not personal capacity, as the basis for sustained mission.</p>
+        </article>
+
+        <article class="biblical-card" aria-labelledby="bib-paul-timothy">
+          <div class="biblical-card-top">
+            <div class="biblical-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>
+            </div>
+            <div>
+              <h3 class="biblical-name" id="bib-paul-timothy">Paul and Timothy</h3>
+              <p class="biblical-tag">Apostolic Multiplying pattern</p>
+            </div>
+          </div>
+          <p class="biblical-desc">Paul's relationship with Timothy illustrates intentional multiplication — investing in a younger leader, entrusting him with significant responsibility, sharing authority, and working toward the continuation of the work through someone else.</p>
+        </article>
+
+      </div>
+    </section>
+
     <!-- ── Team use ────────────────────────────────────────────────── -->
     <section class="profiles-section" aria-labelledby="team-heading">
       <h2 class="profiles-section-title" id="team-heading">How to Use This With a Team</h2>
@@ -782,6 +1375,75 @@
         <p class="team-prompt">Who needs permission to contribute differently than they have been?</p>
         <p class="team-prompt">Where are we confusing a stewardship pattern with maturity or readiness?</p>
         <p class="team-prompt">Where are we depending on one person instead of investing in developing others?</p>
+      </div>
+    </section>
+
+    <!-- ── Results-Page Integration ───────────────────────────────── -->
+    <section class="profiles-section" aria-labelledby="results-integration-heading">
+      <h2 class="profiles-section-title" id="results-integration-heading">How Your Assessment Results Connect</h2>
+      <p class="profiles-section-lead">When you complete the Fivefold Stewardship Assessment, your personal results page expands on these profiles in ways specific to your pattern.</p>
+
+      <div class="results-integration">
+        <h3 class="results-integration-title">What your results page includes</h3>
+        <p class="results-integration-lead">Your results are organized around your top patterns, not a single label. The page is designed for reflection and conversation, not a fixed verdict.</p>
+
+        <div class="results-features">
+          <div class="results-feature">
+            <span class="results-feature-icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+            </span>
+            <div class="results-feature-text">
+              <strong>Pattern summary</strong>Your top stewardship patterns ranked with a brief orientation to each.
+            </div>
+          </div>
+          <div class="results-feature">
+            <span class="results-feature-icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 9a2 2 0 0 1-2 2H6l-4 4V4c0-1.1.9-2 2-2h8a2 2 0 0 1 2 2v5Z"/><path d="M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1"/></svg>
+            </span>
+            <div class="results-feature-text">
+              <strong>Two-pattern blend</strong>A description of how your two strongest patterns tend to interact.
+            </div>
+          </div>
+          <div class="results-feature">
+            <span class="results-feature-icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            </span>
+            <div class="results-feature-text">
+              <strong>Development edge</strong>A reflection on where tension or growth opportunity may be present in your pattern.
+            </div>
+          </div>
+          <div class="results-feature">
+            <span class="results-feature-icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            </span>
+            <div class="results-feature-text">
+              <strong>Deep-dive reflections</strong>Detailed descriptions of your top patterns with reflection questions.
+            </div>
+          </div>
+          <div class="results-feature">
+            <span class="results-feature-icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </span>
+            <div class="results-feature-text">
+              <strong>Thirty-day practice</strong>A concrete, low-stakes practice to explore your pattern in daily life.
+            </div>
+          </div>
+          <div class="results-feature">
+            <span class="results-feature-icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+            </span>
+            <div class="results-feature-text">
+              <strong>Discernment questions</strong>Questions to bring to a spiritual director, coach, or trusted community.
+            </div>
+          </div>
+        </div>
+
+        <div class="results-link-row">
+          <a href="/assessment/" class="results-link-primary">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="m12 16 4-4-4-4"/></svg>
+            Take the Assessment
+          </a>
+        </div>
       </div>
     </section>
 
