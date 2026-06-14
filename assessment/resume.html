@@ -6,6 +6,7 @@
   <title>Resume Assessment — Fivefold Stewardship Assessment</title>
   <link rel="stylesheet" href="/styles.css">
   <link rel="stylesheet" href="assessment.css">
+  <script src="config.js"></script>
 </head>
 <body>
 
@@ -50,7 +51,7 @@
   </main>
 
   <script>
-    const SUPABASE_FUNCTIONS = 'https://YOUR_SUPABASE_PROJECT.supabase.co/functions/v1';
+    const SUPABASE_FUNCTIONS = window.ASSESSMENT_CONFIG.SUPABASE_FUNCTIONS;
 
     async function sendResumeLink() {
       const emailEl = document.getElementById('email');
