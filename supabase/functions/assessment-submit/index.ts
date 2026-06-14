@@ -127,11 +127,27 @@ function computeScore(
     const rawNum = resp.response_num ?? parseInt(resp.response_raw, 10);
     if (isNaN(rawNum)) continue;
 
-    const scored = rule.reverse_keyed ? (max + 1) - rawNum : rawNum;
-    points = scored * (rule.weight ?? 1.0);
-
     const dk = rule.domain_key;
     if (!domainScores[dk]) initDomain(domainScores, dk);
+
+    // Shadow items create cautions. They do not raise the positive domain score.
+    // Use the original response, not the reverse-scored value, to identify concern.
+    if (rule.evidence_label === "F") {
+      domainScores[dk].evidence_counts.F =
+        (domainScores[dk].evidence_counts.F ?? 0) + 1;
+
+      if (rawNum >= 5) {
+        shadowFlags.push({
+          pilot_id: rule.pilot_id,
+          domain_key: dk,
+          note: `High response on shadow indicator ${rule.pilot_id} — result in ${dk} domain warrants caution.`,
+        });
+      }
+      continue;
+    }
+
+    const scored = rule.reverse_keyed ? (max + 1) - rawNum : rawNum;
+    points = scored * (rule.weight ?? 1.0);
 
     domainScores[dk].raw += scored;
     domainScores[dk].weighted += points;
@@ -145,15 +161,6 @@ function computeScore(
       }
       domainScores[dk].construct_scores[rule.construct_key].raw += scored;
       domainScores[dk].construct_scores[rule.construct_key].item_count += 1;
-    }
-
-    // Shadow flag: if a shadow (F) item scores high after reverse-key, flag it
-    if (rule.evidence_label === "F" && scored >= 5) {
-      shadowFlags.push({
-        pilot_id: rule.pilot_id,
-        domain_key: dk,
-        note: `High score on shadow indicator ${rule.pilot_id} — result in ${dk} domain warrants caution.`,
-      });
     }
   }
 
@@ -434,7 +441,12 @@ Deno.serve(async (req: Request): Promise<Response> => {
       version_id: session.version_id,
       result_token_hash: resultTokenHash,
       domain_scores,
-      construct_scores: {},
+      construct_scores: Object.fromEntries(
+        Object.entries(domain_scores).map(([domainKey, score]) => [
+          domainKey,
+          score.construct_scores,
+        ]),
+      ),
       summary_flags: shadow_flags,
       result_copy: resultCopy,
       scoring_version: rulesRow.scoring_version,
