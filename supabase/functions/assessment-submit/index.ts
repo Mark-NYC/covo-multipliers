@@ -84,6 +84,7 @@ interface DomainScore {
   weighted: number;
   item_count: number;
   evidence_counts: Record<string, number>;
+  evidence_scores: Record<string, { score: number; item_count: number }>;
   construct_scores: Record<string, { raw: number; item_count: number }>;
 }
 
@@ -119,6 +120,13 @@ function computeScore(
         domainScores[dk].item_count += 1;
         domainScores[dk].evidence_counts[rule.evidence_label] =
           (domainScores[dk].evidence_counts[rule.evidence_label] ?? 0) + 1;
+        if (rule.evidence_label !== 'F') {
+          if (!domainScores[dk].evidence_scores[rule.evidence_label]) {
+            domainScores[dk].evidence_scores[rule.evidence_label] = { score: 0, item_count: 0 };
+          }
+          domainScores[dk].evidence_scores[rule.evidence_label].score += pts * (rule.weight ?? 1.0);
+          domainScores[dk].evidence_scores[rule.evidence_label].item_count += 1;
+        }
       }
       continue;
     }
@@ -147,6 +155,14 @@ function computeScore(
       domainScores[dk].construct_scores[rule.construct_key].item_count += 1;
     }
 
+    if (rule.evidence_label !== 'F') {
+      if (!domainScores[dk].evidence_scores[rule.evidence_label]) {
+        domainScores[dk].evidence_scores[rule.evidence_label] = { score: 0, item_count: 0 };
+      }
+      domainScores[dk].evidence_scores[rule.evidence_label].score += points;
+      domainScores[dk].evidence_scores[rule.evidence_label].item_count += 1;
+    }
+
     // Shadow flag: if a shadow (F) item scores high after reverse-key, flag it
     if (rule.evidence_label === "F" && scored >= 5) {
       shadowFlags.push({
@@ -161,7 +177,7 @@ function computeScore(
 }
 
 function initDomain(map: Record<string, DomainScore>, dk: string) {
-  map[dk] = { raw: 0, weighted: 0, item_count: 0, evidence_counts: {}, construct_scores: {} };
+  map[dk] = { raw: 0, weighted: 0, item_count: 0, evidence_counts: {}, evidence_scores: {}, construct_scores: {} };
 }
 
 // Provisional band labels (not validated thresholds)

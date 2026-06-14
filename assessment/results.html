@@ -8,6 +8,43 @@
   <link rel="stylesheet" href="assessment.css">
   <meta name="robots" content="noindex, nofollow">
   <script src="config.js"></script>
+  <style>
+    .profile-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-top:16px}
+    .profile-card{border:1px solid #e5e7eb;border-radius:10px;padding:16px}
+    .profile-card-hdr{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+    .profile-card-icon{color:#1b4d3e;flex-shrink:0}
+    .profile-card-name{font-weight:700;font-size:15px;flex:1;color:#1a1a1a}
+    .profile-card-band{font-size:11px;padding:2px 8px;background:#f3f4f6;border-radius:20px;white-space:nowrap;color:#555}
+    .profile-card-desc{font-size:13px;color:#555;line-height:1.55;margin:0}
+    .ev-domain-block{margin-bottom:20px}
+    .ev-domain-title{font-weight:600;font-size:14px;color:#1a1a1a;margin-bottom:8px}
+    .ev-row{margin-bottom:6px}
+    .ev-row-label{display:flex;justify-content:space-between;font-size:12px;color:#666;margin-bottom:2px}
+    .ev-track{background:#e5e7eb;border-radius:4px;height:7px;overflow:hidden}
+    .ev-fill-orientation{background:#1b4d3e;height:100%;border-radius:4px}
+    .ev-fill-behavior{background:#2d6a4f;height:100%;border-radius:4px}
+    .ev-fill-outcome{background:#74c69d;height:100%;border-radius:4px}
+    .ev-fill-scenario{background:#95d5b2;height:100%;border-radius:4px}
+    .blend-top-label{font-size:18px;font-weight:800;color:#1b4d3e;margin-bottom:12px}
+    .edge-box{background:#fefce8;border-left:3px solid #dcb55a;padding:14px 16px;border-radius:0 8px 8px 0;font-size:14px;line-height:1.65;color:#333}
+    .deep-block{margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid #f0f0f0}
+    .deep-block:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+    .deep-heading{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#888;margin-bottom:6px}
+    .deep-text{font-size:14px;line-height:1.65;color:#333;margin:0}
+    .practice-box{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:20px}
+    .practice-header{display:flex;align-items:center;gap:8px;color:#166534;font-weight:700;font-size:14px;margin-bottom:10px}
+    .practice-text{font-size:14px;line-height:1.7;color:#1a1a1a;margin:0}
+    .q-item{display:flex;gap:12px;margin-bottom:12px}
+    .q-item:last-child{margin-bottom:0}
+    .q-num{width:22px;height:22px;border-radius:50%;background:#1b4d3e;color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+    .q-text{font-size:14px;line-height:1.6;color:#333;margin:0}
+    .limitation-note{background:#f9fafb;border-radius:8px;padding:16px;margin-top:12px;font-size:13px;color:#555;line-height:1.65}
+    .product-b-list{list-style:none;padding:0;margin:10px 0 0}
+    .product-b-list li{display:flex;gap:8px;margin-bottom:8px;font-size:14px;color:#555;line-height:1.55}
+    .product-b-list li:before{content:"—";color:#1b4d3e;font-weight:700;flex-shrink:0}
+    .sec-hdr{display:flex;align-items:center;gap:8px}
+    .sec-hdr svg{color:#1b4d3e;flex-shrink:0}
+  </style>
 </head>
 <body>
 
@@ -47,35 +84,142 @@
         Do not use these results to make significant ministry decisions without additional discernment from people who know you well.
       </div>
 
-      <!-- Domain summary -->
+      <!-- Feature 1: Seven-part profile cards -->
+      <div class="assess-card" id="profile-cards-section" style="display:none;">
+        <h2 class="results-section-title">
+          <span class="sec-hdr">Your Seven Stewardship Patterns</span>
+        </h2>
+        <p class="assess-body" style="margin-bottom:16px;">Your responses produced scores across all seven Fivefold domains. Each reflects how you tend to perceive and engage — not a fixed category or calling.</p>
+        <div class="profile-grid" id="profile-cards-grid"></div>
+      </div>
+
+      <!-- Domain summary (existing) -->
       <div class="assess-card">
         <h2 class="results-section-title">Your Stewardship Patterns</h2>
         <p class="assess-body" id="narrative-summary"></p>
         <div class="domain-bar-list" id="domain-bars"></div>
       </div>
 
-      <!-- Behavioral evidence note -->
+      <!-- Feature 2: Orientation vs. practice -->
+      <div class="assess-card" id="ev-profile-section" style="display:none;">
+        <h2 class="results-section-title">
+          <span class="sec-hdr">Orientation and Behavioral Evidence</span>
+        </h2>
+        <p class="assess-body" style="margin-bottom:16px;">Within your top domains, this shows the average scores from different types of questions: orientation items (how you see yourself) versus behavioral items (what you have done) and outcome items (what others have experienced). A meaningful gap between orientation and behavioral scores is worth examining.</p>
+        <div id="ev-profile-content"></div>
+      </div>
+
+      <!-- Feature 3: Blend -->
+      <div class="assess-card" id="blend-section" style="display:none;">
+        <h2 class="results-section-title">
+          <span class="sec-hdr">Your Strongest Pattern Combination</span>
+        </h2>
+        <p class="assess-body" style="margin-bottom:4px; font-size:12px; color:#888;">This describes a possible contribution pattern, not a type or identity. It reflects your two highest-scoring domains.</p>
+        <div id="blend-content"></div>
+      </div>
+
+      <!-- Feature 4: Development edge -->
+      <div class="assess-card" id="dev-edge-section" style="display:none;">
+        <h2 class="results-section-title">
+          <span class="sec-hdr" id="dev-edge-header">A Pattern Worth Exploring</span>
+        </h2>
+        <div id="dev-edge-content"></div>
+      </div>
+
+      <!-- Features 5–8: Domain deep dive (top domain) -->
+      <div class="assess-card" id="domain-deep-section" style="display:none;">
+        <h2 class="results-section-title">
+          <span class="sec-hdr">About Your Dominant Pattern: <span id="deep-domain-name"></span></span>
+        </h2>
+        <div id="domain-deep-content"></div>
+      </div>
+
+      <!-- Feature 9: 30-day practice -->
+      <div class="assess-card" id="thirty-day-section" style="display:none;">
+        <h2 class="results-section-title">
+          <span class="sec-hdr">A 30-Day Practice</span>
+        </h2>
+        <p class="assess-body" style="margin-bottom:12px; font-size:13px; color:#888;">Drawn from your highest-scoring domain. These suggestions are starting points — not prescriptions.</p>
+        <div class="practice-box">
+          <div class="practice-header">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="m12 16 4-4-4-4"/></svg>
+            Practice for your <span id="thirty-day-domain" style="margin-left:4px;"></span> pattern
+          </div>
+          <p class="practice-text" id="thirty-day-text"></p>
+        </div>
+      </div>
+
+      <!-- Feature 10: Discernment questions -->
+      <div class="assess-card" id="discernment-section" style="display:none;">
+        <h2 class="results-section-title">
+          <span class="sec-hdr">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 9a2 2 0 0 1-2 2H6l-4 4V4c0-1.1.9-2 2-2h8a2 2 0 0 1 2 2v5Z"/><path d="M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1"/></svg>
+            Community Discernment Questions
+          </span>
+        </h2>
+        <p class="assess-body" style="margin-bottom:16px;">Bring these to people who know your ministry context. Their observations can confirm, qualify, or challenge what you see here.</p>
+        <div id="discernment-content"></div>
+      </div>
+
+      <!-- Behavioral evidence note (existing) -->
       <div class="assess-card">
         <h2 class="results-section-title">About Your Evidence</h2>
         <p class="assess-body" id="behavioral-note"></p>
       </div>
 
-      <!-- Caution flags (if any) -->
+      <!-- Caution flags (existing) -->
       <div class="assess-card" id="flags-section" style="display:none;">
-        <h2 class="results-section-title">Patterns to Hold Lightly</h2>
+        <h2 class="results-section-title">
+          <span class="sec-hdr">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+            Patterns to Hold Lightly
+          </span>
+        </h2>
         <p class="assess-body" style="margin-bottom:16px;">
           Your responses included some indicators that suggest caution in interpreting one or more domain scores. These do not invalidate your results, but they are worth holding in mind.
         </p>
         <div id="flags-list"></div>
       </div>
 
-      <!-- Next steps -->
+      <!-- Next steps (existing) -->
       <div class="assess-card">
         <h2 class="results-section-title">How to Use These Results</h2>
         <div class="next-steps-list" id="next-steps"></div>
       </div>
 
-      <!-- Print / save -->
+      <!-- Feature 11: Methodology limitations -->
+      <div class="assess-card">
+        <h2 class="results-section-title">Methodology and Limitations</h2>
+        <div class="limitation-note">
+          <p style="margin:0 0 10px;"><strong>This is an unvalidated pilot instrument.</strong> The Fivefold Stewardship Assessment has not yet been subjected to psychometric validation. Scores are provisional and subject to revision after analysis of pilot data. Band thresholds (Strong, Moderate-high, etc.) are working estimates, not clinically or theologically validated cutoffs.</p>
+          <p style="margin:0 0 10px;">The assessment measures self-reported perception, behavioral recall, and scenario judgment — not observed behavior, character, or stewardship fruitfulness. A high score reflects what you reported about yourself, not what others would confirm.</p>
+          <p style="margin:0 0 10px;">Self-report instruments are subject to social desirability bias, limited self-awareness, and the framing effects of specific items. Shadow indicators may detect some patterns but cannot comprehensively detect all blind spots.</p>
+          <p style="margin:0;">These results are best used as a structured starting point for reflection and conversation. They are not a basis for ministry placement, leadership decisions, or theological conclusions about calling, gifting, or spiritual maturity.</p>
+        </div>
+      </div>
+
+      <!-- Feature 12: Product B explanation -->
+      <div class="assess-card" style="background:#f9fafb;">
+        <h2 class="results-section-title">
+          <span class="sec-hdr">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 11 2 2 4-4"/><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            What a Deeper Assessment Process Would Add
+          </span>
+        </h2>
+        <p class="assess-body" style="margin-bottom:12px;">A self-report instrument like this one is a useful starting point, but it cannot verify stewardship patterns the way a more comprehensive process can. A deeper assessment would typically add:</p>
+        <ul class="product-b-list">
+          <li>Observer or peer feedback from people who have seen you in ministry contexts</li>
+          <li>Verified behavioral examples with specific dates and outcomes</li>
+          <li>Character and local-faithfulness review, not only domain-pattern scoring</li>
+          <li>Communal discernment within a sending or accountability community</li>
+          <li>Review of calling and sending context, not only individual orientation</li>
+          <li>Evidence of actual stewardship — sustained investment, relational depth, community impact</li>
+          <li>Patterns that have endured over time and been reproduced in others</li>
+        </ul>
+        <p class="assess-body" style="margin-top:12px; font-size:13px; color:#888;">If Covo Multipliers offers a deeper process in the future, it would be described here. For now, these results are offered as a reflective tool, not a comprehensive assessment.</p>
+      </div>
+
+      <!-- Print / save (existing) -->
       <div class="assess-card" style="text-align:center;">
         <p class="assess-body" style="margin-bottom:16px;">
           Save your results link (from your email) if you want to return to this page later.
@@ -90,10 +234,581 @@
   <script>
     const SUPABASE_FUNCTIONS = window.ASSESSMENT_CONFIG.SUPABASE_FUNCTIONS;
 
-    const DOMAIN_ORDER = [
-      'prophetic', 'evangelistic', 'shepherding', 'teaching',
-      'apostolic_direction', 'apostolic_formation', 'apostolic_multiplying',
-    ];
+    // ─── Inline Lucide SVG paths ────────────────────────────────────────────────
+    // Source: Lucide (https://lucide.dev), MIT license. Inlined to avoid CDN dependency.
+    const ICON_PATHS = {
+      eye:            '<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>',
+      messageCircle:  '<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>',
+      heartHandshake: '<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/><path d="M12 5 9.04 7.96a2.17 2.17 0 0 0 0 3.08v0c.82.82 2.13.85 3 .07l2.07-1.9a2.82 2.82 0 0 1 3.79 0l2.96 2.66"/><path d="m18 15-2-2"/><path d="m15 18-2-2"/>',
+      bookOpen:       '<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',
+      compass:        '<circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>',
+      anchor:         '<circle cx="12" cy="5" r="3"/><line x1="12" y1="22" x2="12" y2="8"/><path d="M5 12H2a10 10 0 0 0 20 0h-3"/>',
+      gitBranch:      '<line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/>',
+      target:         '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
+      triangleAlert:  '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/>',
+      usersRound:     '<path d="M18 21a8 8 0 0 0-16 0"/><circle cx="10" cy="8" r="5"/><path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3"/>',
+      circleArrowRight:'<circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="m12 16 4-4-4-4"/>',
+      messagesSquare: '<path d="M14 9a2 2 0 0 1-2 2H6l-4 4V4c0-1.1.9-2 2-2h8a2 2 0 0 1 2 2v5Z"/><path d="M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1"/>',
+      searchCheck:    '<path d="m8 11 2 2 4-4"/><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+    };
+
+    function icon(name, size) {
+      size = size || 18;
+      const paths = ICON_PATHS[name] || '';
+      return '<svg xmlns="http://www.w3.org/2000/svg" width="' + size + '" height="' + size + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + paths + '</svg>';
+    }
+
+    // ─── Domain → icon mapping ───────────────────────────────────────────────────
+    const DOMAIN_ICONS = {
+      prophetic:              'eye',
+      evangelistic:           'messageCircle',
+      shepherding:            'heartHandshake',
+      teaching:               'bookOpen',
+      apostolic_direction:    'compass',
+      apostolic_formation:    'anchor',
+      apostolic_multiplying:  'gitBranch',
+    };
+
+    // ─── Short codes for blend key construction ──────────────────────────────────
+    const DOMAIN_SHORT = {
+      prophetic: 'pr', evangelistic: 'ev', shepherding: 'sh', teaching: 'te',
+      apostolic_direction: 'ad', apostolic_formation: 'af', apostolic_multiplying: 'am',
+    };
+
+    // ─── Domain content library ──────────────────────────────────────────────────
+    // Drafted from the approved methodology, construct definitions, and item bank.
+    // All language is aspirational and self-report-appropriate. No verified fruit claimed.
+    const DOMAIN_LIBRARY = {
+      prophetic: {
+        description: 'Tends to perceive spiritual significance in conversations, experiences, and community patterns — often before others name it. Carries concern for community faithfulness.',
+        what_you_may_notice: 'You may find yourself picking up on what is beneath the surface of situations — the spiritual weight behind a decision, or a drift that others haven\'t yet articulated. Certain conversations or moments may carry weight for you that feels significant even when you can\'t explain why.',
+        healthy_expression: 'This pattern is healthiest when perception is held provisionally and submitted to communal discernment before being acted on. A concern that is named, tested, and offered with humility — rather than urgency or certainty — tends to be more sustainable and more received.',
+        common_shadow: 'A common shadow of this pattern is an unsubmitted certainty: carrying a burden privately, acting on impressions without testing them, or allowing urgency to substitute for relational accountability. Perception that bypasses the community may be self-referential rather than genuinely prophetic.',
+        team_contribution: 'In team contexts, people with this pattern often raise concerns before a group is ready to name them, keep the community oriented toward faithfulness over comfort, and notice the spiritual stakes of practical decisions others treat as purely logistical.',
+        needs_from_others: 'This pattern tends to be strengthened by relationships that offer honest testing rather than automatic affirmation — people who are willing to say "I don\'t see that yet." Apostolic Formation groundedness and Teaching theological grounding can help translate perception into community-accessible language.',
+        mature_stewardship: 'Healthy development in this pattern increasingly involves consistent submission of perception to trusted community, willingness to wait before acting on impressions, and sustained relational presence even when concerns go unheard. Mature expression would tend toward a prophetic voice that has been tested and remains in relationship.',
+        thirty_day_practice: 'Identify one concern or impression you have been carrying — about your community, a relationship, or a direction. In the next 30 days, share it once with two or three trusted people who know your context. Before you share it, tell a leader you trust that you are going to do this and invite them to debrief with you afterward.',
+        discernment_questions: [
+          'When I share concerns about the community\'s spiritual direction, do people generally receive them as helpful and timely — or as unsettling without being actionable?',
+          'Can I name a recent example where a perception I carried was brought to others for testing, and where I genuinely revised it based on their response?',
+          'Is the burden I carry for the community producing prayer and active engagement, or producing private anxiety and distance?',
+          'Who in my life has explicit permission to push back on what I perceive — and have I actually given them that permission in a direct conversation?',
+        ],
+      },
+      evangelistic: {
+        description: 'Naturally bridges to people outside the faith community. Sustains genuine friendships with those who are exploring or far from faith, and tends to catalyze witness in others.',
+        what_you_may_notice: 'You may find conversations with people far from faith energizing rather than uncomfortable. You notice people at the edges of social contexts and feel drawn toward them rather than toward the center of existing communities.',
+        healthy_expression: 'This pattern is healthiest when it sustains genuine friendship over time — not only initial connection. Relationships that move toward shared understanding and honest conversation, without treating people as projects, tend to produce the kind of environment where faith becomes a real possibility.',
+        common_shadow: 'A common shadow is urgency that substitutes for depth — moving quickly to witness in ways that feel natural but don\'t allow the relationship to carry the conversation. Over time, this can produce surface-level engagement that doesn\'t hold or follow through. Another shadow is evangelistic activity that becomes a substitute for the slower work of genuine friendship.',
+        team_contribution: 'In team contexts, people with this pattern pull the community outward, keep the mission field visible when the group\'s energy turns inward, and often model a quality of natural, non-threatening engagement with people outside the faith that others struggle to replicate.',
+        needs_from_others: 'This pattern tends to be strengthened by Shepherding voices that slow down and deepen, Teaching voices that provide theological substance for witness conversations, and Prophetic voices that name when evangelistic energy is becoming transactional.',
+        mature_stewardship: 'Healthy development in this pattern increasingly involves sustained investment in specific people over months and years, not only a pattern of initiating across many contexts. Mature expression would tend toward relationships that produce visible growth in others\' faith journeys, and communities that are actually able to receive and hold people who come in.',
+        thirty_day_practice: 'Identify one person outside the faith community with whom you have an existing relationship but haven\'t had a meaningful personal conversation in recent weeks. In the next 30 days, initiate one conversation — not to witness, but to genuinely understand what is actually happening in their life right now. Tell someone afterward what you learned.',
+        discernment_questions: [
+          'Can I name one or two sustained friendships with people outside the faith community that have lasted more than six months — where I know what is actually happening in their life?',
+          'Do people I invest in evangelistically find their way into a community that can sustain them over time, or does the connection primarily continue through me?',
+          'Am I as interested in someone\'s long-term journey as I am in their initial response to a conversation about faith?',
+          'Do people who know me well say my relationships with non-Christians look like genuine friendship, or do they sense a missional agenda behind the connection?',
+        ],
+      },
+      shepherding: {
+        description: 'Attentive to individual wellbeing, long-haul relational presence, and creating conditions where people feel genuinely safe. Carries a protective instinct toward those in difficulty.',
+        what_you_may_notice: 'You may tend to notice when someone is struggling before they say so. Staying present with people in extended difficulty — when others have moved on — may feel natural rather than draining. You may have a strong sense of when a community or relationship environment is not safe for someone.',
+        healthy_expression: 'This pattern is healthiest when it creates bounded, safe relational space — not unlimited emotional availability. Reliable, patient presence that is also honest tends to be more sustaining than presence that avoids conflict in order to preserve the relationship. Protection that knows its limits, and care that is directed toward growth rather than ongoing dependence, tends to produce the most lasting fruit.',
+        common_shadow: 'A common shadow is care that slides toward control — protecting people from difficulty they need to go through, or avoiding necessary confrontation because the relationship feels too important to risk. Another shadow is absorbing others\' pain in ways that eventually harm the caregiver. A shepherd who cannot confront can be as unhelpful as one who never stays.',
+        team_contribution: 'In team contexts, people with this pattern notice who is missing and who is struggling at the margins, hold the wellbeing of individuals in view when the community\'s focus is on outputs, and create the kind of environment where people are willing to be honest about what is actually happening in their lives.',
+        needs_from_others: 'This pattern tends to be strengthened by Apostolic Formation voices that help maintain identity under pressure, Teaching voices that provide theological grounding for the limits of care, and Prophetic voices that name when protective presence has become avoidance of something that needs to be said.',
+        mature_stewardship: 'Healthy development in this pattern increasingly involves the capacity to name difficulty honestly within relationships — to bring a hard conversation with the same care that is given in presence. Mature expression would tend toward care that produces people who are more capable of caring for others, not communities built on ongoing dependence on the shepherd.',
+        thirty_day_practice: 'Identify one situation where your care for someone has consistently avoided a conversation that probably needs to happen. In the next 30 days, talk to a trusted leader or pastor about the situation first — describing what you are holding back and why — and ask for their counsel before deciding whether and how to initiate that conversation.',
+        discernment_questions: [
+          'Can I name one or two people who are more capable of caring for others now than when I first began investing in them — people whose growth is moving toward independence, not deeper dependence on me?',
+          'Is there a situation in a relationship or community where my commitment to preserving safety has meant consistently avoiding something that probably needed to be named?',
+          'Do the people I care for experience me as both present and honest, or present and consistently non-confrontational?',
+          'Who has explicit permission to tell me when my care has become enabling — and have I actually heard that from them recently?',
+        ],
+      },
+      teaching: {
+        description: 'Reaches for Scripture as the primary reference point, explains clearly across contexts, pursues questions with sustained curiosity, and is motivated by formation rather than information transfer.',
+        what_you_may_notice: 'You may find yourself naturally reaching for Scripture when processing conversations or decisions — not as a default answer but as a genuine primary reference. Questions raised in conversations may continue to occupy you long after the conversation ends, leading to sustained study and inquiry.',
+        healthy_expression: 'This pattern is healthiest when it makes Scripture more accessible rather than making the teacher more impressive. Explanation that invites question and disagreement, and teaching that is as interested in whether formation is actually happening as in whether content was delivered, tends to be the most generative.',
+        common_shadow: 'A common shadow is teaching as identity or performance — where precision becomes inaccessibility, where the investment in being the explainer becomes more important than whether understanding is producing life change. Theological gatekeeping that requires others to receive interpretation rather than read and reason together is a version of this shadow.',
+        team_contribution: 'In team contexts, people with this pattern provide theological grounding when practical decisions outrun their principles, build capacity in others to read and apply Scripture themselves, and keep the community honest about whether its stated beliefs are actually shaping its practice.',
+        needs_from_others: 'This pattern tends to be strengthened by Prophetic voices that name what the teaching hasn\'t yet reached, Shepherding voices that ensure formation is actually happening in individual lives (not only at the level of content delivery), and Evangelistic voices that force translation across contexts and audiences.',
+        mature_stewardship: 'Healthy development in this pattern increasingly involves the ability to release teaching to others and receive it back — giving people the opportunity to teach and then genuinely receiving their teaching without needing to supplement or correct. Mature expression would tend toward communities with growing theological capacity that is not dependent on a single teacher.',
+        thirty_day_practice: 'Identify one person who has received substantial teaching from you. In the next 30 days, give them a structured opportunity to teach something to a small group — and sit as a learner without intervening unless they ask. Debrief with them afterward about what they learned from the experience of teaching.',
+        discernment_questions: [
+          'Can I name people whose capacity to read, interpret, and apply Scripture has grown in ways that are now largely independent of me?',
+          'Do people in consistent engagement with my teaching feel more equipped to handle Scripture themselves, or more reliant on my interpretation to understand it?',
+          'Is there a theological position or interpretive question on which I have genuinely allowed someone else\'s teaching to revise my understanding in the past year?',
+          'Who in my community has explicit permission to tell me when my teaching is forming dependence rather than building capacity — and have they exercised that permission?',
+        ],
+      },
+      apostolic_direction: {
+        description: 'Drawn toward places and people where the gospel has little presence. Carries restlessness about settler posture. Reads new contexts quickly and adapts approach to reach across cultural distance.',
+        what_you_may_notice: 'You may find yourself most alive at the edges of existing communities rather than at their center. Established structures and settled communities may produce a low-level restlessness in you that is difficult to name but hard to ignore over time.',
+        healthy_expression: 'This pattern is healthiest when the impulse to move is submitted to communal discernment and accountability — when frontier instinct is shaped by collective wisdom rather than individual restlessness alone. Adaptation that crosses cultural distance without losing theological grounding tends to be more sustainable than movement that continuously seeks novelty.',
+        common_shadow: 'A common shadow is movement that functions as avoidance — pursuing new contexts as a way of escaping the slower, harder work of staying, or using frontier restlessness to stay ahead of accountability structures. Direction without formation or multiplying tends to produce isolated initiatives rather than enduring communities.',
+        team_contribution: 'In team contexts, people with this pattern pull the community out of comfortable self-maintenance, identify new fields that others have dismissed as too difficult, and create the initial conditions for gospel presence in contexts that would otherwise go unreached by existing structures.',
+        needs_from_others: 'This pattern tends to require Apostolic Formation grounding to sustain it over time, Apostolic Multiplying investment to ensure it reproduces, and Shepherding presence to care for the people encountered in new contexts — all three of which may feel secondary to the directional impulse but are essential to its long-term health.',
+        mature_stewardship: 'Healthy development in this pattern increasingly involves sustained accountability around when and how to move — not just the freedom to identify new fields. Mature expression would tend toward apostolic direction that is exercised within a community of discernment, and that produces local ownership rather than continuing dependency on the person who initiated the movement.',
+        thirty_day_practice: 'Identify one new or underreached context that has been drawing your attention. In the next 30 days, spend time there specifically to listen and understand what is already happening — not to initiate anything yet. Share what you observe with a trusted community and invite their discernment before taking any next step.',
+        discernment_questions: [
+          'Is my restlessness about reaching new contexts being shaped by a community of discernment, or am I primarily moving on my own reading of where to go next?',
+          'Can I name contexts where my apostolic initiative has produced communities that now have local leadership and do not depend on my continued presence?',
+          'Am I as attentive to the formation and multiplying dimensions of apostolic work as I am to the directional and pioneering dimensions?',
+          'Who in my life has the standing and the relationship to say "it is not yet time to move" — and have I actually heard that from them and waited?',
+        ],
+      },
+      apostolic_formation: {
+        description: 'Sustains consistent spiritual practice across seasons of minimal results. Maintains identity and theological conviction under pressure. Tends to create gathering points oriented around spiritual purpose.',
+        what_you_may_notice: 'You may find that your effectiveness in ministry is directly and perceptibly connected to the consistency of your spiritual practices — and that you feel their absence quickly. You may have a natural instinct toward creating structured accountability and community around formation practices.',
+        healthy_expression: 'This pattern is healthiest when formation disciplines are sustained as a source of endurance for mission rather than as identity or self-evaluation. Covenantal accountability that is genuinely mutual, and theological conviction that can hold mission flexibility, tends to produce formation that is both deep and externally oriented.',
+        common_shadow: 'A common shadow is spiritual self-sufficiency — confidence in one\'s own formation that actually produces isolation from genuine accountability, or a focus on internal consistency that becomes resistant to the disruption genuine mission requires. Formation that has no directional or reproductive dimension risks becoming self-referential.',
+        team_contribution: 'In team contexts, people with this pattern model what sustainable ministry looks like over years and decades, create accountability structures that hold others in the work through difficult seasons, and maintain theological grounding when the community\'s energy is high and vision feels easy.',
+        needs_from_others: 'This pattern tends to be strengthened by Apostolic Direction voices that maintain external orientation and keep formation connected to frontier movement, Evangelistic voices that connect formation to engagement with the world outside the community, and Prophetic voices that name when formation has begun to serve as a substitute for mission rather than a foundation for it.',
+        mature_stewardship: 'Healthy development in this pattern increasingly involves extending formation practices outward — investing in others\' formation, not only sustaining one\'s own. Mature expression would tend toward communities of practice that have a life of their own, that others can enter and sustain without depending on a single person\'s discipline to hold them.',
+        thirty_day_practice: 'Identify one person in your ministry context who would benefit from a named accountability relationship around spiritual practice. In the next 30 days, offer that relationship explicitly — not as a program or a role, but as a personal commitment to walk alongside them. Tell a trusted leader you are doing this and check in with them at the end of the month about how it went.',
+        discernment_questions: [
+          'Is my spiritual practice producing endurance and flexibility for mission, or has it begun to function primarily as a source of identity and self-evaluation?',
+          'Can I name others who are more consistently formed in practice because of direct investment I made in their formation — not only because of my example from a distance?',
+          'Is there a covenantal accountability relationship in my life that has real permission to speak into the substance of my formation practices — not only to observe them?',
+          'Am I as drawn to the directional and multiplying dimensions of apostolic work as I am to the formation dimension, or does formation consistently crowd out the others?',
+        ],
+      },
+      apostolic_multiplying: {
+        description: 'Sees people in terms of their potential to make disciples. Invests intentionally in reproducible patterns. Identifies and develops overlooked leadership, and tends toward release rather than retention.',
+        what_you_may_notice: 'You may find yourself thinking about relationships in terms of what a person could become — not primarily what they need from you now. You may notice leadership potential in people that groups pass over, and feel a pull toward intentional, specific investment rather than general community presence.',
+        healthy_expression: 'This pattern is healthiest when investment is patient and formational — not only efficient and reproductive. Releasing people into responsibility with adequate preparation, celebrating their growth after they are sent, and remaining available without maintaining dependence, tends to produce the most enduring patterns.',
+        common_shadow: 'A common shadow is multiplication urgency that bypasses character formation — an impatience to reproduce that shortens the development process in ways that are not good for the person being developed. Another shadow is investment in visible potential that consistently overlooks people who are less immediately impressive. Difficulty in fully releasing responsibility is also common and worth examining.',
+        team_contribution: 'In team contexts, people with this pattern spot leadership capacity in people that teams have overlooked, create intentional development tracks where growth would otherwise happen by osmosis, and hold the community accountable for whether it is producing disciples who are making disciples.',
+        needs_from_others: 'This pattern tends to be strengthened by Shepherding voices that slow down to care for the whole person being developed (not only their capacity), Apostolic Formation voices that ensure development has depth as well as reproducibility, and Teaching voices that provide theological grounding for the leaders being raised.',
+        mature_stewardship: 'Healthy development in this pattern increasingly involves the willingness to release fully — to send people into contexts where you are no longer the primary relationship, and to find that outcome more satisfying than maintaining connection. Mature expression would tend toward involvement in second-generation patterns: disciples who are making disciples, leaders who are developing leaders, in ways you are no longer closely directing.',
+        thirty_day_practice: 'Identify one person you have been investing in intentionally. In the next 30 days, give them a specific responsibility that you would normally carry yourself — and give it without extensive preparation support from you beforehand. Debrief with them afterward about what they learned, and ask them what they would have done differently.',
+        discernment_questions: [
+          'Can I name someone who is actively investing in others\' growth — partly because of intentional investment I made in them — where I am no longer closely involved in directing that investment?',
+          'Is there a person I have been developing whom I have been reluctant to fully release into responsibility — and can I name what is driving that reluctance?',
+          'Am I consistently investing in people who are overlooked as well as people who are visibly talented and easy to develop?',
+          'Who in my community has permission to tell me when I am retaining rather than releasing — and have they said so?',
+        ],
+      },
+    };
+
+    // ─── Blend descriptions (21 pairs) ──────────────────────────────────────────
+    // Framed as possible contribution patterns, not identity types or callings.
+    // Key: sorted short codes joined by '+'.
+    const BLEND_DESCRIPTIONS = {
+      'ad+af': 'Where frontier instinct meets consistent formation, your responses may reflect both the drive to reach new contexts and the interior grounding needed to remain in them. Each dimension tends to reinforce the other over time — direction without formation can become scattered; formation without direction can become self-referential.',
+      'ad+am': 'This combination may reflect an orientation toward reaching new places alongside an instinct for ensuring that what is built there continues through others. The frontier impulse and the reproductive instinct together can shape how you think about leadership development in contexts where you are not yet settled.',
+      'ad+ev': 'Both patterns point outward — toward people and places not yet reached. Where this combination appears, you may find yourself drawn toward initiating gospel presence in contexts where it is absent, with a natural ease in engaging people across social and cultural boundaries.',
+      'ad+pr': 'This combination may reflect frontier instinct alongside a sensitivity to what God may be doing in a particular place or community. The prophetic dimension can deepen the directional, providing attentiveness that shapes how new fields are read and how movement is discerned.',
+      'ad+sh': 'Frontier instinct combined with attentive care for individuals can shape a distinctive pattern — one that moves toward new places while remaining oriented toward the people encountered there. The shepherding dimension may slow and deepen a directional impulse that could otherwise prioritize movement over persons.',
+      'ad+te': 'Where frontier instinct meets a teaching orientation, your responses may reflect a particular attentiveness to how the gospel is communicated across cultural contexts — not only reaching new places, but ensuring that understanding is formed there. The teaching dimension can provide theological grounding for movement.',
+      'af+am': 'Formation depth and reproductive investment together may reflect an orientation toward developing people who are both deeply rooted and capable of reproducing that rootedness in others. This combination may surface in sustained, intentional investment that is also explicitly oriented toward release.',
+      'af+ev': 'Consistent spiritual practice combined with a natural bridge-building orientation may reflect a pattern where personal formation is connected to outward engagement rather than serving as a substitute for it. This combination is worth examining in terms of how interior depth and exterior reach reinforce each other in practice.',
+      'af+pr': 'Where formation practices and prophetic perception appear together, your responses may reflect a pattern in which sustained spiritual discipline is connected to heightened attentiveness to what God may be doing. Formation that supports prophetic submission — and perception that is regularly grounded in formation practices — tends to be more sustainable.',
+      'af+sh': 'This combination may reflect both sustainable interior grounding and long-haul relational presence. Where both appear, the formation pattern may provide the endurance needed for the sustained care that shepherding requires, and the shepherding attentiveness may keep formation connected to people rather than primarily to personal discipline.',
+      'af+te': 'Formation practices and teaching orientation together may reflect a pattern in which personal discipline and theological inquiry are closely related — learning and study as formation, not merely information. This combination may surface in teaching that is experienced as formative rather than primarily instructional.',
+      'am+ev': 'Where reproductive investment and evangelistic bridge-building appear together, your responses may reflect an orientation toward both reaching new people and ensuring that those relationships develop toward reproducible growth. The evangelistic impulse brings people in; the multiplying instinct considers what happens next.',
+      'am+pr': 'This combination may reflect an orientation toward identifying people with significant potential alongside the prophetic capacity to read what may be happening in their formation. The prophetic dimension can provide spiritual attentiveness that shapes the multiplying instinct\'s investment decisions.',
+      'am+sh': 'Reproductive investment and attentive care for individuals together may reflect a pattern in which discipleship is both relational and intentional — people are genuinely cared for as individuals, and that care is oriented toward their long-term growth and their capacity to care for others.',
+      'am+te': 'Where disciple-making investment meets a teaching orientation, your responses may reflect particular attentiveness to whether what you teach is being learned in ways that can be passed on — not only delivered, but forming people who can teach others. This combination may surface in investment that is deliberately transferable.',
+      'ev+pr': 'This combination may reflect sensitivity to what God may be doing in people\'s spiritual journeys alongside a natural ease in engaging those who are exploring or far from faith. The prophetic dimension may provide spiritual attentiveness to evangelistic relationships that keeps them from becoming primarily about strategy or outcome.',
+      'ev+sh': 'Bridge-building with those outside the faith community combined with long-haul relational presence may reflect a pattern where initial connection is followed by sustained care. Where this combination appears, evangelistic relationships may tend toward depth rather than breadth, and toward communities that can actually hold the people who come.',
+      'ev+te': 'Evangelistic engagement and teaching orientation together may reflect a capacity to explain the faith clearly across different contexts — speaking to people where they are while maintaining theological substance. The teaching dimension may provide the articulation that the evangelistic impulse sometimes lacks in the moment.',
+      'pr+sh': 'Prophetic perception and attentive care for individuals may together shape a pattern in which spiritual attentiveness is directed toward people\'s interior lives — noticing what is happening spiritually in individuals before they name it themselves. This combination can be particularly generative in accompanying people through significant transitions.',
+      'pr+te': 'Where perception of spiritual significance meets a teaching orientation, your responses may reflect attentiveness to how Scripture speaks to what is actually happening in a community or person\'s life — not merely instruction, but naming. This combination may surface in teaching that carries a quality of timely address.',
+      'sh+te': 'Long-haul relational presence combined with a teaching orientation may reflect a pattern in which learning is always connected to people\'s actual formation — teaching that stays present with the learner over time. Where this combination appears, teaching may tend toward mentoring and formation rather than program delivery or public instruction.',
+    };
+
+    // ─── Helpers ─────────────────────────────────────────────────────────────────
+    function domainAvg(d) {
+      return d.item_count > 0 ? d.weighted / d.item_count : 0;
+    }
+
+    function evidenceAvg(entry) {
+      if (!entry || entry.item_count === 0) return null;
+      return entry.score / entry.item_count;
+    }
+
+    function blendKey(dk1, dk2) {
+      const a = DOMAIN_SHORT[dk1] || dk1;
+      const b = DOMAIN_SHORT[dk2] || dk2;
+      return [a, b].sort().join('+');
+    }
+
+    // ─── Development edge detection ──────────────────────────────────────────────
+    // Returns { message, rule } or null if no tension detected.
+    function identifyDevelopmentEdge(ranked, evidenceProfile, flags) {
+      if (!ranked || ranked.length === 0) return null;
+
+      const byKey = {};
+      ranked.forEach(function(d) { byKey[d.domain_key] = d; });
+
+      const flaggedDomains = new Set((flags || []).map(function(f) { return f.domain_key; }));
+      const ep = evidenceProfile || {};
+      const GAP = 1.0;
+      const STRONG_THRESHOLD = 3.5;
+
+      // Rule 1: Strong orientation with lower behavioral evidence (within top domain)
+      if (ep) {
+        const top = ranked[0];
+        if (top && domainAvg(top) >= STRONG_THRESHOLD) {
+          const dk = top.domain_key;
+          const oriAvg = evidenceAvg(ep[dk] && ep[dk].orientation);
+          const behAvg = evidenceAvg(ep[dk] && ep[dk].behavior);
+          if (oriAvg !== null && behAvg !== null && (oriAvg - behAvg) >= GAP) {
+            return {
+              rule: 1,
+              message: 'Your ' + top.label + ' orientation scores are notably higher than your behavioral evidence scores. This may reflect a genuine pattern that has not yet found consistent behavioral expression, or it may indicate a difference between how you see yourself and what others would observe. This is worth exploring with people who know you in ministry.',
+            };
+          }
+        }
+      }
+
+      // Rule 2: Strong behavioral evidence with lower self-reported outcome evidence (within top domain)
+      if (ep) {
+        const top = ranked[0];
+        if (top && domainAvg(top) >= STRONG_THRESHOLD) {
+          const dk = top.domain_key;
+          const behAvg = evidenceAvg(ep[dk] && ep[dk].behavior);
+          const outAvg = evidenceAvg(ep[dk] && ep[dk].outcome);
+          if (behAvg !== null && outAvg !== null && (behAvg - outAvg) >= GAP) {
+            return {
+              rule: 2,
+              message: 'Your ' + top.label + ' behavioral indicators are higher than your self-reported outcome indicators. This may reflect sustained engagement that has not yet produced the kinds of visible results you could point to — or it may indicate a difference between your activity level and its current fruit. This is worth reflecting on with a trusted leader.',
+            };
+          }
+        }
+      }
+
+      // Rule 3: Strong domain with shadow flags
+      const top = ranked[0];
+      if (top && domainAvg(top) >= STRONG_THRESHOLD && flaggedDomains.has(top.domain_key)) {
+        return {
+          rule: 3,
+          message: 'Your ' + top.label + ' pattern was accompanied by caution indicators. Strong expression of this function can sometimes outpace tested discernment, relational accountability, or community grounding. See the caution indicators section for specifics, and bring these to someone who knows you well.',
+        };
+      }
+
+      // Rule 4: Strong Apostolic Direction with notably lower Apostolic Formation
+      const ad = byKey['apostolic_direction'];
+      const af = byKey['apostolic_formation'];
+      if (ad && af && domainAvg(ad) >= STRONG_THRESHOLD && (domainAvg(ad) - domainAvg(af)) >= GAP) {
+        return {
+          rule: 4,
+          message: 'Your responses show stronger Apostolic Direction indicators than Apostolic Formation indicators. Strong frontier instinct accompanied by lower formation scores is a recognized tension: the capacity to move toward new contexts tends to be most sustainable when grounded in consistent spiritual practice, covenantal accountability, and theological integration.',
+        };
+      }
+
+      // Rule 5: Strong AD or AF with notably lower Apostolic Multiplying
+      const am = byKey['apostolic_multiplying'];
+      const adStrong = ad && domainAvg(ad) >= STRONG_THRESHOLD;
+      const afStrong = af && domainAvg(af) >= STRONG_THRESHOLD;
+      if (am && (adStrong || afStrong) && Math.max(adStrong ? domainAvg(ad) : 0, afStrong ? domainAvg(af) : 0) - domainAvg(am) >= GAP) {
+        return {
+          rule: 5,
+          message: 'Your responses reflect strength in apostolic direction or formation alongside lower indicators of intentional disciple-making and leader development. Movement toward new contexts tends to be most fruitful when it is also intentionally reproductive — investing in others who will continue and multiply the work.',
+        };
+      }
+
+      // Rule 6: Strong Shepherding with shadow flags in shepherding
+      const sh = byKey['shepherding'];
+      if (sh && domainAvg(sh) >= STRONG_THRESHOLD && flaggedDomains.has('shepherding')) {
+        return {
+          rule: 6,
+          message: 'Strong care and consistent presence can sometimes shade toward protective patterns that avoid necessary confrontation or create unhealthy dependence. The caution indicators in your Shepherding responses are worth exploring with someone who knows you in community and has permission to speak honestly.',
+        };
+      }
+
+      // Rule 7: Strong Teaching with shadow flags in teaching
+      const te = byKey['teaching'];
+      if (te && domainAvg(te) >= STRONG_THRESHOLD && flaggedDomains.has('teaching')) {
+        return {
+          rule: 7,
+          message: 'Strong teaching orientation accompanied by caution indicators may reflect a pattern where theological precision or the teaching role itself has begun to function as a source of identity or influence rather than primarily as formation. The caution flags in your Teaching responses are worth examining with people you trust.',
+        };
+      }
+
+      // Rule 8: Strong Prophetic with notably higher orientation than behavioral evidence
+      if (ep) {
+        const pr = byKey['prophetic'];
+        if (pr && domainAvg(pr) >= STRONG_THRESHOLD) {
+          const oriAvg = evidenceAvg(ep['prophetic'] && ep['prophetic'].orientation);
+          const behAvg = evidenceAvg(ep['prophetic'] && ep['prophetic'].behavior);
+          if (oriAvg !== null && behAvg !== null && (oriAvg - behAvg) >= 1.2) {
+            return {
+              rule: 8,
+              message: 'Your Prophetic orientation scores are meaningfully higher than your behavioral evidence scores — including items about bringing impressions to others for testing and tracking specific concerns over time. Prophetic perception that is not regularly submitted to trusted community for discernment is worth examining carefully.',
+            };
+          }
+        }
+      }
+
+      // Rule 9: Strong Evangelistic with notably higher orientation than self-reported outcome evidence
+      if (ep) {
+        const ev = byKey['evangelistic'];
+        if (ev && domainAvg(ev) >= STRONG_THRESHOLD) {
+          const oriAvg = evidenceAvg(ep['evangelistic'] && ep['evangelistic'].orientation);
+          const outAvg = evidenceAvg(ep['evangelistic'] && ep['evangelistic'].outcome);
+          if (oriAvg !== null && outAvg !== null && (oriAvg - outAvg) >= 1.2) {
+            return {
+              rule: 9,
+              message: 'Your Evangelistic orientation scores are higher than your self-reported outcome indicators. Evangelistic instinct tends to be deepened by consistent behavioral follow-through and maintained relationships over time, rather than by initial bridge-building alone. This pattern is worth examining in terms of what sustained investment actually looks like in your current context.',
+            };
+          }
+        }
+      }
+
+      // No tension identified
+      return null;
+    }
+
+    // ─── Render: profile cards ────────────────────────────────────────────────────
+    function renderProfileCards(ranked) {
+      if (!ranked || ranked.length === 0) return;
+      const section = document.getElementById('profile-cards-section');
+      const grid = document.getElementById('profile-cards-grid');
+      ranked.forEach(function(d) {
+        const lib = DOMAIN_LIBRARY[d.domain_key];
+        const iconName = DOMAIN_ICONS[d.domain_key] || 'eye';
+        const card = document.createElement('div');
+        card.className = 'profile-card';
+        card.innerHTML =
+          '<div class="profile-card-hdr">' +
+            '<span class="profile-card-icon">' + icon(iconName, 20) + '</span>' +
+            '<span class="profile-card-name">' + escHtml(d.label) + '</span>' +
+            '<span class="profile-card-band">' + escHtml(d.band) + '</span>' +
+          '</div>' +
+          '<p class="profile-card-desc">' + escHtml(lib ? lib.description : '') + '</p>';
+        grid.appendChild(card);
+      });
+      section.style.display = '';
+    }
+
+    // ─── Render: orientation vs. practice ────────────────────────────────────────
+    function renderEvidenceProfile(ranked, evidenceProfile) {
+      if (!evidenceProfile || !ranked || ranked.length === 0) return;
+      const section = document.getElementById('ev-profile-section');
+      const content = document.getElementById('ev-profile-content');
+      const topDomains = ranked.slice(0, 3);
+      let hasAny = false;
+
+      topDomains.forEach(function(d) {
+        const ep = evidenceProfile[d.domain_key];
+        if (!ep) return;
+        const MAX_SCORE = 6;
+        const classes = [
+          { key: 'orientation', label: 'Orientation', fillClass: 'ev-fill-orientation' },
+          { key: 'behavior',    label: 'Behavioral',   fillClass: 'ev-fill-behavior' },
+          { key: 'outcome',     label: 'Outcomes',     fillClass: 'ev-fill-outcome' },
+          { key: 'scenario',    label: 'Scenario',     fillClass: 'ev-fill-scenario' },
+        ];
+        const rows = classes.filter(function(c) {
+          return ep[c.key] && ep[c.key].item_count > 0;
+        });
+        if (rows.length < 2) return;
+        hasAny = true;
+
+        const block = document.createElement('div');
+        block.className = 'ev-domain-block';
+        let html = '<div class="ev-domain-title">' + escHtml(d.label) + '</div>';
+        rows.forEach(function(c) {
+          const avg = evidenceAvg(ep[c.key]);
+          if (avg === null) return;
+          const pct = Math.round((avg / MAX_SCORE) * 100);
+          html +=
+            '<div class="ev-row">' +
+              '<div class="ev-row-label">' +
+                '<span>' + escHtml(c.label) + '</span>' +
+                '<span role="img" aria-label="' + escHtml(c.label) + ' average: ' + avg.toFixed(1) + ' out of 6">' + avg.toFixed(1) + ' / 6</span>' +
+              '</div>' +
+              '<div class="ev-track"><div class="' + c.fillClass + '" style="width:' + pct + '%;"></div></div>' +
+            '</div>';
+        });
+        block.innerHTML = html;
+        content.appendChild(block);
+      });
+
+      if (hasAny) {
+        content.insertAdjacentHTML('beforeend', '<p style="font-size:12px;color:#999;margin-top:8px;">Scores are on a 1–6 scale. All evidence classes are self-reported and unvalidated.</p>');
+        section.style.display = '';
+      }
+    }
+
+    // ─── Render: blend ────────────────────────────────────────────────────────────
+    function renderBlend(ranked) {
+      if (!ranked || ranked.length < 2) return;
+      const top1 = ranked[0];
+      const top2 = ranked[1];
+      if (top1.domain_key === 'cross_function' || top2.domain_key === 'cross_function') return;
+      const key = blendKey(top1.domain_key, top2.domain_key);
+      const desc = BLEND_DESCRIPTIONS[key];
+      if (!desc) return;
+
+      const section = document.getElementById('blend-section');
+      const content = document.getElementById('blend-content');
+      content.innerHTML =
+        '<div class="blend-top-label">' + escHtml(top1.label) + ' + ' + escHtml(top2.label) + '</div>' +
+        '<p class="assess-body">' + escHtml(desc) + '</p>';
+      section.style.display = '';
+    }
+
+    // ─── Render: development edge ─────────────────────────────────────────────────
+    function renderDevelopmentEdge(ranked, evidenceProfile, flags) {
+      const section = document.getElementById('dev-edge-section');
+      const content = document.getElementById('dev-edge-content');
+      const result = identifyDevelopmentEdge(ranked, evidenceProfile, flags);
+
+      if (result) {
+        document.getElementById('dev-edge-header').innerHTML =
+          icon('target', 20) + ' <span style="margin-left:4px;">A Pattern Worth Exploring</span>';
+        content.innerHTML = '<div class="edge-box">' + escHtml(result.message) + '</div>';
+      } else {
+        document.getElementById('dev-edge-header').innerHTML = 'Development Edge';
+        content.innerHTML =
+          '<p class="assess-body">No clear development tension was identified from this self-report assessment. A self-report instrument has inherent limits — consider asking people who know your ministry context well whether they see patterns not visible from your own responses.</p>';
+      }
+      section.style.display = '';
+    }
+
+    // ─── Render: domain deep dive (Features 5–8) ─────────────────────────────────
+    function renderDomainDeep(ranked) {
+      if (!ranked || ranked.length === 0) return;
+      const top = ranked[0];
+      const lib = DOMAIN_LIBRARY[top.domain_key];
+      if (!lib) return;
+
+      document.getElementById('deep-domain-name').textContent = top.label;
+
+      const fields = [
+        { key: 'what_you_may_notice', label: 'What you may naturally notice', iconName: 'eye' },
+        { key: 'healthy_expression',  label: 'Healthy expression',            iconName: 'heartHandshake' },
+        { key: 'common_shadow',        label: 'Common shadow',                 iconName: 'triangleAlert' },
+        { key: 'team_contribution',    label: 'Team contribution',             iconName: 'usersRound' },
+        { key: 'needs_from_others',    label: 'What you may need from others', iconName: 'usersRound' },
+        { key: 'mature_stewardship',   label: 'Mature stewardship direction',  iconName: 'circleArrowRight' },
+      ];
+
+      const container = document.getElementById('domain-deep-content');
+      fields.forEach(function(f) {
+        const text = lib[f.key];
+        if (!text) return;
+        const block = document.createElement('div');
+        block.className = 'deep-block';
+        block.innerHTML =
+          '<div class="deep-heading">' + icon(f.iconName, 14) + ' <span>' + escHtml(f.label) + '</span></div>' +
+          '<p class="deep-text">' + escHtml(text) + '</p>';
+        container.appendChild(block);
+      });
+
+      document.getElementById('domain-deep-section').style.display = '';
+    }
+
+    // ─── Render: 30-day practice ──────────────────────────────────────────────────
+    function renderThirtyDay(ranked) {
+      if (!ranked || ranked.length === 0) return;
+      const top = ranked[0];
+      const lib = DOMAIN_LIBRARY[top.domain_key];
+      if (!lib || !lib.thirty_day_practice) return;
+      document.getElementById('thirty-day-domain').textContent = top.label;
+      document.getElementById('thirty-day-text').textContent = lib.thirty_day_practice;
+      document.getElementById('thirty-day-section').style.display = '';
+    }
+
+    // ─── Render: discernment questions ───────────────────────────────────────────
+    function renderDiscernment(ranked) {
+      if (!ranked || ranked.length === 0) return;
+      const top = ranked[0];
+      const lib = DOMAIN_LIBRARY[top.domain_key];
+      if (!lib || !lib.discernment_questions || lib.discernment_questions.length === 0) return;
+      const container = document.getElementById('discernment-content');
+      lib.discernment_questions.forEach(function(q, i) {
+        const item = document.createElement('div');
+        item.className = 'q-item';
+        item.innerHTML =
+          '<div class="q-num" aria-hidden="true">' + (i + 1) + '</div>' +
+          '<p class="q-text">' + escHtml(q) + '</p>';
+        container.appendChild(item);
+      });
+      document.getElementById('discernment-section').style.display = '';
+    }
+
+    // ─── Existing render (unchanged) ─────────────────────────────────────────────
+    function renderResults(copy, flags) {
+      if (!copy) return;
+
+      // Greeting
+      document.getElementById('result-name').textContent = copy.greeting
+        ? copy.greeting.split(',')[0].replace('Hi ', '').trim() + "'s Results"
+        : 'Your Results';
+      document.getElementById('result-greeting').textContent = copy.pilot_disclaimer ?? '';
+
+      // Narrative summary
+      document.getElementById('narrative-summary').textContent = copy.narrative_summary ?? '';
+
+      // Domain bars
+      const domains = (copy.domain_summary ?? []).filter(function(d) { return d.domain_key !== 'cross_function'; });
+      const maxWeighted = Math.max.apply(null, domains.map(function(d) { return d.weighted / Math.max(d.item_count, 1); }).concat([1]));
+
+      const barsContainer = document.getElementById('domain-bars');
+      domains.forEach(function(d) {
+        const avg = d.weighted / Math.max(d.item_count, 1);
+        const pct = Math.round((avg / maxWeighted) * 100);
+        const bar = document.createElement('div');
+        bar.className = 'domain-bar-item';
+        bar.innerHTML =
+          '<div class="domain-bar-header">' +
+            '<span class="domain-bar-label">' + escHtml(d.label) + '</span>' +
+            '<span class="domain-bar-band">' + escHtml(d.band) + '</span>' +
+          '</div>' +
+          '<div class="domain-bar-track">' +
+            '<div class="domain-bar-fill" style="width:' + pct + '%;"></div>' +
+          '</div>';
+        barsContainer.appendChild(bar);
+      });
+
+      // Behavioral note
+      document.getElementById('behavioral-note').textContent = copy.behavioral_note ?? '';
+
+      // Flags
+      if (flags && flags.length > 0) {
+        document.getElementById('flags-section').style.display = '';
+        const flagsList = document.getElementById('flags-list');
+        flags.forEach(function(f) {
+          const div = document.createElement('div');
+          div.className = 'caution-flag';
+          div.textContent = f.note ?? f;
+          flagsList.appendChild(div);
+        });
+      }
+
+      // Next steps
+      const steps = copy.next_steps ?? [];
+      const stepsList = document.getElementById('next-steps');
+      steps.forEach(function(step, i) {
+        const div = document.createElement('div');
+        div.className = 'next-step-item';
+        div.innerHTML =
+          '<div class="next-step-num">' + (i + 1) + '</div>' +
+          '<p class="next-step-text">' + escHtml(step) + '</p>';
+        stepsList.appendChild(div);
+      });
+    }
+
+    function showView(name) {
+      ['loading', 'error', 'results'].forEach(function(v) {
+        document.getElementById(v + '-view').style.display = v === name ? '' : 'none';
+      });
+    }
+
+    function escHtml(str) {
+      return String(str ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
 
     function getTokenFromUrl() {
       const params = new URLSearchParams(window.location.search);
@@ -123,89 +838,30 @@
           return;
         }
 
-        renderResults(data.result_copy, data.summary_flags ?? []);
+        const ranked = (data.result_copy?.domain_summary ?? []).filter(function(d) {
+          return d.domain_key !== 'cross_function';
+        });
+        const evidenceProfile = data.evidence_profile ?? null;
+        const flags = data.summary_flags ?? [];
+
+        // Existing render
+        renderResults(data.result_copy, flags);
+
+        // New feature renders
+        renderProfileCards(ranked);
+        renderEvidenceProfile(ranked, evidenceProfile);
+        renderBlend(ranked);
+        renderDevelopmentEdge(ranked, evidenceProfile, flags);
+        renderDomainDeep(ranked);
+        renderThirtyDay(ranked);
+        renderDiscernment(ranked);
+
         showView('results');
 
       } catch (err) {
         console.error('[results] error:', err);
         showView('error');
       }
-    }
-
-    function renderResults(copy, flags) {
-      if (!copy) return;
-
-      // Greeting
-      document.getElementById('result-name').textContent = copy.greeting
-        ? copy.greeting.split(',')[0].replace('Hi ', '').trim() + "’s Results"
-        : 'Your Results';
-      document.getElementById('result-greeting').textContent = copy.pilot_disclaimer ?? '';
-
-      // Narrative summary
-      document.getElementById('narrative-summary').textContent = copy.narrative_summary ?? '';
-
-      // Domain bars
-      const domains = (copy.domain_summary ?? []).filter(d => d.domain_key !== 'cross_function');
-      const maxWeighted = Math.max(...domains.map(d => d.weighted / Math.max(d.item_count, 1)), 1);
-
-      const barsContainer = document.getElementById('domain-bars');
-      domains.forEach(d => {
-        const avg = d.weighted / Math.max(d.item_count, 1);
-        const pct = Math.round((avg / maxWeighted) * 100);
-        const bar = document.createElement('div');
-        bar.className = 'domain-bar-item';
-        bar.innerHTML = `
-          <div class="domain-bar-header">
-            <span class="domain-bar-label">${escHtml(d.label)}</span>
-            <span class="domain-bar-band">${escHtml(d.band)}</span>
-          </div>
-          <div class="domain-bar-track">
-            <div class="domain-bar-fill" style="width:${pct}%"></div>
-          </div>`;
-        barsContainer.appendChild(bar);
-      });
-
-      // Behavioral note
-      document.getElementById('behavioral-note').textContent = copy.behavioral_note ?? '';
-
-      // Flags
-      if (flags && flags.length > 0) {
-        document.getElementById('flags-section').style.display = '';
-        const flagsList = document.getElementById('flags-list');
-        flags.forEach(f => {
-          const div = document.createElement('div');
-          div.className = 'caution-flag';
-          div.textContent = f.note ?? f;
-          flagsList.appendChild(div);
-        });
-      }
-
-      // Next steps
-      const steps = copy.next_steps ?? [];
-      const stepsList = document.getElementById('next-steps');
-      steps.forEach((step, i) => {
-        const div = document.createElement('div');
-        div.className = 'next-step-item';
-        div.innerHTML = `
-          <div class="next-step-num">${i + 1}</div>
-          <p class="next-step-text">${escHtml(step)}</p>`;
-        stepsList.appendChild(div);
-      });
-    }
-
-    function showView(name) {
-      ['loading', 'error', 'results'].forEach(v => {
-        document.getElementById(v + '-view').style.display = v === name ? '' : 'none';
-      });
-    }
-
-    function escHtml(str) {
-      return String(str ?? '')
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;');
     }
 
     loadResults();

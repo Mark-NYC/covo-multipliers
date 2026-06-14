@@ -6,8 +6,8 @@
 // Body: { result_token: string }
 //
 // Validates the result_token hash and returns the stored result_copy.
-// Raw scores, domain_scores, and construct_scores are NOT returned to the client.
-// Only the rendered result_copy is returned.
+// Raw scores and construct_scores are NOT returned to the client.
+// result_copy and a safe evidence_profile summary are returned.
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
@@ -64,7 +64,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
 
   const { data: result, error } = await supabase
     .from("assessment_results")
-    .select("id, result_copy, summary_flags, scoring_version, created_at")
+    .select("id, result_copy, summary_flags, scoring_version, created_at, domain_scores")
     .eq("result_token_hash", tokenHash)
     .single();
 
@@ -72,11 +72,37 @@ Deno.serve(async (req: Request): Promise<Response> => {
     return json(404, { error: "Results not found. Your link may be invalid or expired." }, cors);
   }
 
-  // Return only the rendered copy and flags — no raw scores
+  // Build evidence_profile from per-domain evidence_scores (stored by updated assessment-submit).
+  // Maps internal evidence labels to human-facing category keys.
+  // Returns null for results scored before this field was added.
+  const EVIDENCE_MAP: Record<string, string> = {
+    A: "orientation", B: "behavior", O: "outcome", S: "scenario", FC: "forced_choice",
+  };
+  let evidenceProfile: Record<string, Record<string, { score: number; item_count: number } | null>> | null = null;
+  const ds = result.domain_scores as Record<string, Record<string, unknown>> | null;
+  if (ds) {
+    let hasData = false;
+    const profile: typeof evidenceProfile = {};
+    for (const [dk, domainData] of Object.entries(ds)) {
+      if (dk === "cross_function") continue;
+      const es = domainData?.evidence_scores as Record<string, { score: number; item_count: number }> | undefined;
+      if (!es) continue;
+      hasData = true;
+      const entry: Record<string, { score: number; item_count: number } | null> = {};
+      for (const [label, mapped] of Object.entries(EVIDENCE_MAP)) {
+        entry[mapped] = es[label] ?? null;
+      }
+      profile![dk] = entry;
+    }
+    if (hasData) evidenceProfile = profile;
+  }
+
+  // Return rendered copy, flags, and evidence profile — no raw scores or domain_scores
   return json(200, {
     result_copy: result.result_copy,
     summary_flags: result.summary_flags,
     scoring_version: result.scoring_version,
     completed_at: result.created_at,
+    evidence_profile: evidenceProfile,
   }, cors);
 });
