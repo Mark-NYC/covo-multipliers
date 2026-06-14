@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assessment — Fivefold Stewardship Assessment</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="assessment.css">
+</head>
+<body>
+
+  <header class="assess-header">
+    <a class="assess-header-brand" href="/">Covo Multipliers</a>
+    <span class="assess-header-title" id="header-progress">Loading…</span>
+  </header>
+
+  <main class="assess-main">
+    <div id="loading-view" class="assess-card loading-state">
+      <div class="loading-spinner"></div>
+      <p>Loading your assessment…</p>
+    </div>
+
+    <div id="error-view" class="assess-card error-state" style="display:none;">
+      <div class="error-state-icon">⚠️</div>
+      <h2 class="assess-h2">Something went wrong</h2>
+      <p class="assess-body" id="error-msg">Could not load your assessment. Please try again.</p>
+      <button class="btn-primary" onclick="loadItems()" style="margin-top:16px;">Try Again</button>
+    </div>
+
+    <div id="assessment-view" style="display:none;">
+      <div class="assess-progress-label" id="progress-label"></div>
+      <div class="assess-progress-bar">
+        <div class="assess-progress-fill" id="progress-fill" style="width:0%"></div>
+      </div>
+
+      <div id="items-container"></div>
+
+      <div class="assess-card" style="margin-top:24px;">
+        <div class="save-indicator" id="save-indicator">Your progress is saved automatically.</div>
+        <div class="assess-nav">
+          <button class="btn-secondary" id="save-exit-btn" onclick="saveAndExit()">Save &amp; Exit</button>
+          <button class="btn-primary" id="submit-btn" onclick="submitAssessment()" disabled>Submit Assessment</button>
+        </div>
+        <p style="font-size:12px;color:#aaa;text-align:center;margin-top:12px;">Answer all questions to enable submission.</p>
+      </div>
+    </div>
+
+    <div id="submitting-view" class="assess-card loading-state" style="display:none;">
+      <div class="loading-spinner"></div>
+      <p>Submitting your assessment…</p>
+    </div>
+  </main>
+
+  <script>
+    const SUPABASE_FUNCTIONS = 'https://YOUR_SUPABASE_PROJECT.supabase.co/functions/v1';
+
+    let sessionId = null;
+    let resumeToken = null;
+    let allItems = [];
+    let savedResponses = {};
+    let currentResponses = {};
+    let saveTimer = null;
+
+    // Try to get credentials from sessionStorage or URL params (resume flow)
+    function getCredentials() {
+      const params = new URLSearchParams(window.location.search);
+      const urlSession = params.get('s');
+      const urlToken = params.get('t');
+
+      if (urlSession && urlToken) {
+        sessionStorage.setItem('assess_session_id', urlSession);
+        sessionStorage.setItem('assess_resume_token', urlToken);
+        // Clean URL without reloading
+        history.replaceState({}, '', window.location.pathname);
+      }
+
+      sessionId = sessionStorage.getItem('assess_session_id');
+      resumeToken = sessionStorage.getItem('assess_resume_token');
+    }
+
+    getCredentials();
+
+    if (!sessionId || !resumeToken) {
+      window.location.replace('intake.html');
+    }
+
+    async function loadItems() {
+      showView('loading');
+
+      try {
+        const res = await fetch(SUPABASE_FUNCTIONS + '/assessment-items', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ session_id: sessionId, resume_token: resumeToken }),
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          showError(data.error ?? 'Could not load assessment items.');
+          return;
+        }
+
+        allItems = data.items;
+        savedResponses = {};
+        for (const item of allItems) {
+          if (item.saved_response) {
+            savedResponses[item.pilot_id] = item.saved_response;
+          }
+        }
+        currentResponses = { ...savedResponses };
+
+        renderItems();
+        showView('assessment');
+
+      } catch (err) {
+        console.error('[take] load error:', err);
+        showError('A network error occurred. Please check your connection and try again.');
+      }
+    }
+
+    function renderItems() {
+      const container = document.getElementById('items-container');
+      container.innerHTML = '';
+
+      const itemCount = allItems.length;
+      document.getElementById('header-progress').textContent = 'Fivefold Stewardship Assessment';
+
+      allItems.forEach((item, idx) => {
+        const card = document.createElement('div');
+        card.className = 'item-card';
+        card.id = 'item-' + item.pilot_id;
+
+        let inner = `<p class="item-number">Question ${idx + 1} of ${itemCount}</p>`;
+        if (item.timeframe) {
+          inner += `<p class="item-timeframe">${escHtml(item.timeframe)}</p>`;
+        }
+        inner += `<p class="item-text">${escHtml(item.item_text)}</p>`;
+
+        const fmt = item.response_format;
+        const saved = currentResponses[item.pilot_id] ?? null;
+
+        if (['AGR6', 'FREQ6', 'EX6'].includes(fmt)) {
+          inner += renderScaleOptions(item, saved);
+        } else if (['SC4', 'FC2', 'FC3'].includes(fmt)) {
+          inner += renderChoiceOptions(item, saved);
+        }
+
+        card.innerHTML = inner;
+        container.appendChild(card);
+      });
+
+      updateProgress();
+    }
+
+    function renderScaleOptions(item, saved) {
+      const labels = item.scale_labels ?? [];
+      let html = '<div class="scale-options">';
+      labels.forEach((label, i) => {
+        const val = String(i + 1);
+        const checked = saved === val ? 'checked' : '';
+        const selectedClass = saved === val ? ' selected' : '';
+        html += `
+          <label class="scale-option${selectedClass}" id="opt-${item.pilot_id}-${val}">
+            <input type="radio" name="${item.pilot_id}" value="${val}" ${checked}
+              onchange="onResponse('${item.pilot_id}', '${val}', this.closest('.scale-option'))">
+            <span class="scale-option-label">${escHtml(label)}</span>
+            <span class="scale-option-num">${val}</span>
+          </label>`;
+      });
+      html += '</div>';
+      return html;
+    }
+
+    function renderChoiceOptions(item, saved) {
+      const options = item.options ?? [];
+      let html = '<div class="choice-options">';
+      options.forEach(opt => {
+        const checked = saved === opt.key ? 'checked' : '';
+        const selectedClass = saved === opt.key ? ' selected' : '';
+        html += `
+          <label class="choice-option${selectedClass}" id="opt-${item.pilot_id}-${opt.key}">
+            <input type="radio" name="${item.pilot_id}" value="${opt.key}" ${checked}
+              onchange="onResponse('${item.pilot_id}', '${opt.key}', this.closest('.choice-option'))">
+            <span class="choice-option-key">${escHtml(opt.key)}</span>
+            <span class="choice-option-text">${escHtml(opt.text)}</span>
+          </label>`;
+      });
+      html += '</div>';
+      return html;
+    }
+
+    function onResponse(pilotId, value, selectedEl) {
+      currentResponses[pilotId] = value;
+
+      // Update visual selection within this item's container
+      const card = document.getElementById('item-' + pilotId);
+      if (card) {
+        card.querySelectorAll('.scale-option, .choice-option').forEach(el => {
+          el.classList.remove('selected');
+        });
+        if (selectedEl) selectedEl.classList.add('selected');
+      }
+
+      updateProgress();
+      scheduleSave();
+    }
+
+    function updateProgress() {
+      const total = allItems.length;
+      const answered = allItems.filter(item => currentResponses[item.pilot_id] != null).length;
+      const pct = total > 0 ? Math.round((answered / total) * 100) : 0;
+
+      document.getElementById('progress-fill').style.width = pct + '%';
+      document.getElementById('progress-label').textContent = `${answered} of ${total} answered`;
+
+      const submitBtn = document.getElementById('submit-btn');
+      submitBtn.disabled = answered < total;
+    }
+
+    function scheduleSave() {
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(autoSave, 1500);
+    }
+
+    async function autoSave() {
+      const toSave = [];
+      for (const item of allItems) {
+        const resp = currentResponses[item.pilot_id];
+        if (resp != null && resp !== savedResponses[item.pilot_id]) {
+          toSave.push({ pilot_id: item.pilot_id, response_raw: resp });
+        }
+      }
+      if (toSave.length === 0) return;
+
+      setSaveStatus('saving', 'Saving…');
+
+      try {
+        const res = await fetch(SUPABASE_FUNCTIONS + '/assessment-save', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            session_id: sessionId,
+            resume_token: resumeToken,
+            responses: toSave,
+          }),
+        });
+
+        if (res.ok) {
+          for (const r of toSave) savedResponses[r.pilot_id] = r.response_raw;
+          setSaveStatus('saved', 'Progress saved');
+          setTimeout(() => setSaveStatus('', 'Your progress is saved automatically.'), 2000);
+        } else {
+          setSaveStatus('error', 'Save failed — will retry');
+          setTimeout(scheduleSave, 5000);
+        }
+      } catch {
+        setSaveStatus('error', 'Connection issue — will retry');
+        setTimeout(scheduleSave, 8000);
+      }
+    }
+
+    function setSaveStatus(type, msg) {
+      const el = document.getElementById('save-indicator');
+      el.textContent = msg;
+      el.className = 'save-indicator ' + type;
+    }
+
+    async function saveAndExit() {
+      await autoSave();
+      // Send resume link to email
+      const firstName = sessionStorage.getItem('assess_first_name') ?? '';
+      alert('Your progress has been saved. Check your email for a link to resume — or return to this browser tab if it is still open.');
+      window.location.href = '/assessment/';
+    }
+
+    async function submitAssessment() {
+      // Final save first
+      await autoSave();
+
+      showView('submitting');
+
+      try {
+        const res = await fetch(SUPABASE_FUNCTIONS + '/assessment-submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ session_id: sessionId, resume_token: resumeToken }),
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          showView('assessment');
+          showError(data.error ?? 'Submission failed. Please try again.');
+          return;
+        }
+
+        // Clear session storage
+        sessionStorage.removeItem('assess_session_id');
+        sessionStorage.removeItem('assess_resume_token');
+
+        if (data.result_url) {
+          window.location.href = data.result_url;
+        } else {
+          window.location.href = 'submitted.html';
+        }
+
+      } catch (err) {
+        console.error('[take] submit error:', err);
+        showView('assessment');
+        showError('A network error occurred during submission. Please try again.');
+      }
+    }
+
+    function showView(name) {
+      ['loading', 'error', 'assessment', 'submitting'].forEach(v => {
+        document.getElementById(v + '-view').style.display = v === name ? '' : 'none';
+      });
+    }
+
+    function showError(msg) {
+      document.getElementById('error-msg').textContent = msg;
+      showView('error');
+    }
+
+    function escHtml(str) {
+      return String(str ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    // Start
+    loadItems();
+  </script>
+
+</body>
+</html>

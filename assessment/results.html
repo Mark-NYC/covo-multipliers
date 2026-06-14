@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Results — Fivefold Stewardship Assessment</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="assessment.css">
+  <meta name="robots" content="noindex, nofollow">
+</head>
+<body>
+
+  <header class="assess-header">
+    <a class="assess-header-brand" href="/">Covo Multipliers</a>
+    <span class="assess-header-title">Your Assessment Results</span>
+  </header>
+
+  <main class="assess-main">
+
+    <div id="loading-view" class="assess-card loading-state">
+      <div class="loading-spinner"></div>
+      <p>Loading your results…</p>
+    </div>
+
+    <div id="error-view" class="assess-card error-state" style="display:none;">
+      <div class="error-state-icon">⚠️</div>
+      <h2 class="assess-h2">Results not found</h2>
+      <p class="assess-body">
+        This link may be invalid or expired. Please check the email we sent you and use the link there.
+      </p>
+      <a href="/" class="btn-secondary" style="margin-top:16px;display:inline-block;">Return Home</a>
+    </div>
+
+    <div id="results-view" style="display:none;">
+
+      <div class="results-hero">
+        <p class="results-hero-eyebrow">Fivefold Stewardship Assessment — Pilot</p>
+        <h1 class="results-hero-name" id="result-name">Your Results</h1>
+        <p class="results-hero-sub" id="result-greeting"></p>
+      </div>
+
+      <div class="pilot-disclaimer">
+        <strong>Pilot Assessment — Not Yet Validated.</strong>
+        These results reflect your self-reported responses to an unvalidated pilot instrument.
+        They are offered for reflection and conversation — not as a definitive profile, a divine calling, or an identity label.
+        Do not use these results to make significant ministry decisions without additional discernment from people who know you well.
+      </div>
+
+      <!-- Domain summary -->
+      <div class="assess-card">
+        <h2 class="results-section-title">Your Stewardship Patterns</h2>
+        <p class="assess-body" id="narrative-summary"></p>
+        <div class="domain-bar-list" id="domain-bars"></div>
+      </div>
+
+      <!-- Behavioral evidence note -->
+      <div class="assess-card">
+        <h2 class="results-section-title">About Your Evidence</h2>
+        <p class="assess-body" id="behavioral-note"></p>
+      </div>
+
+      <!-- Caution flags (if any) -->
+      <div class="assess-card" id="flags-section" style="display:none;">
+        <h2 class="results-section-title">Patterns to Hold Lightly</h2>
+        <p class="assess-body" style="margin-bottom:16px;">
+          Your responses included some indicators that suggest caution in interpreting one or more domain scores. These do not invalidate your results, but they are worth holding in mind.
+        </p>
+        <div id="flags-list"></div>
+      </div>
+
+      <!-- Next steps -->
+      <div class="assess-card">
+        <h2 class="results-section-title">How to Use These Results</h2>
+        <div class="next-steps-list" id="next-steps"></div>
+      </div>
+
+      <!-- Print / save -->
+      <div class="assess-card" style="text-align:center;">
+        <p class="assess-body" style="margin-bottom:16px;">
+          Save your results link (from your email) if you want to return to this page later.
+        </p>
+        <button class="btn-secondary" onclick="window.print()">Print Results</button>
+      </div>
+
+    </div>
+
+  </main>
+
+  <script>
+    const SUPABASE_FUNCTIONS = 'https://YOUR_SUPABASE_PROJECT.supabase.co/functions/v1';
+
+    const DOMAIN_ORDER = [
+      'prophetic', 'evangelistic', 'shepherding', 'teaching',
+      'apostolic_direction', 'apostolic_formation', 'apostolic_multiplying',
+    ];
+
+    function getTokenFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('t');
+    }
+
+    async function loadResults() {
+      const token = getTokenFromUrl();
+      if (!token || token.length < 32) {
+        showView('error');
+        return;
+      }
+
+      showView('loading');
+
+      try {
+        const res = await fetch(SUPABASE_FUNCTIONS + '/assessment-results', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ result_token: token }),
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          showView('error');
+          return;
+        }
+
+        renderResults(data.result_copy, data.summary_flags ?? []);
+        showView('results');
+
+      } catch (err) {
+        console.error('[results] error:', err);
+        showView('error');
+      }
+    }
+
+    function renderResults(copy, flags) {
+      if (!copy) return;
+
+      // Greeting
+      document.getElementById('result-name').textContent = copy.greeting
+        ? copy.greeting.split(',')[0].replace('Hi ', '').trim() + ''s Results'
+        : 'Your Results';
+      document.getElementById('result-greeting').textContent = copy.pilot_disclaimer ?? '';
+
+      // Narrative summary
+      document.getElementById('narrative-summary').textContent = copy.narrative_summary ?? '';
+
+      // Domain bars
+      const domains = (copy.domain_summary ?? []).filter(d => d.domain_key !== 'cross_function');
+      const maxWeighted = Math.max(...domains.map(d => d.weighted / Math.max(d.item_count, 1)), 1);
+
+      const barsContainer = document.getElementById('domain-bars');
+      domains.forEach(d => {
+        const avg = d.weighted / Math.max(d.item_count, 1);
+        const pct = Math.round((avg / maxWeighted) * 100);
+        const bar = document.createElement('div');
+        bar.className = 'domain-bar-item';
+        bar.innerHTML = `
+          <div class="domain-bar-header">
+            <span class="domain-bar-label">${escHtml(d.label)}</span>
+            <span class="domain-bar-band">${escHtml(d.band)}</span>
+          </div>
+          <div class="domain-bar-track">
+            <div class="domain-bar-fill" style="width:${pct}%"></div>
+          </div>`;
+        barsContainer.appendChild(bar);
+      });
+
+      // Behavioral note
+      document.getElementById('behavioral-note').textContent = copy.behavioral_note ?? '';
+
+      // Flags
+      if (flags && flags.length > 0) {
+        document.getElementById('flags-section').style.display = '';
+        const flagsList = document.getElementById('flags-list');
+        flags.forEach(f => {
+          const div = document.createElement('div');
+          div.className = 'caution-flag';
+          div.textContent = f.note ?? f;
+          flagsList.appendChild(div);
+        });
+      }
+
+      // Next steps
+      const steps = copy.next_steps ?? [];
+      const stepsList = document.getElementById('next-steps');
+      steps.forEach((step, i) => {
+        const div = document.createElement('div');
+        div.className = 'next-step-item';
+        div.innerHTML = `
+          <div class="next-step-num">${i + 1}</div>
+          <p class="next-step-text">${escHtml(step)}</p>`;
+        stepsList.appendChild(div);
+      });
+    }
+
+    function showView(name) {
+      ['loading', 'error', 'results'].forEach(v => {
+        document.getElementById(v + '-view').style.display = v === name ? '' : 'none';
+      });
+    }
+
+    function escHtml(str) {
+      return String(str ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    loadResults();
+  </script>
+
+</body>
+</html>

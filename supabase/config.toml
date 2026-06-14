@@ -12,3 +12,24 @@ verify_jwt = false
 
 [functions.send-lost-to-leader-reminder]
 verify_jwt = false
+
+[functions.assessment-start]
+verify_jwt = false
+
+[functions.assessment-items]
+verify_jwt = false
+
+[functions.assessment-save]
+verify_jwt = false
+
+[functions.assessment-submit]
+verify_jwt = false
+
+[functions.assessment-results]
+verify_jwt = false
+
+[functions.assessment-resume]
+verify_jwt = false
+
+[functions.assessment-admin]
+verify_jwt = false

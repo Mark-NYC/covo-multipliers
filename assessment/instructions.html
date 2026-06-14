@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Instructions — Fivefold Stewardship Assessment</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="assessment.css">
+</head>
+<body>
+
+  <header class="assess-header">
+    <a class="assess-header-brand" href="/">Covo Multipliers</a>
+    <span class="assess-header-title">Fivefold Stewardship Assessment</span>
+  </header>
+
+  <main class="assess-main">
+
+    <div class="assess-card">
+      <p class="assess-eyebrow">Step 2 of 3</p>
+      <h1 class="assess-h1">Before you begin</h1>
+      <p class="assess-body">
+        Read these instructions once before starting. They apply throughout the assessment.
+      </p>
+    </div>
+
+    <div class="assess-card">
+      <h2 class="assess-h2">Respond as you actually are</h2>
+      <p class="assess-body">
+        Answer based on your genuine patterns — not how you think a mature Christian should answer, not how you wish you were, and not based on a particularly good or difficult season you've had. Think about how you characteristically operate over the last year or two.
+      </p>
+    </div>
+
+    <div class="assess-card">
+      <h2 class="assess-h2">Question types you'll encounter</h2>
+
+      <p style="font-size:14px;font-weight:700;color:#10281f;margin-bottom:6px;">Agreement questions</p>
+      <p class="assess-body">A statement is presented. You choose how much it describes you, from <em>Strongly disagree</em> to <em>Strongly agree</em>.</p>
+
+      <p style="font-size:14px;font-weight:700;color:#10281f;margin-bottom:6px;">Frequency questions</p>
+      <p class="assess-body">You're asked how often something happened over the past 12 months. Choose the option that most accurately reflects your actual frequency.</p>
+
+      <p style="font-size:14px;font-weight:700;color:#10281f;margin-bottom:6px;">Example availability questions</p>
+      <p class="assess-body">You're asked whether you can identify a specific past experience. The scale runs from <em>Cannot identify any example</em> to <em>Others could readily confirm this.</em> Only select higher options if you can genuinely point to specific, real examples.</p>
+
+      <p style="font-size:14px;font-weight:700;color:#10281f;margin-bottom:6px;">Scenario questions</p>
+      <p class="assess-body">A situation is described. Four responses are offered. Choose the one that feels most natural to you — not the one that seems most spiritually mature. There is no correct answer.</p>
+
+      <p style="font-size:14px;font-weight:700;color:#10281f;margin-bottom:6px;">Forced-choice questions</p>
+      <p class="assess-body">You'll be asked to choose between two or three options that both seem reasonable. Pick whichever feels more like you, even if neither is a perfect fit.</p>
+    </div>
+
+    <div class="assess-card">
+      <h2 class="assess-h2">A note on outcome and impact questions</h2>
+      <p class="assess-body">
+        Some questions ask what you have seen happen in others as a result of your ministry involvement. These questions do not assume you were the cause of what happened. They explore whether you have had experience in certain areas of ministry.
+      </p>
+      <p class="assess-body">
+        Answer based on what you have genuinely observed — including answering honestly when you have not seen something.
+      </p>
+    </div>
+
+    <div class="assess-card">
+      <h2 class="assess-h2">Saving your progress</h2>
+      <p class="assess-body">
+        Your answers are saved automatically as you go. If you need to stop and return later, use the <strong>Save &amp; Exit</strong> button. You'll receive a link to your email address to resume where you left off.
+      </p>
+    </div>
+
+    <div class="assess-card" style="text-align:center;">
+      <button class="btn-gold" id="begin-btn" onclick="beginAssessment()">
+        Begin Assessment
+      </button>
+    </div>
+
+  </main>
+
+  <script>
+    // Guard: redirect to intake if session is missing
+    if (!sessionStorage.getItem('assess_session_id')) {
+      window.location.replace('intake.html');
+    }
+
+    function beginAssessment() {
+      const sessionId = sessionStorage.getItem('assess_session_id');
+      const resumeToken = sessionStorage.getItem('assess_resume_token');
+      if (!sessionId || !resumeToken) {
+        window.location.replace('intake.html');
+        return;
+      }
+      window.location.href = 'take.html';
+    }
+  </script>
+
+</body>
+</html>

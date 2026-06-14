@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resume Assessment — Fivefold Stewardship Assessment</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="assessment.css">
+</head>
+<body>
+
+  <header class="assess-header">
+    <a class="assess-header-brand" href="/">Covo Multipliers</a>
+    <span class="assess-header-title">Fivefold Stewardship Assessment</span>
+  </header>
+
+  <main class="assess-main">
+
+    <div class="assess-card">
+      <p class="assess-eyebrow">Resume</p>
+      <h1 class="assess-h1">Continue your assessment</h1>
+      <p class="assess-body">
+        Enter the email address you used when you started. We'll send you a link to continue where you left off.
+      </p>
+    </div>
+
+    <div class="assess-card" id="form-card">
+      <div class="form-group">
+        <label class="form-label" for="email">Email address <span class="required">*</span></label>
+        <input class="form-input" type="email" id="email" name="email" autocomplete="email" required>
+        <p class="form-error" id="err-email">Please enter a valid email address.</p>
+      </div>
+
+      <div id="msg" class="assess-note" style="display:none;"></div>
+
+      <button class="btn-primary" id="send-btn" onclick="sendResumeLink()">
+        Send Resume Link
+      </button>
+    </div>
+
+    <div class="assess-card" id="success-card" style="display:none;text-align:center;">
+      <div class="success-icon">✓</div>
+      <h2 class="assess-h2">Check your inbox</h2>
+      <p class="assess-body">
+        If we have an in-progress assessment for that email address, we've sent a link to continue. Check your inbox (and spam folder).
+      </p>
+      <a href="/" class="btn-secondary" style="margin-top:16px;display:inline-block;">Return Home</a>
+    </div>
+
+  </main>
+
+  <script>
+    const SUPABASE_FUNCTIONS = 'https://YOUR_SUPABASE_PROJECT.supabase.co/functions/v1';
+
+    async function sendResumeLink() {
+      const emailEl = document.getElementById('email');
+      const errEl = document.getElementById('err-email');
+      const msgEl = document.getElementById('msg');
+      const btn = document.getElementById('send-btn');
+
+      errEl.classList.remove('visible');
+      emailEl.classList.remove('error');
+      msgEl.style.display = 'none';
+
+      const email = emailEl.value.trim();
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        errEl.classList.add('visible');
+        emailEl.classList.add('error');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Sending…';
+
+      try {
+        const res = await fetch(SUPABASE_FUNCTIONS + '/assessment-resume', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email }),
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          msgEl.textContent = data.error ?? 'Something went wrong. Please try again.';
+          msgEl.style.borderLeftColor = '#b91c1c';
+          msgEl.style.background = '#fef2f2';
+          msgEl.style.color = '#7f1d1d';
+          msgEl.style.display = 'block';
+          btn.disabled = false;
+          btn.textContent = 'Send Resume Link';
+          return;
+        }
+
+        document.getElementById('form-card').style.display = 'none';
+        document.getElementById('success-card').style.display = '';
+
+      } catch (err) {
+        msgEl.textContent = 'A network error occurred. Please try again.';
+        msgEl.style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = 'Send Resume Link';
+      }
+    }
+
+    document.getElementById('email').addEventListener('keydown', e => {
+      if (e.key === 'Enter') sendResumeLink();
+    });
+  </script>
+
+</body>
+</html>
