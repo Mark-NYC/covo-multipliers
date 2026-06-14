@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fivefold Stewardship Profiles — Covo Multipliers</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="../assessment.css">
+  <style>
+    /* ── Page-specific styles ─────────────────────────────────────── */
+    .profiles-hero {
+      max-width: 680px;
+      margin: 0 auto 40px;
+      text-align: center;
+      padding: 40px 16px 0;
+    }
+    .profiles-hero-eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #9f7a2f;
+      margin: 0 0 10px;
+    }
+    .profiles-hero-title {
+      font-size: clamp(28px, 5vw, 42px);
+      font-weight: 900;
+      color: #10281f;
+      line-height: 1.15;
+      margin: 0 0 12px;
+    }
+    .profiles-hero-sub {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .04em;
+      color: #555;
+      margin: 0 0 16px;
+      text-transform: uppercase;
+    }
+    .profiles-hero-copy {
+      font-size: 16px;
+      line-height: 1.7;
+      color: #444;
+      margin: 0;
+    }
+
+    /* ── Section wrapper ──────────────────────────────────────────── */
+    .profiles-section {
+      max-width: 900px;
+      margin: 0 auto 48px;
+      padding: 0 16px;
+    }
+    .profiles-section-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: #10281f;
+      margin: 0 0 6px;
+    }
+    .profiles-section-lead {
+      font-size: 15px;
+      color: #666;
+      margin: 0 0 24px;
+      line-height: 1.6;
+    }
+
+    /* ── Profile cards ────────────────────────────────────────────── */
+    .profile-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 20px;
+    }
+    .profile-card {
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 24px;
+      background: #fff;
+    }
+    .profile-card-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .profile-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: #f0f9f4;
+      color: #1b4d3e;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .profile-card-name {
+      font-size: 17px;
+      font-weight: 800;
+      color: #10281f;
+      margin: 0 0 4px;
+    }
+    .profile-card-def {
+      font-size: 13px;
+      color: #555;
+      line-height: 1.55;
+      margin: 0;
+    }
+    .profile-card-fields {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .profile-field {
+      font-size: 13px;
+      line-height: 1.5;
+      color: #444;
+    }
+    .profile-field strong {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: #888;
+      margin-bottom: 2px;
+    }
+
+    /* ── "What's missing" cards ───────────────────────────────────── */
+    .missing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 14px;
+    }
+    .missing-card {
+      border: 1px solid #fde8a8;
+      background: #fffdf0;
+      border-radius: 10px;
+      padding: 16px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .missing-icon {
+      color: #b45309;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .missing-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #92400e;
+      margin: 0 0 4px;
+    }
+    .missing-desc {
+      font-size: 13px;
+      color: #78350f;
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    /* ── Combination accordion ────────────────────────────────────── */
+    .combos-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .combo-item {
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .combo-item summary {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 13px 16px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      color: #10281f;
+      background: #fff;
+      user-select: none;
+      list-style: none;
+    }
+    .combo-item summary::-webkit-details-marker { display: none; }
+    .combo-item summary::after {
+      content: '+';
+      margin-left: auto;
+      font-size: 16px;
+      font-weight: 400;
+      color: #aaa;
+      flex-shrink: 0;
+    }
+    .combo-item[open] summary::after { content: '−'; }
+    .combo-item summary:hover { background: #f9fafb; }
+    .combo-item summary:focus-visible {
+      outline: 2px solid #1b4d3e;
+      outline-offset: -2px;
+    }
+    .combo-icon {
+      color: #1b4d3e;
+      flex-shrink: 0;
+    }
+    .combo-body {
+      padding: 4px 16px 16px 46px;
+      background: #f9fafb;
+    }
+    .combo-row {
+      font-size: 13px;
+      line-height: 1.6;
+      color: #444;
+      margin: 0 0 6px;
+    }
+    .combo-row:last-child { margin: 0; }
+    .combo-row strong {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      display: block;
+      color: #888;
+      margin-bottom: 1px;
+    }
+
+    /* ── Team section ─────────────────────────────────────────────── */
+    .team-prompts {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .team-prompt {
+      background: #f0f9f4;
+      border-left: 3px solid #1b4d3e;
+      border-radius: 0 8px 8px 0;
+      padding: 12px 14px;
+      font-size: 14px;
+      line-height: 1.55;
+      color: #1a1a1a;
+    }
+
+    /* ── CTA ──────────────────────────────────────────────────────── */
+    .profiles-cta {
+      max-width: 600px;
+      margin: 0 auto 60px;
+      padding: 0 16px;
+      text-align: center;
+    }
+    .cta-card {
+      background: linear-gradient(135deg, #10281f 0%, #1b4d3e 60%, #9f7a2f 100%);
+      border-radius: 16px;
+      padding: 40px 32px;
+      color: #fff;
+    }
+    .cta-title {
+      font-size: 22px;
+      font-weight: 800;
+      margin: 0 0 10px;
+    }
+    .cta-copy {
+      font-size: 15px;
+      line-height: 1.65;
+      opacity: .85;
+      margin: 0 0 24px;
+    }
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #fff;
+      color: #1b4d3e;
+      font-size: 15px;
+      font-weight: 700;
+      padding: 13px 28px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: opacity .15s;
+    }
+    .cta-btn:hover { opacity: .9; }
+    .cta-btn:focus-visible {
+      outline: 3px solid #fff;
+      outline-offset: 2px;
+    }
+    .cta-btn svg { flex-shrink: 0; }
+
+    /* ── Mobile ───────────────────────────────────────────────────── */
+    @media (max-width: 540px) {
+      .profile-cards-grid { grid-template-columns: 1fr; }
+      .missing-grid { grid-template-columns: 1fr; }
+      .team-prompts { grid-template-columns: 1fr; }
+      .combo-body { padding-left: 16px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="assess-header">
+    <a class="assess-header-brand" href="/">Covo Multipliers</a>
+    <span class="assess-header-title">Fivefold Stewardship Profiles</span>
+  </header>
+
+  <main>
+
+    <!-- ── Hero ──────────────────────────────────────────────────── -->
+    <section class="profiles-hero" aria-labelledby="page-title">
+      <p class="profiles-hero-eyebrow">Reference Guide</p>
+      <h1 class="profiles-hero-title" id="page-title">Fivefold Stewardship Profiles</h1>
+      <p class="profiles-hero-sub">Stewardship patterns, not identity labels.</p>
+      <p class="profiles-hero-copy">These profiles describe ways disciples may contribute to the body of Christ. They do not determine calling, office, maturity, or readiness. Use them for reflection, team discernment, coaching, and shared language.</p>
+    </section>
+
+    <!-- ── Seven profiles ────────────────────────────────────────── -->
+    <section class="profiles-section" aria-labelledby="profiles-heading">
+      <h2 class="profiles-section-title" id="profiles-heading">Seven Stewardship Patterns</h2>
+      <p class="profiles-section-lead">Each pattern describes a recurring orientation — how someone tends to notice, contribute, and operate. No profile is superior. Most people carry more than one, with one or two that are more consistent.</p>
+
+      <div class="profile-cards-grid">
+
+        <!-- 1. Prophetic -->
+        <article class="profile-card" aria-labelledby="profile-prophetic">
+          <div class="profile-card-top">
+            <div class="profile-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+            </div>
+            <div>
+              <h3 class="profile-card-name" id="profile-prophetic">Prophetic Stewardship</h3>
+              <p class="profile-card-def">A pattern of noticing spiritual significance, drift, inconsistency, or needed correction, then helping people or communities return to truth and faithfulness.</p>
+            </div>
+          </div>
+          <div class="profile-card-fields">
+            <div class="profile-field"><strong>Tends to notice</strong>Drift, inconsistency, compromise, hidden issues, misalignment.</div>
+            <div class="profile-field"><strong>Healthy contribution</strong>Truth, discernment, courage, biblical faithfulness.</div>
+            <div class="profile-field"><strong>Common shadow</strong>Criticism, harshness, certainty without testing.</div>
+          </div>
+        </article>
+
+        <!-- 2. Evangelistic -->
+        <article class="profile-card" aria-labelledby="profile-evangelistic">
+          <div class="profile-card-top">
+            <div class="profile-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+            </div>
+            <div>
+              <h3 class="profile-card-name" id="profile-evangelistic">Evangelistic Stewardship</h3>
+              <p class="profile-card-def">A pattern of connecting naturally with people far from Jesus, communicating the gospel clearly, and helping others move toward faith and belonging.</p>
+            </div>
+          </div>
+          <div class="profile-card-fields">
+            <div class="profile-field"><strong>Tends to notice</strong>Outsiders, openness, relational access, gospel opportunities.</div>
+            <div class="profile-field"><strong>Healthy contribution</strong>Gospel clarity, invitation, relational connection.</div>
+            <div class="profile-field"><strong>Common shadow</strong>Pressure, shallow follow-up, counting conversations without formation.</div>
+          </div>
+        </article>
+
+        <!-- 3. Shepherding -->
+        <article class="profile-card" aria-labelledby="profile-shepherding">
+          <div class="profile-card-top">
+            <div class="profile-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/><path d="M12 5 9.04 7.96a2.17 2.17 0 0 0 0 3.08v0c.82.82 2.13.85 3 .07l2.07-1.9a2.82 2.82 0 0 1 3.79 0l2.96 2.66"/><path d="m18 15-2-2"/><path d="m15 18-2-2"/></svg>
+            </div>
+            <div>
+              <h3 class="profile-card-name" id="profile-shepherding">Shepherding Stewardship</h3>
+              <p class="profile-card-def">A pattern of caring for people, protecting relational health, staying present through difficulty, and helping people experience safety, belonging, and restoration.</p>
+            </div>
+          </div>
+          <div class="profile-card-fields">
+            <div class="profile-field"><strong>Tends to notice</strong>Hurting people, neglected people, relational breakdown, loneliness.</div>
+            <div class="profile-field"><strong>Healthy contribution</strong>Care, protection, belonging, restoration.</div>
+            <div class="profile-field"><strong>Common shadow</strong>Conflict avoidance, rescuing, unhealthy dependence.</div>
+          </div>
+        </article>
+
+        <!-- 4. Teaching -->
+        <article class="profile-card" aria-labelledby="profile-teaching">
+          <div class="profile-card-top">
+            <div class="profile-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            </div>
+            <div>
+              <h3 class="profile-card-name" id="profile-teaching">Teaching Stewardship</h3>
+              <p class="profile-card-def">A pattern of helping people understand Scripture, truth, and the reasons behind faithful practice.</p>
+            </div>
+          </div>
+          <div class="profile-card-fields">
+            <div class="profile-field"><strong>Tends to notice</strong>Confusion, assumptions, weak foundations, misunderstanding.</div>
+            <div class="profile-field"><strong>Healthy contribution</strong>Clarity, biblical grounding, understanding, obedience.</div>
+            <div class="profile-field"><strong>Common shadow</strong>Over-explaining, information control, expert dependence.</div>
+          </div>
+        </article>
+
+        <!-- 5. Apostolic Direction -->
+        <article class="profile-card" aria-labelledby="profile-ad">
+          <div class="profile-card-top">
+            <div class="profile-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+            </div>
+            <div>
+              <h3 class="profile-card-name" id="profile-ad">Apostolic Direction</h3>
+              <p class="profile-card-def">A pattern of seeing new kingdom possibilities, moving toward people or places with limited gospel access, taking responsible initiative, and helping others move into action.</p>
+            </div>
+          </div>
+          <div class="profile-card-fields">
+            <div class="profile-field"><strong>Tends to notice</strong>New opportunities, unreached people, strategic gaps, barriers, next steps.</div>
+            <div class="profile-field"><strong>Healthy contribution</strong>Initiative, strategy, boundary-crossing, mobilization.</div>
+            <div class="profile-field"><strong>Common shadow</strong>Ambition, restlessness, novelty-seeking, unfinished starts.</div>
+          </div>
+        </article>
+
+        <!-- 6. Apostolic Formation -->
+        <article class="profile-card" aria-labelledby="profile-af">
+          <div class="profile-card-top">
+            <div class="profile-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="5" r="3"/><line x1="12" y1="22" x2="12" y2="8"/><path d="M5 12H2a10 10 0 0 0 20 0h-3"/></svg>
+            </div>
+            <div>
+              <h3 class="profile-card-name" id="profile-af">Apostolic Formation</h3>
+              <p class="profile-card-def">A pattern of grounding mission in prayer, Scripture, obedience, endurance, communal discernment, and tested dependence on God.</p>
+            </div>
+          </div>
+          <div class="profile-card-fields">
+            <div class="profile-field"><strong>Tends to notice</strong>Prayer deficits, shallow roots, unhealthy motives, spiritual drift.</div>
+            <div class="profile-field"><strong>Healthy contribution</strong>Dependence, depth, endurance, discernment.</div>
+            <div class="profile-field"><strong>Common shadow</strong>Over-spiritualized delay, private certainty, passivity.</div>
+          </div>
+        </article>
+
+        <!-- 7. Apostolic Multiplying -->
+        <article class="profile-card" aria-labelledby="profile-am">
+          <div class="profile-card-top">
+            <div class="profile-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>
+            </div>
+            <div>
+              <h3 class="profile-card-name" id="profile-am">Apostolic Multiplying</h3>
+              <p class="profile-card-def">A pattern of developing disciples and leaders, transferring convictions and responsibility, sharing authority, and helping work continue beyond the original catalyst.</p>
+            </div>
+          </div>
+          <div class="profile-card-fields">
+            <div class="profile-field"><strong>Tends to notice</strong>Bottlenecks, leadership gaps, dependency, succession problems.</div>
+            <div class="profile-field"><strong>Healthy contribution</strong>Entrustment, leader development, release, local ownership.</div>
+            <div class="profile-field"><strong>Common shadow</strong>Delegation without authority, control, premature release.</div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ── What's missing ─────────────────────────────────────────── -->
+    <section class="profiles-section" aria-labelledby="missing-heading">
+      <h2 class="profiles-section-title" id="missing-heading">What Happens When Each Pattern Is Missing</h2>
+      <p class="profiles-section-lead">Teams and communities tend to drift in predictable ways when a stewardship pattern is absent, underrepresented, or silent.</p>
+
+      <div class="missing-grid">
+
+        <div class="missing-card">
+          <span class="missing-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+          </span>
+          <div>
+            <p class="missing-label">Without Prophetic</p>
+            <p class="missing-desc">Drift goes unnamed, compromise grows, and hard truths remain unsaid.</p>
+          </div>
+        </div>
+
+        <div class="missing-card">
+          <span class="missing-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+          </span>
+          <div>
+            <p class="missing-label">Without Evangelistic</p>
+            <p class="missing-desc">The community turns inward and fewer people far from Jesus are engaged.</p>
+          </div>
+        </div>
+
+        <div class="missing-card">
+          <span class="missing-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+          </span>
+          <div>
+            <p class="missing-label">Without Shepherding</p>
+            <p class="missing-desc">People fall through cracks, burnout rises, and belonging weakens.</p>
+          </div>
+        </div>
+
+        <div class="missing-card">
+          <span class="missing-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+          </span>
+          <div>
+            <p class="missing-label">Without Teaching</p>
+            <p class="missing-desc">Truth becomes vague, practices lose grounding, and confusion spreads.</p>
+          </div>
+        </div>
+
+        <div class="missing-card">
+          <span class="missing-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+          </span>
+          <div>
+            <p class="missing-label">Without Apostolic Direction</p>
+            <p class="missing-desc">Good intentions stall, opportunities are missed, and movement stays reactive.</p>
+          </div>
+        </div>
+
+        <div class="missing-card">
+          <span class="missing-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+          </span>
+          <div>
+            <p class="missing-label">Without Apostolic Formation</p>
+            <p class="missing-desc">Activity outruns dependence, prayer weakens, and character lags behind influence.</p>
+          </div>
+        </div>
+
+        <div class="missing-card">
+          <span class="missing-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+          </span>
+          <div>
+            <p class="missing-label">Without Apostolic Multiplying</p>
+            <p class="missing-desc">Leaders are not developed, work bottlenecks, and growth depends on key people.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── Combinations ───────────────────────────────────────────── -->
+    <section class="profiles-section" aria-labelledby="combos-heading">
+      <h2 class="profiles-section-title" id="combos-heading">Two-Profile Combination Directory</h2>
+      <p class="profiles-section-lead">When two patterns are both consistently present, they tend to shape a distinctive contribution and a distinctive risk. These are patterns to observe — not fixed types.</p>
+
+      <div class="combos-list">
+
+        <details class="combo-item">
+          <summary>
+            <span class="combo-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg></span>
+            Prophetic + Evangelistic
+          </summary>
+          <div class="combo-body">
+            <p class="combo-row"><strong>Contribution</strong>Brings truth and gospel clarity into relationships with people far from Jesus.</p>
+            <p class="combo-row"><strong>Risk</strong>Urgency can outrun trust, listening, or patient follow-up.</p>
+          </div>
+        </details>
+
+        <details class="combo-item">
+          <summary>
+            <span class="combo-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg></span>
+            Prophetic + Shepherding
+          </summary>
+          <div class="combo-body">
+            <p class="combo-row"><strong>Contribution</strong>Perceives what is happening beneath the surface and stays present with people through it.</p>
+            <p class="combo-row"><strong>Risk</strong>Can carry other people's burdens too deeply or feel responsible to fix what was only meant to be named.</p>
+          </div>
+        </details>
+
+        <details class="combo-item">
+          <summary>
+            <span class="combo-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg></span>
+            Prophetic + Teaching
+          </summary>
+          <div class="combo-body">
+            <p class="combo-row"><strong>Contribution</strong>Recognizes drift or error and explains the biblical truth behind it.</p>
+            <p class="combo-row"><strong>Risk</strong>Can become hard to question when discernment and teaching authority reinforce each other.</p>
+          </div>
+        </details>
+
+        <details class="combo-item">
+          <summary>
+            <span class="combo-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg></span>
+            Prophetic + Apostolic Direction
+          </summary>
+          <div class="combo-body">
+            <p class="combo-row"><strong>Contribution</strong>Sees where change is needed and moves first toward correction, reform, or new kingdom opportunity.</p>
+            <p class="combo-row"><strong>Risk</strong>Can act too quickly on an untested impression.</p>
+          </div>
+        </details>
+
+        <details class="combo-item">
+          <summary>
+            <span class="combo-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg></span>
+            Prophetic + Apostolic Formation
+          </summary>
+          <div class="combo-body">
+            <p class="combo-row"><strong>Contribution</strong>Combines spiritual perception with prayer, Scripture, endurance, and communal testing.</p>
+            <p class="combo-row"><strong>Risk</strong>Can become overly inward or treat private spiritual intensity as proof of accuracy.</p>
+          </div>
+        </details>
+
+        <details class="combo-item">
+          <summary>
+            <span class="combo-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg></span>
+            Prophetic + Apostolic Multiplying
+          </summary>
+          <div class="combo-body">
+            <p class="combo-row"><strong>Contribution</strong>Names core convictions clearly and helps preserve truth as responsibility passes to others.</p>
+            <p class="combo-row"><strong>Risk</strong>Can over-control transmission or mistake uniformity for faithfulness.</p>
+          </div>
+        </details>
+
+        <details class="combo-item">
+          <summary>
+            <span class="combo-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg></span>
+            Evangelistic + Shepherding
+          </summary>
+          <div class="combo-body">
+            <p class="combo-row"><strong>Contribution</strong>Builds trust with people far from Jesus and stays with them beyond the first conversation.</p>
+            <p class="combo-row"><strong>Risk</strong>Can soften necessary truth to preserve connection.</p>
+          </div>
+        </details>
+
+        <details class="combo-item">
+          <summary>
+            <span class="combo-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg></span>
+            Evangelistic + Teaching
+          </summary>
+          <div class="combo-body">
+            <p class="combo-row"><strong>Contribution</strong>Connects naturally with outsiders and explains the gospel and Scripture in understandable ways.</p>
+            <p class="combo-row"><strong>Risk</strong>Can turn relationships into teaching projects or overload people with information.</p>
+          </div>
+        </details>
+
+        <details class="combo-item">
+          <summary>
+            <span class="combo-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg></span>
+            Evangelistic + Apostolic Direction
+          </summary>
+          <div class="combo-body">
+            <p class="combo-row"><strong>Contribution</strong>Moves toward people and places with limited gospel access and creates meaningful contact.</p>
+            <p class="combo-row"><strong>Risk</strong>Can move fast without enough listening, cultural learning, or sustained presence.</p>
+          </div>
+        </details>
+
+        <details class="combo-item">
+          <summary>
+            <span class="combo-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg></span>
+            Evangelistic + Apostolic Formation
+          </summary>
+          <div class="combo-body">
+            <p class="combo-row"><strong>Contribution</strong>Joins outward gospel engagement with prayer, dependence, endurance, and tested obedience.</p>
+            <p class="combo-row"><strong>Risk</strong>Can allow preparation or discernment to delay actual engagement.</p>
+          </div>
+        </details>
+
+        <details class="combo-item">
+          <summary>
+            <span class="combo-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg></span>
+            Evangelistic + Apostolic Multiplying
+          </summary>
+          <div class="combo-body">
+            <p class="combo-row"><strong>Contribution</strong>Connects with people far from Jesus while helping new disciples share through their own relationships.</p>
+            <p class="combo-row"><strong>Risk</strong>Can push rapid multiplication before people are grounded and formed.</p>
+          </div>
+        </details>
+
+        <details class="combo-item">
+          <summary>
+            <span class="combo-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg></span>
+            Shepherding + Teaching
+          </summary>
+          <div class="combo-body">
+            <p class="combo-row"><strong>Contribution</strong>Creates relational safety while helping people understand and obey Scripture.</p>
+            <p class="combo-row"><strong>Risk</strong>Can become overly protective, over-explaining, or dependency-producing.</p>
+          </div>
+        </details>
+
+        <details class="combo-item">
+          <summary>
+            <span class="combo-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg></span>
+            Shepherding + Apostolic Direction
+          </summary>
+          <div class="combo-body">
+            <p class="combo-row"><strong>Contribution</strong>Moves toward new people or places while paying close attention to the wellbeing of those involved.</p>
+            <p class="combo-row"><strong>Risk</strong>Can slow necessary movement to avoid discomfort or conflict.</p>
+          </div>
+        </details>
+
+        <details class="combo-item">
+          <summary>
+            <span class="combo-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg></span>
+            Shepherding + Apostolic Formation
+          </summary>
+          <div class="combo-body">
+            <p class="combo-row"><strong>Contribution</strong>Builds communities marked by care, spiritual depth, accountability, and endurance.</p>
+            <p class="combo-row"><strong>Risk</strong>Can become inward, cautious, or overly focused on stability.</p>
+          </div>
+        </details>
+
+        <details class="combo-item">
+          <summary>
+            <span class="combo-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg></span>
+            Shepherding + Apostolic Multiplying
+          </summary>
+          <div class="combo-body">
+            <p class="combo-row"><strong>Contribution</strong>Develops people with patience and care, giving responsibility without abandoning them.</p>
+            <p class="combo-row"><strong>Risk</strong>Can hold people too closely and delay real release.</p>
+          </div>
+        </details>
+
+        <details class="combo-item">
+          <summary>
+            <span class="combo-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg></span>
+            Teaching + Apostolic Direction
+          </summary>
+          <div class="combo-body">
+            <p class="combo-row"><strong>Contribution</strong>Brings biblical clarity and strategic thinking into new or underdeveloped contexts.</p>
+            <p class="combo-row"><strong>Risk</strong>Can design the work before listening deeply to the context.</p>
+          </div>
+        </details>
+
+        <details class="combo-item">
+          <summary>
+            <span class="combo-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg></span>
+            Teaching + Apostolic Formation
+          </summary>
+          <div class="combo-body">
+            <p class="combo-row"><strong>Contribution</strong>Grounds mission in Scripture, theological clarity, prayer, disciplined obedience, and endurance.</p>
+            <p class="combo-row"><strong>Risk</strong>Can allow preparation, precision, or caution to delay action.</p>
+          </div>
+        </details>
+
+        <details class="combo-item">
+          <summary>
+            <span class="combo-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg></span>
+            Teaching + Apostolic Multiplying
+          </summary>
+          <div class="combo-body">
+            <p class="combo-row"><strong>Contribution</strong>Explains truth clearly and helps others teach, correct, and transmit it faithfully.</p>
+            <p class="combo-row"><strong>Risk</strong>Can control reproduction through preferred language, methods, or theological systems.</p>
+          </div>
+        </details>
+
+        <details class="combo-item">
+          <summary>
+            <span class="combo-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg></span>
+            Apostolic Direction + Apostolic Formation
+          </summary>
+          <div class="combo-body">
+            <p class="combo-row"><strong>Contribution</strong>Combines movement toward new fields with prayer, tested obedience, accountability, and endurance.</p>
+            <p class="combo-row"><strong>Risk</strong>Can become imbalanced toward action without depth or formation without movement.</p>
+          </div>
+        </details>
+
+        <details class="combo-item">
+          <summary>
+            <span class="combo-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg></span>
+            Apostolic Direction + Apostolic Multiplying
+          </summary>
+          <div class="combo-body">
+            <p class="combo-row"><strong>Contribution</strong>Combines pioneering initiative with developing people who can carry the work forward.</p>
+            <p class="combo-row"><strong>Risk</strong>Can start and delegate quickly without enough formation, testing, or care.</p>
+          </div>
+        </details>
+
+        <details class="combo-item">
+          <summary>
+            <span class="combo-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg></span>
+            Apostolic Formation + Apostolic Multiplying
+          </summary>
+          <div class="combo-body">
+            <p class="combo-row"><strong>Contribution</strong>Combines spiritual depth, endurance, and accountability with intentional disciple and leader development.</p>
+            <p class="combo-row"><strong>Risk</strong>Can delay release until people meet an unrealistic standard of readiness.</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ── Team use ────────────────────────────────────────────────── -->
+    <section class="profiles-section" aria-labelledby="team-heading">
+      <h2 class="profiles-section-title" id="team-heading">How to Use This With a Team</h2>
+      <p class="profiles-section-lead">These questions work well as a facilitated conversation after a team has reviewed their profile patterns together. No shared language replaces honest, specific observation — but shared language can make the conversation easier to start.</p>
+
+      <div class="team-prompts">
+        <p class="team-prompt">What patterns are strongest on our team?</p>
+        <p class="team-prompt">What pattern is missing or consistently quiet?</p>
+        <p class="team-prompt">Which strength may be over-functioning — carrying more than it should?</p>
+        <p class="team-prompt">Where do we need another person, not just more effort from the people we have?</p>
+        <p class="team-prompt">Who needs permission to contribute differently than they have been?</p>
+        <p class="team-prompt">Where are we confusing a stewardship pattern with maturity or readiness?</p>
+        <p class="team-prompt">Where are we depending on one person instead of investing in developing others?</p>
+      </div>
+    </section>
+
+    <!-- ── CTA ─────────────────────────────────────────────────────── -->
+    <section class="profiles-cta" aria-labelledby="cta-heading">
+      <div class="cta-card">
+        <h2 class="cta-title" id="cta-heading">Take the Fivefold Stewardship Assessment</h2>
+        <p class="cta-copy">Use the assessment as a starting point for reflection, conversation, and team discernment.</p>
+        <a href="/assessment/" class="cta-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="m12 16 4-4-4-4"/></svg>
+          Take the Assessment
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+</body>
+</html>
