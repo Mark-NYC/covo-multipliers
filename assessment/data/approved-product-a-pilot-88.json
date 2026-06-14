@@ -1,0 +1,4502 @@
+{
+  "dry_run": true,
+  "version_slug": "product-a-pilot-v1-pending",
+  "version_name": "Product A Pilot - Approved Items Pending",
+  "outcome_instruction": "Some questions ask what you have seen happen in and around your involvement. Your answers describe what you have observed — not proof that you caused it or that it has been independently confirmed.",
+  "source_file": "approved-product-a-pilot-88.md",
+  "item_count": 88,
+  "items": [
+    {
+      "item_id": "PP-002",
+      "original_item_id": "P-002",
+      "domain": "Prophetic",
+      "primary_construct": "PL-2",
+      "secondary_tags": [],
+      "phenotype_layer": "Perception",
+      "evidence_label": "A",
+      "timeframe": "Current",
+      "item_text": "I naturally notice when a community or relationship seems to be drifting away from what faithfulness to Jesus requires.",
+      "prompt_text": "I naturally notice when a community or relationship seems to be drifting away from what faithfulness to Jesus requires.",
+      "response_format": "AGR6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "Strongly disagree",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "Disagree",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "Slightly disagree",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "Slightly agree",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "Agree",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Strongly agree",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 1,
+      "intended_signal": "Faithfulness-and-drift perception",
+      "confound_controlled": "Chronic critics; pair with PP-007 shadow",
+      "social_desirability_risk": "H",
+      "pilot_priority": "PPC",
+      "cultural_note": "\"Faithfulness\" may need anchoring",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PP-003",
+      "original_item_id": "P-004",
+      "domain": "Prophetic",
+      "primary_construct": "PL-3",
+      "secondary_tags": [],
+      "phenotype_layer": "Instinct",
+      "evidence_label": "A",
+      "timeframe": "Current",
+      "item_text": "When I see something concerning about a community's direction, I feel a weight to name it — even when I would rather stay quiet.",
+      "prompt_text": "When I see something concerning about a community's direction, I feel a weight to name it — even when I would rather stay quiet.",
+      "response_format": "AGR6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "Strongly disagree",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "Disagree",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "Slightly disagree",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "Slightly agree",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "Agree",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Strongly agree",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 2,
+      "intended_signal": "Courageous truth-telling instinct",
+      "confound_controlled": "Instinct claimed without behavioral follow-through; pair with PP-005",
+      "social_desirability_risk": "H",
+      "pilot_priority": "PPC",
+      "cultural_note": "\"Weight\" accessible across cultures",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PP-004",
+      "original_item_id": "P-008",
+      "domain": "Prophetic",
+      "primary_construct": "PL-1",
+      "secondary_tags": [],
+      "phenotype_layer": "Beh-Hist",
+      "evidence_label": "B",
+      "timeframe": "Past 12 mo",
+      "item_text": "In the past 12 months, how often did you return to specific Scripture passages to test a strong impression or concern before acting on it?",
+      "prompt_text": "In the past 12 months, how often did you return to specific Scripture passages to test a strong impression or concern before acting on it?",
+      "response_format": "FREQ6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "Never",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "Once",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "A few times",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "Monthly",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "Several times per month",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Weekly or more",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 3,
+      "intended_signal": "Scripture-testing frequency",
+      "confound_controlled": "Self-report inflation; pair with PP-010",
+      "social_desirability_risk": "M",
+      "pilot_priority": "PPC",
+      "cultural_note": "Adjust \"passages\" for oral learners",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PP-005",
+      "original_item_id": "P-010",
+      "domain": "Prophetic",
+      "primary_construct": "PL-3",
+      "secondary_tags": [],
+      "phenotype_layer": "Beh-Hist",
+      "evidence_label": "B",
+      "timeframe": "Past 3 yr",
+      "item_text": "In the past three years, I can identify a specific time when I named something I believed needed to be said, even though it carried a real relational, reputational, or ministry cost.",
+      "prompt_text": "In the past three years, I can identify a specific time when I named something I believed needed to be said, even though it carried a real relational, reputational, or ministry cost.",
+      "response_format": "EX6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "I cannot identify an example",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "I can identify a weak or unclear example",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "I can identify one concrete example",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "I can identify more than one concrete example",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "This is a recurring pattern",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Others could readily confirm this pattern",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 4,
+      "intended_signal": "Cost-bearing truth-telling",
+      "confound_controlled": "Core anchor; cost specificity guards against comfortable truth-telling claims",
+      "social_desirability_risk": "H",
+      "pilot_priority": "PPC",
+      "cultural_note": "Works across formal/informal; does not require public ministry",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PP-006",
+      "original_item_id": "P-011",
+      "domain": "Prophetic",
+      "primary_construct": "PL-3",
+      "secondary_tags": [],
+      "phenotype_layer": "Shadow",
+      "evidence_label": "F",
+      "timeframe": "Current",
+      "item_text": "When I see something that concerns me, I tend to say what I think directly without much concern for how it lands.",
+      "prompt_text": "When I see something that concerns me, I tend to say what I think directly without much concern for how it lands.",
+      "response_format": "AGR6",
+      "reverse_keyed": true,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "Strongly disagree",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "Disagree",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "Slightly disagree",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "Slightly agree",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "Agree",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Strongly agree",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 5,
+      "intended_signal": "Shadow: bluntness without pastoral accountability",
+      "confound_controlled": "Strong agree = delivery-without-accountability pattern",
+      "social_desirability_risk": "L",
+      "pilot_priority": "PPC",
+      "cultural_note": "Low SD; widely applicable",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PP-007",
+      "original_item_id": "P-013",
+      "domain": "Prophetic",
+      "primary_construct": "PL-2",
+      "secondary_tags": [],
+      "phenotype_layer": "Shadow",
+      "evidence_label": "F",
+      "timeframe": "Current",
+      "item_text": "I find that most communities I am part of are drifting in significant ways.",
+      "prompt_text": "I find that most communities I am part of are drifting in significant ways.",
+      "response_format": "AGR6",
+      "reverse_keyed": true,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "Strongly disagree",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "Disagree",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "Slightly disagree",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "Slightly agree",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "Agree",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Strongly agree",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 6,
+      "intended_signal": "Shadow: suspicion-as-discernment; global negativity",
+      "confound_controlled": "Strong agree = perception dysregulation, not function",
+      "social_desirability_risk": "L",
+      "pilot_priority": "PPC",
+      "cultural_note": "Short and clear across cultures",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PP-008",
+      "original_item_id": "P-016",
+      "domain": "Prophetic",
+      "primary_construct": "PL-2",
+      "secondary_tags": [],
+      "phenotype_layer": "Beh-Hist",
+      "evidence_label": "B",
+      "timeframe": "Past 12 mo",
+      "item_text": "In the past 12 months, I can identify a specific time when I named a pattern of drift in a community — not just a single incident — and said what I saw.",
+      "prompt_text": "In the past 12 months, I can identify a specific time when I named a pattern of drift in a community — not just a single incident — and said what I saw.",
+      "response_format": "EX6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "I cannot identify an example",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "I can identify a weak or unclear example",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "I can identify one concrete example",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "I can identify more than one concrete example",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "This is a recurring pattern",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Others could readily confirm this pattern",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 7,
+      "intended_signal": "Pattern-level drift naming",
+      "confound_controlled": "Pattern-level requirement distinguishes from reactive incident response",
+      "social_desirability_risk": "M",
+      "pilot_priority": "PPC",
+      "cultural_note": "Works across informal and formal communities",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PP-009",
+      "original_item_id": "P-017",
+      "domain": "Prophetic",
+      "primary_construct": "PL-3",
+      "secondary_tags": [
+        "PL-1"
+      ],
+      "phenotype_layer": "Op-Style",
+      "evidence_label": "S",
+      "timeframe": "No TF",
+      "item_text": "A practice in your community — around finances, relationships, or conflict — has become well-established and valued by most. You have begun to wonder whether it actually reflects what Jesus taught. The evidence from Scripture is not immediately clear. What most naturally describes your response? (A) Study the relevant Scripture passages carefully before saying anything; (B) Talk privately with the people most affected and find out what they are experiencing; (C) Name your concern provisionally to a trusted person or small group and ask them to help you test whether you are seeing clearly; (D) Keep watching the pattern closely to gather more evidence before deciding whether it is worth raising.",
+      "prompt_text": "A practice in your community — around finances, relationships, or conflict — has become well-established and valued by most. You have begun to wonder whether it actually reflects what Jesus taught. The evidence from Scripture is not immediately clear. What most naturally describes your response?",
+      "response_format": "SC4",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "A",
+          "option_text": "Study the relevant Scripture passages carefully before saying anything",
+          "raw_value": 1
+        },
+        {
+          "option_key": "B",
+          "option_text": "Talk privately with the people most affected and find out what they are experiencing",
+          "raw_value": 2
+        },
+        {
+          "option_key": "C",
+          "option_text": "Name your concern provisionally to a trusted person or small group and ask them to help you test whether you are seeing clearly",
+          "raw_value": 3
+        },
+        {
+          "option_key": "D",
+          "option_text": "Keep watching the pattern closely to gather more evidence before deciding whether it is worth raising.",
+          "raw_value": 4
+        }
+      ],
+      "display_order": 8,
+      "intended_signal": "PL-3: C = strongest Prophetic signal (provisional naming with humility + testing). A = TE-1 (study first). B = SH-1 (pastoral attention). D = cautious observation (wisdom or avoidance).",
+      "confound_controlled": "No single obviously correct answer; A and C are both reasonable; cross-loading with TE-1 expected; flag for cognitive interview",
+      "social_desirability_risk": "M",
+      "pilot_priority": "PPC",
+      "cultural_note": "Works across contexts; no institution required",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PP-010",
+      "original_item_id": "P-026",
+      "domain": "Prophetic",
+      "primary_construct": "PL-1",
+      "secondary_tags": [
+        "PL-3"
+      ],
+      "phenotype_layer": "Beh-Hist",
+      "evidence_label": "B",
+      "timeframe": "Past 12 mo",
+      "item_text": "In the past 12 months, I can identify a time when I brought a spiritually significant impression to trusted people before acting on it.",
+      "prompt_text": "In the past 12 months, I can identify a time when I brought a spiritually significant impression to trusted people before acting on it.",
+      "response_format": "EX6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "I cannot identify an example",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "I can identify a weak or unclear example",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "I can identify one concrete example",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "I can identify more than one concrete example",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "This is a recurring pattern",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Others could readily confirm this pattern",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 9,
+      "intended_signal": "Impression-testing behavior: submission before action",
+      "confound_controlled": "Performed submission vs. genuine accountability practice",
+      "social_desirability_risk": "H",
+      "pilot_priority": "PPC",
+      "cultural_note": "Works across charismatic and non-charismatic contexts",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PP-012",
+      "original_item_id": "P-024",
+      "domain": "Prophetic",
+      "primary_construct": "PL-4",
+      "secondary_tags": [],
+      "phenotype_layer": "Instinct",
+      "evidence_label": "A",
+      "timeframe": "Current",
+      "item_text": "When I name a problem, I feel a pull toward identifying what concrete change would bring faithfulness — not just surfacing the issue.",
+      "prompt_text": "When I name a problem, I feel a pull toward identifying what concrete change would bring faithfulness — not just surfacing the issue.",
+      "response_format": "AGR6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "Strongly disagree",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "Disagree",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "Slightly disagree",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "Slightly agree",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "Agree",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Strongly agree",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 10,
+      "intended_signal": "Naming-to-obedience instinct",
+      "confound_controlled": "May overlap with Apostolic mission-planning; PL-4 operates within community faithfulness context",
+      "social_desirability_risk": "M",
+      "pilot_priority": "PPC",
+      "cultural_note": "\"Faithfulness\" may need contextual anchoring",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PP-013",
+      "original_item_id": null,
+      "domain": "Prophetic",
+      "primary_construct": "PL-4",
+      "secondary_tags": [],
+      "phenotype_layer": "Beh-Hist",
+      "evidence_label": "B",
+      "timeframe": "Past 12 mo",
+      "item_text": "In the past 12 months, I can identify a time when I helped a person or group move from recognizing a problem to taking a specific step of repentance, repair, or obedience.",
+      "prompt_text": "In the past 12 months, I can identify a time when I helped a person or group move from recognizing a problem to taking a specific step of repentance, repair, or obedience.",
+      "response_format": "EX6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "I cannot identify an example",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "I can identify a weak or unclear example",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "I can identify one concrete example",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "I can identify more than one concrete example",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "This is a recurring pattern",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Others could readily confirm this pattern",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 11,
+      "intended_signal": "PL-4 behavioral: naming-to-action movement",
+      "confound_controlled": "Does not require positive outcome; step taken is sufficient signal",
+      "social_desirability_risk": "M",
+      "pilot_priority": "PPC",
+      "cultural_note": "\"Repentance, repair, or obedience\" covers multiple traditions",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PE-001",
+      "original_item_id": "E-001",
+      "domain": "Evangelistic",
+      "primary_construct": "EV-1",
+      "secondary_tags": [],
+      "phenotype_layer": "Perception",
+      "evidence_label": "A",
+      "timeframe": "Current",
+      "item_text": "I find myself thinking about how to explain Jesus in terms that would make sense to specific people around me who don't follow him.",
+      "prompt_text": "I find myself thinking about how to explain Jesus in terms that would make sense to specific people around me who don't follow him.",
+      "response_format": "AGR6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "Strongly disagree",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "Disagree",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "Slightly disagree",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "Slightly agree",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "Agree",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Strongly agree",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 12,
+      "intended_signal": "Gospel-clarity contextual instinct",
+      "confound_controlled": "Thinking without acting; pair with PE-013 behavioral",
+      "social_desirability_risk": "H",
+      "pilot_priority": "PPC",
+      "cultural_note": "Works broadly",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PE-002",
+      "original_item_id": "E-002",
+      "domain": "Evangelistic",
+      "primary_construct": "EV-2",
+      "secondary_tags": [],
+      "phenotype_layer": "Perception",
+      "evidence_label": "A",
+      "timeframe": "Current",
+      "item_text": "I am genuinely curious about the lives of people who don't know Jesus — not as a ministry strategy, but as real interest.",
+      "prompt_text": "I am genuinely curious about the lives of people who don't know Jesus — not as a ministry strategy, but as real interest.",
+      "response_format": "AGR6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "Strongly disagree",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "Disagree",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "Slightly disagree",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "Slightly agree",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "Agree",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Strongly agree",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 13,
+      "intended_signal": "Non-instrumental relational curiosity",
+      "confound_controlled": "Pairs with PE-007 shadow to distinguish genuine from tactical interest",
+      "social_desirability_risk": "M",
+      "pilot_priority": "PPC",
+      "cultural_note": "Works broadly",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PE-003",
+      "original_item_id": "E-003",
+      "domain": "Evangelistic",
+      "primary_construct": "EV-3",
+      "secondary_tags": [],
+      "phenotype_layer": "Instinct",
+      "evidence_label": "A",
+      "timeframe": "Current",
+      "item_text": "When I am in an ongoing relationship with someone who doesn't know Jesus, I feel a pull toward eventually bringing the conversation to who he is.",
+      "prompt_text": "When I am in an ongoing relationship with someone who doesn't know Jesus, I feel a pull toward eventually bringing the conversation to who he is.",
+      "response_format": "AGR6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "Strongly disagree",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "Disagree",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "Slightly disagree",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "Slightly agree",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "Agree",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Strongly agree",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 14,
+      "intended_signal": "Gospel-movement instinct: relationship to invitation",
+      "confound_controlled": "Pairs with PE-006 shadow to distinguish urgency from anxiety-driven pressure",
+      "social_desirability_risk": "H",
+      "pilot_priority": "PPC",
+      "cultural_note": "Works across cultures",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PE-004",
+      "original_item_id": "E-006",
+      "domain": "Evangelistic",
+      "primary_construct": "EV-3",
+      "secondary_tags": [],
+      "phenotype_layer": "Beh-Hist",
+      "evidence_label": "B",
+      "timeframe": "Past 12 mo",
+      "item_text": "In the past 12 months, I can identify a specific time when I was part of a sustained conversation with someone who doesn't know Jesus that moved toward who he is and what following him means.",
+      "prompt_text": "In the past 12 months, I can identify a specific time when I was part of a sustained conversation with someone who doesn't know Jesus that moved toward who he is and what following him means.",
+      "response_format": "EX6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "I cannot identify an example",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "I can identify a weak or unclear example",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "I can identify one concrete example",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "I can identify more than one concrete example",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "This is a recurring pattern",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Others could readily confirm this pattern",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 15,
+      "intended_signal": "Relational gospel-engagement behavior",
+      "confound_controlled": "Pairs with PE-005; recency check",
+      "social_desirability_risk": "H",
+      "pilot_priority": "PPC",
+      "cultural_note": "Works across formal/informal",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PE-005",
+      "original_item_id": "E-008",
+      "domain": "Evangelistic",
+      "primary_construct": "EV-3",
+      "secondary_tags": [],
+      "phenotype_layer": "Beh-Hist",
+      "evidence_label": "B",
+      "timeframe": "Past 3 yr",
+      "item_text": "In the past three years, I can identify a specific person I was in sustained relationship with who didn't know Jesus, with whom I eventually had a direct conversation about following him.",
+      "prompt_text": "In the past three years, I can identify a specific person I was in sustained relationship with who didn't know Jesus, with whom I eventually had a direct conversation about following him.",
+      "response_format": "EX6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "I cannot identify an example",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "I can identify a weak or unclear example",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "I can identify one concrete example",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "I can identify more than one concrete example",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "This is a recurring pattern",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Others could readily confirm this pattern",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 16,
+      "intended_signal": "Sustained relational evangelism with gospel specificity",
+      "confound_controlled": "Core anchor; sustained relationship distinguishes from single-encounter evangelism",
+      "social_desirability_risk": "H",
+      "pilot_priority": "PPC",
+      "cultural_note": "No formal ministry setting required",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PE-006",
+      "original_item_id": "E-009",
+      "domain": "Evangelistic",
+      "primary_construct": "EV-3",
+      "secondary_tags": [],
+      "phenotype_layer": "Shadow",
+      "evidence_label": "F",
+      "timeframe": "Current",
+      "item_text": "When I share the gospel with someone, I sometimes feel anxious or disappointed if they don't respond or make a decision.",
+      "prompt_text": "When I share the gospel with someone, I sometimes feel anxious or disappointed if they don't respond or make a decision.",
+      "response_format": "AGR6",
+      "reverse_keyed": true,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "Strongly disagree",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "Disagree",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "Slightly disagree",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "Slightly agree",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "Agree",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Strongly agree",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 17,
+      "intended_signal": "Shadow: performance anxiety; treating response as personal outcome",
+      "confound_controlled": "Strong agree = evangelism-as-performance pattern",
+      "social_desirability_risk": "L",
+      "pilot_priority": "PPC",
+      "cultural_note": "Low SD; widely applicable",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PE-007",
+      "original_item_id": "E-013",
+      "domain": "Evangelistic",
+      "primary_construct": "EV-2",
+      "secondary_tags": [],
+      "phenotype_layer": "Shadow",
+      "evidence_label": "F",
+      "timeframe": "Current",
+      "item_text": "I sometimes treat friendships with people who don't know Jesus primarily as opportunities to eventually share the gospel.",
+      "prompt_text": "I sometimes treat friendships with people who don't know Jesus primarily as opportunities to eventually share the gospel.",
+      "response_format": "AGR6",
+      "reverse_keyed": true,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "Strongly disagree",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "Disagree",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "Slightly disagree",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "Slightly agree",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "Agree",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Strongly agree",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 18,
+      "intended_signal": "Shadow: instrumental friendship; relationships as tactics",
+      "confound_controlled": "Strong agree = transactional relationship pattern",
+      "social_desirability_risk": "L",
+      "pilot_priority": "PPC",
+      "cultural_note": "Critical for cultural sensitivity; low SD",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PE-008",
+      "original_item_id": "E-018",
+      "domain": "Evangelistic",
+      "primary_construct": "EV-3",
+      "secondary_tags": [],
+      "phenotype_layer": "Op-Style",
+      "evidence_label": "S",
+      "timeframe": "No TF",
+      "item_text": "You have been in a relationship with someone who doesn't know Jesus for about a year. They have been curious and open but have not shown readiness to follow him. What most naturally describes your approach? (A) Continue building the relationship and trust the Spirit's timing; (B) Find a natural opportunity to make a clear, direct invitation; (C) Introduce them to others who might also share the gospel with them; (D) Pray more intentionally and wait for a clearer sign of openness.",
+      "prompt_text": "You have been in a relationship with someone who doesn't know Jesus for about a year. They have been curious and open but have not shown readiness to follow him. What most naturally describes your approach?",
+      "response_format": "SC4",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "A",
+          "option_text": "Continue building the relationship and trust the Spirit's timing",
+          "raw_value": 1
+        },
+        {
+          "option_key": "B",
+          "option_text": "Find a natural opportunity to make a clear, direct invitation",
+          "raw_value": 2
+        },
+        {
+          "option_key": "C",
+          "option_text": "Introduce them to others who might also share the gospel with them",
+          "raw_value": 3
+        },
+        {
+          "option_key": "D",
+          "option_text": "Pray more intentionally and wait for a clearer sign of openness.",
+          "raw_value": 4
+        }
+      ],
+      "display_order": 19,
+      "intended_signal": "B = active EV-3 invitation. A = patience (may be appropriate or avoidance). C = network-referral (EV-4/Apostolic). D = passivity or spiritual attentiveness.",
+      "confound_controlled": "Best-balanced scenario in bank; no single obviously correct answer",
+      "social_desirability_risk": "M",
+      "pilot_priority": "PPC",
+      "cultural_note": "Works broadly",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PE-009",
+      "original_item_id": "E-010",
+      "domain": "Evangelistic",
+      "primary_construct": "EV-4",
+      "secondary_tags": [],
+      "phenotype_layer": "Instinct",
+      "evidence_label": "A",
+      "timeframe": "Current",
+      "item_text": "When I see someone else talk about Jesus with a friend, I find myself thinking about how I could help them do it more confidently.",
+      "prompt_text": "When I see someone else talk about Jesus with a friend, I find myself thinking about how I could help them do it more confidently.",
+      "response_format": "AGR6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "Strongly disagree",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "Disagree",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "Slightly disagree",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "Slightly agree",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "Agree",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Strongly agree",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 20,
+      "intended_signal": "Equipping-others instinct",
+      "confound_controlled": "May overlap with Teaching; Evangelistic version is witness-network focused",
+      "social_desirability_risk": "M",
+      "pilot_priority": "PPC",
+      "cultural_note": "Works broadly",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PE-010",
+      "original_item_id": "E-011",
+      "domain": "Evangelistic",
+      "primary_construct": "EV-4",
+      "secondary_tags": [],
+      "phenotype_layer": "Beh-Hist",
+      "evidence_label": "B",
+      "timeframe": "Past 3 yr",
+      "item_text": "In the past three years, I can identify a specific person I helped become more confident in talking about Jesus with the people in their life.",
+      "prompt_text": "In the past three years, I can identify a specific person I helped become more confident in talking about Jesus with the people in their life.",
+      "response_format": "EX6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "I cannot identify an example",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "I can identify a weak or unclear example",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "I can identify one concrete example",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "I can identify more than one concrete example",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "This is a recurring pattern",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Others could readily confirm this pattern",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 21,
+      "intended_signal": "Equipping-for-witness behavior",
+      "confound_controlled": "Specificity demand distinguishes from general encouragement",
+      "social_desirability_risk": "H",
+      "pilot_priority": "PPC",
+      "cultural_note": "Works across formal/informal",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PE-011",
+      "original_item_id": "E-027",
+      "domain": "Evangelistic",
+      "primary_construct": "EV-3",
+      "secondary_tags": [],
+      "phenotype_layer": "Outcome",
+      "evidence_label": "O",
+      "timeframe": "Past 3 yr",
+      "item_text": "In the past three years, I have seen at least one person I was consistently engaging begin following Jesus.",
+      "prompt_text": "In the past three years, I have seen at least one person I was consistently engaging begin following Jesus.",
+      "response_format": "EX6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "I cannot identify an example",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "I can identify a weak or unclear example",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "I can identify one concrete example",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "I can identify more than one concrete example",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "This is a recurring pattern",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Others could readily confirm this pattern",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 22,
+      "intended_signal": "Relational conversion self-reported outcome",
+      "confound_controlled": "O-evidence; block instruction replaces in-text disclaimer; no causation implied",
+      "social_desirability_risk": "H",
+      "pilot_priority": "UA",
+      "cultural_note": "Explicit block instruction required before section",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PE-013",
+      "original_item_id": null,
+      "domain": "Evangelistic",
+      "primary_construct": "EV-1",
+      "secondary_tags": [],
+      "phenotype_layer": "Beh-Hist",
+      "evidence_label": "B",
+      "timeframe": "Past 12 mo",
+      "item_text": "In the past 12 months, I can identify a time when I adapted how I explained the gospel based on a specific person's background or questions, keeping Jesus' person, death, and resurrection central.",
+      "prompt_text": "In the past 12 months, I can identify a time when I adapted how I explained the gospel based on a specific person's background or questions, keeping Jesus' person, death, and resurrection central.",
+      "response_format": "EX6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "I cannot identify an example",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "I can identify a weak or unclear example",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "I can identify one concrete example",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "I can identify more than one concrete example",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "This is a recurring pattern",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Others could readily confirm this pattern",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 23,
+      "intended_signal": "Contextual gospel explanation behavior",
+      "confound_controlled": "Specificity demand guards against generic \"I share the gospel\" claim",
+      "social_desirability_risk": "H",
+      "pilot_priority": "PPC",
+      "cultural_note": "Works across oral and literate contexts",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PE-014",
+      "original_item_id": null,
+      "domain": "Evangelistic",
+      "primary_construct": "EV-2",
+      "secondary_tags": [],
+      "phenotype_layer": "Beh-Hist",
+      "evidence_label": "B",
+      "timeframe": "Past 12 mo",
+      "item_text": "In the past 12 months, I can identify a specific relationship with someone who does not follow Jesus that I maintained even when they showed little immediate spiritual interest.",
+      "prompt_text": "In the past 12 months, I can identify a specific relationship with someone who does not follow Jesus that I maintained even when they showed little immediate spiritual interest.",
+      "response_format": "EX6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "I cannot identify an example",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "I can identify a weak or unclear example",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "I can identify one concrete example",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "I can identify more than one concrete example",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "This is a recurring pattern",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Others could readily confirm this pattern",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 24,
+      "intended_signal": "Sustained non-instrumental presence",
+      "confound_controlled": "Pairs with PE-007 shadow; \"little immediate interest\" tests relational patience",
+      "social_desirability_risk": "M",
+      "pilot_priority": "PPC",
+      "cultural_note": "Does not require formal ministry context",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PS-001",
+      "original_item_id": "S-001",
+      "domain": "Shepherding",
+      "primary_construct": "SH-1",
+      "secondary_tags": [],
+      "phenotype_layer": "Perception",
+      "evidence_label": "A",
+      "timeframe": "Current",
+      "item_text": "I naturally know what is going on in the lives of people I care for — not from asking a lot of questions, but from paying close attention.",
+      "prompt_text": "I naturally know what is going on in the lives of people I care for — not from asking a lot of questions, but from paying close attention.",
+      "response_format": "AGR6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "Strongly disagree",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "Disagree",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "Slightly disagree",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "Slightly agree",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "Agree",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Strongly agree",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 25,
+      "intended_signal": "Attentive relational knowing through presence",
+      "confound_controlled": "May be affirmed by people-pleasers; pair with PS-004 behavioral",
+      "social_desirability_risk": "M",
+      "pilot_priority": "PPC",
+      "cultural_note": "Works across cultures",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PS-002",
+      "original_item_id": "S-002",
+      "domain": "Shepherding",
+      "primary_construct": "SH-2",
+      "secondary_tags": [],
+      "phenotype_layer": "Instinct",
+      "evidence_label": "A",
+      "timeframe": "Current",
+      "item_text": "When I hear that someone in my community is struggling, I feel a pull to find out what they need and help with that specific thing.",
+      "prompt_text": "When I hear that someone in my community is struggling, I feel a pull to find out what they need and help with that specific thing.",
+      "response_format": "AGR6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "Strongly disagree",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "Disagree",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "Slightly disagree",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "Slightly agree",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "Agree",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Strongly agree",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 26,
+      "intended_signal": "Compassionate response instinct",
+      "confound_controlled": "High SD; pairs with PS-004 cost anchor and PS-005 shadow",
+      "social_desirability_risk": "H",
+      "pilot_priority": "PPC",
+      "cultural_note": "Works broadly",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PS-003",
+      "original_item_id": "S-003",
+      "domain": "Shepherding",
+      "primary_construct": "SH-4",
+      "secondary_tags": [],
+      "phenotype_layer": "Instinct",
+      "evidence_label": "A",
+      "timeframe": "Current",
+      "item_text": "I feel more fulfilled when people I care for are being cared for by one another than when they depend primarily on me.",
+      "prompt_text": "I feel more fulfilled when people I care for are being cared for by one another than when they depend primarily on me.",
+      "response_format": "AGR6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "Strongly disagree",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "Disagree",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "Slightly disagree",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "Slightly agree",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "Agree",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Strongly agree",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 27,
+      "intended_signal": "Mutual-care instinct; releasing rather than retaining",
+      "confound_controlled": "Critical SH-4 maturity marker; pairs with PS-005",
+      "social_desirability_risk": "H",
+      "pilot_priority": "PPC",
+      "cultural_note": "Works broadly",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PS-004",
+      "original_item_id": "S-006",
+      "domain": "Shepherding",
+      "primary_construct": "SH-2",
+      "secondary_tags": [],
+      "phenotype_layer": "Beh-Hist",
+      "evidence_label": "B",
+      "timeframe": "Past 12 mo",
+      "item_text": "In the past 12 months, I can identify a specific time I provided practical help to someone in need at real cost to my own time, money, or energy.",
+      "prompt_text": "In the past 12 months, I can identify a specific time I provided practical help to someone in need at real cost to my own time, money, or energy.",
+      "response_format": "EX6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "I cannot identify an example",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "I can identify a weak or unclear example",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "I can identify one concrete example",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "I can identify more than one concrete example",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "This is a recurring pattern",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Others could readily confirm this pattern",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 28,
+      "intended_signal": "Cost-bearing compassionate care",
+      "confound_controlled": "Core anchor; cost specificity distinguishes from comfortable support",
+      "social_desirability_risk": "H",
+      "pilot_priority": "PPC",
+      "cultural_note": "Works across material contexts",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PS-005",
+      "original_item_id": "S-007",
+      "domain": "Shepherding",
+      "primary_construct": "SH-2",
+      "secondary_tags": [],
+      "phenotype_layer": "Shadow",
+      "evidence_label": "F",
+      "timeframe": "Current",
+      "item_text": "When someone I care about is in difficulty, I find it hard to stop helping even when they have indicated they can manage it themselves.",
+      "prompt_text": "When someone I care about is in difficulty, I find it hard to stop helping even when they have indicated they can manage it themselves.",
+      "response_format": "AGR6",
+      "reverse_keyed": true,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "Strongly disagree",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "Disagree",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "Slightly disagree",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "Slightly agree",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "Agree",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Strongly agree",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 29,
+      "intended_signal": "Shadow: rescuing, enabling, overfunctioning",
+      "confound_controlled": "Strong agree = inability to release",
+      "social_desirability_risk": "L",
+      "pilot_priority": "PPC",
+      "cultural_note": "Low SD; widely applicable",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PS-006",
+      "original_item_id": "S-008",
+      "domain": "Shepherding",
+      "primary_construct": "SH-3",
+      "secondary_tags": [],
+      "phenotype_layer": "Beh-Hist",
+      "evidence_label": "B",
+      "timeframe": "Past 3 yr",
+      "item_text": "In the past three years, I can identify a specific time I moved toward a broken or strained relationship in my community with the aim of restoring it — when I could have let it go.",
+      "prompt_text": "In the past three years, I can identify a specific time I moved toward a broken or strained relationship in my community with the aim of restoring it — when I could have let it go.",
+      "response_format": "EX6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "I cannot identify an example",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "I can identify a weak or unclear example",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "I can identify one concrete example",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "I can identify more than one concrete example",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "This is a recurring pattern",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Others could readily confirm this pattern",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 30,
+      "intended_signal": "Restoration behavior: toward brokenness",
+      "confound_controlled": "Pairs with PS-008 shadow; \"when I could have let it go\" anchors cost",
+      "social_desirability_risk": "H",
+      "pilot_priority": "PPC",
+      "cultural_note": "Works across cultures",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PS-007",
+      "original_item_id": "S-009",
+      "domain": "Shepherding",
+      "primary_construct": "SH-4",
+      "secondary_tags": [],
+      "phenotype_layer": "Beh-Hist",
+      "evidence_label": "B",
+      "timeframe": "Past 3 yr",
+      "item_text": "In the past three years, I can identify a specific person I invested in specifically so they could grow in caring for others — not just to support them personally.",
+      "prompt_text": "In the past three years, I can identify a specific person I invested in specifically so they could grow in caring for others — not just to support them personally.",
+      "response_format": "EX6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "I cannot identify an example",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "I can identify a weak or unclear example",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "I can identify one concrete example",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "I can identify more than one concrete example",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "This is a recurring pattern",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Others could readily confirm this pattern",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 31,
+      "intended_signal": "Developing-caregivers behavior",
+      "confound_controlled": "Specificity demand distinguishes from general mentoring",
+      "social_desirability_risk": "H",
+      "pilot_priority": "PPC",
+      "cultural_note": "Works across formal/informal",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PS-008",
+      "original_item_id": "S-013",
+      "domain": "Shepherding",
+      "primary_construct": "SH-3",
+      "secondary_tags": [],
+      "phenotype_layer": "Shadow",
+      "evidence_label": "F",
+      "timeframe": "Current",
+      "item_text": "People who know me well would say I sometimes have difficulty holding firm to necessary limits with people I care about.",
+      "prompt_text": "People who know me well would say I sometimes have difficulty holding firm to necessary limits with people I care about.",
+      "response_format": "AGR6",
+      "reverse_keyed": true,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "Strongly disagree",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "Disagree",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "Slightly disagree",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "Slightly agree",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "Agree",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Strongly agree",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 32,
+      "intended_signal": "Shadow: people-pleasing, conflict avoidance, boundary failure",
+      "confound_controlled": "Strong agree = SH-3 shadow; safety indicator",
+      "social_desirability_risk": "L",
+      "pilot_priority": "PPC",
+      "cultural_note": "Low SD; important safety marker",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PS-009",
+      "original_item_id": "S-027",
+      "domain": "Shepherding",
+      "primary_construct": "SH-2",
+      "secondary_tags": [
+        "SH-3"
+      ],
+      "phenotype_layer": "Op-Style",
+      "evidence_label": "S",
+      "timeframe": "No TF",
+      "item_text": "Someone you care about is about to make a decision that will cause them real harm. You have shared your concern clearly and they have chosen to proceed. What most naturally describes your response? (A) Respect their decision and remain present in the relationship; (B) Express your concern once more and ask them to reconsider; (C) Take action to prevent the outcome, even without their agreement; (D) Feel very anxious and find it genuinely hard to accept you cannot change this.",
+      "prompt_text": "Someone you care about is about to make a decision that will cause them real harm. You have shared your concern clearly and they have chosen to proceed. What most naturally describes your response?",
+      "response_format": "SC4",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "A",
+          "option_text": "Respect their decision and remain present in the relationship",
+          "raw_value": 1
+        },
+        {
+          "option_key": "B",
+          "option_text": "Express your concern once more and ask them to reconsider",
+          "raw_value": 2
+        },
+        {
+          "option_key": "C",
+          "option_text": "Take action to prevent the outcome, even without their agreement",
+          "raw_value": 3
+        },
+        {
+          "option_key": "D",
+          "option_text": "Feel very anxious and find it genuinely hard to accept you cannot change this.",
+          "raw_value": 4
+        }
+      ],
+      "display_order": 33,
+      "intended_signal": "A = mature SH-2 (respects agency). C = shadow (overriding agency). D = enmeshment/anxiety signal. B = partial — one further expression without escalation.",
+      "confound_controlled": "\"Real harm\" must read as genuine; option D may be misread as generally emotional; flag for cognitive interview",
+      "social_desirability_risk": "M",
+      "pilot_priority": "PPC",
+      "cultural_note": "Works across cultures",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PS-010",
+      "original_item_id": "S-020",
+      "domain": "Shepherding",
+      "primary_construct": "SH-3",
+      "secondary_tags": [],
+      "phenotype_layer": "Shadow",
+      "evidence_label": "F",
+      "timeframe": "Past 3 yr",
+      "item_text": "In the past three years, I can identify a time I protected someone from accountability or consequences that would have been appropriate — because I found it hard to let them face that difficulty.",
+      "prompt_text": "In the past three years, I can identify a time I protected someone from accountability or consequences that would have been appropriate — because I found it hard to let them face that difficulty.",
+      "response_format": "EX6",
+      "reverse_keyed": true,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "I cannot identify an example",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "I can identify a weak or unclear example",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "I can identify one concrete example",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "I can identify more than one concrete example",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "This is a recurring pattern",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Others could readily confirm this pattern",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 34,
+      "intended_signal": "Shadow: shielding from appropriate accountability",
+      "confound_controlled": "Critical safety item; response avoidance may indicate clinical concern, not construct absence",
+      "social_desirability_risk": "L",
+      "pilot_priority": "PPC",
+      "cultural_note": "Requires sensitivity; include support note in administration guidance",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PS-012",
+      "original_item_id": "S-026",
+      "domain": "Shepherding",
+      "primary_construct": "SH-1",
+      "secondary_tags": [
+        "SH-4"
+      ],
+      "phenotype_layer": "Outcome",
+      "evidence_label": "O",
+      "timeframe": "Past 12 mo",
+      "item_text": "In the past 12 months, I have seen a specific person who had been disconnected or overlooked in my community become genuinely known and included.",
+      "prompt_text": "In the past 12 months, I have seen a specific person who had been disconnected or overlooked in my community become genuinely known and included.",
+      "response_format": "EX6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "I cannot identify an example",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "I can identify a weak or unclear example",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "I can identify one concrete example",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "I can identify more than one concrete example",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "This is a recurring pattern",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Others could readily confirm this pattern",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 35,
+      "intended_signal": "Belonging/inclusion self-reported outcome",
+      "confound_controlled": "O-evidence; block instruction replaces in-text disclaimer",
+      "social_desirability_risk": "H",
+      "pilot_priority": "UA",
+      "cultural_note": "Block instruction required before section",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PS-013",
+      "original_item_id": null,
+      "domain": "Shepherding",
+      "primary_construct": "SH-1",
+      "secondary_tags": [],
+      "phenotype_layer": "Beh-Hist",
+      "evidence_label": "B",
+      "timeframe": "Past 12 mo",
+      "item_text": "In the past 12 months, I can identify a time when I noticed a change in someone's engagement or wellbeing and followed up — rather than waiting for them to ask for help.",
+      "prompt_text": "In the past 12 months, I can identify a time when I noticed a change in someone's engagement or wellbeing and followed up — rather than waiting for them to ask for help.",
+      "response_format": "EX6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "I cannot identify an example",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "I can identify a weak or unclear example",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "I can identify one concrete example",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "I can identify more than one concrete example",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "This is a recurring pattern",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Others could readily confirm this pattern",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 36,
+      "intended_signal": "Attentive follow-through behavior",
+      "confound_controlled": "Distinguishes attentive knowing (SH-1) from passive observation",
+      "social_desirability_risk": "M",
+      "pilot_priority": "PPC",
+      "cultural_note": "Works across formal/informal",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PT-001",
+      "original_item_id": "T-001",
+      "domain": "Teaching",
+      "primary_construct": "TE-1",
+      "secondary_tags": [],
+      "phenotype_layer": "Perception",
+      "evidence_label": "A",
+      "timeframe": "Current",
+      "item_text": "When I read or hear a Scripture passage, I naturally ask what it says in its original context before asking what it means for me.",
+      "prompt_text": "When I read or hear a Scripture passage, I naturally ask what it says in its original context before asking what it means for me.",
+      "response_format": "AGR6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "Strongly disagree",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "Disagree",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "Slightly disagree",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "Slightly agree",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "Agree",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Strongly agree",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 37,
+      "intended_signal": "Text-first exegetical orientation",
+      "confound_controlled": "High SD in trained populations; pair with PT-013 behavioral",
+      "social_desirability_risk": "H",
+      "pilot_priority": "PPC",
+      "cultural_note": "\"Original context\" may need simplification",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PT-002",
+      "original_item_id": "T-002",
+      "domain": "Teaching",
+      "primary_construct": "TE-2",
+      "secondary_tags": [],
+      "phenotype_layer": "Instinct",
+      "evidence_label": "A",
+      "timeframe": "Current",
+      "item_text": "When I understand something from Scripture, I immediately think about how to explain it in a way that would make sense to a specific person.",
+      "prompt_text": "When I understand something from Scripture, I immediately think about how to explain it in a way that would make sense to a specific person.",
+      "response_format": "AGR6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "Strongly disagree",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "Disagree",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "Slightly disagree",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "Slightly agree",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "Agree",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Strongly agree",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 38,
+      "intended_signal": "Application-translation instinct",
+      "confound_controlled": "May be claimed without grounding; pair with PT-004",
+      "social_desirability_risk": "H",
+      "pilot_priority": "PPC",
+      "cultural_note": "Works broadly",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PT-003",
+      "original_item_id": "T-003",
+      "domain": "Teaching",
+      "primary_construct": "TE-4",
+      "secondary_tags": [],
+      "phenotype_layer": "Instinct",
+      "evidence_label": "A",
+      "timeframe": "Current",
+      "item_text": "I feel most satisfied when someone I have taught can engage Scripture on their own — without continuing to need me as their interpreter.",
+      "prompt_text": "I feel most satisfied when someone I have taught can engage Scripture on their own — without continuing to need me as their interpreter.",
+      "response_format": "AGR6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "Strongly disagree",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "Disagree",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "Slightly disagree",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "Slightly agree",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "Agree",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Strongly agree",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 39,
+      "intended_signal": "Learner-independence instinct",
+      "confound_controlled": "Critical maturity marker; pair with PT-007 shadow",
+      "social_desirability_risk": "H",
+      "pilot_priority": "PPC",
+      "cultural_note": "Works broadly",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PT-004",
+      "original_item_id": "T-004",
+      "domain": "Teaching",
+      "primary_construct": "TE-2",
+      "secondary_tags": [],
+      "phenotype_layer": "Beh-Hist",
+      "evidence_label": "B",
+      "timeframe": "Past 3 yr",
+      "item_text": "In the past three years, I can identify a specific time I helped someone understand a Scripture passage in a way that connected to something real in their life.",
+      "prompt_text": "In the past three years, I can identify a specific time I helped someone understand a Scripture passage in a way that connected to something real in their life.",
+      "response_format": "EX6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "I cannot identify an example",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "I can identify a weak or unclear example",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "I can identify one concrete example",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "I can identify more than one concrete example",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "This is a recurring pattern",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Others could readily confirm this pattern",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 40,
+      "intended_signal": "Contextual application behavior",
+      "confound_controlled": "Core anchor; person-and-life specificity required",
+      "social_desirability_risk": "H",
+      "pilot_priority": "PPC",
+      "cultural_note": "Works across formal and informal settings",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PT-005",
+      "original_item_id": "T-007",
+      "domain": "Teaching",
+      "primary_construct": "TE-4",
+      "secondary_tags": [],
+      "phenotype_layer": "Beh-Hist",
+      "evidence_label": "B",
+      "timeframe": "Past 3 yr",
+      "item_text": "In the past three years, I can identify a specific person I helped become able to read and understand Scripture on their own.",
+      "prompt_text": "In the past three years, I can identify a specific person I helped become able to read and understand Scripture on their own.",
+      "response_format": "EX6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "I cannot identify an example",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "I can identify a weak or unclear example",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "I can identify one concrete example",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "I can identify more than one concrete example",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "This is a recurring pattern",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Others could readily confirm this pattern",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 41,
+      "intended_signal": "Learner independence behavior",
+      "confound_controlled": "Specificity demand distinguishes from group Bible study leading",
+      "social_desirability_risk": "H",
+      "pilot_priority": "PPC",
+      "cultural_note": "Works across formal/informal",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PT-006",
+      "original_item_id": "T-008",
+      "domain": "Teaching",
+      "primary_construct": "TE-3",
+      "secondary_tags": [],
+      "phenotype_layer": "Beh-Hist",
+      "evidence_label": "B",
+      "timeframe": "Past 3 yr",
+      "item_text": "In the past three years, I can identify a specific time I addressed a teaching or belief I believed was meaningfully wrong — with scriptural clarity and care for the person involved.",
+      "prompt_text": "In the past three years, I can identify a specific time I addressed a teaching or belief I believed was meaningfully wrong — with scriptural clarity and care for the person involved.",
+      "response_format": "EX6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "I cannot identify an example",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "I can identify a weak or unclear example",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "I can identify one concrete example",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "I can identify more than one concrete example",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "This is a recurring pattern",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Others could readily confirm this pattern",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 42,
+      "intended_signal": "Accountable doctrinal correction behavior",
+      "confound_controlled": "Two-part demand (clarity + care) guards against harsh correction",
+      "social_desirability_risk": "H",
+      "pilot_priority": "PPC",
+      "cultural_note": "\"Meaningfully wrong\" distinguishes from minor disagreement",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PT-007",
+      "original_item_id": "T-011",
+      "domain": "Teaching",
+      "primary_construct": "TE-4",
+      "secondary_tags": [],
+      "phenotype_layer": "Shadow",
+      "evidence_label": "F",
+      "timeframe": "Current",
+      "item_text": "The people I teach tend to rely on me as their primary resource when they encounter a difficult Scripture passage.",
+      "prompt_text": "The people I teach tend to rely on me as their primary resource when they encounter a difficult Scripture passage.",
+      "response_format": "AGR6",
+      "reverse_keyed": true,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "Strongly disagree",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "Disagree",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "Slightly disagree",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "Slightly agree",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "Agree",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Strongly agree",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 43,
+      "intended_signal": "Shadow: expert-dependency teaching style",
+      "confound_controlled": "Strong agree = TE-4 shadow (creating reliance, not independence)",
+      "social_desirability_risk": "L",
+      "pilot_priority": "PPC",
+      "cultural_note": "Low SD; important across ministry-leader populations",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PT-008",
+      "original_item_id": "T-013",
+      "domain": "Teaching",
+      "primary_construct": "TE-2",
+      "secondary_tags": [
+        "TE-1"
+      ],
+      "phenotype_layer": "Shadow",
+      "evidence_label": "F",
+      "timeframe": "Current",
+      "item_text": "People who know me well would say I sometimes go into more detail or precision than the situation actually requires.",
+      "prompt_text": "People who know me well would say I sometimes go into more detail or precision than the situation actually requires.",
+      "response_format": "AGR6",
+      "reverse_keyed": true,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "Strongly disagree",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "Disagree",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "Slightly disagree",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "Slightly agree",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "Agree",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Strongly agree",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 44,
+      "intended_signal": "Shadow: information saturation; precision-over-people",
+      "confound_controlled": "Strong agree = Teaching shadow (loves precision more than it serves)",
+      "social_desirability_risk": "L",
+      "pilot_priority": "PPC",
+      "cultural_note": "Low SD; widely applicable",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PT-009",
+      "original_item_id": "T-016",
+      "domain": "Teaching",
+      "primary_construct": "TE-3",
+      "secondary_tags": [
+        "TE-1"
+      ],
+      "phenotype_layer": "Op-Style",
+      "evidence_label": "S",
+      "timeframe": "No TF",
+      "item_text": "A respected person in your community has shared a teaching from a familiar passage that you believe misses what the text actually means. The teaching is not dangerous but could leave people with a limited understanding. What most naturally describes your response? (A) Go back to the passage yourself, study the context carefully, and work out what you think it means; (B) Ask the person privately how they arrived at their interpretation and share what you see in the text; (C) Bring the passage up in your next group discussion and invite everyone to examine it together; (D) Wait to see whether the teaching causes any confusion before deciding whether to address it.",
+      "prompt_text": "A respected person in your community has shared a teaching from a familiar passage that you believe misses what the text actually means. The teaching is not dangerous but could leave people with a limited understanding. What most naturally describes your response?",
+      "response_format": "SC4",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "A",
+          "option_text": "Go back to the passage yourself, study the context carefully, and work out what you think it means",
+          "raw_value": 1
+        },
+        {
+          "option_key": "B",
+          "option_text": "Ask the person privately how they arrived at their interpretation and share what you see in the text",
+          "raw_value": 2
+        },
+        {
+          "option_key": "C",
+          "option_text": "Bring the passage up in your next group discussion and invite everyone to examine it together",
+          "raw_value": 3
+        },
+        {
+          "option_key": "D",
+          "option_text": "Wait to see whether the teaching causes any confusion before deciding whether to address it.",
+          "raw_value": 4
+        }
+      ],
+      "display_order": 45,
+      "intended_signal": "A = TE-1 (careful study before acting). B = TE-3 (relational correction). C = TE-2 (communal text examination). D = pastoral caution / wait-and-see. No option is cartoonishly poor; A+B is the mature TE sequence but neither alone is wrong.",
+      "confound_controlled": "Cross-loads with PL-3 (Prophetic may also name); flag for cognitive interview — distinguish by manner and preparation",
+      "social_desirability_risk": "M",
+      "pilot_priority": "UA",
+      "cultural_note": "Works across formal/informal contexts",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PT-011",
+      "original_item_id": "T-026",
+      "domain": "Teaching",
+      "primary_construct": "TE-4",
+      "secondary_tags": [
+        "TE-2"
+      ],
+      "phenotype_layer": "Outcome",
+      "evidence_label": "O",
+      "timeframe": "Past 12 mo",
+      "item_text": "In the past 12 months, someone I was teaching began engaging the Bible on their own — without me initiating it.",
+      "prompt_text": "In the past 12 months, someone I was teaching began engaging the Bible on their own — without me initiating it.",
+      "response_format": "EX6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "I cannot identify an example",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "I can identify a weak or unclear example",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "I can identify one concrete example",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "I can identify more than one concrete example",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "This is a recurring pattern",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Others could readily confirm this pattern",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 46,
+      "intended_signal": "Learner-initiated independence self-reported outcome",
+      "confound_controlled": "O-evidence; block instruction replaces disclaimer; one item only — monitor for skew",
+      "social_desirability_risk": "H",
+      "pilot_priority": "UA",
+      "cultural_note": "Requires respondent to have taught someone in past year",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PT-012",
+      "original_item_id": "T-006",
+      "domain": "Teaching",
+      "primary_construct": "TE-3",
+      "secondary_tags": [],
+      "phenotype_layer": "Instinct",
+      "evidence_label": "A",
+      "timeframe": "Current",
+      "item_text": "When I encounter a teaching or belief I believe is meaningfully wrong, I feel a responsibility to address it — even when it would be more comfortable to leave it alone.",
+      "prompt_text": "When I encounter a teaching or belief I believe is meaningfully wrong, I feel a responsibility to address it — even when it would be more comfortable to leave it alone.",
+      "response_format": "AGR6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "Strongly disagree",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "Disagree",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "Slightly disagree",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "Slightly agree",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "Agree",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Strongly agree",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 47,
+      "intended_signal": "Doctrinal-correction instinct",
+      "confound_controlled": "May overlap with PL-3 (Prophetic); Teaching version focuses on doctrinal content, not community-direction",
+      "social_desirability_risk": "M",
+      "pilot_priority": "PPC",
+      "cultural_note": "Works broadly",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PT-013",
+      "original_item_id": null,
+      "domain": "Teaching",
+      "primary_construct": "TE-1",
+      "secondary_tags": [],
+      "phenotype_layer": "Beh-Hist",
+      "evidence_label": "B",
+      "timeframe": "Past 12 mo",
+      "item_text": "In the past 12 months, I can identify a time when I changed or corrected my interpretation of a Scripture passage after paying closer attention to its context or receiving informed correction.",
+      "prompt_text": "In the past 12 months, I can identify a time when I changed or corrected my interpretation of a Scripture passage after paying closer attention to its context or receiving informed correction.",
+      "response_format": "EX6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "I cannot identify an example",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "I can identify a weak or unclear example",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "I can identify one concrete example",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "I can identify more than one concrete example",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "This is a recurring pattern",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Others could readily confirm this pattern",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 48,
+      "intended_signal": "Interpretive humility and self-correction behavior",
+      "confound_controlled": "\"Receiving informed correction\" expands from solo study to communal accountability",
+      "social_desirability_risk": "M",
+      "pilot_priority": "PPC",
+      "cultural_note": "Works across literate and oral learning contexts",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PAD-001",
+      "original_item_id": "AD-001",
+      "domain": "AP Direction",
+      "primary_construct": "FI-1",
+      "secondary_tags": [],
+      "phenotype_layer": "Perception",
+      "evidence_label": "A",
+      "timeframe": "Current",
+      "item_text": "I naturally notice where kingdom possibility exists — in a neighborhood, a network, a community — even when nothing has been started yet.",
+      "prompt_text": "I naturally notice where kingdom possibility exists — in a neighborhood, a network, a community — even when nothing has been started yet.",
+      "response_format": "AGR6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "Strongly disagree",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "Disagree",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "Slightly disagree",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "Slightly agree",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "Agree",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Strongly agree",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 49,
+      "intended_signal": "Kingdom-possibility perception",
+      "confound_controlled": "May be affirmed by visionaries without follow-through; pair with PAD-005",
+      "social_desirability_risk": "H",
+      "pilot_priority": "PPC",
+      "cultural_note": "Works across contexts",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PAD-002",
+      "original_item_id": "AD-002",
+      "domain": "AP Direction",
+      "primary_construct": "FI-2",
+      "secondary_tags": [],
+      "phenotype_layer": "Perception",
+      "evidence_label": "A",
+      "timeframe": "Current",
+      "item_text": "I notice when a person or community has had little or no meaningful access to the gospel — and that awareness creates more than intellectual concern in me.",
+      "prompt_text": "I notice when a person or community has had little or no meaningful access to the gospel — and that awareness creates more than intellectual concern in me.",
+      "response_format": "AGR6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "Strongly disagree",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "Disagree",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "Slightly disagree",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "Slightly agree",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "Agree",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Strongly agree",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 50,
+      "intended_signal": "Frontier-attention orientation",
+      "confound_controlled": "High SD; distinguish genuine burden from general social awareness; pair with PAD-011",
+      "social_desirability_risk": "H",
+      "pilot_priority": "PPC",
+      "cultural_note": "\"Meaningful access\" may need clarification; flag for cognitive interview",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PAD-004",
+      "original_item_id": "AD-005",
+      "domain": "AP Direction",
+      "primary_construct": "FI-4",
+      "secondary_tags": [],
+      "phenotype_layer": "Instinct",
+      "evidence_label": "A",
+      "timeframe": "Current",
+      "item_text": "When I sense a significant kingdom possibility, I am willing to move forward even when the personal cost or risk is not fully clear.",
+      "prompt_text": "When I sense a significant kingdom possibility, I am willing to move forward even when the personal cost or risk is not fully clear.",
+      "response_format": "AGR6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "Strongly disagree",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "Disagree",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "Slightly disagree",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "Slightly agree",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "Agree",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Strongly agree",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 51,
+      "intended_signal": "Risk-tolerance orientation",
+      "confound_controlled": "Shadow check: recklessness; pair with PAD-006 behavioral",
+      "social_desirability_risk": "H",
+      "pilot_priority": "PPC",
+      "cultural_note": "Works broadly",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PAD-005",
+      "original_item_id": "AD-007",
+      "domain": "AP Direction",
+      "primary_construct": "EC-1",
+      "secondary_tags": [],
+      "phenotype_layer": "Beh-Hist",
+      "evidence_label": "B",
+      "timeframe": "Past 12 mo",
+      "item_text": "In the past 12 months, I can identify a time I organized my time and energy around a specific kingdom priority — deliberately, not distributing effort equally across everything.",
+      "prompt_text": "In the past 12 months, I can identify a time I organized my time and energy around a specific kingdom priority — deliberately, not distributing effort equally across everything.",
+      "response_format": "EX6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "I cannot identify an example",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "I can identify a weak or unclear example",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "I can identify one concrete example",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "I can identify more than one concrete example",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "This is a recurring pattern",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Others could readily confirm this pattern",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 52,
+      "intended_signal": "Focused intentionality behavior",
+      "confound_controlled": "Core anchor; deliberate-not-equal framing distinguishes from general busyness",
+      "social_desirability_risk": "H",
+      "pilot_priority": "PPC",
+      "cultural_note": "Works across formal/informal",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PAD-006",
+      "original_item_id": "AD-010",
+      "domain": "AP Direction",
+      "primary_construct": "FI-4",
+      "secondary_tags": [],
+      "phenotype_layer": "Beh-Hist",
+      "evidence_label": "B",
+      "timeframe": "Past 3 yr",
+      "item_text": "In the past three years, I can identify a time I continued something significant through a period where the cost was real and the outcome was genuinely uncertain.",
+      "prompt_text": "In the past three years, I can identify a time I continued something significant through a period where the cost was real and the outcome was genuinely uncertain.",
+      "response_format": "EX6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "I cannot identify an example",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "I can identify a weak or unclear example",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "I can identify one concrete example",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "I can identify more than one concrete example",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "This is a recurring pattern",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Others could readily confirm this pattern",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 53,
+      "intended_signal": "Cost-bearing perseverance behavior",
+      "confound_controlled": "Risk and cost specificity required",
+      "social_desirability_risk": "H",
+      "pilot_priority": "PPC",
+      "cultural_note": "Works across contexts",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PAD-007",
+      "original_item_id": "AD-012",
+      "domain": "AP Direction",
+      "primary_construct": "FI-1",
+      "secondary_tags": [],
+      "phenotype_layer": "Shadow",
+      "evidence_label": "F",
+      "timeframe": "Current",
+      "item_text": "I find it difficult to stay focused on one thing long enough to see it become stable — I feel the pull toward the next new possibility before the current one is established.",
+      "prompt_text": "I find it difficult to stay focused on one thing long enough to see it become stable — I feel the pull toward the next new possibility before the current one is established.",
+      "response_format": "AGR6",
+      "reverse_keyed": true,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "Strongly disagree",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "Disagree",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "Slightly disagree",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "Slightly agree",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "Agree",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Strongly agree",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 54,
+      "intended_signal": "Shadow: novelty addiction; starting without establishing",
+      "confound_controlled": "Strong agree = FI-1 shadow; pairs with PAD-010",
+      "social_desirability_risk": "L",
+      "pilot_priority": "PPC",
+      "cultural_note": "Low SD; important for Apostolic integrity",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PAD-008",
+      "original_item_id": "AD-017",
+      "domain": "AP Direction",
+      "primary_construct": "FI-1",
+      "secondary_tags": [
+        "EC-1"
+      ],
+      "phenotype_layer": "Op-Style",
+      "evidence_label": "S",
+      "timeframe": "No TF",
+      "item_text": "You have identified what looks like a significant opportunity for the gospel to take root in a specific place or network. You have some knowledge of the situation but not full clarity. No one else in your community is ready to commit. What most naturally describes your response? (A) Begin a small, reversible experiment — a conversation, a visit, a connection — and invite others to observe or join as it develops; (B) Keep building your understanding of the people and context before taking any first step; (C) Bring the vision to an existing leader or community and ask them to sponsor or support the first step; (D) Wait until you have at least one other committed partner who shares your sense of the opportunity.",
+      "prompt_text": "You have identified what looks like a significant opportunity for the gospel to take root in a specific place or network. You have some knowledge of the situation but not full clarity. No one else in your community is ready to commit. What most naturally describes your response?",
+      "response_format": "SC4",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "A",
+          "option_text": "Begin a small, reversible experiment — a conversation, a visit, a connection — and invite others to observe or join as it develops",
+          "raw_value": 1
+        },
+        {
+          "option_key": "B",
+          "option_text": "Keep building your understanding of the people and context before taking any first step",
+          "raw_value": 2
+        },
+        {
+          "option_key": "C",
+          "option_text": "Bring the vision to an existing leader or community and ask them to sponsor or support the first step",
+          "raw_value": 3
+        },
+        {
+          "option_key": "D",
+          "option_text": "Wait until you have at least one other committed partner who shares your sense of the opportunity.",
+          "raw_value": 4
+        }
+      ],
+      "display_order": 55,
+      "intended_signal": "A = FI-1 Apostolic (proportionate small experiment with invitation). B = FI-3/wisdom (deepen understanding first). C = EC-1/relational (route through existing structure). D = consensus-building (SH-4 or community readiness instinct). No option is cartoonishly wrong; A is the Apostolic signal but is modest and learning-oriented.",
+      "confound_controlled": "Flag for practitioner review: test whether respondents read A as immediate unilateral action or as the proportionate experiment intended",
+      "social_desirability_risk": "M",
+      "pilot_priority": "UA",
+      "cultural_note": "Avoid implying international or high-resource context",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PAD-009",
+      "original_item_id": "AD-019",
+      "domain": "AP Direction",
+      "primary_construct": "EC-1",
+      "secondary_tags": [
+        "FI-1"
+      ],
+      "phenotype_layer": "Op-Style",
+      "evidence_label": "A",
+      "timeframe": "Current",
+      "item_text": "Before I move forward on a significant kingdom initiative, I bring it to people I trust for honest input — not to get permission, but to test whether I am seeing clearly.",
+      "prompt_text": "Before I move forward on a significant kingdom initiative, I bring it to people I trust for honest input — not to get permission, but to test whether I am seeing clearly.",
+      "response_format": "AGR6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "Strongly disagree",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "Disagree",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "Slightly disagree",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "Slightly agree",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "Agree",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Strongly agree",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 56,
+      "intended_signal": "Accountability-before-action operating style",
+      "confound_controlled": "Critical maturity marker; pairs with PAD-001 perception and PAF-011 shadow",
+      "social_desirability_risk": "H",
+      "pilot_priority": "PPC",
+      "cultural_note": "Works broadly",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PAD-010",
+      "original_item_id": "AD-024",
+      "domain": "AP Direction",
+      "primary_construct": "FI-1",
+      "secondary_tags": [
+        "EC-1"
+      ],
+      "phenotype_layer": "Shadow",
+      "evidence_label": "F",
+      "timeframe": "Past 3 yr",
+      "item_text": "In the past three years, I can identify a significant thing I started that I moved away from before it was stable — and others had to carry forward what I began.",
+      "prompt_text": "In the past three years, I can identify a significant thing I started that I moved away from before it was stable — and others had to carry forward what I began.",
+      "response_format": "EX6",
+      "reverse_keyed": true,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "I cannot identify an example",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "I can identify a weak or unclear example",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "I can identify one concrete example",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "I can identify more than one concrete example",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "This is a recurring pattern",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Others could readily confirm this pattern",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 57,
+      "intended_signal": "Shadow: novelty-and-abandonment; serial initiation without establishment",
+      "confound_controlled": "Strong agree = critical Apostolic shadow; pairs with PAD-007",
+      "social_desirability_risk": "L",
+      "pilot_priority": "PPC",
+      "cultural_note": "Low SD; important for Apostolic integrity",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PAD-011",
+      "original_item_id": null,
+      "domain": "AP Direction",
+      "primary_construct": "FI-2",
+      "secondary_tags": [],
+      "phenotype_layer": "Beh-Hist",
+      "evidence_label": "B",
+      "timeframe": "Past 12 mo",
+      "item_text": "In the past 12 months, I took a concrete step toward a person, network, or place with little meaningful gospel access — including nearby immigrant, workplace, neighborhood, campus, or other networks.",
+      "prompt_text": "In the past 12 months, I took a concrete step toward a person, network, or place with little meaningful gospel access — including nearby immigrant, workplace, neighborhood, campus, or other networks.",
+      "response_format": "EX6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "I cannot identify an example",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "I can identify a weak or unclear example",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "I can identify one concrete example",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "I can identify more than one concrete example",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "This is a recurring pattern",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Others could readily confirm this pattern",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 58,
+      "intended_signal": "Frontier-engagement behavioral",
+      "confound_controlled": "\"Including nearby...\" prevents international-missions-only interpretation",
+      "social_desirability_risk": "M",
+      "pilot_priority": "PPC",
+      "cultural_note": "Does not require international travel; local networks sufficient",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PAF-001",
+      "original_item_id": "AF-001",
+      "domain": "AP Formation",
+      "primary_construct": "SD-1",
+      "secondary_tags": [],
+      "phenotype_layer": "Perception",
+      "evidence_label": "A",
+      "timeframe": "Current",
+      "item_text": "I find that I genuinely want to know God — not just know about him — and this desire exists apart from what it produces in ministry.",
+      "prompt_text": "I find that I genuinely want to know God — not just know about him — and this desire exists apart from what it produces in ministry.",
+      "response_format": "AGR6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "Strongly disagree",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "Disagree",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "Slightly disagree",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "Slightly agree",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "Agree",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Strongly agree",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 59,
+      "intended_signal": "Hunger for God: desire beyond ministry outcomes",
+      "confound_controlled": "Very High SD; requires PAF-002 behavioral and PAF-003 shadow",
+      "social_desirability_risk": "VH",
+      "pilot_priority": "PPC",
+      "cultural_note": "Works across contexts",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PAF-002",
+      "original_item_id": "AF-002",
+      "domain": "AP Formation",
+      "primary_construct": "SD-1",
+      "secondary_tags": [],
+      "phenotype_layer": "Beh-Hist",
+      "evidence_label": "B",
+      "timeframe": "Past 12 mo",
+      "item_text": "In the past 12 months, I can identify a sustained period when personal prayer and Scripture remained important to me even when ministry activity or visible results were limited.",
+      "prompt_text": "In the past 12 months, I can identify a sustained period when personal prayer and Scripture remained important to me even when ministry activity or visible results were limited.",
+      "response_format": "EX6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "I cannot identify an example",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "I can identify a weak or unclear example",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "I can identify one concrete example",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "I can identify more than one concrete example",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "This is a recurring pattern",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Others could readily confirm this pattern",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 60,
+      "intended_signal": "Hunger for God behavioral anchor",
+      "confound_controlled": "Core anchor; \"when results were limited\" tests genuine desire vs. duty",
+      "social_desirability_risk": "H",
+      "pilot_priority": "PPC",
+      "cultural_note": "Works across contexts",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PAF-003",
+      "original_item_id": "AF-003",
+      "domain": "AP Formation",
+      "primary_construct": "SD-1",
+      "secondary_tags": [],
+      "phenotype_layer": "Shadow",
+      "evidence_label": "F",
+      "timeframe": "Current",
+      "item_text": "My sense of connection with God and sense of his direction are primarily expressed through what I am doing for him — my ministry activity and work.",
+      "prompt_text": "My sense of connection with God and sense of his direction are primarily expressed through what I am doing for him — my ministry activity and work.",
+      "response_format": "AGR6",
+      "reverse_keyed": true,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "Strongly disagree",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "Disagree",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "Slightly disagree",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "Slightly agree",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "Agree",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Strongly agree",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 61,
+      "intended_signal": "Shadow: ministry displacement of prayer life",
+      "confound_controlled": "Strong agree = SD-1 shadow (doing-for-God replaces being-with-God)",
+      "social_desirability_risk": "L",
+      "pilot_priority": "PPC",
+      "cultural_note": "Low SD; important for Apostolic spiritual integrity",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PAF-004",
+      "original_item_id": "AF-004",
+      "domain": "AP Formation",
+      "primary_construct": "SD-2",
+      "secondary_tags": [],
+      "phenotype_layer": "Instinct",
+      "evidence_label": "A",
+      "timeframe": "Current",
+      "item_text": "When I sense that God may be showing me something, I feel a pull toward testing that sense rather than immediately acting on it.",
+      "prompt_text": "When I sense that God may be showing me something, I feel a pull toward testing that sense rather than immediately acting on it.",
+      "response_format": "AGR6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "Strongly disagree",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "Disagree",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "Slightly disagree",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "Slightly agree",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "Agree",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Strongly agree",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 62,
+      "intended_signal": "Tested-before-acting instinct",
+      "confound_controlled": "Very High SD; pairs with PAF-005 behavioral and PAF-006 shadow",
+      "social_desirability_risk": "VH",
+      "pilot_priority": "PPC",
+      "cultural_note": "Works across charismatic and non-charismatic contexts",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PAF-005",
+      "original_item_id": "AF-005",
+      "domain": "AP Formation",
+      "primary_construct": "SD-2",
+      "secondary_tags": [],
+      "phenotype_layer": "Beh-Hist",
+      "evidence_label": "B",
+      "timeframe": "Past 3 yr",
+      "item_text": "In the past three years, I can identify a time I held back from acting on a strong spiritual impression until I had tested it — and what I found through that process changed what I actually did.",
+      "prompt_text": "In the past three years, I can identify a time I held back from acting on a strong spiritual impression until I had tested it — and what I found through that process changed what I actually did.",
+      "response_format": "EX6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "I cannot identify an example",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "I can identify a weak or unclear example",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "I can identify one concrete example",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "I can identify more than one concrete example",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "This is a recurring pattern",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Others could readily confirm this pattern",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 63,
+      "intended_signal": "Tested obedience: outcome-change specificity",
+      "confound_controlled": "Core anchor; \"changed what I actually did\" distinguishes from claimed-not-practiced testing",
+      "social_desirability_risk": "VH",
+      "pilot_priority": "PPC",
+      "cultural_note": "Works across contexts; requires actual behavioral change",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PAF-006",
+      "original_item_id": "AF-006",
+      "domain": "AP Formation",
+      "primary_construct": "SD-2",
+      "secondary_tags": [],
+      "phenotype_layer": "Shadow",
+      "evidence_label": "F",
+      "timeframe": "Current",
+      "item_text": "When I feel strongly that God is leading me somewhere, I trust that impression enough to act without checking it with others or testing it through Scripture.",
+      "prompt_text": "When I feel strongly that God is leading me somewhere, I trust that impression enough to act without checking it with others or testing it through Scripture.",
+      "response_format": "AGR6",
+      "reverse_keyed": true,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "Strongly disagree",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "Disagree",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "Slightly disagree",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "Slightly agree",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "Agree",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Strongly agree",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 64,
+      "intended_signal": "Shadow: untested impressionism; bypassing accountability",
+      "confound_controlled": "Strong agree = SD-2 shadow; critical for Apostolic safety",
+      "social_desirability_risk": "L",
+      "pilot_priority": "PPC",
+      "cultural_note": "Low SD; important across traditions",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PAF-007",
+      "original_item_id": "AF-007",
+      "domain": "AP Formation",
+      "primary_construct": "SD-3",
+      "secondary_tags": [],
+      "phenotype_layer": "Beh-Hist",
+      "evidence_label": "B",
+      "timeframe": "Past 12 mo",
+      "item_text": "In the past 12 months, how often did you pray for a specific named person, place, or community — not general prayer, but prayer with identifiable people or situations in mind?",
+      "prompt_text": "In the past 12 months, how often did you pray for a specific named person, place, or community — not general prayer, but prayer with identifiable people or situations in mind?",
+      "response_format": "FREQ6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "Never",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "Once",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "A few times",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "Monthly",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "Several times per month",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Weekly or more",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 65,
+      "intended_signal": "Sustained specific intercession frequency",
+      "confound_controlled": "Specificity instruction guards against counting generic prayer",
+      "social_desirability_risk": "H",
+      "pilot_priority": "PPC",
+      "cultural_note": "Works across contexts; one item for SD-3 — monitor in pilot",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PAF-008",
+      "original_item_id": "AF-009",
+      "domain": "AP Formation",
+      "primary_construct": "SD-4",
+      "secondary_tags": [],
+      "phenotype_layer": "Instinct",
+      "evidence_label": "A",
+      "timeframe": "Current",
+      "item_text": "I believe that ordinary disciples — without theological training or ministry titles — can read, understand, and obey Scripture in ways that genuinely form their lives and those around them.",
+      "prompt_text": "I believe that ordinary disciples — without theological training or ministry titles — can read, understand, and obey Scripture in ways that genuinely form their lives and those around them.",
+      "response_format": "AGR6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "Strongly disagree",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "Disagree",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "Slightly disagree",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "Slightly agree",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "Agree",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Strongly agree",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 66,
+      "intended_signal": "Ordinary-disciple Scripture-confidence conviction",
+      "confound_controlled": "Critical SD-4 marker; only item for this construct — mark as Limited",
+      "social_desirability_risk": "H",
+      "pilot_priority": "PPC",
+      "cultural_note": "Works broadly; important cross-cultural signal",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PAF-009",
+      "original_item_id": "AF-011",
+      "domain": "AP Formation",
+      "primary_construct": "SD-5",
+      "secondary_tags": [],
+      "phenotype_layer": "Instinct",
+      "evidence_label": "A",
+      "timeframe": "Current",
+      "item_text": "When I bring a specific situation before God in prayer, I genuinely expect that he can and may act — not just as a theological belief, but as a posture toward this particular situation.",
+      "prompt_text": "When I bring a specific situation before God in prayer, I genuinely expect that he can and may act — not just as a theological belief, but as a posture toward this particular situation.",
+      "response_format": "AGR6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "Strongly disagree",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "Disagree",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "Slightly disagree",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "Slightly agree",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "Agree",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Strongly agree",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 67,
+      "intended_signal": "Expectant faith orientation: specific not generic",
+      "confound_controlled": "Very High SD; specificity is construct requirement; pair with PAF-010 shadow",
+      "social_desirability_risk": "VH",
+      "pilot_priority": "PPC",
+      "cultural_note": "Works broadly",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PAF-010",
+      "original_item_id": "AF-013",
+      "domain": "AP Formation",
+      "primary_construct": "SD-5",
+      "secondary_tags": [],
+      "phenotype_layer": "Shadow",
+      "evidence_label": "F",
+      "timeframe": "Current",
+      "item_text": "When I pray for something and it does not happen, I sometimes wonder whether the outcome reflects a failure of faith — mine or others'.",
+      "prompt_text": "When I pray for something and it does not happen, I sometimes wonder whether the outcome reflects a failure of faith — mine or others'.",
+      "response_format": "AGR6",
+      "reverse_keyed": true,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "Strongly disagree",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "Disagree",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "Slightly disagree",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "Slightly agree",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "Agree",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Strongly agree",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 68,
+      "intended_signal": "Shadow: performance faith; outcome as faith measurement",
+      "confound_controlled": "Strong agree = SD-5 shadow; important pastoral safety item",
+      "social_desirability_risk": "L",
+      "pilot_priority": "PPC",
+      "cultural_note": "Low SD",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PAF-011",
+      "original_item_id": "AF-023",
+      "domain": "AP Formation",
+      "primary_construct": "SD-2",
+      "secondary_tags": [
+        "FI-1"
+      ],
+      "phenotype_layer": "Shadow",
+      "evidence_label": "F",
+      "timeframe": "Current",
+      "item_text": "When I feel strongly that something needs to happen, I tend to move forward even without clear communal discernment or confirmation from people I trust.",
+      "prompt_text": "When I feel strongly that something needs to happen, I tend to move forward even without clear communal discernment or confirmation from people I trust.",
+      "response_format": "AGR6",
+      "reverse_keyed": true,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "Strongly disagree",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "Disagree",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "Slightly disagree",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "Slightly agree",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "Agree",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Strongly agree",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 69,
+      "intended_signal": "Shadow: self-authorization; bypassing communal accountability",
+      "confound_controlled": "Strong agree = critical Apostolic shadow; pairs with PAF-006",
+      "social_desirability_risk": "L",
+      "pilot_priority": "PPC",
+      "cultural_note": "Low SD; critical for Apostolic safety",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PAF-012",
+      "original_item_id": "AF-016",
+      "domain": "AP Formation",
+      "primary_construct": "EC-2",
+      "secondary_tags": [],
+      "phenotype_layer": "Beh-Hist",
+      "evidence_label": "B",
+      "timeframe": "Past 3 yr",
+      "item_text": "In the past three years, I can identify a time I continued something that mattered through genuine resistance or difficulty — not just inconvenience — without walking away.",
+      "prompt_text": "In the past three years, I can identify a time I continued something that mattered through genuine resistance or difficulty — not just inconvenience — without walking away.",
+      "response_format": "EX6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "I cannot identify an example",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "I can identify a weak or unclear example",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "I can identify one concrete example",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "I can identify more than one concrete example",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "This is a recurring pattern",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Others could readily confirm this pattern",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 70,
+      "intended_signal": "Persistence through resistance behavior",
+      "confound_controlled": "\"Not just inconvenience\" distinguishes construct-relevant persistence",
+      "social_desirability_risk": "H",
+      "pilot_priority": "PPC",
+      "cultural_note": "Works across formal/informal",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PAM-001",
+      "original_item_id": "AM-001",
+      "domain": "AP Mult.",
+      "primary_construct": "DT-1",
+      "secondary_tags": [],
+      "phenotype_layer": "Perception",
+      "evidence_label": "A",
+      "timeframe": "Current",
+      "item_text": "I am most energized in conversations that help someone move from confusion or doubt toward genuine conviction about who Jesus is.",
+      "prompt_text": "I am most energized in conversations that help someone move from confusion or doubt toward genuine conviction about who Jesus is.",
+      "response_format": "AGR6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "Strongly disagree",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "Disagree",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "Slightly disagree",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "Slightly agree",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "Agree",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Strongly agree",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 71,
+      "intended_signal": "Belief-transformation engagement",
+      "confound_controlled": "Strongest Apostolic indicator; pairs with PAM-004 behavioral",
+      "social_desirability_risk": "H",
+      "pilot_priority": "PPC",
+      "cultural_note": "Works broadly",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PAM-002",
+      "original_item_id": "AM-004",
+      "domain": "AP Mult.",
+      "primary_construct": "LE-1",
+      "secondary_tags": [],
+      "phenotype_layer": "Instinct",
+      "evidence_label": "A",
+      "timeframe": "Current",
+      "item_text": "I genuinely believe the people I work with — even early in their faith — can hear from God, understand Scripture, and make sound decisions without me present.",
+      "prompt_text": "I genuinely believe the people I work with — even early in their faith — can hear from God, understand Scripture, and make sound decisions without me present.",
+      "response_format": "AGR6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "Strongly disagree",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "Disagree",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "Slightly disagree",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "Slightly agree",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "Agree",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Strongly agree",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 72,
+      "intended_signal": "Confidence in local disciples",
+      "confound_controlled": "Critical LE-1 marker; pairs with PAM-006 shadow",
+      "social_desirability_risk": "H",
+      "pilot_priority": "PPC",
+      "cultural_note": "Works broadly; important cross-cultural signal",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PAM-003",
+      "original_item_id": "AM-003",
+      "domain": "AP Mult.",
+      "primary_construct": "DT-3",
+      "secondary_tags": [],
+      "phenotype_layer": "Instinct",
+      "evidence_label": "A",
+      "timeframe": "Current",
+      "item_text": "When I help someone begin following Jesus, I think early about whether they could eventually help someone else do the same.",
+      "prompt_text": "When I help someone begin following Jesus, I think early about whether they could eventually help someone else do the same.",
+      "response_format": "AGR6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "Strongly disagree",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "Disagree",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "Slightly disagree",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "Slightly agree",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "Agree",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Strongly agree",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 73,
+      "intended_signal": "Reproducibility instinct in disciple-formation",
+      "confound_controlled": "Distinguishes Apostolic from Teaching-for-depth; pairs with PAM-006 shadow",
+      "social_desirability_risk": "H",
+      "pilot_priority": "PPC",
+      "cultural_note": "Works broadly",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PAM-004",
+      "original_item_id": "AM-008",
+      "domain": "AP Mult.",
+      "primary_construct": "DT-1",
+      "secondary_tags": [],
+      "phenotype_layer": "Beh-Hist",
+      "evidence_label": "B",
+      "timeframe": "Past 3 yr",
+      "item_text": "In the past three years, I can identify a specific person I walked with through a genuine worldview shift toward the gospel — through sustained relationship, not primarily argument.",
+      "prompt_text": "In the past three years, I can identify a specific person I walked with through a genuine worldview shift toward the gospel — through sustained relationship, not primarily argument.",
+      "response_format": "EX6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "I cannot identify an example",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "I can identify a weak or unclear example",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "I can identify one concrete example",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "I can identify more than one concrete example",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "This is a recurring pattern",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Others could readily confirm this pattern",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 74,
+      "intended_signal": "Sustained belief-transformation behavior",
+      "confound_controlled": "Core anchor; \"sustained relationship, not primarily argument\" is construct-essential",
+      "social_desirability_risk": "H",
+      "pilot_priority": "PPC",
+      "cultural_note": "Works across contexts; no formal ministry required",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PAM-005",
+      "original_item_id": "AM-010",
+      "domain": "AP Mult.",
+      "primary_construct": "LE-2",
+      "secondary_tags": [],
+      "phenotype_layer": "Beh-Hist",
+      "evidence_label": "B",
+      "timeframe": "Past 3 yr",
+      "item_text": "In the past three years, I can identify a specific time I gave someone real decision-making authority — not just tasks — in a domain that mattered, and let them own both the process and the outcome.",
+      "prompt_text": "In the past three years, I can identify a specific time I gave someone real decision-making authority — not just tasks — in a domain that mattered, and let them own both the process and the outcome.",
+      "response_format": "EX6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "I cannot identify an example",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "I can identify a weak or unclear example",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "I can identify one concrete example",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "I can identify more than one concrete example",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "This is a recurring pattern",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Others could readily confirm this pattern",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 75,
+      "intended_signal": "Real authority transfer behavior",
+      "confound_controlled": "Core anchor; \"real decision-making, not just tasks\" is construct-essential; pairs with PAM-007/PAM-008 shadows",
+      "social_desirability_risk": "H",
+      "pilot_priority": "PPC",
+      "cultural_note": "Works across formal/informal",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PAM-006",
+      "original_item_id": "AM-013",
+      "domain": "AP Mult.",
+      "primary_construct": "DT-3",
+      "secondary_tags": [],
+      "phenotype_layer": "Shadow",
+      "evidence_label": "F",
+      "timeframe": "Current",
+      "item_text": "The people I have helped begin following Jesus look primarily to me as their model and guide.",
+      "prompt_text": "The people I have helped begin following Jesus look primarily to me as their model and guide.",
+      "response_format": "AGR6",
+      "reverse_keyed": true,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "Strongly disagree",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "Disagree",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "Slightly disagree",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "Slightly agree",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "Agree",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Strongly agree",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 76,
+      "intended_signal": "Shadow: hub discipleship; personal dependency creation",
+      "confound_controlled": "Strong agree = DT-3 shadow",
+      "social_desirability_risk": "L",
+      "pilot_priority": "PPC",
+      "cultural_note": "Low SD; important integrity marker",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PAM-007",
+      "original_item_id": "AM-016",
+      "domain": "AP Mult.",
+      "primary_construct": "LE-2",
+      "secondary_tags": [],
+      "phenotype_layer": "Shadow",
+      "evidence_label": "F",
+      "timeframe": "Current",
+      "item_text": "When I give someone responsibility for something I care about, I find it genuinely difficult to step back — I tend to monitor or re-engage more than the situation requires.",
+      "prompt_text": "When I give someone responsibility for something I care about, I find it genuinely difficult to step back — I tend to monitor or re-engage more than the situation requires.",
+      "response_format": "AGR6",
+      "reverse_keyed": true,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "Strongly disagree",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "Disagree",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "Slightly disagree",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "Slightly agree",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "Agree",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Strongly agree",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 77,
+      "intended_signal": "Shadow: releasing without releasing; control persistence",
+      "confound_controlled": "Strong agree = inability to release after empowering; pairs with PAM-008",
+      "social_desirability_risk": "L",
+      "pilot_priority": "PPC",
+      "cultural_note": "Low SD",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PAM-008",
+      "original_item_id": "AM-021",
+      "domain": "AP Mult.",
+      "primary_construct": "LE-2",
+      "secondary_tags": [],
+      "phenotype_layer": "Shadow",
+      "evidence_label": "F",
+      "timeframe": "Past 3 yr",
+      "item_text": "When I have said I trust someone to lead or decide, I have later re-entered the situation to guide, correct, or adjust — more often than the situation actually required.",
+      "prompt_text": "When I have said I trust someone to lead or decide, I have later re-entered the situation to guide, correct, or adjust — more often than the situation actually required.",
+      "response_format": "AGR6",
+      "reverse_keyed": true,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "Strongly disagree",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "Disagree",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "Slightly disagree",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "Slightly agree",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "Agree",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Strongly agree",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 78,
+      "intended_signal": "Shadow: stated-vs-actual trust gap",
+      "confound_controlled": "Historical pattern version; pairs with PAM-007 to detect pattern vs. isolated incident",
+      "social_desirability_risk": "L",
+      "pilot_priority": "PPC",
+      "cultural_note": "Low SD; essential FP item",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PAM-009",
+      "original_item_id": "AM-007",
+      "domain": "AP Mult.",
+      "primary_construct": "DT-3",
+      "secondary_tags": [],
+      "phenotype_layer": "Outcome",
+      "evidence_label": "O",
+      "timeframe": "Past 3 yr",
+      "item_text": "In the past three years, I have seen someone I helped begin following Jesus take steps to help another person do the same — without me initiating that second relationship.",
+      "prompt_text": "In the past three years, I have seen someone I helped begin following Jesus take steps to help another person do the same — without me initiating that second relationship.",
+      "response_format": "EX6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "I cannot identify an example",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "I can identify a weak or unclear example",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "I can identify one concrete example",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "I can identify more than one concrete example",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "This is a recurring pattern",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Others could readily confirm this pattern",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 79,
+      "intended_signal": "Second-generation disciple-making self-reported outcome",
+      "confound_controlled": "O-evidence; block instruction replaces disclaimer; requires specificity",
+      "social_desirability_risk": "H",
+      "pilot_priority": "UA",
+      "cultural_note": "Requires 3+ years of disciple-making engagement",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PAM-010",
+      "original_item_id": "AM-009",
+      "domain": "AP Mult.",
+      "primary_construct": "DT-2",
+      "secondary_tags": [],
+      "phenotype_layer": "Beh-Hist",
+      "evidence_label": "B",
+      "timeframe": "Past 3 yr",
+      "item_text": "In the past three years, I can identify a time I described a specific vision for what kingdom community could look like in a particular place — and at least one other person moved toward active participation.",
+      "prompt_text": "In the past three years, I can identify a time I described a specific vision for what kingdom community could look like in a particular place — and at least one other person moved toward active participation.",
+      "response_format": "EX6",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "1",
+          "option_text": "I cannot identify an example",
+          "raw_value": 1
+        },
+        {
+          "option_key": "2",
+          "option_text": "I can identify a weak or unclear example",
+          "raw_value": 2
+        },
+        {
+          "option_key": "3",
+          "option_text": "I can identify one concrete example",
+          "raw_value": 3
+        },
+        {
+          "option_key": "4",
+          "option_text": "I can identify more than one concrete example",
+          "raw_value": 4
+        },
+        {
+          "option_key": "5",
+          "option_text": "This is a recurring pattern",
+          "raw_value": 5
+        },
+        {
+          "option_key": "6",
+          "option_text": "Others could readily confirm this pattern",
+          "raw_value": 6
+        }
+      ],
+      "display_order": 80,
+      "intended_signal": "Vision-articulation-and-mobilization behavior",
+      "confound_controlled": "\"At least one person moved\" grounds vision in actual response",
+      "social_desirability_risk": "H",
+      "pilot_priority": "PPC",
+      "cultural_note": "Works across contexts",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PX-001",
+      "original_item_id": "X-002",
+      "domain": "Cross",
+      "primary_construct": "SH-1",
+      "secondary_tags": [
+        "FI-2"
+      ],
+      "phenotype_layer": "Perception",
+      "evidence_label": "A",
+      "timeframe": "No TF",
+      "item_text": "When I walk into a group or gathering, I find myself most naturally noticing: (A) who seems to be struggling or disconnected, or (B) who hasn't yet had meaningful access to the gospel.",
+      "prompt_text": "When I walk into a group or gathering, I find myself most naturally noticing:",
+      "response_format": "FC2",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "A",
+          "option_text": "who seems to be struggling or disconnected, or",
+          "raw_value": 1
+        },
+        {
+          "option_key": "B",
+          "option_text": "who hasn't yet had meaningful access to the gospel.",
+          "raw_value": 2
+        }
+      ],
+      "display_order": 81,
+      "intended_signal": "A = SH-1 care-attention. B = FI-2 frontier-attention.",
+      "confound_controlled": "Distinguishes Shepherding from Apostolic social perception",
+      "social_desirability_risk": "M",
+      "pilot_priority": "PPC",
+      "cultural_note": "Works across contexts",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PX-002",
+      "original_item_id": "X-004",
+      "domain": "Cross",
+      "primary_construct": "FI-1",
+      "secondary_tags": [
+        "SH-4"
+      ],
+      "phenotype_layer": "Instinct",
+      "evidence_label": "A",
+      "timeframe": "No TF",
+      "item_text": "When I think about my primary role in communities I am part of, I naturally gravitate toward: (A) starting new things and moving people toward a mission frontier, or (B) strengthening the care and mutual support of people already present.",
+      "prompt_text": "When I think about my primary role in communities I am part of, I naturally gravitate toward:",
+      "response_format": "FC2",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "A",
+          "option_text": "starting new things and moving people toward a mission frontier, or",
+          "raw_value": 1
+        },
+        {
+          "option_key": "B",
+          "option_text": "strengthening the care and mutual support of people already present.",
+          "raw_value": 2
+        }
+      ],
+      "display_order": 82,
+      "intended_signal": "A = FI-1 frontier energy. B = SH-4 community-building energy.",
+      "confound_controlled": "Apostolic initiation vs. Shepherding consolidation",
+      "social_desirability_risk": "M",
+      "pilot_priority": "PPC",
+      "cultural_note": "Works broadly",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PX-003",
+      "original_item_id": "X-005",
+      "domain": "Cross",
+      "primary_construct": "TE-2",
+      "secondary_tags": [
+        "DT-1"
+      ],
+      "phenotype_layer": "Op-Style",
+      "evidence_label": "A",
+      "timeframe": "No TF",
+      "item_text": "When I am helping someone work through a significant belief or question, I am more naturally drawn to: (A) understanding what they believe and helping them see the truth more clearly, or (B) staying in relationship long enough for genuine conviction to form through shared life.",
+      "prompt_text": "When I am helping someone work through a significant belief or question, I am more naturally drawn to:",
+      "response_format": "FC2",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "A",
+          "option_text": "understanding what they believe and helping them see the truth more clearly, or",
+          "raw_value": 1
+        },
+        {
+          "option_key": "B",
+          "option_text": "staying in relationship long enough for genuine conviction to form through shared life.",
+          "raw_value": 2
+        }
+      ],
+      "display_order": 83,
+      "intended_signal": "A = TE-2 clarity instinct. B = DT-1 sustained-relational conviction.",
+      "confound_controlled": "Teaching vs. Apostolic Multiplying differentiation",
+      "social_desirability_risk": "M",
+      "pilot_priority": "PPC",
+      "cultural_note": "Works broadly",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PX-004",
+      "original_item_id": "X-009",
+      "domain": "Cross",
+      "primary_construct": "PL-2",
+      "secondary_tags": [
+        "TE-3"
+      ],
+      "phenotype_layer": "Perception",
+      "evidence_label": "A",
+      "timeframe": "No TF",
+      "item_text": "I am more naturally drawn to noticing: (A) when a community is drifting from faithfulness to Jesus in how it lives, or (B) when a community is accepting beliefs or teachings not well-supported by Scripture.",
+      "prompt_text": "I am more naturally drawn to noticing:",
+      "response_format": "FC2",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "A",
+          "option_text": "when a community is drifting from faithfulness to Jesus in how it lives, or",
+          "raw_value": 1
+        },
+        {
+          "option_key": "B",
+          "option_text": "when a community is accepting beliefs or teachings not well-supported by Scripture.",
+          "raw_value": 2
+        }
+      ],
+      "display_order": 84,
+      "intended_signal": "A = PL-2 Prophetic. B = TE-3 Teaching.",
+      "confound_controlled": "Prophetic faithfulness-direction vs. Teaching doctrinal-accuracy",
+      "social_desirability_risk": "M",
+      "pilot_priority": "PPC",
+      "cultural_note": "Works across contexts",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PX-005",
+      "original_item_id": "X-010",
+      "domain": "Cross",
+      "primary_construct": "FI-2",
+      "secondary_tags": [
+        "EV-2"
+      ],
+      "phenotype_layer": "Perception",
+      "evidence_label": "A",
+      "timeframe": "No TF",
+      "item_text": "When I think about the people I most want to reach with the gospel, I tend to focus on: (A) people with little or no meaningful access to the gospel, or (B) people in my existing relational network who have not yet followed Jesus.",
+      "prompt_text": "When I think about the people I most want to reach with the gospel, I tend to focus on:",
+      "response_format": "FC2",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "A",
+          "option_text": "people with little or no meaningful access to the gospel, or",
+          "raw_value": 1
+        },
+        {
+          "option_key": "B",
+          "option_text": "people in my existing relational network who have not yet followed Jesus.",
+          "raw_value": 2
+        }
+      ],
+      "display_order": 85,
+      "intended_signal": "A = FI-2 Apostolic frontier. B = EV-2 Evangelistic proximity.",
+      "confound_controlled": "Apostolic frontier vs. Evangelistic relational-network",
+      "social_desirability_risk": "M",
+      "pilot_priority": "PPC",
+      "cultural_note": "Wording review needed to avoid implying international missions only",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PX-006",
+      "original_item_id": "X-014",
+      "domain": "Cross",
+      "primary_construct": "TE-1",
+      "secondary_tags": [
+        "FI-1"
+      ],
+      "phenotype_layer": "Op-Style",
+      "evidence_label": "A",
+      "timeframe": "No TF",
+      "item_text": "When I approach a complex situation or question, I am more naturally drawn to: (A) organizing what Scripture says and how it fits together, or (B) identifying what needs to happen and who needs to make it possible.",
+      "prompt_text": "When I approach a complex situation or question, I am more naturally drawn to:",
+      "response_format": "FC2",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "A",
+          "option_text": "organizing what Scripture says and how it fits together, or",
+          "raw_value": 1
+        },
+        {
+          "option_key": "B",
+          "option_text": "identifying what needs to happen and who needs to make it possible.",
+          "raw_value": 2
+        }
+      ],
+      "display_order": 86,
+      "intended_signal": "A = TE-1 systematic-Scripture thinking. B = FI-1/EC-1 mission-organization thinking.",
+      "confound_controlled": "Teaching systematic vs. Apostolic mission-organization cognitive style",
+      "social_desirability_risk": "M",
+      "pilot_priority": "PPC",
+      "cultural_note": "Works broadly",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PX-007",
+      "original_item_id": "X-006",
+      "domain": "Cross",
+      "primary_construct": "PL-3",
+      "secondary_tags": [
+        "SH-3"
+      ],
+      "phenotype_layer": "Instinct",
+      "evidence_label": "A",
+      "timeframe": "No TF",
+      "item_text": "When someone needs both truth and care — where the true thing might hurt them — I tend to: (A) lead with the truth and trust the care will follow, or (B) lead with the care and trust the right moment for truth will emerge.",
+      "prompt_text": "When someone needs both truth and care — where the true thing might hurt them — I tend to:",
+      "response_format": "FC2",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "A",
+          "option_text": "lead with the truth and trust the care will follow, or",
+          "raw_value": 1
+        },
+        {
+          "option_key": "B",
+          "option_text": "lead with the care and trust the right moment for truth will emerge.",
+          "raw_value": 2
+        }
+      ],
+      "display_order": 87,
+      "intended_signal": "A = PL-3 truth-first instinct. B = SH-2/SH-3 care-first instinct.",
+      "confound_controlled": "Prophetic vs. Shepherding under pressure to speak",
+      "social_desirability_risk": "M",
+      "pilot_priority": "PPC",
+      "cultural_note": "Works broadly; assumes respondent values both",
+      "product_b_relevance": true
+    },
+    {
+      "item_id": "PX-008",
+      "original_item_id": "X-008",
+      "domain": "Cross",
+      "primary_construct": "EV-4",
+      "secondary_tags": [
+        "TE-4"
+      ],
+      "phenotype_layer": "Instinct",
+      "evidence_label": "A",
+      "timeframe": "No TF",
+      "item_text": "When I invest in another person's growth, I am more energized by: (A) helping them be able to share the gospel with the people in their life, or (B) helping them engage Scripture faithfully for themselves.",
+      "prompt_text": "When I invest in another person's growth, I am more energized by:",
+      "response_format": "FC2",
+      "reverse_keyed": false,
+      "options": [
+        {
+          "option_key": "A",
+          "option_text": "helping them be able to share the gospel with the people in their life, or",
+          "raw_value": 1
+        },
+        {
+          "option_key": "B",
+          "option_text": "helping them engage Scripture faithfully for themselves.",
+          "raw_value": 2
+        }
+      ],
+      "display_order": 88,
+      "intended_signal": "A = EV-4 witness-multiplication. B = TE-4 Scripture-formation.",
+      "confound_controlled": "Evangelistic vs. Teaching equipping instinct",
+      "social_desirability_risk": "M",
+      "pilot_priority": "PPC",
+      "cultural_note": "Works broadly",
+      "product_b_relevance": true
+    }
+  ]
+}
