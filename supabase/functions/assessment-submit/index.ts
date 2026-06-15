@@ -168,7 +168,7 @@ function computeScore(
       shadowFlags.push({
         pilot_id: rule.pilot_id,
         domain_key: dk,
-        note: `High score on shadow indicator ${rule.pilot_id} — result in ${dk} domain warrants caution.`,
+        note: `One of your answers raised a caution flag in the ${dk} pattern. Hold that score more loosely and test it with people who know you.`,
       });
     }
   }
@@ -222,17 +222,17 @@ function renderResultCopy(
 
   return {
     greeting: `${firstName}, here is a summary of your Fivefold Stewardship patterns based on your responses.`,
-    pilot_disclaimer: "This is a pilot assessment that has not yet been psychometrically validated. The patterns below reflect your self-reported responses. They are offered for reflection, not as a definitive profile or identity label.",
+    pilot_disclaimer: "This is a pilot assessment that has not yet been tested with enough people to prove its scores are reliable. The patterns below are based on what you reported about yourself. Use them for reflection — not as a final profile or identity label.",
     domain_summary: ranked,
     top_domains: topLabels,
     narrative_summary: ranked.length >= 2
-      ? `Your responses show the strongest patterns in ${topLabels}. These reflect how you tend to perceive, engage, and contribute — not a fixed category or calling.`
+      ? `Your answers show the strongest patterns in ${topLabels}. These reflect how you tend to see things and engage — not a fixed category or calling.`
       : "Insufficient data to generate a domain summary.",
-    behavioral_note: `Your responses included behavioral indicators — specific past experiences you identified. Where these are present, they strengthen the pattern. Where they are absent or low, treat the orientation scores with additional caution.`,
+    behavioral_note: `Some of your answers gave examples from your real ministry experience. Where those examples are present, they strengthen the pattern. Where they are absent or low, hold your scores in those areas with more caution.`,
     next_steps: [
-      "Share these patterns with someone who knows your ministry context well and ask whether they see the same things.",
-      "Notice which domain descriptions produce recognition — and which produce surprise or disagreement.",
-      "These patterns are a starting point for conversation, not a conclusion.",
+      "Share these patterns with someone who knows your ministry context well. Ask whether they see the same things.",
+      "Notice which descriptions feel like recognition — and which produce surprise or disagreement.",
+      "Use these results to start a conversation, not to make a final decision.",
     ],
   };
 }
@@ -271,10 +271,10 @@ async function sendResultEmail(
           <td style="background:#ffffff;padding:32px;border:1px solid #e5e7eb;border-top:none;border-radius:0 0 12px 12px;">
             <p style="margin:0 0 16px;font-size:16px;color:#1a1a1a;">Hi ${esc(firstName)},</p>
             <p style="margin:0 0 24px;font-size:15px;color:#444444;line-height:1.65;">
-              Thank you for completing the Fivefold Stewardship Assessment pilot. Your results are ready.
+              Thank you for completing the Fivefold Stewardship Assessment. Your results are ready.
             </p>
             <p style="margin:0 0 24px;font-size:13px;color:#666666;line-height:1.6;background:#f9fafb;padding:16px;border-radius:8px;border-left:3px solid #dcb55a;">
-              This is an unvalidated pilot instrument. Your results are a starting point for reflection and conversation — not a definitive profile or identity label.
+              This is a pilot assessment that has not yet been tested with enough people to prove its scores are reliable. Use your results to start a conversation — not to make a final decision about your calling or identity.
             </p>
             <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="margin-bottom:28px;">
               <tr>
