@@ -222,7 +222,7 @@ function renderResultCopy(
 
   return {
     greeting: `${firstName}, here is a summary of your Fivefold Stewardship patterns based on your responses.`,
-    pilot_disclaimer: "This is a pilot assessment that has not yet been tested enough to show how reliable and consistent its scores are. The patterns below are based on what you reported about yourself. Use them for reflection — not as a final profile or identity label.",
+    pilot_disclaimer: "This is a pilot assessment that has not yet been tested enough to show how consistent its scores are or how well they reflect the patterns it aims to measure. The patterns below are based on what you reported about yourself. Use them for reflection — not as a final profile or identity label.",
     domain_summary: ranked,
     top_domains: topLabels,
     narrative_summary: ranked.length >= 2
