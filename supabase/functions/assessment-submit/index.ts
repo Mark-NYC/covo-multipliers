@@ -163,8 +163,10 @@ function computeScore(
       domainScores[dk].evidence_scores[rule.evidence_label].item_count += 1;
     }
 
-    // Shadow flag: if a shadow (F) item scores high after reverse-key, flag it
-    if (rule.evidence_label === "F" && scored >= 5) {
+    // Shadow flag: fires when the respondent agreed with a shadow statement (raw 5 or 6).
+    // All shadow items are reverse_keyed=true with max=6, so raw >= 5 produces scored <= 2.
+    // Checking scored <= 2 correctly catches agreement for both AGR6 and EX6 formats.
+    if (rule.evidence_label === "F" && scored <= 2) {
       shadowFlags.push({
         pilot_id: rule.pilot_id,
         domain_key: dk,
@@ -274,7 +276,7 @@ async function sendResultEmail(
               Thank you for completing the Fivefold Stewardship Assessment. Your results are ready.
             </p>
             <p style="margin:0 0 24px;font-size:13px;color:#666666;line-height:1.6;background:#f9fafb;padding:16px;border-radius:8px;border-left:3px solid #dcb55a;">
-              This is a pilot assessment that has not yet been tested with enough people to prove its scores are reliable. Use your results to start a conversation — not to make a final decision about your calling or identity.
+              This pilot assessment has not yet been tested enough to show how consistent its scores are or how well they reflect the patterns it aims to measure. Use your results to start a conversation — not to make a final decision about your calling or identity.
             </p>
             <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="margin-bottom:28px;">
               <tr>
