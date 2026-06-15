@@ -19,6 +19,7 @@
 // artifact returned to the client; it unlocks a server-rendered result page.
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { shouldFlagShadow } from "./scoring.ts";
 
 const ALLOWED_ORIGINS = new Set([
   "https://covomultipliers.com",
@@ -163,10 +164,7 @@ function computeScore(
       domainScores[dk].evidence_scores[rule.evidence_label].item_count += 1;
     }
 
-    // Shadow flag: fires when the respondent agreed with a shadow statement (raw 5 or 6).
-    // All shadow items are reverse_keyed=true with max=6, so raw >= 5 produces scored <= 2.
-    // Checking scored <= 2 correctly catches agreement for both AGR6 and EX6 formats.
-    if (rule.evidence_label === "F" && scored <= 2) {
+    if (shouldFlagShadow(rule.evidence_label, scored)) {
       shadowFlags.push({
         pilot_id: rule.pilot_id,
         domain_key: dk,
