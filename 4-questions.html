@@ -1,16 +1,15 @@
 
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Stop waiting for the perfect plan. In this free 45-minute live lab, use four questions to choose one person, start one conversation, and take one clear disciple-making step.">
-    <title>Make Disciples This Week: 4 Questions to Get Started — Covo Multipliers</title>
-
-    <!-- Shared site styles (reset, fonts, .btn-pill, etc.) -->
-    <link rel="stylesheet" href="styles.css">
-
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="A free 45-minute lab to help you choose one person, start one conversation, and take one clear disciple-making step this week." name="description"/>
+<title>4 Questions to Start Making Disciples — Covo Multipliers</title>
+<!-- Shared site styles (reset, fonts, .btn-pill, etc.) -->
+<link href="styles.css" rel="stylesheet"/>
+<style>
         /* ==============================================
            Event page styles — 4-questions.html
            Colors and type choices match styles.css
@@ -1222,384 +1221,284 @@
     </style>
 </head>
 <body>
-
-    <!-- ================================================
+<!-- ================================================
          SITE HEADER
     ================================================ -->
-    <header class="site-header">
-        <a class="brand" href="/">Covo Multipliers</a>
-        <a class="back-link" href="/#upcoming-labs">← All labs</a>
-    </header>
-
-
-    <!-- ================================================
+<header class="site-header">
+<a class="brand" href="/">Covo Multipliers</a>
+<a class="back-link" href="/#upcoming-labs">← All labs</a>
+</header>
+<!-- ================================================
          EVENT HERO — copy left, registration card right
     ================================================ -->
-    <section class="event-hero">
-        <div class="event-hero-inner">
-
-            <div class="hero-copy">
-                <span class="event-label">August Covo Multipliers Lab</span>
-                <p class="event-title">You Want to Make Disciples. What Do You Actually Do This Week?</p>
-                <p class="event-description">In 45 minutes, use four simple questions to choose one person, plan one conversation, and take one clear step &mdash; without needing a ministry program or more free time.</p>
-
-                <div class="hero-results" aria-label="What you will leave with">
-                    <span class="hero-result">One person to pursue</span>
-                    <span class="hero-result">One conversation to start</span>
-                    <span class="hero-result">One next step scheduled</span>
-                </div>
-
-                <p class="hero-proof">Live &middot; Practical &middot; Free &middot; 25 seats</p>
-
-                <!-- Populated by JS: formatted date + seat pill -->
-                <div id="hero-event-meta" class="event-meta" hidden></div>
-
-                <!-- Shown while fetching; hidden by renderEvent() on success -->
-                <p class="hero-status" id="hero-loading">Loading event&hellip;</p>
-
-                <!-- Shown on fetch error or slug not found -->
-                <div class="hero-error" id="hero-error" hidden>
-                    <strong>Event not found.</strong>
+<section class="event-hero">
+<div class="event-hero-inner">
+<div class="hero-copy">
+<span class="event-label">August Covo Multipliers Lab</span>
+<p class="event-title">You Want to Make Disciples. What Do You Do This Week?</p>
+<p class="event-description">Use four simple questions to choose one person, start one conversation, and schedule one next step.</p>
+<div aria-label="What you will leave with" class="hero-results">
+<span class="hero-result">Choose one person</span>
+<span class="hero-result">Start one conversation</span>
+<span class="hero-result">Schedule one next step</span>
+</div>
+<p class="hero-proof">Live · Practical · Free · 25 seats</p>
+<!-- Populated by JS: formatted date + seat pill -->
+<div class="event-meta" hidden="" id="hero-event-meta"></div>
+<!-- Shown while fetching; hidden by renderEvent() on success -->
+<p class="hero-status" id="hero-loading">Loading event…</p>
+<!-- Shown on fetch error or slug not found -->
+<div class="hero-error" hidden="" id="hero-error">
+<strong>Event not found.</strong>
                     This event may have ended or the link may be incorrect.
-                    <br><br>
-                    <a class="btn-pill" href="/#upcoming-labs">See all upcoming labs</a>
-                </div>
-
-                <!-- Countdown — populated by startCountdown() -->
-                <div id="event-countdown" hidden></div>
-            </div>
-
-            <!-- Registration card — always visible; JS enables submit once event loads -->
-            <div class="form-col">
-                <div class="registration-card" id="registration-card">
-
-                    <h2>Save Your Seat</h2>
-                    <p class="form-intro">Leave with a disciple-making plan you can use this week.<br>Wednesday, August 19 &middot; 3 PM ET / 2 PM CT</p>
-
-                    <form id="registration-form" novalidate>
-                        <div class="form-field">
-                            <label for="field-name">Full name</label>
-                            <input
-                                type="text"
-                                id="field-name"
-                                name="name"
-                                autocomplete="name"
-                                placeholder="Your name"
-                                required
-                            >
-                        </div>
-
-                        <div class="form-field">
-                            <label for="field-email">Email address</label>
-                            <input
-                                type="email"
-                                id="field-email"
-                                name="email"
-                                autocomplete="email"
-                                placeholder="you@example.com"
-                                required
-                            >
-                        </div>
-
-                        <div class="form-opt-in">
-                            <input
-                                type="checkbox"
-                                id="field-marketing-opt-in"
-                                name="marketing_opt_in"
-                                value="true"
-                            >
-                            <label for="field-marketing-opt-in">
+                    <br/><br/>
+<a class="btn-pill" href="/#upcoming-labs">See all upcoming labs</a>
+</div>
+<!-- Countdown — populated by startCountdown() -->
+<div hidden="" id="event-countdown"></div>
+</div>
+<!-- Registration card — always visible; JS enables submit once event loads -->
+<div class="form-col">
+<div class="registration-card" id="registration-card">
+<h2>Save Your Seat</h2>
+<p class="form-intro">Leave with a plan you can use this week.<br/>Wednesday, August 19 · 3 PM ET / 2 PM CT</p>
+<form id="registration-form" novalidate="">
+<div class="form-field">
+<label for="field-name">Full name</label>
+<input autocomplete="name" id="field-name" name="name" placeholder="Your name" required="" type="text"/>
+</div>
+<div class="form-field">
+<label for="field-email">Email address</label>
+<input autocomplete="email" id="field-email" name="email" placeholder="you@example.com" required="" type="email"/>
+</div>
+<div class="form-opt-in">
+<input id="field-marketing-opt-in" name="marketing_opt_in" type="checkbox" value="true"/>
+<label for="field-marketing-opt-in">
                                 Send me occasional emails about future Covo labs, tools, and live training. Unsubscribe anytime.
                             </label>
-                        </div>
-
-                        <button class="btn-submit" type="submit" id="submit-btn">
+</div>
+<button class="btn-submit" id="submit-btn" type="submit">
                             Save My Seat
                         </button>
-
-                        <div class="form-message" id="form-message" role="alert" aria-live="polite"></div>
-                    </form>
-
-                </div>
-                <div class="form-social-proof">
-                    <img src="image/social-proof-covo-multipliers-transparent.webp" alt="Covo Multipliers community" loading="lazy">
-                    <p class="form-social-proof-caption">Joined by disciple-makers learning simple obedience together.</p>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-
-    <!-- ================================================
+<div aria-live="polite" class="form-message" id="form-message" role="alert"></div>
+</form>
+</div>
+<div class="form-social-proof">
+<img alt="Covo Multipliers community" loading="lazy" src="image/social-proof-covo-multipliers-transparent.webp"/>
+<p class="form-social-proof-caption">Joined by disciple-makers learning simple obedience together.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- ================================================
          SUPPORTING CONTENT
     ================================================ -->
-    <section class="event-body">
-        <div class="event-body-inner">
+<section class="event-body">
+<div class="event-body-inner">
+<!-- Problem -->
+<div>
+<p class="eyebrow">The real problem</p>
+<h2 class="content-h2">Good Intentions Need a Next Step</h2>
+<div style="margin-top: 1.25rem;">
+<p class="content-p">You care about making disciples. But you may still feel unsure who to pursue, what to say, or what to do next.</p>
+<p class="content-p">The problem is not desire. It is the lack of a simple starting point.</p>
+</div>
+<div aria-label="The stuck pattern" class="pain-grid">
+<div class="pain-card">
+<span class="pain-number">1</span>
+<strong>You stay general</strong>
+<p>You pray for people, but choose no one.</p>
+</div>
+<div class="pain-card">
+<span class="pain-number">2</span>
+<strong>You wait</strong>
+<p>You hope confidence comes before action.</p>
+</div>
+<div class="pain-card">
+<span class="pain-number">3</span>
+<strong>You learn more</strong>
+<p>You collect tools without using one.</p>
+</div>
+</div>
+</div>
+<!-- Cost of inaction -->
+<div class="stakes-section">
+<div class="stakes-inner">
+<p class="eyebrow">If nothing changes</p>
+<h2 class="content-h2">Next Month May Look the Same</h2>
+<p class="stakes-intro">Without a clear next step, disciple making stays important but vague.</p>
+<div class="stakes-list">
+<div class="stake-item">People stay on your mind but never enter an intentional conversation.</div>
+<div class="stake-item">Spiritual conversations remain occasional.</div>
+<div class="stake-item">You keep believing in disciple making without practicing it.</div>
+</div>
+<p class="stakes-pivot"><strong>This lab will not fix everything.</strong> It will help you choose one person and take one real step.</p>
+</div>
+</div>
+<!-- Proof -->
+<div class="content-section">
+<span class="eyebrow">From a recent lab</span>
+<h2 class="content-h2">Simple Changes What You Notice</h2>
+<div class="proof-card">
+<p class="proof-quote">I’ve started to focus more intentionally on my relationships and watch for the right next conversation.</p>
+<p class="proof-attribution">— Nathan E.</p>
+</div>
+</div>
+<!-- Four questions -->
+<div class="content-section">
+<p class="eyebrow">The four-question path</p>
+<h2 class="content-h2">Four Questions. One Clear Plan.</h2>
+<p class="content-p" style="margin-top: 1rem;">These questions move you from conviction to action.</p>
+<div class="questions-grid">
+<div class="question-card">
+<span class="question-step">Question one</span>
+<span class="question-word">Why?</span>
+<p class="question-body">Every disciple can make disciples.</p>
+<span class="question-action">Know why this matters.</span>
+</div>
+<div class="question-card">
+<span class="question-step">Question two</span>
+<span class="question-word">Who?</span>
+<p class="question-body">Choose one person or household.</p>
+<span class="question-action">Leave with one name.</span>
+</div>
+<div class="question-card">
+<span class="question-step">Question three</span>
+<span class="question-word">How?</span>
+<p class="question-body">Learn the 15-second testimony tool and a reproducible gospel tool.</p>
+<span class="question-action">Know what you will say.</span>
+</div>
+<div class="question-card">
+<span class="question-step">Question four</span>
+<span class="question-word">When?</span>
+<p class="question-body">Put the next step on your calendar.</p>
+<span class="question-action">Act within seven days.</span>
+</div>
+</div>
+</div>
+<!-- Outcomes -->
+<div class="content-section">
+<p class="eyebrow">What you’ll walk away with</p>
+<h2 class="content-h2">Leave With a Plan You Can Use</h2>
+<ul class="takeaway-list">
+<li>
+<span aria-hidden="true" class="take-check">✓</span>
+<span><strong>One person</strong> to pray for and pursue</span>
+</li>
+<li>
+<span aria-hidden="true" class="take-check">✓</span>
+<span><strong>One reason</strong> you can explain simply</span>
+</li>
+<li>
+<span aria-hidden="true" class="take-check">✓</span>
+<span><strong>One conversation</strong> you are ready to start</span>
+</li>
+<li>
+<span aria-hidden="true" class="take-check">✓</span>
+<span><strong>One next step</strong> scheduled within seven days</span>
+</li>
 
-            <!-- Problem -->
-            <div>
-                <p class="eyebrow">The real problem</p>
-                <h2 class="content-h2">You Don&rsquo;t Need More Motivation. You Need a Starting Point.</h2>
+</ul>
+<div class="outcome-callout"><strong>The goal is action.</strong> Leave with one person, one conversation, and one next step.</div>
+<div class="mid-cta">
+<p class="mid-cta-copy"><strong>Stop waiting for the perfect plan.</strong> Take one faithful step.</p>
+<button class="mid-cta-btn" data-scroll-to-form="" type="button">Save My Seat</button>
+</div>
+</div>
+<!-- Who it's for -->
+<div class="content-section">
+<p class="eyebrow">Is this for you?</p>
+<h2 class="content-h2">This Lab Is For You If...</h2>
+<ul class="takeaway-list">
+<li>
+<span aria-hidden="true" class="take-check">✓</span>
+<span>You want to make disciples but do not know where to start</span>
+</li>
+<li>
+<span aria-hidden="true" class="take-check">✓</span>
+<span>Your week is full and you need something simple</span>
+</li>
+<li>
+<span aria-hidden="true" class="take-check">✓</span>
+<span>You know tools but still lack a repeatable next step</span>
+</li>
 
-                <div style="margin-top: 1.25rem;">
-                    <p class="content-p">Most believers already agree that disciples should make disciples. The problem is what happens after the sermon, podcast, or training ends. You go back to normal life still unsure who to pursue, what to say, or how to turn one conversation into a real next step.</p>
-                    <p class="content-p">So disciple making stays important in theory and vague in practice. Not because you do not care. Because nobody helped you reduce it to a decision you can make this week.</p>
-                </div>
-
-                <div class="pain-grid" aria-label="The stuck pattern">
-                    <div class="pain-card">
-                        <span class="pain-number">1</span>
-                        <strong>You pray generally</strong>
-                        <p>You care about people, but nobody specific moves from your prayer list into an intentional conversation.</p>
-                    </div>
-
-                    <div class="pain-card">
-                        <span class="pain-number">2</span>
-                        <strong>You wait for confidence</strong>
-                        <p>You keep hoping the right words or perfect moment will appear before you take a risk.</p>
-                    </div>
-
-                    <div class="pain-card">
-                        <span class="pain-number">3</span>
-                        <strong>You consume more training</strong>
-                        <p>You learn another tool, but your real week still has no person, conversation, or next step attached to it.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Cost of inaction -->
-            <div class="stakes-section">
-                <div class="stakes-inner">
-                    <p class="eyebrow">If nothing changes</p>
-                    <h2 class="content-h2">Next Month Will Probably Look a Lot Like This Month</h2>
-
-                    <p class="stakes-intro">You may stay spiritually busy, keep caring about multiplication, and still finish another month without helping one person move toward Jesus. The cost is not dramatic failure. It is continued drift.</p>
-
-                    <div class="stakes-list">
-                        <div class="stake-item">The people already around you remain relationships you care about but never intentionally pursue.</div>
-                        <div class="stake-item">Spiritual conversations stay occasional because nothing turns them into a repeatable rhythm.</div>
-                        <div class="stake-item">Disciple making remains something you believe in instead of something you can help another person practice.</div>
-                    </div>
-
-                    <p class="stakes-pivot"><strong>This lab will not fix everything in 45 minutes.</strong> It will help you stop waiting, choose one person, and put one real act of obedience on the calendar.</p>
-                </div>
-            </div>
-
-            <!-- Proof -->
-            <div class="content-section">
-                <span class="eyebrow">From a recent lab</span>
-                <h2 class="content-h2">A Simple Framework Changes What You Notice</h2>
-
-                <div class="proof-card">
-                    <p class="proof-quote">I live a busy life with 2 jobs and a family. I&rsquo;ve started to invest more deeply and focus more intently on my relational network &mdash; watching and waiting for the right time for the next conversation and steps.</p>
-                    <p class="proof-attribution">&mdash; Nathan E.</p>
-                </div>
-            </div>
-
-            <!-- Four questions -->
-            <div class="content-section">
-                <p class="eyebrow">The four-question path</p>
-                <h2 class="content-h2">Turn a Vague Desire Into a Weekly Disciple-Making Plan</h2>
-                <p class="content-p" style="margin-top: 1rem;">The four questions are simple enough to remember and concrete enough to act on. Together, they move you from conviction to a person, from a person to a conversation, and from a conversation to a scheduled next step.</p>
-
-                <div class="questions-grid">
-                    <div class="question-card">
-                        <span class="question-step">Question one</span>
-                        <span class="question-word">Why?</span>
-                        <p class="question-body">Recover the conviction that every disciple can make disciples. You do not need a title, stage, or ministry platform.</p>
-                        <span class="question-action">Leave able to explain the vision simply.</span>
-                    </div>
-
-                    <div class="question-card">
-                        <span class="question-step">Question two</span>
-                        <span class="question-word">Who?</span>
-                        <p class="question-body">Name the people God has already placed around you, then choose one person or household to intentionally pursue.</p>
-                        <span class="question-action">Leave with one name, not a vague audience.</span>
-                    </div>
-
-                    <div class="question-card">
-                        <span class="question-step">Question three</span>
-                        <span class="question-word">How?</span>
-                        <p class="question-body">Learn how to share your story and the gospel in using simple reproducible tools.</p>
-                        <span class="question-action">Leave knowing what you will actually say.</span>
-                    </div>
-
-                    <div class="question-card">
-                        <span class="question-step">Question four</span>
-                        <span class="question-word">When?</span>
-                        <p class="question-body">Choose the moment and put the next step on your calendar before good intentions get swallowed by another busy week.</p>
-                        <span class="question-action">Leave with action scheduled in the next seven days.</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Outcomes -->
-            <div class="content-section">
-                <p class="eyebrow">What you&rsquo;ll walk away with</p>
-                <h2 class="content-h2">You&rsquo;ll Know Who to Pursue and What to Do Next</h2>
-
-                <ul class="takeaway-list">
-                    <li>
-                        <span class="take-check" aria-hidden="true">&#10003;</span>
-                        <span><strong>One person or household</strong> you will intentionally pray for and pursue</span>
-                    </li>
-                    <li>
-                        <span class="take-check" aria-hidden="true">&#10003;</span>
-                        <span><strong>A simple way to explain why</strong> ordinary disciples can make disciples</span>
-                    </li>
-                    <li>
-                        <span class="take-check" aria-hidden="true">&#10003;</span>
-                        <span><strong>One spiritual conversation starter</strong> that fits a real relationship you already have</span>
-                    </li>
-                    <li>
-                        <span class="take-check" aria-hidden="true">&#10003;</span>
-                        <span><strong>A next step scheduled</strong> for the seven days after the lab</span>
-                    </li>
-                    <li>
-                        <span class="take-check" aria-hidden="true">&#10003;</span>
-                        <span><strong>A four-question framework</strong> simple enough to pass on to another disciple</span>
-                    </li>
-                </ul>
-
-                <div class="outcome-callout">
-                    <strong>The goal is not to leave impressed.</strong> The goal is to leave with one person, one conversation, and one act of obedience you can actually complete.
-                </div>
-
-                <div class="mid-cta">
-                    <p class="mid-cta-copy">
-                        <strong>You do not need another perfect plan.</strong>
-                        You need one faithful next step with someone God has already placed around you.
-                    </p>
-                    <button class="mid-cta-btn" type="button" data-scroll-to-form>Save My Seat</button>
-                </div>
-            </div>
-
-            <!-- Who it's for -->
-            <div class="content-section">
-                <p class="eyebrow">Is this for you?</p>
-                <h2 class="content-h2">This Lab Is Built for People Who Are Ready to Stop Winging It</h2>
-
-                <ul class="takeaway-list">
-                    <li>
-                        <span class="take-check" aria-hidden="true">&#10003;</span>
-                        <span>Ordinary believers who want to make disciples but do not know how to begin</span>
-                    </li>
-                    <li>
-                        <span class="take-check" aria-hidden="true">&#10003;</span>
-                        <span>Busy covocational leaders who need a practice that fits real work and family life</span>
-                    </li>
-                    <li>
-                        <span class="take-check" aria-hidden="true">&#10003;</span>
-                        <span>Church leaders trying to help people move from hearing about disciple making to doing it</span>
-                    </li>
-                    <li>
-                        <span class="take-check" aria-hidden="true">&#10003;</span>
-                        <span>Disciple-makers who have learned several tools but still lack a repeatable weekly starting point</span>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- FAQ -->
-            <div class="format-note">
-                <strong>Common questions</strong>
-                <ul class="faq-list">
-                    <li class="faq-item">
-                        <button class="faq-btn" aria-expanded="false">
-                            <span>Is this another evangelism training?</span>
-                            <span class="faq-icon" aria-hidden="true">+</span>
-                        </button>
-                        <div class="faq-answer" hidden>
-                            Not in the usual sense. You will not spend 45 minutes collecting information. You will use four questions to make a real plan connected to one person and one next step in your actual week.
-                        </div>
-                    </li>
-
-                    <li class="faq-item">
-                        <button class="faq-btn" aria-expanded="false">
-                            <span>Can this work if my week is already full?</span>
-                            <span class="faq-icon" aria-hidden="true">+</span>
-                        </button>
-                        <div class="faq-answer" hidden>
-                            That is exactly who this is for. The framework starts with people already in your life and helps you identify one faithful step. It does not require adding a separate ministry program to your calendar.
-                        </div>
-                    </li>
-
-                    <li class="faq-item">
-                        <button class="faq-btn" aria-expanded="false">
-                            <span>Do I need prior training or experience?</span>
-                            <span class="faq-icon" aria-hidden="true">+</span>
-                        </button>
-                        <div class="faq-answer" hidden>
-                            No. New believers, longtime Christians, and ministry leaders can all use the same four questions. Come ready to name one person and take one practical step.
-                        </div>
-                    </li>
-
-                    <li class="faq-item">
-                        <button class="faq-btn" aria-expanded="false">
-                            <span>What does it cost?</span>
-                            <span class="faq-icon" aria-hidden="true">+</span>
-                        </button>
-                        <div class="faq-answer" hidden>
-                            The lab is free. Seats are limited to 25 so participants can engage, ask questions, and leave with a specific plan.
-                        </div>
-                    </li>
-
-                    <li class="faq-item">
-                        <button class="faq-btn" aria-expanded="false">
-                            <span>Who leads this?</span>
-                            <span class="faq-icon" aria-hidden="true">+</span>
-                        </button>
-                        <div class="faq-answer" hidden>
-                            Dave and Mark lead these labs. Both practice disciple making in ordinary life and work with believers who are learning to move from intention to simple, repeatable obedience.
-                        </div>
-                    </li>
-                </ul>
-            </div>
-
-        </div>
-    </section>
-
-
-    <!-- ================================================
+</ul>
+</div>
+<!-- FAQ -->
+<div class="format-note">
+<strong>Common questions</strong>
+<ul class="faq-list">
+<li class="faq-item">
+<button aria-expanded="false" class="faq-btn">
+<span>Is this another training full of information?</span>
+<span aria-hidden="true" class="faq-icon">+</span>
+</button>
+<div class="faq-answer" hidden="">No. You will use the four questions to make a real plan during the lab.</div>
+</li>
+<li class="faq-item">
+<button aria-expanded="false" class="faq-btn">
+<span>Can this work in a busy week?</span>
+<span aria-hidden="true" class="faq-icon">+</span>
+</button>
+<div class="faq-answer" hidden="">Yes. It starts with people already in your life and one next step.</div>
+</li>
+<li class="faq-item">
+<button aria-expanded="false" class="faq-btn">
+<span>Do I need experience?</span>
+<span aria-hidden="true" class="faq-icon">+</span>
+</button>
+<div class="faq-answer" hidden="">No. You only need one person in mind and a willingness to act.</div>
+</li>
+<li class="faq-item">
+<button aria-expanded="false" class="faq-btn">
+<span>What does it cost?</span>
+<span aria-hidden="true" class="faq-icon">+</span>
+</button>
+<div class="faq-answer" hidden="">Nothing. The lab is free and limited to 25 seats.</div>
+</li>
+<li class="faq-item">
+<button aria-expanded="false" class="faq-btn">
+<span>Who leads it?</span>
+<span aria-hidden="true" class="faq-icon">+</span>
+</button>
+<div class="faq-answer" hidden="">Dave and Mark, covocational disciple-makers who practice this in ordinary life.</div>
+</li>
+</ul>
+</div>
+</div>
+</section>
+<!-- ================================================
          SOCIAL PROOF
     ================================================ -->
-    <div class="social-proof">
-        <div class="social-proof-inner">
-            <div class="social-proof-icon">
-                <img src="image/Substack.png" alt="Substack" width="34" height="34">
-            </div>
-            <p class="social-proof-text">
-                <strong>Built from practice, not theory.</strong>
-                Dave and Mark work with ordinary believers and covocational leaders who are learning to make disciples inside real jobs, families, relationships, and crowded weeks.
-            </p>
-        </div>
-    </div>
-
-
-    <!-- ================================================
+<div class="social-proof">
+<div class="social-proof-inner">
+<div class="social-proof-icon">
+<img alt="Substack" height="34" src="image/Substack.png" width="34"/>
+</div>
+<p class="social-proof-text"><strong>Built from practice.</strong> Dave and Mark help ordinary believers make disciples inside real jobs, families, and relationships.</p>
+</div>
+</div>
+<!-- ================================================
          BOTTOM CTA
     ================================================ -->
-    <section class="bottom-cta">
-        <div class="bottom-cta-inner">
-            <h2 class="bottom-cta-headline">Don&rsquo;t Let Another Month Pass With Good Intentions and No Next Step</h2>
-            <p class="bottom-cta-body">Join the August lab and leave with one person to pursue, one conversation to start, and one act of obedience scheduled for the next seven days.</p>
-            <button class="btn-cta" id="cta-scroll-btn">Save My Seat</button>
-            <p class="bottom-cta-date">Wednesday, August 19, 2026 &middot; 3 PM ET / 2 PM CT &middot; Free &middot; 25 seats</p>
-        </div>
-    </section>
-
-
-    <!-- ================================================
+<section class="bottom-cta">
+<div class="bottom-cta-inner">
+<h2 class="bottom-cta-headline">Stop Waiting. Take One Clear Step.</h2>
+<p class="bottom-cta-body">Leave with one person, one conversation, and one next step for this week.</p>
+<button class="btn-cta" id="cta-scroll-btn">Save My Seat</button>
+<p class="bottom-cta-date">Wednesday, August 19, 2026 · 3 PM ET / 2 PM CT · Free · 25 seats</p>
+</div>
+</section>
+<!-- ================================================
          FOOTER
     ================================================ -->
-    <footer class="site-footer">
-        <a class="footer-brand" href="/">Covo Multipliers</a>
-        <p class="footer-tagline">Making Disciples in Everyday Life</p>
-        <p class="footer-copy">&copy; 2026 Covo Multipliers</p>
-    </footer>
-
-
-    <script>
+<footer class="site-footer">
+<a class="footer-brand" href="/">Covo Multipliers</a>
+<p class="footer-tagline">Making Disciples in Everyday Life</p>
+<p class="footer-copy">© 2026 Covo Multipliers</p>
+</footer>
+<script>
         // ============================================================
         // CONFIG
         // Update these four values for each event page you deploy.
@@ -1948,6 +1847,5 @@
                 button.addEventListener('click', scrollToRegistration);
             });
     </script>
-
 </body>
 </html>
