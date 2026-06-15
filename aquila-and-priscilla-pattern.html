@@ -574,6 +574,40 @@
             cursor: not-allowed;
         }
 
+        /* Optional email updates checkbox */
+        .form-opt-in {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.7rem;
+            margin: 0.25rem 0 1rem;
+            padding: 0.85rem 0.9rem;
+            background: #f8faf9;
+            border: 1px solid #e2eae6;
+            border-radius: 10px;
+        }
+
+        .form-opt-in input[type="checkbox"] {
+            flex-shrink: 0;
+            width: 18px;
+            height: 18px;
+            margin: 0.15rem 0 0;
+            accent-color: #1b4d3e;
+            cursor: pointer;
+        }
+
+        .form-opt-in input[type="checkbox"]:disabled {
+            cursor: not-allowed;
+        }
+
+        .form-opt-in label {
+            margin: 0;
+            font-size: 0.8rem;
+            font-weight: 500;
+            line-height: 1.5;
+            color: #4b5d56;
+            cursor: pointer;
+        }
+
 
         /* -----------------------------------------------
            8. SUBMIT BUTTON
@@ -973,6 +1007,18 @@
                             >
                         </div>
 
+                        <div class="form-opt-in">
+                            <input
+                                type="checkbox"
+                                id="field-marketing-opt-in"
+                                name="marketing_opt_in"
+                                value="true"
+                            >
+                            <label for="field-marketing-opt-in">
+                                Send me occasional emails about future Covo labs, tools, and live training. Unsubscribe anytime.
+                            </label>
+                        </div>
+
                         <button class="btn-submit" type="submit" id="submit-btn">
                             Save My Seat
                         </button>
@@ -1310,8 +1356,11 @@
                 return;
             }
 
-            const name  = document.getElementById('field-name').value.trim();
+            const name = document.getElementById('field-name').value.trim();
             const email = document.getElementById('field-email').value.trim();
+            const marketingOptIn = document.getElementById(
+                'field-marketing-opt-in'
+            ).checked;
 
             // Client-side validation
             if (name.length < 2) {
@@ -1319,6 +1368,7 @@
                 document.getElementById('field-name').focus();
                 return;
             }
+
             if (!isValidEmail(email)) {
                 showError('Please enter a valid email address.');
                 document.getElementById('field-email').focus();
@@ -1328,24 +1378,37 @@
             setSubmitting(true);
 
             let data;
+
             try {
                 const res = await fetch(REGISTER_FUNCTION_URL, {
-                    method:  'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body:    JSON.stringify({ event_id: eventId, name, email }),
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        event_id: eventId,
+                        name,
+                        email,
+                        marketing_opt_in: marketingOptIn,
+                    }),
                 });
 
                 data = await res.json();
 
                 if (!res.ok) {
                     setSubmitting(false);
-                    showError(data.error ?? 'Registration failed. Please try again.');
+                    showError(
+                        data.error ??
+                        'Registration failed. Please try again.'
+                    );
                     return;
                 }
             } catch (err) {
                 console.error('Registration request failed:', err);
                 setSubmitting(false);
-                showError('Something went wrong. Please check your connection and try again.');
+                showError(
+                    'Something went wrong. Please check your connection and try again.'
+                );
                 return;
             }
 
@@ -1354,8 +1417,11 @@
                 <div class="success-state">
                     <div class="success-icon" aria-hidden="true">&#10003;</div>
                     <h3>You&rsquo;re registered!</h3>
-                    <p>A confirmation email is on its way to <strong>${esc(email)}</strong>
-                    with your event details and Zoom link.</p>
+                    <p>
+                        A confirmation email is on its way to
+                        <strong>${esc(email)}</strong>
+                        with your event details and Zoom link.
+                    </p>
                 </div>
             `;
         }
@@ -1365,14 +1431,21 @@
         // UI state helpers
         // -------------------------------------------------------
         function setSubmitting(active) {
-            const btn    = document.getElementById('submit-btn');
-            const name   = document.getElementById('field-name');
-            const email  = document.getElementById('field-email');
+            const btn = document.getElementById('submit-btn');
+            const name = document.getElementById('field-name');
+            const email = document.getElementById('field-email');
+            const marketingOptIn = document.getElementById(
+                'field-marketing-opt-in'
+            );
 
-            btn.disabled   = active;
-            name.disabled  = active;
+            btn.disabled = active;
+            name.disabled = active;
             email.disabled = active;
-            btn.textContent = active ? 'Registering…' : 'Save My Seat';
+            marketingOptIn.disabled = active;
+
+            btn.textContent = active
+                ? 'Registering…'
+                : 'Save My Seat';
         }
 
         function showError(msg) {
