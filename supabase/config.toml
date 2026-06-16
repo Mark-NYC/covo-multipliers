@@ -1,6 +1,9 @@
 [functions.register]
 verify_jwt = false
 
+[functions.subscribe-updates]
+verify_jwt = false
+
 [functions.immersion-apply]
 verify_jwt = false
 
