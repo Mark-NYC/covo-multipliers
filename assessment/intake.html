@@ -91,6 +91,7 @@
 
   </main>
 
+  <script src="../utm-tracking.js"></script>
   <script>
     const SUPABASE_FUNCTIONS = window.ASSESSMENT_CONFIG.SUPABASE_FUNCTIONS;
 
@@ -142,14 +143,14 @@
         const res = await fetch(SUPABASE_FUNCTIONS + '/assessment-start', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
+          body: JSON.stringify(Object.assign({
             first_name: firstName,
             last_name: lastName || null,
             email,
             church_org: churchOrg || null,
             role_context: roleContext || null,
             consent: true,
-          }),
+          }, window.CovoAttribution ? window.CovoAttribution.get() : {})),
         });
 
         const data = await res.json();

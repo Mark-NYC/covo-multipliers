@@ -1196,6 +1196,7 @@
     </footer>
 
 
+    <script src="/utm-tracking.js"></script>
     <script>
         // ============================================================
         // CONFIG
@@ -1340,7 +1341,7 @@
                 const res = await fetch(REGISTER_FUNCTION_URL, {
                     method:  'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body:    JSON.stringify({ event_id: eventId, name, email }),
+                    body:    JSON.stringify(Object.assign({ event_id: eventId, name, email }, window.CovoAttribution ? window.CovoAttribution.get() : {})),
                 });
 
                 data = await res.json();

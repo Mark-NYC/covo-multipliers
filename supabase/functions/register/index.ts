@@ -54,6 +54,59 @@ interface RpcResult {
   seats_remaining?: number;
 }
 
+interface Attribution {
+  utm_source: string | null;
+  utm_medium: string | null;
+  utm_campaign: string | null;
+  utm_content: string | null;
+  utm_term: string | null;
+  landing_page: string | null;
+  referrer: string | null;
+  latest_touch_at: string | null;
+  first_utm_source: string | null;
+  first_utm_medium: string | null;
+  first_utm_campaign: string | null;
+  first_utm_content: string | null;
+  first_utm_term: string | null;
+  first_landing_page: string | null;
+  first_referrer: string | null;
+  first_touch_at: string | null;
+}
+
+function safeStr(v: unknown, maxLen = 500): string | null {
+  if (typeof v !== "string") return null;
+  const t = v.trim();
+  return t.length > 0 ? t.slice(0, maxLen) : null;
+}
+
+function safeTimestamp(v: unknown): string | null {
+  const s = safeStr(v, 50);
+  if (!s) return null;
+  const d = new Date(s);
+  return isNaN(d.getTime()) ? null : d.toISOString();
+}
+
+function extractAttribution(body: Record<string, unknown>): Attribution {
+  return {
+    utm_source:    safeStr(body.utm_source, 100),
+    utm_medium:    safeStr(body.utm_medium, 100),
+    utm_campaign:  safeStr(body.utm_campaign, 200),
+    utm_content:   safeStr(body.utm_content, 200),
+    utm_term:      safeStr(body.utm_term, 200),
+    landing_page:  safeStr(body.landing_page),
+    referrer:      safeStr(body.referrer),
+    latest_touch_at: safeTimestamp(body.latest_touch_at),
+    first_utm_source:   safeStr(body.first_utm_source, 100),
+    first_utm_medium:   safeStr(body.first_utm_medium, 100),
+    first_utm_campaign: safeStr(body.first_utm_campaign, 200),
+    first_utm_content:  safeStr(body.first_utm_content, 200),
+    first_utm_term:     safeStr(body.first_utm_term, 200),
+    first_landing_page: safeStr(body.first_landing_page),
+    first_referrer:     safeStr(body.first_referrer),
+    first_touch_at:     safeTimestamp(body.first_touch_at),
+  };
+}
+
 // ---------------------------------------------------------------------------
 // Entry point
 // ---------------------------------------------------------------------------
@@ -78,6 +131,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
   }
 
   const { event_id, name, email } = body;
+  const attribution = extractAttribution(body);
 
   // Validate
   if (typeof event_id !== "string" || !isUuid(event_id)) {
@@ -168,7 +222,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
 
     const { error: updateErr } = await supabase
       .from("registrations")
-      .update({ confirmation_sent_at: new Date().toISOString() })
+      .update({ confirmation_sent_at: new Date().toISOString(), ...attribution })
       .eq("id", result.registration_id);
 
     if (updateErr) {

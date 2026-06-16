@@ -1234,6 +1234,7 @@
     </footer>
 
 
+    <script src="/utm-tracking.js"></script>
     <script>
         // ============================================================
         // CONFIG
@@ -1385,12 +1386,12 @@
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({
+                    body: JSON.stringify(Object.assign({
                         event_id: eventId,
                         name,
                         email,
                         marketing_opt_in: marketingOptIn,
-                    }),
+                    }, window.CovoAttribution ? window.CovoAttribution.get() : {})),
                 });
 
                 data = await res.json();

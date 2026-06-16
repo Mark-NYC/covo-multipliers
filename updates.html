@@ -383,6 +383,7 @@
         <p>&copy; 2026 Covo Multipliers</p>
     </footer>
 
+    <script src="/utm-tracking.js"></script>
     <script>
         const SUBSCRIBE_FUNCTION_URL =
             'https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1/subscribe-updates';
@@ -431,10 +432,10 @@
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({
+                    body: JSON.stringify(Object.assign({
                         email,
                         full_name: fullName,
-                    }),
+                    }, window.CovoAttribution ? window.CovoAttribution.get() : {})),
                 });
 
                 const data = await response.json();
