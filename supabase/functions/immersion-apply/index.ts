@@ -59,6 +59,36 @@ interface ApplicationBody {
   hoping_to_learn?: unknown;
   prior_training?: unknown;
   lodging_acknowledged?: unknown;
+  // attribution
+  utm_source?: unknown;
+  utm_medium?: unknown;
+  utm_campaign?: unknown;
+  utm_content?: unknown;
+  utm_term?: unknown;
+  landing_page?: unknown;
+  referrer?: unknown;
+  latest_touch_at?: unknown;
+  first_utm_source?: unknown;
+  first_utm_medium?: unknown;
+  first_utm_campaign?: unknown;
+  first_utm_content?: unknown;
+  first_utm_term?: unknown;
+  first_landing_page?: unknown;
+  first_referrer?: unknown;
+  first_touch_at?: unknown;
+}
+
+function safeStr(v: unknown, maxLen = 500): string | null {
+  if (typeof v !== "string") return null;
+  const t = v.trim();
+  return t.length > 0 ? t.slice(0, maxLen) : null;
+}
+
+function safeTimestamp(v: unknown): string | null {
+  const s = safeStr(v, 50);
+  if (!s) return null;
+  const d = new Date(s);
+  return isNaN(d.getTime()) ? null : d.toISOString();
 }
 
 // ---------------------------------------------------------------------------
@@ -151,6 +181,23 @@ Deno.serve(async (req: Request): Promise<Response> => {
       prior_training: strOrNull(body.prior_training),
       lodging_acknowledged: true,
       status: "submitted",
+      // attribution
+      utm_source:    safeStr(body.utm_source, 100),
+      utm_medium:    safeStr(body.utm_medium, 100),
+      utm_campaign:  safeStr(body.utm_campaign, 200),
+      utm_content:   safeStr(body.utm_content, 200),
+      utm_term:      safeStr(body.utm_term, 200),
+      landing_page:  safeStr(body.landing_page),
+      referrer:      safeStr(body.referrer),
+      latest_touch_at: safeTimestamp(body.latest_touch_at),
+      first_utm_source:   safeStr(body.first_utm_source, 100),
+      first_utm_medium:   safeStr(body.first_utm_medium, 100),
+      first_utm_campaign: safeStr(body.first_utm_campaign, 200),
+      first_utm_content:  safeStr(body.first_utm_content, 200),
+      first_utm_term:     safeStr(body.first_utm_term, 200),
+      first_landing_page: safeStr(body.first_landing_page),
+      first_referrer:     safeStr(body.first_referrer),
+      first_touch_at:     safeTimestamp(body.first_touch_at),
     })
     .select("id")
     .single();

@@ -92,6 +92,18 @@ Deno.serve(async (req: Request): Promise<Response> => {
 
   const { first_name, last_name, email, church_org, role_context, consent } = body;
 
+  function safeAttr(v: unknown, maxLen = 500): string | null {
+    if (typeof v !== "string") return null;
+    const t = v.trim();
+    return t.length > 0 ? t.slice(0, maxLen) : null;
+  }
+  function safeTs(v: unknown): string | null {
+    const s = safeAttr(v, 50);
+    if (!s) return null;
+    const d = new Date(s);
+    return isNaN(d.getTime()) ? null : d.toISOString();
+  }
+
   if (typeof first_name !== "string" || first_name.trim().length < 1) {
     return json(400, { error: "Please enter your first name." }, cors);
   }
@@ -114,20 +126,40 @@ Deno.serve(async (req: Request): Promise<Response> => {
     { auth: { persistSession: false } },
   );
 
+  // Check whether this participant already has first-touch attribution stored
+  // so we can preserve it on subsequent sessions (never overwrite first-touch).
+  const { data: existingParticipant } = await supabase
+    .from("participants")
+    .select("id, first_touch_at")
+    .eq("email", cleanEmail)
+    .maybeSingle();
+
+  const hasFirstTouch = existingParticipant?.first_touch_at != null;
+
+  const participantRow: Record<string, unknown> = {
+    email: cleanEmail,
+    first_name: cleanFirst,
+    last_name: cleanLast,
+    church_org: cleanChurch,
+    role_context: cleanRole,
+    updated_at: new Date().toISOString(),
+  };
+
+  if (!hasFirstTouch) {
+    participantRow.first_utm_source   = safeAttr(body.first_utm_source, 100);
+    participantRow.first_utm_medium   = safeAttr(body.first_utm_medium, 100);
+    participantRow.first_utm_campaign = safeAttr(body.first_utm_campaign, 200);
+    participantRow.first_utm_content  = safeAttr(body.first_utm_content, 200);
+    participantRow.first_utm_term     = safeAttr(body.first_utm_term, 200);
+    participantRow.first_landing_page = safeAttr(body.first_landing_page);
+    participantRow.first_referrer     = safeAttr(body.first_referrer);
+    participantRow.first_touch_at     = safeTs(body.first_touch_at);
+  }
+
   // Upsert participant
   const { data: participant, error: participantErr } = await supabase
     .from("participants")
-    .upsert(
-      {
-        email: cleanEmail,
-        first_name: cleanFirst,
-        last_name: cleanLast,
-        church_org: cleanChurch,
-        role_context: cleanRole,
-        updated_at: new Date().toISOString(),
-      },
-      { onConflict: "email", ignoreDuplicates: false },
-    )
+    .upsert(participantRow, { onConflict: "email", ignoreDuplicates: false })
     .select("id")
     .single();
 
@@ -214,6 +246,15 @@ Deno.serve(async (req: Request): Promise<Response> => {
       consent_timestamp: new Date().toISOString(),
       resume_token_hash: resumeTokenHash,
       item_order: itemOrder,
+      // latest-touch attribution at session start
+      utm_source:    safeAttr(body.utm_source, 100),
+      utm_medium:    safeAttr(body.utm_medium, 100),
+      utm_campaign:  safeAttr(body.utm_campaign, 200),
+      utm_content:   safeAttr(body.utm_content, 200),
+      utm_term:      safeAttr(body.utm_term, 200),
+      landing_page:  safeAttr(body.landing_page),
+      referrer:      safeAttr(body.referrer),
+      latest_touch_at: safeTs(body.latest_touch_at),
     })
     .select("id")
     .single();
