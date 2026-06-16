@@ -214,27 +214,54 @@
         </div>
     </section>
 
-    <section class="lab-interest-section">
-        <div class="lab-interest-container">
-            <h2 class="lab-interest-title">Can’t make these dates?</h2>
-            <p class="lab-interest-copy">We run these regularly. Get the next labs when they open.</p>
+<section class="lab-interest-section">
+    <div class="lab-interest-container">
+        <h2 class="lab-interest-title">Can’t make these dates?</h2>
 
-            <form class="lab-interest-form" id="lab-interest-form" novalidate>
+        <p class="lab-interest-copy">
+            Get future Covo labs, practical tools, and live training opportunities.
+        </p>
+
+        <form class="lab-interest-form" id="lab-interest-form" novalidate>
+            <input
+                class="lab-interest-input"
+                type="email"
+                id="lab-interest-email"
+                name="email"
+                placeholder="Email address"
+                autocomplete="email"
+                required
+            >
+
+            <label class="lab-interest-consent">
                 <input
-                    class="lab-interest-input"
-                    type="email"
-                    id="lab-interest-email"
-                    name="email"
-                    placeholder="Email address"
-                    autocomplete="email"
+                    type="checkbox"
+                    id="lab-interest-consent"
                     required
                 >
-                <button class="lab-interest-submit" type="submit">Notify Me</button>
-            </form>
+                <span>
+                    Send me occasional emails about future Covo labs, tools,
+                    and live training. Unsubscribe anytime.
+                </span>
+            </label>
 
-            <p class="lab-interest-message" id="lab-interest-message" aria-live="polite"></p>
-        </div>
-    </section>
+            <button
+                class="lab-interest-submit"
+                type="submit"
+                id="lab-interest-submit"
+            >
+                Send Me Updates
+            </button>
+        </form>
+
+        <p
+            class="lab-interest-message"
+            id="lab-interest-message"
+            role="alert"
+            aria-live="polite"
+        ></p>
+    </div>
+</section>
 
     <section class="testimonials-section">
         <div class="testimonials-container">
