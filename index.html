@@ -459,58 +459,120 @@
         document.addEventListener('DOMContentLoaded', loadLabSeats);
 
         (function () {
-            const form        = document.getElementById('lab-interest-form');
-            const emailInput  = document.getElementById('lab-interest-email');
-            const messageEl   = document.getElementById('lab-interest-message');
+            const SUBSCRIBE_FUNCTION_URL =
+                'https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1/subscribe-updates';
 
-            if (!form) return;
+            const form = document.getElementById('lab-interest-form');
+            const emailInput = document.getElementById('lab-interest-email');
+            const consentInput = document.getElementById('lab-interest-consent');
+            const submitBtn = document.getElementById('lab-interest-submit');
+            const messageEl = document.getElementById('lab-interest-message');
 
-            const submitBtn = form.querySelector('button[type="submit"]');
+            if (
+                !form ||
+                !emailInput ||
+                !consentInput ||
+                !submitBtn ||
+                !messageEl
+            ) {
+                return;
+            }
 
-            form.addEventListener('submit', async function (e) {
-                e.preventDefault();
+            form.addEventListener('submit', async function (event) {
+                event.preventDefault();
+                clearMessage();
 
                 const email = emailInput.value.trim().toLowerCase();
+                const consent = consentInput.checked;
 
-                if (!email) {
-                    show('Please enter your email address.', 'error');
+                if (!isValidEmail(email)) {
+                    show(
+                        'Please enter a valid email address.',
+                        'error'
+                    );
+                    emailInput.focus();
                     return;
                 }
 
-                submitBtn.disabled = true;
-                submitBtn.textContent = 'Saving…';
-                show('', '');
+                if (!consent) {
+                    show(
+                        'Please check the box to subscribe.',
+                        'error'
+                    );
+                    consentInput.focus();
+                    return;
+                }
+
+                setSubmitting(true);
 
                 try {
-                    const res = await fetch(`${SUPABASE_URL}/rest/v1/lab_interest`, {
-                        method: 'POST',
-                        headers: {
-                            'apikey':        SUPABASE_ANON_KEY,
-                            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-                            'Content-Type':  'application/json',
-                            'Prefer':        'return=minimal',
-                        },
-                        body: JSON.stringify({ email }),
-                    });
+                    const response = await fetch(
+                        SUBSCRIBE_FUNCTION_URL,
+                        {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                email,
+                            }),
+                        }
+                    );
 
-                    if (res.status === 201 || res.status === 409) {
-                        form.style.display = 'none';
-                        show("You’re on the list. We’ll send the next labs when they open.", 'success');
-                    } else {
-                        show('Something went wrong. Please try again.', 'error');
-                        submitBtn.disabled = false;
-                        submitBtn.textContent = 'Notify Me';
+                    const data = await response.json();
+
+                    if (!response.ok) {
+                        throw new Error(
+                            data.error ||
+                            'Subscription failed. Please try again.'
+                        );
                     }
-                } catch {
-                    show('Something went wrong. Please try again.', 'error');
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = 'Notify Me';
+
+                    form.reset();
+                    form.style.display = 'none';
+
+                    show(
+                        'You’re in. We’ll send future Covo labs, tools, and live training opportunities.',
+                        'success'
+                    );
+                } catch (error) {
+                    console.error(
+                        'Covo updates subscription failed:',
+                        error
+                    );
+
+                    show(
+                        error.message ||
+                        'Something went wrong. Please try again.',
+                        'error'
+                    );
+
+                    setSubmitting(false);
                 }
             });
 
+            function setSubmitting(active) {
+                emailInput.disabled = active;
+                consentInput.disabled = active;
+                submitBtn.disabled = active;
+                submitBtn.textContent = active
+                    ? 'Subscribing…'
+                    : 'Send Me Updates';
+            }
+
             function show(text, type) {
                 messageEl.textContent = text;
-                messageEl.className = 'lab-interest-message' + (type ? ' ' + type : '');
+                messageEl.className =
+                    'lab-interest-message' +
+                    (type ? ' ' + type : '');
+            }
+
+            function clearMessage() {
+                show('', '');
+            }
+
+            function isValidEmail(value) {
+                return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
             }
         }());
     </script>
