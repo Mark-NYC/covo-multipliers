@@ -178,7 +178,7 @@ SELECT
   i.relname                                 AS index_name,
   ix.indisunique                            AS is_unique,
   ix.indisprimary                           AS is_primary,
-  array_agg(a.attname ORDER BY array_position(ix.indkey, a.attattnum))
+  array_agg(a.attname ORDER BY array_position(ix.indkey, a.attnum::smallint))
                                             AS indexed_columns,
   pg_get_indexdef(ix.indexrelid)            AS index_definition
 FROM pg_class      t
