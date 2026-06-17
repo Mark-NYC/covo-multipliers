@@ -42,3 +42,6 @@ verify_jwt = false
 
 [functions.attendance-admin]
 verify_jwt = false
+
+[functions.analytics-admin]
+verify_jwt = false
