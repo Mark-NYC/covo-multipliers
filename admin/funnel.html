@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Funnel Dashboard — CoVo Multipliers Admin</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      background: #f4f4f5;
+      color: #1a1a1a;
+      min-height: 100vh;
+    }
+
+    /* ── Auth screen ─────────────────────────────────────────────────── */
+    #auth-screen {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 24px;
+    }
+    .auth-card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 40px;
+      width: 100%;
+      max-width: 400px;
+    }
+    .auth-card h1 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+    .auth-card p  { color: #666; margin-bottom: 24px; font-size: 13px; }
+    .auth-error   { color: #dc2626; font-size: 13px; margin-top: 8px; }
+
+    /* ── App shell ───────────────────────────────────────────────────── */
+    #app { display: none; }
+
+    header {
+      background: linear-gradient(135deg,#10281f 0%,#1b4d3e 55%,#9f7a2f 100%);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    header h1 { font-size: 16px; font-weight: 700; }
+    header .subtitle { font-size: 12px; opacity: .75; margin-top: 2px; }
+
+    .main { padding: 24px; max-width: 1400px; margin: 0 auto; }
+
+    /* ── Common form elements ────────────────────────────────────────── */
+    .form-group { margin-bottom: 12px; }
+    .form-group label { display: block; font-weight: 600; margin-bottom: 4px; font-size: 12px; color: #555; }
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 7px 10px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 13px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: opacity .15s;
+    }
+    .btn:disabled { opacity: .5; cursor: not-allowed; }
+    .btn-primary { background: #1b4d3e; color: #fff; }
+    .btn-ghost   { background: transparent; color: #1b4d3e; border: 1px solid #1b4d3e; }
+    .btn-sm      { padding: 5px 10px; font-size: 12px; }
+
+    /* ── Date controls bar ───────────────────────────────────────────── */
+    .controls-bar {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 14px 20px;
+      margin-bottom: 20px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-end;
+      flex-wrap: wrap;
+    }
+    .controls-bar .form-group { margin-bottom: 0; }
+    .tz-label { font-size: 12px; color: #888; align-self: center; margin-left: 4px; }
+
+    /* ── Cards ───────────────────────────────────────────────────────── */
+    .section-card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+    .section-card h2 {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: #1b4d3e;
+    }
+    .section-card .section-note {
+      font-size: 12px;
+      color: #888;
+      margin-bottom: 16px;
+    }
+
+    /* ── Overview metric cards ───────────────────────────────────────── */
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 12px;
+    }
+    .metric-card {
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 14px;
+    }
+    .metric-card .metric-value {
+      font-size: 28px;
+      font-weight: 800;
+      color: #1b4d3e;
+    }
+    .metric-card .metric-name {
+      font-size: 12px;
+      color: #555;
+      margin-top: 2px;
+    }
+    .metric-card .metric-badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 999px;
+      margin-top: 4px;
+    }
+    .badge-alltime { background: #fee2e2; color: #991b1b; }
+    .badge-range   { background: #dbeafe; color: #1e40af; }
+
+    /* ── Funnel stages ───────────────────────────────────────────────── */
+    .funnel-table, .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .funnel-table th, .data-table th {
+      background: #f9fafb;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 8px 12px;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 700;
+      color: #555;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+    .funnel-table td, .data-table td {
+      padding: 9px 12px;
+      border-bottom: 1px solid #f0f0f0;
+      vertical-align: middle;
+    }
+    .funnel-table tr:last-child td,
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr.total-row td { font-weight: 700; background: #f9fafb; }
+    .text-danger { color: #dc2626; font-weight: 700; }
+    .text-warn   { color: #d97706; font-weight: 700; }
+
+    /* ── Funnel progress bar ─────────────────────────────────────────── */
+    .funnel-bar-wrap { background: #e5e7eb; border-radius: 999px; height: 10px; margin-top: 4px; min-width: 60px; }
+    .funnel-bar      { background: #1b4d3e; border-radius: 999px; height: 10px; }
+
+    /* ── Filter strip ────────────────────────────────────────────────── */
+    .filter-strip {
+      display: flex;
+      gap: 12px;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+      padding: 12px 16px;
+      background: #f9fafb;
+      border-radius: 6px;
+      border: 1px solid #e5e7eb;
+    }
+    .filter-strip .form-group { margin-bottom: 0; }
+    .filter-strip label { font-size: 11px; }
+    .filter-strip input, .filter-strip select {
+      padding: 5px 8px;
+      font-size: 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      width: auto;
+    }
+    .radio-group { display: flex; gap: 10px; align-items: center; font-size: 12px; }
+    .radio-group label { font-weight: normal; margin-bottom: 0; color: #333; display: flex; gap: 4px; align-items: center; }
+
+    /* ── Tabs ────────────────────────────────────────────────────────── */
+    .tabs { display: flex; gap: 0; border-bottom: 2px solid #e5e7eb; margin-bottom: 16px; }
+    .tab-btn {
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #888;
+      background: none;
+      border: none;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+    }
+    .tab-btn.active { color: #1b4d3e; border-bottom-color: #1b4d3e; }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* ── Drilldown ───────────────────────────────────────────────────── */
+    .drilldown-input { display: flex; gap: 10px; align-items: flex-end; margin-bottom: 16px; }
+    .drilldown-input input { flex: 1; padding: 7px 10px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 13px; font-family: monospace; }
+
+    /* ── Spinner ─────────────────────────────────────────────────────── */
+    .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(0,0,0,.15); border-top-color: #1b4d3e; border-radius: 50%; animation: spin .6s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Toast ───────────────────────────────────────────────────────── */
+    #toast {
+      position: fixed; bottom: 24px; right: 24px; z-index: 1000;
+      display: flex; flex-direction: column; gap: 8px; pointer-events: none;
+    }
+    .toast-item {
+      padding: 10px 16px; border-radius: 8px; font-size: 13px; font-weight: 600;
+      color: #fff; pointer-events: auto; animation: slideIn .2s ease;
+    }
+    .toast-ok  { background: #065f46; }
+    .toast-err { background: #991b1b; }
+    @keyframes slideIn { from { transform: translateX(40px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+    .empty-state { text-align: center; padding: 32px; color: #aaa; font-size: 13px; }
+    .loading-state { text-align: center; padding: 24px; color: #888; font-size: 13px; }
+    .muted-note { font-size: 11px; color: #aaa; margin-top: 8px; }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════ Auth Screen ════════════════════════════════════ -->
+<div id="auth-screen">
+  <div class="auth-card">
+    <h1>Funnel Dashboard</h1>
+    <p>Enter your analytics admin secret to continue. The secret is stored only in sessionStorage and is never sent to any third party.</p>
+    <form id="auth-form">
+      <div class="form-group">
+        <label for="secret-input">Admin Secret</label>
+        <input type="password" id="secret-input" autocomplete="current-password" required placeholder="Paste secret here" />
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%">Sign in</button>
+      <p id="auth-error" class="auth-error" aria-live="polite"></p>
+    </form>
+  </div>
+</div>
+
+<!-- ════════════════════════ App ════════════════════════════════════════════ -->
+<div id="app">
+
+  <header>
+    <div>
+      <h1>CoVo Admin — Funnel Dashboard</h1>
+      <div class="subtitle">Analytics &amp; Conversion Metrics</div>
+    </div>
+    <button class="btn btn-ghost" style="color:#fff;border-color:rgba(255,255,255,.4)" id="settings-btn">Settings (Sign out)</button>
+  </header>
+
+  <div class="main">
+
+    <!-- Date controls -->
+    <div class="controls-bar">
+      <div class="form-group">
+        <label for="start-date">Start Date (inclusive)</label>
+        <input type="date" id="start-date" />
+      </div>
+      <div class="form-group">
+        <label for="end-date">End Date (inclusive)</label>
+        <input type="date" id="end-date" />
+      </div>
+      <button class="btn btn-primary" id="apply-btn">Apply</button>
+      <span class="tz-label" id="tz-label">Timezone: —</span>
+    </div>
+
+    <!-- ── OVERVIEW ──────────────────────────────────────────────────────── -->
+    <div class="section-card">
+      <h2>Overview</h2>
+      <div class="section-note" id="overview-range-note">—</div>
+      <div id="overview-content" class="loading-state"><span class="spinner"></span> Loading…</div>
+    </div>
+
+    <!-- ── COHORT FUNNEL ─────────────────────────────────────────────────── -->
+    <div class="section-card">
+      <h2>Contact Cohort Funnel</h2>
+      <div class="section-note">Contacts first seen during the selected period. Downstream progress measured through today.</div>
+      <div class="muted-note" style="margin-bottom:12px">UTM filters not applied to this section.</div>
+      <div id="cohort-content" class="loading-state"><span class="spinner"></span> Loading…</div>
+    </div>
+
+    <!-- ── ACTIVITY ──────────────────────────────────────────────────────── -->
+    <div class="section-card">
+      <h2>Activity in Selected Period</h2>
+      <div class="section-note">These counts use different date bases — see tooltips. They do not form a conversion funnel.</div>
+      <div id="activity-content" class="loading-state"><span class="spinner"></span> Loading…</div>
+    </div>
+
+    <!-- ── ACQUISITION BREAKDOWN ─────────────────────────────────────────── -->
+    <div class="section-card">
+      <h2>Acquisition Breakdown</h2>
+      <div class="section-note">UTM attribution for registrations in the selected period.</div>
+      <div class="muted-note" style="margin-bottom:12px">Not applied to: Total known contacts, Active email subscribers, Cohort Funnel, Audience Movement.</div>
+      <div class="filter-strip" id="acquisition-filters">
+        <div class="form-group">
+          <label>Attribution</label>
+          <div class="radio-group">
+            <label><input type="radio" name="acq-attr" value="first_touch" checked /> First Touch</label>
+            <label><input type="radio" name="acq-attr" value="latest_touch" /> Latest Touch</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>UTM Source</label>
+          <input type="text" id="acq-source" placeholder="filter…" style="width:120px" />
+        </div>
+        <div class="form-group">
+          <label>UTM Medium</label>
+          <input type="text" id="acq-medium" placeholder="filter…" style="width:120px" />
+        </div>
+        <div class="form-group">
+          <label>UTM Campaign</label>
+          <input type="text" id="acq-campaign" placeholder="filter…" style="width:140px" />
+        </div>
+        <button class="btn btn-primary btn-sm" id="acq-apply-btn">Apply Filters</button>
+      </div>
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="acq-source-tab">By Source</button>
+        <button class="tab-btn" data-tab="acq-medium-tab">By Medium</button>
+        <button class="tab-btn" data-tab="acq-campaign-tab">By Campaign</button>
+      </div>
+      <div class="tab-panel active" id="acq-source-tab"><div class="loading-state"><span class="spinner"></span> Loading…</div></div>
+      <div class="tab-panel" id="acq-medium-tab"><div class="loading-state"><span class="spinner"></span></div></div>
+      <div class="tab-panel" id="acq-campaign-tab"><div class="loading-state"><span class="spinner"></span></div></div>
+    </div>
+
+    <!-- ── LAB PERFORMANCE ───────────────────────────────────────────────── -->
+    <div class="section-card">
+      <h2>Lab Performance</h2>
+      <div class="section-note">Events with event_date in the selected period.</div>
+      <div class="filter-strip" id="lab-filters" style="margin-bottom:12px">
+        <div class="form-group">
+          <label>Filter by Event</label>
+          <select id="lab-event-filter" style="width:280px">
+            <option value="">— All events in range —</option>
+          </select>
+        </div>
+        <button class="btn btn-primary btn-sm" id="lab-apply-btn">Apply</button>
+      </div>
+      <div id="lab-content" class="loading-state"><span class="spinner"></span> Loading…</div>
+    </div>
+
+    <!-- ── AUDIENCE MOVEMENT ─────────────────────────────────────────────── -->
+    <div class="section-card">
+      <h2>Audience Movement</h2>
+      <div class="muted-note" style="margin-bottom:12px">Multi-source and single-source counts are all-time. UTM filters not applied to this section.</div>
+      <div id="movement-content" class="loading-state"><span class="spinner"></span> Loading…</div>
+    </div>
+
+    <!-- ── ASSESSMENT PATHWAY ────────────────────────────────────────────── -->
+    <div class="section-card">
+      <h2>Assessment Pathway</h2>
+      <div class="section-note">Assessment filters use participant first-touch or session latest-touch attribution.</div>
+      <div class="filter-strip" id="assess-filters">
+        <div class="form-group">
+          <label>Attribution</label>
+          <div class="radio-group">
+            <label><input type="radio" name="assess-attr" value="first_touch" checked /> First Touch</label>
+            <label><input type="radio" name="assess-attr" value="latest_touch" /> Latest Touch</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>UTM Source</label>
+          <input type="text" id="assess-source" placeholder="filter…" style="width:120px" />
+        </div>
+        <div class="form-group">
+          <label>UTM Medium</label>
+          <input type="text" id="assess-medium" placeholder="filter…" style="width:120px" />
+        </div>
+        <div class="form-group">
+          <label>UTM Campaign</label>
+          <input type="text" id="assess-campaign" placeholder="filter…" style="width:140px" />
+        </div>
+        <button class="btn btn-primary btn-sm" id="assess-apply-btn">Apply Filters</button>
+      </div>
+      <div id="assess-content" class="loading-state"><span class="spinner"></span> Loading…</div>
+    </div>
+
+    <!-- ── DATA HEALTH ───────────────────────────────────────────────────── -->
+    <div class="section-card">
+      <h2>Data Health</h2>
+      <div class="section-note">Counts &gt; 0 indicate data issues that may need attention.</div>
+      <div class="muted-note" style="margin-bottom:12px">UTM filters not applied to this section.</div>
+      <div id="health-content" class="loading-state"><span class="spinner"></span> Loading…</div>
+    </div>
+
+    <!-- ── CONTACT DRILLDOWN ─────────────────────────────────────────────── -->
+    <div class="section-card">
+      <h2>Contact Drilldown</h2>
+      <div class="section-note">Returns funnel history only. No names, emails, or assessment answers returned.</div>
+      <div class="drilldown-input">
+        <input type="text" id="contact-uuid-input" placeholder="Contact UUID (e.g. a1b2c3d4-…)" />
+        <button class="btn btn-primary" id="load-contact-btn">Load Contact</button>
+      </div>
+      <div id="drilldown-content" class="empty-state">Enter a contact UUID above to load their funnel history.</div>
+    </div>
+
+  </div><!-- /main -->
+</div><!-- /app -->
+
+<div id="toast"></div>
+
+<script>
+// =============================================================================
+// Constants
+// =============================================================================
+const ANALYTICS_API_URL = "https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1/analytics-admin";
+
+// =============================================================================
+// Auth
+// =============================================================================
+document.getElementById("auth-form").addEventListener("submit", async function(e) {
+  e.preventDefault();
+  const input = document.getElementById("secret-input").value.trim();
+  if (!input) return;
+  const errEl = document.getElementById("auth-error");
+  errEl.textContent = "";
+
+  try {
+    const res = await fetch(ANALYTICS_API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "x-admin-secret": input },
+      body: JSON.stringify({ action: "data_health", p_start: "2020-01-01T00:00:00.000Z", p_end: new Date().toISOString() })
+    });
+    if (res.status === 401) { errEl.textContent = "Invalid admin secret."; return; }
+    if (!res.ok) { errEl.textContent = "Server error. Try again."; return; }
+    sessionStorage.setItem("analytics_secret", input);
+    bootApp();
+  } catch {
+    errEl.textContent = "Network error. Check your connection.";
+  }
+});
+
+document.getElementById("settings-btn").addEventListener("click", function() {
+  sessionStorage.removeItem("analytics_secret");
+  location.reload();
+});
+
+(function() {
+  const saved = sessionStorage.getItem("analytics_secret");
+  if (saved) bootApp();
+})();
+
+// =============================================================================
+// API
+// =============================================================================
+async function callApi(action, params) {
+  const secret = sessionStorage.getItem("analytics_secret");
+  const res = await fetch(ANALYTICS_API_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "x-admin-secret": secret },
+    body: JSON.stringify({ action, ...params })
+  });
+  if (!res.ok) throw new Error(await res.text());
+  return res.json();
+}
+
+// =============================================================================
+// Date helpers (local-time, half-open interval)
+// =============================================================================
+function localDayStartIso(dateValue) {
+  const [year, month, day] = dateValue.split("-").map(Number);
+  return new Date(year, month - 1, day, 0, 0, 0, 0).toISOString();
+}
+function localDayAfterIso(dateValue) {
+  const [year, month, day] = dateValue.split("-").map(Number);
+  return new Date(year, month - 1, day + 1, 0, 0, 0, 0).toISOString();
+}
+function toDateInput(d) {
+  const yr = d.getFullYear();
+  const mo = String(d.getMonth() + 1).padStart(2, "0");
+  const dy = String(d.getDate()).padStart(2, "0");
+  return yr + "-" + mo + "-" + dy;
+}
+function fmtDate(iso) {
+  if (!iso) return "—";
+  try {
+    return new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+  } catch { return iso; }
+}
+function fmtDateRange() {
+  const s = document.getElementById("start-date").value;
+  const e = document.getElementById("end-date").value;
+  return fmtDate(s + "T00:00:00") + " – " + fmtDate(e + "T00:00:00");
+}
+function getDateParams() {
+  const s = document.getElementById("start-date").value;
+  const e = document.getElementById("end-date").value;
+  return { p_start: localDayStartIso(s), p_end: localDayAfterIso(e) };
+}
+
+// =============================================================================
+// HTML escape
+// =============================================================================
+function esc(s) {
+  if (s == null) return "—";
+  return String(s)
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+}
+function num(v) {
+  if (v == null) return "—";
+  return Number(v).toLocaleString();
+}
+function pct(v) {
+  if (v == null) return "—";
+  return v + "%";
+}
+
+// =============================================================================
+// Boot
+// =============================================================================
+function bootApp() {
+  document.getElementById("auth-screen").style.display = "none";
+  document.getElementById("app").style.display = "block";
+
+  // Default range: last 30 days
+  const now = new Date();
+  const then = new Date(now);
+  then.setDate(then.getDate() - 30);
+  document.getElementById("start-date").value = toDateInput(then);
+  document.getElementById("end-date").value   = toDateInput(now);
+
+  // Timezone
+  const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  document.getElementById("tz-label").textContent = "Timezone: " + tz;
+
+  // Tabs
+  document.querySelectorAll(".tab-btn").forEach(function(btn) {
+    btn.addEventListener("click", function() {
+      const tabId = btn.dataset.tab;
+      const parent = btn.closest(".section-card");
+      parent.querySelectorAll(".tab-btn").forEach(function(b) { b.classList.remove("active"); });
+      parent.querySelectorAll(".tab-panel").forEach(function(p) { p.classList.remove("active"); });
+      btn.classList.add("active");
+      document.getElementById(tabId).classList.add("active");
+    });
+  });
+
+  loadAll();
+}
+
+function loadAll() {
+  updateRangeNote();
+  loadOverview();
+  loadCohort();
+  loadActivity();
+  loadAcquisition();
+  loadLabPerformance();
+  loadAudienceMovement();
+  loadAssessmentPathway();
+  loadDataHealth();
+}
+
+function updateRangeNote() {
+  document.getElementById("overview-range-note").textContent = "Date range: " + fmtDateRange();
+}
+
+document.getElementById("apply-btn").addEventListener("click", loadAll);
+document.getElementById("acq-apply-btn").addEventListener("click", loadAcquisition);
+document.getElementById("lab-apply-btn").addEventListener("click", loadLabPerformance);
+document.getElementById("assess-apply-btn").addEventListener("click", loadAssessmentPathway);
+
+// =============================================================================
+// Overview
+// =============================================================================
+async function loadOverview() {
+  const el = document.getElementById("overview-content");
+  el.innerHTML = '<div class="loading-state"><span class="spinner"></span> Loading…</div>';
+  try {
+    const { data } = await callApi("overview", getDateParams());
+    renderOverview(data);
+  } catch(err) {
+    el.innerHTML = '<div class="empty-state" style="color:#dc2626">Error: ' + esc(err.message) + '</div>';
+  }
+}
+
+function renderOverview(d) {
+  const range = fmtDateRange();
+  const metrics = [
+    { key: "total_known_contacts",   label: "Total Known Contacts",   alltime: true,
+      tip: "All contacts ever recorded in the contacts table, all-time." },
+    { key: "new_contacts",           label: "New Contacts",           alltime: false,
+      tip: "Contacts whose first_seen_at falls in the selected date range." },
+    { key: "active_registrations",   label: "Active Registrations",   alltime: false,
+      tip: "Registrations created in the selected range with status='active'. UTM filters apply." },
+    { key: "cancelled_registrations",label: "Cancelled Registrations",alltime: false,
+      tip: "Registrations created in the selected range with status='cancelled'. UTM filters apply." },
+    { key: "reviewed_registrations", label: "Reviewed Registrations", alltime: false,
+      tip: "Active registrations for events whose event_date is in the range, where attendance has been marked (attended/partial/no_show)." },
+    { key: "attendees",              label: "Attendees",              alltime: false,
+      tip: "Active registrations for events in range with attendance status attended or partial." },
+    { key: "attendance_rate",        label: "Attendance Rate",        alltime: false, pct: true,
+      tip: "attendees / (attendees + no_shows) × 100. Null if no reviewed attendance." },
+    { key: "data_completion_rate",   label: "Data Completion",        alltime: false, pct: true,
+      tip: "reviewed_registrations / active_registrations_for_events_in_range × 100." },
+    { key: "repeat_attendees",       label: "Repeat Attendees",       alltime: false,
+      tip: "Contacts with ≥2 active registrations at events in range with attendance attended/partial." },
+    { key: "assessment_completions", label: "Assessment Completions", alltime: false,
+      tip: "Assessment sessions with status in (submitted, scored) and submitted_at in range." },
+    { key: "whatsapp_requests",      label: "WhatsApp Requests",      alltime: false,
+      tip: "WhatsApp interest requests created in the selected range." },
+    { key: "active_email_subscribers",label: "Active Email Subscribers",alltime: true,
+      tip: "email_contacts with status='subscribed', all-time count." },
+  ];
+
+  const html = '<div class="metric-grid">' +
+    metrics.map(function(m) {
+      const val = d[m.key];
+      const display = m.pct ? pct(val) : num(val);
+      const badge = m.alltime
+        ? '<span class="metric-badge badge-alltime">All time</span>'
+        : '<span class="metric-badge badge-range">' + esc(range) + '</span>';
+      return '<div class="metric-card" title="' + esc(m.tip) + '">' +
+        '<div class="metric-value">' + esc(display) + '</div>' +
+        '<div class="metric-name">' + esc(m.label) + '</div>' +
+        badge +
+        '</div>';
+    }).join("") +
+    '</div>';
+
+  document.getElementById("overview-content").innerHTML = html;
+}
+
+// =============================================================================
+// Cohort Funnel
+// =============================================================================
+async function loadCohort() {
+  const el = document.getElementById("cohort-content");
+  el.innerHTML = '<div class="loading-state"><span class="spinner"></span> Loading…</div>';
+  try {
+    const { data } = await callApi("cohort_funnel", getDateParams());
+    renderCohort(data);
+  } catch(err) {
+    el.innerHTML = '<div class="empty-state" style="color:#dc2626">Error: ' + esc(err.message) + '</div>';
+  }
+}
+
+function renderCohort(d) {
+  if (!d) { document.getElementById("cohort-content").innerHTML = '<div class="empty-state">No data.</div>'; return; }
+  const stages = [
+    { name: "Known Contacts (cohort)",  count: d.known_contacts,   prevKey: null },
+    { name: "Registered",               count: d.registered,       prevKey: "known_contacts" },
+    { name: "Reviewed",                 count: d.reviewed,         prevKey: "registered" },
+    { name: "Attended",                 count: d.attended,         prevKey: "reviewed" },
+    { name: "Repeat Attendees",         count: d.repeat_attendees, prevKey: "attended" },
+  ];
+  const rates = d.rates || {};
+  const rateLabels = [
+    "—", pct(rates.registered_rate), pct(rates.reviewed_of_registered),
+    pct(rates.attended_of_reviewed), pct(rates.repeat_of_attended)
+  ];
+
+  let rows = stages.map(function(st, i) {
+    const barPct = d.known_contacts > 0
+      ? Math.round((st.count / d.known_contacts) * 100)
+      : 0;
+    return '<tr><td><strong>' + esc(st.name) + '</strong></td>' +
+      '<td style="text-align:right;font-weight:700">' + num(st.count) + '</td>' +
+      '<td style="min-width:160px">' +
+        '<div class="funnel-bar-wrap"><div class="funnel-bar" style="width:' + barPct + '%"></div></div>' +
+        '<small style="color:#888">' + barPct + '% of cohort</small>' +
+      '</td>' +
+      '<td style="color:#888;font-size:12px">' + rateLabels[i] + ' of prev stage</td>' +
+      '</tr>';
+  }).join("");
+
+  document.getElementById("cohort-content").innerHTML =
+    '<table class="funnel-table">' +
+    '<thead><tr><th>Stage</th><th style="text-align:right">Count</th><th>% of Cohort</th><th>% of Prev Stage</th></tr></thead>' +
+    '<tbody>' + rows + '</tbody></table>';
+}
+
+// =============================================================================
+// Activity
+// =============================================================================
+async function loadActivity() {
+  const el = document.getElementById("activity-content");
+  el.innerHTML = '<div class="loading-state"><span class="spinner"></span> Loading…</div>';
+  try {
+    const { data } = await callApi("activity", getDateParams());
+    renderActivity(data);
+  } catch(err) {
+    el.innerHTML = '<div class="empty-state" style="color:#dc2626">Error: ' + esc(err.message) + '</div>';
+  }
+}
+
+function renderActivity(d) {
+  const range = fmtDateRange();
+  const rows = [
+    { metric: "New Contacts",            key: "new_contacts",            basis: "contacts.first_seen_at in range" },
+    { metric: "Active Registrations",    key: "active_registrations",    basis: "registrations.created_at in range, status=active" },
+    { metric: "Cancelled Registrations", key: "cancelled_registrations", basis: "registrations.created_at in range, status=cancelled" },
+    { metric: "Lab Events Held",         key: "lab_events_held",         basis: "events.event_date in range, is_published=true" },
+    { metric: "Assessments Started",     key: "assessment_started",      basis: "assessment_sessions.started_at in range" },
+    { metric: "Assessment Completions",  key: "assessment_completions",  basis: "status in (submitted,scored) AND submitted_at in range" },
+    { metric: "WhatsApp Requests",       key: "whatsapp_requests",       basis: "whatsapp_requests.created_at in range" },
+  ];
+
+  const html = '<table class="data-table">' +
+    '<thead><tr><th>Metric</th><th style="text-align:right">Count</th><th>Date Basis</th></tr></thead>' +
+    '<tbody>' +
+    rows.map(function(r) {
+      return '<tr><td>' + esc(r.metric) + '</td>' +
+        '<td style="text-align:right;font-weight:700">' + num(d[r.key]) + '</td>' +
+        '<td style="font-size:12px;color:#888">' + esc(r.basis) + '</td></tr>';
+    }).join("") +
+    '</tbody></table>';
+
+  document.getElementById("activity-content").innerHTML = html;
+}
+
+// =============================================================================
+// Acquisition Breakdown
+// =============================================================================
+async function loadAcquisition() {
+  const tabs = ["acq-source-tab","acq-medium-tab","acq-campaign-tab"];
+  tabs.forEach(function(t) {
+    document.getElementById(t).innerHTML = '<div class="loading-state"><span class="spinner"></span> Loading…</div>';
+  });
+
+  const attrMode = document.querySelector('input[name="acq-attr"]:checked').value;
+  const params = Object.assign({}, getDateParams(), {
+    p_attribution_mode: attrMode,
+    p_utm_source:   document.getElementById("acq-source").value.trim()   || undefined,
+    p_utm_medium:   document.getElementById("acq-medium").value.trim()   || undefined,
+    p_utm_campaign: document.getElementById("acq-campaign").value.trim() || undefined,
+  });
+
+  try {
+    const { data } = await callApi("acquisition", params);
+    renderAcqTab("acq-source-tab",   data.by_source);
+    renderAcqTab("acq-medium-tab",   data.by_medium);
+    renderAcqTab("acq-campaign-tab", data.by_campaign);
+  } catch(err) {
+    tabs.forEach(function(t) {
+      document.getElementById(t).innerHTML = '<div class="empty-state" style="color:#dc2626">Error: ' + esc(err.message) + '</div>';
+    });
+  }
+}
+
+function renderAcqTab(tabId, rows) {
+  if (!rows || rows.length === 0) {
+    document.getElementById(tabId).innerHTML = '<div class="empty-state">No data.</div>';
+    return;
+  }
+  const html = '<table class="data-table">' +
+    '<thead><tr><th>Dimension</th><th style="text-align:right">Active</th><th style="text-align:right">Cancelled</th><th style="text-align:right">Total</th></tr></thead>' +
+    '<tbody>' +
+    rows.map(function(r) {
+      const isTotal = r.dimension === "TOTAL";
+      return '<tr class="' + (isTotal ? "total-row" : "") + '">' +
+        '<td>' + esc(r.dimension) + '</td>' +
+        '<td style="text-align:right">' + num(r.active) + '</td>' +
+        '<td style="text-align:right">' + num(r.cancelled) + '</td>' +
+        '<td style="text-align:right">' + num(r.total) + '</td>' +
+        '</tr>';
+    }).join("") +
+    '</tbody></table>';
+  document.getElementById(tabId).innerHTML = html;
+}
+
+// =============================================================================
+// Lab Performance
+// =============================================================================
+let labData = null;
+
+async function loadLabPerformance() {
+  const el = document.getElementById("lab-content");
+  el.innerHTML = '<div class="loading-state"><span class="spinner"></span> Loading…</div>';
+
+  const filterSelect = document.getElementById("lab-event-filter");
+  const selectedEvent = filterSelect.value || undefined;
+
+  const params = Object.assign({}, getDateParams());
+  if (selectedEvent) params.p_event_id = selectedEvent;
+
+  try {
+    const { data } = await callApi("lab_performance", params);
+    labData = data;
+    // Populate event dropdown if loading all
+    if (!selectedEvent) {
+      const opts = '<option value="">— All events in range —</option>' +
+        (data || []).map(function(ev) {
+          return '<option value="' + esc(ev.event_id) + '">' + esc(ev.event_title) + ' (' + fmtDate(ev.event_date) + ')</option>';
+        }).join("");
+      filterSelect.innerHTML = opts;
+    }
+    renderLabPerformance(data);
+  } catch(err) {
+    el.innerHTML = '<div class="empty-state" style="color:#dc2626">Error: ' + esc(err.message) + '</div>';
+  }
+}
+
+function renderLabPerformance(rows) {
+  const el = document.getElementById("lab-content");
+  if (!rows || rows.length === 0) {
+    el.innerHTML = '<div class="empty-state">No events found in the selected range.</div>';
+    return;
+  }
+  const html = '<div style="overflow-x:auto"><table class="data-table">' +
+    '<thead><tr>' +
+    '<th>Event</th><th>Date</th><th>Limit</th>' +
+    '<th style="text-align:right">Active</th><th style="text-align:right">Cancelled</th>' +
+    '<th style="text-align:right">Reviewed</th><th style="text-align:right">Attended</th>' +
+    '<th style="text-align:right">No-show</th><th style="text-align:right">Unreviewed</th>' +
+    '<th style="text-align:right">Returning</th>' +
+    '<th style="text-align:right" title="Attended / (Attended + No-show)">Att.%</th>' +
+    '<th style="text-align:right" title="Reviewed / Active">Complete%</th>' +
+    '</tr></thead><tbody>' +
+    rows.map(function(ev) {
+      return '<tr>' +
+        '<td>' + esc(ev.event_title) + '</td>' +
+        '<td style="white-space:nowrap">' + fmtDate(ev.event_date) + '</td>' +
+        '<td style="text-align:right">' + (ev.seat_limit != null ? num(ev.seat_limit) : '—') + '</td>' +
+        '<td style="text-align:right">' + num(ev.active_registrations) + '</td>' +
+        '<td style="text-align:right">' + num(ev.cancelled_registrations) + '</td>' +
+        '<td style="text-align:right">' + num(ev.reviewed) + '</td>' +
+        '<td style="text-align:right">' + num(ev.attended) + '</td>' +
+        '<td style="text-align:right">' + num(ev.no_show) + '</td>' +
+        '<td style="text-align:right">' + num(ev.unreviewed) + '</td>' +
+        '<td style="text-align:right">' + num(ev.returning_attendees) + '</td>' +
+        '<td style="text-align:right">' + pct(ev.attendance_rate) + '</td>' +
+        '<td style="text-align:right">' + pct(ev.data_completion_rate) + '</td>' +
+        '</tr>';
+    }).join("") +
+    '</tbody></table></div>';
+  el.innerHTML = html;
+}
+
+// =============================================================================
+// Audience Movement
+// =============================================================================
+async function loadAudienceMovement() {
+  const el = document.getElementById("movement-content");
+  el.innerHTML = '<div class="loading-state"><span class="spinner"></span> Loading…</div>';
+  try {
+    const { data } = await callApi("audience_movement", getDateParams());
+    renderAudienceMovement(data);
+  } catch(err) {
+    el.innerHTML = '<div class="empty-state" style="color:#dc2626">Error: ' + esc(err.message) + '</div>';
+  }
+}
+
+function renderAudienceMovement(d) {
+  const el = document.getElementById("movement-content");
+  if (!d) { el.innerHTML = '<div class="empty-state">No data.</div>'; return; }
+
+  const summaryRows = [
+    { label: "New Contacts in Range",          value: num(d.new_contacts_in_range),    note: "first_seen_at in range" },
+    { label: "Multi-source Contacts",           value: num(d.multi_source_contacts),    note: "all-time — appears in ≥2 source tables" },
+    { label: "Single-source Contacts",          value: num(d.single_source_contacts),   note: "all-time — appears in exactly 1 source table" },
+    { label: "Attended then Re-registered",     value: num(d.attended_then_reregistered), note: "contacts who attended/partial then later registered again" },
+  ];
+
+  const distRows = (d.source_distribution || []).map(function(r) {
+    return '<tr><td>' + esc(r.num_sources) + ' source(s)</td><td style="text-align:right;font-weight:700">' + num(r.contacts) + '</td></tr>';
+  }).join("");
+
+  el.innerHTML =
+    '<table class="data-table" style="margin-bottom:20px">' +
+    '<thead><tr><th>Metric</th><th style="text-align:right">Count</th><th>Note</th></tr></thead>' +
+    '<tbody>' +
+    summaryRows.map(function(r) {
+      return '<tr><td>' + esc(r.label) + '</td><td style="text-align:right;font-weight:700">' + r.value + '</td><td style="font-size:12px;color:#888">' + esc(r.note) + '</td></tr>';
+    }).join("") +
+    '</tbody></table>' +
+    '<h3 style="font-size:13px;font-weight:700;margin-bottom:8px;color:#555">Source Distribution (all-time)</h3>' +
+    '<table class="data-table" style="max-width:300px">' +
+    '<thead><tr><th>Sources</th><th style="text-align:right">Contacts</th></tr></thead>' +
+    '<tbody>' + (distRows || '<tr><td colspan="2" class="empty-state">No data.</td></tr>') + '</tbody></table>' +
+    '<div class="muted-note" style="margin-top:8px">' + esc(d.single_source_rule || "") + '</div>';
+}
+
+// =============================================================================
+// Assessment Pathway
+// =============================================================================
+async function loadAssessmentPathway() {
+  const el = document.getElementById("assess-content");
+  el.innerHTML = '<div class="loading-state"><span class="spinner"></span> Loading…</div>';
+
+  const attrMode = document.querySelector('input[name="assess-attr"]:checked').value;
+  const params = Object.assign({}, getDateParams(), {
+    p_attribution_mode: attrMode,
+    p_utm_source:   document.getElementById("assess-source").value.trim()   || undefined,
+    p_utm_medium:   document.getElementById("assess-medium").value.trim()   || undefined,
+    p_utm_campaign: document.getElementById("assess-campaign").value.trim() || undefined,
+  });
+
+  try {
+    const { data } = await callApi("assessment_pathway", params);
+    renderAssessmentPathway(data);
+  } catch(err) {
+    el.innerHTML = '<div class="empty-state" style="color:#dc2626">Error: ' + esc(err.message) + '</div>';
+  }
+}
+
+function renderAssessmentPathway(d) {
+  const el = document.getElementById("assess-content");
+  if (!d) { el.innerHTML = '<div class="empty-state">No data.</div>'; return; }
+
+  const summaryHtml =
+    '<div class="metric-grid" style="margin-bottom:20px">' +
+    [
+      { label: "Total Started",       val: num(d.total_started) },
+      { label: "Completed",           val: num(d.total_completed) },
+      { label: "Abandoned",           val: num(d.total_abandoned) },
+      { label: "In Progress",         val: num(d.total_in_progress) },
+      { label: "Completion Rate",     val: pct(d.completion_rate) },
+    ].map(function(m) {
+      return '<div class="metric-card"><div class="metric-value">' + esc(m.val) + '</div><div class="metric-name">' + esc(m.label) + '</div></div>';
+    }).join("") +
+    '</div>';
+
+  const bySourceRows = (d.by_source || []).map(function(r) {
+    return '<tr>' +
+      '<td>' + esc(r.src) + '</td>' +
+      '<td style="text-align:right">' + num(r.started) + '</td>' +
+      '<td style="text-align:right">' + num(r.completed) + '</td>' +
+      '<td style="text-align:right">' + num(r.abandoned) + '</td>' +
+      '<td style="text-align:right">' + num(r.in_progress) + '</td>' +
+      '</tr>';
+  }).join("");
+
+  el.innerHTML = summaryHtml +
+    '<h3 style="font-size:13px;font-weight:700;margin-bottom:8px;color:#555">By Source (Attribution: ' + esc(d.attribution_mode) + ')</h3>' +
+    '<table class="data-table">' +
+    '<thead><tr><th>Source</th><th style="text-align:right">Started</th><th style="text-align:right">Completed</th><th style="text-align:right">Abandoned</th><th style="text-align:right">In Progress</th></tr></thead>' +
+    '<tbody>' + (bySourceRows || '<tr><td colspan="5" class="empty-state">No data.</td></tr>') + '</tbody></table>';
+}
+
+// =============================================================================
+// Data Health
+// =============================================================================
+async function loadDataHealth() {
+  const el = document.getElementById("health-content");
+  el.innerHTML = '<div class="loading-state"><span class="spinner"></span> Loading…</div>';
+  try {
+    const { data } = await callApi("data_health", getDateParams());
+    renderDataHealth(data);
+  } catch(err) {
+    el.innerHTML = '<div class="empty-state" style="color:#dc2626">Error: ' + esc(err.message) + '</div>';
+  }
+}
+
+function renderDataHealth(d) {
+  const checks = [
+    { key: "regs_without_contact",         label: "Registrations without contact link",        note: "created_at in range" },
+    { key: "unreviewed_attendance",         label: "Unreviewed attendance (events in range)",   note: "active regs, event_date in range, attendance=unreviewed" },
+    { key: "assessment_inconsistencies",    label: "Assessment status/submitted_at mismatch",   note: "all-time" },
+    { key: "cancelled_without_cancelled_at",label: "Cancelled regs missing cancelled_at",       note: "all-time" },
+    { key: "contacts_first_after_last",     label: "Contacts: first_seen_at > last_seen_at",    note: "all-time" },
+    { key: "regs_missing_attendance",       label: "Active regs missing attendance record",     note: "created_at in range" },
+    { key: "email_contacts_unlinked",       label: "Email contacts not linked to contact",      note: "all-time" },
+    { key: "participants_unlinked",         label: "Participants not linked to contact",         note: "all-time" },
+  ];
+
+  const html = '<table class="data-table">' +
+    '<thead><tr><th>Check</th><th style="text-align:right">Count</th><th>Scope</th></tr></thead>' +
+    '<tbody>' +
+    checks.map(function(c) {
+      const val = d[c.key];
+      const cls = val > 0 ? ' class="text-danger"' : '';
+      return '<tr><td>' + esc(c.label) + '</td>' +
+        '<td style="text-align:right"' + cls + '>' + num(val) + '</td>' +
+        '<td style="font-size:12px;color:#888">' + esc(c.note) + '</td></tr>';
+    }).join("") +
+    '</tbody></table>';
+
+  document.getElementById("health-content").innerHTML = html;
+}
+
+// =============================================================================
+// Contact Drilldown
+// =============================================================================
+document.getElementById("load-contact-btn").addEventListener("click", loadContactDrilldown);
+document.getElementById("contact-uuid-input").addEventListener("keydown", function(e) {
+  if (e.key === "Enter") loadContactDrilldown();
+});
+
+async function loadContactDrilldown() {
+  const input = document.getElementById("contact-uuid-input").value.trim();
+  const el = document.getElementById("drilldown-content");
+  if (!input) { el.innerHTML = '<div class="empty-state">Enter a contact UUID above.</div>'; return; }
+  if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(input)) {
+    el.innerHTML = '<div class="empty-state" style="color:#dc2626">Invalid UUID format.</div>';
+    return;
+  }
+
+  el.innerHTML = '<div class="loading-state"><span class="spinner"></span> Loading…</div>';
+  try {
+    const { data } = await callApi("contact_drilldown", { p_contact_id: input });
+    renderContactDrilldown(data);
+  } catch(err) {
+    el.innerHTML = '<div class="empty-state" style="color:#dc2626">Error: ' + esc(err.message) + '</div>';
+  }
+}
+
+function renderContactDrilldown(d) {
+  const el = document.getElementById("drilldown-content");
+  if (!d) { el.innerHTML = '<div class="empty-state">Contact not found.</div>'; return; }
+
+  const regs = d.registrations || [];
+  const regTable = regs.length === 0
+    ? '<div class="empty-state">No registrations.</div>'
+    : '<table class="data-table" style="margin-bottom:12px">' +
+      '<thead><tr><th>Event</th><th>Event Date</th><th>Reg Status</th><th>Attendance</th><th>Minutes</th><th>Registered</th></tr></thead>' +
+      '<tbody>' +
+      regs.map(function(r) {
+        return '<tr>' +
+          '<td>' + esc(r.event_title) + '</td>' +
+          '<td>' + fmtDate(r.event_date) + '</td>' +
+          '<td>' + esc(r.registration_status) + '</td>' +
+          '<td>' + esc(r.attendance_status || "—") + '</td>' +
+          '<td>' + (r.attended_minutes != null ? num(r.attended_minutes) : "—") + '</td>' +
+          '<td>' + fmtDate(r.created_at) + '</td>' +
+          '</tr>';
+      }).join("") +
+      '</tbody></table>';
+
+  const assessments = d.assessments || [];
+  const assessTable = assessments.length === 0
+    ? '<div class="empty-state">No assessments.</div>'
+    : '<table class="data-table" style="margin-bottom:12px">' +
+      '<thead><tr><th>Session ID</th><th>Status</th><th>Started</th><th>Submitted</th></tr></thead>' +
+      '<tbody>' +
+      assessments.map(function(a) {
+        return '<tr>' +
+          '<td style="font-family:monospace;font-size:11px">' + esc(a.session_id) + '</td>' +
+          '<td>' + esc(a.status) + '</td>' +
+          '<td>' + fmtDate(a.started_at) + '</td>' +
+          '<td>' + fmtDate(a.submitted_at) + '</td>' +
+          '</tr>';
+      }).join("") +
+      '</tbody></table>';
+
+  const emailStatus = d.email_status ? esc(d.email_status.status) : "—";
+  const waCt = (d.whatsapp_requests || []).length;
+  const sources = (d.source_tables || []).join(", ") || "—";
+
+  el.innerHTML =
+    '<div style="margin-bottom:16px">' +
+    '<strong>Contact ID:</strong> <code>' + esc(d.contact_id) + '</code>&nbsp;&nbsp;' +
+    '<strong>First seen:</strong> ' + fmtDate(d.first_seen_at) + '&nbsp;&nbsp;' +
+    '<strong>Last seen:</strong> ' + fmtDate(d.last_seen_at) +
+    '</div>' +
+
+    '<h3 style="font-size:13px;font-weight:700;margin-bottom:8px">Registrations</h3>' + regTable +
+
+    '<h3 style="font-size:13px;font-weight:700;margin-bottom:8px">Assessments</h3>' + assessTable +
+
+    '<table class="data-table" style="max-width:400px">' +
+    '<tbody>' +
+    '<tr><td><strong>WhatsApp Requests</strong></td><td>' + num(waCt) + '</td></tr>' +
+    '<tr><td><strong>Email Status</strong></td><td>' + emailStatus + '</td></tr>' +
+    '<tr><td><strong>Source Tables</strong></td><td style="font-size:12px">' + esc(sources) + '</td></tr>' +
+    '</tbody></table>';
+}
+
+// =============================================================================
+// Toast
+// =============================================================================
+function showToast(msg, type) {
+  const el = document.createElement("div");
+  el.className = "toast-item toast-" + type;
+  el.textContent = msg;
+  document.getElementById("toast").appendChild(el);
+  setTimeout(function() { el.remove(); }, 4000);
+}
+</script>
+</body>
+</html>
