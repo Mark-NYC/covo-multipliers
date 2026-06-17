@@ -176,8 +176,8 @@ begin
     set
       status         = 'subscribed',
       consent_source = 'lab_registration_form',
-      consent_at     = coalesce(email_contacts.consent_at, new.marketing_consent_at),
-      consent_copy   = coalesce(email_contacts.consent_copy, new.marketing_consent_copy),
+      consent_at     = new.marketing_consent_at,
+      consent_copy   = new.marketing_consent_copy,
       updated_at     = now()
     where email   = v_normalised_email
       and status not in ('bounced', 'complained');

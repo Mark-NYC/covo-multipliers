@@ -1272,7 +1272,7 @@
 <div class="form-opt-in">
 <input id="field-marketing-opt-in" name="marketing_opt_in" type="checkbox" value="true"/>
 <label for="field-marketing-opt-in">
-                                Send me occasional emails about future Covo labs, tools, and live training. Unsubscribe anytime.
+                                Yes, email me about future CoVo Multipliers labs, resources, and training. I can unsubscribe at any time.
                             </label>
 </div>
 <button class="btn-submit" id="submit-btn" type="submit">
@@ -1652,9 +1652,6 @@
                         name,
                         email,
                         marketing_opt_in: marketingOptIn,
-                        marketing_consent_copy: marketingOptIn
-                            ? 'Yes, email me about future CoVo Multipliers labs, resources, and training. I can unsubscribe at any time.'
-                            : null,
                     }, window.CovoAttribution ? window.CovoAttribution.get() : {})),
                 });
 
