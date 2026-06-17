@@ -841,21 +841,21 @@ email_status AS (
 source_list AS (
   SELECT jsonb_agg(DISTINCT src_table ORDER BY src_table) AS data
   FROM (
-    SELECT 'registrations'         AS src_table FROM registrations         WHERE contact_id = p_contact_id LIMIT 1
+    SELECT 'registrations'         AS src_table WHERE EXISTS (SELECT 1 FROM registrations         WHERE contact_id = p_contact_id)
     UNION ALL
-    SELECT 'participants'           AS src_table FROM participants           WHERE contact_id = p_contact_id LIMIT 1
+    SELECT 'participants'           AS src_table WHERE EXISTS (SELECT 1 FROM participants           WHERE contact_id = p_contact_id)
     UNION ALL
-    SELECT 'subscribers'            AS src_table FROM subscribers            WHERE contact_id = p_contact_id LIMIT 1
+    SELECT 'subscribers'            AS src_table WHERE EXISTS (SELECT 1 FROM subscribers            WHERE contact_id = p_contact_id)
     UNION ALL
-    SELECT 'whatsapp_requests'      AS src_table FROM whatsapp_requests      WHERE contact_id = p_contact_id LIMIT 1
+    SELECT 'whatsapp_requests'      AS src_table WHERE EXISTS (SELECT 1 FROM whatsapp_requests      WHERE contact_id = p_contact_id)
     UNION ALL
-    SELECT 'contact_messages'       AS src_table FROM contact_messages       WHERE contact_id = p_contact_id LIMIT 1
+    SELECT 'contact_messages'       AS src_table WHERE EXISTS (SELECT 1 FROM contact_messages       WHERE contact_id = p_contact_id)
     UNION ALL
-    SELECT 'immersion_applications' AS src_table FROM immersion_applications WHERE contact_id = p_contact_id LIMIT 1
+    SELECT 'immersion_applications' AS src_table WHERE EXISTS (SELECT 1 FROM immersion_applications WHERE contact_id = p_contact_id)
     UNION ALL
-    SELECT 'lab_interest'           AS src_table FROM lab_interest           WHERE contact_id = p_contact_id LIMIT 1
+    SELECT 'lab_interest'           AS src_table WHERE EXISTS (SELECT 1 FROM lab_interest           WHERE contact_id = p_contact_id)
     UNION ALL
-    SELECT 'email_contacts'         AS src_table FROM email_contacts         WHERE contact_id = p_contact_id LIMIT 1
+    SELECT 'email_contacts'         AS src_table WHERE EXISTS (SELECT 1 FROM email_contacts         WHERE contact_id = p_contact_id)
   ) s
 )
 
