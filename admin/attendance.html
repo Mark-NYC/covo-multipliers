@@ -363,7 +363,8 @@
 // =============================================================================
 // State
 // =============================================================================
-const API_URL = "/functions/v1/attendance-admin";
+const ATTENDANCE_API_URL =
+  "https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1/attendance-admin";
 
 let secret = "";
 let actor  = "";   // read-only display; real actor is server-side
@@ -781,7 +782,7 @@ document.getElementById("confirm-ok-btn").addEventListener("click", async () => 
 // API helper
 // =============================================================================
 async function apiFetch(body, overrideSecret) {
-  return fetch(API_URL, {
+  return fetch(ATTENDANCE_API_URL, {
     method:  "POST",
     headers: {
       "Content-Type":   "application/json",
