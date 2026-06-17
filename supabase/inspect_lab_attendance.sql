@@ -122,22 +122,28 @@ order by check_name;
 
 
 -- ---------------------------------------------------------------------------
--- 10. events_with_availability matches manual active count per event
+-- 10. events_with_availability seats_remaining matches manual active count
 -- ---------------------------------------------------------------------------
 select
   e.id,
   e.slug,
-  v.registered_count       as view_count,
+  v.seats_remaining,
+  v.has_availability,
   count(r.id) filter (
     where r.registration_status = 'active'
-  )                        as manual_active_count,
-  v.registered_count = count(r.id) filter (
+  )                                                     as manual_active_count,
+  e.seat_limit - count(r.id) filter (
     where r.registration_status = 'active'
-  )                        as counts_match
+  )                                                     as manual_seats_remaining,
+  v.seats_remaining = greatest(
+    e.seat_limit - count(r.id) filter (
+      where r.registration_status = 'active'
+    ), 0
+  )                                                     as seats_remaining_match
 from public.events e
 join public.events_with_availability v on v.id = e.id
 left join public.registrations r on r.event_id = e.id
-group by e.id, e.slug, v.registered_count
+group by e.id, e.slug, e.seat_limit, v.seats_remaining, v.has_availability
 order by e.event_date desc;
 
 
@@ -186,8 +192,10 @@ order by e.event_date desc;
 select
   e.title,
   e.seat_limit,
-  v.registered_count as view_active_count,
-  v.seats_available,
+  v.seats_remaining,
+  v.has_availability,
+  (select count(*) from public.registrations r
+    where r.event_id = e.id and r.registration_status = 'active')    as active_count,
   (select count(*) from public.registrations r
     where r.event_id = e.id and r.registration_status = 'cancelled') as cancelled_count
 from public.events e
