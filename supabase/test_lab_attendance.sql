@@ -414,9 +414,24 @@ do $$ declare v jsonb; r_id uuid; att_id uuid; begin
   if not (v->>'success')::boolean then raise exception 'T14 past mark failed: %', v; end if;
 end $$;
 
--- Now set contact_id on Alice's registrations (needed for previous count lookup)
--- Use a synthetic contact id for test purposes
-do $$ declare c_id uuid := gen_random_uuid(); begin
+-- Now set contact_id on Alice's registrations (needed for previous count lookup).
+-- Must insert a real contacts row first — the FK rejects any contact_id not
+-- present in contacts.  Use an upsert by normalized_email so we get the actual
+-- persisted ID back via RETURNING; never assume a gen_random_uuid() value
+-- matches a row that was committed.
+do $$ declare c_id uuid; begin
+  insert into public.contacts (normalized_email, email, first_seen_at, last_seen_at)
+  values ('alice@test.invalid', 'alice@test.invalid', now(), now())
+  on conflict (normalized_email) do update set last_seen_at = excluded.last_seen_at
+  returning id into c_id;
+
+  -- Fallback: if another session's row won the conflict and RETURNING was
+  -- suppressed, read the winner's id explicitly.
+  if c_id is null then
+    select id into c_id from public.contacts
+    where normalized_email = 'alice@test.invalid';
+  end if;
+
   update public.registrations
   set contact_id = c_id
   where event_id in (
@@ -547,8 +562,8 @@ do $$ declare c_id uuid; begin
     and lower(email) = 'alice@test.invalid';
 
   -- Insert the contact row so it can be deleted
-  insert into public.contacts (id, normalized_email, first_seen_at, last_seen_at)
-  values (c_id, 'alice@test.invalid', now(), now())
+  insert into public.contacts (id, normalized_email, email, first_seen_at, last_seen_at)
+  values (c_id, 'alice@test.invalid', 'alice@test.invalid', now(), now())
   on conflict (id) do nothing;
 
   delete from public.contacts where id = c_id;
