@@ -499,7 +499,7 @@ select * from pg_temp.expect_eq(
   (select count(*)::text from pg_policies
    where schemaname = 'public'
      and tablename  = 'lab_attendance'
-     and (roles && array['anon','authenticated'] or roles = '{}')),
+     and (roles::text[] && array['anon','authenticated'] or roles::text[] = array[]::text[])),
   '0'
 );
 
