@@ -559,25 +559,7 @@ RETURNS jsonb
 LANGUAGE sql STABLE SECURITY DEFINER
 SET search_path = pg_catalog, public
 AS $$
-WITH source_union AS (
-  SELECT contact_id FROM registrations           WHERE contact_id IS NOT NULL
-  UNION ALL
-  SELECT contact_id FROM participants             WHERE contact_id IS NOT NULL
-  UNION ALL
-  SELECT contact_id FROM subscribers              WHERE contact_id IS NOT NULL
-  UNION ALL
-  SELECT contact_id FROM whatsapp_requests        WHERE contact_id IS NOT NULL
-  UNION ALL
-  SELECT contact_id FROM contact_messages         WHERE contact_id IS NOT NULL
-  UNION ALL
-  SELECT contact_id FROM immersion_applications   WHERE contact_id IS NOT NULL
-  UNION ALL
-  SELECT contact_id FROM lab_interest             WHERE contact_id IS NOT NULL
-  UNION ALL
-  SELECT contact_id FROM email_contacts           WHERE contact_id IS NOT NULL
-),
-
-source_counts AS (
+WITH source_counts AS (
   SELECT contact_id, COUNT(DISTINCT src_table) AS num_sources
   FROM (
     SELECT contact_id, 'registrations'         AS src_table FROM registrations         WHERE contact_id IS NOT NULL
@@ -768,8 +750,7 @@ SELECT jsonb_build_object(
     (SELECT COUNT(*)
      FROM registrations r
      LEFT JOIN lab_attendance la ON la.registration_id = r.id
-     WHERE r.registration_status = 'active'
-       AND la.id IS NULL
+     WHERE la.id IS NULL
        AND r.created_at >= p_start AND r.created_at < p_end),
 
   'email_contacts_unlinked',

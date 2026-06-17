@@ -121,7 +121,31 @@ WHERE
 -- Expected: 0 total_inconsistencies (data quality check)
 
 -- =============================================================================
--- 7. Cohort funnel sample (wide range)
+-- 7. Cohort funnel monotonicity check (known >= registered >= reviewed >= attended >= repeat)
+-- =============================================================================
+WITH funnel AS (
+  SELECT get_cohort_funnel(
+    '2020-01-01T00:00:00Z'::timestamptz,
+    now()
+  ) AS result
+)
+SELECT
+  (result->>'known_contacts')::bigint   AS known,
+  (result->>'registered')::bigint       AS registered,
+  (result->>'reviewed')::bigint         AS reviewed,
+  (result->>'attended')::bigint         AS attended,
+  (result->>'repeat_attendees')::bigint AS repeat_attendees,
+  (
+    (result->>'known_contacts')::bigint   >= (result->>'registered')::bigint
+    AND (result->>'registered')::bigint   >= (result->>'reviewed')::bigint
+    AND (result->>'reviewed')::bigint     >= (result->>'attended')::bigint
+    AND (result->>'attended')::bigint     >= (result->>'repeat_attendees')::bigint
+  ) AS funnel_is_monotonic
+FROM funnel;
+-- Expected: funnel_is_monotonic = true
+
+-- =============================================================================
+-- 8. Cohort funnel sample (wide range)
 -- =============================================================================
 SELECT get_cohort_funnel(
   '2020-01-01T00:00:00Z'::timestamptz,
@@ -129,7 +153,7 @@ SELECT get_cohort_funnel(
 );
 
 -- =============================================================================
--- 8. Data health sample (last 90 days)
+-- 9. Data health sample (last 90 days)
 -- =============================================================================
 SELECT get_data_health(
   (now() - interval '90 days')::timestamptz,
@@ -137,7 +161,7 @@ SELECT get_data_health(
 );
 
 -- =============================================================================
--- 9. Overview sample (last 30 days)
+-- 10. Overview sample (last 30 days)
 -- =============================================================================
 SELECT get_funnel_overview(
   (now() - interval '30 days')::timestamptz,
