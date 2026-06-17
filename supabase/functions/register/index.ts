@@ -3,7 +3,8 @@
 // Covo Multipliers — Event Registration Edge Function
 //
 // POST /functions/v1/register
-// Body: { event_id: string, name: string, email: string }
+// Body: { event_id: string, name: string, email: string,
+//         marketing_opt_in?: boolean, marketing_consent_copy?: string }
 //
 // 1. Validate input
 // 2. Call register_for_event() Postgres RPC (atomic — handles capacity + deduplication)
@@ -73,6 +74,12 @@ interface Attribution {
   first_touch_at: string | null;
 }
 
+interface Consent {
+  marketing_opt_in: boolean;
+  marketing_consent_at: string | null;    // server-set; never client-supplied
+  marketing_consent_copy: string | null;
+}
+
 function safeStr(v: unknown, maxLen = 500): string | null {
   if (typeof v !== "string") return null;
   const t = v.trim();
@@ -107,6 +114,34 @@ function extractAttribution(body: Record<string, unknown>): Attribution {
   };
 }
 
+// The exact consent disclosure shown to users on all lab registration pages.
+// This constant is authoritative — the client-provided value is never trusted.
+const MARKETING_CONSENT_COPY_V1 =
+  "Yes, email me about future CoVo Multipliers labs, resources, and training. I can unsubscribe at any time.";
+
+function extractConsent(body: Record<string, unknown>): Consent {
+  // Accept marketing_opt_in only as a strict boolean true.
+  // Strings like "true", numbers, or missing values are treated as false.
+  // This prevents a malicious client from coercing consent via type confusion.
+  const optIn = body.marketing_opt_in === true;
+
+  if (!optIn) {
+    return {
+      marketing_opt_in: false,
+      marketing_consent_at: null,
+      marketing_consent_copy: null,
+    };
+  }
+
+  return {
+    marketing_opt_in: true,
+    // Timestamp is always set server-side — the client timestamp is ignored.
+    marketing_consent_at: new Date().toISOString(),
+    // Consent copy is always server-owned — the client-provided value is ignored.
+    marketing_consent_copy: MARKETING_CONSENT_COPY_V1,
+  };
+}
+
 // ---------------------------------------------------------------------------
 // Entry point
 // ---------------------------------------------------------------------------
@@ -132,6 +167,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
 
   const { event_id, name, email } = body;
   const attribution = extractAttribution(body);
+  const consent = extractConsent(body);
 
   // Validate
   if (typeof event_id !== "string" || !isUuid(event_id)) {
@@ -199,8 +235,27 @@ Deno.serve(async (req: Request): Promise<Response> => {
   // Log that the registration row exists in the database at this point.
   console.log(`[register] registration inserted successfully, registration_id=${result.registration_id ?? "MISSING — RPC may not be returning this field"}`);
 
-  // Send confirmation email. Non-fatal — a failed email does not roll back
-  // the registration. The row is already committed in the RPC transaction.
+  // Phase 1: Write attribution and consent unconditionally.
+  // Must succeed before we attempt to send a confirmation email.
+  // If the RPC did not return registration_id, we cannot write anything — return 500.
+  if (!result.registration_id) {
+    console.error("[register] registration_id missing from RPC result — cannot save attribution or consent. Check that register_for_event() still returns registration_id.");
+    return json(500, { error: "Registration was created but could not be completed. Please contact us." }, cors);
+  }
+
+  const { error: attrConsentErr } = await supabase
+    .from("registrations")
+    .update({ ...attribution, ...consent })
+    .eq("id", result.registration_id);
+
+  if (attrConsentErr) {
+    console.error(`[register] attribution/consent update FAILED for registration_id=${result.registration_id}:`, JSON.stringify(attrConsentErr));
+    return json(500, { error: "Registration was created but could not be completed. Please contact us." }, cors);
+  }
+
+  console.log(`[register] attribution and consent saved. opt_in=${consent.marketing_opt_in} consent_at=${consent.marketing_consent_at ?? "null"}`);
+
+  // Phase 2: Send confirmation email. Non-fatal — failure does not undo saved consent.
   console.log(`[register] attempting confirmation email to=${cleanEmail} event="${result.event_title}"`);
 
   const resendMessageId = await sendEmail({
@@ -213,30 +268,23 @@ Deno.serve(async (req: Request): Promise<Response> => {
 
   console.log(`[register] Resend result: ${resendMessageId ? `sent, id=${resendMessageId}` : "FAILED — email not sent"}`);
 
-  // Update confirmation_sent_at only after a confirmed successful send.
+  // Phase 3: Record that the confirmation was sent.
   // This field is exclusively for the initial registration confirmation.
   // Reminder fields (reminder_week_sent_at, reminder_day_sent_at) are managed
   // by the reminder system and must never be set here.
-  if (resendMessageId && result.registration_id) {
-    console.log(`[register] updating confirmation_sent_at for registration_id=${result.registration_id}`);
-
-    const { error: updateErr } = await supabase
+  if (resendMessageId) {
+    const { error: confirmErr } = await supabase
       .from("registrations")
-      .update({ confirmation_sent_at: new Date().toISOString(), ...attribution })
+      .update({ confirmation_sent_at: new Date().toISOString() })
       .eq("id", result.registration_id);
 
-    if (updateErr) {
-      console.error("[register] confirmation_sent_at update FAILED:", JSON.stringify(updateErr));
+    if (confirmErr) {
+      console.error("[register] confirmation_sent_at update FAILED:", JSON.stringify(confirmErr));
     } else {
       console.log("[register] confirmation_sent_at updated successfully");
     }
   } else {
-    if (!resendMessageId) {
-      console.warn("[register] skipping confirmation_sent_at update — email was not sent");
-    }
-    if (!result.registration_id) {
-      console.error("[register] skipping confirmation_sent_at update — registration_id missing from RPC result. Check that register_for_event() still returns registration_id.");
-    }
+    console.warn("[register] skipping confirmation_sent_at update — email was not sent");
   }
 
   return json(200, {
