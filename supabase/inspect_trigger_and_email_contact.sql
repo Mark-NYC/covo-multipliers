@@ -34,16 +34,17 @@ WHERE n.nspname = 'public'
 -- -----------------------------------------------------------------------------
 -- 2. ALL TRIGGERS ON registrations (full detail)
 --    Confirms the trigger name, timing, events, and which function it calls.
+--    events is an array so INSERT OR UPDATE triggers show both events.
 -- -----------------------------------------------------------------------------
 SELECT
   t.tgname                                  AS trigger_name,
   CASE t.tgtype & 2 WHEN 2 THEN 'BEFORE' ELSE 'AFTER' END AS timing,
-  CASE
-    WHEN t.tgtype & 4  <> 0 THEN 'INSERT'
-    WHEN t.tgtype & 8  <> 0 THEN 'DELETE'
-    WHEN t.tgtype & 16 <> 0 THEN 'UPDATE'
-    ELSE 'OTHER'
-  END                                       AS event,
+  array_remove(ARRAY[
+    CASE WHEN t.tgtype &  4 <> 0 THEN 'INSERT'   END,
+    CASE WHEN t.tgtype &  8 <> 0 THEN 'DELETE'   END,
+    CASE WHEN t.tgtype & 16 <> 0 THEN 'UPDATE'   END,
+    CASE WHEN t.tgtype & 32 <> 0 THEN 'TRUNCATE' END
+  ], NULL)::text[]                          AS events,
   CASE t.tgtype & 1 WHEN 1 THEN 'ROW' ELSE 'STATEMENT' END AS orientation,
   p.proname                                 AS function_called,
   t.tgenabled                               AS enabled         -- 'O'=on 'D'=disabled 'R'=replica 'A'=always
@@ -54,7 +55,7 @@ JOIN pg_namespace n ON n.oid  = c.relnamespace
 WHERE n.nspname   = 'public'
   AND c.relname   = 'registrations'
   AND NOT t.tgisinternal
-ORDER BY t.tgname, event;
+ORDER BY t.tgname;
 
 
 -- -----------------------------------------------------------------------------
@@ -230,12 +231,12 @@ SELECT
   c.relname                                 AS table_name,
   t.tgname                                  AS trigger_name,
   CASE t.tgtype & 2 WHEN 2 THEN 'BEFORE' ELSE 'AFTER' END AS timing,
-  CASE
-    WHEN t.tgtype & 4  <> 0 THEN 'INSERT'
-    WHEN t.tgtype & 8  <> 0 THEN 'DELETE'
-    WHEN t.tgtype & 16 <> 0 THEN 'UPDATE'
-    ELSE 'OTHER'
-  END                                       AS event,
+  array_remove(ARRAY[
+    CASE WHEN t.tgtype &  4 <> 0 THEN 'INSERT'   END,
+    CASE WHEN t.tgtype &  8 <> 0 THEN 'DELETE'   END,
+    CASE WHEN t.tgtype & 16 <> 0 THEN 'UPDATE'   END,
+    CASE WHEN t.tgtype & 32 <> 0 THEN 'TRUNCATE' END
+  ], NULL)::text[]                          AS events,
   p.proname                                 AS function_called,
   t.tgenabled                               AS enabled
 FROM pg_trigger   t
@@ -249,36 +250,32 @@ ORDER BY c.relname, t.tgname;
 
 
 -- -----------------------------------------------------------------------------
--- 12. ROW COUNTS — registrations plus any contact/email table found
+-- 12. ROW COUNTS — registrations plus any contact/email table
+--    Uses pg_stat_user_tables.n_live_tup, which is updated by autovacuum/ANALYZE
+--    and returns a standard result grid.  Values are accurate within the last
+--    autovacuum cycle; for a table with recent heavy writes run ANALYZE first.
+--    A value of 0 on a brand-new table is correct; -1 means stats not yet
+--    collected (run ANALYZE on that table to populate).
 -- -----------------------------------------------------------------------------
-DO $$
-DECLARE
-  rec    RECORD;
-  cnt    bigint;
-  q      text;
-BEGIN
-  RAISE NOTICE 'table_name | row_count';
-  RAISE NOTICE '-----------|----------';
-  RAISE NOTICE 'registrations | %', (SELECT count(*) FROM registrations);
-
-  FOR rec IN
-    SELECT relname AS tname
-    FROM pg_class
-    JOIN pg_namespace ON pg_namespace.oid = pg_class.relnamespace
-    WHERE pg_namespace.nspname = 'public'
-      AND relkind = 'r'
-      AND (relname ILIKE '%contact%' OR relname ILIKE '%email%')
-    ORDER BY relname
-  LOOP
-    EXECUTE format('SELECT count(*) FROM %I', rec.tname) INTO cnt;
-    RAISE NOTICE '% | %', rec.tname, cnt;
-  END LOOP;
-END;
-$$;
+SELECT
+  c.relname                                     AS table_name,
+  COALESCE(s.n_live_tup, -1)                   AS row_count_approx
+FROM pg_class      c
+JOIN pg_namespace  n ON n.oid = c.relnamespace
+LEFT JOIN pg_stat_user_tables s
+  ON s.schemaname = 'public' AND s.relname = c.relname
+WHERE n.nspname = 'public'
+  AND c.relkind = 'r'
+  AND (
+    c.relname = 'registrations'
+    OR c.relname ILIKE '%contact%'
+    OR c.relname ILIKE '%email%'
+  )
+ORDER BY c.relname;
 
 
 -- =============================================================================
 -- END OF INSPECTION
--- Copy all result grids (sections 1–11) and all NOTICE lines from section 12.
--- Paste the full output back before any migration is written.
+-- Copy all result grids (sections 1–12) and paste the full output back
+-- before any migration is written.
 -- =============================================================================
