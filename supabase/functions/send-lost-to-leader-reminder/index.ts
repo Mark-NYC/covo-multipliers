@@ -125,14 +125,16 @@ Deno.serve(async (req: Request): Promise<Response> => {
 
   // --- Query recipients ---
   // Fetch registrations for this event that:
-  //   (a) have an email address, and
-  //   (b) have not yet received this reminder (column is null).
+  //   (a) have an email address,
+  //   (b) are still active (never send reminders to cancelled registrations), and
+  //   (c) have not yet received this reminder (column is null).
   // In test_email mode we still query the real list so total_found reflects
   // reality, but we only send to the provided address.
   const { data: rows, error: queryErr } = await supabase
     .from("registrations")
     .select("id, name, email")
     .eq("event_id", event.id)
+    .eq("registration_status", "active")
     .not("email", "is", null)
     .is(sentAtColumn, null);
 
