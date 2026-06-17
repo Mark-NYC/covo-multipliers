@@ -291,6 +291,39 @@
             cursor: not-allowed;
         }
 
+        .form-opt-in {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.7rem;
+            margin: 0.25rem 0 1rem;
+            padding: 0.85rem 0.9rem;
+            background: #f8faf9;
+            border: 1px solid #e2eae6;
+            border-radius: 10px;
+        }
+
+        .form-opt-in input[type="checkbox"] {
+            flex-shrink: 0;
+            width: 18px;
+            height: 18px;
+            margin: 0.15rem 0 0;
+            accent-color: #1b4d3e;
+            cursor: pointer;
+        }
+
+        .form-opt-in input[type="checkbox"]:disabled {
+            cursor: not-allowed;
+        }
+
+        .form-opt-in label {
+            margin: 0;
+            font-size: 0.8rem;
+            font-weight: 500;
+            line-height: 1.5;
+            color: #4b5d56;
+            cursor: pointer;
+        }
+
         .form-message {
             display: none;
             margin-top: 1rem;
@@ -872,6 +905,18 @@
                             >
                         </div>
 
+                        <div class="form-opt-in">
+                            <input
+                                type="checkbox"
+                                id="field-marketing-opt-in"
+                                name="marketing_opt_in"
+                                value="true"
+                            >
+                            <label for="field-marketing-opt-in">
+                                Send me occasional emails about future Covo labs, tools, and live training. Unsubscribe anytime.
+                            </label>
+                        </div>
+
                         <button class="btn-submit" type="submit" id="submit-btn">
                             Save My Seat
                         </button>
@@ -1252,6 +1297,7 @@
 
             const name  = document.getElementById('field-name').value.trim();
             const email = document.getElementById('field-email').value.trim();
+            const marketingOptIn = document.getElementById('field-marketing-opt-in').checked;
 
             if (name.length < 2) {
                 showError('Please enter your full name.');
@@ -1271,7 +1317,15 @@
                 const res = await fetch(REGISTER_FUNCTION_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(Object.assign({ event_id: eventId, name, email }, window.CovoAttribution ? window.CovoAttribution.get() : {})),
+                    body: JSON.stringify(Object.assign({
+                        event_id: eventId,
+                        name,
+                        email,
+                        marketing_opt_in: marketingOptIn,
+                        marketing_consent_copy: marketingOptIn
+                            ? 'Yes, email me about future CoVo Multipliers labs, resources, and training. I can unsubscribe at any time.'
+                            : null,
+                    }, window.CovoAttribution ? window.CovoAttribution.get() : {})),
                 });
 
                 data = await res.json();
@@ -1299,15 +1353,17 @@
         }
 
         function setSubmitting(active) {
-            const btn   = document.getElementById('submit-btn');
-            const name  = document.getElementById('field-name');
-            const email = document.getElementById('field-email');
+            const btn            = document.getElementById('submit-btn');
+            const name           = document.getElementById('field-name');
+            const email          = document.getElementById('field-email');
+            const marketingOptIn = document.getElementById('field-marketing-opt-in');
 
             if (!btn || !name || !email) return;
 
             btn.disabled   = active;
             name.disabled  = active;
             email.disabled = active;
+            if (marketingOptIn) marketingOptIn.disabled = active;
             btn.textContent = active ? 'Saving...' : 'Save My Seat';
         }
 

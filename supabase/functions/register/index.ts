@@ -3,7 +3,8 @@
 // Covo Multipliers — Event Registration Edge Function
 //
 // POST /functions/v1/register
-// Body: { event_id: string, name: string, email: string }
+// Body: { event_id: string, name: string, email: string,
+//         marketing_opt_in?: boolean, marketing_consent_copy?: string }
 //
 // 1. Validate input
 // 2. Call register_for_event() Postgres RPC (atomic — handles capacity + deduplication)
@@ -73,6 +74,12 @@ interface Attribution {
   first_touch_at: string | null;
 }
 
+interface Consent {
+  marketing_opt_in: boolean;
+  marketing_consent_at: string | null;    // server-set; never client-supplied
+  marketing_consent_copy: string | null;
+}
+
 function safeStr(v: unknown, maxLen = 500): string | null {
   if (typeof v !== "string") return null;
   const t = v.trim();
@@ -107,6 +114,32 @@ function extractAttribution(body: Record<string, unknown>): Attribution {
   };
 }
 
+function extractConsent(body: Record<string, unknown>): Consent {
+  // Accept marketing_opt_in only as a strict boolean true.
+  // Strings like "true", numbers, or missing values are treated as false.
+  // This prevents a malicious client from coercing consent via type confusion.
+  const optIn = body.marketing_opt_in === true;
+
+  if (!optIn) {
+    return {
+      marketing_opt_in: false,
+      marketing_consent_at: null,
+      marketing_consent_copy: null,
+    };
+  }
+
+  // Only store consent copy when consent is true.
+  // Trim and cap length; null if absent or blank.
+  const copy = safeStr(body.marketing_consent_copy, 500);
+
+  return {
+    marketing_opt_in: true,
+    // Timestamp is always set server-side — the client timestamp is ignored.
+    marketing_consent_at: new Date().toISOString(),
+    marketing_consent_copy: copy,
+  };
+}
+
 // ---------------------------------------------------------------------------
 // Entry point
 // ---------------------------------------------------------------------------
@@ -132,6 +165,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
 
   const { event_id, name, email } = body;
   const attribution = extractAttribution(body);
+  const consent = extractConsent(body);
 
   // Validate
   if (typeof event_id !== "string" || !isUuid(event_id)) {
@@ -222,8 +256,14 @@ Deno.serve(async (req: Request): Promise<Response> => {
 
     const { error: updateErr } = await supabase
       .from("registrations")
-      .update({ confirmation_sent_at: new Date().toISOString(), ...attribution })
+      .update({
+        confirmation_sent_at: new Date().toISOString(),
+        ...attribution,
+        ...consent,
+      })
       .eq("id", result.registration_id);
+
+    console.log(`[register] consent: opt_in=${consent.marketing_opt_in} consent_at=${consent.marketing_consent_at ?? "null"}`);
 
     if (updateErr) {
       console.error("[register] confirmation_sent_at update FAILED:", JSON.stringify(updateErr));

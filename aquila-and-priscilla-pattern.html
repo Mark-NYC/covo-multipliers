@@ -1391,6 +1391,9 @@
                         name,
                         email,
                         marketing_opt_in: marketingOptIn,
+                        marketing_consent_copy: marketingOptIn
+                            ? 'Yes, email me about future CoVo Multipliers labs, resources, and training. I can unsubscribe at any time.'
+                            : null,
                     }, window.CovoAttribution ? window.CovoAttribution.get() : {})),
                 });
 
