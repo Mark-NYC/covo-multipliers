@@ -39,3 +39,6 @@ verify_jwt = false
 
 [functions.assessment-import-items]
 verify_jwt = false
+
+[functions.attendance-admin]
+verify_jwt = false

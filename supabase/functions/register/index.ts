@@ -49,6 +49,7 @@ interface RpcResult {
   success: boolean;
   error?: "event_not_found" | "already_registered" | "event_full";
   registration_id?: string;
+  reactivated?: boolean;
   event_title?: string;
   event_date?: string;
   zoom_link?: string | null;

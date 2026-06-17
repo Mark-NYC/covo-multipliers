@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lab Attendance — CoVo Multipliers Admin</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      background: #f4f4f5;
+      color: #1a1a1a;
+      min-height: 100vh;
+    }
+
+    /* ── Auth screen ─────────────────────────────────────────────────── */
+    #auth-screen {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 24px;
+    }
+    .auth-card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 40px;
+      width: 100%;
+      max-width: 400px;
+    }
+    .auth-card h1 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+    .auth-card p  { color: #666; margin-bottom: 24px; font-size: 13px; }
+    .form-group   { margin-bottom: 16px; }
+    .form-group label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 13px; }
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 18px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: opacity .15s;
+    }
+    .btn:disabled { opacity: .5; cursor: not-allowed; }
+    .btn-primary  { background: #1b4d3e; color: #fff; }
+    .btn-danger   { background: #dc2626; color: #fff; }
+    .btn-warn     { background: #d97706; color: #fff; }
+    .btn-ghost    { background: transparent; color: #1b4d3e; border: 1px solid #1b4d3e; }
+    .btn-sm       { padding: 5px 10px; font-size: 12px; }
+    .auth-error   { color: #dc2626; font-size: 13px; margin-top: 8px; }
+
+    /* ── App shell ───────────────────────────────────────────────────── */
+    #app { display: none; }
+
+    header {
+      background: linear-gradient(135deg,#10281f 0%,#1b4d3e 55%,#9f7a2f 100%);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #fff;
+    }
+    header h1 { font-size: 16px; font-weight: 700; }
+    header .subtitle { font-size: 12px; opacity: .75; margin-top: 2px; }
+
+    .main { padding: 24px; max-width: 1400px; margin: 0 auto; }
+
+    /* ── Event selector ──────────────────────────────────────────────── */
+    .event-bar {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin-bottom: 20px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-end;
+      flex-wrap: wrap;
+    }
+    .event-bar .form-group { margin-bottom: 0; flex: 1; min-width: 260px; }
+
+    /* ── Stats bar ───────────────────────────────────────────────────── */
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .stat-card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 16px;
+    }
+    .stat-card .label { font-size: 11px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: .05em; }
+    .stat-card .value { font-size: 28px; font-weight: 800; color: #1b4d3e; margin-top: 4px; }
+    .stat-card .sub   { font-size: 12px; color: #666; margin-top: 2px; }
+
+    /* ── Toolbar ─────────────────────────────────────────────────────── */
+    .toolbar {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px 8px 0 0;
+      padding: 12px 16px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+      border-bottom: none;
+    }
+    .toolbar input[type="search"] {
+      padding: 7px 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 13px;
+      width: 220px;
+    }
+    .filter-group { display: flex; gap: 6px; align-items: center; }
+    .filter-group label { font-size: 12px; font-weight: 600; color: #555; }
+    .filter-group select { padding: 6px 8px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 13px; }
+    .toolbar-spacer { flex: 1; }
+    .selected-info { font-size: 13px; color: #555; }
+
+    /* ── Table ───────────────────────────────────────────────────────── */
+    .table-wrap {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 0 0 8px 8px;
+      overflow-x: auto;
+      margin-bottom: 24px;
+    }
+    table { width: 100%; border-collapse: collapse; }
+    thead th {
+      background: #f9fafb;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 10px 12px;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 700;
+      color: #555;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      white-space: nowrap;
+    }
+    thead th.check-col { width: 36px; }
+    tbody tr { border-bottom: 1px solid #f0f0f0; }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: #fafafa; }
+    tbody tr.cancelled-row { background: #fef9f9; }
+    tbody td { padding: 10px 12px; vertical-align: middle; }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .badge-attended    { background: #d1fae5; color: #065f46; }
+    .badge-partial     { background: #fef3c7; color: #92400e; }
+    .badge-no_show     { background: #fee2e2; color: #991b1b; }
+    .badge-unreviewed  { background: #f3f4f6; color: #6b7280; }
+    .badge-active      { background: #dbeafe; color: #1e40af; }
+    .badge-cancelled   { background: #fce7f3; color: #9d174d; }
+    .badge-prev        { background: #ede9fe; color: #5b21b6; }
+
+    .prev-count { font-weight: 700; color: #5b21b6; }
+    .utm-small  { font-size: 11px; color: #888; max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    /* ── Mark select in table ────────────────────────────────────────── */
+    .mark-select {
+      padding: 4px 6px;
+      border: 1px solid #d1d5db;
+      border-radius: 4px;
+      font-size: 12px;
+      background: #fff;
+    }
+
+    /* ── Toast ───────────────────────────────────────────────────────── */
+    #toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      pointer-events: none;
+    }
+    .toast-item {
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+      pointer-events: auto;
+      animation: slideIn .2s ease;
+    }
+    .toast-ok   { background: #065f46; }
+    .toast-err  { background: #991b1b; }
+    @keyframes slideIn { from { transform: translateX(40px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+    /* ── Confirm modal ───────────────────────────────────────────────── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.4);
+      z-index: 500;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: #fff;
+      border-radius: 12px;
+      padding: 32px;
+      max-width: 440px;
+      width: 90%;
+      box-shadow: 0 20px 60px rgba(0,0,0,.2);
+    }
+    .modal h2 { font-size: 18px; font-weight: 700; margin-bottom: 12px; }
+    .modal p  { color: #555; margin-bottom: 24px; line-height: 1.6; }
+    .modal-actions { display: flex; gap: 10px; justify-content: flex-end; }
+
+    .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(255,255,255,.4); border-top-color: #fff; border-radius: 50%; animation: spin .6s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .empty-state { text-align: center; padding: 40px; color: #888; }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════ Auth Screen ════════════════════════ -->
+<div id="auth-screen">
+  <div class="auth-card">
+    <h1>Lab Attendance Admin</h1>
+    <p>Enter your admin secret to continue. The secret is stored only in sessionStorage and is never sent to any third party.</p>
+    <form id="auth-form">
+      <div class="form-group">
+        <label for="secret-input">Admin Secret</label>
+        <input type="password" id="secret-input" autocomplete="current-password" required placeholder="Paste secret here" />
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%">Sign in</button>
+      <p id="auth-error" class="auth-error" aria-live="polite"></p>
+    </form>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════ App ════════════════════════════════ -->
+<div id="app">
+  <header>
+    <div>
+      <h1>Lab Attendance Admin</h1>
+      <div class="subtitle" id="header-subtitle">CoVo Multipliers</div>
+    </div>
+    <button class="btn btn-ghost" style="color:#fff;border-color:rgba(255,255,255,.4)" id="sign-out-btn">Sign out</button>
+  </header>
+
+  <div class="main">
+
+    <!-- Event selector -->
+    <div class="event-bar">
+      <div class="form-group">
+        <label for="event-select">Event</label>
+        <select id="event-select">
+          <option value="">— Loading events… —</option>
+        </select>
+      </div>
+      <button class="btn btn-primary" id="load-btn" disabled>Load Registrants</button>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-bar" id="stats-bar" style="display:none">
+      <div class="stat-card"><div class="label">Active</div><div class="value" id="stat-active">—</div></div>
+      <div class="stat-card"><div class="label">Cancelled</div><div class="value" id="stat-cancelled">—</div></div>
+      <div class="stat-card"><div class="label">Unreviewed</div><div class="value" id="stat-unreviewed">—</div></div>
+      <div class="stat-card"><div class="label">Attendance Rate</div><div class="value" id="stat-rate">—</div><div class="sub">of reviewed active</div></div>
+      <div class="stat-card"><div class="label">Data Completion</div><div class="value" id="stat-completion">—</div><div class="sub">active registrations reviewed</div></div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="toolbar" id="toolbar" style="display:none">
+      <input type="search" id="search-input" placeholder="Search name or email…" />
+      <div class="filter-group">
+        <label>Status</label>
+        <select id="filter-reg-status">
+          <option value="">All</option>
+          <option value="active">Active</option>
+          <option value="cancelled">Cancelled</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Attendance</label>
+        <select id="filter-att-status">
+          <option value="">All</option>
+          <option value="unreviewed">Unreviewed</option>
+          <option value="attended">Attended</option>
+          <option value="partial">Partial</option>
+          <option value="no_show">No Show</option>
+        </select>
+      </div>
+      <div class="toolbar-spacer"></div>
+      <span class="selected-info" id="selected-info"></span>
+      <button class="btn btn-primary btn-sm" id="bulk-attended-btn" disabled>Mark Selected Attended</button>
+      <button class="btn btn-ghost btn-sm" id="bulk-partial-btn" disabled>Mark Partial</button>
+      <button class="btn btn-warn btn-sm" id="bulk-noshow-btn" disabled>Mark No-Show</button>
+    </div>
+
+    <!-- Table -->
+    <div class="table-wrap" id="table-wrap" style="display:none">
+      <table id="reg-table">
+        <thead>
+          <tr>
+            <th class="check-col"><input type="checkbox" id="select-all-cb" /></th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Reg Status</th>
+            <th>Attendance</th>
+            <th>Prev Labs</th>
+            <th>Source / Campaign</th>
+            <th>Registered</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="reg-tbody"></tbody>
+      </table>
+    </div>
+
+  </div><!-- /main -->
+</div><!-- /app -->
+
+<!-- Confirm modal -->
+<div class="modal-overlay" id="confirm-modal">
+  <div class="modal">
+    <h2 id="confirm-title">Confirm</h2>
+    <p id="confirm-message"></p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" id="confirm-cancel-btn">Cancel</button>
+      <button class="btn btn-danger" id="confirm-ok-btn">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast container -->
+<div id="toast"></div>
+
+<script>
+// =============================================================================
+// State
+// =============================================================================
+const API_URL = "/functions/v1/attendance-admin";
+
+let secret = "";
+let actor  = "";   // read-only display; real actor is server-side
+let allRegistrants = [];
+let eventId = "";
+
+// =============================================================================
+// Auth
+// =============================================================================
+document.getElementById("auth-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const input = document.getElementById("secret-input").value.trim();
+  if (!input) return;
+
+  const err = document.getElementById("auth-error");
+  err.textContent = "";
+
+  // Quick probe: try list_events to validate the secret
+  try {
+    const res = await apiFetch({ action: "list_events" }, input);
+    if (res.status === 401) {
+      err.textContent = "Invalid admin secret.";
+      return;
+    }
+    if (!res.ok) {
+      err.textContent = "Server error. Try again.";
+      return;
+    }
+    // Secret is good — save only to sessionStorage (never localStorage)
+    sessionStorage.setItem("att_admin_secret", input);
+    secret = input;
+    document.getElementById("auth-screen").style.display = "none";
+    document.getElementById("app").style.display = "block";
+    loadEvents(await res.json());
+  } catch {
+    err.textContent = "Network error. Check your connection.";
+  }
+});
+
+document.getElementById("sign-out-btn").addEventListener("click", () => {
+  sessionStorage.removeItem("att_admin_secret");
+  secret = "";
+  document.getElementById("app").style.display = "none";
+  document.getElementById("auth-screen").style.display = "flex";
+  document.getElementById("secret-input").value = "";
+});
+
+// Auto-login if secret still in sessionStorage from this session
+(function () {
+  const saved = sessionStorage.getItem("att_admin_secret");
+  if (saved) {
+    secret = saved;
+    document.getElementById("auth-screen").style.display = "none";
+    document.getElementById("app").style.display = "block";
+    fetchAndLoadEvents();
+  }
+})();
+
+// =============================================================================
+// Events
+// =============================================================================
+async function fetchAndLoadEvents() {
+  const res = await apiFetch({ action: "list_events" });
+  if (!res.ok) { showToast("Failed to load events.", "err"); return; }
+  loadEvents(await res.json());
+}
+
+function loadEvents(data) {
+  const sel = document.getElementById("event-select");
+  const events = data.events ?? [];
+  sel.innerHTML = '<option value="">— Select an event —</option>' +
+    events.map(e =>
+      `<option value="${esc(e.id)}">${esc(e.title)} (${fmtDate(e.event_date)})</option>`
+    ).join("");
+  document.getElementById("load-btn").disabled = false;
+}
+
+document.getElementById("event-select").addEventListener("change", () => {
+  document.getElementById("load-btn").disabled = !document.getElementById("event-select").value;
+});
+
+document.getElementById("load-btn").addEventListener("click", loadRegistrants);
+
+async function loadRegistrants() {
+  eventId = document.getElementById("event-select").value;
+  if (!eventId) return;
+
+  const btn = document.getElementById("load-btn");
+  btn.innerHTML = '<span class="spinner"></span> Loading…';
+  btn.disabled = true;
+
+  try {
+    const [regRes, statsRes] = await Promise.all([
+      apiFetch({ action: "list_registrants", event_id: eventId }),
+      apiFetch({ action: "get_event_stats",  event_id: eventId }),
+    ]);
+
+    if (!regRes.ok || !statsRes.ok) { showToast("Failed to load data.", "err"); return; }
+
+    const { registrants } = await regRes.json();
+    const { stats }       = await statsRes.json();
+
+    allRegistrants = registrants ?? [];
+    renderStats(stats);
+    renderTable(allRegistrants);
+
+    document.getElementById("stats-bar").style.display = "";
+    document.getElementById("toolbar").style.display   = "";
+    document.getElementById("table-wrap").style.display = "";
+  } finally {
+    btn.textContent = "Reload";
+    btn.disabled = false;
+  }
+}
+
+// =============================================================================
+// Stats
+// =============================================================================
+function renderStats(s) {
+  if (!s) return;
+  document.getElementById("stat-active").textContent     = s.total_active ?? "—";
+  document.getElementById("stat-cancelled").textContent  = s.total_cancelled ?? "—";
+  document.getElementById("stat-unreviewed").textContent = s.unreviewed ?? "—";
+  document.getElementById("stat-rate").textContent       = s.attendance_rate != null ? s.attendance_rate + "%" : "—";
+  document.getElementById("stat-completion").textContent = s.data_completion_rate != null ? s.data_completion_rate + "%" : "—";
+}
+
+// =============================================================================
+// Table rendering
+// =============================================================================
+function getFiltered() {
+  const q        = document.getElementById("search-input").value.toLowerCase();
+  const regF     = document.getElementById("filter-reg-status").value;
+  const attF     = document.getElementById("filter-att-status").value;
+
+  return allRegistrants.filter(r => {
+    if (q && !r.name.toLowerCase().includes(q) && !r.email.toLowerCase().includes(q)) return false;
+    if (regF && r.registration_status !== regF) return false;
+    if (attF && r.attendance_status !== attF) return false;
+    return true;
+  });
+}
+
+function renderTable(rows) {
+  const filtered = getFiltered();
+  const tbody = document.getElementById("reg-tbody");
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="9" class="empty-state">No registrants match the current filters.</td></tr>';
+    updateBulkButtons();
+    return;
+  }
+
+  tbody.innerHTML = filtered.map(r => {
+    const isCancelled = r.registration_status === "cancelled";
+    const attBadge    = attBadgeHtml(r.attendance_status);
+    const regBadge    = `<span class="badge badge-${esc(r.registration_status)}">${esc(r.registration_status)}</span>`;
+    const utmStr      = [r.utm_source, r.utm_medium, r.utm_campaign].filter(Boolean).join(" / ") || "—";
+    const firstUtm    = [r.first_utm_source, r.first_utm_medium, r.first_utm_campaign].filter(Boolean).join(" / ");
+
+    const prevHtml = r.previous_attended_count > 0
+      ? `<span class="badge badge-prev">${r.previous_attended_count} prev</span>`
+      : `<span style="color:#ccc">—</span>`;
+
+    const markSelect = !isCancelled ? `
+      <select class="mark-select" data-att-id="${esc(r.attendance_id)}" data-reg-id="${esc(r.registration_id)}"
+              onchange="handleMarkChange(this)">
+        <option value="">— mark —</option>
+        <option value="attended"   ${r.attendance_status==="attended"  ?"selected":""}>Attended</option>
+        <option value="partial"    ${r.attendance_status==="partial"   ?"selected":""}>Partial</option>
+        <option value="no_show"    ${r.attendance_status==="no_show"   ?"selected":""}>No Show</option>
+        <option value="unreviewed" ${r.attendance_status==="unreviewed"?"selected":""}>Unreviewed</option>
+      </select>` : "";
+
+    const cancelBtn = !isCancelled
+      ? `<button class="btn btn-danger btn-sm js-cancel-reg" data-reg-id="${esc(r.registration_id)}" data-name="${esc(r.name)}">Cancel</button>`
+      : `<button class="btn btn-ghost btn-sm js-reactivate-reg" data-reg-id="${esc(r.registration_id)}" data-name="${esc(r.name)}">Reactivate</button>`;
+
+    return `<tr class="${isCancelled ? "cancelled-row" : ""}" data-id="${esc(r.attendance_id)}">
+      <td><input type="checkbox" class="row-cb" data-att-id="${esc(r.attendance_id)}" ${isCancelled?"disabled":""} /></td>
+      <td>${esc(r.name)}</td>
+      <td style="font-size:12px;color:#444">${esc(r.email)}</td>
+      <td>${regBadge}</td>
+      <td>${attBadge} ${markSelect}</td>
+      <td>${prevHtml}</td>
+      <td>
+        <div class="utm-small" title="${esc(utmStr)}">${esc(utmStr)}</div>
+        ${firstUtm ? `<div class="utm-small" style="color:#aaa" title="First: ${esc(firstUtm)}">1st: ${esc(firstUtm)}</div>` : ""}
+      </td>
+      <td style="font-size:12px;color:#666;white-space:nowrap">${fmtDate(r.registration_created_at)}</td>
+      <td style="white-space:nowrap">${markSelect ? "" : ""}${cancelBtn}</td>
+    </tr>`;
+  }).join("");
+
+  // Re-attach checkbox listeners
+  document.querySelectorAll(".row-cb").forEach(cb =>
+    cb.addEventListener("change", updateBulkButtons)
+  );
+  document.getElementById("select-all-cb").checked = false;
+  updateBulkButtons();
+}
+
+function attBadgeHtml(status) {
+  return `<span class="badge badge-${esc(status)}">${esc(status)}</span>`;
+}
+
+// Filters + search
+["search-input","filter-reg-status","filter-att-status"].forEach(id =>
+  document.getElementById(id).addEventListener("input", () => renderTable(allRegistrants))
+);
+["search-input","filter-reg-status","filter-att-status"].forEach(id =>
+  document.getElementById(id).addEventListener("change", () => renderTable(allRegistrants))
+);
+
+// Event delegation for cancel / reactivate buttons — avoids inline onclick
+// handlers that interpolate DB values into JS expression strings.
+document.getElementById("reg-tbody").addEventListener("click", function (e) {
+  const btn = e.target.closest("button");
+  if (!btn) return;
+  const regId = btn.dataset.regId;
+  const name  = btn.dataset.name;
+  if (!regId) return;
+  if (btn.classList.contains("js-cancel-reg"))     cancelReg(regId, name);
+  if (btn.classList.contains("js-reactivate-reg")) reactivateReg(regId, name);
+});
+
+// =============================================================================
+// Select all
+// =============================================================================
+document.getElementById("select-all-cb").addEventListener("change", function () {
+  document.querySelectorAll(".row-cb:not(:disabled)").forEach(cb => cb.checked = this.checked);
+  updateBulkButtons();
+});
+
+function selectedAttIds() {
+  return [...document.querySelectorAll(".row-cb:checked")].map(cb => cb.dataset.attId);
+}
+
+function updateBulkButtons() {
+  const n = selectedAttIds().length;
+  document.getElementById("selected-info").textContent = n > 0 ? `${n} selected` : "";
+  ["bulk-attended-btn","bulk-partial-btn","bulk-noshow-btn"].forEach(id =>
+    document.getElementById(id).disabled = n === 0
+  );
+}
+
+// =============================================================================
+// Single mark change
+// =============================================================================
+async function handleMarkChange(sel) {
+  const status = sel.value;
+  if (!status) return;
+  const attId = sel.dataset.attId;
+
+  sel.disabled = true;
+  try {
+    const res = await apiFetch({
+      action:        "mark_attendance",
+      attendance_id: attId,
+      status:        status,
+      source:        "manual",
+    });
+    const data = await res.json();
+    if (!res.ok || data.success === false) {
+      showToast("Failed: " + (data.error ?? "unknown error"), "err");
+      sel.value = ""; // reset
+    } else {
+      showToast("Marked " + status, "ok");
+      // Update local state
+      const r = allRegistrants.find(r => r.attendance_id === attId);
+      if (r) r.attendance_status = status;
+      // Refresh stats silently
+      refreshStats();
+    }
+  } finally {
+    sel.disabled = false;
+  }
+}
+
+// =============================================================================
+// Bulk mark
+// =============================================================================
+document.getElementById("bulk-attended-btn").addEventListener("click",
+  () => bulkConfirm("attended"));
+document.getElementById("bulk-partial-btn").addEventListener("click",
+  () => bulkConfirm("partial"));
+document.getElementById("bulk-noshow-btn").addEventListener("click",
+  () => bulkConfirmWithWarning("no_show"));
+
+function bulkConfirm(status) {
+  const ids = selectedAttIds();
+  confirm(
+    `Mark ${ids.length} registrant(s) as ${status}?`,
+    `This will update ${ids.length} attendance record(s) to "${status}". An audit record will be written for each change.`,
+    () => doBulkMark(ids, status)
+  );
+}
+
+function bulkConfirmWithWarning(status) {
+  const ids = selectedAttIds();
+  confirm(
+    `Mark ${ids.length} registrant(s) as No Show?`,
+    `⚠️ You are about to mark ${ids.length} registrant(s) as "no_show". This cannot be automatically undone — you will need to update each record individually. An audit record will be written for each change. Are you sure?`,
+    () => doBulkMark(ids, status)
+  );
+}
+
+async function doBulkMark(ids, status) {
+  const res = await apiFetch({
+    action:         "bulk_mark_attendance",
+    attendance_ids: ids,
+    status:         status,
+    source:         "manual",
+  });
+  const data = await res.json();
+  if (!res.ok || data.success === false) {
+    showToast("Bulk mark failed: " + (data.error ?? "unknown"), "err");
+    return;
+  }
+  showToast(`${data.changed_count} record(s) marked ${status}`, "ok");
+  // Update local state
+  ids.forEach(id => {
+    const r = allRegistrants.find(r => r.attendance_id === id);
+    if (r) r.attendance_status = status;
+  });
+  renderTable(allRegistrants);
+  refreshStats();
+}
+
+// =============================================================================
+// Cancel / Reactivate
+// =============================================================================
+async function cancelReg(registrationId, name) {
+  confirm(
+    `Cancel ${name}'s registration?`,
+    `This will mark the registration as cancelled and release the seat. The registration row is preserved — it can be reactivated later. An audit record will be written.`,
+    async () => {
+      const res = await apiFetch({
+        action:              "cancel_registration",
+        registration_id:     registrationId,
+        cancellation_source: "admin",
+      });
+      const data = await res.json();
+      if (!res.ok || data.success === false) {
+        showToast("Cancel failed: " + (data.error ?? "unknown"), "err");
+        return;
+      }
+      showToast("Registration cancelled.", "ok");
+      // Update local state
+      const r = allRegistrants.find(r => r.registration_id === registrationId);
+      if (r) { r.registration_status = "cancelled"; r.cancelled_at = data.cancelled_at; }
+      renderTable(allRegistrants);
+      refreshStats();
+    }
+  );
+}
+
+async function reactivateReg(registrationId, name) {
+  confirm(
+    `Reactivate ${name}'s registration?`,
+    `This will mark the registration as active again (consuming one seat), and reset the attendance record to "unreviewed". All previous reminder timestamps will be cleared. An audit record will be written.`,
+    async () => {
+      const res = await apiFetch({
+        action:          "reactivate_registration",
+        registration_id: registrationId,
+      });
+      const data = await res.json();
+      if (!res.ok || data.success === false) {
+        showToast("Reactivate failed: " + (data.error ?? "unknown"), "err");
+        return;
+      }
+      showToast("Registration reactivated. Attendance reset to unreviewed.", "ok");
+      const r = allRegistrants.find(r => r.registration_id === registrationId);
+      if (r) {
+        r.registration_status = "active";
+        r.cancelled_at = null;
+        r.attendance_status = "unreviewed";
+        r.reactivated_at = data.reactivated_at;
+      }
+      renderTable(allRegistrants);
+      refreshStats();
+    }
+  );
+}
+
+// =============================================================================
+// Stats refresh (silent)
+// =============================================================================
+async function refreshStats() {
+  if (!eventId) return;
+  const res = await apiFetch({ action: "get_event_stats", event_id: eventId });
+  if (res.ok) { const { stats } = await res.json(); renderStats(stats); }
+}
+
+// =============================================================================
+// Confirm modal
+// =============================================================================
+let confirmCallback = null;
+function confirm(title, message, cb) {
+  document.getElementById("confirm-title").textContent   = title;
+  document.getElementById("confirm-message").textContent = message;
+  confirmCallback = cb;
+  document.getElementById("confirm-modal").classList.add("open");
+}
+document.getElementById("confirm-cancel-btn").addEventListener("click", () => {
+  document.getElementById("confirm-modal").classList.remove("open");
+  confirmCallback = null;
+});
+document.getElementById("confirm-ok-btn").addEventListener("click", async () => {
+  document.getElementById("confirm-modal").classList.remove("open");
+  if (confirmCallback) { await confirmCallback(); confirmCallback = null; }
+});
+
+// =============================================================================
+// API helper
+// =============================================================================
+async function apiFetch(body, overrideSecret) {
+  return fetch(API_URL, {
+    method:  "POST",
+    headers: {
+      "Content-Type":   "application/json",
+      "x-admin-secret": overrideSecret ?? secret,
+    },
+    body: JSON.stringify(body),
+  });
+}
+
+// =============================================================================
+// Toast
+// =============================================================================
+function showToast(msg, type) {
+  const el = document.createElement("div");
+  el.className = `toast-item toast-${type}`;
+  el.textContent = msg;
+  document.getElementById("toast").appendChild(el);
+  setTimeout(() => el.remove(), 4000);
+}
+
+// =============================================================================
+// Helpers
+// =============================================================================
+function esc(s) {
+  if (s == null) return "";
+  return String(s)
+    .replace(/&/g,"&amp;").replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");
+}
+
+function fmtDate(iso) {
+  if (!iso) return "—";
+  try {
+    return new Date(iso).toLocaleDateString("en-US", {
+      month: "short", day: "numeric", year: "numeric",
+      timeZone: "America/New_York"
+    });
+  } catch { return iso; }
+}
+</script>
+</body>
+</html>
