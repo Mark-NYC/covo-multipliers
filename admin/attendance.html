@@ -539,8 +539,8 @@ function renderTable(rows) {
       </select>` : "";
 
     const cancelBtn = !isCancelled
-      ? `<button class="btn btn-danger btn-sm" onclick="cancelReg('${esc(r.registration_id)}', '${esc(r.name)}')">Cancel</button>`
-      : `<button class="btn btn-ghost btn-sm" onclick="reactivateReg('${esc(r.registration_id)}', '${esc(r.name)}')">Reactivate</button>`;
+      ? `<button class="btn btn-danger btn-sm js-cancel-reg" data-reg-id="${esc(r.registration_id)}" data-name="${esc(r.name)}">Cancel</button>`
+      : `<button class="btn btn-ghost btn-sm js-reactivate-reg" data-reg-id="${esc(r.registration_id)}" data-name="${esc(r.name)}">Reactivate</button>`;
 
     return `<tr class="${isCancelled ? "cancelled-row" : ""}" data-id="${esc(r.attendance_id)}">
       <td><input type="checkbox" class="row-cb" data-att-id="${esc(r.attendance_id)}" ${isCancelled?"disabled":""} /></td>
@@ -577,6 +577,18 @@ function attBadgeHtml(status) {
 ["search-input","filter-reg-status","filter-att-status"].forEach(id =>
   document.getElementById(id).addEventListener("change", () => renderTable(allRegistrants))
 );
+
+// Event delegation for cancel / reactivate buttons — avoids inline onclick
+// handlers that interpolate DB values into JS expression strings.
+document.getElementById("reg-tbody").addEventListener("click", function (e) {
+  const btn = e.target.closest("button");
+  if (!btn) return;
+  const regId = btn.dataset.regId;
+  const name  = btn.dataset.name;
+  if (!regId) return;
+  if (btn.classList.contains("js-cancel-reg"))     cancelReg(regId, name);
+  if (btn.classList.contains("js-reactivate-reg")) reactivateReg(regId, name);
+});
 
 // =============================================================================
 // Select all

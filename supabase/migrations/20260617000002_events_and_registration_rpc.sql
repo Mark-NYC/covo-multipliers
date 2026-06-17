@@ -169,6 +169,10 @@ grant execute on function public.register_for_event(uuid, text, text) to service
 -- 3. events_with_availability view — documented here, counts all registrations.
 --    Migration 00003 replaces this view to count only active registrations.
 -- ---------------------------------------------------------------------------
+-- Live column contract: id, slug, title, description, event_date, seat_limit,
+-- seats_remaining, has_availability — matches the production view exactly.
+-- In this migration, registration_status does not yet exist, so we count all
+-- registrations. Migration 00003 replaces this view to count active only.
 create or replace view public.events_with_availability as
 select
   e.id,
@@ -176,19 +180,16 @@ select
   e.title,
   e.description,
   e.event_date,
-  e.zoom_link,
   e.seat_limit,
-  e.is_published,
-  e.created_at,
-  e.updated_at,
-  coalesce(r.reg_count, 0)                     as registered_count,
-  greatest(e.seat_limit - coalesce(r.reg_count, 0), 0) as seats_available
+  greatest(e.seat_limit - coalesce(r.reg_count, 0), 0)        as seats_remaining,
+  greatest(e.seat_limit - coalesce(r.reg_count, 0), 0) > 0    as has_availability
 from public.events e
 left join (
   select event_id, count(*) as reg_count
   from public.registrations
   group by event_id
-) r on r.event_id = e.id;
+) r on r.event_id = e.id
+where e.is_published = true;
 
 -- The view is readable by authenticated/anon via their existing event read policy;
 -- service_role always bypasses RLS.

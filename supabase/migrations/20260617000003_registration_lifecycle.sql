@@ -159,6 +159,8 @@ end $$;
 
 -- ---------------------------------------------------------------------------
 -- 5. replace events_with_availability — count active registrations only
+--    Live column contract: id, slug, title, description, event_date, seat_limit,
+--    seats_remaining, has_availability — must match the production view exactly.
 -- ---------------------------------------------------------------------------
 create or replace view public.events_with_availability as
 select
@@ -167,20 +169,17 @@ select
   e.title,
   e.description,
   e.event_date,
-  e.zoom_link,
   e.seat_limit,
-  e.is_published,
-  e.created_at,
-  e.updated_at,
-  coalesce(r.active_count, 0)                                      as registered_count,
-  greatest(e.seat_limit - coalesce(r.active_count, 0), 0)          as seats_available
+  greatest(e.seat_limit - coalesce(r.active_count, 0), 0)        as seats_remaining,
+  greatest(e.seat_limit - coalesce(r.active_count, 0), 0) > 0    as has_availability
 from public.events e
 left join (
   select event_id, count(*) as active_count
   from public.registrations
   where registration_status = 'active'
   group by event_id
-) r on r.event_id = e.id;
+) r on r.event_id = e.id
+where e.is_published = true;
 
 
 -- ---------------------------------------------------------------------------
@@ -313,7 +312,8 @@ grant execute on function public.register_for_event(uuid, text, text) to service
 create or replace function public.cancel_registration(
   p_registration_id    uuid,
   p_cancellation_source text,
-  p_cancellation_notes  text    default null
+  p_cancellation_notes  text    default null,
+  p_actor               text    default 'system'
 )
 returns jsonb
 language plpgsql
@@ -353,7 +353,7 @@ begin
 
   insert into public.admin_audit_log (actor, action, target_type, target_id, detail)
   values (
-    coalesce(p_cancellation_source, 'system'),
+    p_actor,
     'registration.cancelled',
     'registrations',
     p_registration_id,
@@ -374,5 +374,5 @@ begin
 end;
 $$;
 
-revoke all on function public.cancel_registration(uuid, text, text) from public, anon, authenticated;
-grant execute on function public.cancel_registration(uuid, text, text) to service_role;
+revoke all on function public.cancel_registration(uuid, text, text, text) from public, anon, authenticated;
+grant execute on function public.cancel_registration(uuid, text, text, text) to service_role;

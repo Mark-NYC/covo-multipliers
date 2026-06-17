@@ -5,6 +5,10 @@
 --
 -- The tests use a dedicated test event and synthetic registrations so they
 -- never touch production data.  Everything is rolled back at the end.
+--
+-- WARNING: This script mutates database state (inserts events, registrations,
+-- attendance rows, audit log rows).  It ALWAYS rolls back at the end — there
+-- is no COMMIT.  Do NOT add a COMMIT statement.
 -- =============================================================================
 
 begin;
@@ -25,13 +29,13 @@ values (
 -- ---------------------------------------------------------------------------
 -- Helper: expect_eq(label, actual, expected)
 -- ---------------------------------------------------------------------------
-create temp function expect_eq(label text, actual text, expected text)
+create function pg_temp.expect_eq(label text, actual text, expected text)
 returns table(test_name text, result text)
 language sql as $$
   select
     label,
     case
-      when actual = expected then 'PASS'
+      when actual is not distinct from expected then 'PASS'
       else 'FAIL: expected ' || coalesce(expected,'<null>') || ' got ' || coalesce(actual,'<null>')
     end;
 $$;
@@ -43,27 +47,27 @@ $$;
 do $$ declare v jsonb; begin
   v := public.register_for_event(
     '00000000-0000-0000-0000-000000000001',
-    'Alice Test', 'alice@test.example'
+    'Alice Test', 'alice@test.invalid'
   );
   if not (v->>'success')::boolean then
     raise exception 'TEST 1 failed: register_for_event returned %', v;
   end if;
 end $$;
 
-select * from expect_eq(
+select * from pg_temp.expect_eq(
   'T01 new registration = active',
   (select registration_status from public.registrations
    where event_id = '00000000-0000-0000-0000-000000000001'
-     and lower(email) = 'alice@test.example'),
+     and lower(email) = 'alice@test.invalid'),
   'active'
 );
 
-select * from expect_eq(
+select * from pg_temp.expect_eq(
   'T01 new registration gets unreviewed attendance',
   (select la.status from public.lab_attendance la
    join public.registrations r on r.id = la.registration_id
    where r.event_id = '00000000-0000-0000-0000-000000000001'
-     and lower(r.email) = 'alice@test.example'),
+     and lower(r.email) = 'alice@test.invalid'),
   'unreviewed'
 );
 
@@ -71,11 +75,11 @@ select * from expect_eq(
 -- =============================================================================
 -- TEST 2: Duplicate active registration returns already_registered
 -- =============================================================================
-select * from expect_eq(
+select * from pg_temp.expect_eq(
   'T02 duplicate returns already_registered',
   (public.register_for_event(
     '00000000-0000-0000-0000-000000000001',
-    'Alice Test', 'alice@test.example'
+    'Alice Test', 'alice@test.invalid'
   ))->>'error',
   'already_registered'
 );
@@ -87,18 +91,18 @@ select * from expect_eq(
 -- =============================================================================
 -- Add two more registrations to fill to capacity
 do $$ declare v jsonb; begin
-  v := public.register_for_event('00000000-0000-0000-0000-000000000001','Bob Test','bob@test.example');
+  v := public.register_for_event('00000000-0000-0000-0000-000000000001','Bob Test','bob@test.invalid');
   if not (v->>'success')::boolean then raise exception 'T03 Bob failed: %', v; end if;
-  v := public.register_for_event('00000000-0000-0000-0000-000000000001','Carol Test','carol@test.example');
+  v := public.register_for_event('00000000-0000-0000-0000-000000000001','Carol Test','carol@test.invalid');
   if not (v->>'success')::boolean then raise exception 'T03 Carol failed: %', v; end if;
 end $$;
 
 -- At capacity: 4th registration must fail
-select * from expect_eq(
+select * from pg_temp.expect_eq(
   'T03 4th registration rejected (full)',
   (public.register_for_event(
     '00000000-0000-0000-0000-000000000001',
-    'Dave Test', 'dave@test.example'
+    'Dave Test', 'dave@test.invalid'
   ))->>'error',
   'event_full'
 );
@@ -107,17 +111,17 @@ select * from expect_eq(
 do $$ declare r_id uuid; v jsonb; begin
   select id into r_id from public.registrations
   where event_id = '00000000-0000-0000-0000-000000000001'
-    and lower(email) = 'alice@test.example';
+    and lower(email) = 'alice@test.invalid';
   v := public.cancel_registration(r_id, 'admin', 'test cancel');
   if not (v->>'success')::boolean then raise exception 'T03 cancel failed: %', v; end if;
 end $$;
 
 -- Dave should now succeed
-select * from expect_eq(
+select * from pg_temp.expect_eq(
   'T03 4th registration succeeds after cancel',
   (public.register_for_event(
     '00000000-0000-0000-0000-000000000001',
-    'Dave Test', 'dave@test.example'
+    'Dave Test', 'dave@test.invalid'
   ))->>'success',
   'true'
 );
@@ -130,7 +134,7 @@ select * from expect_eq(
 do $$ declare r_id uuid; v jsonb; begin
   select id into r_id from public.registrations
   where event_id = '00000000-0000-0000-0000-000000000001'
-    and lower(email) = 'dave@test.example';
+    and lower(email) = 'dave@test.invalid';
   v := public.cancel_registration(r_id, 'admin', 'free seat for test 4');
   if not (v->>'success')::boolean then raise exception 'T04 cancel dave failed: %', v; end if;
 end $$;
@@ -138,26 +142,26 @@ end $$;
 do $$ declare v jsonb; begin
   v := public.register_for_event(
     '00000000-0000-0000-0000-000000000001',
-    'Alice Test', 'alice@test.example'
+    'Alice Test', 'alice@test.invalid'
   );
   if not (v->>'success')::boolean then raise exception 'T04 re-register failed: %', v; end if;
   if not (v->>'reactivated')::boolean then raise exception 'T04 reactivated flag not true: %', v; end if;
 end $$;
 
-select * from expect_eq(
+select * from pg_temp.expect_eq(
   'T04 re-registration reactivates same row',
   (select registration_status from public.registrations
    where event_id = '00000000-0000-0000-0000-000000000001'
-     and lower(email) = 'alice@test.example'),
+     and lower(email) = 'alice@test.invalid'),
   'active'
 );
 
 -- Row count must still be 1 (not a new insert)
-select * from expect_eq(
+select * from pg_temp.expect_eq(
   'T04 only one row for alice (not a duplicate)',
   (select count(*)::text from public.registrations
    where event_id = '00000000-0000-0000-0000-000000000001'
-     and lower(email) = 'alice@test.example'),
+     and lower(email) = 'alice@test.invalid'),
   '1'
 );
 
@@ -169,7 +173,7 @@ select * from expect_eq(
 do $$ declare r_id uuid; begin
   select id into r_id from public.registrations
   where event_id = '00000000-0000-0000-0000-000000000001'
-    and lower(email) = 'alice@test.example';
+    and lower(email) = 'alice@test.invalid';
   update public.registrations set
     confirmation_sent_at  = now(),
     reminder_week_sent_at = now(),
@@ -185,7 +189,7 @@ end $$;
 do $$ declare r_id uuid; v jsonb; begin
   select id into r_id from public.registrations
   where event_id = '00000000-0000-0000-0000-000000000001'
-    and lower(email) = 'bob@test.example';
+    and lower(email) = 'bob@test.invalid';
   v := public.cancel_registration(r_id, 'admin', 'free seat for T05');
   if not (v->>'success')::boolean then raise exception 'T05 cancel bob failed: %', v; end if;
 end $$;
@@ -193,32 +197,32 @@ end $$;
 do $$ declare v jsonb; begin
   v := public.register_for_event(
     '00000000-0000-0000-0000-000000000001',
-    'Alice Test', 'alice@test.example'
+    'Alice Test', 'alice@test.invalid'
   );
   if not (v->>'success')::boolean then raise exception 'T05 re-register failed: %', v; end if;
 end $$;
 
-select * from expect_eq(
+select * from pg_temp.expect_eq(
   'T05 reactivation clears confirmation_sent_at',
   (select confirmation_sent_at::text from public.registrations
    where event_id = '00000000-0000-0000-0000-000000000001'
-     and lower(email) = 'alice@test.example'),
+     and lower(email) = 'alice@test.invalid'),
   null
 );
 
-select * from expect_eq(
+select * from pg_temp.expect_eq(
   'T05 reactivation clears reminder_week_sent_at',
   (select reminder_week_sent_at::text from public.registrations
    where event_id = '00000000-0000-0000-0000-000000000001'
-     and lower(email) = 'alice@test.example'),
+     and lower(email) = 'alice@test.invalid'),
   null
 );
 
-select * from expect_eq(
+select * from pg_temp.expect_eq(
   'T05 reactivation clears reminder_24h_sent_at',
   (select reminder_24h_sent_at::text from public.registrations
    where event_id = '00000000-0000-0000-0000-000000000001'
-     and lower(email) = 'alice@test.example'),
+     and lower(email) = 'alice@test.invalid'),
   null
 );
 
@@ -227,22 +231,22 @@ select * from expect_eq(
 -- TEST 6: Capacity calculation counts active only
 -- =============================================================================
 -- Alice active, Bob cancelled, Carol active = 2 active out of 3 limit
-select * from expect_eq(
-  'T06 seats_available counts active only',
-  (select seats_available::text from public.events_with_availability
+select * from pg_temp.expect_eq(
+  'T06 seats_remaining counts active only',
+  (select seats_remaining::text from public.events_with_availability
    where id = '00000000-0000-0000-0000-000000000001'),
   '1'   -- 3 limit - 2 active = 1
 );
 
 
 -- =============================================================================
--- TEST 7: events_with_availability counts active only
+-- TEST 7: events_with_availability has_availability reflects active-only count
 -- =============================================================================
-select * from expect_eq(
-  'T07 registered_count = active registrations only',
-  (select registered_count::text from public.events_with_availability
+select * from pg_temp.expect_eq(
+  'T07 has_availability true (1 seat left of 3; active only counted)',
+  (select has_availability::text from public.events_with_availability
    where id = '00000000-0000-0000-0000-000000000001'),
-  '2'   -- Alice + Carol active; Bob and Dave cancelled
+  'true'   -- 3 limit - 2 active (Alice+Carol) = 1 seat remaining → true
 );
 
 
@@ -251,7 +255,7 @@ select * from expect_eq(
 -- =============================================================================
 -- Bob is cancelled. Reminder query (registration_status = 'active' AND
 -- reminder_week_sent_at IS NULL) must NOT return Bob.
-select * from expect_eq(
+select * from pg_temp.expect_eq(
   'T08 cancelled registration excluded from reminder query',
   (select count(*)::text from public.registrations
    where event_id = '00000000-0000-0000-0000-000000000001'
@@ -268,22 +272,22 @@ do $$ declare att_id uuid; v jsonb; begin
   select la.id into att_id from public.lab_attendance la
   join public.registrations r on r.id = la.registration_id
   where r.event_id = '00000000-0000-0000-0000-000000000001'
-    and lower(r.email) = 'alice@test.example';
+    and lower(r.email) = 'alice@test.invalid';
 
   v := public.mark_attendance(att_id, 'attended', 'manual', 'was present', 'test_actor');
   if not (v->>'success')::boolean then raise exception 'T09 mark failed: %', v; end if;
 end $$;
 
-select * from expect_eq(
+select * from pg_temp.expect_eq(
   'T09 attendance status updated',
   (select la.status from public.lab_attendance la
    join public.registrations r on r.id = la.registration_id
    where r.event_id = '00000000-0000-0000-0000-000000000001'
-     and lower(r.email) = 'alice@test.example'),
+     and lower(r.email) = 'alice@test.invalid'),
   'attended'
 );
 
-select * from expect_eq(
+select * from pg_temp.expect_eq(
   'T09 audit log written',
   (select count(*)::text from public.admin_audit_log
    where action = 'attendance.marked'
@@ -298,25 +302,25 @@ select * from expect_eq(
 -- We verify atomicity by checking that mark_attendance uses a single tx;
 -- simulate by calling with an invalid status that triggers early return.
 -- =============================================================================
-select * from expect_eq(
+select * from pg_temp.expect_eq(
   'T10 invalid status returns error not exception',
   (public.mark_attendance(
     (select la.id from public.lab_attendance la
      join public.registrations r on r.id = la.registration_id
      where r.event_id = '00000000-0000-0000-0000-000000000001'
-       and lower(r.email) = 'alice@test.example'),
+       and lower(r.email) = 'alice@test.invalid'),
     'INVALID_STATUS', 'manual', null, 'actor'
   ))->>'error',
   'invalid_status'
 );
 
 -- Attendance must not have changed
-select * from expect_eq(
+select * from pg_temp.expect_eq(
   'T10 status unchanged after invalid mark',
   (select la.status from public.lab_attendance la
    join public.registrations r on r.id = la.registration_id
    where r.event_id = '00000000-0000-0000-0000-000000000001'
-     and lower(r.email) = 'alice@test.example'),
+     and lower(r.email) = 'alice@test.invalid'),
   'attended'
 );
 
@@ -328,12 +332,12 @@ do $$ declare alice_att uuid; carol_att uuid; v jsonb; begin
   select la.id into alice_att from public.lab_attendance la
   join public.registrations r on r.id = la.registration_id
   where r.event_id = '00000000-0000-0000-0000-000000000001'
-    and lower(r.email) = 'alice@test.example';
+    and lower(r.email) = 'alice@test.invalid';
 
   select la.id into carol_att from public.lab_attendance la
   join public.registrations r on r.id = la.registration_id
   where r.event_id = '00000000-0000-0000-0000-000000000001'
-    and lower(r.email) = 'carol@test.example';
+    and lower(r.email) = 'carol@test.invalid';
 
   v := public.bulk_mark_attendance(
     array[alice_att, carol_att],
@@ -344,7 +348,7 @@ do $$ declare alice_att uuid; carol_att uuid; v jsonb; begin
   end if;
 end $$;
 
-select * from expect_eq(
+select * from pg_temp.expect_eq(
   'T11 bulk mark writes one audit row per record',
   (select count(*)::text from public.admin_audit_log
    where action = 'attendance.marked'
@@ -357,7 +361,7 @@ select * from expect_eq(
 -- TEST 12: Cancelled registration excluded from attendance rate denominator
 -- =============================================================================
 -- Bob is cancelled. Stats function should exclude Bob from all counts.
-select * from expect_eq(
+select * from pg_temp.expect_eq(
   'T12 cancelled excluded from total_active in stats',
   ((public.get_event_attendance_stats('00000000-0000-0000-0000-000000000001'))->>'total_active'),
   '2'
@@ -368,14 +372,14 @@ select * from expect_eq(
 -- TEST 13: Unreviewed excluded from attendance denominator
 -- =============================================================================
 -- Alice and Carol are both no_show (from T11). reviewed_active should be 2.
-select * from expect_eq(
+select * from pg_temp.expect_eq(
   'T13 reviewed_active = 2 (no unreviewed)',
   ((public.get_event_attendance_stats('00000000-0000-0000-0000-000000000001'))->>'reviewed_active'),
   '2'
 );
 
 -- attended_or_partial = 0
-select * from expect_eq(
+select * from pg_temp.expect_eq(
   'T13 attended_or_partial = 0',
   ((public.get_event_attendance_stats('00000000-0000-0000-0000-000000000001'))->>'attended_or_partial'),
   '0'
@@ -401,7 +405,7 @@ values (
 do $$ declare v jsonb; r_id uuid; att_id uuid; begin
   v := public.register_for_event(
     '00000000-0000-0000-0000-000000000002',
-    'Alice Test', 'alice@test.example'
+    'Alice Test', 'alice@test.invalid'
   );
   if not (v->>'success')::boolean then raise exception 'T14 past register failed: %', v; end if;
   select (v->>'registration_id')::uuid into r_id;
@@ -419,22 +423,22 @@ do $$ declare c_id uuid := gen_random_uuid(); begin
     '00000000-0000-0000-0000-000000000001',
     '00000000-0000-0000-0000-000000000002'
   )
-    and lower(email) = 'alice@test.example';
+    and lower(email) = 'alice@test.invalid';
 end $$;
 
-select * from expect_eq(
+select * from pg_temp.expect_eq(
   'T14 previous_attended_count = 1 for alice (past event)',
   (select previous_attended_count::text
    from public.list_event_registrants('00000000-0000-0000-0000-000000000001')
-   where lower(email) = 'alice@test.example'),
+   where lower(email) = 'alice@test.invalid'),
   '1'
 );
 
-select * from expect_eq(
+select * from pg_temp.expect_eq(
   'T14 carol has 0 previous attended (different contact)',
   (select previous_attended_count::text
    from public.list_event_registrants('00000000-0000-0000-0000-000000000001')
-   where lower(email) = 'carol@test.example'),
+   where lower(email) = 'carol@test.invalid'),
   '0'
 );
 
@@ -443,7 +447,7 @@ select * from expect_eq(
 -- TEST 15: Wrong admin secret returns 401 (tested at HTTP layer; here we confirm
 --          the function is not granted to PUBLIC or anon)
 -- =============================================================================
-select * from expect_eq(
+select * from pg_temp.expect_eq(
   'T15 mark_attendance not granted to PUBLIC',
   (select count(*)::text
    from information_schema.role_routine_grants
@@ -453,7 +457,7 @@ select * from expect_eq(
   '0'
 );
 
-select * from expect_eq(
+select * from pg_temp.expect_eq(
   'T15 bulk_mark_attendance not granted to PUBLIC',
   (select count(*)::text
    from information_schema.role_routine_grants
@@ -467,7 +471,7 @@ select * from expect_eq(
 -- =============================================================================
 -- TEST 16: Browser cannot directly read attendance table (RLS enabled, no anon policy)
 -- =============================================================================
-select * from expect_eq(
+select * from pg_temp.expect_eq(
   'T16 RLS enabled on lab_attendance',
   (select relrowsecurity::text from pg_class
    where relnamespace = 'public'::regnamespace
@@ -475,7 +479,7 @@ select * from expect_eq(
   'true'
 );
 
-select * from expect_eq(
+select * from pg_temp.expect_eq(
   'T16 no anon SELECT policy on lab_attendance',
   (select count(*)::text from pg_policies
    where schemaname = 'public'
@@ -492,7 +496,7 @@ do $$ declare r_id uuid; begin
   select r.id into r_id from public.registrations r
   join public.lab_attendance la on la.registration_id = r.id
   where r.event_id = '00000000-0000-0000-0000-000000000001'
-    and lower(r.email) = 'alice@test.example'
+    and lower(r.email) = 'alice@test.invalid'
   limit 1;
 
   begin
@@ -504,12 +508,12 @@ do $$ declare r_id uuid; begin
   end;
 end $$;
 
-select * from expect_eq(
+select * from pg_temp.expect_eq(
   'T17 attendance row still exists after blocked delete',
   (select count(*)::text from public.lab_attendance la
    join public.registrations r on r.id = la.registration_id
    where r.event_id = '00000000-0000-0000-0000-000000000001'
-     and lower(r.email) = 'alice@test.example'),
+     and lower(r.email) = 'alice@test.invalid'),
   '1'
 );
 
@@ -526,7 +530,7 @@ do $$ begin
   end;
 end $$;
 
-select * from expect_eq(
+select * from pg_temp.expect_eq(
   'T18 event still exists after blocked cascade delete',
   (select count(*)::text from public.events
    where id = '00000000-0000-0000-0000-000000000001'),
@@ -540,30 +544,30 @@ select * from expect_eq(
 do $$ declare c_id uuid; begin
   select contact_id into c_id from public.registrations
   where event_id = '00000000-0000-0000-0000-000000000001'
-    and lower(email) = 'alice@test.example';
+    and lower(email) = 'alice@test.invalid';
 
   -- Insert the contact row so it can be deleted
   insert into public.contacts (id, normalized_email, first_seen_at, last_seen_at)
-  values (c_id, 'alice@test.example', now(), now())
+  values (c_id, 'alice@test.invalid', now(), now())
   on conflict (id) do nothing;
 
   delete from public.contacts where id = c_id;
 end $$;
 
-select * from expect_eq(
+select * from pg_temp.expect_eq(
   'T19 contact_id set null on registration after contact delete',
   (select contact_id::text from public.registrations
    where event_id = '00000000-0000-0000-0000-000000000001'
-     and lower(email) = 'alice@test.example'),
+     and lower(email) = 'alice@test.invalid'),
   null
 );
 
-select * from expect_eq(
+select * from pg_temp.expect_eq(
   'T19 attendance row still present after contact delete',
   (select count(*)::text from public.lab_attendance la
    join public.registrations r on r.id = la.registration_id
    where r.event_id = '00000000-0000-0000-0000-000000000001'
-     and lower(r.email) = 'alice@test.example'),
+     and lower(r.email) = 'alice@test.invalid'),
   '1'
 );
 
@@ -579,7 +583,7 @@ do $$ declare r_id uuid; att_id_before uuid; att_id_after uuid; v jsonb; begin
   from public.registrations r
   join public.lab_attendance la on la.registration_id = r.id
   where r.event_id = '00000000-0000-0000-0000-000000000001'
-    and lower(r.email) = 'alice@test.example';
+    and lower(r.email) = 'alice@test.invalid';
 
   -- Verify current status is no_show
   if (select la.status from public.lab_attendance la where la.id = att_id_before) <> 'no_show' then
@@ -602,20 +606,20 @@ do $$ declare r_id uuid; att_id_before uuid; att_id_after uuid; v jsonb; begin
   end if;
 end $$;
 
-select * from expect_eq(
+select * from pg_temp.expect_eq(
   'T20 cancelled+no_show → reactivated+unreviewed',
   (select la.status from public.lab_attendance la
    join public.registrations r on r.id = la.registration_id
    where r.event_id = '00000000-0000-0000-0000-000000000001'
-     and lower(r.email) = 'alice@test.example'),
+     and lower(r.email) = 'alice@test.invalid'),
   'unreviewed'
 );
 
-select * from expect_eq(
+select * from pg_temp.expect_eq(
   'T20 reactivated registration is active',
   (select registration_status from public.registrations
    where event_id = '00000000-0000-0000-0000-000000000001'
-     and lower(email) = 'alice@test.example'),
+     and lower(email) = 'alice@test.invalid'),
   'active'
 );
 
@@ -625,30 +629,30 @@ do $$ declare r_id uuid; att_id uuid; v jsonb; begin
   select la.id into att_id from public.lab_attendance la
   join public.registrations r on r.id = la.registration_id
   where r.event_id = '00000000-0000-0000-0000-000000000001'
-    and lower(r.email) = 'carol@test.example';
+    and lower(r.email) = 'carol@test.invalid';
 
   v := public.mark_attendance(att_id, 'attended', 'manual', null, 'test_actor');
 
   -- Cancel Carol
   select r.id into r_id from public.registrations r
   where r.event_id = '00000000-0000-0000-0000-000000000001'
-    and lower(r.email) = 'carol@test.example';
+    and lower(r.email) = 'carol@test.invalid';
   v := public.cancel_registration(r_id, 'admin', 'T20 carol cancel');
 
   -- Re-register Carol via public path (reactivation)
   v := public.register_for_event(
     '00000000-0000-0000-0000-000000000001',
-    'Carol Test', 'carol@test.example'
+    'Carol Test', 'carol@test.invalid'
   );
   if not (v->>'success')::boolean then raise exception 'T20 carol re-register failed: %', v; end if;
 end $$;
 
-select * from expect_eq(
+select * from pg_temp.expect_eq(
   'T20 cancelled+attended → public reactivation → unreviewed',
   (select la.status from public.lab_attendance la
    join public.registrations r on r.id = la.registration_id
    where r.event_id = '00000000-0000-0000-0000-000000000001'
-     and lower(r.email) = 'carol@test.example'),
+     and lower(r.email) = 'carol@test.invalid'),
   'unreviewed'
 );
 

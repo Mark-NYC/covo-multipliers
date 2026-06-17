@@ -176,6 +176,7 @@ declare
   v_existing       public.registrations%rowtype;
   v_active_count   integer;
   v_reg_id         uuid;
+  v_att_id         uuid;
   v_seats_left     integer;
   v_email          text;
   v_reactivated    boolean := false;
@@ -233,18 +234,29 @@ begin
       reminder_1h_sent_at            = null
     where id = v_existing.id;
 
-    -- Reset the attendance row atomically so no stale attended/partial/no_show
-    -- status remains attached to a reactivated registration
-    update public.lab_attendance set
+    -- Atomically reset (or create) the attendance row via upsert so no stale
+    -- attended/partial/no_show status remains on a reactivated registration.
+    -- RETURNING id guarantees we only set attendance_reset: true on success.
+    insert into public.lab_attendance (
+      registration_id, status, attendance_source, attended_at,
+      attended_minutes, zoom_display_name, notes, marked_by,
+      status_changed_at, updated_at
+    ) values (
+      v_existing.id, 'unreviewed', 'system', null,
+      null, null, null, 'system',
+      now(), now()
+    )
+    on conflict (registration_id) do update set
       status            = 'unreviewed',
       attendance_source = 'system',
       attended_at       = null,
       attended_minutes  = null,
       zoom_display_name = null,
       notes             = null,
-      marked_by         = 'system',
-      status_changed_at = now()
-    where registration_id = v_existing.id;
+      marked_by         = excluded.marked_by,
+      status_changed_at = now(),
+      updated_at        = now()
+    returning id into v_att_id;
 
     -- Audit the reactivation (actor = 'system' for public re-registration)
     insert into public.admin_audit_log (actor, action, target_type, target_id, detail)
@@ -257,7 +269,8 @@ begin
         'event_id',         p_event_id,
         'email',            v_email,
         'trigger',          'public_re_registration',
-        'attendance_reset', true
+        'attendance_id',    v_att_id,
+        'attendance_reset', v_att_id is not null
       )
     );
 
@@ -321,9 +334,10 @@ security definer
 set search_path = pg_catalog, public
 as $$
 declare
-  v_reg        public.registrations%rowtype;
-  v_event      public.events%rowtype;
+  v_reg          public.registrations%rowtype;
+  v_event        public.events%rowtype;
   v_active_count integer;
+  v_att_id       uuid;
 begin
   select * into v_reg
   from public.registrations
@@ -368,17 +382,28 @@ begin
     reminder_1h_sent_at            = null
   where id = p_registration_id;
 
-  -- Reset attendance row atomically
-  update public.lab_attendance set
+  -- Atomically reset (or create) the attendance row via upsert.
+  -- RETURNING id guarantees we only set attendance_reset: true on success.
+  insert into public.lab_attendance (
+    registration_id, status, attendance_source, attended_at,
+    attended_minutes, zoom_display_name, notes, marked_by,
+    status_changed_at, updated_at
+  ) values (
+    p_registration_id, 'unreviewed', 'system', null,
+    null, null, null, p_actor,
+    now(), now()
+  )
+  on conflict (registration_id) do update set
     status            = 'unreviewed',
     attendance_source = 'system',
     attended_at       = null,
     attended_minutes  = null,
     zoom_display_name = null,
     notes             = null,
-    marked_by         = p_actor,
-    status_changed_at = now()
-  where registration_id = p_registration_id;
+    marked_by         = excluded.marked_by,
+    status_changed_at = now(),
+    updated_at        = now()
+  returning id into v_att_id;
 
   -- Audit the admin reactivation
   insert into public.admin_audit_log (actor, action, target_type, target_id, detail)
@@ -391,7 +416,8 @@ begin
       'event_id',         v_reg.event_id,
       'email',            v_reg.email,
       'trigger',          'admin_reactivation',
-      'attendance_reset', true
+      'attendance_id',    v_att_id,
+      'attendance_reset', v_att_id is not null
     )
   );
 
@@ -425,10 +451,13 @@ security definer
 set search_path = pg_catalog, public
 as $$
 declare
-  v_att       public.lab_attendance%rowtype;
-  v_old_status text;
-  v_event_id  uuid;
-  v_contact_id uuid;
+  v_att            public.lab_attendance%rowtype;
+  v_event_id       uuid;
+  v_contact_id     uuid;
+  v_notes_resolved text;
+  v_status_changed boolean;
+  v_meta_changed   boolean;
+  v_audit_action   text;
 begin
   if p_status not in ('unreviewed', 'attended', 'partial', 'no_show') then
     return jsonb_build_object('success', false, 'error', 'invalid_status');
@@ -447,7 +476,20 @@ begin
     return jsonb_build_object('success', false, 'error', 'not_found');
   end if;
 
-  v_old_status := v_att.status;
+  v_notes_resolved := coalesce(p_notes, v_att.notes);
+  v_status_changed := v_att.status <> p_status;
+  v_meta_changed   := (v_att.attendance_source <> p_source)
+                   or (v_notes_resolved is distinct from v_att.notes);
+
+  -- Complete no-op: nothing changed — skip update and audit row entirely
+  if not v_status_changed and not v_meta_changed then
+    return jsonb_build_object(
+      'success', true,
+      'id',      p_attendance_id,
+      'no_op',   true,
+      'status',  v_att.status
+    );
+  end if;
 
   -- Derive event_id and contact_id through the registration
   select r.event_id, r.contact_id
@@ -455,35 +497,40 @@ begin
   from public.registrations r
   where r.id = v_att.registration_id;
 
+  v_audit_action := case when v_status_changed then 'attendance.marked' else 'attendance.edit' end;
+
   update public.lab_attendance set
     status            = p_status,
     attendance_source = p_source,
-    notes             = coalesce(p_notes, notes),
-    status_changed_at = now(),
+    notes             = v_notes_resolved,
+    -- Only advance status_changed_at when status actually changes
+    status_changed_at = case when v_status_changed then now() else status_changed_at end,
     marked_by         = p_actor
   where id = p_attendance_id;
 
   insert into public.admin_audit_log (actor, action, target_type, target_id, detail)
   values (
     p_actor,
-    'attendance.marked',
+    v_audit_action,
     'lab_attendance',
     p_attendance_id,
     jsonb_build_object(
       'event_id',        v_event_id,
       'registration_id', v_att.registration_id,
       'contact_id',      v_contact_id,
-      'old_status',      v_old_status,
+      'old_status',      v_att.status,
       'new_status',      p_status,
-      'source',          p_source,
-      'notes',           p_notes
+      'old_source',      v_att.attendance_source,
+      'new_source',      p_source,
+      'old_notes',       v_att.notes,
+      'new_notes',       v_notes_resolved
     )
   );
 
   return jsonb_build_object(
     'success',    true,
     'id',         p_attendance_id,
-    'old_status', v_old_status,
+    'old_status', v_att.status,
     'new_status', p_status
   );
 end;
@@ -509,13 +556,18 @@ security definer
 set search_path = pg_catalog, public
 as $$
 declare
-  v_att        public.lab_attendance%rowtype;
-  v_old_status text;
-  v_event_id   uuid;
-  v_contact_id uuid;
-  v_changed    integer := 0;
-  v_errors     jsonb   := '[]'::jsonb;
-  v_att_id     uuid;
+  v_att            public.lab_attendance%rowtype;
+  v_event_id       uuid;
+  v_contact_id     uuid;
+  v_notes_resolved text;
+  v_status_changed boolean;
+  v_meta_changed   boolean;
+  v_audit_action   text;
+  v_changed        integer := 0;
+  v_skipped        integer := 0;
+  v_errors         jsonb   := '[]'::jsonb;
+  v_att_id         uuid;
+  v_deduped_ids    uuid[];
 begin
   if p_status not in ('unreviewed', 'attended', 'partial', 'no_show') then
     return jsonb_build_object('success', false, 'error', 'invalid_status');
@@ -525,7 +577,10 @@ begin
     return jsonb_build_object('success', false, 'error', 'invalid_source');
   end if;
 
-  foreach v_att_id in array p_attendance_ids loop
+  -- Deduplicate defensively before iterating
+  select array_agg(distinct u) into v_deduped_ids from unnest(p_attendance_ids) u;
+
+  foreach v_att_id in array v_deduped_ids loop
     begin
       select * into v_att
       from public.lab_attendance
@@ -537,35 +592,48 @@ begin
         continue;
       end if;
 
-      v_old_status := v_att.status;
+      v_notes_resolved := coalesce(p_notes, v_att.notes);
+      v_status_changed := v_att.status <> p_status;
+      v_meta_changed   := (v_att.attendance_source <> p_source)
+                       or (v_notes_resolved is distinct from v_att.notes);
+
+      -- Skip complete no-ops silently
+      if not v_status_changed and not v_meta_changed then
+        v_skipped := v_skipped + 1;
+        continue;
+      end if;
 
       select r.event_id, r.contact_id
       into v_event_id, v_contact_id
       from public.registrations r
       where r.id = v_att.registration_id;
 
+      v_audit_action := case when v_status_changed then 'attendance.marked' else 'attendance.edit' end;
+
       update public.lab_attendance set
         status            = p_status,
         attendance_source = p_source,
-        notes             = coalesce(p_notes, notes),
-        status_changed_at = now(),
+        notes             = v_notes_resolved,
+        status_changed_at = case when v_status_changed then now() else status_changed_at end,
         marked_by         = p_actor
       where id = v_att_id;
 
       insert into public.admin_audit_log (actor, action, target_type, target_id, detail)
       values (
         p_actor,
-        'attendance.marked',
+        v_audit_action,
         'lab_attendance',
         v_att_id,
         jsonb_build_object(
           'event_id',        v_event_id,
           'registration_id', v_att.registration_id,
           'contact_id',      v_contact_id,
-          'old_status',      v_old_status,
+          'old_status',      v_att.status,
           'new_status',      p_status,
-          'source',          p_source,
-          'notes',           p_notes,
+          'old_source',      v_att.attendance_source,
+          'new_source',      p_source,
+          'old_notes',       v_att.notes,
+          'new_notes',       v_notes_resolved,
           'bulk',            true
         )
       );
@@ -581,8 +649,9 @@ begin
   end loop;
 
   return jsonb_build_object(
-    'success',       v_changed > 0 or jsonb_array_length(v_errors) = 0,
+    'success',       jsonb_array_length(v_errors) = 0,
     'changed_count', v_changed,
+    'skipped_count', v_skipped,
     'error_count',   jsonb_array_length(v_errors),
     'errors',        v_errors
   );

@@ -211,15 +211,20 @@ Deno.serve(async (req: Request): Promise<Response> => {
     if (!Array.isArray(attendanceIds) || attendanceIds.length === 0) {
       return json(400, { error: "attendance_ids must be a non-empty array." }, cors);
     }
+    if (attendanceIds.length > 200) {
+      return json(400, { error: "attendance_ids must not exceed 200 entries." }, cors);
+    }
     if (attendanceIds.some((id) => typeof id !== "string" || !isUuid(id))) {
       return json(400, { error: "All attendance_ids must be valid UUIDs." }, cors);
     }
+    // Deduplicate before sending to DB
+    const uniqueAttendanceIds = [...new Set(attendanceIds as string[])];
     if (typeof status !== "string") {
       return json(400, { error: "status is required." }, cors);
     }
 
     const { data, error } = await supabase.rpc("bulk_mark_attendance", {
-      p_attendance_ids: attendanceIds,
+      p_attendance_ids: uniqueAttendanceIds,
       p_status:         status,
       p_source:         source,
       p_notes:          notes,
@@ -256,6 +261,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
       p_registration_id:    registrationId,
       p_cancellation_source: cancelSource,
       p_cancellation_notes:  cancelNotes,
+      p_actor:               actor,
     });
 
     if (error) {
