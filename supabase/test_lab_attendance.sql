@@ -420,8 +420,8 @@ end $$;
 -- persisted ID back via RETURNING; never assume a gen_random_uuid() value
 -- matches a row that was committed.
 do $$ declare c_id uuid; begin
-  insert into public.contacts (normalized_email, first_seen_at, last_seen_at)
-  values ('alice@test.invalid', now(), now())
+  insert into public.contacts (normalized_email, email, first_seen_at, last_seen_at)
+  values ('alice@test.invalid', 'alice@test.invalid', now(), now())
   on conflict (normalized_email) do update set last_seen_at = excluded.last_seen_at
   returning id into c_id;
 
@@ -562,8 +562,8 @@ do $$ declare c_id uuid; begin
     and lower(email) = 'alice@test.invalid';
 
   -- Insert the contact row so it can be deleted
-  insert into public.contacts (id, normalized_email, first_seen_at, last_seen_at)
-  values (c_id, 'alice@test.invalid', now(), now())
+  insert into public.contacts (id, normalized_email, email, first_seen_at, last_seen_at)
+  values (c_id, 'alice@test.invalid', 'alice@test.invalid', now(), now())
   on conflict (id) do nothing;
 
   delete from public.contacts where id = c_id;
