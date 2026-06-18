@@ -3,235 +3,305 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CoVo Dashboard — People Funnel &amp; Reach</title>
+  <title>CoVo Operating Dashboard</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       font-size: 14px;
-      background: #f4f4f5;
+      background: #f0f2f5;
       color: #1a1a1a;
       min-height: 100vh;
     }
 
-    /* ── Auth screen ─────────────────────────────────────────────────── */
+    /* ── Auth ───────────────────────────────────────────────────────── */
     #auth-screen {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      padding: 24px;
+      display: flex; align-items: center; justify-content: center;
+      min-height: 100vh; padding: 24px;
     }
     .auth-card {
-      background: #fff;
-      border: 1px solid #e5e7eb;
-      border-radius: 12px;
-      padding: 40px;
-      width: 100%;
-      max-width: 400px;
+      background: #fff; border: 1px solid #e5e7eb; border-radius: 12px;
+      padding: 40px; width: 100%; max-width: 400px;
     }
     .auth-card h1 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
     .auth-card p  { color: #666; margin-bottom: 24px; font-size: 13px; }
     .auth-error   { color: #dc2626; font-size: 13px; margin-top: 8px; }
 
-    /* ── App shell ───────────────────────────────────────────────────── */
+    /* ── App shell ──────────────────────────────────────────────────── */
     #app { display: none; }
 
     header {
       background: linear-gradient(135deg,#10281f 0%,#1b4d3e 55%,#9f7a2f 100%);
-      padding: 16px 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      color: #fff;
-      position: sticky;
-      top: 0;
-      z-index: 100;
+      padding: 14px 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      color: #fff; position: sticky; top: 0; z-index: 100;
     }
-    header h1 { font-size: 16px; font-weight: 700; }
-    header .subtitle { font-size: 12px; opacity: .75; margin-top: 2px; }
+    header h1 { font-size: 15px; font-weight: 700; }
+    header .subtitle { font-size: 11px; opacity: .65; margin-top: 2px; letter-spacing: .03em; }
 
-    .main { padding: 24px; max-width: 1400px; margin: 0 auto; }
+    .main { padding: 20px 24px; max-width: 1400px; margin: 0 auto; }
 
-    /* ── Common form elements ────────────────────────────────────────── */
+    /* ── Form elements ──────────────────────────────────────────────── */
     .form-group { margin-bottom: 12px; }
-    .form-group label { display: block; font-weight: 600; margin-bottom: 4px; font-size: 12px; color: #555; }
-    .form-group input,
-    .form-group select {
-      width: 100%;
-      padding: 7px 10px;
-      border: 1px solid #d1d5db;
-      border-radius: 6px;
-      font-size: 13px;
+    .form-group label { display: block; font-weight: 600; margin-bottom: 4px; font-size: 11px; color: #555; text-transform: uppercase; letter-spacing: .04em; }
+    .form-group input, .form-group select {
+      width: 100%; padding: 7px 10px; border: 1px solid #d1d5db;
+      border-radius: 6px; font-size: 13px;
     }
     .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 8px 16px;
-      border-radius: 6px;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      border: none;
-      transition: opacity .15s;
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 16px; border-radius: 6px; font-size: 13px;
+      font-weight: 600; cursor: pointer; border: none; transition: opacity .15s;
     }
     .btn:disabled { opacity: .5; cursor: not-allowed; }
     .btn-primary { background: #1b4d3e; color: #fff; }
-    .btn-ghost   { background: transparent; color: #1b4d3e; border: 1px solid #1b4d3e; }
+    .btn-ghost   { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,.4); }
     .btn-sm      { padding: 5px 10px; font-size: 12px; }
 
-    /* ── Date controls bar ───────────────────────────────────────────── */
+    /* ── Health pill ────────────────────────────────────────────────── */
+    .health-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 12px; border-radius: 999px; font-size: 12px; font-weight: 700;
+      cursor: pointer; border: none; transition: opacity .15s;
+    }
+    .health-pill::before { content: "●"; font-size: 10px; }
+    .health-loading { background: rgba(255,255,255,.15); color: rgba(255,255,255,.7); }
+    .health-green   { background: #dcfce7; color: #166534; }
+    .health-amber   { background: #fef3c7; color: #92400e; }
+    .health-red     { background: #fee2e2; color: #991b1b; }
+
+    /* ── Controls bar ───────────────────────────────────────────────── */
     .controls-bar {
-      background: #fff;
-      border: 1px solid #e5e7eb;
-      border-radius: 8px;
-      padding: 14px 20px;
-      margin-bottom: 20px;
-      display: flex;
-      gap: 16px;
-      align-items: flex-end;
-      flex-wrap: wrap;
+      background: #fff; border: 1px solid #e5e7eb; border-radius: 8px;
+      padding: 12px 20px; margin-bottom: 18px;
+      display: flex; gap: 14px; align-items: flex-end; flex-wrap: wrap;
     }
     .controls-bar .form-group { margin-bottom: 0; }
-    .tz-label { font-size: 12px; color: #888; align-self: center; margin-left: 4px; }
+    .tz-label { font-size: 11px; color: #888; align-self: center; }
 
-    /* ── Cards ───────────────────────────────────────────────────────── */
-    .section-card {
+    /* ── Stage cards row ────────────────────────────────────────────── */
+    .stage-cards-row {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    @media (max-width: 900px) {
+      .stage-cards-row { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 500px) {
+      .stage-cards-row { grid-template-columns: 1fr; }
+    }
+
+    .stage-card {
       background: #fff;
       border: 1px solid #e5e7eb;
-      border-radius: 8px;
-      padding: 20px;
-      margin-bottom: 24px;
+      border-radius: 10px;
+      padding: 16px 16px 14px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: box-shadow .15s, transform .1s;
+      display: flex; flex-direction: column; gap: 4px;
+    }
+    .stage-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.1); transform: translateY(-1px); }
+    .stage-card.active { box-shadow: 0 6px 24px rgba(0,0,0,.13); transform: translateY(-2px); border-color: transparent; }
+
+    .stage-accent {
+      position: absolute; top: 0; left: 0; bottom: 0; width: 4px;
+    }
+    .stage-label {
+      font-size: 10px; font-weight: 800; text-transform: uppercase;
+      letter-spacing: .08em; color: #888; padding-left: 10px;
+    }
+    .stage-lag-val {
+      font-size: 38px; font-weight: 800; line-height: 1;
+      color: #1a1a1a; padding-left: 10px; margin-top: 6px;
+    }
+    .stage-lag-label {
+      font-size: 11px; color: #888; padding-left: 10px;
+    }
+    .stage-lead-wrap {
+      padding-left: 10px; margin-top: 8px;
+      border-top: 1px solid #f0f0f0; padding-top: 8px;
+    }
+    .stage-lead-label {
+      font-size: 10px; text-transform: uppercase; letter-spacing: .05em; color: #aaa;
+    }
+    .stage-lead-val {
+      font-size: 16px; font-weight: 700; color: #444; margin-top: 1px;
+    }
+    .stage-diagnosis {
+      font-size: 11px; color: #777; padding-left: 10px;
+      margin-top: 6px; line-height: 1.4;
+    }
+    .stage-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      padding-left: 10px; margin-top: 8px;
+    }
+    .status-pill {
+      display: inline-block; font-size: 10px; font-weight: 700;
+      padding: 2px 8px; border-radius: 999px; text-transform: uppercase; letter-spacing: .06em;
+    }
+    .status-green  { background: #dcfce7; color: #166534; }
+    .status-amber  { background: #fef3c7; color: #92400e; }
+    .status-red    { background: #fee2e2; color: #991b1b; }
+    .status-gray   { background: #f3f4f6; color: #6b7280; }
+    .stage-cta-link { font-size: 11px; color: #1b4d3e; font-weight: 600; }
+
+    /* ── Section cards ──────────────────────────────────────────────── */
+    .section-card {
+      background: #fff; border: 1px solid #e5e7eb; border-radius: 8px;
+      padding: 20px; margin-bottom: 16px;
     }
     .section-card h2 {
-      font-size: 15px;
-      font-weight: 700;
-      margin-bottom: 4px;
-      color: #1b4d3e;
+      font-size: 15px; font-weight: 700; margin-bottom: 4px; color: #1b4d3e;
     }
-    .section-card .section-note {
-      font-size: 12px;
-      color: #888;
-      margin-bottom: 16px;
-    }
+    .section-note { font-size: 12px; color: #888; margin-bottom: 14px; }
 
-    /* ── Overview metric cards ───────────────────────────────────────── */
-    .metric-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-      gap: 12px;
+    /* ── Visual funnel ──────────────────────────────────────────────── */
+    .funnel-stage-row {
+      display: flex; align-items: center; gap: 12px; margin-bottom: 2px;
     }
-    .metric-card {
-      background: #f9fafb;
-      border: 1px solid #e5e7eb;
-      border-radius: 8px;
-      padding: 14px;
+    .funnel-stage-name {
+      width: 180px; flex-shrink: 0; font-size: 12px; font-weight: 600;
+      text-align: right; color: #444;
     }
-    .metric-card .metric-value {
-      font-size: 28px;
-      font-weight: 800;
-      color: #1b4d3e;
+    .funnel-bar-track {
+      flex: 1; background: #f3f4f6; border-radius: 6px; height: 28px;
+      position: relative; overflow: hidden;
     }
-    .metric-card .metric-name {
-      font-size: 12px;
-      color: #555;
-      margin-top: 2px;
+    .funnel-bar-fill {
+      height: 100%; border-radius: 6px; transition: width .4s ease;
+      display: flex; align-items: center; padding-left: 10px;
     }
-    .metric-card .metric-badge {
-      display: inline-block;
-      font-size: 10px;
-      font-weight: 700;
-      padding: 1px 6px;
-      border-radius: 999px;
-      margin-top: 4px;
+    .funnel-bar-label {
+      font-size: 12px; font-weight: 700; color: #fff;
+      white-space: nowrap; overflow: hidden;
     }
-    .badge-alltime { background: #fee2e2; color: #991b1b; }
-    .badge-range   { background: #dbeafe; color: #1e40af; }
+    .funnel-bar-pct {
+      width: 70px; flex-shrink: 0; font-size: 11px; color: #888;
+      text-align: right;
+    }
+    .funnel-dropoff-row {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 6px; padding-left: 192px;
+    }
+    .funnel-dropoff-arrow {
+      font-size: 11px; color: #f97316; font-weight: 700; padding-left: 6px;
+    }
+    .funnel-table-wrap { margin-top: 20px; }
 
-    /* ── Funnel stages ───────────────────────────────────────────────── */
-    .funnel-table, .data-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 13px;
+    /* ── Detail panels ──────────────────────────────────────────────── */
+    .detail-panel {
+      display: none; background: #fff; border: 1px solid #e5e7eb;
+      border-radius: 8px; padding: 20px; margin-bottom: 16px;
     }
-    .funnel-table th, .data-table th {
-      background: #f9fafb;
-      border-bottom: 1px solid #e5e7eb;
-      padding: 8px 12px;
-      text-align: left;
-      font-size: 11px;
-      font-weight: 700;
-      color: #555;
-      text-transform: uppercase;
-      letter-spacing: .04em;
+    .detail-panel.open { display: block; }
+    .detail-panel h2 {
+      font-size: 14px; font-weight: 700; margin-bottom: 4px; color: #1b4d3e;
     }
-    .funnel-table td, .data-table td {
-      padding: 9px 12px;
-      border-bottom: 1px solid #f0f0f0;
-      vertical-align: middle;
-    }
-    .funnel-table tr:last-child td,
-    .data-table tr:last-child td { border-bottom: none; }
-    .data-table tr.total-row td { font-weight: 700; background: #f9fafb; }
-    .text-danger { color: #dc2626; font-weight: 700; }
-    .text-warn   { color: #d97706; font-weight: 700; }
+    .detail-panel .section-note { font-size: 12px; color: #888; margin-bottom: 14px; }
 
-    /* ── Funnel progress bar ─────────────────────────────────────────── */
-    .funnel-bar-wrap { background: #e5e7eb; border-radius: 999px; height: 10px; margin-top: 4px; min-width: 60px; }
-    .funnel-bar      { background: #1b4d3e; border-radius: 999px; height: 10px; }
-
-    /* ── Filter strip ────────────────────────────────────────────────── */
+    /* ── Filter strip ───────────────────────────────────────────────── */
     .filter-strip {
-      display: flex;
-      gap: 12px;
-      align-items: flex-end;
-      flex-wrap: wrap;
-      margin-bottom: 16px;
-      padding: 12px 16px;
-      background: #f9fafb;
-      border-radius: 6px;
-      border: 1px solid #e5e7eb;
+      display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap;
+      margin-bottom: 14px; padding: 10px 14px; background: #f9fafb;
+      border-radius: 6px; border: 1px solid #e5e7eb;
     }
     .filter-strip .form-group { margin-bottom: 0; }
     .filter-strip label { font-size: 11px; }
     .filter-strip input, .filter-strip select {
-      padding: 5px 8px;
-      font-size: 12px;
-      border: 1px solid #d1d5db;
-      border-radius: 6px;
-      width: auto;
+      padding: 5px 8px; font-size: 12px; border: 1px solid #d1d5db;
+      border-radius: 6px; width: auto;
     }
     .radio-group { display: flex; gap: 10px; align-items: center; font-size: 12px; }
     .radio-group label { font-weight: normal; margin-bottom: 0; color: #333; display: flex; gap: 4px; align-items: center; }
 
-    /* ── Tabs ────────────────────────────────────────────────────────── */
-    .tabs { display: flex; gap: 0; border-bottom: 2px solid #e5e7eb; margin-bottom: 16px; }
+    /* ── Tabs ───────────────────────────────────────────────────────── */
+    .tabs { display: flex; gap: 0; border-bottom: 2px solid #e5e7eb; margin-bottom: 14px; }
     .tab-btn {
-      padding: 8px 16px;
-      font-size: 13px;
-      font-weight: 600;
-      color: #888;
-      background: none;
-      border: none;
-      cursor: pointer;
-      border-bottom: 2px solid transparent;
-      margin-bottom: -2px;
+      padding: 7px 14px; font-size: 13px; font-weight: 600; color: #888;
+      background: none; border: none; cursor: pointer;
+      border-bottom: 2px solid transparent; margin-bottom: -2px;
     }
     .tab-btn.active { color: #1b4d3e; border-bottom-color: #1b4d3e; }
     .tab-panel { display: none; }
     .tab-panel.active { display: block; }
 
-    /* ── Drilldown ───────────────────────────────────────────────────── */
+    /* ── Tables ─────────────────────────────────────────────────────── */
+    .data-table {
+      width: 100%; border-collapse: collapse; font-size: 13px;
+    }
+    .data-table th {
+      background: #f9fafb; border-bottom: 1px solid #e5e7eb;
+      padding: 8px 12px; text-align: left; font-size: 11px;
+      font-weight: 700; color: #555; text-transform: uppercase; letter-spacing: .04em;
+    }
+    .data-table td {
+      padding: 8px 12px; border-bottom: 1px solid #f0f0f0; vertical-align: middle;
+    }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr.total-row td { font-weight: 700; background: #f9fafb; }
+    .text-danger { color: #dc2626; font-weight: 700; }
+
+    /* ── Collapsible sections ───────────────────────────────────────── */
+    .collapsible-section {
+      background: #fff; border: 1px solid #e5e7eb; border-radius: 8px; margin-bottom: 16px;
+    }
+    .collapsible-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 20px; cursor: pointer; user-select: none;
+    }
+    .collapsible-header h2 {
+      font-size: 14px; font-weight: 700; color: #1b4d3e;
+    }
+    .collapsible-toggle { font-size: 12px; color: #888; }
+    .collapsible-body { display: none; padding: 0 20px 20px; }
+    .collapsible-body.open { display: block; }
+
+    /* ── Drilldown ──────────────────────────────────────────────────── */
     .drilldown-input { display: flex; gap: 10px; align-items: flex-end; margin-bottom: 16px; }
-    .drilldown-input input { flex: 1; padding: 7px 10px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 13px; font-family: monospace; }
+    .drilldown-input input {
+      flex: 1; padding: 7px 10px; border: 1px solid #d1d5db;
+      border-radius: 6px; font-size: 13px; font-family: monospace;
+    }
 
-    /* ── Spinner ─────────────────────────────────────────────────────── */
-    .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(0,0,0,.15); border-top-color: #1b4d3e; border-radius: 50%; animation: spin .6s linear infinite; }
+    /* ── Metric mini-grid ───────────────────────────────────────────── */
+    .mini-metric-row {
+      display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 14px;
+    }
+    .mini-metric {
+      background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px;
+      padding: 12px 16px; min-width: 120px;
+    }
+    .mini-metric .mini-val { font-size: 24px; font-weight: 800; color: #1b4d3e; }
+    .mini-metric .mini-label { font-size: 11px; color: #888; margin-top: 2px; }
+
+    /* ── Future empty state ─────────────────────────────────────────── */
+    .future-empty {
+      text-align: center; padding: 28px 16px; color: #9ca3af; font-size: 13px;
+      border: 1px dashed #d1d5db; border-radius: 8px; background: #f9fafb;
+    }
+    .future-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+    .future-chip {
+      background: #f3f4f6; border: 1px solid #e5e7eb; border-radius: 999px;
+      padding: 3px 10px; font-size: 11px; color: #9ca3af;
+    }
+
+    /* ── Spinner / states ───────────────────────────────────────────── */
+    .spinner {
+      display: inline-block; width: 14px; height: 14px;
+      border: 2px solid rgba(0,0,0,.12); border-top-color: #1b4d3e;
+      border-radius: 50%; animation: spin .6s linear infinite;
+    }
     @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-state { text-align: center; padding: 24px; color: #888; font-size: 13px; }
+    .empty-state   { text-align: center; padding: 28px; color: #aaa; font-size: 13px; }
+    .muted-note    { font-size: 11px; color: #aaa; margin-top: 6px; }
 
-    /* ── Toast ───────────────────────────────────────────────────────── */
+    /* ── Toast ──────────────────────────────────────────────────────── */
     #toast {
       position: fixed; bottom: 24px; right: 24px; z-index: 1000;
       display: flex; flex-direction: column; gap: 8px; pointer-events: none;
@@ -244,107 +314,21 @@
     .toast-err { background: #991b1b; }
     @keyframes slideIn { from { transform: translateX(40px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 
-    .empty-state { text-align: center; padding: 32px; color: #aaa; font-size: 13px; }
-    .loading-state { text-align: center; padding: 24px; color: #888; font-size: 13px; }
-    .muted-note { font-size: 11px; color: #aaa; margin-top: 8px; }
-
-    /* Future sections — visually quieter */
-    .future-section {
-      background: #f9fafb;
-      border: 1px dashed #d1d5db;
-      border-radius: 8px;
-      padding: 20px;
-      margin-bottom: 24px;
+    /* ── Health expand panel ────────────────────────────────────────── */
+    #health-detail {
+      display: none; background: #fff; border: 1px solid #e5e7eb;
+      border-radius: 8px; padding: 16px 20px; margin-bottom: 16px;
     }
-    .future-section h2 {
-      font-size: 15px;
-      font-weight: 700;
-      margin-bottom: 4px;
-      color: #6b7280;
-    }
-    .future-section .section-note {
-      font-size: 12px;
-      color: #9ca3af;
-      margin-bottom: 12px;
-    }
-    .future-empty {
-      text-align: center;
-      padding: 28px 16px;
-      color: #9ca3af;
-      font-size: 13px;
-      border: 1px dashed #d1d5db;
-      border-radius: 8px;
-      background: #fff;
-    }
-    .future-stage-list {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-      flex-wrap: wrap;
-      margin-bottom: 12px;
-      font-size: 12px;
-      color: #9ca3af;
-    }
-    .future-stage-list .stage-chip {
-      background: #f3f4f6;
-      border: 1px solid #e5e7eb;
-      border-radius: 999px;
-      padding: 2px 10px;
-      font-size: 11px;
-      color: #9ca3af;
-    }
-    .future-stage-list .arrow { color: #d1d5db; }
-
-    /* Journey stage badge on section headers */
-    .journey-badge {
-      display: inline-block;
-      font-size: 10px;
-      font-weight: 700;
-      padding: 1px 8px;
-      border-radius: 999px;
-      background: #dcfce7;
-      color: #166534;
-      margin-left: 8px;
-      vertical-align: middle;
-      letter-spacing: .04em;
-      text-transform: uppercase;
-    }
-
-    /* Drop-off summary */
-    .dropoff-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 12px;
-    }
-    .dropoff-card {
-      background: #fff7ed;
-      border: 1px solid #fed7aa;
-      border-radius: 8px;
-      padding: 14px;
-    }
-    .dropoff-card .dropoff-value {
-      font-size: 28px;
-      font-weight: 800;
-      color: #c2410c;
-    }
-    .dropoff-card .dropoff-label {
-      font-size: 12px;
-      color: #7c2d12;
-      margin-top: 2px;
-    }
-    .dropoff-card .dropoff-sub {
-      font-size: 11px;
-      color: #9ca3af;
-      margin-top: 4px;
-    }
+    #health-detail.open { display: block; }
+    #health-detail h3 { font-size: 13px; font-weight: 700; color: #1b4d3e; margin-bottom: 10px; }
   </style>
 </head>
 <body>
 
-<!-- ════════════════════════ Auth Screen ════════════════════════════════════ -->
+<!-- ═══════════════════════════ Auth ═══════════════════════════════════════ -->
 <div id="auth-screen">
   <div class="auth-card">
-    <h1>CoVo Funnel Dashboard</h1>
+    <h1>CoVo Operating Dashboard</h1>
     <p>Enter your analytics admin secret to continue. The secret is stored only in sessionStorage and is never sent to any third party.</p>
     <form id="auth-form">
       <div class="form-group">
@@ -357,20 +341,23 @@
   </div>
 </div>
 
-<!-- ════════════════════════ App ════════════════════════════════════════════ -->
+<!-- ═══════════════════════════ App ════════════════════════════════════════ -->
 <div id="app">
 
   <header>
     <div>
-      <h1>CoVo Admin — Funnel Dashboard</h1>
-      <div class="subtitle">Analytics &amp; Conversion Metrics</div>
+      <h1>CoVo Admin — Operating Dashboard</h1>
+      <div class="subtitle">Reach → Respond → Participate → Return → Go Deeper</div>
     </div>
-    <button class="btn btn-ghost" style="color:#fff;border-color:rgba(255,255,255,.4)" id="settings-btn">Settings (Sign out)</button>
+    <div style="display:flex;gap:10px;align-items:center">
+      <button id="health-pill" class="health-pill health-loading">Data Health</button>
+      <button class="btn btn-ghost btn-sm" id="settings-btn">Sign out</button>
+    </div>
   </header>
 
   <div class="main">
 
-    <!-- 1. Date controls -->
+    <!-- 1. Controls -->
     <div class="controls-bar">
       <div class="form-group">
         <label for="start-date">Start Date (inclusive)</label>
@@ -384,52 +371,152 @@
       <span class="tz-label" id="tz-label">Timezone: —</span>
     </div>
 
-    <!-- 2. Reach and Engagement (future) -->
-    <div class="future-section">
-      <h2>Reach and Engagement</h2>
-      <div class="section-note">Future: YouTube · Spotify · Substack · Website — connects anonymous reach to identified people</div>
-      <div class="future-stage-list">
-        <span class="stage-chip">Reach</span>
-        <span class="arrow">→</span>
-        <span class="stage-chip">Engage</span>
-        <span class="arrow">→</span>
-        <span class="stage-chip">Click Through</span>
+    <!-- Health detail (expands from pill) -->
+    <div id="health-detail">
+      <h3>Data Health</h3>
+      <p style="font-size:12px;color:#888;margin-bottom:10px">Counts &gt; 0 indicate data issues that may need attention.</p>
+      <div id="health-content" class="loading-state"><span class="spinner"></span> Loading…</div>
+    </div>
+
+    <!-- 2. Stage cards -->
+    <div class="stage-cards-row">
+
+      <!-- Reach -->
+      <div class="stage-card" id="card-reach" data-panel="panel-reach">
+        <div class="stage-accent" style="background:#6366f1"></div>
+        <div class="stage-label">Reach</div>
+        <div class="stage-lag-val" id="reach-lag">—</div>
+        <div class="stage-lag-label">New Contacts</div>
+        <div class="stage-lead-wrap">
+          <div class="stage-lead-label">Content Clicks</div>
+          <div class="stage-lead-val" style="color:#9ca3af">Not connected</div>
+        </div>
+        <div class="stage-diagnosis" id="reach-diag">Media tracking not connected yet.</div>
+        <div class="stage-footer">
+          <span class="status-pill status-gray">Coming soon</span>
+          <span class="stage-cta-link">Details ›</span>
+        </div>
+      </div>
+
+      <!-- Respond -->
+      <div class="stage-card" id="card-respond" data-panel="panel-respond">
+        <div class="stage-accent" style="background:#0ea5e9"></div>
+        <div class="stage-label">Respond</div>
+        <div class="stage-lag-val" id="respond-lag">—</div>
+        <div class="stage-lag-label">Registration Rate</div>
+        <div class="stage-lead-wrap">
+          <div class="stage-lead-label">Active Registrations</div>
+          <div class="stage-lead-val" id="respond-lead">—</div>
+        </div>
+        <div class="stage-diagnosis" id="respond-diag">Loading…</div>
+        <div class="stage-footer">
+          <span class="status-pill status-gray" id="respond-status">—</span>
+          <span class="stage-cta-link">Details ›</span>
+        </div>
+      </div>
+
+      <!-- Participate -->
+      <div class="stage-card" id="card-participate" data-panel="panel-participate">
+        <div class="stage-accent" style="background:#10b981"></div>
+        <div class="stage-label">Participate</div>
+        <div class="stage-lag-val" id="participate-lag">—</div>
+        <div class="stage-lag-label">Attendance Rate</div>
+        <div class="stage-lead-wrap">
+          <div class="stage-lead-label">Data Completion</div>
+          <div class="stage-lead-val" id="participate-lead">—</div>
+        </div>
+        <div class="stage-diagnosis" id="participate-diag">Loading…</div>
+        <div class="stage-footer">
+          <span class="status-pill status-gray" id="participate-status">—</span>
+          <span class="stage-cta-link">Details ›</span>
+        </div>
+      </div>
+
+      <!-- Return -->
+      <div class="stage-card" id="card-return" data-panel="panel-return">
+        <div class="stage-accent" style="background:#f59e0b"></div>
+        <div class="stage-label">Return</div>
+        <div class="stage-lag-val" id="return-lag">—</div>
+        <div class="stage-lag-label">Repeat Attendees</div>
+        <div class="stage-lead-wrap">
+          <div class="stage-lead-label">Not Yet Returned</div>
+          <div class="stage-lead-val" id="return-lead">—</div>
+        </div>
+        <div class="stage-diagnosis" id="return-diag">Loading…</div>
+        <div class="stage-footer">
+          <span class="status-pill status-gray" id="return-status">—</span>
+          <span class="stage-cta-link">Details ›</span>
+        </div>
+      </div>
+
+      <!-- Go Deeper -->
+      <div class="stage-card" id="card-deeper" data-panel="panel-deeper">
+        <div class="stage-accent" style="background:#8b5cf6"></div>
+        <div class="stage-label">Go Deeper</div>
+        <div class="stage-lag-val" id="deeper-lag">—</div>
+        <div class="stage-lag-label">Completions</div>
+        <div class="stage-lead-wrap">
+          <div class="stage-lead-label">Assessments Started</div>
+          <div class="stage-lead-val" id="deeper-lead">—</div>
+        </div>
+        <div class="stage-diagnosis" id="deeper-diag">Loading…</div>
+        <div class="stage-footer">
+          <span class="status-pill status-gray" id="deeper-status">—</span>
+          <span class="stage-cta-link">Details ›</span>
+        </div>
+      </div>
+
+    </div><!-- /stage-cards-row -->
+
+    <!-- 3. Hero funnel -->
+    <div class="section-card">
+      <h2>People Funnel</h2>
+      <div class="section-note" id="funnel-note">Contacts first seen during the selected period. Downstream progress measured through today.</div>
+      <div id="funnel-visual" class="loading-state"><span class="spinner"></span> Loading…</div>
+      <div class="funnel-table-wrap" id="funnel-table-wrap" style="display:none">
+        <details style="margin-top:8px">
+          <summary style="font-size:12px;color:#888;cursor:pointer;margin-bottom:8px">Accessible table</summary>
+          <div id="funnel-table-content"></div>
+        </details>
+      </div>
+    </div>
+
+    <!-- ─── Detail panels ──────────────────────────────────────────── -->
+
+    <!-- Reach detail -->
+    <div class="detail-panel" id="panel-reach">
+      <h2>Reach — Media and Website</h2>
+      <div class="section-note">New contacts entering the CoVo network in the selected period.</div>
+      <div class="mini-metric-row">
+        <div class="mini-metric">
+          <div class="mini-val" id="reach-detail-new">—</div>
+          <div class="mini-label">New Contacts in Period</div>
+        </div>
+        <div class="mini-metric">
+          <div class="mini-val" id="reach-detail-total">—</div>
+          <div class="mini-label">Total Known Contacts (all-time)</div>
+        </div>
+      </div>
+      <div class="future-chips">
+        <span class="future-chip">YouTube</span>
+        <span class="future-chip">Spotify</span>
+        <span class="future-chip">Substack</span>
+        <span class="future-chip">Podcast</span>
+        <span class="future-chip">Website visits</span>
+        <span class="future-chip">CTA clicks</span>
       </div>
       <div class="future-empty">
-        Media and website tracking will appear here once connected.
+        Media and website tracking will appear here once connected.<br>
+        <span style="font-size:12px;margin-top:4px;display:block">YouTube impressions · Spotify plays · Substack reads · CTA clicks per 1,000 views</span>
       </div>
     </div>
 
-    <!-- 3. People Funnel (hero) -->
-    <div class="section-card">
-      <h2>People Funnel <span class="journey-badge">Respond</span> <span class="journey-badge">Participate</span> <span class="journey-badge">Return</span></h2>
-      <div class="section-note" id="people-funnel-note">Contacts first seen during the selected period. Downstream progress measured through today. UTM filters not applied to this section.</div>
-      <div id="overview-content" class="loading-state"><span class="spinner"></span> Loading…</div>
-      <hr style="margin: 16px 0; border-color: #f0f0f0;">
-      <div id="cohort-content" class="loading-state"><span class="spinner"></span> Loading…</div>
-      <div class="muted-note" style="margin-top:12px">Cohort: contacts first seen in the selected period. Downstream stages measured through today.</div>
-    </div>
-
-    <!-- 4. Drop-off Summary -->
-    <div class="section-card" id="dropoff-section">
-      <h2>Drop-off Summary</h2>
-      <div class="section-note">Contacts who did not advance to the next stage. Derived from cohort funnel above.</div>
-      <div id="dropoff-content" class="loading-state"><span class="spinner"></span> Loading…</div>
-    </div>
-
-    <!-- 5. Activity in Selected Period -->
-    <div class="section-card">
-      <h2>Activity in Selected Period</h2>
-      <div class="section-note">These counts use different date bases — see tooltips. They do not form a conversion funnel.</div>
-      <div id="activity-content" class="loading-state"><span class="spinner"></span> Loading…</div>
-    </div>
-
-    <!-- 6. Source & Campaign Performance (was Acquisition Breakdown) -->
-    <div class="section-card">
-      <h2>Source &amp; Campaign Performance</h2>
+    <!-- Respond detail -->
+    <div class="detail-panel" id="panel-respond">
+      <h2>Respond — Acquisition &amp; Registrations</h2>
       <div class="section-note">UTM attribution for registrations in the selected period.</div>
-      <div class="muted-note" style="margin-bottom:12px">Not applied to: Total known contacts, Active email subscribers, Cohort Funnel, Audience Movement.</div>
-      <div class="filter-strip" id="acquisition-filters">
+      <div class="mini-metric-row" id="respond-detail-metrics"></div>
+      <div class="filter-strip">
         <div class="form-group">
           <label>Attribution</label>
           <div class="radio-group">
@@ -439,17 +526,17 @@
         </div>
         <div class="form-group">
           <label>UTM Source</label>
-          <input type="text" id="acq-source" placeholder="filter…" style="width:120px" />
+          <input type="text" id="acq-source" placeholder="filter…" style="width:110px" />
         </div>
         <div class="form-group">
           <label>UTM Medium</label>
-          <input type="text" id="acq-medium" placeholder="filter…" style="width:120px" />
+          <input type="text" id="acq-medium" placeholder="filter…" style="width:110px" />
         </div>
         <div class="form-group">
           <label>UTM Campaign</label>
-          <input type="text" id="acq-campaign" placeholder="filter…" style="width:140px" />
+          <input type="text" id="acq-campaign" placeholder="filter…" style="width:130px" />
         </div>
-        <button class="btn btn-primary btn-sm" id="acq-apply-btn">Apply Filters</button>
+        <button class="btn btn-primary btn-sm" id="acq-apply-btn">Apply</button>
       </div>
       <div class="tabs">
         <button class="tab-btn active" data-tab="acq-source-tab">By Source</button>
@@ -457,18 +544,18 @@
         <button class="tab-btn" data-tab="acq-campaign-tab">By Campaign</button>
       </div>
       <div class="tab-panel active" id="acq-source-tab"><div class="loading-state"><span class="spinner"></span> Loading…</div></div>
-      <div class="tab-panel" id="acq-medium-tab"><div class="loading-state"><span class="spinner"></span></div></div>
-      <div class="tab-panel" id="acq-campaign-tab"><div class="loading-state"><span class="spinner"></span></div></div>
+      <div class="tab-panel" id="acq-medium-tab"></div>
+      <div class="tab-panel" id="acq-campaign-tab"></div>
     </div>
 
-    <!-- 7. Lab Performance -->
-    <div class="section-card">
-      <h2>Lab Performance</h2>
+    <!-- Participate detail -->
+    <div class="detail-panel" id="panel-participate">
+      <h2>Participate — Lab Performance</h2>
       <div class="section-note">Events with event_date in the selected period.</div>
-      <div class="filter-strip" id="lab-filters" style="margin-bottom:12px">
+      <div class="filter-strip">
         <div class="form-group">
           <label>Filter by Event</label>
-          <select id="lab-event-filter" style="width:280px">
+          <select id="lab-event-filter" style="width:260px">
             <option value="">— All events in range —</option>
           </select>
         </div>
@@ -477,71 +564,72 @@
       <div id="lab-content" class="loading-state"><span class="spinner"></span> Loading…</div>
     </div>
 
-    <!-- 8. Assessment Pathway -->
-    <div class="section-card">
-      <h2>Assessment Pathway</h2>
-      <div class="section-note">Assessment filters use participant first-touch or session latest-touch attribution.</div>
-      <div class="filter-strip" id="assess-filters">
-        <div class="form-group">
-          <label>Attribution</label>
-          <div class="radio-group">
-            <label><input type="radio" name="assess-attr" value="first_touch" checked /> First Touch</label>
-            <label><input type="radio" name="assess-attr" value="latest_touch" /> Latest Touch</label>
+    <!-- Return detail -->
+    <div class="detail-panel" id="panel-return">
+      <h2>Return — Repeat Engagement</h2>
+      <div class="section-note">Contacts who have attended and their return behavior.</div>
+      <div class="mini-metric-row" id="return-detail-metrics"></div>
+      <div id="return-movement-content" class="loading-state"><span class="spinner"></span> Loading…</div>
+    </div>
+
+    <!-- Go Deeper detail -->
+    <div class="detail-panel" id="panel-deeper">
+      <h2>Go Deeper — Assessment &amp; Engagement</h2>
+      <div class="section-note">Assessment pathway and other engagement signals.</div>
+      <div id="assess-summary" class="loading-state"><span class="spinner"></span> Loading…</div>
+      <div style="margin-top:16px">
+        <div class="filter-strip">
+          <div class="form-group">
+            <label>Attribution</label>
+            <div class="radio-group">
+              <label><input type="radio" name="assess-attr" value="first_touch" checked /> First Touch</label>
+              <label><input type="radio" name="assess-attr" value="latest_touch" /> Latest Touch</label>
+            </div>
           </div>
+          <div class="form-group">
+            <label>UTM Source</label>
+            <input type="text" id="assess-source" placeholder="filter…" style="width:110px" />
+          </div>
+          <div class="form-group">
+            <label>UTM Medium</label>
+            <input type="text" id="assess-medium" placeholder="filter…" style="width:110px" />
+          </div>
+          <div class="form-group">
+            <label>UTM Campaign</label>
+            <input type="text" id="assess-campaign" placeholder="filter…" style="width:130px" />
+          </div>
+          <button class="btn btn-primary btn-sm" id="assess-apply-btn">Apply</button>
         </div>
-        <div class="form-group">
-          <label>UTM Source</label>
-          <input type="text" id="assess-source" placeholder="filter…" style="width:120px" />
-        </div>
-        <div class="form-group">
-          <label>UTM Medium</label>
-          <input type="text" id="assess-medium" placeholder="filter…" style="width:120px" />
-        </div>
-        <div class="form-group">
-          <label>UTM Campaign</label>
-          <input type="text" id="assess-campaign" placeholder="filter…" style="width:140px" />
-        </div>
-        <button class="btn btn-primary btn-sm" id="assess-apply-btn">Apply Filters</button>
-      </div>
-      <div id="assess-content" class="loading-state"><span class="spinner"></span> Loading…</div>
-    </div>
-
-    <!-- 9. Audience Movement -->
-    <div class="section-card">
-      <h2>Audience Movement</h2>
-      <div class="muted-note" style="margin-bottom:12px">Multi-source and single-source counts are all-time. UTM filters not applied to this section.</div>
-      <div id="movement-content" class="loading-state"><span class="spinner"></span> Loading…</div>
-    </div>
-
-    <!-- 10. Multiply (future) -->
-    <div class="future-section">
-      <h2>Multiply</h2>
-      <div class="section-note">Future: ministry outcomes, leader development, community growth</div>
-      <div class="future-stage-list">
-        <span class="stage-chip">Multiply</span>
-      </div>
-      <div class="future-empty">
-        Ministry outcome tracking will appear here once connected.
+        <div id="assess-content" class="loading-state"><span class="spinner"></span> Loading…</div>
       </div>
     </div>
 
-    <!-- 11. Data Health -->
-    <div class="section-card">
-      <h2>Data Health</h2>
-      <div class="section-note">Counts &gt; 0 indicate data issues that may need attention.</div>
-      <div class="muted-note" style="margin-bottom:12px">UTM filters not applied to this section.</div>
-      <div id="health-content" class="loading-state"><span class="spinner"></span> Loading…</div>
+    <!-- ─── Collapsible: Audience Movement ───────────────────────── -->
+    <div class="collapsible-section">
+      <div class="collapsible-header" id="toggle-movement">
+        <h2>Audience Movement</h2>
+        <span class="collapsible-toggle" id="movement-toggle-label">Show ›</span>
+      </div>
+      <div class="collapsible-body" id="movement-body">
+        <p class="muted-note" style="margin-bottom:10px">Multi-source and single-source counts are all-time. UTM filters not applied.</p>
+        <div id="movement-content" class="loading-state"><span class="spinner"></span> Loading…</div>
+      </div>
     </div>
 
-    <!-- 12. Contact Drilldown -->
-    <div class="section-card">
-      <h2>Contact Drilldown</h2>
-      <div class="section-note">Returns funnel history only. No names, emails, or assessment answers returned.</div>
-      <div class="drilldown-input">
-        <input type="text" id="contact-uuid-input" placeholder="Contact UUID (e.g. a1b2c3d4-…)" />
-        <button class="btn btn-primary" id="load-contact-btn">Load Contact</button>
+    <!-- ─── Contact Drilldown ─────────────────────────────────────── -->
+    <div class="collapsible-section">
+      <div class="collapsible-header" id="toggle-drilldown">
+        <h2>Contact Drilldown</h2>
+        <span class="collapsible-toggle" id="drilldown-toggle-label">Show ›</span>
       </div>
-      <div id="drilldown-content" class="empty-state">Enter a contact UUID above to load their funnel history.</div>
+      <div class="collapsible-body" id="drilldown-body">
+        <p style="font-size:12px;color:#888;margin-bottom:12px">Returns funnel history only. No names, emails, or assessment answers returned.</p>
+        <div class="drilldown-input">
+          <input type="text" id="contact-uuid-input" placeholder="Contact UUID (e.g. a1b2c3d4-…)" />
+          <button class="btn btn-primary" id="load-contact-btn">Load</button>
+        </div>
+        <div id="drilldown-content" class="empty-state">Enter a contact UUID above.</div>
+      </div>
     </div>
 
   </div><!-- /main -->
@@ -551,9 +639,11 @@
 
 <script>
 // =============================================================================
-// Constants
+// Constants & state
 // =============================================================================
 const ANALYTICS_API_URL = "https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1/analytics-admin";
+
+const dash = { overview: null, cohort: null, activity: null, health: null };
 
 // =============================================================================
 // Auth
@@ -564,7 +654,6 @@ document.getElementById("auth-form").addEventListener("submit", async function(e
   if (!input) return;
   const errEl = document.getElementById("auth-error");
   errEl.textContent = "";
-
   try {
     const res = await fetch(ANALYTICS_API_URL, {
       method: "POST",
@@ -575,9 +664,7 @@ document.getElementById("auth-form").addEventListener("submit", async function(e
     if (!res.ok) { errEl.textContent = "Server error. Try again."; return; }
     sessionStorage.setItem("analytics_secret", input);
     bootApp();
-  } catch {
-    errEl.textContent = "Network error. Check your connection.";
-  }
+  } catch { errEl.textContent = "Network error. Check your connection."; }
 });
 
 document.getElementById("settings-btn").addEventListener("click", function() {
@@ -585,10 +672,7 @@ document.getElementById("settings-btn").addEventListener("click", function() {
   location.reload();
 });
 
-(function() {
-  const saved = sessionStorage.getItem("analytics_secret");
-  if (saved) bootApp();
-})();
+(function() { if (sessionStorage.getItem("analytics_secret")) bootApp(); })();
 
 // =============================================================================
 // API
@@ -605,27 +689,23 @@ async function callApi(action, params) {
 }
 
 // =============================================================================
-// Date helpers (local-time, half-open interval)
+// Date helpers
 // =============================================================================
-function localDayStartIso(dateValue) {
-  const [year, month, day] = dateValue.split("-").map(Number);
-  return new Date(year, month - 1, day, 0, 0, 0, 0).toISOString();
+function localDayStartIso(v) {
+  const [y, m, d] = v.split("-").map(Number);
+  return new Date(y, m - 1, d, 0, 0, 0, 0).toISOString();
 }
-function localDayAfterIso(dateValue) {
-  const [year, month, day] = dateValue.split("-").map(Number);
-  return new Date(year, month - 1, day + 1, 0, 0, 0, 0).toISOString();
+function localDayAfterIso(v) {
+  const [y, m, d] = v.split("-").map(Number);
+  return new Date(y, m - 1, d + 1, 0, 0, 0, 0).toISOString();
 }
 function toDateInput(d) {
-  const yr = d.getFullYear();
-  const mo = String(d.getMonth() + 1).padStart(2, "0");
-  const dy = String(d.getDate()).padStart(2, "0");
-  return yr + "-" + mo + "-" + dy;
+  return d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + String(d.getDate()).padStart(2,"0");
 }
 function fmtDate(iso) {
   if (!iso) return "—";
-  try {
-    return new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
-  } catch { return iso; }
+  try { return new Date(iso).toLocaleDateString("en-US", { month:"short", day:"numeric", year:"numeric" }); }
+  catch { return iso; }
 }
 function fmtDateRange() {
   const s = document.getElementById("start-date").value;
@@ -633,28 +713,21 @@ function fmtDateRange() {
   return fmtDate(s + "T00:00:00") + " – " + fmtDate(e + "T00:00:00");
 }
 function getDateParams() {
-  const s = document.getElementById("start-date").value;
-  const e = document.getElementById("end-date").value;
-  return { p_start: localDayStartIso(s), p_end: localDayAfterIso(e) };
+  return {
+    p_start: localDayStartIso(document.getElementById("start-date").value),
+    p_end:   localDayAfterIso(document.getElementById("end-date").value),
+  };
 }
 
 // =============================================================================
-// HTML escape
+// Escape / format
 // =============================================================================
 function esc(s) {
   if (s == null) return "—";
-  return String(s)
-    .replace(/&/g, "&amp;").replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+  return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");
 }
-function num(v) {
-  if (v == null) return "—";
-  return Number(v).toLocaleString();
-}
-function pct(v) {
-  if (v == null) return "—";
-  return v + "%";
-}
+function num(v) { if (v == null) return "—"; return Number(v).toLocaleString(); }
+function pct(v) { if (v == null) return "—"; return v + "%"; }
 
 // =============================================================================
 // Boot
@@ -663,47 +736,84 @@ function bootApp() {
   document.getElementById("auth-screen").style.display = "none";
   document.getElementById("app").style.display = "block";
 
-  // Default range: last 30 days
-  const now = new Date();
-  const then = new Date(now);
+  const now = new Date(), then = new Date(now);
   then.setDate(then.getDate() - 30);
   document.getElementById("start-date").value = toDateInput(then);
   document.getElementById("end-date").value   = toDateInput(now);
+  document.getElementById("tz-label").textContent = "Timezone: " + Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-  // Timezone
-  const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  document.getElementById("tz-label").textContent = "Timezone: " + tz;
+  // Tab clicks (delegated on document since panels are hidden at init)
+  document.addEventListener("click", function(e) {
+    const btn = e.target.closest(".tab-btn");
+    if (!btn) return;
+    const tabId = btn.dataset.tab;
+    const parent = btn.closest(".detail-panel, .section-card");
+    if (!parent) return;
+    parent.querySelectorAll(".tab-btn").forEach(function(b) { b.classList.remove("active"); });
+    parent.querySelectorAll(".tab-panel").forEach(function(p) { p.classList.remove("active"); });
+    btn.classList.add("active");
+    const panel = document.getElementById(tabId);
+    if (panel) panel.classList.add("active");
+  });
 
-  // Tabs
-  document.querySelectorAll(".tab-btn").forEach(function(btn) {
-    btn.addEventListener("click", function() {
-      const tabId = btn.dataset.tab;
-      const parent = btn.closest(".section-card");
-      parent.querySelectorAll(".tab-btn").forEach(function(b) { b.classList.remove("active"); });
-      parent.querySelectorAll(".tab-panel").forEach(function(p) { p.classList.remove("active"); });
-      btn.classList.add("active");
-      document.getElementById(tabId).classList.add("active");
+  // Stage card clicks
+  document.querySelectorAll(".stage-card").forEach(function(card) {
+    card.addEventListener("click", function() {
+      const panelId = card.dataset.panel;
+      const isActive = card.classList.contains("active");
+
+      document.querySelectorAll(".stage-card").forEach(function(c) { c.classList.remove("active"); });
+      document.querySelectorAll(".detail-panel").forEach(function(p) { p.classList.remove("open"); });
+
+      if (!isActive) {
+        card.classList.add("active");
+        const panel = document.getElementById(panelId);
+        if (panel) {
+          panel.classList.add("open");
+          panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }
+      }
     });
+  });
+
+  // Health pill toggle
+  document.getElementById("health-pill").addEventListener("click", function() {
+    const detail = document.getElementById("health-detail");
+    detail.classList.toggle("open");
+  });
+
+  // Collapsibles
+  document.getElementById("toggle-movement").addEventListener("click", function() {
+    const body = document.getElementById("movement-body");
+    const lbl  = document.getElementById("movement-toggle-label");
+    const open = body.classList.toggle("open");
+    lbl.textContent = open ? "Hide ‹" : "Show ›";
+  });
+  document.getElementById("toggle-drilldown").addEventListener("click", function() {
+    const body = document.getElementById("drilldown-body");
+    const lbl  = document.getElementById("drilldown-toggle-label");
+    const open = body.classList.toggle("open");
+    lbl.textContent = open ? "Hide ‹" : "Show ›";
   });
 
   loadAll();
 }
 
+// =============================================================================
+// Load all data
+// =============================================================================
 function loadAll() {
-  updateRangeNote();
+  document.getElementById("funnel-note").textContent =
+    "Contacts first seen " + fmtDateRange() + ". Downstream progress measured through today.";
+
   loadOverview();
   loadCohort();
   loadActivity();
+  loadDataHealth();
   loadAcquisition();
   loadLabPerformance();
   loadAudienceMovement();
   loadAssessmentPathway();
-  loadDataHealth();
-}
-
-function updateRangeNote() {
-  const el = document.getElementById("people-funnel-note");
-  if (el) el.textContent = "Contacts first seen " + fmtDateRange() + ". Downstream progress measured through today. UTM filters not applied.";
 }
 
 document.getElementById("apply-btn").addEventListener("click", loadAll);
@@ -712,222 +822,226 @@ document.getElementById("lab-apply-btn").addEventListener("click", loadLabPerfor
 document.getElementById("assess-apply-btn").addEventListener("click", loadAssessmentPathway);
 
 // =============================================================================
+// Stage card rendering (fires when all core data is ready)
+// =============================================================================
+function tryRenderStageCards() {
+  if (!dash.overview || !dash.cohort || !dash.activity) return;
+  const ov = dash.overview;
+  const co = dash.cohort;
+  const ac = dash.activity;
+
+  // ── Reach ──
+  document.getElementById("reach-lag").textContent = num(ov.new_contacts);
+  document.getElementById("reach-diag").textContent =
+    num(ov.new_contacts) + " new contacts in this period. Media tracking not connected yet.";
+
+  // ── Respond ──
+  const regRate = (co.rates && co.rates.registered_rate != null) ? co.rates.registered_rate : null;
+  document.getElementById("respond-lag").textContent = regRate != null ? regRate + "%" : "—";
+  document.getElementById("respond-lead").textContent = num(ov.active_registrations);
+  const respondStatus = regRate == null ? "gray"
+    : regRate >= 60 ? "green" : regRate >= 30 ? "amber" : "red";
+  const respondLabel  = regRate == null ? "No data"
+    : regRate >= 60 ? "Healthy" : regRate >= 30 ? "Needs attention" : "Leak";
+  setStatus("respond-status", respondStatus, respondLabel);
+  document.getElementById("respond-diag").textContent =
+    (regRate != null ? regRate + "% of cohort registered." : "No cohort data.") +
+    " " + num(ov.active_registrations) + " active registrations in period.";
+
+  // ── Participate ──
+  const attRate  = ov.attendance_rate;
+  const compRate = ov.data_completion_rate;
+  document.getElementById("participate-lag").textContent  = attRate  != null ? attRate  + "%" : "—";
+  document.getElementById("participate-lead").textContent = compRate != null ? compRate + "%" : "—";
+  const partStatus = attRate == null ? "gray"
+    : attRate >= 65 ? "green" : attRate >= 40 ? "amber" : "red";
+  const partLabel = attRate == null ? "No data"
+    : attRate >= 65 ? "Healthy" : attRate >= 40 ? "Needs attention" : "Leak";
+  setStatus("participate-status", partStatus, partLabel);
+  document.getElementById("participate-diag").textContent =
+    (attRate != null ? attRate + "% attended." : "No reviewed events.") +
+    (compRate != null ? " Data " + compRate + "% complete." : "");
+
+  // ── Return ──
+  const repeatN  = co.repeat_attendees || 0;
+  const attendedN = co.attended || 0;
+  const notReturned = attendedN - repeatN;
+  document.getElementById("return-lag").textContent  = num(repeatN);
+  document.getElementById("return-lead").textContent = notReturned >= 0 ? num(notReturned) : "—";
+  let returnStatus, returnLabel;
+  if (attendedN === 0) {
+    returnStatus = "gray"; returnLabel = "No attendees yet";
+  } else if (repeatN === 0) {
+    returnStatus = "amber"; returnLabel = "None returned";
+  } else {
+    returnStatus = "green"; returnLabel = "Returning";
+  }
+  setStatus("return-status", returnStatus, returnLabel);
+  document.getElementById("return-diag").textContent =
+    num(repeatN) + " repeat attendees from " + num(attendedN) + " who attended.";
+
+  // Populate Return detail metrics
+  document.getElementById("return-detail-metrics").innerHTML =
+    miniMetric(num(repeatN), "Repeat Attendees") +
+    miniMetric(num(notReturned >= 0 ? notReturned : 0), "Not Yet Returned") +
+    miniMetric(num(attendedN), "Total Attended (Cohort)");
+
+  // Populate Reach detail
+  document.getElementById("reach-detail-new").textContent   = num(ov.new_contacts);
+  document.getElementById("reach-detail-total").textContent = num(ov.total_known_contacts);
+
+  // Populate Respond detail mini metrics
+  document.getElementById("respond-detail-metrics").innerHTML =
+    miniMetric(num(ov.active_registrations), "Active Registrations") +
+    miniMetric(num(ov.cancelled_registrations), "Cancelled") +
+    miniMetric(regRate != null ? regRate + "%" : "—", "Registration Rate (Cohort)");
+
+  // ── Go Deeper ──
+  const completions = ov.assessment_completions || 0;
+  const started     = ac.assessment_started || 0;
+  const deeperRate  = started > 0 ? Math.round(completions / started * 100) : null;
+  document.getElementById("deeper-lag").textContent  = num(completions);
+  document.getElementById("deeper-lead").textContent = num(started);
+  const deeperStatus = deeperRate == null ? "gray"
+    : deeperRate >= 50 ? "green" : deeperRate >= 25 ? "amber" : "red";
+  const deeperLabel = deeperRate == null ? "No data"
+    : deeperRate >= 50 ? "Healthy" : deeperRate >= 25 ? "Needs attention" : "Low";
+  setStatus("deeper-status", deeperStatus, deeperLabel);
+  document.getElementById("deeper-diag").textContent =
+    num(completions) + " completed from " + num(started) + " started" +
+    (deeperRate != null ? " (" + deeperRate + "%)." : ".");
+
+  // Populate Go Deeper summary mini metrics
+  document.getElementById("assess-summary").innerHTML =
+    '<div class="mini-metric-row">' +
+    miniMetric(num(completions), "Assessment Completions") +
+    miniMetric(num(started), "Started") +
+    miniMetric(deeperRate != null ? deeperRate + "%" : "—", "Completion Rate") +
+    miniMetric(num(ov.whatsapp_requests), "WhatsApp Requests") +
+    miniMetric(num(ov.active_email_subscribers), "Active Email Subscribers") +
+    '</div>';
+}
+
+function miniMetric(val, label) {
+  return '<div class="mini-metric"><div class="mini-val">' + esc(val) + '</div><div class="mini-label">' + esc(label) + '</div></div>';
+}
+
+function setStatus(elId, status, label) {
+  const el = document.getElementById(elId);
+  if (!el) return;
+  el.className = "status-pill status-" + status;
+  el.textContent = label;
+}
+
+// =============================================================================
 // Overview
 // =============================================================================
 async function loadOverview() {
-  const el = document.getElementById("overview-content");
-  el.innerHTML = '<div class="loading-state"><span class="spinner"></span> Loading…</div>';
   try {
     const { data } = await callApi("overview", getDateParams());
-    renderOverview(data);
-  } catch(err) {
-    el.innerHTML = '<div class="empty-state" style="color:#dc2626">Error: ' + esc(err.message) + '</div>';
-  }
-}
-
-function renderOverview(d) {
-  const range = fmtDateRange();
-  const metrics = [
-    { key: "total_known_contacts",   label: "Total Known Contacts",   alltime: true,
-      tip: "All contacts ever recorded in the contacts table, all-time." },
-    { key: "new_contacts",           label: "New Contacts",           alltime: false,
-      tip: "Contacts whose first_seen_at falls in the selected date range." },
-    { key: "active_registrations",   label: "Active Registrations",   alltime: false,
-      tip: "Registrations created in the selected range with status='active'. UTM filters apply." },
-    { key: "cancelled_registrations",label: "Cancelled Registrations",alltime: false,
-      tip: "Registrations created in the selected range with status='cancelled'. UTM filters apply." },
-    { key: "reviewed_registrations", label: "Reviewed Registrations", alltime: false,
-      tip: "Active registrations for events whose event_date is in the range, where attendance has been marked (attended/partial/no_show)." },
-    { key: "attendees",              label: "Attendees",              alltime: false,
-      tip: "Active registrations for events in range with attendance status attended or partial." },
-    { key: "attendance_rate",        label: "Attendance Rate",        alltime: false, pct: true,
-      tip: "attendees / (attendees + no_shows) × 100. Null if no reviewed attendance." },
-    { key: "data_completion_rate",   label: "Data Completion",        alltime: false, pct: true,
-      tip: "reviewed_registrations / active_registrations_for_events_in_range × 100." },
-    { key: "repeat_attendees",       label: "Repeat Attendees",       alltime: false,
-      tip: "Contacts with ≥2 active registrations at events in range with attendance attended/partial." },
-    { key: "assessment_completions", label: "Assessment Completions", alltime: false,
-      tip: "Assessment sessions with status in (submitted, scored) and submitted_at in range." },
-    { key: "whatsapp_requests",      label: "WhatsApp Requests",      alltime: false,
-      tip: "WhatsApp interest requests created in the selected range." },
-    { key: "active_email_subscribers",label: "Active Email Subscribers",alltime: true,
-      tip: "email_contacts with status='subscribed', all-time count." },
-  ];
-
-  const html = '<div class="metric-grid">' +
-    metrics.map(function(m) {
-      const val = d[m.key];
-      const display = m.pct ? pct(val) : num(val);
-      const badge = m.alltime
-        ? '<span class="metric-badge badge-alltime">All time</span>'
-        : '<span class="metric-badge badge-range">' + esc(range) + '</span>';
-      return '<div class="metric-card" title="' + esc(m.tip) + '">' +
-        '<div class="metric-value">' + esc(display) + '</div>' +
-        '<div class="metric-name">' + esc(m.label) + '</div>' +
-        badge +
-        '</div>';
-    }).join("") +
-    '</div>';
-
-  document.getElementById("overview-content").innerHTML = html;
+    dash.overview = data;
+    tryRenderStageCards();
+  } catch(e) { showToast("Overview error: " + e.message, "err"); }
 }
 
 // =============================================================================
 // Cohort Funnel
 // =============================================================================
-let cohortData = null;
-
 async function loadCohort() {
-  const el = document.getElementById("cohort-content");
+  const el = document.getElementById("funnel-visual");
   el.innerHTML = '<div class="loading-state"><span class="spinner"></span> Loading…</div>';
-  document.getElementById("dropoff-content").innerHTML = '<div class="loading-state"><span class="spinner"></span> Loading…</div>';
   try {
     const { data } = await callApi("cohort_funnel", getDateParams());
-    cohortData = data;
-    renderCohort(data);
-    renderDropoffSummary(data);
-  } catch(err) {
-    el.innerHTML = '<div class="empty-state" style="color:#dc2626">Error: ' + esc(err.message) + '</div>';
-    document.getElementById("dropoff-content").innerHTML = '<div class="empty-state" style="color:#dc2626">Error loading cohort.</div>';
+    dash.cohort = data;
+    renderFunnel(data);
+    tryRenderStageCards();
+  } catch(e) {
+    el.innerHTML = '<div class="empty-state" style="color:#dc2626">Error: ' + esc(e.message) + '</div>';
   }
 }
 
-function renderCohort(d) {
-  if (!d) { document.getElementById("cohort-content").innerHTML = '<div class="empty-state">No data.</div>'; return; }
+function renderFunnel(d) {
+  const funnelEl = document.getElementById("funnel-visual");
+  const tableWrap = document.getElementById("funnel-table-wrap");
+
+  if (!d) { funnelEl.innerHTML = '<div class="empty-state">No data.</div>'; return; }
+
   const stages = [
-    { name: "Known Contacts (cohort)",  count: d.known_contacts,   prevKey: null },
-    { name: "Registered",               count: d.registered,       prevKey: "known_contacts" },
-    { name: "Reviewed",                 count: d.reviewed,         prevKey: "registered" },
-    { name: "Attended",                 count: d.attended,         prevKey: "reviewed" },
-    { name: "Repeat Attendees",         count: d.repeat_attendees, prevKey: "attended" },
+    { name: "Known Contacts",  count: d.known_contacts,   color: "#1b4d3e",  dropVerb: "didn't register" },
+    { name: "Registered",      count: d.registered,       color: "#0ea5e9",  dropVerb: "not reviewed" },
+    { name: "Reviewed",        count: d.reviewed,         color: "#10b981",  dropVerb: "did not attend" },
+    { name: "Attended",        count: d.attended,         color: "#f59e0b",  dropVerb: "haven't returned" },
+    { name: "Repeat Attendees",count: d.repeat_attendees, color: "#8b5cf6",  dropVerb: null },
   ];
-  const rates = d.rates || {};
-  const rateLabels = [
-    "—", pct(rates.registered_rate), pct(rates.reviewed_of_registered),
-    pct(rates.attended_of_reviewed), pct(rates.repeat_of_attended)
-  ];
-
-  let rows = stages.map(function(st, i) {
-    const barPct = d.known_contacts > 0
-      ? Math.round((st.count / d.known_contacts) * 100)
-      : 0;
-    let dropoff = "—";
-    if (i > 0) {
-      const prevCount = stages[i-1].count;
-      const diff = (prevCount || 0) - (st.count || 0);
-      dropoff = diff >= 0 ? num(diff) : "—";
-    }
-    return '<tr><td><strong>' + esc(st.name) + '</strong></td>' +
-      '<td style="text-align:right;font-weight:700">' + num(st.count) + '</td>' +
-      '<td style="min-width:160px">' +
-        '<div class="funnel-bar-wrap"><div class="funnel-bar" style="width:' + barPct + '%"></div></div>' +
-        '<small style="color:#888">' + barPct + '% of cohort</small>' +
-      '</td>' +
-      '<td style="color:#888;font-size:12px">' + rateLabels[i] + ' of prev</td>' +
-      '<td style="color:#c2410c;font-size:12px;text-align:right">' + dropoff + '</td>' +
-      '</tr>';
-  }).join("");
-
-  document.getElementById("cohort-content").innerHTML =
-    '<table class="funnel-table">' +
-    '<thead><tr><th>Stage</th><th style="text-align:right">Count</th><th>% of Cohort</th><th>% of Prev Stage</th><th style="text-align:right">Drop-off</th></tr></thead>' +
-    '<tbody>' + rows + '</tbody></table>';
-}
-
-// =============================================================================
-// Drop-off Summary
-// =============================================================================
-function renderDropoffSummary(d) {
-  const el = document.getElementById("dropoff-content");
-  if (!d) { el.innerHTML = '<div class="empty-state">No cohort data.</div>'; return; }
-
   const known = d.known_contacts || 0;
-  const registered = d.registered || 0;
-  const reviewed = d.reviewed || 0;
-  const attended = d.attended || 0;
-  const repeat = d.repeat_attendees || 0;
 
-  const cards = [
-    {
-      value: known - registered,
-      label: "Never Registered",
-      sub: "Known contacts who have not registered for a lab"
-    },
-    {
-      value: registered - reviewed,
-      label: "Registered, Not Reviewed",
-      sub: "Registered contacts without a marked attendance record"
-    },
-    {
-      value: reviewed - attended,
-      label: "Reviewed, Did Not Attend",
-      sub: "Contacts marked reviewed (no-show or partial review)"
-    },
-    {
-      value: attended - repeat,
-      label: "Attended Once Only",
-      sub: "Attendees who have not yet returned for a second lab"
-    },
-  ];
+  let html = '<div style="overflow-x:auto"><div style="min-width:480px">';
+  stages.forEach(function(st, i) {
+    const cnt = st.count || 0;
+    const barPct = known > 0 ? Math.round(cnt / known * 100) : 0;
+    const prevPct = (i > 0 && stages[i-1].count > 0)
+      ? Math.round(cnt / stages[i-1].count * 100) : null;
 
-  el.innerHTML = '<div class="dropoff-grid">' +
-    cards.map(function(c) {
-      const v = c.value >= 0 ? num(c.value) : "—";
-      return '<div class="dropoff-card">' +
-        '<div class="dropoff-value">' + v + '</div>' +
-        '<div class="dropoff-label">' + esc(c.label) + '</div>' +
-        '<div class="dropoff-sub">' + esc(c.sub) + '</div>' +
-        '</div>';
-    }).join("") +
-    '</div>';
+    html += '<div class="funnel-stage-row">' +
+      '<div class="funnel-stage-name">' + esc(st.name) + '</div>' +
+      '<div class="funnel-bar-track">' +
+        '<div class="funnel-bar-fill" style="width:' + Math.max(barPct, 2) + '%;background:' + st.color + '">' +
+          '<span class="funnel-bar-label">' + num(cnt) + '</span>' +
+        '</div>' +
+      '</div>' +
+      '<div class="funnel-bar-pct">' + (i === 0 ? '100%' : (prevPct != null ? prevPct + '% of prev' : '—')) + '</div>' +
+      '</div>';
+
+    if (i < stages.length - 1 && st.dropVerb) {
+      const nextCnt = stages[i+1].count || 0;
+      const dropN = cnt - nextCnt;
+      if (dropN > 0) {
+        html += '<div class="funnel-dropoff-row">' +
+          '<span class="funnel-dropoff-arrow">↓ ' + num(dropN) + ' ' + st.dropVerb + '</span>' +
+          '</div>';
+      }
+    }
+  });
+  html += '</div></div>';
+  funnelEl.innerHTML = html;
+
+  // Accessible table
+  const rates = d.rates || {};
+  const tableRows = stages.map(function(st, i) {
+    const prevCount = i > 0 ? (stages[i-1].count || 0) : null;
+    const drop = prevCount != null ? (prevCount - (st.count || 0)) : null;
+    return '<tr><td>' + esc(st.name) + '</td>' +
+      '<td style="text-align:right;font-weight:700">' + num(st.count) + '</td>' +
+      '<td style="text-align:right">' + (known > 0 ? Math.round((st.count||0)/known*100) + '%' : '—') + '</td>' +
+      '<td style="text-align:right;color:#c2410c">' + (drop != null && drop > 0 ? num(drop) : '—') + '</td>' +
+      '</tr>';
+  }).join('');
+
+  document.getElementById("funnel-table-content").innerHTML =
+    '<table class="data-table"><thead><tr>' +
+    '<th>Stage</th><th style="text-align:right">Count</th><th style="text-align:right">% of Cohort</th><th style="text-align:right">Drop-off</th>' +
+    '</tr></thead><tbody>' + tableRows + '</tbody></table>';
+  tableWrap.style.display = "";
 }
 
 // =============================================================================
 // Activity
 // =============================================================================
 async function loadActivity() {
-  const el = document.getElementById("activity-content");
-  el.innerHTML = '<div class="loading-state"><span class="spinner"></span> Loading…</div>';
   try {
     const { data } = await callApi("activity", getDateParams());
-    renderActivity(data);
-  } catch(err) {
-    el.innerHTML = '<div class="empty-state" style="color:#dc2626">Error: ' + esc(err.message) + '</div>';
-  }
-}
-
-function renderActivity(d) {
-  const range = fmtDateRange();
-  const rows = [
-    { metric: "New Contacts",            key: "new_contacts",            basis: "contacts.first_seen_at in range" },
-    { metric: "Active Registrations",    key: "active_registrations",    basis: "registrations.created_at in range, status=active" },
-    { metric: "Cancelled Registrations", key: "cancelled_registrations", basis: "registrations.created_at in range, status=cancelled" },
-    { metric: "Lab Events Held",         key: "lab_events_held",         basis: "events.event_date in range, is_published=true" },
-    { metric: "Assessments Started",     key: "assessment_started",      basis: "assessment_sessions.started_at in range" },
-    { metric: "Assessment Completions",  key: "assessment_completions",  basis: "status in (submitted,scored) AND submitted_at in range" },
-    { metric: "WhatsApp Requests",       key: "whatsapp_requests",       basis: "whatsapp_requests.created_at in range" },
-  ];
-
-  const html = '<table class="data-table">' +
-    '<thead><tr><th>Metric</th><th style="text-align:right">Count</th><th>Date Basis</th></tr></thead>' +
-    '<tbody>' +
-    rows.map(function(r) {
-      return '<tr><td>' + esc(r.metric) + '</td>' +
-        '<td style="text-align:right;font-weight:700">' + num(d[r.key]) + '</td>' +
-        '<td style="font-size:12px;color:#888">' + esc(r.basis) + '</td></tr>';
-    }).join("") +
-    '</tbody></table>';
-
-  document.getElementById("activity-content").innerHTML = html;
+    dash.activity = data;
+    tryRenderStageCards();
+  } catch(e) { showToast("Activity error: " + e.message, "err"); }
 }
 
 // =============================================================================
-// Acquisition Breakdown
+// Acquisition (Respond detail)
 // =============================================================================
 async function loadAcquisition() {
-  const tabs = ["acq-source-tab","acq-medium-tab","acq-campaign-tab"];
-  tabs.forEach(function(t) {
-    document.getElementById(t).innerHTML = '<div class="loading-state"><span class="spinner"></span> Loading…</div>';
+  ["acq-source-tab","acq-medium-tab","acq-campaign-tab"].forEach(function(t) {
+    const el = document.getElementById(t);
+    if (el) el.innerHTML = '<div class="loading-state"><span class="spinner"></span> Loading…</div>';
   });
 
   const attrMode = document.querySelector('input[name="acq-attr"]:checked').value;
@@ -943,89 +1057,77 @@ async function loadAcquisition() {
     renderAcqTab("acq-source-tab",   data.by_source);
     renderAcqTab("acq-medium-tab",   data.by_medium);
     renderAcqTab("acq-campaign-tab", data.by_campaign);
-  } catch(err) {
-    tabs.forEach(function(t) {
-      document.getElementById(t).innerHTML = '<div class="empty-state" style="color:#dc2626">Error: ' + esc(err.message) + '</div>';
+  } catch(e) {
+    ["acq-source-tab","acq-medium-tab","acq-campaign-tab"].forEach(function(t) {
+      const el = document.getElementById(t);
+      if (el) el.innerHTML = '<div class="empty-state" style="color:#dc2626">Error: ' + esc(e.message) + '</div>';
     });
   }
 }
 
 function renderAcqTab(tabId, rows) {
-  if (!rows || rows.length === 0) {
-    document.getElementById(tabId).innerHTML = '<div class="empty-state">No data.</div>';
-    return;
-  }
-  const html = '<table class="data-table">' +
-    '<thead><tr><th>Dimension</th><th style="text-align:right">Active</th><th style="text-align:right">Cancelled</th><th style="text-align:right">Total</th></tr></thead>' +
-    '<tbody>' +
+  const el = document.getElementById(tabId);
+  if (!el) return;
+  if (!rows || rows.length === 0) { el.innerHTML = '<div class="empty-state">No data.</div>'; return; }
+  el.innerHTML = '<table class="data-table"><thead><tr>' +
+    '<th>Dimension</th><th style="text-align:right">Active</th><th style="text-align:right">Cancelled</th><th style="text-align:right">Total</th>' +
+    '</tr></thead><tbody>' +
     rows.map(function(r) {
       const isTotal = r.dimension === "TOTAL";
       return '<tr class="' + (isTotal ? "total-row" : "") + '">' +
         '<td>' + esc(r.dimension) + '</td>' +
         '<td style="text-align:right">' + num(r.active) + '</td>' +
         '<td style="text-align:right">' + num(r.cancelled) + '</td>' +
-        '<td style="text-align:right">' + num(r.total) + '</td>' +
-        '</tr>';
+        '<td style="text-align:right">' + num(r.total) + '</td></tr>';
     }).join("") +
     '</tbody></table>';
-  document.getElementById(tabId).innerHTML = html;
 }
 
 // =============================================================================
-// Lab Performance
+// Lab Performance (Participate detail)
 // =============================================================================
-let labData = null;
-
 async function loadLabPerformance() {
   const el = document.getElementById("lab-content");
-  el.innerHTML = '<div class="loading-state"><span class="spinner"></span> Loading…</div>';
+  if (el) el.innerHTML = '<div class="loading-state"><span class="spinner"></span> Loading…</div>';
 
   const filterSelect = document.getElementById("lab-event-filter");
-  const selectedEvent = filterSelect.value || undefined;
-
+  const selectedEvent = filterSelect ? filterSelect.value || undefined : undefined;
   const params = Object.assign({}, getDateParams());
   if (selectedEvent) params.p_event_id = selectedEvent;
 
   try {
     const { data } = await callApi("lab_performance", params);
-    labData = data;
-    // Populate event dropdown if loading all
-    if (!selectedEvent) {
-      const opts = '<option value="">— All events in range —</option>' +
+    if (!selectedEvent && filterSelect) {
+      filterSelect.innerHTML = '<option value="">— All events in range —</option>' +
         (data || []).map(function(ev) {
           return '<option value="' + esc(ev.event_id) + '">' + esc(ev.event_title) + ' (' + fmtDate(ev.event_date) + ')</option>';
         }).join("");
-      filterSelect.innerHTML = opts;
     }
     renderLabPerformance(data);
-  } catch(err) {
-    el.innerHTML = '<div class="empty-state" style="color:#dc2626">Error: ' + esc(err.message) + '</div>';
+  } catch(e) {
+    if (el) el.innerHTML = '<div class="empty-state" style="color:#dc2626">Error: ' + esc(e.message) + '</div>';
   }
 }
 
 function renderLabPerformance(rows) {
   const el = document.getElementById("lab-content");
+  if (!el) return;
   if (!rows || rows.length === 0) {
-    el.innerHTML = '<div class="empty-state">No events found in the selected range.</div>';
-    return;
+    el.innerHTML = '<div class="empty-state">No events in the selected range.</div>'; return;
   }
-  const html = '<div style="overflow-x:auto"><table class="data-table">' +
-    '<thead><tr>' +
-    '<th>Event</th><th>Date</th><th>Limit</th>' +
-    '<th style="text-align:right">Active</th><th style="text-align:right">Cancelled</th>' +
+  el.innerHTML = '<div style="overflow-x:auto"><table class="data-table"><thead><tr>' +
+    '<th>Event</th><th>Date</th><th style="text-align:right">Active</th>' +
     '<th style="text-align:right">Reviewed</th><th style="text-align:right">Attended</th>' +
     '<th style="text-align:right">No-show</th><th style="text-align:right">Unreviewed</th>' +
     '<th style="text-align:right">Returning</th>' +
-    '<th style="text-align:right" title="Attended / (Attended + No-show)">Att.%</th>' +
-    '<th style="text-align:right" title="Reviewed / Active">Complete%</th>' +
+    '<th style="text-align:right" title="Attended/(Attended+No-show)">Att.%</th>' +
+    '<th style="text-align:right" title="Reviewed/Active">Complete%</th>' +
     '</tr></thead><tbody>' +
     rows.map(function(ev) {
       return '<tr>' +
         '<td>' + esc(ev.event_title) + '</td>' +
         '<td style="white-space:nowrap">' + fmtDate(ev.event_date) + '</td>' +
-        '<td style="text-align:right">' + (ev.seat_limit != null ? num(ev.seat_limit) : '—') + '</td>' +
         '<td style="text-align:right">' + num(ev.active_registrations) + '</td>' +
-        '<td style="text-align:right">' + num(ev.cancelled_registrations) + '</td>' +
         '<td style="text-align:right">' + num(ev.reviewed) + '</td>' +
         '<td style="text-align:right">' + num(ev.attended) + '</td>' +
         '<td style="text-align:right">' + num(ev.no_show) + '</td>' +
@@ -1036,59 +1138,65 @@ function renderLabPerformance(rows) {
         '</tr>';
     }).join("") +
     '</tbody></table></div>';
-  el.innerHTML = html;
 }
 
 // =============================================================================
-// Audience Movement
+// Audience Movement (Return detail + collapsible)
 // =============================================================================
 async function loadAudienceMovement() {
   const el = document.getElementById("movement-content");
-  el.innerHTML = '<div class="loading-state"><span class="spinner"></span> Loading…</div>';
+  if (el) el.innerHTML = '<div class="loading-state"><span class="spinner"></span> Loading…</div>';
   try {
     const { data } = await callApi("audience_movement", getDateParams());
     renderAudienceMovement(data);
-  } catch(err) {
-    el.innerHTML = '<div class="empty-state" style="color:#dc2626">Error: ' + esc(err.message) + '</div>';
+  } catch(e) {
+    if (el) el.innerHTML = '<div class="empty-state" style="color:#dc2626">Error: ' + esc(e.message) + '</div>';
   }
 }
 
 function renderAudienceMovement(d) {
   const el = document.getElementById("movement-content");
+  if (!el) return;
   if (!d) { el.innerHTML = '<div class="empty-state">No data.</div>'; return; }
 
+  const retEl = document.getElementById("return-movement-content");
+
   const summaryRows = [
-    { label: "New Contacts in Range",          value: num(d.new_contacts_in_range),    note: "first_seen_at in range" },
-    { label: "Multi-source Contacts",           value: num(d.multi_source_contacts),    note: "all-time — appears in ≥2 source tables" },
-    { label: "Single-source Contacts",          value: num(d.single_source_contacts),   note: "all-time — appears in exactly 1 source table" },
-    { label: "Attended then Re-registered",     value: num(d.attended_then_reregistered), note: "contacts who attended/partial then later registered again" },
+    { label: "New Contacts in Range",       value: num(d.new_contacts_in_range),       note: "first_seen_at in range" },
+    { label: "Multi-source Contacts",        value: num(d.multi_source_contacts),        note: "all-time — appears in ≥2 source tables" },
+    { label: "Single-source Contacts",       value: num(d.single_source_contacts),       note: "all-time — exactly 1 source table" },
+    { label: "Attended then Re-registered",  value: num(d.attended_then_reregistered),   note: "attended/partial then registered again" },
   ];
+
+  const tableHtml = '<table class="data-table" style="margin-bottom:16px"><thead>' +
+    '<tr><th>Metric</th><th style="text-align:right">Count</th><th>Note</th></tr></thead><tbody>' +
+    summaryRows.map(function(r) {
+      return '<tr><td>' + esc(r.label) + '</td><td style="text-align:right;font-weight:700">' + r.value + '</td><td style="font-size:12px;color:#888">' + esc(r.note) + '</td></tr>';
+    }).join("") + '</tbody></table>';
 
   const distRows = (d.source_distribution || []).map(function(r) {
     return '<tr><td>' + esc(r.num_sources) + ' source(s)</td><td style="text-align:right;font-weight:700">' + num(r.contacts) + '</td></tr>';
   }).join("");
 
-  el.innerHTML =
-    '<table class="data-table" style="margin-bottom:20px">' +
-    '<thead><tr><th>Metric</th><th style="text-align:right">Count</th><th>Note</th></tr></thead>' +
-    '<tbody>' +
-    summaryRows.map(function(r) {
-      return '<tr><td>' + esc(r.label) + '</td><td style="text-align:right;font-weight:700">' + r.value + '</td><td style="font-size:12px;color:#888">' + esc(r.note) + '</td></tr>';
-    }).join("") +
-    '</tbody></table>' +
-    '<h3 style="font-size:13px;font-weight:700;margin-bottom:8px;color:#555">Source Distribution (all-time)</h3>' +
-    '<table class="data-table" style="max-width:300px">' +
-    '<thead><tr><th>Sources</th><th style="text-align:right">Contacts</th></tr></thead>' +
-    '<tbody>' + (distRows || '<tr><td colspan="2" class="empty-state">No data.</td></tr>') + '</tbody></table>' +
-    '<div class="muted-note" style="margin-top:8px">' + esc(d.single_source_rule || "") + '</div>';
+  const distHtml = '<h3 style="font-size:13px;font-weight:700;margin-bottom:8px;color:#555">Source Distribution (all-time)</h3>' +
+    '<table class="data-table" style="max-width:280px"><thead><tr><th>Sources</th><th style="text-align:right">Contacts</th></tr></thead>' +
+    '<tbody>' + (distRows || '<tr><td colspan="2" class="empty-state">No data.</td></tr>') + '</tbody></table>';
+
+  el.innerHTML = tableHtml + distHtml;
+
+  // Also populate Return detail
+  if (retEl) {
+    retEl.innerHTML = '<h3 style="font-size:13px;font-weight:600;color:#555;margin-bottom:10px">Audience Movement Context</h3>' +
+      tableHtml;
+  }
 }
 
 // =============================================================================
-// Assessment Pathway
+// Assessment Pathway (Go Deeper detail)
 // =============================================================================
 async function loadAssessmentPathway() {
   const el = document.getElementById("assess-content");
-  el.innerHTML = '<div class="loading-state"><span class="spinner"></span> Loading…</div>';
+  if (el) el.innerHTML = '<div class="loading-state"><span class="spinner"></span> Loading…</div>';
 
   const attrMode = document.querySelector('input[name="assess-attr"]:checked').value;
   const params = Object.assign({}, getDateParams(), {
@@ -1101,84 +1209,85 @@ async function loadAssessmentPathway() {
   try {
     const { data } = await callApi("assessment_pathway", params);
     renderAssessmentPathway(data);
-  } catch(err) {
-    el.innerHTML = '<div class="empty-state" style="color:#dc2626">Error: ' + esc(err.message) + '</div>';
+  } catch(e) {
+    if (el) el.innerHTML = '<div class="empty-state" style="color:#dc2626">Error: ' + esc(e.message) + '</div>';
   }
 }
 
 function renderAssessmentPathway(d) {
   const el = document.getElementById("assess-content");
+  if (!el) return;
   if (!d) { el.innerHTML = '<div class="empty-state">No data.</div>'; return; }
 
-  const summaryHtml =
-    '<div class="metric-grid" style="margin-bottom:20px">' +
-    [
-      { label: "Total Started",       val: num(d.total_started) },
-      { label: "Completed",           val: num(d.total_completed) },
-      { label: "Abandoned",           val: num(d.total_abandoned) },
-      { label: "In Progress",         val: num(d.total_in_progress) },
-      { label: "Completion Rate",     val: pct(d.completion_rate) },
-    ].map(function(m) {
-      return '<div class="metric-card"><div class="metric-value">' + esc(m.val) + '</div><div class="metric-name">' + esc(m.label) + '</div></div>';
-    }).join("") +
-    '</div>';
-
   const bySourceRows = (d.by_source || []).map(function(r) {
-    return '<tr>' +
-      '<td>' + esc(r.src) + '</td>' +
+    return '<tr><td>' + esc(r.src) + '</td>' +
       '<td style="text-align:right">' + num(r.started) + '</td>' +
       '<td style="text-align:right">' + num(r.completed) + '</td>' +
       '<td style="text-align:right">' + num(r.abandoned) + '</td>' +
-      '<td style="text-align:right">' + num(r.in_progress) + '</td>' +
-      '</tr>';
+      '<td style="text-align:right">' + num(r.in_progress) + '</td></tr>';
   }).join("");
 
-  el.innerHTML = summaryHtml +
+  el.innerHTML =
     '<h3 style="font-size:13px;font-weight:700;margin-bottom:8px;color:#555">By Source (Attribution: ' + esc(d.attribution_mode) + ')</h3>' +
-    '<table class="data-table">' +
-    '<thead><tr><th>Source</th><th style="text-align:right">Started</th><th style="text-align:right">Completed</th><th style="text-align:right">Abandoned</th><th style="text-align:right">In Progress</th></tr></thead>' +
-    '<tbody>' + (bySourceRows || '<tr><td colspan="5" class="empty-state">No data.</td></tr>') + '</tbody></table>';
+    '<table class="data-table"><thead><tr>' +
+    '<th>Source</th><th style="text-align:right">Started</th><th style="text-align:right">Completed</th>' +
+    '<th style="text-align:right">Abandoned</th><th style="text-align:right">In Progress</th>' +
+    '</tr></thead><tbody>' +
+    (bySourceRows || '<tr><td colspan="5" class="empty-state">No data.</td></tr>') +
+    '</tbody></table>';
 }
 
 // =============================================================================
-// Data Health
+// Data Health (health pill + expandable)
 // =============================================================================
 async function loadDataHealth() {
   const el = document.getElementById("health-content");
-  el.innerHTML = '<div class="loading-state"><span class="spinner"></span> Loading…</div>';
+  if (el) el.innerHTML = '<div class="loading-state"><span class="spinner"></span> Loading…</div>';
   try {
     const { data } = await callApi("data_health", getDateParams());
+    dash.health = data;
     renderDataHealth(data);
-  } catch(err) {
-    el.innerHTML = '<div class="empty-state" style="color:#dc2626">Error: ' + esc(err.message) + '</div>';
+    updateHealthPill(data);
+  } catch(e) {
+    if (el) el.innerHTML = '<div class="empty-state" style="color:#dc2626">Error: ' + esc(e.message) + '</div>';
   }
 }
 
-function renderDataHealth(d) {
-  const checks = [
-    { key: "regs_without_contact",         label: "Registrations without contact link",        note: "created_at in range" },
-    { key: "unreviewed_attendance",         label: "Unreviewed attendance (events in range)",   note: "active regs, event_date in range, attendance=unreviewed" },
-    { key: "assessment_inconsistencies",    label: "Assessment status/submitted_at mismatch",   note: "all-time" },
-    { key: "cancelled_without_cancelled_at",label: "Cancelled regs missing cancelled_at",       note: "all-time" },
-    { key: "contacts_first_after_last",     label: "Contacts: first_seen_at > last_seen_at",    note: "all-time" },
-    { key: "regs_missing_attendance",       label: "Active regs missing attendance record",     note: "created_at in range" },
-    { key: "email_contacts_unlinked",       label: "Email contacts not linked to contact",      note: "all-time" },
-    { key: "participants_unlinked",         label: "Participants not linked to contact",         note: "all-time" },
-  ];
+function updateHealthPill(data) {
+  const pill = document.getElementById("health-pill");
+  if (!data) return;
+  const checks = ["regs_without_contact","unreviewed_attendance","assessment_inconsistencies",
+    "cancelled_without_cancelled_at","contacts_first_after_last","regs_missing_attendance",
+    "email_contacts_unlinked","participants_unlinked"];
+  const anyIssue = checks.some(function(k) { return (data[k] || 0) > 0; });
+  pill.className = "health-pill " + (anyIssue ? "health-amber" : "health-green");
+  pill.textContent = anyIssue ? "Data Health: issues found" : "Data Health: clean";
+}
 
-  const html = '<table class="data-table">' +
-    '<thead><tr><th>Check</th><th style="text-align:right">Count</th><th>Scope</th></tr></thead>' +
-    '<tbody>' +
+function renderDataHealth(data) {
+  const el = document.getElementById("health-content");
+  if (!el) return;
+  const checks = [
+    { key: "regs_without_contact",          label: "Registrations without contact link",      note: "created_at in range" },
+    { key: "unreviewed_attendance",          label: "Unreviewed attendance (events in range)", note: "active regs, event_date in range" },
+    { key: "assessment_inconsistencies",     label: "Assessment status/submitted_at mismatch", note: "all-time" },
+    { key: "cancelled_without_cancelled_at", label: "Cancelled regs missing cancelled_at",     note: "all-time" },
+    { key: "contacts_first_after_last",      label: "Contacts: first_seen_at > last_seen_at",  note: "all-time" },
+    { key: "regs_missing_attendance",        label: "Active regs missing attendance record",   note: "created_at in range" },
+    { key: "email_contacts_unlinked",        label: "Email contacts not linked to contact",    note: "all-time" },
+    { key: "participants_unlinked",          label: "Participants not linked to contact",       note: "all-time" },
+  ];
+  el.innerHTML = '<table class="data-table"><thead><tr>' +
+    '<th>Check</th><th style="text-align:right">Count</th><th>Scope</th>' +
+    '</tr></thead><tbody>' +
     checks.map(function(c) {
-      const val = d[c.key];
+      const val = data[c.key];
       const cls = val > 0 ? ' class="text-danger"' : '';
       return '<tr><td>' + esc(c.label) + '</td>' +
         '<td style="text-align:right"' + cls + '>' + num(val) + '</td>' +
         '<td style="font-size:12px;color:#888">' + esc(c.note) + '</td></tr>';
     }).join("") +
     '</tbody></table>';
-
-  document.getElementById("health-content").innerHTML = html;
 }
 
 // =============================================================================
@@ -1194,16 +1303,14 @@ async function loadContactDrilldown() {
   const el = document.getElementById("drilldown-content");
   if (!input) { el.innerHTML = '<div class="empty-state">Enter a contact UUID above.</div>'; return; }
   if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(input)) {
-    el.innerHTML = '<div class="empty-state" style="color:#dc2626">Invalid UUID format.</div>';
-    return;
+    el.innerHTML = '<div class="empty-state" style="color:#dc2626">Invalid UUID format.</div>'; return;
   }
-
   el.innerHTML = '<div class="loading-state"><span class="spinner"></span> Loading…</div>';
   try {
     const { data } = await callApi("contact_drilldown", { p_contact_id: input });
     renderContactDrilldown(data);
-  } catch(err) {
-    el.innerHTML = '<div class="empty-state" style="color:#dc2626">Error: ' + esc(err.message) + '</div>';
+  } catch(e) {
+    el.innerHTML = '<div class="empty-state" style="color:#dc2626">Error: ' + esc(e.message) + '</div>';
   }
 }
 
@@ -1214,56 +1321,42 @@ function renderContactDrilldown(d) {
   const regs = d.registrations || [];
   const regTable = regs.length === 0
     ? '<div class="empty-state">No registrations.</div>'
-    : '<table class="data-table" style="margin-bottom:12px">' +
-      '<thead><tr><th>Event</th><th>Event Date</th><th>Reg Status</th><th>Attendance</th><th>Minutes</th><th>Registered</th></tr></thead>' +
-      '<tbody>' +
+    : '<table class="data-table" style="margin-bottom:12px"><thead><tr>' +
+      '<th>Event</th><th>Event Date</th><th>Reg Status</th><th>Attendance</th><th>Minutes</th><th>Registered</th>' +
+      '</tr></thead><tbody>' +
       regs.map(function(r) {
-        return '<tr>' +
-          '<td>' + esc(r.event_title) + '</td>' +
-          '<td>' + fmtDate(r.event_date) + '</td>' +
-          '<td>' + esc(r.registration_status) + '</td>' +
-          '<td>' + esc(r.attendance_status || "—") + '</td>' +
+        return '<tr><td>' + esc(r.event_title) + '</td><td>' + fmtDate(r.event_date) + '</td>' +
+          '<td>' + esc(r.registration_status) + '</td><td>' + esc(r.attendance_status || "—") + '</td>' +
           '<td>' + (r.attended_minutes != null ? num(r.attended_minutes) : "—") + '</td>' +
-          '<td>' + fmtDate(r.created_at) + '</td>' +
-          '</tr>';
-      }).join("") +
-      '</tbody></table>';
+          '<td>' + fmtDate(r.created_at) + '</td></tr>';
+      }).join("") + '</tbody></table>';
 
   const assessments = d.assessments || [];
   const assessTable = assessments.length === 0
     ? '<div class="empty-state">No assessments.</div>'
-    : '<table class="data-table" style="margin-bottom:12px">' +
-      '<thead><tr><th>Session ID</th><th>Status</th><th>Started</th><th>Submitted</th></tr></thead>' +
-      '<tbody>' +
+    : '<table class="data-table" style="margin-bottom:12px"><thead><tr>' +
+      '<th>Session ID</th><th>Status</th><th>Started</th><th>Submitted</th>' +
+      '</tr></thead><tbody>' +
       assessments.map(function(a) {
-        return '<tr>' +
-          '<td style="font-family:monospace;font-size:11px">' + esc(a.session_id) + '</td>' +
-          '<td>' + esc(a.status) + '</td>' +
-          '<td>' + fmtDate(a.started_at) + '</td>' +
-          '<td>' + fmtDate(a.submitted_at) + '</td>' +
-          '</tr>';
-      }).join("") +
-      '</tbody></table>';
+        return '<tr><td style="font-family:monospace;font-size:11px">' + esc(a.session_id) + '</td>' +
+          '<td>' + esc(a.status) + '</td><td>' + fmtDate(a.started_at) + '</td>' +
+          '<td>' + fmtDate(a.submitted_at) + '</td></tr>';
+      }).join("") + '</tbody></table>';
 
-  const emailStatus = d.email_status ? esc(d.email_status.status) : "—";
-  const waCt = (d.whatsapp_requests || []).length;
   const sources = (d.source_tables || []).join(", ") || "—";
+  const waCt = (d.whatsapp_requests || []).length;
 
   el.innerHTML =
-    '<div style="margin-bottom:16px">' +
+    '<div style="margin-bottom:14px;font-size:13px">' +
     '<strong>Contact ID:</strong> <code>' + esc(d.contact_id) + '</code>&nbsp;&nbsp;' +
     '<strong>First seen:</strong> ' + fmtDate(d.first_seen_at) + '&nbsp;&nbsp;' +
     '<strong>Last seen:</strong> ' + fmtDate(d.last_seen_at) +
     '</div>' +
-
     '<h3 style="font-size:13px;font-weight:700;margin-bottom:8px">Registrations</h3>' + regTable +
-
     '<h3 style="font-size:13px;font-weight:700;margin-bottom:8px">Assessments</h3>' + assessTable +
-
-    '<table class="data-table" style="max-width:400px">' +
-    '<tbody>' +
+    '<table class="data-table" style="max-width:360px"><tbody>' +
     '<tr><td><strong>WhatsApp Requests</strong></td><td>' + num(waCt) + '</td></tr>' +
-    '<tr><td><strong>Email Status</strong></td><td>' + emailStatus + '</td></tr>' +
+    '<tr><td><strong>Email Status</strong></td><td>' + esc(d.email_status ? d.email_status.status : null) + '</td></tr>' +
     '<tr><td><strong>Source Tables</strong></td><td style="font-size:12px">' + esc(sources) + '</td></tr>' +
     '</tbody></table>';
 }
@@ -1273,7 +1366,7 @@ function renderContactDrilldown(d) {
 // =============================================================================
 function showToast(msg, type) {
   const el = document.createElement("div");
-  el.className = "toast-item toast-" + type;
+  el.className = "toast-item toast-" + (type || "ok");
   el.textContent = msg;
   document.getElementById("toast").appendChild(el);
   setTimeout(function() { el.remove(); }, 4000);
