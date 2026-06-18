@@ -149,6 +149,28 @@
     .status-red    { background: #fee2e2; color: #991b1b; }
     .status-gray   { background: #f3f4f6; color: #6b7280; }
     .stage-cta-link { font-size: 11px; color: #1b4d3e; font-weight: 600; }
+    .stage-next-action {
+      font-size: 11px; color: #1b4d3e; font-weight: 600;
+      padding: 6px 0 0 10px; margin-top: 4px;
+      border-top: 1px solid #f0f0f0; line-height: 1.4;
+    }
+    .stage-next-action::before { content: "→ "; color: #9ca3af; font-weight: 400; }
+
+    /* ── Detail navigation bar ──────────────────────────────────────── */
+    .detail-nav {
+      display: flex; gap: 2px; align-items: center; flex-wrap: wrap;
+      background: #fff; border: 1px solid #e5e7eb; border-radius: 8px;
+      padding: 8px 14px; margin-bottom: 16px;
+    }
+    .detail-nav-btn {
+      background: none; border: none; cursor: pointer;
+      padding: 4px 10px; border-radius: 4px;
+      font-size: 12px; font-weight: 600; color: #6b7280;
+      transition: background .12s, color .12s;
+    }
+    .detail-nav-btn:hover { background: #f3f4f6; color: #1a1a1a; }
+    .detail-nav-btn.active { background: #dcfce7; color: #166534; }
+    .detail-nav-sep { color: #e5e7eb; padding: 0 2px; }
 
     /* ── Section cards ──────────────────────────────────────────────── */
     .section-card {
@@ -392,6 +414,7 @@
           <div class="stage-lead-val" style="color:#9ca3af">Not connected</div>
         </div>
         <div class="stage-diagnosis" id="reach-diag">Media tracking not connected yet.</div>
+        <div class="stage-next-action">Connect website, Substack, YouTube, Spotify tracking.</div>
         <div class="stage-footer">
           <span class="status-pill status-gray">Coming soon</span>
           <span class="stage-cta-link">Details ›</span>
@@ -409,6 +432,7 @@
           <div class="stage-lead-val" id="respond-lead">—</div>
         </div>
         <div class="stage-diagnosis" id="respond-diag">Loading…</div>
+        <div class="stage-next-action" id="respond-next">Inspect top sources and campaigns.</div>
         <div class="stage-footer">
           <span class="status-pill status-gray" id="respond-status">—</span>
           <span class="stage-cta-link">Details ›</span>
@@ -426,6 +450,7 @@
           <div class="stage-lead-val" id="participate-lead">—</div>
         </div>
         <div class="stage-diagnosis" id="participate-diag">Loading…</div>
+        <div class="stage-next-action" id="participate-next">Follow up no-shows and partial attendees.</div>
         <div class="stage-footer">
           <span class="status-pill status-gray" id="participate-status">—</span>
           <span class="stage-cta-link">Details ›</span>
@@ -437,12 +462,13 @@
         <div class="stage-accent" style="background:#f59e0b"></div>
         <div class="stage-label">Return</div>
         <div class="stage-lag-val" id="return-lag">—</div>
-        <div class="stage-lag-label">Repeat Attendees</div>
+        <div class="stage-lag-label">Repeat Rate</div>
         <div class="stage-lead-wrap">
-          <div class="stage-lead-label">Not Yet Returned</div>
+          <div class="stage-lead-label">Eligible to Return</div>
           <div class="stage-lead-val" id="return-lead">—</div>
         </div>
         <div class="stage-diagnosis" id="return-diag">Loading…</div>
+        <div class="stage-next-action" id="return-next">Invite attendees into the next lab or pathway.</div>
         <div class="stage-footer">
           <span class="status-pill status-gray" id="return-status">—</span>
           <span class="stage-cta-link">Details ›</span>
@@ -454,12 +480,13 @@
         <div class="stage-accent" style="background:#8b5cf6"></div>
         <div class="stage-label">Go Deeper</div>
         <div class="stage-lag-val" id="deeper-lag">—</div>
-        <div class="stage-lag-label">Completions</div>
+        <div class="stage-lag-label">Completion Rate</div>
         <div class="stage-lead-wrap">
           <div class="stage-lead-label">Assessments Started</div>
           <div class="stage-lead-val" id="deeper-lead">—</div>
         </div>
         <div class="stage-diagnosis" id="deeper-diag">Loading…</div>
+        <div class="stage-next-action" id="deeper-next">Nudge in-progress assessments.</div>
         <div class="stage-footer">
           <span class="status-pill status-gray" id="deeper-status">—</span>
           <span class="stage-cta-link">Details ›</span>
@@ -479,6 +506,21 @@
           <div id="funnel-table-content"></div>
         </details>
       </div>
+    </div>
+
+    <!-- ─── Detail nav ───────────────────────────────────────────────── -->
+    <div class="detail-nav" id="detail-nav">
+      <button class="detail-nav-btn" data-panel="panel-reach">Reach</button>
+      <span class="detail-nav-sep">|</span>
+      <button class="detail-nav-btn" data-panel="panel-respond">Respond</button>
+      <span class="detail-nav-sep">|</span>
+      <button class="detail-nav-btn" data-panel="panel-participate">Participate</button>
+      <span class="detail-nav-sep">|</span>
+      <button class="detail-nav-btn" data-panel="panel-return">Return</button>
+      <span class="detail-nav-sep">|</span>
+      <button class="detail-nav-btn" data-panel="panel-deeper">Go Deeper</button>
+      <span class="detail-nav-sep">|</span>
+      <button class="detail-nav-btn" data-panel="panel-health">Data Health</button>
     </div>
 
     <!-- ─── Detail panels ──────────────────────────────────────────── -->
@@ -756,23 +798,44 @@ function bootApp() {
     if (panel) panel.classList.add("active");
   });
 
+  // openPanel: shared helper used by cards and nav buttons
+  function openPanel(panelId) {
+    // Health panel lives outside detail-panels
+    if (panelId === "panel-health") {
+      document.getElementById("health-detail").classList.toggle("open");
+      return;
+    }
+    const wasOpen = document.getElementById(panelId) &&
+                    document.getElementById(panelId).classList.contains("open");
+
+    document.querySelectorAll(".stage-card").forEach(function(c) { c.classList.remove("active"); });
+    document.querySelectorAll(".detail-panel").forEach(function(p) { p.classList.remove("open"); });
+    document.querySelectorAll(".detail-nav-btn").forEach(function(b) { b.classList.remove("active"); });
+
+    if (!wasOpen) {
+      const card = document.querySelector('[data-panel="' + panelId + '"]');
+      if (card) card.classList.add("active");
+      const panel = document.getElementById(panelId);
+      if (panel) {
+        panel.classList.add("open");
+        panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
+      document.querySelectorAll('.detail-nav-btn[data-panel="' + panelId + '"]')
+        .forEach(function(b) { b.classList.add("active"); });
+    }
+  }
+
   // Stage card clicks
   document.querySelectorAll(".stage-card").forEach(function(card) {
     card.addEventListener("click", function() {
-      const panelId = card.dataset.panel;
-      const isActive = card.classList.contains("active");
+      openPanel(card.dataset.panel);
+    });
+  });
 
-      document.querySelectorAll(".stage-card").forEach(function(c) { c.classList.remove("active"); });
-      document.querySelectorAll(".detail-panel").forEach(function(p) { p.classList.remove("open"); });
-
-      if (!isActive) {
-        card.classList.add("active");
-        const panel = document.getElementById(panelId);
-        if (panel) {
-          panel.classList.add("open");
-          panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
-        }
-      }
+  // Detail nav clicks
+  document.querySelectorAll(".detail-nav-btn").forEach(function(btn) {
+    btn.addEventListener("click", function() {
+      openPanel(btn.dataset.panel);
     });
   });
 
@@ -842,11 +905,13 @@ function tryRenderStageCards() {
   const respondStatus = regRate == null ? "gray"
     : regRate >= 60 ? "green" : regRate >= 30 ? "amber" : "red";
   const respondLabel  = regRate == null ? "No data"
-    : regRate >= 60 ? "Healthy" : regRate >= 30 ? "Needs attention" : "Leak";
+    : regRate >= 60 ? "Healthy" : regRate >= 30 ? "Needs attention" : "Leaking";
+  const respondDiag = regRate == null ? "No cohort data."
+    : regRate >= 60 ? "Registrations are healthy."
+    : regRate >= 30 ? "Registration needs attention."
+    : "Registration is leaking.";
   setStatus("respond-status", respondStatus, respondLabel);
-  document.getElementById("respond-diag").textContent =
-    (regRate != null ? regRate + "% of cohort registered." : "No cohort data.") +
-    " " + num(ov.active_registrations) + " active registrations in period.";
+  document.getElementById("respond-diag").textContent = respondDiag;
 
   // ── Participate ──
   const attRate  = ov.attendance_rate;
@@ -856,34 +921,39 @@ function tryRenderStageCards() {
   const partStatus = attRate == null ? "gray"
     : attRate >= 65 ? "green" : attRate >= 40 ? "amber" : "red";
   const partLabel = attRate == null ? "No data"
-    : attRate >= 65 ? "Healthy" : attRate >= 40 ? "Needs attention" : "Leak";
+    : attRate >= 65 ? "Healthy" : attRate >= 40 ? "Needs attention" : "Leaking";
+  const partDiag = attRate == null ? "No reviewed events."
+    : compRate != null && compRate < 80 ? "Attendance needs review."
+    : attRate < 50 ? "Attendance is the leak."
+    : "Attendance is healthy.";
   setStatus("participate-status", partStatus, partLabel);
-  document.getElementById("participate-diag").textContent =
-    (attRate != null ? attRate + "% attended." : "No reviewed events.") +
-    (compRate != null ? " Data " + compRate + "% complete." : "");
+  document.getElementById("participate-diag").textContent = partDiag;
 
   // ── Return ──
-  const repeatN  = co.repeat_attendees || 0;
+  const repeatN   = co.repeat_attendees || 0;
   const attendedN = co.attended || 0;
-  const notReturned = attendedN - repeatN;
-  document.getElementById("return-lag").textContent  = num(repeatN);
-  document.getElementById("return-lead").textContent = notReturned >= 0 ? num(notReturned) : "—";
-  let returnStatus, returnLabel;
+  const eligibleN = attendedN - repeatN;
+  const repeatRate = attendedN > 0 ? Math.round(repeatN / attendedN * 100) : null;
+  document.getElementById("return-lag").textContent  = repeatRate != null ? repeatRate + "%" : "—";
+  document.getElementById("return-lead").textContent = eligibleN >= 0 ? num(eligibleN) : "—";
+  let returnStatus, returnLabel, returnDiag;
   if (attendedN === 0) {
-    returnStatus = "gray"; returnLabel = "No attendees yet";
-  } else if (repeatN === 0) {
+    returnStatus = "gray";  returnLabel = "No attendees yet";
+    returnDiag = "No attendees in cohort yet.";
+  } else if (repeatN === 0 && eligibleN > 0) {
     returnStatus = "amber"; returnLabel = "None returned";
+    returnDiag = "No repeat behavior yet. " + num(eligibleN) + " eligible to return.";
   } else {
     returnStatus = "green"; returnLabel = "Returning";
+    returnDiag = "Some people are returning. " + num(eligibleN) + " still eligible.";
   }
   setStatus("return-status", returnStatus, returnLabel);
-  document.getElementById("return-diag").textContent =
-    num(repeatN) + " repeat attendees from " + num(attendedN) + " who attended.";
+  document.getElementById("return-diag").textContent = returnDiag;
 
   // Populate Return detail metrics
   document.getElementById("return-detail-metrics").innerHTML =
-    miniMetric(num(repeatN), "Repeat Attendees") +
-    miniMetric(num(notReturned >= 0 ? notReturned : 0), "Not Yet Returned") +
+    miniMetric(repeatRate != null ? repeatRate + "%" : "—", "Repeat Rate") +
+    miniMetric(num(eligibleN >= 0 ? eligibleN : 0), "Eligible to Return") +
     miniMetric(num(attendedN), "Total Attended (Cohort)");
 
   // Populate Reach detail
@@ -900,16 +970,18 @@ function tryRenderStageCards() {
   const completions = ov.assessment_completions || 0;
   const started     = ac.assessment_started || 0;
   const deeperRate  = started > 0 ? Math.round(completions / started * 100) : null;
-  document.getElementById("deeper-lag").textContent  = num(completions);
+  document.getElementById("deeper-lag").textContent  = deeperRate != null ? deeperRate + "%" : "—";
   document.getElementById("deeper-lead").textContent = num(started);
   const deeperStatus = deeperRate == null ? "gray"
     : deeperRate >= 50 ? "green" : deeperRate >= 25 ? "amber" : "red";
   const deeperLabel = deeperRate == null ? "No data"
-    : deeperRate >= 50 ? "Healthy" : deeperRate >= 25 ? "Needs attention" : "Low";
+    : deeperRate >= 50 ? "Healthy" : deeperRate >= 25 ? "Needs attention" : "Leaking";
+  const deeperDiag = deeperRate == null ? "No assessments started yet."
+    : deeperRate >= 50 ? "Assessment completion is healthy."
+    : deeperRate >= 25 ? "Assessment completion needs work."
+    : "Assessment is leaking.";
   setStatus("deeper-status", deeperStatus, deeperLabel);
-  document.getElementById("deeper-diag").textContent =
-    num(completions) + " completed from " + num(started) + " started" +
-    (deeperRate != null ? " (" + deeperRate + "%)." : ".");
+  document.getElementById("deeper-diag").textContent = deeperDiag;
 
   // Populate Go Deeper summary mini metrics
   document.getElementById("assess-summary").innerHTML =
@@ -975,6 +1047,13 @@ function renderFunnel(d) {
   ];
   const known = d.known_contacts || 0;
 
+  // Pre-compute drops to find the biggest leak
+  const drops = stages.map(function(st, i) {
+    if (i === stages.length - 1 || !st.dropVerb) return 0;
+    return Math.max(0, (st.count || 0) - (stages[i+1].count || 0));
+  });
+  const maxDrop = Math.max.apply(null, drops);
+
   let html = '<div style="overflow-x:auto"><div style="min-width:480px">';
   stages.forEach(function(st, i) {
     const cnt = st.count || 0;
@@ -993,11 +1072,11 @@ function renderFunnel(d) {
       '</div>';
 
     if (i < stages.length - 1 && st.dropVerb) {
-      const nextCnt = stages[i+1].count || 0;
-      const dropN = cnt - nextCnt;
+      const dropN = drops[i];
       if (dropN > 0) {
+        const dropColor = (maxDrop > 0 && dropN === maxDrop) ? '#dc2626' : '#f97316';
         html += '<div class="funnel-dropoff-row">' +
-          '<span class="funnel-dropoff-arrow">↓ ' + num(dropN) + ' ' + st.dropVerb + '</span>' +
+          '<span class="funnel-dropoff-arrow" style="color:' + dropColor + '">↓ ' + num(dropN) + ' ' + st.dropVerb + '</span>' +
           '</div>';
       }
     }
