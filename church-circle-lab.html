@@ -222,6 +222,14 @@
             font-style: italic;
         }
 
+        .countdown-status {
+            margin-top: 1.25rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.85);
+            letter-spacing: 0.01em;
+        }
+
         /* Seats are the primary urgency element — make them prominent */
         .event-hero .event-seats {
             font-size: 0.88rem;
@@ -281,10 +289,7 @@
             letter-spacing: 0.01em;
         }
 
-        /* Hide countdown boxes */
-        #event-countdown {
-            display: none;
-        }
+        /* #event-countdown visibility is controlled by JS via the hidden attribute */
 
 
         /* -----------------------------------------------
@@ -1714,35 +1719,44 @@
 
         function startCountdown(iso) {
             const target = new Date(iso).getTime();
-            const el     = document.getElementById('event-countdown');
+            var el = document.getElementById('event-countdown');
             if (!el || isNaN(target)) return;
+
+            var TWENTY_ONE_DAYS = 21 * 24 * 60 * 60 * 1000;
 
             function pad(n) { return String(n).padStart(2, '0'); }
 
             function render() {
-                const diff = target - Date.now();
+                var diff = target - Date.now();
+
+                // More than 21 days out — keep hidden
+                if (diff > TWENTY_ONE_DAYS) {
+                    el.hidden = true;
+                    return;
+                }
+
+                // Past event start time
                 if (diff <= 0) {
                     clearInterval(countdownInterval);
-                    el.innerHTML = '<p class="countdown-closed">Registration has closed.</p>';
+                    el.innerHTML = '<p class="countdown-status">This lab has started</p>';
                     el.hidden = false;
                     return;
                 }
-                const days  = Math.floor(diff / 86400000);
-                const hours = Math.floor((diff % 86400000) / 3600000);
-                const mins  = Math.floor((diff % 3600000)  / 60000);
-                const secs  = Math.floor((diff % 60000)    / 1000);
-                el.innerHTML = `
-                    <div class="countdown-wrap">
-                        <div class="countdown-unit"><span class="countdown-num">${pad(days)}</span><span class="countdown-label">Days</span></div>
-                        <div class="countdown-unit"><span class="countdown-num">${pad(hours)}</span><span class="countdown-label">Hours</span></div>
-                        <div class="countdown-unit"><span class="countdown-num">${pad(mins)}</span><span class="countdown-label">Minutes</span></div>
-                        <div class="countdown-unit"><span class="countdown-num">${pad(secs)}</span><span class="countdown-label">Seconds</span></div>
-                    </div>`;
+
+                var days  = Math.floor(diff / 86400000);
+                var hours = Math.floor((diff % 86400000) / 3600000);
+                var mins  = Math.floor((diff % 3600000)  / 60000);
+
+                var text = 'Starts in ';
+                if (days > 0) text += days + ' day' + (days === 1 ? '' : 's') + ' ';
+                text += pad(hours) + ' hours ' + pad(mins) + ' minutes';
+
+                el.innerHTML = '<p class="countdown-status">' + text + '</p>';
                 el.hidden = false;
             }
 
             render();
-            countdownInterval = setInterval(render, 1000);
+            countdownInterval = setInterval(render, 60000);
         }
 
 
