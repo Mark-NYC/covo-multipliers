@@ -1614,6 +1614,9 @@
                     </p>
                 </div>
             `;
+
+            // Refresh seat count in hero so it reflects the registration just made
+            loadEvent();
         }
 
 
@@ -1651,10 +1654,8 @@
         }
 
         function showHeroError() {
-            // Silently hide the loading text if the event fetch fails or returns empty.
-            // The page copy and form card are fully static and remain visible.
-            // The event row must exist in Supabase for form submission to work.
             document.getElementById('hero-loading').hidden = true;
+            document.getElementById('hero-error').hidden   = false;
         }
 
 
