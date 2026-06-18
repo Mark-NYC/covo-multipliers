@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Funnel Dashboard — CoVo Multipliers Admin</title>
+  <title>CoVo Dashboard — People Funnel &amp; Reach</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -247,6 +247,96 @@
     .empty-state { text-align: center; padding: 32px; color: #aaa; font-size: 13px; }
     .loading-state { text-align: center; padding: 24px; color: #888; font-size: 13px; }
     .muted-note { font-size: 11px; color: #aaa; margin-top: 8px; }
+
+    /* Future sections — visually quieter */
+    .future-section {
+      background: #f9fafb;
+      border: 1px dashed #d1d5db;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+    .future-section h2 {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: #6b7280;
+    }
+    .future-section .section-note {
+      font-size: 12px;
+      color: #9ca3af;
+      margin-bottom: 12px;
+    }
+    .future-empty {
+      text-align: center;
+      padding: 28px 16px;
+      color: #9ca3af;
+      font-size: 13px;
+      border: 1px dashed #d1d5db;
+      border-radius: 8px;
+      background: #fff;
+    }
+    .future-stage-list {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+      font-size: 12px;
+      color: #9ca3af;
+    }
+    .future-stage-list .stage-chip {
+      background: #f3f4f6;
+      border: 1px solid #e5e7eb;
+      border-radius: 999px;
+      padding: 2px 10px;
+      font-size: 11px;
+      color: #9ca3af;
+    }
+    .future-stage-list .arrow { color: #d1d5db; }
+
+    /* Journey stage badge on section headers */
+    .journey-badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 1px 8px;
+      border-radius: 999px;
+      background: #dcfce7;
+      color: #166534;
+      margin-left: 8px;
+      vertical-align: middle;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    /* Drop-off summary */
+    .dropoff-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 12px;
+    }
+    .dropoff-card {
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+      border-radius: 8px;
+      padding: 14px;
+    }
+    .dropoff-card .dropoff-value {
+      font-size: 28px;
+      font-weight: 800;
+      color: #c2410c;
+    }
+    .dropoff-card .dropoff-label {
+      font-size: 12px;
+      color: #7c2d12;
+      margin-top: 2px;
+    }
+    .dropoff-card .dropoff-sub {
+      font-size: 11px;
+      color: #9ca3af;
+      margin-top: 4px;
+    }
   </style>
 </head>
 <body>
@@ -254,7 +344,7 @@
 <!-- ════════════════════════ Auth Screen ════════════════════════════════════ -->
 <div id="auth-screen">
   <div class="auth-card">
-    <h1>Funnel Dashboard</h1>
+    <h1>CoVo Funnel Dashboard</h1>
     <p>Enter your analytics admin secret to continue. The secret is stored only in sessionStorage and is never sent to any third party.</p>
     <form id="auth-form">
       <div class="form-group">
@@ -280,7 +370,7 @@
 
   <div class="main">
 
-    <!-- Date controls -->
+    <!-- 1. Date controls -->
     <div class="controls-bar">
       <div class="form-group">
         <label for="start-date">Start Date (inclusive)</label>
@@ -294,31 +384,49 @@
       <span class="tz-label" id="tz-label">Timezone: —</span>
     </div>
 
-    <!-- ── OVERVIEW ──────────────────────────────────────────────────────── -->
+    <!-- 2. Reach and Engagement (future) -->
+    <div class="future-section">
+      <h2>Reach and Engagement</h2>
+      <div class="section-note">Future: YouTube · Spotify · Substack · Website — connects anonymous reach to identified people</div>
+      <div class="future-stage-list">
+        <span class="stage-chip">Reach</span>
+        <span class="arrow">→</span>
+        <span class="stage-chip">Engage</span>
+        <span class="arrow">→</span>
+        <span class="stage-chip">Click Through</span>
+      </div>
+      <div class="future-empty">
+        Media and website tracking will appear here once connected.
+      </div>
+    </div>
+
+    <!-- 3. People Funnel (hero) -->
     <div class="section-card">
-      <h2>Overview</h2>
-      <div class="section-note" id="overview-range-note">—</div>
+      <h2>People Funnel <span class="journey-badge">Respond</span> <span class="journey-badge">Participate</span> <span class="journey-badge">Return</span></h2>
+      <div class="section-note" id="people-funnel-note">Contacts first seen during the selected period. Downstream progress measured through today. UTM filters not applied to this section.</div>
       <div id="overview-content" class="loading-state"><span class="spinner"></span> Loading…</div>
-    </div>
-
-    <!-- ── COHORT FUNNEL ─────────────────────────────────────────────────── -->
-    <div class="section-card">
-      <h2>Contact Cohort Funnel</h2>
-      <div class="section-note">Contacts first seen during the selected period. Downstream progress measured through today.</div>
-      <div class="muted-note" style="margin-bottom:12px">UTM filters not applied to this section.</div>
+      <hr style="margin: 16px 0; border-color: #f0f0f0;">
       <div id="cohort-content" class="loading-state"><span class="spinner"></span> Loading…</div>
+      <div class="muted-note" style="margin-top:12px">Cohort: contacts first seen in the selected period. Downstream stages measured through today.</div>
     </div>
 
-    <!-- ── ACTIVITY ──────────────────────────────────────────────────────── -->
+    <!-- 4. Drop-off Summary -->
+    <div class="section-card" id="dropoff-section">
+      <h2>Drop-off Summary</h2>
+      <div class="section-note">Contacts who did not advance to the next stage. Derived from cohort funnel above.</div>
+      <div id="dropoff-content" class="loading-state"><span class="spinner"></span> Loading…</div>
+    </div>
+
+    <!-- 5. Activity in Selected Period -->
     <div class="section-card">
       <h2>Activity in Selected Period</h2>
       <div class="section-note">These counts use different date bases — see tooltips. They do not form a conversion funnel.</div>
       <div id="activity-content" class="loading-state"><span class="spinner"></span> Loading…</div>
     </div>
 
-    <!-- ── ACQUISITION BREAKDOWN ─────────────────────────────────────────── -->
+    <!-- 6. Source & Campaign Performance (was Acquisition Breakdown) -->
     <div class="section-card">
-      <h2>Acquisition Breakdown</h2>
+      <h2>Source &amp; Campaign Performance</h2>
       <div class="section-note">UTM attribution for registrations in the selected period.</div>
       <div class="muted-note" style="margin-bottom:12px">Not applied to: Total known contacts, Active email subscribers, Cohort Funnel, Audience Movement.</div>
       <div class="filter-strip" id="acquisition-filters">
@@ -353,7 +461,7 @@
       <div class="tab-panel" id="acq-campaign-tab"><div class="loading-state"><span class="spinner"></span></div></div>
     </div>
 
-    <!-- ── LAB PERFORMANCE ───────────────────────────────────────────────── -->
+    <!-- 7. Lab Performance -->
     <div class="section-card">
       <h2>Lab Performance</h2>
       <div class="section-note">Events with event_date in the selected period.</div>
@@ -369,14 +477,7 @@
       <div id="lab-content" class="loading-state"><span class="spinner"></span> Loading…</div>
     </div>
 
-    <!-- ── AUDIENCE MOVEMENT ─────────────────────────────────────────────── -->
-    <div class="section-card">
-      <h2>Audience Movement</h2>
-      <div class="muted-note" style="margin-bottom:12px">Multi-source and single-source counts are all-time. UTM filters not applied to this section.</div>
-      <div id="movement-content" class="loading-state"><span class="spinner"></span> Loading…</div>
-    </div>
-
-    <!-- ── ASSESSMENT PATHWAY ────────────────────────────────────────────── -->
+    <!-- 8. Assessment Pathway -->
     <div class="section-card">
       <h2>Assessment Pathway</h2>
       <div class="section-note">Assessment filters use participant first-touch or session latest-touch attribution.</div>
@@ -405,7 +506,26 @@
       <div id="assess-content" class="loading-state"><span class="spinner"></span> Loading…</div>
     </div>
 
-    <!-- ── DATA HEALTH ───────────────────────────────────────────────────── -->
+    <!-- 9. Audience Movement -->
+    <div class="section-card">
+      <h2>Audience Movement</h2>
+      <div class="muted-note" style="margin-bottom:12px">Multi-source and single-source counts are all-time. UTM filters not applied to this section.</div>
+      <div id="movement-content" class="loading-state"><span class="spinner"></span> Loading…</div>
+    </div>
+
+    <!-- 10. Multiply (future) -->
+    <div class="future-section">
+      <h2>Multiply</h2>
+      <div class="section-note">Future: ministry outcomes, leader development, community growth</div>
+      <div class="future-stage-list">
+        <span class="stage-chip">Multiply</span>
+      </div>
+      <div class="future-empty">
+        Ministry outcome tracking will appear here once connected.
+      </div>
+    </div>
+
+    <!-- 11. Data Health -->
     <div class="section-card">
       <h2>Data Health</h2>
       <div class="section-note">Counts &gt; 0 indicate data issues that may need attention.</div>
@@ -413,7 +533,7 @@
       <div id="health-content" class="loading-state"><span class="spinner"></span> Loading…</div>
     </div>
 
-    <!-- ── CONTACT DRILLDOWN ─────────────────────────────────────────────── -->
+    <!-- 12. Contact Drilldown -->
     <div class="section-card">
       <h2>Contact Drilldown</h2>
       <div class="section-note">Returns funnel history only. No names, emails, or assessment answers returned.</div>
@@ -582,7 +702,8 @@ function loadAll() {
 }
 
 function updateRangeNote() {
-  document.getElementById("overview-range-note").textContent = "Date range: " + fmtDateRange();
+  const el = document.getElementById("people-funnel-note");
+  if (el) el.textContent = "Contacts first seen " + fmtDateRange() + ". Downstream progress measured through today. UTM filters not applied.";
 }
 
 document.getElementById("apply-btn").addEventListener("click", loadAll);
@@ -654,14 +775,20 @@ function renderOverview(d) {
 // =============================================================================
 // Cohort Funnel
 // =============================================================================
+let cohortData = null;
+
 async function loadCohort() {
   const el = document.getElementById("cohort-content");
   el.innerHTML = '<div class="loading-state"><span class="spinner"></span> Loading…</div>';
+  document.getElementById("dropoff-content").innerHTML = '<div class="loading-state"><span class="spinner"></span> Loading…</div>';
   try {
     const { data } = await callApi("cohort_funnel", getDateParams());
+    cohortData = data;
     renderCohort(data);
+    renderDropoffSummary(data);
   } catch(err) {
     el.innerHTML = '<div class="empty-state" style="color:#dc2626">Error: ' + esc(err.message) + '</div>';
+    document.getElementById("dropoff-content").innerHTML = '<div class="empty-state" style="color:#dc2626">Error loading cohort.</div>';
   }
 }
 
@@ -684,20 +811,75 @@ function renderCohort(d) {
     const barPct = d.known_contacts > 0
       ? Math.round((st.count / d.known_contacts) * 100)
       : 0;
+    let dropoff = "—";
+    if (i > 0) {
+      const prevCount = stages[i-1].count;
+      const diff = (prevCount || 0) - (st.count || 0);
+      dropoff = diff >= 0 ? num(diff) : "—";
+    }
     return '<tr><td><strong>' + esc(st.name) + '</strong></td>' +
       '<td style="text-align:right;font-weight:700">' + num(st.count) + '</td>' +
       '<td style="min-width:160px">' +
         '<div class="funnel-bar-wrap"><div class="funnel-bar" style="width:' + barPct + '%"></div></div>' +
         '<small style="color:#888">' + barPct + '% of cohort</small>' +
       '</td>' +
-      '<td style="color:#888;font-size:12px">' + rateLabels[i] + ' of prev stage</td>' +
+      '<td style="color:#888;font-size:12px">' + rateLabels[i] + ' of prev</td>' +
+      '<td style="color:#c2410c;font-size:12px;text-align:right">' + dropoff + '</td>' +
       '</tr>';
   }).join("");
 
   document.getElementById("cohort-content").innerHTML =
     '<table class="funnel-table">' +
-    '<thead><tr><th>Stage</th><th style="text-align:right">Count</th><th>% of Cohort</th><th>% of Prev Stage</th></tr></thead>' +
+    '<thead><tr><th>Stage</th><th style="text-align:right">Count</th><th>% of Cohort</th><th>% of Prev Stage</th><th style="text-align:right">Drop-off</th></tr></thead>' +
     '<tbody>' + rows + '</tbody></table>';
+}
+
+// =============================================================================
+// Drop-off Summary
+// =============================================================================
+function renderDropoffSummary(d) {
+  const el = document.getElementById("dropoff-content");
+  if (!d) { el.innerHTML = '<div class="empty-state">No cohort data.</div>'; return; }
+
+  const known = d.known_contacts || 0;
+  const registered = d.registered || 0;
+  const reviewed = d.reviewed || 0;
+  const attended = d.attended || 0;
+  const repeat = d.repeat_attendees || 0;
+
+  const cards = [
+    {
+      value: known - registered,
+      label: "Never Registered",
+      sub: "Known contacts who have not registered for a lab"
+    },
+    {
+      value: registered - reviewed,
+      label: "Registered, Not Reviewed",
+      sub: "Registered contacts without a marked attendance record"
+    },
+    {
+      value: reviewed - attended,
+      label: "Reviewed, Did Not Attend",
+      sub: "Contacts marked reviewed (no-show or partial review)"
+    },
+    {
+      value: attended - repeat,
+      label: "Attended Once Only",
+      sub: "Attendees who have not yet returned for a second lab"
+    },
+  ];
+
+  el.innerHTML = '<div class="dropoff-grid">' +
+    cards.map(function(c) {
+      const v = c.value >= 0 ? num(c.value) : "—";
+      return '<div class="dropoff-card">' +
+        '<div class="dropoff-value">' + v + '</div>' +
+        '<div class="dropoff-label">' + esc(c.label) + '</div>' +
+        '<div class="dropoff-sub">' + esc(c.sub) + '</div>' +
+        '</div>';
+    }).join("") +
+    '</div>';
 }
 
 // =============================================================================
