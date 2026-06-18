@@ -312,6 +312,13 @@
       padding: 3px 10px; font-size: 11px; color: #9ca3af;
     }
 
+    /* ── GA4 privacy note ───────────────────────────────────────────── */
+    .ga4-privacy-note {
+      background: #fef9c3; border: 1px solid #fde68a; border-radius: 6px;
+      padding: 8px 12px; font-size: 12px; color: #713f12;
+      margin-bottom: 14px; line-height: 1.5;
+    }
+
     /* ── Spinner / states ───────────────────────────────────────────── */
     .spinner {
       display: inline-block; width: 14px; height: 14px;
@@ -410,13 +417,13 @@
         <div class="stage-lag-val" id="reach-lag">—</div>
         <div class="stage-lag-label">New Contacts</div>
         <div class="stage-lead-wrap">
-          <div class="stage-lead-label">Content Clicks</div>
-          <div class="stage-lead-val" style="color:#9ca3af">Not connected</div>
+          <div class="stage-lead-label">Website Sessions</div>
+          <div class="stage-lead-val" id="reach-lead">—</div>
         </div>
-        <div class="stage-diagnosis" id="reach-diag">Media tracking not connected yet.</div>
-        <div class="stage-next-action">Connect website, Substack, YouTube, Spotify tracking.</div>
+        <div class="stage-diagnosis" id="reach-diag">Loading website reach…</div>
+        <div class="stage-next-action" id="reach-next">Media platforms (YouTube, Spotify, Substack) still pending.</div>
         <div class="stage-footer">
-          <span class="status-pill status-gray">Coming soon</span>
+          <span class="status-pill status-gray" id="reach-status">Loading…</span>
           <span class="stage-cta-link">Details ›</span>
         </div>
       </div>
@@ -527,9 +534,17 @@
 
     <!-- Reach detail -->
     <div class="detail-panel" id="panel-reach">
-      <h2>Reach — Media and Website</h2>
-      <div class="section-note">New contacts entering the CoVo network in the selected period.</div>
-      <div class="mini-metric-row">
+      <h2>Reach — Website &amp; Media</h2>
+      <div class="section-note">Website reach via GA4 and new contacts entering the CoVo network in the selected period.</div>
+
+      <!-- Privacy note -->
+      <div class="ga4-privacy-note">
+        GA4 website users are anonymous traffic metrics. Supabase contacts are identified people.
+        These are connected only by UTM/source labels, not person identity.
+      </div>
+
+      <!-- Supabase contact counts -->
+      <div class="mini-metric-row" style="margin-bottom:20px">
         <div class="mini-metric">
           <div class="mini-val" id="reach-detail-new">—</div>
           <div class="mini-label">New Contacts in Period</div>
@@ -539,17 +554,70 @@
           <div class="mini-label">Total Known Contacts (all-time)</div>
         </div>
       </div>
-      <div class="future-chips">
+
+      <!-- GA4 summary cards -->
+      <h3 style="font-size:13px;font-weight:700;margin-bottom:10px;color:#374151">GA4 Website Metrics</h3>
+      <div id="ga4-summary-row" class="mini-metric-row loading-state"><span class="spinner"></span> Loading GA4…</div>
+
+      <!-- Tabs -->
+      <div class="tabs" style="margin-top:20px">
+        <button class="tab-btn active" data-tab="reach-tab-sources">Traffic Sources</button>
+        <button class="tab-btn" data-tab="reach-tab-landing">Landing Pages</button>
+        <button class="tab-btn" data-tab="reach-tab-paths">Page Paths</button>
+        <button class="tab-btn" data-tab="reach-tab-campaigns">Campaigns</button>
+        <button class="tab-btn" data-tab="reach-tab-events">Events</button>
+        <button class="tab-btn" data-tab="reach-tab-bridge">Bridge</button>
+      </div>
+
+      <!-- Traffic Sources -->
+      <div class="tab-panel active" id="reach-tab-sources">
+        <div id="ga4-sources-content" class="loading-state"><span class="spinner"></span> Loading…</div>
+      </div>
+
+      <!-- Landing Pages -->
+      <div class="tab-panel" id="reach-tab-landing">
+        <div id="ga4-landing-content" class="loading-state"><span class="spinner"></span> Loading…</div>
+      </div>
+
+      <!-- Page Paths -->
+      <div class="tab-panel" id="reach-tab-paths">
+        <div id="ga4-paths-content" class="loading-state"><span class="spinner"></span> Loading…</div>
+      </div>
+
+      <!-- Campaigns -->
+      <div class="tab-panel" id="reach-tab-campaigns">
+        <div id="ga4-campaigns-content" class="loading-state"><span class="spinner"></span> Loading…</div>
+      </div>
+
+      <!-- Events -->
+      <div class="tab-panel" id="reach-tab-events">
+        <p style="font-size:12px;color:#888;margin-bottom:10px">Custom CoVo events. Zero count means the event has not fired in this period.</p>
+        <div id="ga4-events-content" class="loading-state"><span class="spinner"></span> Loading…</div>
+      </div>
+
+      <!-- Bridge table -->
+      <div class="tab-panel" id="reach-tab-bridge">
+        <div class="ga4-privacy-note">
+          Approximate campaign-level attribution only. GA4 sessions are anonymous.
+          Supabase registrations are identified by UTM parameters captured at registration time.
+          These cannot be joined at the person level.
+        </div>
+        <h3 style="font-size:13px;font-weight:700;margin:14px 0 8px;color:#374151">GA4 Sessions by Source / Medium</h3>
+        <div id="ga4-bridge-sources" class="loading-state"><span class="spinner"></span> Loading…</div>
+        <h3 style="font-size:13px;font-weight:700;margin:18px 0 8px;color:#374151">Supabase Registrations by Source (latest-touch)</h3>
+        <div id="ga4-bridge-regs" class="loading-state"><span class="spinner"></span> Loading…</div>
+      </div>
+
+      <!-- Media pending chips -->
+      <div class="future-chips" style="margin-top:20px">
         <span class="future-chip">YouTube</span>
         <span class="future-chip">Spotify</span>
         <span class="future-chip">Substack</span>
         <span class="future-chip">Podcast</span>
-        <span class="future-chip">Website visits</span>
         <span class="future-chip">CTA clicks</span>
       </div>
-      <div class="future-empty">
-        Media and website tracking will appear here once connected.<br>
-        <span style="font-size:12px;margin-top:4px;display:block">YouTube impressions · Spotify plays · Substack reads · CTA clicks per 1,000 views</span>
+      <div style="font-size:12px;color:#9ca3af;margin-top:6px">
+        Media platform tracking (YouTube impressions · Spotify plays · Substack reads) still pending.
       </div>
     </div>
 
@@ -684,8 +752,9 @@
 // Constants & state
 // =============================================================================
 const ANALYTICS_API_URL = "https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1/analytics-admin";
+const GA4_API_URL        = "https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1/ga4-admin";
 
-const dash = { overview: null, cohort: null, activity: null, health: null };
+const dash = { overview: null, cohort: null, activity: null, health: null, ga4: null };
 
 // =============================================================================
 // Auth
@@ -730,6 +799,17 @@ async function callApi(action, params) {
   return res.json();
 }
 
+async function callGA4(action, params) {
+  const secret = sessionStorage.getItem("analytics_secret");
+  const res = await fetch(GA4_API_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "x-admin-secret": secret },
+    body: JSON.stringify({ action, ...params })
+  });
+  if (!res.ok) throw new Error(await res.text());
+  return res.json();
+}
+
 // =============================================================================
 // Date helpers
 // =============================================================================
@@ -758,6 +838,12 @@ function getDateParams() {
   return {
     p_start: localDayStartIso(document.getElementById("start-date").value),
     p_end:   localDayAfterIso(document.getElementById("end-date").value),
+  };
+}
+function getGA4DateParams() {
+  return {
+    startDate: document.getElementById("start-date").value,
+    endDate:   document.getElementById("end-date").value,
   };
 }
 
@@ -877,6 +963,7 @@ function loadAll() {
   loadLabPerformance();
   loadAudienceMovement();
   loadAssessmentPathway();
+  loadGA4();
 }
 
 document.getElementById("apply-btn").addEventListener("click", loadAll);
@@ -895,8 +982,8 @@ function tryRenderStageCards() {
 
   // ── Reach ──
   document.getElementById("reach-lag").textContent = num(ov.new_contacts);
-  document.getElementById("reach-diag").textContent =
-    num(ov.new_contacts) + " new contacts in this period. Media tracking not connected yet.";
+  document.getElementById("reach-detail-new").textContent   = num(ov.new_contacts);
+  document.getElementById("reach-detail-total").textContent = num(ov.total_known_contacts);
 
   // ── Respond ──
   const regRate = (co.rates && co.rates.registered_rate != null) ? co.rates.registered_rate : null;
@@ -955,10 +1042,6 @@ function tryRenderStageCards() {
     miniMetric(repeatRate != null ? repeatRate + "%" : "—", "Repeat Rate") +
     miniMetric(num(eligibleN >= 0 ? eligibleN : 0), "Eligible to Return") +
     miniMetric(num(attendedN), "Total Attended (Cohort)");
-
-  // Populate Reach detail
-  document.getElementById("reach-detail-new").textContent   = num(ov.new_contacts);
-  document.getElementById("reach-detail-total").textContent = num(ov.total_known_contacts);
 
   // Populate Respond detail mini metrics
   document.getElementById("respond-detail-metrics").innerHTML =
@@ -1438,6 +1521,208 @@ function renderContactDrilldown(d) {
     '<tr><td><strong>Email Status</strong></td><td>' + esc(d.email_status ? d.email_status.status : null) + '</td></tr>' +
     '<tr><td><strong>Source Tables</strong></td><td style="font-size:12px">' + esc(sources) + '</td></tr>' +
     '</tbody></table>';
+}
+
+// =============================================================================
+// GA4 — load all reach data
+// =============================================================================
+async function loadGA4() {
+  const params = getGA4DateParams();
+
+  // Reset loading states
+  document.getElementById("ga4-summary-row").innerHTML =
+    '<div class="loading-state"><span class="spinner"></span> Loading GA4…</div>';
+  ["ga4-sources-content","ga4-landing-content","ga4-paths-content",
+   "ga4-campaigns-content","ga4-events-content","ga4-bridge-sources"].forEach(function(id) {
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = '<div class="loading-state"><span class="spinner"></span> Loading…</div>';
+  });
+
+  // Parallel fetch all GA4 actions
+  const results = await Promise.allSettled([
+    callGA4("overview",        params),
+    callGA4("traffic_sources", params),
+    callGA4("landing_pages",   params),
+    callGA4("page_paths",      params),
+    callGA4("campaigns",       params),
+    callGA4("events",          params),
+  ]);
+
+  const [ovRes, srcRes, landRes, pathRes, campRes, evRes] = results;
+
+  // Overview / summary
+  if (ovRes.status === "fulfilled" && ovRes.value.success) {
+    const s = ovRes.value.data.summary || {};
+    dash.ga4 = s;
+    renderGA4Summary(s);
+    updateReachCard(s);
+  } else {
+    const msg = ovRes.status === "rejected" ? ovRes.reason.message : "GA4 not available.";
+    document.getElementById("ga4-summary-row").innerHTML =
+      '<div class="empty-state" style="color:#dc2626">' + esc(msg) + '</div>';
+    updateReachCardError();
+  }
+
+  // Traffic sources
+  if (srcRes.status === "fulfilled" && srcRes.value.success) {
+    renderGA4SourcesTable("ga4-sources-content", srcRes.value.data.rows,
+      ["sessionSource","sessionMedium"],
+      ["sessions","activeUsers","newUsers","engagedSessions","engagementRate"],
+      ["Source","Medium","Sessions","Active Users","New Users","Eng. Sessions","Eng. Rate"]);
+    // Also populate bridge sources
+    renderGA4SourcesTable("ga4-bridge-sources", srcRes.value.data.rows,
+      ["sessionSource","sessionMedium"],
+      ["sessions","activeUsers","newUsers","engagedSessions","engagementRate"],
+      ["Source","Medium","Sessions","Active Users","New Users","Eng. Sessions","Eng. Rate"]);
+  } else {
+    const msg = srcRes.status === "rejected" ? srcRes.reason.message : "No data.";
+    document.getElementById("ga4-sources-content").innerHTML =
+      '<div class="empty-state">' + esc(msg) + '</div>';
+    document.getElementById("ga4-bridge-sources").innerHTML =
+      '<div class="empty-state">' + esc(msg) + '</div>';
+  }
+
+  // Landing pages
+  if (landRes.status === "fulfilled" && landRes.value.success) {
+    renderGA4SourcesTable("ga4-landing-content", landRes.value.data.rows,
+      ["landingPagePlusQueryString"],
+      ["sessions","activeUsers","engagedSessions","engagementRate","screenPageViews"],
+      ["Landing Page","Sessions","Active Users","Eng. Sessions","Eng. Rate","Page Views"]);
+  } else {
+    document.getElementById("ga4-landing-content").innerHTML = '<div class="empty-state">No data.</div>';
+  }
+
+  // Page paths
+  if (pathRes.status === "fulfilled" && pathRes.value.success) {
+    renderGA4SourcesTable("ga4-paths-content", pathRes.value.data.rows,
+      ["pagePathPlusQueryString"],
+      ["screenPageViews","activeUsers","engagedSessions","engagementRate"],
+      ["Page Path","Views","Active Users","Eng. Sessions","Eng. Rate"]);
+  } else {
+    document.getElementById("ga4-paths-content").innerHTML = '<div class="empty-state">No data.</div>';
+  }
+
+  // Campaigns
+  if (campRes.status === "fulfilled" && campRes.value.success) {
+    renderGA4SourcesTable("ga4-campaigns-content", campRes.value.data.rows,
+      ["sessionCampaignName","sessionSource","sessionMedium"],
+      ["sessions","activeUsers","newUsers"],
+      ["Campaign","Source","Medium","Sessions","Active Users","New Users"]);
+  } else {
+    document.getElementById("ga4-campaigns-content").innerHTML = '<div class="empty-state">No data.</div>';
+  }
+
+  // Events
+  if (evRes.status === "fulfilled" && evRes.value.success) {
+    renderGA4Events(evRes.value.data.rows);
+  } else {
+    document.getElementById("ga4-events-content").innerHTML = '<div class="empty-state">No data.</div>';
+  }
+
+  // Bridge: Supabase regs side is already loaded by loadAcquisition
+  renderGA4BridgeRegs();
+}
+
+function updateReachCard(s) {
+  const sessions = s.sessions != null ? Math.round(s.sessions) : null;
+  document.getElementById("reach-lead").textContent = sessions != null ? num(sessions) : "—";
+  const newContacts = document.getElementById("reach-lag").textContent;
+  document.getElementById("reach-diag").textContent =
+    (sessions != null ? num(sessions) + " website sessions" : "GA4 data pending") +
+    " · " + newContacts + " new contacts in period.";
+  setStatus("reach-status", "green", "Website connected");
+}
+
+function updateReachCardError() {
+  document.getElementById("reach-lead").textContent = "—";
+  document.getElementById("reach-diag").textContent = "GA4 not connected. Configure GA4 secrets in Supabase.";
+  setStatus("reach-status", "gray", "GA4 not configured");
+}
+
+function renderGA4Summary(s) {
+  function fmtDur(secs) {
+    if (secs == null || isNaN(secs)) return "—";
+    const m = Math.floor(secs / 60), sec = Math.round(secs % 60);
+    return m + "m " + sec + "s";
+  }
+  function fmtPct(v) {
+    if (v == null || isNaN(v)) return "—";
+    return (v * 100).toFixed(1) + "%";
+  }
+  document.getElementById("ga4-summary-row").innerHTML =
+    miniMetric(num(Math.round(s.activeUsers   || 0)), "Active Users") +
+    miniMetric(num(Math.round(s.sessions      || 0)), "Sessions") +
+    miniMetric(num(Math.round(s.screenPageViews || 0)), "Page Views") +
+    miniMetric(num(Math.round(s.newUsers      || 0)), "New Users") +
+    miniMetric(fmtPct(s.engagementRate),              "Engagement Rate") +
+    miniMetric(fmtDur(s.averageSessionDuration),      "Avg Session");
+}
+
+function renderGA4SourcesTable(containerId, rows, dimKeys, metKeys, headers) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  if (!rows || rows.length === 0) {
+    el.innerHTML = '<div class="empty-state">No data for this period.</div>';
+    return;
+  }
+
+  function fmtCell(key, val) {
+    if (val == null) return "—";
+    if (key === "engagementRate") return (val * 100).toFixed(1) + "%";
+    if (typeof val === "number") return num(Math.round(val));
+    return esc(String(val));
+  }
+
+  const allKeys = dimKeys.concat(metKeys);
+  const thead = headers.map(function(h) { return '<th>' + esc(h) + '</th>'; }).join("");
+  const tbody = rows.map(function(row) {
+    return '<tr>' + allKeys.map(function(k) {
+      return '<td' + (metKeys.includes(k) ? ' style="text-align:right"' : '') + '>' +
+        fmtCell(k, row[k]) + '</td>';
+    }).join("") + '</tr>';
+  }).join("");
+
+  el.innerHTML = '<div style="overflow-x:auto"><table class="data-table"><thead><tr>' +
+    thead + '</tr></thead><tbody>' + tbody + '</tbody></table></div>';
+}
+
+function renderGA4Events(rows) {
+  const el = document.getElementById("ga4-events-content");
+  if (!el) return;
+  if (!rows || rows.length === 0) {
+    el.innerHTML = '<div class="empty-state">No events tracked in this period.</div>';
+    return;
+  }
+  el.innerHTML = '<table class="data-table"><thead><tr>' +
+    '<th>Event</th><th style="text-align:right">Count</th><th>Status</th>' +
+    '</tr></thead><tbody>' +
+    rows.map(function(r) {
+      const cnt = r.eventCount || 0;
+      const badge = cnt > 0
+        ? '<span class="status-pill status-green">Active</span>'
+        : '<span class="status-pill status-gray">Not firing</span>';
+      return '<tr><td><code style="font-size:12px">' + esc(r.eventName) + '</code></td>' +
+        '<td style="text-align:right">' + num(cnt) + '</td>' +
+        '<td>' + badge + '</td></tr>';
+    }).join("") +
+    '</tbody></table>';
+}
+
+function renderGA4BridgeRegs() {
+  // This reuses whatever the acquisition panel already loaded.
+  // The "acq-source-tab" table is already rendered by loadAcquisition.
+  // We just clone a summary notice here.
+  const el = document.getElementById("ga4-bridge-regs");
+  if (!el) return;
+  el.innerHTML =
+    '<p style="font-size:12px;color:#6b7280;margin-bottom:8px">' +
+    'Registration counts by UTM source (latest-touch). See the Respond → By Source tab for full breakdown.' +
+    '</p>' +
+    '<p style="font-size:12px;color:#6b7280">' +
+    'To compare: match GA4 source/medium rows above with Supabase UTM source values. ' +
+    'UTM-tagged GA4 sessions that converted to registrations will share the same source/medium labels. ' +
+    'Organic and direct GA4 sessions cannot be matched to Supabase contacts.' +
+    '</p>';
 }
 
 // =============================================================================
