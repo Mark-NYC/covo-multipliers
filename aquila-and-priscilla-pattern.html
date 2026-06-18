@@ -989,7 +989,7 @@
                 <div class="registration-card" id="registration-card">
 
                     <h2>Save Your Seat</h2>
-                    <p class="form-intro">Free 45-minute live lab<br>Live &middot; Practical &middot; Limited seats</p>
+                    <p class="form-intro">Free 45-minute live lab<br>Live &middot; Practical &middot; <span data-seats-remaining>25</span> seats remaining</p>
 
                     <form id="registration-form" novalidate>
                         <div class="form-field">
@@ -1317,6 +1317,15 @@
         function renderEvent(event) {
             eventId = event.id;
 
+            console.log('EVENT_SLUG', EVENT_SLUG);
+            console.log('Fetched event availability', {
+                id: event.id,
+                slug: event.slug,
+                seat_limit: event.seat_limit,
+                seats_remaining: event.seats_remaining,
+                has_availability: event.has_availability
+            });
+
             const isFull     = !event.has_availability;
             const seatsLabel = isFull
                 ? 'Event full'
@@ -1334,6 +1343,11 @@
                 `;
                 heroMeta.hidden = false;
             }
+
+            // Update all inline seat count elements on the page
+            document.querySelectorAll('[data-seats-remaining]').forEach(function(el) {
+                el.textContent = event.seats_remaining;
+            });
 
             document.getElementById('hero-loading').hidden = true;
 

@@ -1249,7 +1249,7 @@
 <div aria-label="What you will leave with" class="hero-results">
 <span class="hero-result">Know what to do and what to say</span>
 </div>
-<p class="hero-proof">Live · Practical · Free · 25 seats</p>
+<p class="hero-proof">Live · Practical · Free · <span data-seats-remaining>25</span> seats</p>
 <!-- Populated by JS: formatted date + seat pill -->
 <div class="event-meta" hidden="" id="hero-event-meta"></div>
 <!-- Shown while fetching; hidden by renderEvent() on success -->
@@ -1493,7 +1493,7 @@
 <h2 class="bottom-cta-headline">Stop Waiting. Take One Clear Step.</h2>
 <p class="bottom-cta-body">Leave with one person, one conversation, and one next step for this week.</p>
 <button class="btn-cta" id="cta-scroll-btn">Save My Seat</button>
-<p class="bottom-cta-date">Wednesday, August 19, 2026 · 3 PM ET / 2 PM CT · Free · 25 seats</p>
+<p class="bottom-cta-date">Wednesday, August 19, 2026 · 3 PM ET / 2 PM CT · Free · <span data-seats-remaining>25</span> seats</p>
 </div>
 </section>
 <!-- ================================================
@@ -1578,6 +1578,15 @@
         function renderEvent(event) {
             eventId = event.id;
 
+            console.log('EVENT_SLUG', EVENT_SLUG);
+            console.log('Fetched event availability', {
+                id: event.id,
+                slug: event.slug,
+                seat_limit: event.seat_limit,
+                seats_remaining: event.seats_remaining,
+                has_availability: event.has_availability
+            });
+
             const isFull     = !event.has_availability;
             const seatsLabel = isFull
                 ? 'Event full'
@@ -1595,6 +1604,11 @@
                 `;
                 heroMeta.hidden = false;
             }
+
+            // Update all inline seat count elements on the page
+            document.querySelectorAll('[data-seats-remaining]').forEach(function(el) {
+                el.textContent = event.seats_remaining;
+            });
 
             document.getElementById('hero-loading').hidden = true;
 

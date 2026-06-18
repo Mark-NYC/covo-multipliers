@@ -1412,7 +1412,7 @@
 <h2 class="bottom-cta-headline">Learn How to Practice Church Where You Live, Work, and Play.</h2>
 <p class="bottom-cta-body">In 45 minutes, you will have a simple biblical picture of church and a practical vision for gathering people around it — without waiting for a building, a budget, or a title.</p>
 <button class="btn-cta" id="cta-scroll-btn">Reserve Your Seat →</button>
-<p class="bottom-cta-date">Wednesday, September 16, 2026 · 3:00–3:45pm ET · Zoom · Free · 25 seats</p>
+<p class="bottom-cta-date">Wednesday, September 16, 2026 · 3:00–3:45pm ET · Zoom · Free · <span data-seats-remaining>25</span> seats</p>
 </div>
 </section>
 <!-- ================================================
@@ -1497,6 +1497,15 @@
         function renderEvent(event) {
             eventId = event.id;
 
+            console.log('EVENT_SLUG', EVENT_SLUG);
+            console.log('Fetched event availability', {
+                id: event.id,
+                slug: event.slug,
+                seat_limit: event.seat_limit,
+                seats_remaining: event.seats_remaining,
+                has_availability: event.has_availability
+            });
+
             const isFull     = !event.has_availability;
             const seatsLabel = isFull
                 ? 'Event full'
@@ -1514,6 +1523,11 @@
                 `;
                 heroMeta.hidden = false;
             }
+
+            // Update all inline seat count elements on the page
+            document.querySelectorAll('[data-seats-remaining]').forEach(function(el) {
+                el.textContent = event.seats_remaining;
+            });
 
             document.getElementById('hero-loading').hidden = true;
 
