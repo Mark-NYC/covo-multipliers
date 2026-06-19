@@ -1,5 +1,9 @@
 {
   "rewrites": [
-    { "source": "/4-questions", "destination": "/4-questions.html" }
+    { "source": "/4-questions", "destination": "/4-questions.html" },
+    {
+      "source": "/join-whatsapp",
+      "destination": "https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1/join-whatsapp"
+    }
   ]
 }
