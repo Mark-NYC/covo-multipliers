@@ -1585,6 +1585,10 @@ function renderWaTab(tabId, rows) {
     rows.map(function(r) {
       return '<tr><td>' + esc(r.dimension) + '</td>' +
         '<td style="text-align:right">' + num(r.clicks) + '</td></tr>';
+    }).join("") +
+    '</tbody></table>';
+}
+
 // GA4 — load all reach data
 // =============================================================================
 async function loadGA4() {
