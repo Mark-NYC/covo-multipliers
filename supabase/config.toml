@@ -48,3 +48,6 @@ verify_jwt = false
 
 [functions.ga4-admin]
 verify_jwt = false
+
+[functions.youtube-admin]
+verify_jwt = false

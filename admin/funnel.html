@@ -608,16 +608,37 @@
         <div id="ga4-bridge-regs" class="loading-state"><span class="spinner"></span> Loading…</div>
       </div>
 
-      <!-- Media pending chips -->
-      <div class="future-chips" style="margin-top:20px">
-        <span class="future-chip">YouTube</span>
+      <!-- YouTube Channel Analytics -->
+      <h3 style="font-size:13px;font-weight:700;margin:24px 0 10px;color:#374151">YouTube Channel Metrics</h3>
+      <div id="yt-summary-row" class="mini-metric-row">
+        <div class="loading-state" style="width:100%"><span class="spinner"></span> Loading YouTube…</div>
+      </div>
+
+      <div class="tabs" style="margin-top:16px">
+        <button class="tab-btn active" data-tab="yt-tab-overview">Overview</button>
+        <button class="tab-btn" data-tab="yt-tab-videos">Top Videos</button>
+        <button class="tab-btn" data-tab="yt-tab-sources">Traffic Sources</button>
+      </div>
+
+      <div class="tab-panel active" id="yt-tab-overview">
+        <div id="yt-overview-content" class="loading-state"><span class="spinner"></span> Loading…</div>
+      </div>
+      <div class="tab-panel" id="yt-tab-videos">
+        <div id="yt-videos-content" class="loading-state"><span class="spinner"></span> Loading…</div>
+      </div>
+      <div class="tab-panel" id="yt-tab-sources">
+        <div id="yt-sources-content" class="loading-state"><span class="spinner"></span> Loading…</div>
+      </div>
+
+      <!-- Pending media chips -->
+      <div class="future-chips" style="margin-top:24px">
         <span class="future-chip">Spotify</span>
         <span class="future-chip">Substack</span>
         <span class="future-chip">Podcast</span>
         <span class="future-chip">CTA clicks</span>
       </div>
       <div style="font-size:12px;color:#9ca3af;margin-top:6px">
-        Media platform tracking (YouTube impressions · Spotify plays · Substack reads) still pending.
+        Spotify listener data available via CSV import from Spotify for Creators. Substack and podcast tracking pending.
       </div>
     </div>
 
@@ -771,10 +792,11 @@
 // =============================================================================
 // Constants & state
 // =============================================================================
-const ANALYTICS_API_URL = "https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1/analytics-admin";
-const GA4_API_URL        = "https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1/ga4-admin";
+const ANALYTICS_API_URL  = "https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1/analytics-admin";
+const GA4_API_URL         = "https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1/ga4-admin";
+const YOUTUBE_API_URL     = "https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1/youtube-admin";
 
-const dash = { overview: null, cohort: null, activity: null, health: null, ga4: null };
+const dash = { overview: null, cohort: null, activity: null, health: null, ga4: null, yt: null };
 
 // =============================================================================
 // Auth
@@ -822,6 +844,17 @@ async function callApi(action, params) {
 async function callGA4(action, params) {
   const secret = sessionStorage.getItem("analytics_secret");
   const res = await fetch(GA4_API_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "x-admin-secret": secret },
+    body: JSON.stringify({ action, ...params })
+  });
+  if (!res.ok) throw new Error(await res.text());
+  return res.json();
+}
+
+async function callYoutube(action, params) {
+  const secret = sessionStorage.getItem("analytics_secret");
+  const res = await fetch(YOUTUBE_API_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json", "x-admin-secret": secret },
     body: JSON.stringify({ action, ...params })
@@ -991,6 +1024,7 @@ function loadAll() {
   loadAssessmentPathway();
   loadWhatsappClicks();
   loadGA4();
+  loadYoutube();
 }
 
 document.getElementById("apply-btn").addEventListener("click", loadAll);
@@ -1548,6 +1582,147 @@ function renderContactDrilldown(d) {
     '<tr><td><strong>Email Status</strong></td><td>' + esc(d.email_status ? d.email_status.status : null) + '</td></tr>' +
     '<tr><td><strong>Source Tables</strong></td><td style="font-size:12px">' + esc(sources) + '</td></tr>' +
     '</tbody></table>';
+}
+
+// =============================================================================
+// YouTube Channel Analytics
+// =============================================================================
+async function loadYoutube() {
+  // Set loading states
+  document.getElementById("yt-summary-row").innerHTML =
+    '<div class="loading-state" style="width:100%"><span class="spinner"></span> Loading YouTube…</div>';
+  ["yt-overview-content","yt-videos-content","yt-sources-content"].forEach(function(id) {
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = '<div class="loading-state"><span class="spinner"></span> Loading…</div>';
+  });
+
+  const params = getGA4DateParams(); // same {startDate, endDate} shape
+
+  const results = await Promise.allSettled([
+    callYoutube("overview",        params),
+    callYoutube("top_videos",      params),
+    callYoutube("traffic_sources", params),
+  ]);
+
+  const [ovRes, vidRes, srcRes] = results;
+
+  // Overview mini-metrics
+  if (ovRes.status === "fulfilled" && ovRes.value.success) {
+    const d = ovRes.value.data;
+    dash.yt = d;
+    renderYoutubeSummary(d);
+    renderYoutubeOverviewTable(d);
+  } else {
+    const msg = ovRes.status === "rejected" ? ovRes.reason.message : "YouTube not available.";
+    document.getElementById("yt-summary-row").innerHTML =
+      '<div class="empty-state" style="color:#dc2626;width:100%">' + esc(msg) + '</div>';
+    document.getElementById("yt-overview-content").innerHTML =
+      '<div class="empty-state" style="color:#dc2626">' + esc(msg) + '</div>';
+  }
+
+  // Top videos
+  if (vidRes.status === "fulfilled" && vidRes.value.success) {
+    renderYoutubeTopVideos(vidRes.value.data.videos);
+  } else {
+    const msg = vidRes.status === "rejected" ? vidRes.reason.message : "No data.";
+    document.getElementById("yt-videos-content").innerHTML =
+      '<div class="empty-state" style="color:#dc2626">' + esc(msg) + '</div>';
+  }
+
+  // Traffic sources
+  if (srcRes.status === "fulfilled" && srcRes.value.success) {
+    renderYoutubeTrafficSources(srcRes.value.data.sources);
+  } else {
+    document.getElementById("yt-sources-content").innerHTML =
+      '<div class="empty-state">No data.</div>';
+  }
+}
+
+function fmtWatchTime(minutes) {
+  if (minutes == null || isNaN(minutes)) return "—";
+  minutes = Math.round(minutes);
+  if (minutes < 60) return minutes + " min";
+  const h = Math.floor(minutes / 60), m = minutes % 60;
+  return h + "h " + (m > 0 ? m + "m" : "");
+}
+
+function fmtDuration(seconds) {
+  if (seconds == null || isNaN(seconds)) return "—";
+  seconds = Math.round(seconds);
+  const m = Math.floor(seconds / 60), s = seconds % 60;
+  return m + ":" + String(s).padStart(2, "0");
+}
+
+function renderYoutubeSummary(d) {
+  document.getElementById("yt-summary-row").innerHTML =
+    miniMetric(num(Math.round(d.views || 0)),               "Views") +
+    miniMetric(fmtWatchTime(d.estimatedMinutesWatched),     "Watch Time") +
+    miniMetric(fmtDuration(d.averageViewDuration),          "Avg Duration") +
+    miniMetric("+" + num(Math.round(d.subscribersGained || 0)), "Subs Gained") +
+    miniMetric("−" + num(Math.round(d.subscribersLost  || 0)), "Subs Lost");
+}
+
+function renderYoutubeOverviewTable(d) {
+  const el = document.getElementById("yt-overview-content");
+  if (!el) return;
+  el.innerHTML =
+    '<table class="data-table" style="max-width:420px"><tbody>' +
+    '<tr><td>Total Views</td><td style="text-align:right;font-weight:700">' + num(Math.round(d.views || 0)) + '</td></tr>' +
+    '<tr><td>Watch Time</td><td style="text-align:right;font-weight:700">' + fmtWatchTime(d.estimatedMinutesWatched) + '</td></tr>' +
+    '<tr><td>Avg View Duration</td><td style="text-align:right;font-weight:700">' + fmtDuration(d.averageViewDuration) + '</td></tr>' +
+    '<tr><td>Subscribers Gained</td><td style="text-align:right;font-weight:700;color:#166534">+' + num(Math.round(d.subscribersGained || 0)) + '</td></tr>' +
+    '<tr><td>Subscribers Lost</td><td style="text-align:right;font-weight:700;color:#991b1b">−' + num(Math.round(d.subscribersLost || 0)) + '</td></tr>' +
+    '</tbody></table>';
+}
+
+function renderYoutubeTopVideos(videos) {
+  const el = document.getElementById("yt-videos-content");
+  if (!el) return;
+  if (!videos || videos.length === 0) {
+    el.innerHTML = '<div class="empty-state">No video data for this period.</div>';
+    return;
+  }
+  el.innerHTML = '<div style="overflow-x:auto"><table class="data-table"><thead><tr>' +
+    '<th>Video</th>' +
+    '<th style="text-align:right">Views</th>' +
+    '<th style="text-align:right">Watch Time</th>' +
+    '<th style="text-align:right">Avg Duration</th>' +
+    '</tr></thead><tbody>' +
+    videos.map(function(v) {
+      return '<tr>' +
+        '<td style="max-width:320px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + esc(v.title) + '</td>' +
+        '<td style="text-align:right">' + num(Math.round(v.views || 0)) + '</td>' +
+        '<td style="text-align:right">' + fmtWatchTime(v.estimatedMinutesWatched) + '</td>' +
+        '<td style="text-align:right">' + fmtDuration(v.averageViewDuration) + '</td>' +
+        '</tr>';
+    }).join("") +
+    '</tbody></table></div>';
+}
+
+function renderYoutubeTrafficSources(sources) {
+  const el = document.getElementById("yt-sources-content");
+  if (!el) return;
+  if (!sources || sources.length === 0) {
+    el.innerHTML = '<div class="empty-state">No traffic source data for this period.</div>';
+    return;
+  }
+  const totalViews = sources.reduce(function(s, r) { return s + (r.views || 0); }, 0);
+  el.innerHTML = '<div style="overflow-x:auto"><table class="data-table"><thead><tr>' +
+    '<th>Source</th>' +
+    '<th style="text-align:right">Views</th>' +
+    '<th style="text-align:right">% of Views</th>' +
+    '<th style="text-align:right">Watch Time</th>' +
+    '</tr></thead><tbody>' +
+    sources.map(function(s) {
+      const pct = totalViews > 0 ? ((s.views / totalViews) * 100).toFixed(1) + "%" : "—";
+      return '<tr>' +
+        '<td>' + esc(s.label) + '</td>' +
+        '<td style="text-align:right">' + num(Math.round(s.views || 0)) + '</td>' +
+        '<td style="text-align:right">' + pct + '</td>' +
+        '<td style="text-align:right">' + fmtWatchTime(s.estimatedMinutesWatched) + '</td>' +
+        '</tr>';
+    }).join("") +
+    '</tbody></table></div>';
 }
 
 // =============================================================================
