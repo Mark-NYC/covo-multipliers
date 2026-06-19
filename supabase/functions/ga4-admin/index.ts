@@ -151,9 +151,11 @@ async function getAccessToken(clientEmail: string, privateKeyPem: string): Promi
   });
 
   if (!tokenRes.ok) {
-    // Log status only — not the body which might echo credentials
-    console.error("[ga4-admin] Token exchange failed:", tokenRes.status);
-    throw new Error("Google token exchange failed.");
+    const errBody = await tokenRes.text().catch(() => "(unreadable)");
+    // Strip anything that looks like a key/credential from the log
+    const safeBody = errBody.replace(/assertion=[^&\s]*/g, "assertion=REDACTED");
+    console.error("[ga4-admin] Token exchange failed:", tokenRes.status, safeBody.substring(0, 400));
+    throw new Error(`Google token exchange failed (${tokenRes.status}).`);
   }
 
   const { access_token } = await tokenRes.json();
@@ -191,8 +193,9 @@ async function runReport(
   });
 
   if (!res.ok) {
-    console.error("[ga4-admin] GA4 API error:", res.status);
-    throw new Error(`GA4 API returned ${res.status}.`);
+    const errBody = await res.text().catch(() => "(unreadable)");
+    console.error("[ga4-admin] GA4 API error:", res.status, errBody.substring(0, 600));
+    throw new Error(`GA4 API returned ${res.status}: ${errBody.substring(0, 200)}`);
   }
 
   // deno-lint-ignore no-explicit-any
@@ -260,9 +263,15 @@ Deno.serve(async (req: Request): Promise<Response> => {
   const privateKey   = Deno.env.get("GA4_PRIVATE_KEY");
 
   if (!propertyId || !clientEmail || !privateKey) {
-    console.error("[ga4-admin] GA4 secrets not configured");
+    console.error("[ga4-admin] GA4 secrets not configured:",
+      { propertyId: !!propertyId, clientEmail: !!clientEmail, privateKey: !!privateKey });
     return err(500, "GA4 credentials not configured.", cors);
   }
+
+  // Diagnostics: confirm secrets are present without logging values
+  console.log("[ga4-admin] secrets ok — propertyId:", propertyId,
+    "| clientEmail suffix:", clientEmail.slice(-30),
+    "| privateKey length:", privateKey.length);
 
   // --- Parse body ---
   let body: Record<string, unknown>;
@@ -286,6 +295,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
   let token: string;
   try {
     token = await getAccessToken(clientEmail, privateKey);
+    console.log("[ga4-admin] token exchange ok, action:", action, "dates:", startDate, "→", endDate);
   } catch (e) {
     return err(502, (e as Error).message, cors);
   }
