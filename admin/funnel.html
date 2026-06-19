@@ -742,6 +742,26 @@
       </div>
     </div>
 
+    <!-- ─── WhatsApp Link Clicks ──────────────────────────────────── -->
+    <div class="collapsible-section">
+      <div class="collapsible-header" id="toggle-whatsapp-clicks">
+        <h2>WhatsApp Link Clicks</h2>
+        <span class="collapsible-toggle" id="whatsapp-clicks-toggle-label">Show ›</span>
+      </div>
+      <div class="collapsible-body" id="whatsapp-clicks-body">
+        <p class="muted-note" style="margin-bottom:10px">Clicks on /join-whatsapp in the selected date range, broken down by UTM dimension.</p>
+        <div class="mini-metric-row" id="whatsapp-clicks-total-row"></div>
+        <div class="tabs" style="margin-top:12px">
+          <button class="tab-btn active" data-tab="wa-source-tab">By Source</button>
+          <button class="tab-btn" data-tab="wa-medium-tab">By Medium</button>
+          <button class="tab-btn" data-tab="wa-campaign-tab">By Campaign</button>
+        </div>
+        <div class="tab-panel active" id="wa-source-tab"><div class="loading-state"><span class="spinner"></span> Loading…</div></div>
+        <div class="tab-panel" id="wa-medium-tab"></div>
+        <div class="tab-panel" id="wa-campaign-tab"></div>
+      </div>
+    </div>
+
   </div><!-- /main -->
 </div><!-- /app -->
 
@@ -944,6 +964,12 @@ function bootApp() {
     const open = body.classList.toggle("open");
     lbl.textContent = open ? "Hide ‹" : "Show ›";
   });
+  document.getElementById("toggle-whatsapp-clicks").addEventListener("click", function() {
+    const body = document.getElementById("whatsapp-clicks-body");
+    const lbl  = document.getElementById("whatsapp-clicks-toggle-label");
+    const open = body.classList.toggle("open");
+    lbl.textContent = open ? "Hide ‹" : "Show ›";
+  });
 
   loadAll();
 }
@@ -963,6 +989,7 @@ function loadAll() {
   loadLabPerformance();
   loadAudienceMovement();
   loadAssessmentPathway();
+  loadWhatsappClicks();
   loadGA4();
 }
 
@@ -1524,6 +1551,40 @@ function renderContactDrilldown(d) {
 }
 
 // =============================================================================
+// WhatsApp Link Clicks
+// =============================================================================
+async function loadWhatsappClicks() {
+  ["wa-source-tab","wa-medium-tab","wa-campaign-tab"].forEach(function(t) {
+    const el = document.getElementById(t);
+    if (el) el.innerHTML = '<div class="loading-state"><span class="spinner"></span> Loading…</div>';
+  });
+  document.getElementById("whatsapp-clicks-total-row").innerHTML = "";
+
+  try {
+    const { data } = await callApi("whatsapp_clicks", getDateParams());
+    document.getElementById("whatsapp-clicks-total-row").innerHTML =
+      miniMetric(num(data.total), "Total Clicks in Range");
+    renderWaTab("wa-source-tab",   data.by_source);
+    renderWaTab("wa-medium-tab",   data.by_medium);
+    renderWaTab("wa-campaign-tab", data.by_campaign);
+  } catch(e) {
+    ["wa-source-tab","wa-medium-tab","wa-campaign-tab"].forEach(function(t) {
+      const el = document.getElementById(t);
+      if (el) el.innerHTML = '<div class="empty-state" style="color:#dc2626">Error: ' + esc(e.message) + '</div>';
+    });
+  }
+}
+
+function renderWaTab(tabId, rows) {
+  const el = document.getElementById(tabId);
+  if (!el) return;
+  if (!rows || rows.length === 0) { el.innerHTML = '<div class="empty-state">No data.</div>'; return; }
+  el.innerHTML = '<table class="data-table"><thead><tr>' +
+    '<th>Dimension</th><th style="text-align:right">Clicks</th>' +
+    '</tr></thead><tbody>' +
+    rows.map(function(r) {
+      return '<tr><td>' + esc(r.dimension) + '</td>' +
+        '<td style="text-align:right">' + num(r.clicks) + '</td></tr>';
 // GA4 — load all reach data
 // =============================================================================
 async function loadGA4() {
