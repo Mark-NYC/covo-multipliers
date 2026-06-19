@@ -128,7 +128,8 @@ async function runAnalyticsReport(
   params: Record<string, string>,
 ): Promise<AnalyticsRow[]> {
   const url = new URL("https://youtubeanalytics.googleapis.com/v2/reports");
-  url.searchParams.set("ids", `channel==${channelId}`);
+  url.searchParams.set("ids", "channel==MINE");
+  void channelId; // used for logging only
   for (const [k, v] of Object.entries(params)) url.searchParams.set(k, v);
 
   const res = await fetch(url.toString(), {
@@ -189,25 +190,28 @@ async function fetchVideoTitles(
 }
 
 // ---------------------------------------------------------------------------
-// Traffic source label map
+// Traffic source label map (YouTube Analytics API v2 string enum values)
 // ---------------------------------------------------------------------------
 const TRAFFIC_SOURCE_LABELS: Record<string, string> = {
-  "0":  "Direct / Unknown",
-  "1":  "YouTube Search",
-  "3":  "Browse Features",
-  "4":  "YouTube Channels",
-  "5":  "External",
-  "7":  "Suggested Videos",
-  "8":  "Other YouTube Features",
-  "9":  "Video Cards / Annotations",
-  "11": "Playlists",
-  "14": "Live Redirect",
-  "17": "Notifications",
-  "18": "Playlist Page",
-  "19": "Shorts",
-  "20": "Product Pages",
-  "28": "YouTube Stories",
-  "37": "Video Remixes",
+  "YT_SEARCH":        "YouTube Search",
+  "BROWSE":           "Browse Features",
+  "RELATED_VIDEO":    "Suggested Videos",
+  "EXT_URL":          "External Website",
+  "NO_LINK_EMBEDDED": "Embedded Player",
+  "NO_LINK_OTHER":    "Direct / Unknown",
+  "NOTIFICATION":     "Notifications",
+  "PLAYLIST":         "Playlist",
+  "ADVERTISING":      "Advertising",
+  "END_SCREEN":       "End Screen",
+  "SHORTS":           "YouTube Shorts",
+  "SUBSCRIBER":       "Subscriptions",
+  "YT_CHANNEL":       "YouTube Channel Pages",
+  "YT_OTHER_PAGE":    "Other YouTube Pages",
+  "CAMPAIGN_CARD":    "Campaign Cards",
+  "HASHTAGS":         "Hashtags",
+  "ANNOTATION":       "Annotations",
+  "PROMOTED":         "Promoted / Paid",
+  "LIVE_REDIRECT":    "Live Redirect",
 };
 
 // ---------------------------------------------------------------------------
