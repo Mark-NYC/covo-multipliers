@@ -365,6 +365,43 @@ Deno.serve(async (req: Request): Promise<Response> => {
   }
 
   // ---------------------------------------------------------------------------
+  // whatsapp_clicks → aggregate whatsapp_link_clicks by UTM dimension
+  // ---------------------------------------------------------------------------
+  if (action === "whatsapp_clicks") {
+    const dates = validateDates();
+    if (!dates) return err(400, "p_start and p_end are required non-empty strings.", cors);
+
+    const { data: rows, error } = await supabase
+      .from("whatsapp_link_clicks")
+      .select("utm_source, utm_medium, utm_campaign")
+      .gte("created_at", dates.p_start)
+      .lt("created_at", dates.p_end);
+
+    if (error) {
+      console.error("[analytics-admin] whatsapp_clicks error:", JSON.stringify(error));
+      return err(500, "Failed to load WhatsApp click data.", cors);
+    }
+
+    function groupBy(field: "utm_source" | "utm_medium" | "utm_campaign") {
+      const counts: Record<string, number> = {};
+      for (const row of rows ?? []) {
+        const key = (row[field] as string | null) ?? "(none)";
+        counts[key] = (counts[key] ?? 0) + 1;
+      }
+      return Object.entries(counts)
+        .sort((a, b) => b[1] - a[1])
+        .map(([dimension, clicks]) => ({ dimension, clicks }));
+    }
+
+    return ok({
+      total: (rows ?? []).length,
+      by_source:   groupBy("utm_source"),
+      by_medium:   groupBy("utm_medium"),
+      by_campaign: groupBy("utm_campaign"),
+    }, cors);
+  }
+
+  // ---------------------------------------------------------------------------
   // Unknown action
   // ---------------------------------------------------------------------------
   return json(400, {
@@ -380,6 +417,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
       "assessment_pathway",
       "data_health",
       "contact_drilldown",
+      "whatsapp_clicks",
     ],
   }, cors);
 });
