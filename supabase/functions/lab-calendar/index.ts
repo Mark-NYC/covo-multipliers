@@ -45,6 +45,8 @@ function toIcsDateTime(date: string, time: string): string {
 }
 
 Deno.serve(async (req: Request) => {
+  console.log("lab-calendar request received", req.method, req.url);
+
   const origin = req.headers.get("origin");
   const cors = corsHeaders(origin);
 
@@ -54,8 +56,10 @@ Deno.serve(async (req: Request) => {
 
   const url = new URL(req.url);
   const slug = url.searchParams.get("event");
+  console.log("lab-calendar slug", slug);
 
   if (!slug) {
+    console.log("lab-calendar event not found");
     return new Response(
       JSON.stringify({ success: false, error: "Lab event not found." }),
       {
@@ -66,8 +70,10 @@ Deno.serve(async (req: Request) => {
   }
 
   const event = getLabEvent(slug);
+  console.log("lab-calendar event found", Boolean(event));
 
   if (!event) {
+    console.log("lab-calendar event not found");
     return new Response(
       JSON.stringify({ success: false, error: "Lab event not found." }),
       {
@@ -100,6 +106,7 @@ Deno.serve(async (req: Request) => {
     "END:VCALENDAR",
   ].join("\r\n");
 
+  console.log("lab-calendar returning ICS", event.slug);
   return new Response(ics, {
     status: 200,
     headers: {
