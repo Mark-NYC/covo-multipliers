@@ -169,6 +169,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
   const { event_id, name, email } = body;
   const attribution = extractAttribution(body);
   const consent = extractConsent(body);
+  const eventSlug = safeSlug(body.event_slug);
 
   // Validate
   if (typeof event_id !== "string" || !isUuid(event_id)) {
@@ -265,6 +266,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
     eventTitle: result.event_title!,
     eventDate: result.event_date!,
     zoomLink: result.zoom_link ?? null,
+    eventSlug,
   });
 
   console.log(`[register] Resend result: ${resendMessageId ? `sent, id=${resendMessageId}` : "FAILED — email not sent"}`);
@@ -306,12 +308,14 @@ async function sendEmail({
   eventTitle,
   eventDate,
   zoomLink,
+  eventSlug,
 }: {
   to: string;
   toName: string;
   eventTitle: string;
   eventDate: string;
   zoomLink: string | null;
+  eventSlug: string | null;
 }): Promise<string | null> {
   const apiKey = Deno.env.get("RESEND_API_KEY");
   const from = Deno.env.get("RESEND_FROM_EMAIL") ?? "labs@covomultipliers.com";
@@ -320,6 +324,22 @@ async function sendEmail({
     console.error("[register] RESEND_API_KEY is not set — skipping confirmation email. Set it with: supabase secrets set RESEND_API_KEY=...");
     return null;
   }
+
+  const calendarUrl = eventSlug
+    ? `https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1/lab-calendar?event=${encodeURIComponent(eventSlug)}`
+    : null;
+
+  const calendarButton = calendarUrl
+    ? `<div style="text-align:center;margin:28px 0 8px;">
+        <a href="${esc(calendarUrl)}"
+           style="display:inline-block;padding:13px 28px;background:#1b4d3e;color:#ffffff;font-size:15px;font-weight:700;text-decoration:none;border-radius:8px;letter-spacing:0.01em;">
+          Add to Calendar
+        </a>
+      </div>
+      <p style="text-align:center;margin:0 0 28px;font-size:13px;color:#888888;">
+        Zoom link will be sent before the lab.
+      </p>`
+    : "";
 
   const zoomRow = zoomLink
     ? `<tr>
@@ -379,6 +399,8 @@ async function sendEmail({
                 </tr>
                 ${zoomRow}
               </table>
+
+              ${calendarButton}
 
               <p style="margin:0 0 12px;font-size:15px;color:#555555;line-height:1.65;">
                 If you have any questions before the lab, just reply to this email.
@@ -445,6 +467,13 @@ function json(status: number, body: Record<string, unknown>, cors: Record<string
     status,
     headers: { ...cors, "Content-Type": "application/json" },
   });
+}
+
+/** Sanitize an event slug — only lowercase letters, digits, and hyphens. */
+function safeSlug(v: unknown): string | null {
+  if (typeof v !== "string") return null;
+  const s = v.trim().toLowerCase();
+  return /^[a-z0-9-]{1,100}$/.test(s) ? s : null;
 }
 
 /** RFC 5322-ish email check — enough to catch obvious typos. */
