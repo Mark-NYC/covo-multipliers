@@ -402,19 +402,11 @@ async function sendEmail({
 
               ${calendarButton}
 
-              <p style="margin:0 0 12px;font-size:15px;color:#555555;line-height:1.65;">
-                If you have any questions before the lab, just reply to this email.
-              </p>
               <p style="margin:0;font-size:15px;color:#555555;">
                 Looking forward to seeing you there.
               </p>
 
-              <!-- Signature -->
-              <hr style="border:none;border-top:1px solid #e5e7eb;margin:28px 0;" />
-              <p style="margin:0;font-size:13px;color:#999999;">
-                — The Covo Multipliers Team<br />
-                <a href="https://covomultipliers.com" style="color:#1b4d3e;text-decoration:none;">covomultipliers.com</a>
-              </p>
+              ${renderTransactionalFooter()}
 
             </td>
           </tr>
@@ -506,6 +498,26 @@ function formatDate(iso: string): string {
   } catch {
     return iso; // fall back to raw string if the date is malformed
   }
+}
+
+function renderTransactionalFooter(): string {
+  return `
+    <hr style="border:none;border-top:1px solid #e5e7eb;margin:28px 0;" />
+
+    <p style="margin:0 0 8px;font-size:12px;line-height:18px;color:#888888;">
+      You're receiving this because you registered for this CoVo Multipliers Lab.
+    </p>
+
+    <p style="margin:0 0 8px;font-size:12px;line-height:18px;color:#888888;">
+      CoVo Multipliers<br />
+      14839 61st Road<br />
+      Flushing, Queens, NYC
+    </p>
+
+    <p style="margin:0;font-size:12px;line-height:18px;color:#888888;">
+      Questions? <a href="https://www.covomultipliers.com/contact.html" style="color:#1b4d3e;text-decoration:underline;">Contact us here</a>.
+    </p>
+  `;
 }
 
 /** Escape user/DB-sourced strings before interpolating into email HTML. */
