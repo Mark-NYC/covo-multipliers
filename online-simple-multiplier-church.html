@@ -119,12 +119,12 @@
 
 
         /* -----------------------------------------------
-           3. CONTENT SECTION
+           3. PAGE BODY
         ----------------------------------------------- */
 
-        .osmc-section {
+        .osmc-body {
             background: #f7f6f2;
-            padding: 3.5rem 2rem 4.5rem;
+            padding: 3.25rem 2rem 4rem;
         }
 
         .osmc-inner {
@@ -132,109 +132,152 @@
             margin: 0 auto;
         }
 
-        .osmc-section-heading {
-            margin: 0 0 0.5rem;
-            font-size: 1.5rem;
-            font-weight: 900;
-            color: #10281f;
-            letter-spacing: -0.01em;
-        }
-
-        .osmc-section-intro {
-            margin: 0 0 2rem;
-            font-size: 0.95rem;
-            color: #5a6b65;
-            line-height: 1.6;
-        }
-
-        .osmc-card-list {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1rem;
-        }
-
-        .osmc-card {
-            background: #ffffff;
-            border: 1px solid #e5e7eb;
-            border-radius: 14px;
-            padding: 1.35rem 1.5rem;
-            box-shadow: 0 2px 12px rgba(16,40,31,0.05);
-        }
-
-        .osmc-card h3 {
-            margin: 0 0 0.4rem;
-            font-size: 1.05rem;
-            font-weight: 800;
-            color: #1b4d3e;
-            letter-spacing: -0.005em;
-        }
-
-        .osmc-card p {
-            margin: 0;
-            font-size: 0.95rem;
+        /* Intro */
+        .osmc-intro {
+            font-size: 1.1rem;
             color: #3a4f47;
-            line-height: 1.6;
+            line-height: 1.7;
+            margin: 0 auto 2.75rem;
+            max-width: 640px;
+            text-align: center;
         }
 
 
         /* -----------------------------------------------
-           4. MEETING RHYTHM
+           4. CONTENT PANEL
         ----------------------------------------------- */
 
-        .osmc-rhythm {
+        .osmc-panel {
             background: #ffffff;
-            padding: 3.5rem 2rem 4rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 2.5rem 2.5rem 2.75rem;
+            box-shadow: 0 2px 16px rgba(16,40,31,0.05);
         }
 
-        .osmc-rhythm-inner {
-            max-width: 720px;
-            margin: 0 auto;
+        .osmc-block + .osmc-block {
+            margin-top: 2.25rem;
+            padding-top: 2.25rem;
+            border-top: 1px solid #ecebe4;
         }
 
-        .osmc-rhythm h2 {
-            margin: 0 0 1.5rem;
-            font-size: 1.5rem;
+        .osmc-block h2 {
+            margin: 0 0 1rem;
+            font-size: 1.3rem;
             font-weight: 900;
             color: #10281f;
             letter-spacing: -0.01em;
+        }
+
+        .osmc-block p {
+            margin: 0 0 0.85rem;
+            font-size: 1rem;
+            color: #3a4f47;
+            line-height: 1.65;
+        }
+
+        .osmc-block p:last-child {
+            margin-bottom: 0;
+        }
+
+        .osmc-label {
+            font-weight: 800;
+            color: #1b4d3e;
+        }
+
+        /* Two-column wrapper for the practice + commitments blocks */
+        .osmc-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.25rem;
+        }
+
+        .osmc-columns .osmc-block + .osmc-block {
+            margin-top: 0;
+            padding-top: 0;
+            border-top: none;
+        }
+
+        /* Checklist */
+        .osmc-checklist {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: grid;
+            gap: 1rem;
+        }
+
+        .osmc-checklist li {
+            position: relative;
+            padding-left: 1.85rem;
+            font-size: 0.97rem;
+            color: #3a4f47;
+            line-height: 1.6;
+        }
+
+        .osmc-checklist li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0.15rem;
+            width: 1.05rem;
+            height: 1.05rem;
+            border-radius: 5px;
+            background:
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E") center / 0.7rem no-repeat,
+                linear-gradient(135deg, #1b4d3e, #2c6b5d);
+        }
+
+        .osmc-checklist strong {
+            color: #10281f;
+            font-weight: 800;
+        }
+
+
+        /* -----------------------------------------------
+           5. MEETING RHYTHM
+        ----------------------------------------------- */
+
+        .osmc-rhythm {
+            margin-top: 2.5rem;
+            background: linear-gradient(135deg, #10281f 0%, #1b4d3e 70%, #2c6b5d 100%);
+            border-radius: 16px;
+            padding: 2.25rem 2.5rem;
+            text-align: center;
+        }
+
+        .osmc-rhythm h2 {
+            margin: 0 0 1.25rem;
+            font-size: 1.2rem;
+            font-weight: 900;
+            color: #ffffff;
+            letter-spacing: 0.01em;
         }
 
         .osmc-rhythm-list {
             list-style: none;
             margin: 0;
             padding: 0;
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 0.75rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.75rem 2.5rem;
         }
 
         .osmc-rhythm-list li {
-            display: flex;
-            align-items: baseline;
-            gap: 0.75rem;
-            font-size: 1rem;
-            color: #3a4f47;
-            line-height: 1.6;
-        }
-
-        .osmc-rhythm-list li::before {
-            content: "";
-            flex: 0 0 auto;
-            width: 8px;
-            height: 8px;
-            margin-top: 0.5rem;
-            border-radius: 999px;
-            background: linear-gradient(90deg, #1b4d3e, #dcb55a);
+            font-size: 1.02rem;
+            color: rgba(255,255,255,0.9);
+            line-height: 1.5;
         }
 
         .osmc-rhythm-list strong {
-            color: #10281f;
+            color: #dcb55a;
             font-weight: 800;
         }
 
 
         /* -----------------------------------------------
-           5. FOOTER
+           6. FOOTER
         ----------------------------------------------- */
 
         .site-footer {
@@ -288,24 +331,37 @@
 
 
         /* -----------------------------------------------
-           6. RESPONSIVE
+           7. RESPONSIVE
         ----------------------------------------------- */
+
+        @media (max-width: 720px) {
+            .osmc-columns {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .osmc-columns .osmc-block + .osmc-block {
+                margin-top: 2.25rem;
+                padding-top: 2.25rem;
+                border-top: 1px solid #ecebe4;
+            }
+        }
 
         @media (max-width: 540px) {
             .osmc-hero {
                 padding: 2.5rem 1.25rem 2.25rem;
             }
 
-            .osmc-section {
-                padding: 2.5rem 1.25rem 3.5rem;
-            }
-
-            .osmc-rhythm {
+            .osmc-body {
                 padding: 2.5rem 1.25rem 3rem;
             }
 
-            .osmc-card {
-                padding: 1.2rem 1.25rem;
+            .osmc-panel {
+                padding: 1.85rem 1.5rem 2rem;
+            }
+
+            .osmc-rhythm {
+                padding: 1.85rem 1.5rem;
             }
 
             .site-header {
@@ -334,78 +390,60 @@
     </section>
 
 
-    <section class="osmc-section">
+    <section class="osmc-body">
         <div class="osmc-inner">
-            <h2 class="osmc-section-heading">Core commitments</h2>
-            <p class="osmc-section-intro">
-                Here is what we are committing to together as we gather.
+
+            <p class="osmc-intro">
+                This is not just an online class. It is a simple church gathering with a
+                training plan. Each person joins the gathering while also practicing the
+                same rhythms in their own context.
             </p>
 
-            <div class="osmc-card-list">
+            <div class="osmc-panel">
 
-                <div class="osmc-card">
-                    <h3>Vision</h3>
+                <div class="osmc-block">
+                    <h2>Vision</h2>
                     <p>Every people and every place reached through multiplying disciples, leaders, and churches.</p>
+                    <p><span class="osmc-label">2 Church Vision Cast:</span> Join a multiplying DNA church and start a church as the training plan.</p>
                 </div>
 
-                <div class="osmc-card">
-                    <h3>2 Church Vision Cast</h3>
-                    <p>Join a multiplying DNA church and start a church as the training plan.</p>
-                </div>
+                <div class="osmc-block">
+                    <div class="osmc-columns">
 
-                <div class="osmc-card">
-                    <h3>Core Content</h3>
-                    <p>We will work through the waffle: commands, stories, and practices. Use the exact content from obey.tools and the CFC leadership tool.</p>
-                </div>
+                        <div class="osmc-block">
+                            <h2>What We Will Practice</h2>
+                            <ul class="osmc-checklist">
+                                <li><strong>Core Content:</strong> We will work through the waffle: commands, stories, and practices. Use the exact content from obey.tools and the CFC leadership tool.</li>
+                                <li><strong>Follow and Fish Goals:</strong> Before each meeting, everyone shares their follow and fish goals in the chat.</li>
+                                <li><strong>Fishing Tool:</strong> Everyone commits to using the Conversation Quadrant screenshot as a simple fishing tool and tracking mechanism.</li>
+                                <li><strong>Simple Church Practice:</strong> Each person commits to starting a simple church in parallel with the online gathering.</li>
+                            </ul>
+                        </div>
 
-                <div class="osmc-card">
-                    <h3>Follow and Fish Goals</h3>
-                    <p>Before each meeting, everyone shares their follow and fish goals in the chat.</p>
-                </div>
+                        <div class="osmc-block">
+                            <h2>Commitments</h2>
+                            <ul class="osmc-checklist">
+                                <li><strong>PPPP Focus:</strong> Each person identifies their PPPP: passion, people, place, and profession.</li>
+                                <li><strong>CFC Commitment:</strong> Each person commits to CFC: commitment, focus, and consistency through the 3-2-1 rhythm.</li>
+                                <li><strong>Shoulder to Shoulder:</strong> Each person commits to shoulder-to-shoulder practice. In our case, this means joining for an in-person immersion. Dates TBA in OKC in the fall or in NYC in Spring 2027.</li>
+                                <li><strong>FATR Coaching:</strong> Multiplier coaching will focus on FATR: faithful, available, teachable, and reproducing.</li>
+                            </ul>
+                        </div>
 
-                <div class="osmc-card">
-                    <h3>Fishing Tool</h3>
-                    <p>Everyone commits to using the Conversation Quadrant screenshot as a simple fishing tool and tracking mechanism.</p>
-                </div>
-
-                <div class="osmc-card">
-                    <h3>Simple Church Practice</h3>
-                    <p>Each person commits to starting a simple church in parallel with the online gathering.</p>
-                </div>
-
-                <div class="osmc-card">
-                    <h3>PPPP Focus</h3>
-                    <p>Each person identifies their PPPP: passion, people, place, and profession.</p>
-                </div>
-
-                <div class="osmc-card">
-                    <h3>CFC Commitment</h3>
-                    <p>Each person commits to CFC: commitment, focus, and consistency through the 3-2-1 rhythm.</p>
-                </div>
-
-                <div class="osmc-card">
-                    <h3>Shoulder to Shoulder</h3>
-                    <p>Each person commits to shoulder-to-shoulder practice. In our case, this means immersion.</p>
-                </div>
-
-                <div class="osmc-card">
-                    <h3>FATR Coaching</h3>
-                    <p>Multiplier coaching will focus on FATR: faithful, available, teachable, and reproducing.</p>
+                    </div>
                 </div>
 
             </div>
-        </div>
-    </section>
 
+            <div class="osmc-rhythm">
+                <h2>Meeting Rhythm</h2>
+                <ul class="osmc-rhythm-list">
+                    <li><strong>Thursdays</strong></li>
+                    <li><strong>2 hours</strong></li>
+                    <li><strong>12 weeks</strong>, then reassess for continued gathering.</li>
+                </ul>
+            </div>
 
-    <section class="osmc-rhythm">
-        <div class="osmc-rhythm-inner">
-            <h2>Meeting Rhythm</h2>
-            <ul class="osmc-rhythm-list">
-                <li><strong>Thursdays</strong></li>
-                <li><strong>2 hours</strong></li>
-                <li><strong>12 weeks</strong>, then reassess for continued gathering.</li>
-            </ul>
         </div>
     </section>
 
