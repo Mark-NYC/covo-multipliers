@@ -56,6 +56,12 @@ const LAB_EVENTS: Record<string, LabEvent> = {
   },
 };
 
+// Aliases: map Supabase events.slug values to the same entry as their lab-calendar key.
+// Used by send-lab-reminders, which builds calendar URLs from events.slug.
+LAB_EVENTS["aquila-and-priscilla-pattern-jul-2026"] = LAB_EVENTS["aquila-priscilla-pattern"];
+LAB_EVENTS["4-questions-to-get-started-august-2026"] = LAB_EVENTS["four-questions"];
+LAB_EVENTS["church-circle-september-2026"] = LAB_EVENTS["church-circle-lab"];
+
 function getLabEvent(slug: string): LabEvent | null {
   return LAB_EVENTS[slug] ?? null;
 }
