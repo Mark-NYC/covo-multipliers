@@ -245,7 +245,28 @@
 
 
         /* -----------------------------------------------
-           5. MEETING RHYTHM
+           5. GALLERY
+        ----------------------------------------------- */
+
+        .osmc-gallery {
+            margin-top: 2.5rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .osmc-gallery img {
+            width: 100%;
+            height: 100%;
+            aspect-ratio: 4 / 3;
+            object-fit: cover;
+            border-radius: 14px;
+            border: 1px solid #ecebe4;
+        }
+
+
+        /* -----------------------------------------------
+           6. MEETING RHYTHM
         ----------------------------------------------- */
 
         .osmc-rhythm {
@@ -492,6 +513,11 @@
                     <p>Multiplier coaching will focus on FATR: faithful, available, teachable, and reproducing.</p>
                 </div>
 
+            </div>
+
+            <div class="osmc-gallery">
+                <img src="image/fabiolahouse.jpg" alt="Gathering in a home" loading="lazy">
+                <img src="image/immersions/immersion-grid-4.webp" alt="Practicing shoulder to shoulder at an immersion" loading="lazy">
             </div>
 
             <div class="osmc-rhythm">
