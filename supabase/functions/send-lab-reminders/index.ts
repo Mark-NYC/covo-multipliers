@@ -188,9 +188,13 @@ Deno.serve(async (req: Request): Promise<Response> => {
     });
   }
 
-  // test_email without both test_type and event_slug is invalid
-  if (rawTestEmail && !isForcedTest) {
-    return jsonResp(400, { error: "test_email requires test_type and event_slug." });
+  // Any forced test field requires all forced test fields.
+  const hasAnyTestField = Boolean(rawTestEmail || rawTestType || rawEventSlug);
+
+  if (hasAnyTestField && !isForcedTest) {
+    return jsonResp(400, {
+      error: "test_email, test_type, and event_slug are required together for forced test mode.",
+    });
   }
 
   // --- Env vars ---
@@ -366,7 +370,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
         continue;
       }
 
-      // Stamp rows — skip in test mode (we sent to testEmail, not real recipients)
+      // Stamp rows only after Resend returns a message ID.
       for (let j = 0; j < chunk.length; j++) {
         const r = chunk[j];
         const result = batchOk ? (batchResults[j] ?? null) : null;
