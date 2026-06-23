@@ -1407,7 +1407,7 @@
         </div>
 
         <p class="hero-support-line">
-          Limited spots. New York City. 2 to 3 days. Built for people making disciples while living normal working lives.
+          Limited spots. OKC and New York City. 2 to 3 days. Built for people making disciples while living normal working lives.
         </p>
       </div>
 
@@ -1723,7 +1723,42 @@
     <div class="page-section-inner" style="max-width:1200px;">
       <span class="eyebrow">Upcoming immersions</span>
       <h2 class="section-title">Open immersions</h2>
-      <p class="section-copy" style="margin-bottom:0;">No immersions remaining in 2026. Check back soon.</p>
+
+      <div class="immersion-cards-grid">
+        <article class="immersion-card">
+          <h3 class="immersion-card-title">Oklahoma City, OK</h3>
+          <ul class="immersion-card-meta">
+            <li><span class="meta-label">Date</span><span class="meta-value">Late September 2026</span></li>
+            <li><span class="meta-label">Status</span><span class="meta-value">Exact dates TBA</span></li>
+          </ul>
+          <p class="section-copy" style="margin:0; font-size:0.92rem; line-height:1.6;">Step into real workplaces, homes, and everyday rhythms where disciple-making is being practiced in normal life.</p>
+          <div class="immersion-card-cta">
+            <button class="btn-apply" type="button"
+              data-immersion-id="OKC September 2026"
+              data-immersion-title="Oklahoma City, OK"
+              data-waitlist="false">
+              Apply for OKC Immersion
+            </button>
+          </div>
+        </article>
+
+        <article class="immersion-card">
+          <h3 class="immersion-card-title">New York City, NY</h3>
+          <ul class="immersion-card-meta">
+            <li><span class="meta-label">Date</span><span class="meta-value">Mid March 2027</span></li>
+            <li><span class="meta-label">Status</span><span class="meta-value">Exact dates TBA</span></li>
+          </ul>
+          <p class="section-copy" style="margin:0; font-size:0.92rem; line-height:1.6;">See how disciple-making can happen in dense, relational, urban settings through ordinary work, hospitality, and daily life.</p>
+          <div class="immersion-card-cta">
+            <button class="btn-apply" type="button"
+              data-immersion-id="NYC March 2027"
+              data-immersion-title="New York City, NY"
+              data-waitlist="false">
+              Apply for NYC Immersion
+            </button>
+          </div>
+        </article>
+      </div>
     </div>
   </section>
 
@@ -2449,6 +2484,10 @@
       }
 
       loadImmersionCards();
+
+      /* wire up the statically-rendered upcoming immersion cards */
+      var openImmersionsSection = document.getElementById('open-immersions');
+      if (openImmersionsSection) attachCardHandlers(openImmersionsSection);
     })();
 
     document.querySelectorAll('.faq-btn').forEach(function(btn) {
