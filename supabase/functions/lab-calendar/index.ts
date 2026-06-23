@@ -54,6 +54,20 @@ const LAB_EVENTS: Record<string, LabEvent> = {
     calendarDescription:
       "Online. Zoom link will be sent before the lab.\n\nA simple biblical map for practicing and multiplying church from Acts 2.\n\nLearn the Church Circle and the Two-Church Vision Cast: be in a church where you get trained, and start a church where you do what you learn.",
   },
+  "disciple-making-rhythm": {
+    slug: "disciple-making-rhythm",
+    title: "From Intention to Disciple-Making Traction",
+    date: "2026-10-21",
+    startTime: "15:00",
+    endTime: "15:45",
+    timezone: "America/New_York",
+    location: "Online",
+    url: "https://www.covomultipliers.com/disciple-making-rhythm.html",
+    description:
+      "Move from good intentions to real traction in making disciples where you live, work, and play.\n\nBuild a simple, repeatable rhythm using CFC — commitment, focus, and consistency — and count the cost to actually start.",
+    calendarDescription:
+      "Online. Zoom link will be sent before the lab.\n\nMove from good intentions to real traction in making disciples where you live, work, and play. Build a simple, repeatable rhythm using CFC — commitment, focus, and consistency — and count the cost to actually start.",
+  },
 };
 
 // Aliases: map Supabase events.slug values to the same entry as their lab-calendar key.
@@ -61,6 +75,7 @@ const LAB_EVENTS: Record<string, LabEvent> = {
 LAB_EVENTS["aquila-and-priscilla-pattern-jul-2026"] = LAB_EVENTS["aquila-priscilla-pattern"];
 LAB_EVENTS["4-questions-to-get-started-august-2026"] = LAB_EVENTS["four-questions"];
 LAB_EVENTS["church-circle-september-2026"] = LAB_EVENTS["church-circle-lab"];
+LAB_EVENTS["disciple-making-rhythm-october-2026"] = LAB_EVENTS["disciple-making-rhythm"];
 
 function getLabEvent(slug: string): LabEvent | null {
   return LAB_EVENTS[slug] ?? null;
