@@ -538,13 +538,30 @@
             return new Date(utcGuess - (asUTC - utcGuess));
         }
 
-        // Current time. A ?now=<ISO datetime> query param lets us simulate a
-        // different moment for testing the rotation (ignored in normal use).
+        // Only honor the ?now= testing override on local testing setups so
+        // public visitors can't manipulate which labs show via a shared URL.
+        function isLocalTestEnvironment() {
+            const host = window.location.hostname;
+            return (
+                window.location.protocol === 'file:' ||
+                host === '' ||
+                host === 'localhost' ||
+                host === '127.0.0.1' ||
+                host === '::1' ||
+                host === '[::1]'
+            );
+        }
+
+        // Current time. On local testing only, a ?now=<ISO datetime> query
+        // param lets us simulate a different moment for testing the rotation.
+        // In production this always returns the real current time.
         function getNow() {
-            const override = new URLSearchParams(window.location.search).get('now');
-            if (override) {
-                const simulated = new Date(override);
-                if (!isNaN(simulated.getTime())) return simulated;
+            if (isLocalTestEnvironment()) {
+                const override = new URLSearchParams(window.location.search).get('now');
+                if (override) {
+                    const simulated = new Date(override);
+                    if (!isNaN(simulated.getTime())) return simulated;
+                }
             }
             return new Date();
         }
