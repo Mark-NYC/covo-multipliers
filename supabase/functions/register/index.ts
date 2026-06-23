@@ -329,26 +329,38 @@ async function sendEmail({
     ? `https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1/lab-calendar?event=${encodeURIComponent(eventSlug)}`
     : null;
 
-  const calendarButton = calendarUrl
-    ? `<div style="text-align:center;margin:16px 0 0;">
-        <a href="${esc(calendarUrl)}"
-           style="display:inline-block;padding:13px 28px;background:#1b4d3e;color:#ffffff;font-size:15px;font-weight:700;text-decoration:none;border-radius:8px;letter-spacing:0.01em;">
-          Add to Calendar
-        </a>
-      </div>`
+  // CTA hierarchy mirrors the reminder emails:
+  //   Zoom present → Join the Lab (primary) ▸ quiet fallback ▸ secondary calendar link
+  //   Zoom absent  → Add to Calendar (primary) ▸ "sent before the lab" note
+  const secondaryCalendarLink = calendarUrl
+    ? `<p style="text-align:center;margin:18px 0 0;font-size:14px;line-height:20px;">
+        <a href="${esc(calendarUrl)}" style="color:#1b4d3e;text-decoration:underline;font-weight:600;">Add to calendar</a>
+      </p>`
     : "";
 
-  const zoomSection = zoomLink
-    ? `<div style="text-align:center;margin:28px 0 8px;">
+  const ctaSection = zoomLink
+    ? `<div style="text-align:center;margin:28px 0 0;">
         <a href="${esc(zoomLink)}"
-           style="display:inline-block;padding:14px 32px;background:#1b4d3e;color:#ffffff;font-size:16px;font-weight:700;text-decoration:none;border-radius:8px;letter-spacing:0.01em;">
+           style="display:inline-block;padding:15px 40px;background:#1b4d3e;color:#ffffff;font-size:16px;font-weight:700;text-decoration:none;border-radius:8px;letter-spacing:0.01em;">
           Join the Lab
         </a>
       </div>
-      <p style="text-align:center;margin:0 0 8px;font-size:13px;color:#888888;">
-        Zoom link: <a href="${esc(zoomLink)}" style="color:#1b4d3e;text-decoration:underline;">${esc(zoomLink)}</a>
+      <p style="text-align:center;margin:12px 0 0;font-size:13px;line-height:18px;color:#999999;">
+        Having trouble?
+        <a href="${esc(zoomLink)}" style="color:#888888;text-decoration:underline;">Copy the Zoom link here.</a>
+      </p>
+      ${secondaryCalendarLink}`
+    : calendarUrl
+    ? `<div style="text-align:center;margin:28px 0 0;">
+        <a href="${esc(calendarUrl)}"
+           style="display:inline-block;padding:15px 40px;background:#1b4d3e;color:#ffffff;font-size:16px;font-weight:700;text-decoration:none;border-radius:8px;letter-spacing:0.01em;">
+          Add to Calendar
+        </a>
+      </div>
+      <p style="text-align:center;margin:12px 0 0;font-size:14px;line-height:20px;color:#888888;">
+        The Zoom link will be sent before the lab.
       </p>`
-    : `<p style="text-align:center;margin:28px 0 8px;font-size:14px;color:#888888;">
+    : `<p style="text-align:center;margin:28px 0 0;font-size:14px;line-height:20px;color:#888888;">
         The Zoom link will be sent before the lab.
       </p>`;
 
@@ -400,8 +412,7 @@ async function sendEmail({
                 </tr>
               </table>
 
-              ${zoomSection}
-              ${calendarButton}
+              ${ctaSection}
 
               <p style="margin:0;font-size:15px;color:#555555;">
                 Looking forward to seeing you there.

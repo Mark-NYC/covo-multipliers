@@ -465,10 +465,9 @@ function buildWeekEmail(fullName: string, event: LabEvent): string {
     </div>` : ""}
 
     ${renderDetailCard(dateStr)}
-    ${renderCalendarButton(event.slug)}
-    ${renderZoomSection(event.zoom_link)}
+    ${renderCtaSection(event)}
 
-    <p style="margin:0;font-size:15px;color:#555555;line-height:1.65;">
+    <p style="margin:28px 0 0;font-size:15px;color:#555555;line-height:1.65;">
       We look forward to seeing you there.
     </p>
     ${renderTransactionalFooter()}
@@ -487,10 +486,9 @@ function build24hEmail(fullName: string, event: LabEvent): string {
     </p>
 
     ${renderDetailCard(dateStr)}
-    ${renderCalendarButton(event.slug)}
-    ${renderZoomSection(event.zoom_link)}
+    ${renderCtaSection(event)}
 
-    <p style="margin:0;font-size:15px;color:#555555;line-height:1.65;">
+    <p style="margin:28px 0 0;font-size:15px;color:#555555;line-height:1.65;">
       See you tomorrow.
     </p>
     ${renderTransactionalFooter()}
@@ -509,9 +507,9 @@ function build1hEmail(fullName: string, event: LabEvent): string {
     </p>
 
     ${renderDetailCard(dateStr)}
-    ${renderZoomSection(event.zoom_link)}
+    ${renderCtaSection(event)}
 
-    <p style="margin:0;font-size:15px;color:#555555;">
+    <p style="margin:28px 0 0;font-size:15px;color:#555555;">
       See you soon.
     </p>
     ${renderTransactionalFooter()}
@@ -577,32 +575,55 @@ function renderDetailCard(dateStr: string): string {
     </table>`;
 }
 
-function renderCalendarButton(slug: string): string {
-  const calendarUrl = `${CALENDAR_BASE}?event=${encodeURIComponent(slug)}`;
+// --- CTA building blocks ------------------------------------------------------
+
+// Large primary green button — used for "Join the Lab" (Zoom) and, when no Zoom
+// link exists, repurposed for "Add to Calendar".
+function renderPrimaryButton(href: string, label: string): string {
   return `
-    <div style="text-align:center;margin:24px 0 8px;">
-      <a href="${esc(calendarUrl)}"
-         style="display:inline-block;padding:12px 26px;background:#1b4d3e;color:#ffffff;font-size:14px;font-weight:700;text-decoration:none;border-radius:8px;letter-spacing:0.01em;">
-        Add to Calendar
+    <div style="text-align:center;margin:28px 0 0;">
+      <a href="${esc(href)}"
+         style="display:inline-block;padding:15px 40px;background:#1b4d3e;color:#ffffff;font-size:16px;font-weight:700;text-decoration:none;border-radius:8px;letter-spacing:0.01em;">
+        ${esc(label)}
       </a>
     </div>`;
 }
 
-function renderZoomSection(zoomLink: string | null): string {
-  if (zoomLink) {
-    return `
-    <div style="text-align:center;margin:24px 0 8px;">
-      <a href="${esc(zoomLink)}"
-         style="display:inline-block;padding:14px 32px;background:#1b4d3e;color:#ffffff;font-size:16px;font-weight:700;text-decoration:none;border-radius:8px;letter-spacing:0.01em;">
-        Join the Lab
-      </a>
-    </div>
-    <p style="text-align:center;margin:0 0 24px;font-size:13px;color:#888888;">
-      Zoom link: <a href="${esc(zoomLink)}" style="color:#1b4d3e;text-decoration:underline;">${esc(zoomLink)}</a>
-    </p>`;
-  }
+// Small, visually quiet fallback line that still carries the real Zoom URL in href.
+function renderZoomFallbackLink(zoomLink: string): string {
   return `
-    <p style="text-align:center;margin:16px 0 24px;font-size:14px;color:#888888;">
+    <p style="text-align:center;margin:12px 0 0;font-size:13px;line-height:18px;color:#999999;">
+      Having trouble?
+      <a href="${esc(zoomLink)}" style="color:#888888;text-decoration:underline;">Copy the Zoom link here.</a>
+    </p>`;
+}
+
+// Quiet secondary text link for "Add to calendar" — never competes with the
+// primary Join button.
+function renderSecondaryCalendarLink(slug: string): string {
+  const calendarUrl = `${CALENDAR_BASE}?event=${encodeURIComponent(slug)}`;
+  return `
+    <p style="text-align:center;margin:18px 0 0;font-size:14px;line-height:20px;">
+      <a href="${esc(calendarUrl)}" style="color:#1b4d3e;text-decoration:underline;font-weight:600;">Add to calendar</a>
+    </p>`;
+}
+
+// Full CTA block with clear hierarchy.
+//   Zoom present → Join the Lab (primary) ▸ quiet fallback ▸ secondary calendar link
+//   Zoom absent  → Add to Calendar (primary) ▸ "sent before the lab" note
+function renderCtaSection(event: LabEvent): string {
+  const calendarUrl = `${CALENDAR_BASE}?event=${encodeURIComponent(event.slug)}`;
+
+  if (event.zoom_link) {
+    return `
+      ${renderPrimaryButton(event.zoom_link, "Join the Lab")}
+      ${renderZoomFallbackLink(event.zoom_link)}
+      ${renderSecondaryCalendarLink(event.slug)}`;
+  }
+
+  return `
+    ${renderPrimaryButton(calendarUrl, "Add to Calendar")}
+    <p style="text-align:center;margin:12px 0 0;font-size:14px;line-height:20px;color:#888888;">
       The Zoom link will be sent before the lab.
     </p>`;
 }
