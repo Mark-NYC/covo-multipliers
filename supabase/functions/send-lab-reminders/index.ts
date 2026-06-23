@@ -466,11 +466,9 @@ function buildWeekEmail(fullName: string, event: LabEvent): string {
 
     ${renderDetailCard(dateStr)}
     ${renderCalendarButton(event.slug)}
-    <p style="margin:16px 0 0;font-size:14px;color:#888888;text-align:center;">
-      The Zoom link will be sent before the lab.
-    </p>
+    ${renderZoomSection(event.zoom_link)}
 
-    <p style="margin:28px 0 0;font-size:15px;color:#555555;line-height:1.65;">
+    <p style="margin:0;font-size:15px;color:#555555;line-height:1.65;">
       We look forward to seeing you there.
     </p>
     ${renderTransactionalFooter()}
@@ -490,11 +488,9 @@ function build24hEmail(fullName: string, event: LabEvent): string {
 
     ${renderDetailCard(dateStr)}
     ${renderCalendarButton(event.slug)}
-    <p style="margin:16px 0 0;font-size:14px;color:#888888;text-align:center;">
-      The Zoom link will be sent before the lab.
-    </p>
+    ${renderZoomSection(event.zoom_link)}
 
-    <p style="margin:28px 0 0;font-size:15px;color:#555555;line-height:1.65;">
+    <p style="margin:0;font-size:15px;color:#555555;line-height:1.65;">
       See you tomorrow.
     </p>
     ${renderTransactionalFooter()}
@@ -505,21 +501,6 @@ function build1hEmail(fullName: string, event: LabEvent): string {
   const firstName = firstWord(fullName);
   const dateStr = formatDate(event.event_date);
 
-  const joinSection = event.zoom_link
-    ? `<div style="text-align:center;margin:28px 0 8px;">
-        <a href="${esc(event.zoom_link)}"
-           style="display:inline-block;padding:14px 32px;background:#1b4d3e;color:#ffffff;font-size:16px;font-weight:700;text-decoration:none;border-radius:8px;letter-spacing:0.01em;">
-          Join the Lab
-        </a>
-      </div>
-      <p style="text-align:center;margin:0 0 28px;font-size:13px;color:#888888;">
-        ${esc(dateStr)}
-      </p>`
-    : `${renderDetailCard(dateStr)}
-       <p style="margin:8px 0 28px;font-size:14px;color:#888888;text-align:center;">
-         The Zoom link will be sent before the lab.
-       </p>`;
-
   return wrapEmail(`
     <p style="margin:0 0 16px;font-size:16px;color:#1a1a1a;">Hi ${esc(firstName)},</p>
     <p style="margin:0 0 24px;font-size:15px;color:#444444;line-height:1.65;">
@@ -527,7 +508,8 @@ function build1hEmail(fullName: string, event: LabEvent): string {
       Bring a notebook and come ready to engage with what you are already doing.
     </p>
 
-    ${joinSection}
+    ${renderDetailCard(dateStr)}
+    ${renderZoomSection(event.zoom_link)}
 
     <p style="margin:0;font-size:15px;color:#555555;">
       See you soon.
@@ -604,6 +586,25 @@ function renderCalendarButton(slug: string): string {
         Add to Calendar
       </a>
     </div>`;
+}
+
+function renderZoomSection(zoomLink: string | null): string {
+  if (zoomLink) {
+    return `
+    <div style="text-align:center;margin:24px 0 8px;">
+      <a href="${esc(zoomLink)}"
+         style="display:inline-block;padding:14px 32px;background:#1b4d3e;color:#ffffff;font-size:16px;font-weight:700;text-decoration:none;border-radius:8px;letter-spacing:0.01em;">
+        Join the Lab
+      </a>
+    </div>
+    <p style="text-align:center;margin:0 0 24px;font-size:13px;color:#888888;">
+      Zoom link: <a href="${esc(zoomLink)}" style="color:#1b4d3e;text-decoration:underline;">${esc(zoomLink)}</a>
+    </p>`;
+  }
+  return `
+    <p style="text-align:center;margin:16px 0 24px;font-size:14px;color:#888888;">
+      The Zoom link will be sent before the lab.
+    </p>`;
 }
 
 function renderTransactionalFooter(): string {
