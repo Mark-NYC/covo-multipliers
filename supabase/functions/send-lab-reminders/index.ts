@@ -79,21 +79,110 @@ Deno.serve(async (req: Request): Promise<Response> => {
   const url = new URL(req.url);
   const isDryRun = url.searchParams.get("dry_run") === "true";
 
-  // --- Optional test_email ---
-  let testEmail: string | null = null;
+  // --- Parse body ---
+  let body: Record<string, unknown> = {};
   try {
-    const body = await req.json().catch(() => ({})) as Record<string, unknown>;
-    if (typeof body.test_email === "string" && body.test_email.trim().length > 0) {
-      if (!isEmail(body.test_email)) {
-        return jsonResp(400, { error: "test_email must be a valid email address." });
-      }
-      if (isDryRun) {
-        return jsonResp(400, { error: "test_email and dry_run cannot both be set." });
-      }
-      testEmail = body.test_email.trim().toLowerCase();
-    }
+    body = await req.json().catch(() => ({})) as Record<string, unknown>;
   } catch {
     // no body is fine
+  }
+
+  const rawTestEmail  = typeof body.test_email  === "string" ? body.test_email.trim()  : null;
+  const rawTestType   = typeof body.test_type   === "string" ? body.test_type.trim()   : null;
+  const rawEventSlug  = typeof body.event_slug  === "string" ? body.event_slug.trim()  : null;
+
+  // --- Forced test mode: all three params present ---
+  const isForcedTest = Boolean(rawTestEmail && rawTestType && rawEventSlug);
+
+  if (isForcedTest) {
+    if (!isEmail(rawTestEmail!)) {
+      return jsonResp(400, { error: "test_email must be a valid email address." });
+    }
+    if (rawTestType !== "week" && rawTestType !== "24h" && rawTestType !== "1h") {
+      return jsonResp(400, { error: "test_type must be \"week\", \"24h\", or \"1h\"." });
+    }
+    if (isDryRun) {
+      return jsonResp(400, { error: "dry_run and forced test mode cannot both be set." });
+    }
+
+    const testEmailAddr = rawTestEmail!.toLowerCase();
+    const testType      = rawTestType as ReminderType;
+
+    const resendApiKey = Deno.env.get("RESEND_API_KEY");
+    const fromEmail    = Deno.env.get("RESEND_FROM_EMAIL") ?? "labs@covomultipliers.com";
+
+    if (!resendApiKey) {
+      return jsonResp(500, { error: "RESEND_API_KEY is not configured." });
+    }
+
+    const supabase = createClient(
+      Deno.env.get("SUPABASE_URL")!,
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
+      { auth: { persistSession: false } },
+    );
+
+    const { data: eventRow, error: eventErr } = await supabase
+      .from("events")
+      .select("id, title, slug, description, event_date, zoom_link")
+      .eq("slug", rawEventSlug!)
+      .eq("is_published", true)
+      .single();
+
+    if (eventErr || !eventRow) {
+      return jsonResp(404, {
+        error: `Published event with slug "${rawEventSlug}" not found.`,
+      });
+    }
+
+    const event = eventRow as LabEvent;
+
+    console.log(
+      `[reminders] forced test: type=${testType} event="${event.title}" to=${testEmailAddr}`,
+    );
+
+    const res = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${resendApiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from: `Covo Multipliers <${fromEmail}>`,
+        to: [testEmailAddr],
+        subject: buildSubject(testType, event.title),
+        html: buildEmailHtml(testType, "there", event),
+      }),
+    });
+
+    const resBody = await res.json().catch(() => ({})) as Record<string, unknown>;
+
+    if (!res.ok) {
+      console.error("[reminders] forced test Resend error:", JSON.stringify(resBody));
+      return jsonResp(502, { error: "Resend rejected the email.", detail: resBody });
+    }
+
+    console.log(`[reminders] forced test sent, msg_id=${resBody.id ?? "unknown"}`);
+
+    return jsonResp(200, {
+      mode: "forced_test",
+      test_email: testEmailAddr,
+      test_type: testType,
+      event_slug: event.slug,
+      event_title: event.title,
+      resend_id: resBody.id ?? null,
+    });
+  }
+
+  // --- Legacy test_email-only path (production run but send to one address) ---
+  let testEmail: string | null = null;
+  if (rawTestEmail && !isForcedTest) {
+    if (!isEmail(rawTestEmail)) {
+      return jsonResp(400, { error: "test_email must be a valid email address." });
+    }
+    if (isDryRun) {
+      return jsonResp(400, { error: "test_email and dry_run cannot both be set." });
+    }
+    testEmail = rawTestEmail.toLowerCase();
   }
 
   // --- Env vars ---
