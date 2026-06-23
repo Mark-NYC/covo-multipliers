@@ -330,26 +330,27 @@ async function sendEmail({
     : null;
 
   const calendarButton = calendarUrl
-    ? `<div style="text-align:center;margin:28px 0 8px;">
+    ? `<div style="text-align:center;margin:16px 0 0;">
         <a href="${esc(calendarUrl)}"
            style="display:inline-block;padding:13px 28px;background:#1b4d3e;color:#ffffff;font-size:15px;font-weight:700;text-decoration:none;border-radius:8px;letter-spacing:0.01em;">
           Add to Calendar
         </a>
-      </div>
-      <p style="text-align:center;margin:0 0 28px;font-size:13px;color:#888888;">
-        Zoom link will be sent before the lab.
-      </p>`
+      </div>`
     : "";
 
-  const zoomRow = zoomLink
-    ? `<tr>
-        <td class="label">Zoom Link</td>
-        <td><a href="${esc(zoomLink)}" style="color:#1b4d3e;font-weight:600;">Join the meeting</a></td>
-      </tr>`
-    : `<tr>
-        <td class="label">Zoom Link</td>
-        <td style="color:#666666;">You will receive the Zoom link closer to the event date.</td>
-      </tr>`;
+  const zoomSection = zoomLink
+    ? `<div style="text-align:center;margin:28px 0 8px;">
+        <a href="${esc(zoomLink)}"
+           style="display:inline-block;padding:14px 32px;background:#1b4d3e;color:#ffffff;font-size:16px;font-weight:700;text-decoration:none;border-radius:8px;letter-spacing:0.01em;">
+          Join the Lab
+        </a>
+      </div>
+      <p style="text-align:center;margin:0 0 8px;font-size:13px;color:#888888;">
+        Zoom link: <a href="${esc(zoomLink)}" style="color:#1b4d3e;text-decoration:underline;">${esc(zoomLink)}</a>
+      </p>`
+    : `<p style="text-align:center;margin:28px 0 8px;font-size:14px;color:#888888;">
+        The Zoom link will be sent before the lab.
+      </p>`;
 
   // Inline styles are used deliberately — many email clients strip <style> blocks.
   const html = `<!DOCTYPE html>
@@ -397,9 +398,9 @@ async function sendEmail({
                   <td style="padding:11px 14px;font-weight:600;color:#245c4a;">Date</td>
                   <td style="padding:11px 14px;color:#1a1a1a;">${formatDate(eventDate)}</td>
                 </tr>
-                ${zoomRow}
               </table>
 
+              ${zoomSection}
               ${calendarButton}
 
               <p style="margin:0;font-size:15px;color:#555555;">
