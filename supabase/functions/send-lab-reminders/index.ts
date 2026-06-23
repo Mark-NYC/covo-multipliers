@@ -593,8 +593,8 @@ function renderPrimaryButton(href: string, label: string): string {
 function renderZoomFallbackLink(zoomLink: string): string {
   return `
     <p style="text-align:center;margin:12px 0 0;font-size:13px;line-height:18px;color:#999999;">
-      Having trouble?
-      <a href="${esc(zoomLink)}" style="color:#888888;text-decoration:underline;">Copy the Zoom link here.</a>
+      Having trouble joining?
+      <a href="${esc(zoomLink)}" style="color:#888888;text-decoration:underline;">Open the Zoom link here.</a>
     </p>`;
 }
 
