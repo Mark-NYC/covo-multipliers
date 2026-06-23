@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DXGLXDTF9V"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-DXGLXDTF9V');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A simple online gathering for people joining a multiplying DNA church while learning to start one in parallel.">
+    <title>Online Simple Multiplier Church | CoVo Multipliers</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="canonical" href="https://covomultipliers.com/online-simple-multiplier-church.html">
+
+    <style>
+        /* ==============================================
+           Online Simple Multiplier Church page styles
+        ============================================== */
+
+        /* -----------------------------------------------
+           1. SITE HEADER
+        ----------------------------------------------- */
+
+        .site-header {
+            background: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .site-header .brand {
+            font-size: 0.95rem;
+            font-weight: 900;
+            color: #10281f;
+            text-decoration: none;
+            letter-spacing: -0.01em;
+        }
+
+        .site-header .back-link {
+            font-size: 0.875rem;
+            color: #5a6b65;
+            text-decoration: none;
+            transition: color 0.15s ease;
+        }
+
+        .site-header .back-link:hover {
+            color: #1b4d3e;
+        }
+
+
+        /* -----------------------------------------------
+           2. HERO
+        ----------------------------------------------- */
+
+        .osmc-hero {
+            padding: 3.5rem 2rem 3rem;
+            background: linear-gradient(135deg,
+                #10281f 0%,
+                #1b4d3e 28%,
+                #2c6b5d 56%,
+                #9f7a2f 82%,
+                #dcb55a 100%
+            );
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .osmc-hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.12;
+            background-image:
+                radial-gradient(circle at 20% 20%, rgba(255,255,255,0.12) 0.7px, transparent 0.8px),
+                radial-gradient(circle at 80% 30%, rgba(0,0,0,0.10) 0.7px, transparent 0.8px),
+                radial-gradient(circle at 40% 70%, rgba(255,255,255,0.08) 0.6px, transparent 0.7px),
+                radial-gradient(circle at 70% 80%, rgba(0,0,0,0.08) 0.6px, transparent 0.7px);
+        }
+
+        .osmc-hero-inner {
+            position: relative;
+            max-width: 620px;
+            margin: 0 auto;
+        }
+
+        .osmc-hero .eyebrow {
+            margin: 0 0 0.6rem;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.65);
+        }
+
+        .osmc-hero h1 {
+            margin: 0 0 0.875rem;
+            font-size: clamp(1.9rem, 4.5vw, 2.6rem);
+            font-weight: 900;
+            color: #ffffff;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+        }
+
+        .osmc-hero .hero-sub {
+            margin: 0;
+            font-size: 1.05rem;
+            color: rgba(255,255,255,0.82);
+            line-height: 1.6;
+        }
+
+
+        /* -----------------------------------------------
+           3. CONTENT SECTION
+        ----------------------------------------------- */
+
+        .osmc-section {
+            background: #f7f6f2;
+            padding: 3.5rem 2rem 4.5rem;
+        }
+
+        .osmc-inner {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        .osmc-section-heading {
+            margin: 0 0 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: #10281f;
+            letter-spacing: -0.01em;
+        }
+
+        .osmc-section-intro {
+            margin: 0 0 2rem;
+            font-size: 0.95rem;
+            color: #5a6b65;
+            line-height: 1.6;
+        }
+
+        .osmc-card-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        .osmc-card {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 14px;
+            padding: 1.35rem 1.5rem;
+            box-shadow: 0 2px 12px rgba(16,40,31,0.05);
+        }
+
+        .osmc-card h3 {
+            margin: 0 0 0.4rem;
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: #1b4d3e;
+            letter-spacing: -0.005em;
+        }
+
+        .osmc-card p {
+            margin: 0;
+            font-size: 0.95rem;
+            color: #3a4f47;
+            line-height: 1.6;
+        }
+
+
+        /* -----------------------------------------------
+           4. MEETING RHYTHM
+        ----------------------------------------------- */
+
+        .osmc-rhythm {
+            background: #ffffff;
+            padding: 3.5rem 2rem 4rem;
+        }
+
+        .osmc-rhythm-inner {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        .osmc-rhythm h2 {
+            margin: 0 0 1.5rem;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: #10281f;
+            letter-spacing: -0.01em;
+        }
+
+        .osmc-rhythm-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.75rem;
+        }
+
+        .osmc-rhythm-list li {
+            display: flex;
+            align-items: baseline;
+            gap: 0.75rem;
+            font-size: 1rem;
+            color: #3a4f47;
+            line-height: 1.6;
+        }
+
+        .osmc-rhythm-list li::before {
+            content: "";
+            flex: 0 0 auto;
+            width: 8px;
+            height: 8px;
+            margin-top: 0.5rem;
+            border-radius: 999px;
+            background: linear-gradient(90deg, #1b4d3e, #dcb55a);
+        }
+
+        .osmc-rhythm-list strong {
+            color: #10281f;
+            font-weight: 800;
+        }
+
+
+        /* -----------------------------------------------
+           5. FOOTER
+        ----------------------------------------------- */
+
+        .site-footer {
+            background: #10281f;
+            padding: 2.5rem 2rem;
+        }
+
+        .footer-inner {
+            max-width: 960px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem 3rem;
+            align-items: flex-start;
+        }
+
+        .footer-wordmark {
+            display: block;
+            font-size: 1rem;
+            font-weight: 900;
+            color: #ffffff;
+            letter-spacing: -0.01em;
+            margin-bottom: 0.4rem;
+        }
+
+        .footer-desc {
+            margin: 0;
+            font-size: 0.825rem;
+            color: rgba(255,255,255,0.55);
+            line-height: 1.55;
+            max-width: 300px;
+        }
+
+        .footer-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem 1.5rem;
+            align-items: center;
+        }
+
+        .footer-nav a {
+            font-size: 0.875rem;
+            color: rgba(255,255,255,0.65);
+            text-decoration: none;
+            transition: color 0.15s ease;
+        }
+
+        .footer-nav a:hover {
+            color: #ffffff;
+        }
+
+
+        /* -----------------------------------------------
+           6. RESPONSIVE
+        ----------------------------------------------- */
+
+        @media (max-width: 540px) {
+            .osmc-hero {
+                padding: 2.5rem 1.25rem 2.25rem;
+            }
+
+            .osmc-section {
+                padding: 2.5rem 1.25rem 3.5rem;
+            }
+
+            .osmc-rhythm {
+                padding: 2.5rem 1.25rem 3rem;
+            }
+
+            .osmc-card {
+                padding: 1.2rem 1.25rem;
+            }
+
+            .site-header {
+                padding: 0.875rem 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="site-header">
+        <a class="brand" href="/">Covo Multipliers</a>
+        <a class="back-link" href="/">&larr; Back to home</a>
+    </header>
+
+
+    <section class="osmc-hero">
+        <div class="osmc-hero-inner">
+            <p class="eyebrow">Online Simple Multiplier Church</p>
+            <h1>Online Simple Multiplier Church</h1>
+            <p class="hero-sub">
+                A simple online gathering for people who want to join a multiplying DNA
+                church while learning to start one in parallel.
+            </p>
+        </div>
+    </section>
+
+
+    <section class="osmc-section">
+        <div class="osmc-inner">
+            <h2 class="osmc-section-heading">Core commitments</h2>
+            <p class="osmc-section-intro">
+                Here is what we are committing to together as we gather.
+            </p>
+
+            <div class="osmc-card-list">
+
+                <div class="osmc-card">
+                    <h3>Vision</h3>
+                    <p>Every people and every place reached through multiplying disciples, leaders, and churches.</p>
+                </div>
+
+                <div class="osmc-card">
+                    <h3>2 Church Vision Cast</h3>
+                    <p>Join a multiplying DNA church and start a church as the training plan.</p>
+                </div>
+
+                <div class="osmc-card">
+                    <h3>Core Content</h3>
+                    <p>We will work through the waffle: commands, stories, and practices. Use the exact content from obey.tools and the CFC leadership tool.</p>
+                </div>
+
+                <div class="osmc-card">
+                    <h3>Follow and Fish Goals</h3>
+                    <p>Before each meeting, everyone shares their follow and fish goals in the chat.</p>
+                </div>
+
+                <div class="osmc-card">
+                    <h3>Fishing Tool</h3>
+                    <p>Everyone commits to using the Conversation Quadrant screenshot as a simple fishing tool and tracking mechanism.</p>
+                </div>
+
+                <div class="osmc-card">
+                    <h3>Simple Church Practice</h3>
+                    <p>Each person commits to starting a simple church in parallel with the online gathering.</p>
+                </div>
+
+                <div class="osmc-card">
+                    <h3>PPPP Focus</h3>
+                    <p>Each person identifies their PPPP: passion, people, place, and profession.</p>
+                </div>
+
+                <div class="osmc-card">
+                    <h3>CFC Commitment</h3>
+                    <p>Each person commits to CFC: commitment, focus, and consistency through the 3-2-1 rhythm.</p>
+                </div>
+
+                <div class="osmc-card">
+                    <h3>Shoulder to Shoulder</h3>
+                    <p>Each person commits to shoulder-to-shoulder practice. In our case, this means immersion.</p>
+                </div>
+
+                <div class="osmc-card">
+                    <h3>FATR Coaching</h3>
+                    <p>Multiplier coaching will focus on FATR: faithful, available, teachable, and reproducing.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <section class="osmc-rhythm">
+        <div class="osmc-rhythm-inner">
+            <h2>Meeting Rhythm</h2>
+            <ul class="osmc-rhythm-list">
+                <li><strong>Thursdays</strong></li>
+                <li><strong>2 hours</strong></li>
+                <li><strong>12 weeks</strong>, then reassess for continued gathering.</li>
+            </ul>
+        </div>
+    </section>
+
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <span class="footer-wordmark">Covo Multipliers</span>
+                <p class="footer-desc">Practical training for everyday leaders who want to make disciples where they live, work, and play.</p>
+            </div>
+            <nav class="footer-nav" aria-label="Footer navigation">
+                <a href="/">Home</a>
+                <a href="/vision.html">Vision &amp; Pathway</a>
+                <a href="/blog/">Blog</a>
+                <a href="/resources.html">Resources</a>
+                <a href="/h3x.html">H3X Podcast</a>
+                <a href="/contact.html">Contact</a>
+            </nav>
+        </div>
+    </footer>
+
+
+    <script src="/utm-tracking.js"></script>
+
+</body>
+</html>
