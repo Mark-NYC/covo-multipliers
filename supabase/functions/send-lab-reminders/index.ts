@@ -4,29 +4,44 @@
 //
 // POST /functions/v1/send-lab-reminders[?dry_run=true]
 // Headers: x-admin-secret: <REMINDER_ADMIN_SECRET>
-// Body (optional): { "test_email"?: string }
+// Body (optional): see modes below
 //
-// Sends reminder emails for all upcoming published labs in a single run.
-// For each reminder type, this function finds every active registration
-// whose event falls inside the due window and whose sent-at column is null,
-// then sends HTML email via Resend and stamps the column.
+// ── Modes ────────────────────────────────────────────────────────────────────
 //
-// Reminder windows (checked against events.event_date):
-//   week  (5-day)  → event_date in [now+4d, now+5d)   — stamps reminder_week_sent_at
-//   24h            → event_date in [now+23h, now+24h)  — stamps reminder_24h_sent_at
-//   1h             → event_date in [now,     now+1h)   — stamps reminder_1h_sent_at
+// Production (default):
+//   No extra body fields required.
+//   Finds all upcoming published events and all active registrations whose
+//   relevant reminder timestamp is null and whose event falls inside the due
+//   window. Sends HTML email via Resend. Stamps the column only after Resend
+//   returns a message ID.
 //
-// Modes:
-//   (default)              — send to all eligible registrants; stamp sent timestamps
-//   ?dry_run=true          — no emails sent; returns who would receive what
-//   body.test_email        — send one real email per type to that address only; nothing stamped
+// Dry run:
+//   URL: ?dry_run=true
+//   No emails sent. No database writes. Returns the recipients who would
+//   receive each reminder type if the function ran in production mode now.
 //
-// Required secrets (supabase secrets set KEY=value):
+// Forced test mode:
+//   Body must include all three fields:
+//     { "test_email": string, "test_type": "week"|"24h"|"1h", "event_slug": string }
+//   Ignores reminder timing windows entirely.
+//   Queries the events table for one published event matching event_slug.
+//   Sends exactly one real email to test_email using that event and reminder type.
+//   Never queries registrations. Never stamps any reminder column.
+//   Returns: { mode, test_email, test_type, event_slug, event_title, resend_id }
+//
+//   test_email by itself is invalid — it requires both test_type and event_slug.
+//
+// ── Reminder windows (events.event_date) ─────────────────────────────────────
+//   week (5-day) → [now+4d,  now+5d)  — stamps reminder_week_sent_at
+//   24h          → [now+23h, now+24h) — stamps reminder_24h_sent_at
+//   1h           → [now,     now+1h)  — stamps reminder_1h_sent_at
+//
+// ── Required secrets (supabase secrets set KEY=value) ────────────────────────
 //   REMINDER_ADMIN_SECRET    — value compared against x-admin-secret header
 //   RESEND_API_KEY           — from resend.com dashboard
 //   RESEND_FROM_EMAIL        — verified sender address, e.g. labs@covomultipliers.com
 //
-// Auto-injected by Supabase (do not set manually):
+// ── Auto-injected by Supabase (do not set manually) ──────────────────────────
 //   SUPABASE_URL
 //   SUPABASE_SERVICE_ROLE_KEY
 
@@ -173,16 +188,9 @@ Deno.serve(async (req: Request): Promise<Response> => {
     });
   }
 
-  // --- Legacy test_email-only path (production run but send to one address) ---
-  let testEmail: string | null = null;
+  // test_email without both test_type and event_slug is invalid
   if (rawTestEmail && !isForcedTest) {
-    if (!isEmail(rawTestEmail)) {
-      return jsonResp(400, { error: "test_email must be a valid email address." });
-    }
-    if (isDryRun) {
-      return jsonResp(400, { error: "test_email and dry_run cannot both be set." });
-    }
-    testEmail = rawTestEmail.toLowerCase();
+    return jsonResp(400, { error: "test_email requires test_type and event_slug." });
   }
 
   // --- Env vars ---
@@ -307,10 +315,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
       continue;
     }
 
-    // Determine actual send list (test mode overrides recipient but not eligibility count)
-    const sendList: Recipient[] = testEmail
-      ? recipients.map((r) => ({ ...r, email: testEmail!, name: "there" })).slice(0, 1)
-      : recipients;
+    const sendList: Recipient[] = recipients;
 
     if (sendList.length === 0) continue;
 
@@ -374,12 +379,6 @@ Deno.serve(async (req: Request): Promise<Response> => {
 
         console.log(`[reminders] ${type}: sent to ${r.email} msg_id=${result.id}`);
 
-        if (testEmail) {
-          // Test send succeeded — never touch the database
-          summary[type].sent++;
-          continue;
-        }
-
         const originalRecipient = recipients[i + j];
 
         const { error: updateErr } = await supabase
@@ -400,10 +399,6 @@ Deno.serve(async (req: Request): Promise<Response> => {
       }
     }
 
-    // Registrations that were eligible but not in the send list (test mode skip)
-    if (testEmail) {
-      summary[type].skipped = Math.max(0, recipients.length - 1);
-    }
   }
 
   // --- Build totals ---
@@ -412,13 +407,11 @@ Deno.serve(async (req: Request): Promise<Response> => {
   const totalSkipped = Object.values(summary).reduce((n, s) => n + s.skipped, 0);
 
   console.log(
-    `[reminders] done: dry_run=${isDryRun} test_email=${testEmail ?? "none"} ` +
-    `total_sent=${totalSent} total_failed=${totalFailed}`,
+    `[reminders] done: dry_run=${isDryRun} total_sent=${totalSent} total_failed=${totalFailed}`,
   );
 
   return jsonResp(200, {
     dry_run: isDryRun,
-    ...(testEmail ? { test_email: testEmail } : {}),
     results: summary,
     total_sent: totalSent,
     total_failed: totalFailed,
