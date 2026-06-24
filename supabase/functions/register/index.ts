@@ -257,6 +257,17 @@ Deno.serve(async (req: Request): Promise<Response> => {
 
   console.log(`[register] attribution and consent saved. opt_in=${consent.marketing_opt_in} consent_at=${consent.marketing_consent_at ?? "null"}`);
 
+  // Fetch the canonical database slug for the branded join-lab redirect.
+  // This is separate from the page-provided eventSlug (which may be a short slug used for calendar alias mapping).
+  const { data: eventRow } = await supabase
+    .from("events")
+    .select("slug")
+    .eq("id", event_id)
+    .single();
+
+  const dbSlug = eventRow?.slug ?? null;
+  console.log(`[register] fetched canonical event slug for join-lab redirect: ${dbSlug ?? "MISSING"}`);
+
   // Phase 2: Send confirmation email. Non-fatal — failure does not undo saved consent.
   console.log(`[register] attempting confirmation email to=${cleanEmail} event="${result.event_title}"`);
 
@@ -266,7 +277,8 @@ Deno.serve(async (req: Request): Promise<Response> => {
     eventTitle: result.event_title!,
     eventDate: result.event_date!,
     zoomLink: result.zoom_link ?? null,
-    eventSlug,
+    pageSlug: eventSlug,
+    dbSlug,
   });
 
   console.log(`[register] Resend result: ${resendMessageId ? `sent, id=${resendMessageId}` : "FAILED — email not sent"}`);
@@ -308,14 +320,16 @@ async function sendEmail({
   eventTitle,
   eventDate,
   zoomLink,
-  eventSlug,
+  pageSlug,
+  dbSlug,
 }: {
   to: string;
   toName: string;
   eventTitle: string;
   eventDate: string;
   zoomLink: string | null;
-  eventSlug: string | null;
+  pageSlug: string | null;
+  dbSlug: string | null;
 }): Promise<string | null> {
   const apiKey = Deno.env.get("RESEND_API_KEY");
   const from = Deno.env.get("RESEND_FROM_EMAIL") ?? "labs@covomultipliers.com";
@@ -325,12 +339,12 @@ async function sendEmail({
     return null;
   }
 
-  const calendarUrl = eventSlug
-    ? `https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1/lab-calendar?event=${encodeURIComponent(eventSlug)}`
+  const calendarUrl = pageSlug
+    ? `https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1/lab-calendar?event=${encodeURIComponent(pageSlug)}`
     : null;
 
-  const joinLabUrl = eventSlug
-    ? `https://www.covomultipliers.com/join-lab.html?event=${encodeURIComponent(eventSlug)}`
+  const joinLabUrl = dbSlug
+    ? `https://www.covomultipliers.com/join-lab.html?event=${encodeURIComponent(dbSlug)}`
     : null;
 
   // CTA hierarchy: immediately after registration the main behavioral goal is
