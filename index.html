@@ -487,19 +487,119 @@
         const SUPABASE_URL      = 'https://mryjrvinzbxebzvxtggi.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1yeWpydmluemJ4ZWJ6dnh0Z2dpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYyNzQ3MzksImV4cCI6MjA5MTg1MDczOX0.U1JJQTBVKePsVFXr2oFRCdUZasWaZiTQg6g8QrFdRyw';
 
-        const LAB_SLUGS = [
-            'from-lost-to-leader-may-2026',
-            'rhythms-of-a-covo-multiplier-jun-2026',
-            'aquila-and-priscilla-pattern-jul-2026',
-            '4-questions-to-get-started-august-2026',
-            'church-circle-september-2026',
-            'disciple-making-rhythm-october-2026',
+        // -----------------------------------------------------------------
+        // Upcoming labs queue
+        //
+        // Labs run monthly at 3:00 PM Eastern Time on the third Wednesday of
+        // the month. The home page shows only the next 3 upcoming labs. A lab
+        // drops off the list the moment it begins (3:00 PM ET on its date),
+        // and the next lab in the queue rotates in automatically.
+        //
+        // `start` is the lab's wall-clock start time [year, month(1-12), day,
+        // hour(24h), minute] in the LAB_TIMEZONE below. Times are resolved in
+        // America/New_York so daylight saving time is handled correctly
+        // instead of using a hardcoded EST/EDT offset.
+        //
+        // To add a future lab: add an entry here (it must also have a matching
+        // <div class="lab-item" data-slug="..."> card in the markup above).
+        // -----------------------------------------------------------------
+        const LAB_TIMEZONE = 'America/New_York';
+        const VISIBLE_LAB_COUNT = 3;
+
+        const LABS = [
+            { slug: 'from-lost-to-leader-may-2026',          start: [2026, 5, 20, 15, 0] },
+            { slug: 'rhythms-of-a-covo-multiplier-jun-2026', start: [2026, 6, 17, 15, 0] },
+            { slug: 'aquila-and-priscilla-pattern-jul-2026', start: [2026, 7, 15, 15, 0] },
+            { slug: '4-questions-to-get-started-august-2026', start: [2026, 8, 19, 15, 0] },
+            { slug: 'church-circle-september-2026',          start: [2026, 9, 16, 15, 0] },
+            { slug: 'disciple-making-rhythm-october-2026',   start: [2026, 10, 21, 15, 0] },
         ];
 
-        async function loadLabSeats() {
+        // Convert a wall-clock time in an IANA timezone to a UTC Date,
+        // accounting for daylight saving time. Works without any libraries.
+        function zonedWallTimeToDate(year, month, day, hour, minute, timeZone) {
+            const utcGuess = Date.UTC(year, month - 1, day, hour, minute, 0);
+            const dtf = new Intl.DateTimeFormat('en-US', {
+                timeZone,
+                hour12: false,
+                year: 'numeric', month: 'numeric', day: 'numeric',
+                hour: 'numeric', minute: 'numeric', second: 'numeric',
+            });
+            const parts = {};
+            for (const p of dtf.formatToParts(new Date(utcGuess))) {
+                parts[p.type] = p.value;
+            }
+            let h = parseInt(parts.hour, 10);
+            if (h === 24) h = 0; // some engines report midnight as "24"
+            const asUTC = Date.UTC(
+                parseInt(parts.year, 10), parseInt(parts.month, 10) - 1, parseInt(parts.day, 10),
+                h, parseInt(parts.minute, 10), parseInt(parts.second, 10)
+            );
+            return new Date(utcGuess - (asUTC - utcGuess));
+        }
+
+        // Only honor the ?now= testing override on local testing setups so
+        // public visitors can't manipulate which labs show via a shared URL.
+        function isLocalTestEnvironment() {
+            const host = window.location.hostname;
+            return (
+                window.location.protocol === 'file:' ||
+                host === '' ||
+                host === 'localhost' ||
+                host === '127.0.0.1' ||
+                host === '::1' ||
+                host === '[::1]'
+            );
+        }
+
+        // Current time. On local testing only, a ?now=<ISO datetime> query
+        // param lets us simulate a different moment for testing the rotation.
+        // In production this always returns the real current time.
+        function getNow() {
+            if (isLocalTestEnvironment()) {
+                const override = new URLSearchParams(window.location.search).get('now');
+                if (override) {
+                    const simulated = new Date(override);
+                    if (!isNaN(simulated.getTime())) return simulated;
+                }
+            }
+            return new Date();
+        }
+
+        // Slugs of the next VISIBLE_LAB_COUNT labs that have not yet started,
+        // sorted by their actual start datetime.
+        function getVisibleLabSlugs() {
+            const now = getNow();
+            return LABS
+                .map(lab => ({
+                    slug: lab.slug,
+                    startDate: zonedWallTimeToDate(
+                        lab.start[0], lab.start[1], lab.start[2],
+                        lab.start[3], lab.start[4], LAB_TIMEZONE
+                    ),
+                }))
+                .filter(lab => lab.startDate > now)
+                .sort((a, b) => a.startDate - b.startDate)
+                .slice(0, VISIBLE_LAB_COUNT)
+                .map(lab => lab.slug);
+        }
+
+        // Show only the next 3 upcoming labs; hide the rest. Returns the
+        // visible slugs so seat availability is only fetched for those cards.
+        function renderUpcomingLabs() {
+            const visibleSlugs = getVisibleLabSlugs();
+            const visible = new Set(visibleSlugs);
+            document.querySelectorAll('.lab-item').forEach(card => {
+                card.style.display = visible.has(card.dataset.slug) ? '' : 'none';
+            });
+            return visibleSlugs;
+        }
+
+        async function loadLabSeats(slugs) {
+            if (!slugs || !slugs.length) return;
             try {
                 const url = new URL(`${SUPABASE_URL}/rest/v1/events_with_availability`);
-                url.searchParams.set('slug', `in.(${LAB_SLUGS.join(',')})`);
+                url.searchParams.set('slug', `in.(${slugs.join(',')})`);
                 url.searchParams.set('select', 'slug,has_availability,seats_remaining,event_date');
 
                 const res = await fetch(url, {
@@ -511,17 +611,11 @@
 
                 if (!res.ok) return;
 
-                const now = new Date();
                 const events = await res.json();
 
                 for (const event of events) {
                     const card = document.querySelector(`.lab-item[data-slug="${event.slug}"]`);
                     if (!card) continue;
-
-                    if (event.event_date && new Date(event.event_date) < now) {
-                        card.style.display = 'none';
-                        continue;
-                    }
 
                     const isFull = !event.has_availability;
                     const label = isFull
@@ -572,7 +666,10 @@
             });
         }
 
-        document.addEventListener('DOMContentLoaded', loadLabSeats);
+        document.addEventListener('DOMContentLoaded', () => {
+            const visibleSlugs = renderUpcomingLabs();
+            loadLabSeats(visibleSlugs);
+        });
 
         (function () {
             const SUBSCRIBE_FUNCTION_URL =
