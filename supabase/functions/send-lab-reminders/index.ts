@@ -622,15 +622,6 @@ function renderPrimaryButton(href: string, label: string): string {
     </div>`;
 }
 
-// Small, visually quiet fallback line that still carries the real Zoom URL in href.
-function renderZoomFallbackLink(zoomLink: string): string {
-  return `
-    <p style="text-align:center;margin:12px 0 0;font-size:13px;line-height:18px;color:#999999;">
-      Having trouble joining?
-      <a href="${esc(zoomLink)}" style="color:#888888;text-decoration:underline;">Open the Zoom link here.</a>
-    </p>`;
-}
-
 // Single-action CTA for the 5-day reminder: the most useful step days out is
 // getting the lab onto the calendar. One button, no competing links.
 function renderCalendarCta(event: LabEvent): string {
@@ -639,15 +630,14 @@ function renderCalendarCta(event: LabEvent): string {
 }
 
 // Single-action CTA for the 24h / 1h / 10min reminders: the only goal close to
-// the lab is joining live. One "Join the Lab" button with the Zoom URL behind
-// it (plus a same-destination fallback link). No competing calendar CTA.
-//   Zoom present → Join the Lab (primary) ▸ quiet same-link fallback
+// the lab is joining live. One "Join the Lab" button with the branded redirect URL.
+// No competing calendar CTA.
+//   Zoom present → Join the Lab (primary, via branded redirect)
 //   Zoom absent  → "sent before the lab" note
 function renderJoinCta(event: LabEvent): string {
   if (event.zoom_link) {
-    return `
-      ${renderPrimaryButton(event.zoom_link, "Join the Lab")}
-      ${renderZoomFallbackLink(event.zoom_link)}`;
+    const joinUrl = `https://www.covomultipliers.com/join-lab.html?event=${encodeURIComponent(event.slug)}`;
+    return renderPrimaryButton(joinUrl, "Join the Lab");
   }
 
   return `

@@ -329,14 +329,18 @@ async function sendEmail({
     ? `https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1/lab-calendar?event=${encodeURIComponent(eventSlug)}`
     : null;
 
+  const joinLabUrl = eventSlug
+    ? `https://www.covomultipliers.com/join-lab.html?event=${encodeURIComponent(eventSlug)}`
+    : null;
+
   // CTA hierarchy: immediately after registration the main behavioral goal is
   // getting the lab onto the calendar, so Add to Calendar is the primary action.
   //   Calendar available → Add to Calendar (primary) ▸ quiet Zoom secondary line
   //   Calendar missing    → fall back to Join the Lab (Zoom) ▸ quiet fallback
   //   Neither             → "sent before the lab" note
-  const zoomSecondaryLink = zoomLink
+  const zoomSecondaryLink = zoomLink && joinLabUrl
     ? `<p style="text-align:center;margin:14px 0 0;font-size:14px;line-height:20px;color:#888888;">
-        When it's time, <a href="${esc(zoomLink)}" style="color:#1b4d3e;text-decoration:underline;font-weight:600;">join the lab here</a>.
+        When it's time, <a href="${esc(joinLabUrl)}" style="color:#1b4d3e;text-decoration:underline;font-weight:600;">join the lab here</a>.
       </p>`
     : "";
 
@@ -351,17 +355,13 @@ async function sendEmail({
         Add it now so it doesn't slip — we'll remind you before we start.
       </p>
       ${zoomSecondaryLink}`
-    : zoomLink
+    : zoomLink && joinLabUrl
     ? `<div style="text-align:center;margin:28px 0 0;">
-        <a href="${esc(zoomLink)}"
+        <a href="${esc(joinLabUrl)}"
            style="display:inline-block;padding:15px 40px;background:#1b4d3e;color:#ffffff;font-size:16px;font-weight:700;text-decoration:none;border-radius:8px;letter-spacing:0.01em;">
           Join the Lab
         </a>
-      </div>
-      <p style="text-align:center;margin:12px 0 0;font-size:13px;line-height:18px;color:#999999;">
-        Having trouble joining?
-        <a href="${esc(zoomLink)}" style="color:#888888;text-decoration:underline;">Open the Zoom link here.</a>
-      </p>`
+      </div>`
     : `<p style="text-align:center;margin:28px 0 0;font-size:14px;line-height:20px;color:#888888;">
         The Zoom link will be sent before the lab.
       </p>`;
