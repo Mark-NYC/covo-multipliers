@@ -59,7 +59,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 const BATCH_SIZE = 100;
 const CALENDAR_BASE = "https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1/lab-calendar";
 
-type ReminderType = "week" | "24h" | "1h" | "10min";
+type ReminderType = "week" | "24h" | "1h" | "10min" | "followup";
 
 interface LabEvent {
   id: string;
@@ -118,8 +118,8 @@ Deno.serve(async (req: Request): Promise<Response> => {
     if (!isEmail(rawTestEmail!)) {
       return jsonResp(400, { error: "test_email must be a valid email address." });
     }
-    if (rawTestType !== "week" && rawTestType !== "24h" && rawTestType !== "1h" && rawTestType !== "10min") {
-      return jsonResp(400, { error: "test_type must be \"week\", \"24h\", \"1h\", or \"10min\"." });
+    if (rawTestType !== "week" && rawTestType !== "24h" && rawTestType !== "1h" && rawTestType !== "10min" && rawTestType !== "followup") {
+      return jsonResp(400, { error: "test_type must be \"week\", \"24h\", \"1h\", \"10min\", or \"followup\"." });
     }
     if (isDryRun) {
       return jsonResp(400, { error: "dry_run and forced test mode cannot both be set." });
@@ -169,7 +169,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
       body: JSON.stringify({
         from: `Covo Multipliers <${fromEmail}>`,
         to: [testEmailAddr],
-        subject: buildSubject(testType, event.title),
+        subject: buildSubject(testType, event.title, event.slug),
         html: buildEmailHtml(testType, "there", event),
       }),
     });
@@ -242,6 +242,11 @@ Deno.serve(async (req: Request): Promise<Response> => {
       upper: addMs(now, 10 * 60 * 1000),
       column: "reminder_10min_sent_at",
     },
+    followup: {
+      lower: addMs(now, -165 * 60 * 1000),
+      upper: addMs(now, -105 * 60 * 1000),
+      column: "followup_sent_at",
+    },
   };
 
   // --- Query all upcoming published events (single query, reused below) ---
@@ -275,9 +280,10 @@ Deno.serve(async (req: Request): Promise<Response> => {
     "24h": { eligible: 0, sent: 0, failed: 0, skipped: 0 },
     "1h": { eligible: 0, sent: 0, failed: 0, skipped: 0 },
     "10min": { eligible: 0, sent: 0, failed: 0, skipped: 0 },
+    followup: { eligible: 0, sent: 0, failed: 0, skipped: 0 },
   };
 
-  for (const type of (["week", "24h", "1h", "10min"] as ReminderType[])) {
+  for (const type of (["week", "24h", "1h", "10min", "followup"] as ReminderType[])) {
     const { lower, upper, column } = windows[type];
 
     // Events whose date falls in this reminder window
@@ -341,7 +347,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
       const batchPayload = chunk.map((r) => ({
         from: `Covo Multipliers <${fromEmail}>`,
         to: [r.email],
-        subject: buildSubject(type, r.event.title),
+        subject: buildSubject(type, r.event.title, r.event.slug),
         html: buildEmailHtml(type, r.name, r.event),
       }));
 
@@ -438,12 +444,30 @@ Deno.serve(async (req: Request): Promise<Response> => {
 // Email subjects
 // ---------------------------------------------------------------------------
 
-function buildSubject(type: ReminderType, eventTitle: string): string {
+function followupVariant(slug: string): number {
+  let hash = 0;
+  for (const char of slug) hash = ((hash << 5) - hash) + char.charCodeAt(0);
+  return Math.abs(hash) % 5;
+}
+
+function buildSubject(type: ReminderType, eventTitle: string, eventSlug?: string): string {
   switch (type) {
     case "week":  return `What you'll walk away with: ${eventTitle}`;
     case "24h":   return `Tomorrow: ${eventTitle}`;
     case "1h":    return `Starting in 1 hour: ${eventTitle}`;
     case "10min": return `We start in 10 minutes`;
+    case "followup": {
+      if (!eventSlug) return "Next step: practice together";
+      const variant = followupVariant(eventSlug);
+      const subjects = [
+        "Don't let this stay in your notes",
+        "Pick one person this week",
+        "The lab is not the finish line",
+        "You need more than information",
+        "What's your follow/fish goal?",
+      ];
+      return subjects[variant];
+    }
   }
 }
 
@@ -457,6 +481,7 @@ function buildEmailHtml(type: ReminderType, fullName: string, event: LabEvent): 
     case "24h":   return build24hEmail(fullName, event);
     case "1h":    return build1hEmail(fullName, event);
     case "10min": return build10minEmail(fullName, event);
+    case "followup": return buildFollowupEmail(fullName, event);
   }
 }
 
@@ -547,6 +572,47 @@ function build10minEmail(fullName: string, event: LabEvent): string {
     </p>
     ${renderTransactionalFooter()}
   `, "We start in 10 minutes");
+}
+
+function buildFollowupEmail(fullName: string, event: LabEvent): string {
+  const firstName = firstWord(fullName);
+  const variant = followupVariant(event.slug);
+
+  const variants = [
+    {
+      heading: "Don't let this stay in your notes",
+      body: `The win is not learning another tool. The win is obeying Jesus with one real person this week. Don't let the insights from the lab fade — put one into practice, with one person, this week.`,
+    },
+    {
+      heading: "Pick one person this week",
+      body: `You don't need to overthink the whole mission field. Don't be paralyzed by the size of the work. Start with one person God has already put near you — at work, at home, in your community.`,
+    },
+    {
+      heading: "The lab is not the finish line",
+      body: `A 45-minute lab can give you the tool and the clarity. But it cannot give you traction. Traction comes from practice — repeating the tool, seeing how it works, learning from real conversations.`,
+    },
+    {
+      heading: "You need more than information",
+      body: `Most people don't get stuck because they lack content. They get stuck because they're trying to practice alone. Join the community and keep practicing with others who are learning the same things.`,
+    },
+    {
+      heading: "What's your follow/fish goal?",
+      body: `Before this fades: name your next step. How will you follow Jesus this week? And who will you fish for — who will you have a spiritual conversation with?`,
+    },
+  ];
+
+  const v = variants[variant];
+
+  return wrapEmail(`
+    <p style="margin:0 0 16px;font-size:16px;color:#1a1a1a;">Hi ${esc(firstName)},</p>
+    <p style="margin:0 0 20px;font-size:15px;color:#444444;line-height:1.65;">
+      ${v.body}
+    </p>
+
+    ${renderFollowupCta(event)}
+
+    ${renderTransactionalFooter()}
+  `, v.heading);
 }
 
 // ---------------------------------------------------------------------------
@@ -644,6 +710,13 @@ function renderJoinCta(event: LabEvent): string {
     <p style="text-align:center;margin:28px 0 0;font-size:14px;line-height:20px;color:#888888;">
       The Zoom link will be sent before the lab.
     </p>`;
+}
+
+// Single-action CTA for the post-lab followup reminder: move from information
+// to practice in community. One button, no competing links.
+function renderFollowupCta(event: LabEvent): string {
+  const nextStepUrl = `https://www.covomultipliers.com/lab-next-step.html?utm_source=email&utm_medium=postlab&utm_campaign=${encodeURIComponent(event.slug)}`;
+  return renderPrimaryButton(nextStepUrl, "Join the community of practice");
 }
 
 function renderTransactionalFooter(): string {
