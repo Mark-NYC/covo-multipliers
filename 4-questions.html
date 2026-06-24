@@ -1707,11 +1707,14 @@
             document.getElementById('registration-card').innerHTML = `
                 <div class="success-state">
                     <div class="success-icon" aria-hidden="true">&#10003;</div>
-                    <h3>You&rsquo;re registered!</h3>
-                    <p>
+                    <h3>You&rsquo;re in.</h3>
+                    <p>Add this to your calendar now so you don&rsquo;t miss it.</p>
+                    <p style="margin-top:1.25rem;">
+                        <a class="btn-pill btn-pill-primary" href="https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1/lab-calendar?event=four-questions">Add to Calendar</a>
+                    </p>
+                    <p style="margin-top:1rem;">
                         A confirmation email is on its way to
-                        <strong>${esc(email)}</strong>
-                        with your event details and Zoom link.
+                        <strong>${esc(email)}</strong>.
                     </p>
                 </div>
             `;

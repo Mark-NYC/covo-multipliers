@@ -329,16 +329,29 @@ async function sendEmail({
     ? `https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1/lab-calendar?event=${encodeURIComponent(eventSlug)}`
     : null;
 
-  // CTA hierarchy mirrors the reminder emails:
-  //   Zoom present → Join the Lab (primary) ▸ quiet fallback ▸ secondary calendar link
-  //   Zoom absent  → Add to Calendar (primary) ▸ "sent before the lab" note
-  const secondaryCalendarLink = calendarUrl
-    ? `<p style="text-align:center;margin:18px 0 0;font-size:14px;line-height:20px;">
-        <a href="${esc(calendarUrl)}" style="color:#1b4d3e;text-decoration:underline;font-weight:600;">Add to calendar</a>
+  // CTA hierarchy: immediately after registration the main behavioral goal is
+  // getting the lab onto the calendar, so Add to Calendar is the primary action.
+  //   Calendar available → Add to Calendar (primary) ▸ quiet Zoom secondary line
+  //   Calendar missing    → fall back to Join the Lab (Zoom) ▸ quiet fallback
+  //   Neither             → "sent before the lab" note
+  const zoomSecondaryLink = zoomLink
+    ? `<p style="text-align:center;margin:14px 0 0;font-size:14px;line-height:20px;color:#888888;">
+        When it's time, <a href="${esc(zoomLink)}" style="color:#1b4d3e;text-decoration:underline;font-weight:600;">join the lab here</a>.
       </p>`
     : "";
 
-  const ctaSection = zoomLink
+  const ctaSection = calendarUrl
+    ? `<div style="text-align:center;margin:28px 0 0;">
+        <a href="${esc(calendarUrl)}"
+           style="display:inline-block;padding:15px 40px;background:#1b4d3e;color:#ffffff;font-size:16px;font-weight:700;text-decoration:none;border-radius:8px;letter-spacing:0.01em;">
+          Add to Calendar
+        </a>
+      </div>
+      <p style="text-align:center;margin:12px 0 0;font-size:14px;line-height:20px;color:#888888;">
+        Add it now so it doesn't slip — we'll remind you before we start.
+      </p>
+      ${zoomSecondaryLink}`
+    : zoomLink
     ? `<div style="text-align:center;margin:28px 0 0;">
         <a href="${esc(zoomLink)}"
            style="display:inline-block;padding:15px 40px;background:#1b4d3e;color:#ffffff;font-size:16px;font-weight:700;text-decoration:none;border-radius:8px;letter-spacing:0.01em;">
@@ -348,17 +361,6 @@ async function sendEmail({
       <p style="text-align:center;margin:12px 0 0;font-size:13px;line-height:18px;color:#999999;">
         Having trouble joining?
         <a href="${esc(zoomLink)}" style="color:#888888;text-decoration:underline;">Open the Zoom link here.</a>
-      </p>
-      ${secondaryCalendarLink}`
-    : calendarUrl
-    ? `<div style="text-align:center;margin:28px 0 0;">
-        <a href="${esc(calendarUrl)}"
-           style="display:inline-block;padding:15px 40px;background:#1b4d3e;color:#ffffff;font-size:16px;font-weight:700;text-decoration:none;border-radius:8px;letter-spacing:0.01em;">
-          Add to Calendar
-        </a>
-      </div>
-      <p style="text-align:center;margin:12px 0 0;font-size:14px;line-height:20px;color:#888888;">
-        The Zoom link will be sent before the lab.
       </p>`
     : `<p style="text-align:center;margin:28px 0 0;font-size:14px;line-height:20px;color:#888888;">
         The Zoom link will be sent before the lab.
@@ -395,8 +397,9 @@ async function sendEmail({
 
               <p style="margin:0 0 16px;font-size:16px;color:#1a1a1a;">Hi ${esc(toName)},</p>
               <p style="margin:0 0 24px;font-size:15px;color:#444444;line-height:1.65;">
-                You're confirmed for the upcoming Covo Multipliers Lab.
-                Here are your details — save this email so you have everything in one place.
+                You're confirmed for <strong>${esc(eventTitle)}</strong>.
+                This is a free 45-minute live lab — practical, simple, and built to use right away.
+                The people who get the most out of it are the ones who show up live.
               </p>
 
               <!-- Event detail rows -->
