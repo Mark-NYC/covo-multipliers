@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DXGLXDTF9V"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-DXGLXDTF9V');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Join the Covo Multipliers community of practice. Move from learning to practice with other leaders.">
+    <title>Next Step: Community of Practice — Covo Multipliers</title>
+    <link rel="canonical" href="https://covomultipliers.com/lab-next-step.html">
+
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                         Helvetica, Arial, sans-serif;
+            background: #f7f6f2;
+            color: #1a1a1a;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        img { max-width: 100%; display: block; }
+
+
+        /* -----------------------------------------------
+           SITE HEADER
+        ----------------------------------------------- */
+
+        .site-header {
+            background: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .site-header .brand {
+            font-size: 0.95rem;
+            font-weight: 900;
+            color: #10281f;
+            text-decoration: none;
+            letter-spacing: -0.01em;
+        }
+
+        .site-header .back-link {
+            font-size: 0.875rem;
+            color: #5a6b65;
+            text-decoration: none;
+            transition: color 0.15s ease;
+        }
+
+        .site-header .back-link:hover { color: #1b4d3e; }
+
+
+        /* -----------------------------------------------
+           HERO
+        ----------------------------------------------- */
+
+        .hero {
+            background: linear-gradient(160deg,
+                #10281f 0%,
+                #1b4d3e 40%,
+                #2c6b5d 70%,
+                #9f7a2f 90%,
+                #dcb55a 100%
+            );
+            padding: 3.5rem 1.5rem 4rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background:
+                radial-gradient(ellipse at 15% 15%, rgba(255,255,255,0.06) 0%, transparent 55%),
+                radial-gradient(ellipse at 85% 85%, rgba(220,181,90,0.10) 0%, transparent 55%);
+        }
+
+        .hero-inner {
+            position: relative;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: clamp(1.8rem, 5vw, 2.8rem);
+            font-weight: 900;
+            color: #ffffff;
+            line-height: 1.2;
+            letter-spacing: -0.03em;
+            margin-bottom: 0.9rem;
+        }
+
+        .hero-sub {
+            font-size: 1.05rem;
+            color: rgba(255,255,255,0.85);
+            line-height: 1.65;
+            max-width: 520px;
+            margin: 0 auto 2.5rem;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: #1b4d3e;
+            color: #ffffff;
+            font-size: 1.05rem;
+            font-weight: 700;
+            font-family: inherit;
+            text-decoration: none;
+            border-radius: 8px;
+            letter-spacing: 0.01em;
+            box-shadow: 0 4px 16px rgba(16,40,31,0.2);
+            transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background: #0f342c;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(16,40,31,0.3);
+        }
+
+        .btn-primary:active { transform: translateY(0); }
+
+        .btn-primary:focus-visible {
+            outline: 3px solid #dcb55a;
+            outline-offset: 4px;
+        }
+
+        @media (max-width: 520px) {
+            .hero { padding: 2.75rem 1.25rem 3.25rem; }
+            .hero h1 { font-size: 1.9rem; }
+            .hero-sub { font-size: 0.95rem; }
+            .btn-primary { font-size: 0.97rem; padding: 0.9rem 1.6rem; }
+        }
+
+
+        /* -----------------------------------------------
+           CONTENT CARDS
+        ----------------------------------------------- */
+
+        .section-stack {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 2.5rem 1.25rem 4rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 2px 8px rgba(16,40,31,0.05);
+        }
+
+        .card-heading {
+            font-size: 1.3rem;
+            font-weight: 900;
+            color: #10281f;
+            letter-spacing: -0.01em;
+            margin-bottom: 1rem;
+        }
+
+        .card-body {
+            font-size: 0.95rem;
+            color: #555555;
+            line-height: 1.7;
+        }
+
+        .card-body strong {
+            display: block;
+            color: #1a1a1a;
+            font-weight: 700;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-body ul {
+            margin: 1rem 0 0 1.5rem;
+            color: #666666;
+        }
+
+        .card-body li {
+            margin-bottom: 0.6rem;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 520px) {
+            .section-stack { padding: 2rem 1rem 3rem; }
+            .card { padding: 1.5rem; }
+        }
+
+
+        /* -----------------------------------------------
+           FOOTER
+        ----------------------------------------------- */
+
+        .site-footer {
+            background: #10281f;
+            padding: 2.5rem 1.5rem;
+        }
+
+        .footer-inner {
+            max-width: 960px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem 3rem;
+            align-items: flex-start;
+        }
+
+        .footer-wordmark {
+            display: block;
+            font-size: 1rem;
+            font-weight: 900;
+            color: #ffffff;
+            letter-spacing: -0.01em;
+            margin-bottom: 0.4rem;
+        }
+
+        .footer-desc {
+            margin: 0;
+            font-size: 0.825rem;
+            color: rgba(255,255,255,0.5);
+            line-height: 1.55;
+            max-width: 280px;
+        }
+
+        .footer-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem 1.5rem;
+            align-items: center;
+        }
+
+        .footer-nav a {
+            font-size: 0.875rem;
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            transition: color 0.15s ease;
+        }
+
+        .footer-nav a:hover { color: #ffffff; }
+    </style>
+</head>
+<body>
+
+    <header class="site-header">
+        <a class="brand" href="/">Covo Multipliers</a>
+        <a class="back-link" href="/">← Back to home</a>
+    </header>
+
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-inner">
+            <h1>Don't let the lab stay in your notes.</h1>
+
+            <p class="hero-sub">
+                The next step is simple: join the community of practice and name one person you'll take a step toward this week.
+            </p>
+
+            <a class="btn-primary" href="https://covomultipliers.com/join-whatsapp?utm_source=email&utm_medium=postlab&utm_campaign=whatsapp">
+                Join the community of practice
+            </a>
+        </div>
+    </section>
+
+
+    <div class="section-stack">
+
+        <!-- First action -->
+        <div class="card">
+            <h2 class="card-heading">What happens next</h2>
+            <p class="card-body">
+                After you join the WhatsApp, post three things:
+            </p>
+            <ul class="card-body">
+                <li><strong>Your name</strong> — so people know who you are</li>
+                <li><strong>Where you live, work, or play</strong> — your oikos</li>
+                <li><strong>One person you'll have a spiritual conversation with this week</strong> — your follow/fish goal</li>
+            </ul>
+            <p class="card-body" style="margin-top: 1.5rem; color: #888888; font-size: 0.9rem;">
+                The community keeps you accountable, helps you practice what you learned, and reminds you that you're not alone in this work.
+            </p>
+        </div>
+
+        <!-- About the practice -->
+        <div class="card">
+            <h2 class="card-heading">Why practice matters</h2>
+            <p class="card-body">
+                The lab gave you a tool. Practice gives you traction. When you use the tool with real people, in real situations, you learn what actually works. You find your rhythm. You build momentum.
+            </p>
+            <p class="card-body">
+                Most people don't fail because they lack content — they fail because they try to practice alone. Join the community. Keep showing up. Let others keep you on track.
+            </p>
+        </div>
+
+    </div>
+
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div>
+                <span class="footer-wordmark">Covo Multipliers</span>
+                <p class="footer-desc">Practical training for everyday leaders who want to make disciples where they live, work, and play.</p>
+            </div>
+            <nav class="footer-nav" aria-label="Footer navigation">
+                <a href="/">Home</a>
+                <a href="/vision.html">Vision & Pathway</a>
+                <a href="/blog/">Blog</a>
+                <a href="/resources.html">Resources</a>
+                <a href="/contact.html">Contact</a>
+            </nav>
+        </div>
+    </footer>
+
+</body>
+</html>
