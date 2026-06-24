@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab Admin Dashboard — CoVo Multipliers</title>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            background: #f4f4f5;
+            color: #1a1a1a;
+            min-height: 100vh;
+        }
+
+        /* Auth screen */
+        #auth-screen {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 24px;
+        }
+
+        .auth-card {
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .auth-card h1 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #10281f;
+        }
+
+        .auth-card p {
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 13px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 9px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #1b4d3e;
+            box-shadow: 0 0 0 3px rgba(27, 77, 62, 0.1);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 9px 18px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: opacity 0.15s;
+            width: 100%;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-primary {
+            background: #1b4d3e;
+            color: #fff;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: #0f342c;
+        }
+
+        .auth-error {
+            color: #dc2626;
+            font-size: 13px;
+            margin-top: 12px;
+        }
+
+        .auth-loading {
+            text-align: center;
+            font-size: 13px;
+            color: #666;
+            margin-top: 12px;
+        }
+
+        /* Dashboard */
+        #app {
+            display: none;
+        }
+
+        header {
+            background: linear-gradient(135deg, #10281f 0%, #1b4d3e 55%, #9f7a2f 100%);
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: #fff;
+        }
+
+        header h1 {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        header .signout {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+
+        header .signout:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .main {
+            padding: 24px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        /* Summary cards */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .card {
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .card-label {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .card-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #10281f;
+            line-height: 1;
+        }
+
+        /* Tables */
+        .table-section {
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            margin-bottom: 24px;
+            overflow: hidden;
+        }
+
+        .table-section h2 {
+            font-size: 16px;
+            font-weight: 700;
+            padding: 16px 20px;
+            border-bottom: 1px solid #e5e7eb;
+            background: #fafafa;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead th {
+            background: #fafafa;
+            padding: 12px 16px;
+            text-align: left;
+            font-size: 12px;
+            font-weight: 600;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        tbody td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 14px;
+        }
+
+        tbody tr:hover {
+            background: #fafafa;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+        }
+
+        .error {
+            background: #fef2f2;
+            color: #991b1b;
+            padding: 16px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .summary-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+            table {
+                font-size: 12px;
+            }
+            thead th, tbody td {
+                padding: 8px 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div id="auth-screen">
+    <div class="auth-card">
+        <h1>Lab Admin Dashboard</h1>
+        <p>Sign in with your email to access the admin dashboard.</p>
+
+        <form id="auth-form">
+            <div id="step-email">
+                <div class="form-group">
+                    <label for="email">Email address</label>
+                    <input type="email" id="email" name="email" required placeholder="name@example.com">
+                </div>
+                <button type="submit" class="btn btn-primary" id="send-code-btn">Send code</button>
+            </div>
+
+            <div id="step-code" style="display: none;">
+                <div class="form-group">
+                    <label for="code">6-digit code</label>
+                    <input type="text" id="code" name="code" placeholder="000000" maxlength="6" pattern="[0-9]{6}">
+                </div>
+                <button type="submit" class="btn btn-primary" id="verify-code-btn">Verify code</button>
+                <button type="button" class="btn btn-ghost" id="back-btn" style="margin-top: 8px;">Back</button>
+            </div>
+        </form>
+
+        <div id="auth-error" class="auth-error"></div>
+        <div id="auth-loading" class="auth-loading"></div>
+    </div>
+</div>
+
+<div id="app">
+    <header>
+        <h1>Lab Admin Dashboard</h1>
+        <button class="signout" id="signout-btn">Sign out</button>
+    </header>
+
+    <div class="main">
+        <div id="error-container"></div>
+
+        <!-- Summary cards -->
+        <div class="summary-grid">
+            <div class="card">
+                <div class="card-label">Total active signups</div>
+                <div class="card-value" id="card-active-signups">—</div>
+            </div>
+            <div class="card">
+                <div class="card-label">Unique registrants</div>
+                <div class="card-value" id="card-unique-registrants">—</div>
+            </div>
+            <div class="card">
+                <div class="card-label">Cancelled signups</div>
+                <div class="card-value" id="card-cancelled">—</div>
+            </div>
+            <div class="card">
+                <div class="card-label">Upcoming labs</div>
+                <div class="card-value" id="card-upcoming-labs">—</div>
+            </div>
+        </div>
+
+        <!-- Per-lab summary table -->
+        <div class="table-section">
+            <h2>Per-Lab Summary</h2>
+            <div id="lab-summary-loading" class="loading">Loading...</div>
+            <table id="lab-summary-table" style="display: none;">
+                <thead>
+                    <tr>
+                        <th>Lab</th>
+                        <th>Event Date</th>
+                        <th>Max Seats</th>
+                        <th>Active Signups</th>
+                        <th>Seats Remaining</th>
+                        <th>Cancelled</th>
+                    </tr>
+                </thead>
+                <tbody id="lab-summary-body"></tbody>
+            </table>
+        </div>
+
+        <!-- Registrant table -->
+        <div class="table-section">
+            <h2>Registrants</h2>
+            <div id="registrant-loading" class="loading">Loading...</div>
+            <table id="registrant-table" style="display: none;">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Lab</th>
+                        <th>Event Date</th>
+                        <th>Status</th>
+                        <th>First UTM</th>
+                        <th>Latest UTM</th>
+                        <th>Registered</th>
+                    </tr>
+                </thead>
+                <tbody id="registrant-body"></tbody>
+            </table>
+        </div>
+
+        <!-- Person summary table -->
+        <div class="table-section">
+            <h2>Person Summary</h2>
+            <div id="person-loading" class="loading">Loading...</div>
+            <table id="person-table" style="display: none;">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Labs Registered</th>
+                        <th>Labs Attended</th>
+                    </tr>
+                </thead>
+                <tbody id="person-body"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script type="module">
+    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+    // Initialize Supabase (using public anon key for auth)
+    const SUPABASE_URL = "https://mryjrvinzbxebzvxtggi.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1yeWpydmluemJ4ZWJ6dnh0Z2dpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTgyNzI5MzIsImV4cCI6MjAzMzg0ODkzMn0.iZv68pFWO4-YPr3TxHMj4HhCM-3VJd-q2oYnTnIH5S8";
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // State
+    let currentEmail = "";
+    let currentSession = null;
+
+    // Auth flow
+    const form = document.getElementById("auth-form");
+    const emailInput = document.getElementById("email");
+    const codeInput = document.getElementById("code");
+    const sendCodeBtn = document.getElementById("send-code-btn");
+    const verifyCodeBtn = document.getElementById("verify-code-btn");
+    const backBtn = document.getElementById("back-btn");
+    const authError = document.getElementById("auth-error");
+    const authLoading = document.getElementById("auth-loading");
+
+    // Check if already logged in
+    supabase.auth.onAuthStateChange((event, session) => {
+        currentSession = session;
+        if (session?.user) {
+            showDashboard();
+        }
+    });
+
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const step = getVisibleStep();
+
+        if (step === "email") {
+            await sendCode();
+        } else if (step === "code") {
+            await verifyCode();
+        }
+    });
+
+    backBtn.addEventListener("click", () => {
+        switchStep("email");
+        authError.textContent = "";
+    });
+
+    async function sendCode() {
+        const email = emailInput.value.trim();
+        if (!email) return;
+
+        authError.textContent = "";
+        authLoading.textContent = "Sending code...";
+        sendCodeBtn.disabled = true;
+
+        try {
+            const { error } = await supabase.auth.signInWithOtp({ email });
+            if (error) throw error;
+
+            currentEmail = email;
+            authLoading.textContent = "Code sent! Check your email.";
+            switchStep("code");
+            codeInput.focus();
+        } catch (err) {
+            authError.textContent = err.message || "Failed to send code";
+            authLoading.textContent = "";
+        } finally {
+            sendCodeBtn.disabled = false;
+        }
+    }
+
+    async function verifyCode() {
+        const code = codeInput.value.trim();
+        if (!code || code.length !== 6) {
+            authError.textContent = "Please enter a valid 6-digit code";
+            return;
+        }
+
+        authError.textContent = "";
+        authLoading.textContent = "Verifying...";
+        verifyCodeBtn.disabled = true;
+
+        try {
+            const { data, error } = await supabase.auth.verifyOtp({
+                email: currentEmail,
+                token: code,
+                type: "email"
+            });
+            if (error) throw error;
+
+            authLoading.textContent = "";
+            // Session will be set by auth state listener
+        } catch (err) {
+            authError.textContent = err.message || "Invalid code";
+            authLoading.textContent = "";
+        } finally {
+            verifyCodeBtn.disabled = false;
+        }
+    }
+
+    function switchStep(step) {
+        document.getElementById("step-email").style.display = step === "email" ? "block" : "none";
+        document.getElementById("step-code").style.display = step === "code" ? "block" : "none";
+    }
+
+    function getVisibleStep() {
+        return document.getElementById("step-email").style.display !== "none" ? "email" : "code";
+    }
+
+    // Dashboard
+    document.getElementById("signout-btn").addEventListener("click", async () => {
+        await supabase.auth.signOut();
+        document.getElementById("app").style.display = "none";
+        document.getElementById("auth-screen").style.display = "flex";
+        document.getElementById("auth-form").reset();
+        switchStep("email");
+    });
+
+    async function showDashboard() {
+        document.getElementById("auth-screen").style.display = "none";
+        document.getElementById("app").style.display = "block";
+
+        const token = currentSession?.access_token;
+        if (!token) {
+            showError("No access token found");
+            return;
+        }
+
+        await loadDashboardData(token);
+    }
+
+    async function loadDashboardData(token) {
+        try {
+            const response = await fetch(
+                `${SUPABASE_URL}/functions/v1/lab-admin`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Authorization": `Bearer ${token}`,
+                        "Content-Type": "application/json"
+                    }
+                }
+            );
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(`${response.status}: ${errorText}`);
+            }
+
+            const data = await response.json();
+            populateDashboard(data);
+        } catch (err) {
+            showError(err.message);
+        }
+    }
+
+    function populateDashboard(data) {
+        // Summary cards
+        document.getElementById("card-active-signups").textContent = data.summaryStats.totalActiveSignups;
+        document.getElementById("card-unique-registrants").textContent = data.summaryStats.totalUniqueRegistrants;
+        document.getElementById("card-cancelled").textContent = data.summaryStats.totalCancelledSignups;
+        document.getElementById("card-upcoming-labs").textContent = data.summaryStats.upcomingLabCount;
+
+        // Lab summary table
+        const labSummaryBody = document.getElementById("lab-summary-body");
+        labSummaryBody.innerHTML = "";
+        data.labSummary.forEach(lab => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td><strong>${lab.slug}</strong></td>
+                <td>${new Date(lab.event_date).toLocaleDateString()}</td>
+                <td>${lab.max_seats || "N/A"}</td>
+                <td>${lab.active_signups}</td>
+                <td>${lab.seats_remaining !== null ? lab.seats_remaining : "N/A"}</td>
+                <td>${lab.cancelled_signups}</td>
+            `;
+            labSummaryBody.appendChild(row);
+        });
+        document.getElementById("lab-summary-loading").style.display = "none";
+        document.getElementById("lab-summary-table").style.display = "table";
+
+        // Registrant table
+        const registrantBody = document.getElementById("registrant-body");
+        registrantBody.innerHTML = "";
+        data.registrants.forEach(reg => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>${reg.name}</td>
+                <td>${reg.email}</td>
+                <td>${reg.event_slug}</td>
+                <td>${new Date(reg.event_date).toLocaleDateString()}</td>
+                <td>${reg.registration_status}</td>
+                <td>${reg.utm_source_first || "—"}</td>
+                <td>${reg.utm_source_latest || "—"}</td>
+                <td>${new Date(reg.created_at).toLocaleDateString()}</td>
+            `;
+            registrantBody.appendChild(row);
+        });
+        document.getElementById("registrant-loading").style.display = "none";
+        document.getElementById("registrant-table").style.display = "table";
+
+        // Person summary table
+        const personBody = document.getElementById("person-body");
+        personBody.innerHTML = "";
+        data.personSummary.forEach(person => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>${person.name}</td>
+                <td>${person.email}</td>
+                <td>${person.labs_registered}</td>
+                <td>${person.labs_attended}</td>
+            `;
+            personBody.appendChild(row);
+        });
+        document.getElementById("person-loading").style.display = "none";
+        document.getElementById("person-table").style.display = "table";
+    }
+
+    function showError(message) {
+        const errorContainer = document.getElementById("error-container");
+        errorContainer.innerHTML = `<div class="error">${message}</div>`;
+    }
+</script>
+
+</body>
+</html>
