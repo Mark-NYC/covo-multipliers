@@ -609,6 +609,10 @@ function buildFollowupEmail(fullName: string, event: LabEvent): string {
       ${v.body}
     </p>
 
+    <p style="margin:0 0 24px;font-size:13px;color:#888888;line-height:1.6;font-style:italic;">
+      Already in the WhatsApp? Jump back in and post your follow/fish goal.
+    </p>
+
     ${renderFollowupCta(event)}
 
     ${renderTransactionalFooter()}
