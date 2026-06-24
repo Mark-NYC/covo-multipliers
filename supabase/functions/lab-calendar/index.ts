@@ -1,5 +1,8 @@
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
 interface LabEvent {
   slug: string;
+  dbSlug: string;
   title: string;
   date: string;
   startTime: string;
@@ -14,6 +17,7 @@ interface LabEvent {
 const LAB_EVENTS: Record<string, LabEvent> = {
   "aquila-priscilla-pattern": {
     slug: "aquila-priscilla-pattern",
+    dbSlug: "aquila-and-priscilla-pattern-jul-2026",
     title: "The Aquila and Priscilla Pattern",
     date: "2026-07-15",
     startTime: "15:00",
@@ -28,6 +32,7 @@ const LAB_EVENTS: Record<string, LabEvent> = {
   },
   "four-questions": {
     slug: "four-questions",
+    dbSlug: "4-questions-to-get-started-august-2026",
     title: "4 Questions to Get Started Making Disciples",
     date: "2026-08-19",
     startTime: "15:00",
@@ -42,6 +47,7 @@ const LAB_EVENTS: Record<string, LabEvent> = {
   },
   "church-circle-lab": {
     slug: "church-circle-lab",
+    dbSlug: "church-circle-september-2026",
     title: "The Church Circle",
     date: "2026-09-16",
     startTime: "15:00",
@@ -56,6 +62,7 @@ const LAB_EVENTS: Record<string, LabEvent> = {
   },
   "disciple-making-rhythm": {
     slug: "disciple-making-rhythm",
+    dbSlug: "disciple-making-rhythm-october-2026",
     title: "From Intention to Disciple-Making Traction",
     date: "2026-10-21",
     startTime: "15:00",
@@ -79,6 +86,41 @@ LAB_EVENTS["disciple-making-rhythm-october-2026"] = LAB_EVENTS["disciple-making-
 
 function getLabEvent(slug: string): LabEvent | null {
   return LAB_EVENTS[slug] ?? null;
+}
+
+// Look up the live Zoom join link for a lab from Supabase at request time.
+// We deliberately do NOT hardcode Zoom links in this file so they never enter
+// the git repository. Returns null on any failure so the calendar download
+// always succeeds (it just falls back to the "sent before the lab" wording).
+//
+// NOTE: this endpoint is public and unauthenticated, so any Zoom link returned
+// here is effectively public for that lab's slug. That is an accepted tradeoff:
+// each lab uses a unique link, the meetings have Zoom Waiting Room enabled, and
+// a leaked link can be rotated per-lab without affecting others.
+async function getZoomLink(dbSlug: string): Promise<string | null> {
+  try {
+    const supabaseUrl = Deno.env.get("SUPABASE_URL");
+    const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+    if (!supabaseUrl || !serviceKey) return null;
+
+    const supabase = createClient(supabaseUrl, serviceKey, {
+      auth: { persistSession: false },
+    });
+
+    const { data, error } = await supabase
+      .from("events")
+      .select("zoom_link")
+      .eq("slug", dbSlug)
+      .eq("is_published", true)
+      .single();
+
+    if (error || !data) return null;
+    const link = (data as { zoom_link: string | null }).zoom_link;
+    return link && link.trim().length > 0 ? link.trim() : null;
+  } catch (err) {
+    console.error("lab-calendar getZoomLink failed", err);
+    return null;
+  }
 }
 
 const ALLOWED_ORIGINS = [
@@ -168,7 +210,21 @@ Deno.serve(async (req: Request) => {
   const dtstart = toIcsDateTime(event.date, event.startTime);
   const dtend = toIcsDateTime(event.date, event.endTime);
 
-  const ics = [
+  // Pull the live Zoom link from the DB. When present, the calendar event makes
+  // it easy to join live (LOCATION: Zoom + link in DESCRIPTION, URL, CONFERENCE).
+  // When absent, fall back to the existing "sent before the lab" wording.
+  const zoomLink = await getZoomLink(event.dbSlug);
+  console.log("lab-calendar zoom link present", Boolean(zoomLink));
+
+  const location = zoomLink ? "Zoom" : event.location;
+  const description = zoomLink
+    ? `Join on Zoom: ${zoomLink}\n\n${event.description}`
+    : event.calendarDescription;
+  // URI-typed properties (URL, CONFERENCE) are not text-escaped, matching the
+  // existing URL handling. When Zoom exists, point the event at the join link.
+  const eventUrl = zoomLink ?? event.url;
+
+  const lines = [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",
     "PRODID:-//CoVo Multipliers//Labs//EN",
@@ -180,12 +236,20 @@ Deno.serve(async (req: Request) => {
     `DTSTART;TZID=${event.timezone}:${dtstart}`,
     `DTEND;TZID=${event.timezone}:${dtend}`,
     `SUMMARY:${escapeIcsText(event.title)}`,
-    `DESCRIPTION:${escapeIcsText(event.calendarDescription)}`,
-    `LOCATION:${escapeIcsText(event.location)}`,
-    `URL:${event.url}`,
-    "END:VEVENT",
-    "END:VCALENDAR",
-  ].join("\r\n");
+    `DESCRIPTION:${escapeIcsText(description)}`,
+    `LOCATION:${escapeIcsText(location)}`,
+    `URL:${eventUrl}`,
+  ];
+
+  // Dedicated conferencing property (RFC 7986) for clients that surface a
+  // "Join" button directly from the calendar event.
+  if (zoomLink) {
+    lines.push(`CONFERENCE;VALUE=URI;FEATURE=VIDEO;LABEL=Zoom:${zoomLink}`);
+  }
+
+  lines.push("END:VEVENT", "END:VCALENDAR");
+
+  const ics = lines.join("\r\n");
 
   console.log("lab-calendar returning ICS", event.slug);
   return new Response(ics, {
