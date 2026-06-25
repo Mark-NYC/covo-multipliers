@@ -263,6 +263,12 @@
             thead th, tbody td {
                 padding: 8px 12px;
             }
+            /* On mobile, the registrant table shows only Name (col 1) and
+               Lab (col 3) — the two pieces of info that matter at a glance. */
+            #registrant-table th:not(:nth-child(1)):not(:nth-child(3)),
+            #registrant-table td:not(:nth-child(1)):not(:nth-child(3)) {
+                display: none;
+            }
         }
     </style>
 </head>
