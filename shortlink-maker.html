@@ -413,11 +413,33 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        // Initialize Supabase client
-        const supabase = window.supabase.createClient(
-            'https://mryjrvinzbxebzvxtggi.supabase.co',
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1yeWpydmluemJ4ZWJ6dnh0Z2dpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYyNzQ3MzksImV4cCI6MjA5MTg1MDczOX0.U1JJQTBVKePsVFXr2oFRCdUZasWaZiTQg6g8QrFdRyw'
-        );
+        // Wait for Supabase to load
+        let supabase;
+
+        function initSupabase() {
+            console.log('[DEBUG] initSupabase called');
+            console.log('[DEBUG] window.supabase exists?', !!window.supabase);
+
+            if (!window.supabase) {
+                console.error('[ERROR] Supabase library not loaded');
+                return;
+            }
+
+            console.log('[DEBUG] Creating Supabase client...');
+            supabase = window.supabase.createClient(
+                'https://mryjrvinzbxebzvxtggi.supabase.co',
+                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1yeWpydmluemJ4ZWJ6dnh0Z2dpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYyNzQ3MzksImV4cCI6MjA5MTg1MDczOX0.U1JJQTBVKePsVFXr2oFRCdUZasWaZiTQg6g8QrFdRyw'
+            );
+            console.log('[DEBUG] Supabase client created:', !!supabase);
+        }
+
+        // Initialize Supabase when page loads
+        console.log('[DEBUG] Script loaded, readyState:', document.readyState);
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initSupabase);
+        } else {
+            initSupabase();
+        }
 
         const form = document.getElementById('shortlinkForm');
         const longUrlInput = document.getElementById('longUrl');
@@ -440,12 +462,16 @@
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
+            console.log('[DEBUG] Form submitted');
+            console.log('[DEBUG] Supabase client available?', !!supabase);
+
             errorMessage.classList.remove('show');
             errorMessage.textContent = '';
 
             const longUrl = longUrlInput.value.trim();
 
             if (!longUrl) {
+                console.warn('[WARN] No URL entered');
                 showError('Please enter a URL');
                 return;
             }
@@ -453,7 +479,9 @@
             // Validate URL
             try {
                 new URL(longUrl);
+                console.log('[DEBUG] URL is valid:', longUrl);
             } catch {
+                console.error('[ERROR] Invalid URL:', longUrl);
                 showError('Invalid URL format');
                 return;
             }
@@ -462,13 +490,23 @@
             btnText.innerHTML = '<span class="loading"></span>';
 
             try {
+                console.log('[DEBUG] Starting shortlink creation...');
+
+                if (!supabase) {
+                    throw new Error('Supabase client not initialized');
+                }
+
                 // Generate unique short code
                 let shortCode = '';
                 let attempts = 0;
                 const maxAttempts = 10;
 
+                console.log('[DEBUG] Generating unique short code...');
+
                 while (attempts < maxAttempts) {
                     shortCode = generateShortCode();
+                    console.log(`[DEBUG] Attempt ${attempts + 1}: checking code ${shortCode}`);
+
                     const { data: existing, error: checkError } = await supabase
                         .from('shortlinks')
                         .select('short_code')
@@ -476,10 +514,14 @@
                         .limit(1);
 
                     if (checkError) {
-                        console.error('Check error:', checkError);
+                        console.error('[ERROR] Check error:', checkError);
+                        throw checkError;
                     }
 
+                    console.log('[DEBUG] Query result:', existing);
+
                     if (!existing || existing.length === 0) {
+                        console.log('[DEBUG] Found unique code:', shortCode);
                         break;
                     }
                     attempts++;
@@ -489,7 +531,7 @@
                     throw new Error('Failed to generate unique short code');
                 }
 
-                console.log('Inserting shortlink with code:', shortCode);
+                console.log('[DEBUG] Inserting shortlink with code:', shortCode);
 
                 // Insert shortlink
                 const { data, error } = await supabase
