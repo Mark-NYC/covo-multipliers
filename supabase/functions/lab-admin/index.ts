@@ -13,6 +13,20 @@
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
+const ALLOWED_ORIGINS = [
+  "https://covomultipliers.com",
+  "https://www.covomultipliers.com",
+];
+
+function corsHeaders(origin: string | null): Record<string, string> {
+  const allowed = origin && ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[1];
+  return {
+    "Access-Control-Allow-Origin": allowed,
+    "Access-Control-Allow-Methods": "GET, OPTIONS",
+    "Access-Control-Allow-Headers": "Authorization, Content-Type",
+  };
+}
+
 interface LabSummary {
   id: string;
   slug: string;
@@ -52,23 +66,31 @@ interface DashboardData {
   personSummary: PersonSummary[];
 }
 
-function jsonResp(status: number, data: unknown): Response {
+function jsonResp(status: number, data: unknown, cors: Record<string, string> = {}): Response {
   return new Response(JSON.stringify(data), {
     status,
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", ...cors },
   });
 }
 
 Deno.serve(async (req: Request): Promise<Response> => {
+  const origin = req.headers.get("origin");
+  const cors = corsHeaders(origin);
+
+  // --- Preflight ---
+  if (req.method === "OPTIONS") {
+    return new Response(null, { status: 204, headers: cors });
+  }
+
   // --- Only GET allowed ---
   if (req.method !== "GET") {
-    return jsonResp(405, { error: "Method not allowed" });
+    return jsonResp(405, { error: "Method not allowed" }, cors);
   }
 
   // --- Extract and verify JWT ---
   const authHeader = req.headers.get("Authorization");
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return jsonResp(401, { error: "Missing Authorization header" });
+    return jsonResp(401, { error: "Missing Authorization header" }, cors);
   }
 
   const token = authHeader.substring("Bearer ".length);
@@ -84,7 +106,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
 
   if (authError || !authData.user) {
     console.warn("[lab-admin] JWT verification failed:", authError?.message);
-    return jsonResp(401, { error: "Unauthorized" });
+    return jsonResp(401, { error: "Unauthorized" }, cors);
   }
 
   const userEmail = authData.user.email;
@@ -95,7 +117,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
 
   if (!allowList.includes(userEmail)) {
     console.warn(`[lab-admin] forbidden — ${userEmail} not in allowlist`);
-    return jsonResp(403, { error: "Forbidden" });
+    return jsonResp(403, { error: "Forbidden" }, cors);
   }
 
   // --- Use service role to query data ---
@@ -299,9 +321,9 @@ Deno.serve(async (req: Request): Promise<Response> => {
       personSummary,
     };
 
-    return jsonResp(200, dashboard);
+    return jsonResp(200, dashboard, cors);
   } catch (err) {
     console.error("[lab-admin] error:", err);
-    return jsonResp(500, { error: err instanceof Error ? err.message : "Internal server error" });
+    return jsonResp(500, { error: err instanceof Error ? err.message : "Internal server error" }, cors);
   }
 });
