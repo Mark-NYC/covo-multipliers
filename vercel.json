@@ -4,6 +4,7 @@
     {
       "source": "/join-whatsapp",
       "destination": "https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1/join-whatsapp"
-    }
+    },
+    { "source": "/s/(.*)", "destination": "/s/index.html" }
   ]
 }
