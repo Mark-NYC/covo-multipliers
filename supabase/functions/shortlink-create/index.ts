@@ -12,9 +12,6 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 const ALLOWED_ORIGINS = new Set([
   "https://covomultipliers.com",
   "https://www.covomultipliers.com",
-  "http://localhost:3000",
-  "http://localhost:5173",
-  "http://localhost:8000",
 ]);
 
 const BASE_DOMAIN = "https://covomultipliers.com";
@@ -51,11 +48,11 @@ function generateShortCode(): string {
   return code;
 }
 
-async function createShortlink(
-  req: Request,
-  supabase: ReturnType<typeof createClient>
-): Promise<Response> {
+Deno.serve(async (req: Request): Promise<Response> => {
   const cors = corsHeaders(req);
+
+  if (req.method === "OPTIONS") return new Response(null, { status: 204, headers: cors });
+  if (req.method !== "POST") return json(405, { error: "Method not allowed" }, cors);
 
   try {
     const body = await req.json();
@@ -75,6 +72,16 @@ async function createShortlink(
     } catch (err) {
       return json(400, { error: "Invalid URL format" }, cors);
     }
+
+    const supabaseUrl = Deno.env.get("SUPABASE_URL");
+    const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+
+    if (!supabaseUrl || !supabaseServiceKey) {
+      console.error("Missing Supabase credentials");
+      return json(500, { error: "Server configuration error" }, cors);
+    }
+
+    const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
     // Generate unique short code
     let short_code = "";
@@ -134,39 +141,4 @@ async function createShortlink(
     console.error("Error creating shortlink:", err);
     return json(500, { error: "Server error" }, cors);
   }
-}
-
-export default async function handler(req: Request): Promise<Response> {
-  const cors = corsHeaders(req);
-
-  // Handle CORS preflight
-  if (req.method === "OPTIONS") {
-    return new Response(null, {
-      status: 200,
-      headers: {
-        ...cors,
-        "Content-Type": "application/json",
-      }
-    });
-  }
-
-  if (req.method !== "POST") {
-    return json(405, { error: "Method not allowed" }, cors);
-  }
-
-  try {
-    const supabaseUrl = Deno.env.get("SUPABASE_URL");
-    const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
-
-    if (!supabaseUrl || !supabaseServiceKey) {
-      console.error("Missing Supabase credentials");
-      return json(500, { error: "Server configuration error" }, cors);
-    }
-
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
-    return await createShortlink(req, supabase);
-  } catch (error) {
-    console.error("Handler error:", error);
-    return json(500, { error: "Internal server error" }, cors);
-  }
-}
+});
