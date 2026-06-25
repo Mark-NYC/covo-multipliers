@@ -35,6 +35,16 @@ interface LabSummary {
   max_seats: number | null;
   active_signups: number;
   seats_remaining: number | null;
+  days_left: number;
+  // Pace vs. benchmark: expected signups by this point based on past labs.
+  // Null when there is no historical lab to anchor the benchmark.
+  expected_signups: number | null;
+  pace_delta_pct: number | null;
+}
+
+interface ChannelStat {
+  source: string;
+  count: number;
 }
 
 interface Registrant {
@@ -61,7 +71,11 @@ interface DashboardData {
     totalActiveSignups: number;
     totalUniqueRegistrants: number;
     upcomingLabCount: number;
+    signupsLast24h: number;
+    signupsLast7d: number;
+    benchmarkLabCount: number;
   };
+  channelBreakdown: ChannelStat[];
   labSummary: LabSummary[];
   registrants: Registrant[];
   personSummary: PersonSummary[];
@@ -138,25 +152,29 @@ Deno.serve(async (req: Request): Promise<Response> => {
     //   lab_attendance: registration_id (FK -> registrations.id), status
     //                   (no event_id / email column; join via registration_id)
     // -----------------------------------------------------------------------
-    // Only current/future labs: include anything from the start of today onward.
+    const DAY_MS = 24 * 60 * 60 * 1000;
+    const now = new Date();
+    // Current/future labs: anything from the start of today onward.
     const startOfToday = new Date();
     startOfToday.setUTCHours(0, 0, 0, 0);
 
+    // Fetch ALL published labs. Upcoming labs are displayed; past labs are used
+    // only to compute the signup-pace benchmark.
     const { data: events, error: eventsError } = await supabaseAdmin
       .from("events")
       .select("id, slug, title, event_date, seat_limit")
       .eq("is_published", true)
-      .gte("event_date", startOfToday.toISOString())
       .order("event_date", { ascending: true });
 
     if (eventsError) throw new Error(`events: ${eventsError.message}`);
 
     const allEvents = events || [];
+    const upcomingEvents = allEvents.filter((e: any) => new Date(e.event_date) >= startOfToday);
+    const pastEvents = allEvents.filter((e: any) => new Date(e.event_date) < startOfToday);
 
-    // Lookup map + the set of event IDs we surface on the dashboard.
     const eventById = new Map<string, any>();
     allEvents.forEach((e: any) => eventById.set(e.id, e));
-    const currentEventIds = new Set(allEvents.map((e: any) => e.id));
+    const upcomingEventIds = new Set(upcomingEvents.map((e: any) => e.id));
 
     const { data: regsRaw, error: regsError } = await supabaseAdmin
       .from("registrations")
@@ -171,26 +189,74 @@ Deno.serve(async (req: Request): Promise<Response> => {
 
     if (attError) throw new Error(`attendance: ${attError.message}`);
 
-    // Scope registrations to current/future labs only.
-    const allRegs = (regsRaw || []).filter((r: any) => currentEventIds.has(r.event_id));
+    const allRegsFull = regsRaw || [];
     const allAttendance = attendance || [];
+
+    // Active registrations grouped by event (used for per-lab counts + benchmark).
+    const activeRegsByEvent = new Map<string, any[]>();
+    allRegsFull.forEach((r: any) => {
+      if (r.registration_status !== "active") return;
+      if (!activeRegsByEvent.has(r.event_id)) activeRegsByEvent.set(r.event_id, []);
+      activeRegsByEvent.get(r.event_id)!.push(r);
+    });
+
+    // Registrations scoped to current/future labs (display: tables + person summary).
+    const allRegs = allRegsFull.filter((r: any) => upcomingEventIds.has(r.event_id));
 
     const regById = new Map<string, any>();
     allRegs.forEach((r: any) => regById.set(r.id, r));
 
     // --- Summary stats ---
-    const totalActiveSignups = allRegs.filter((r: any) => r.registration_status === "active").length;
-    const totalUniqueRegistrants = new Set(
-      allRegs.filter((r: any) => r.registration_status === "active").map((r: any) => r.email),
-    ).size;
+    const activeUpcomingRegs = allRegs.filter((r: any) => r.registration_status === "active");
+    const totalActiveSignups = activeUpcomingRegs.length;
+    const totalUniqueRegistrants = new Set(activeUpcomingRegs.map((r: any) => r.email)).size;
+    const upcomingLabCount = upcomingEvents.length;
 
-    // All current/future published labs (the same set shown in the per-lab table).
-    const upcomingLabCount = allEvents.length;
+    // --- Signup velocity (active signups for upcoming labs, by recency) ---
+    const signupsLast24h = activeUpcomingRegs.filter(
+      (r: any) => now.getTime() - new Date(r.created_at).getTime() <= DAY_MS,
+    ).length;
+    const signupsLast7d = activeUpcomingRegs.filter(
+      (r: any) => now.getTime() - new Date(r.created_at).getTime() <= 7 * DAY_MS,
+    ).length;
 
-    // --- Per-lab summary ---
-    const labSummary: LabSummary[] = allEvents.map((event: any) => {
-      const eventRegs = allRegs.filter((r: any) => r.event_id === event.id);
-      const activeCount = eventRegs.filter((r: any) => r.registration_status === "active").length;
+    // --- Channel breakdown (first-touch source for upcoming-lab signups) ---
+    const channelMap = new Map<string, number>();
+    activeUpcomingRegs.forEach((r: any) => {
+      const source = (r.first_utm_source || r.utm_source || "direct / unknown").toString();
+      channelMap.set(source, (channelMap.get(source) || 0) + 1);
+    });
+    const channelBreakdown: ChannelStat[] = Array.from(channelMap.entries())
+      .map(([source, count]) => ({ source, count }))
+      .sort((a, b) => b.count - a.count);
+
+    // --- Pace benchmark helper ---
+    // For a lab, how many active signups it had by D days before its event date.
+    const signupsByDaysBefore = (event: any, daysBefore: number): number => {
+      const cutoff = new Date(event.event_date).getTime() - daysBefore * DAY_MS;
+      const regs = activeRegsByEvent.get(event.id) || [];
+      return regs.filter((r: any) => new Date(r.created_at).getTime() <= cutoff).length;
+    };
+    const benchmarkLabCount = pastEvents.length;
+
+    // --- Per-lab summary (with pace vs. benchmark) ---
+    const labSummary: LabSummary[] = upcomingEvents.map((event: any) => {
+      const activeCount = (activeRegsByEvent.get(event.id) || []).length;
+      const daysLeft = Math.max(0, Math.ceil((new Date(event.event_date).getTime() - now.getTime()) / DAY_MS));
+
+      // Expected signups by now = average of how many each past lab had at the
+      // same days-before-event mark.
+      let expectedSignups: number | null = null;
+      let paceDeltaPct: number | null = null;
+      if (pastEvents.length > 0) {
+        const samples = pastEvents.map((p: any) => signupsByDaysBefore(p, daysLeft));
+        const avg = samples.reduce((a: number, b: number) => a + b, 0) / samples.length;
+        expectedSignups = Math.round(avg * 10) / 10;
+        if (avg > 0) {
+          paceDeltaPct = Math.round(((activeCount - avg) / avg) * 100);
+        }
+      }
+
       return {
         id: event.id,
         title: event.title || event.slug,
@@ -199,6 +265,9 @@ Deno.serve(async (req: Request): Promise<Response> => {
         max_seats: event.seat_limit ?? null,
         active_signups: activeCount,
         seats_remaining: event.seat_limit != null ? Math.max(event.seat_limit - activeCount, 0) : null,
+        days_left: daysLeft,
+        expected_signups: expectedSignups,
+        pace_delta_pct: paceDeltaPct,
       };
     });
 
@@ -261,7 +330,11 @@ Deno.serve(async (req: Request): Promise<Response> => {
         totalActiveSignups,
         totalUniqueRegistrants,
         upcomingLabCount,
+        signupsLast24h,
+        signupsLast7d,
+        benchmarkLabCount,
       },
+      channelBreakdown,
       labSummary,
       registrants,
       personSummary,

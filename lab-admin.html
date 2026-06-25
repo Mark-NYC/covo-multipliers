@@ -308,6 +308,14 @@
         <!-- Summary cards -->
         <div class="summary-grid">
             <div class="card">
+                <div class="card-label">Signups · last 24h</div>
+                <div class="card-value" id="card-signups-24h">—</div>
+            </div>
+            <div class="card">
+                <div class="card-label">Signups · last 7d</div>
+                <div class="card-value" id="card-signups-7d">—</div>
+            </div>
+            <div class="card">
                 <div class="card-label">Total active signups</div>
                 <div class="card-value" id="card-active-signups">—</div>
             </div>
@@ -330,12 +338,30 @@
                     <tr>
                         <th>Lab</th>
                         <th>Event Date</th>
+                        <th>Days Left</th>
                         <th>Max Seats</th>
                         <th>Active Signups</th>
                         <th>Seats Remaining</th>
+                        <th>Pace vs. usual</th>
                     </tr>
                 </thead>
                 <tbody id="lab-summary-body"></tbody>
+            </table>
+            <p id="pace-note" style="display: none; padding: 12px 20px; font-size: 12px; color: #888; border-top: 1px solid #f0f0f0;"></p>
+        </div>
+
+        <!-- Channel breakdown -->
+        <div class="table-section">
+            <h2>Signups by Channel (first touch)</h2>
+            <div id="channel-loading" class="loading">Loading...</div>
+            <table id="channel-table" style="display: none;">
+                <thead>
+                    <tr>
+                        <th>Source</th>
+                        <th>Signups</th>
+                    </tr>
+                </thead>
+                <tbody id="channel-body"></tbody>
             </table>
         </div>
 
@@ -481,8 +507,32 @@
         }
     }
 
+    function paceCell(lab) {
+        // No benchmark yet (no past labs) or expected couldn't be computed.
+        if (lab.expected_signups === null) {
+            return `<span style="color:#999;">No benchmark</span>`;
+        }
+        const exp = lab.expected_signups;
+        const title = `Expected ~${exp} by ${lab.days_left} days out, based on past labs`;
+        if (lab.pace_delta_pct === null) {
+            // Expected was 0 — any signups are ahead of the historical norm.
+            const label = lab.active_signups > 0 ? "Ahead" : "On track";
+            return `<span title="${title}" style="color:#15803d;">${label}</span>`;
+        }
+        const d = lab.pace_delta_pct;
+        let color = "#a16207"; // amber = roughly on track
+        let sign = "";
+        if (d > 10) { color = "#15803d"; sign = "+"; }      // green ahead
+        else if (d < -10) { color = "#b91c1c"; }            // red behind
+        else { sign = d >= 0 ? "+" : ""; }
+        return `<span title="${title}" style="color:${color}; font-weight:600;">${sign}${d}%</span>`
+            + ` <span style="color:#999;">(exp ${exp})</span>`;
+    }
+
     function populateDashboard(data) {
         // Summary cards
+        document.getElementById("card-signups-24h").textContent = data.summaryStats.signupsLast24h;
+        document.getElementById("card-signups-7d").textContent = data.summaryStats.signupsLast7d;
         document.getElementById("card-active-signups").textContent = data.summaryStats.totalActiveSignups;
         document.getElementById("card-unique-registrants").textContent = data.summaryStats.totalUniqueRegistrants;
         document.getElementById("card-upcoming-labs").textContent = data.summaryStats.upcomingLabCount;
@@ -495,14 +545,41 @@
             row.innerHTML = `
                 <td><strong>${lab.title}</strong></td>
                 <td>${new Date(lab.event_date).toLocaleDateString()}</td>
+                <td>${lab.days_left}</td>
                 <td>${lab.max_seats || "N/A"}</td>
                 <td>${lab.active_signups}</td>
                 <td>${lab.seats_remaining !== null ? lab.seats_remaining : "N/A"}</td>
+                <td>${paceCell(lab)}</td>
             `;
             labSummaryBody.appendChild(row);
         });
         document.getElementById("lab-summary-loading").style.display = "none";
         document.getElementById("lab-summary-table").style.display = "table";
+
+        // Pace benchmark honesty note
+        const paceNote = document.getElementById("pace-note");
+        const n = data.summaryStats.benchmarkLabCount;
+        if (n === 0) {
+            paceNote.textContent = "Pace vs. usual needs at least one completed lab to compare against. No past labs yet.";
+        } else {
+            paceNote.textContent = `Pace vs. usual compares each lab to the average of ${n} past lab${n === 1 ? "" : "s"} at the same days-before-event. ${n < 4 ? "Treat as directional until more labs complete." : ""}`.trim();
+        }
+        paceNote.style.display = "block";
+
+        // Channel breakdown table
+        const channelBody = document.getElementById("channel-body");
+        channelBody.innerHTML = "";
+        if (!data.channelBreakdown || data.channelBreakdown.length === 0) {
+            channelBody.innerHTML = `<tr><td colspan="2" style="color:#999;">No signups yet.</td></tr>`;
+        } else {
+            data.channelBreakdown.forEach(ch => {
+                const row = document.createElement("tr");
+                row.innerHTML = `<td>${ch.source}</td><td>${ch.count}</td>`;
+                channelBody.appendChild(row);
+            });
+        }
+        document.getElementById("channel-loading").style.display = "none";
+        document.getElementById("channel-table").style.display = "table";
 
         // Registrant table
         const registrantBody = document.getElementById("registrant-body");
