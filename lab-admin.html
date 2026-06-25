@@ -271,25 +271,18 @@
 <div id="auth-screen">
     <div class="auth-card">
         <h1>Lab Admin Dashboard</h1>
-        <p>Sign in with your email to access the admin dashboard.</p>
+        <p>Sign in with your email and password.</p>
 
         <form id="auth-form">
-            <div id="step-email">
-                <div class="form-group">
-                    <label for="email">Email address</label>
-                    <input type="email" id="email" name="email" required placeholder="name@example.com">
-                </div>
-                <button type="submit" class="btn btn-primary" id="send-code-btn">Send code</button>
+            <div class="form-group">
+                <label for="email">Email address</label>
+                <input type="email" id="email" name="email" required autocomplete="username" placeholder="name@example.com">
             </div>
-
-            <div id="step-code" style="display: none;">
-                <div class="form-group">
-                    <label for="code">6-digit code</label>
-                    <input type="text" id="code" name="code" placeholder="000000" maxlength="6" pattern="[0-9]{6}">
-                </div>
-                <button type="submit" class="btn btn-primary" id="verify-code-btn">Verify code</button>
-                <button type="button" class="btn btn-ghost" id="back-btn" style="margin-top: 8px;">Back</button>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required autocomplete="current-password" placeholder="••••••••">
             </div>
+            <button type="submit" class="btn btn-primary" id="signin-btn">Sign in</button>
         </form>
 
         <div id="auth-error" class="auth-error"></div>
@@ -395,16 +388,13 @@
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     // State
-    let currentEmail = "";
     let currentSession = null;
 
     // Auth flow
     const form = document.getElementById("auth-form");
     const emailInput = document.getElementById("email");
-    const codeInput = document.getElementById("code");
-    const sendCodeBtn = document.getElementById("send-code-btn");
-    const verifyCodeBtn = document.getElementById("verify-code-btn");
-    const backBtn = document.getElementById("back-btn");
+    const passwordInput = document.getElementById("password");
+    const signinBtn = document.getElementById("signin-btn");
     const authError = document.getElementById("auth-error");
     const authLoading = document.getElementById("auth-loading");
 
@@ -418,80 +408,30 @@
 
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
-        const step = getVisibleStep();
-
-        if (step === "email") {
-            await sendCode();
-        } else if (step === "code") {
-            await verifyCode();
-        }
+        await signIn();
     });
 
-    backBtn.addEventListener("click", () => {
-        switchStep("email");
-        authError.textContent = "";
-    });
-
-    async function sendCode() {
+    async function signIn() {
         const email = emailInput.value.trim();
-        if (!email) return;
+        const password = passwordInput.value;
+        if (!email || !password) return;
 
         authError.textContent = "";
-        authLoading.textContent = "Sending code...";
-        sendCodeBtn.disabled = true;
+        authLoading.textContent = "Signing in...";
+        signinBtn.disabled = true;
 
         try {
-            const { error } = await supabase.auth.signInWithOtp({ email });
-            if (error) throw error;
-
-            currentEmail = email;
-            authLoading.textContent = "Code sent! Check your email.";
-            switchStep("code");
-            codeInput.focus();
-        } catch (err) {
-            authError.textContent = err.message || "Failed to send code";
-            authLoading.textContent = "";
-        } finally {
-            sendCodeBtn.disabled = false;
-        }
-    }
-
-    async function verifyCode() {
-        const code = codeInput.value.trim();
-        if (!code || code.length !== 6) {
-            authError.textContent = "Please enter a valid 6-digit code";
-            return;
-        }
-
-        authError.textContent = "";
-        authLoading.textContent = "Verifying...";
-        verifyCodeBtn.disabled = true;
-
-        try {
-            const { data, error } = await supabase.auth.verifyOtp({
-                email: currentEmail,
-                token: code,
-                type: "email"
-            });
+            const { error } = await supabase.auth.signInWithPassword({ email, password });
             if (error) throw error;
 
             authLoading.textContent = "";
-            // Session will be set by auth state listener
+            // Session will be set by the auth state listener
         } catch (err) {
-            authError.textContent = err.message || "Invalid code";
+            authError.textContent = err.message || "Sign in failed";
             authLoading.textContent = "";
         } finally {
-            verifyCodeBtn.disabled = false;
+            signinBtn.disabled = false;
         }
-    }
-
-    function switchStep(step) {
-        document.getElementById("step-email").style.display = step === "email" ? "block" : "none";
-        document.getElementById("step-code").style.display = step === "code" ? "block" : "none";
-    }
-
-    function getVisibleStep() {
-        return document.getElementById("step-email").style.display !== "none" ? "email" : "code";
     }
 
     // Dashboard
@@ -500,7 +440,6 @@
         document.getElementById("app").style.display = "none";
         document.getElementById("auth-screen").style.display = "flex";
         document.getElementById("auth-form").reset();
-        switchStep("email");
     });
 
     async function showDashboard() {
