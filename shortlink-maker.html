@@ -469,11 +469,15 @@
 
                 while (attempts < maxAttempts) {
                     shortCode = generateShortCode();
-                    const { data: existing } = await supabase
+                    const { data: existing, error: checkError } = await supabase
                         .from('shortlinks')
                         .select('short_code')
                         .eq('short_code', shortCode)
                         .limit(1);
+
+                    if (checkError) {
+                        console.error('Check error:', checkError);
+                    }
 
                     if (!existing || existing.length === 0) {
                         break;
@@ -484,6 +488,8 @@
                 if (attempts >= maxAttempts) {
                     throw new Error('Failed to generate unique short code');
                 }
+
+                console.log('Inserting shortlink with code:', shortCode);
 
                 // Insert shortlink
                 const { data, error } = await supabase
@@ -501,8 +507,11 @@
 
                 if (error) {
                     console.error('Insert error:', error);
-                    throw new Error(error.message || 'Failed to create shortlink');
+                    console.error('Error details:', JSON.stringify(error, null, 2));
+                    throw new Error(`Database error: ${error.message}`);
                 }
+
+                console.log('Insert successful:', data);
 
                 const baseDomain = 'https://covomultipliers.com';
                 const shortUrl = `${baseDomain}/s/${data.short_code}`;
