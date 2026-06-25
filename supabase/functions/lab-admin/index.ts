@@ -29,17 +29,18 @@ function corsHeaders(origin: string | null): Record<string, string> {
 
 interface LabSummary {
   id: string;
+  title: string;
   slug: string;
   event_date: string;
   max_seats: number | null;
   active_signups: number;
   seats_remaining: number | null;
-  cancelled_signups: number;
 }
 
 interface Registrant {
   name: string;
   email: string;
+  event_title: string;
   event_slug: string;
   event_date: string;
   registration_status: string;
@@ -138,15 +139,27 @@ Deno.serve(async (req: Request): Promise<Response> => {
     //   lab_attendance: registration_id (FK -> registrations.id), status
     //                   (no event_id / email column; join via registration_id)
     // -----------------------------------------------------------------------
+    // Only current/future labs: include anything from the start of today onward.
+    const startOfToday = new Date();
+    startOfToday.setUTCHours(0, 0, 0, 0);
+
     const { data: events, error: eventsError } = await supabaseAdmin
       .from("events")
-      .select("id, slug, event_date, seat_limit")
+      .select("id, slug, title, event_date, seat_limit")
       .eq("is_published", true)
-      .order("event_date", { ascending: false });
+      .gte("event_date", startOfToday.toISOString())
+      .order("event_date", { ascending: true });
 
     if (eventsError) throw new Error(`events: ${eventsError.message}`);
 
-    const { data: regs, error: regsError } = await supabaseAdmin
+    const allEvents = events || [];
+
+    // Lookup map + the set of event IDs we surface on the dashboard.
+    const eventById = new Map<string, any>();
+    allEvents.forEach((e: any) => eventById.set(e.id, e));
+    const currentEventIds = new Set(allEvents.map((e: any) => e.id));
+
+    const { data: regsRaw, error: regsError } = await supabaseAdmin
       .from("registrations")
       .select("id, name, email, event_id, registration_status, utm_source, first_utm_source, created_at")
       .order("created_at", { ascending: false });
@@ -159,13 +172,9 @@ Deno.serve(async (req: Request): Promise<Response> => {
 
     if (attError) throw new Error(`attendance: ${attError.message}`);
 
-    const allEvents = events || [];
-    const allRegs = regs || [];
+    // Scope registrations to current/future labs only.
+    const allRegs = (regsRaw || []).filter((r: any) => currentEventIds.has(r.event_id));
     const allAttendance = attendance || [];
-
-    // Lookup maps
-    const eventById = new Map<string, any>();
-    allEvents.forEach((e: any) => eventById.set(e.id, e));
 
     const regById = new Map<string, any>();
     allRegs.forEach((r: any) => regById.set(r.id, r));
@@ -188,15 +197,14 @@ Deno.serve(async (req: Request): Promise<Response> => {
     const labSummary: LabSummary[] = allEvents.map((event: any) => {
       const eventRegs = allRegs.filter((r: any) => r.event_id === event.id);
       const activeCount = eventRegs.filter((r: any) => r.registration_status === "active").length;
-      const cancelledCount = eventRegs.filter((r: any) => r.registration_status === "cancelled").length;
       return {
         id: event.id,
+        title: event.title || event.slug,
         slug: event.slug,
         event_date: event.event_date,
         max_seats: event.seat_limit ?? null,
         active_signups: activeCount,
         seats_remaining: event.seat_limit != null ? Math.max(event.seat_limit - activeCount, 0) : null,
-        cancelled_signups: cancelledCount,
       };
     });
 
@@ -206,6 +214,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
       return {
         name: reg.name || "",
         email: reg.email || "",
+        event_title: ev?.title || ev?.slug || "",
         event_slug: ev?.slug || "",
         event_date: ev?.event_date || "",
         registration_status: reg.registration_status || "",

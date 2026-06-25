@@ -331,7 +331,6 @@
                         <th>Max Seats</th>
                         <th>Active Signups</th>
                         <th>Seats Remaining</th>
-                        <th>Cancelled</th>
                     </tr>
                 </thead>
                 <tbody id="lab-summary-body"></tbody>
@@ -493,12 +492,11 @@
         data.labSummary.forEach(lab => {
             const row = document.createElement("tr");
             row.innerHTML = `
-                <td><strong>${lab.slug}</strong></td>
+                <td><strong>${lab.title}</strong></td>
                 <td>${new Date(lab.event_date).toLocaleDateString()}</td>
                 <td>${lab.max_seats || "N/A"}</td>
                 <td>${lab.active_signups}</td>
                 <td>${lab.seats_remaining !== null ? lab.seats_remaining : "N/A"}</td>
-                <td>${lab.cancelled_signups}</td>
             `;
             labSummaryBody.appendChild(row);
         });
@@ -513,7 +511,7 @@
             row.innerHTML = `
                 <td>${reg.name}</td>
                 <td>${reg.email}</td>
-                <td>${reg.event_slug}</td>
+                <td>${reg.event_title}</td>
                 <td>${new Date(reg.event_date).toLocaleDateString()}</td>
                 <td>${reg.registration_status}</td>
                 <td>${reg.utm_source_first || "—"}</td>
