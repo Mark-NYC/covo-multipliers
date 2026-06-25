@@ -51,8 +51,13 @@ function generateShortCode(): string {
 Deno.serve(async (req: Request): Promise<Response> => {
   const cors = corsHeaders(req);
 
-  if (req.method === "OPTIONS") return new Response(null, { status: 204, headers: cors });
-  if (req.method !== "POST") return json(405, { error: "Method not allowed" }, cors);
+  if (req.method === "OPTIONS") {
+    return new Response(null, { status: 204, headers: cors });
+  }
+
+  if (req.method !== "POST") {
+    return json(405, { error: "Method not allowed" }, cors);
+  }
 
   try {
     const body = await req.json();
@@ -69,7 +74,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
     // Basic URL validation
     try {
       new URL(long_url);
-    } catch (err) {
+    } catch {
       return json(400, { error: "Invalid URL format" }, cors);
     }
 
@@ -90,13 +95,15 @@ Deno.serve(async (req: Request): Promise<Response> => {
 
     while (attempts < maxAttempts) {
       short_code = generateShortCode();
-      const { data: existing } = await supabase
+      const { data: existing, error: checkError } = await supabase
         .from("shortlinks")
         .select("short_code")
         .eq("short_code", short_code)
-        .single();
+        .limit(1);
 
-      if (!existing) break;
+      if (checkError || !existing || existing.length === 0) {
+        break;
+      }
       attempts++;
     }
 
@@ -109,21 +116,21 @@ Deno.serve(async (req: Request): Promise<Response> => {
     }
 
     // Insert shortlink
-    const { data, error } = await supabase
+    const { data, error: insertError } = await supabase
       .from("shortlinks")
       .insert({
         short_code,
         long_url,
         metadata: {
-          user_agent: req.headers.get("user-agent"),
-          created_ip: req.headers.get("x-forwarded-for"),
+          user_agent: req.headers.get("user-agent") || "",
+          created_ip: req.headers.get("x-forwarded-for") || "",
         },
       })
       .select()
       .single();
 
-    if (error) {
-      console.error("Supabase insert error:", error);
+    if (insertError) {
+      console.error("Supabase insert error:", insertError);
       return json(500, { error: "Failed to create shortlink" }, cors);
     }
 
@@ -139,6 +146,6 @@ Deno.serve(async (req: Request): Promise<Response> => {
     );
   } catch (err) {
     console.error("Error creating shortlink:", err);
-    return json(500, { error: "Server error" }, cors);
+    return json(500, { error: `Server error: ${err}` }, cors);
   }
 });
