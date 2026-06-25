@@ -433,6 +433,22 @@
             </table>
         </div>
 
+        <!-- Content insights: topic affinity -->
+        <div class="table-section">
+            <h2>Topic Affinity <span style="font-weight:400;font-size:13px;color:#888;">— people who signed up for one topic also signed up for another (guides series &amp; sequencing)</span></h2>
+            <div id="affinity-loading" class="loading">Loading...</div>
+            <table id="affinity-table" style="display: none;">
+                <thead>
+                    <tr>
+                        <th>Topic A</th>
+                        <th>Topic B</th>
+                        <th>Shared registrants</th>
+                    </tr>
+                </thead>
+                <tbody id="affinity-body"></tbody>
+            </table>
+        </div>
+
         <!-- Registrant table -->
         <div class="table-section">
             <h2>Registrants</h2>
@@ -678,6 +694,21 @@
         }
         document.getElementById("content-loading").style.display = "none";
         document.getElementById("content-table").style.display = "table";
+
+        // Topic affinity
+        const affinityBody = document.getElementById("affinity-body");
+        affinityBody.innerHTML = "";
+        if (!data.topicAffinity || data.topicAffinity.length === 0) {
+            affinityBody.innerHTML = `<tr><td colspan="3" style="color:#999;">No one has signed up for two or more topics yet.</td></tr>`;
+        } else {
+            data.topicAffinity.forEach(p => {
+                const row = document.createElement("tr");
+                row.innerHTML = `<td>${p.topic_a}</td><td>${p.topic_b}</td><td>${p.shared_count}</td>`;
+                affinityBody.appendChild(row);
+            });
+        }
+        document.getElementById("affinity-loading").style.display = "none";
+        document.getElementById("affinity-table").style.display = "table";
 
         // Registrant table
         const registrantBody = document.getElementById("registrant-body");
