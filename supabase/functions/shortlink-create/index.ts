@@ -12,6 +12,9 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 const ALLOWED_ORIGINS = new Set([
   "https://covomultipliers.com",
   "https://www.covomultipliers.com",
+  "http://localhost:3000",
+  "http://localhost:5173",
+  "http://localhost:8000",
 ]);
 
 const BASE_DOMAIN = "https://covomultipliers.com";
@@ -136,23 +139,34 @@ async function createShortlink(
 export default async function handler(req: Request): Promise<Response> {
   const cors = corsHeaders(req);
 
+  // Handle CORS preflight
   if (req.method === "OPTIONS") {
-    return new Response(null, { status: 200, headers: cors });
+    return new Response(null, {
+      status: 200,
+      headers: {
+        ...cors,
+        "Content-Type": "application/json",
+      }
+    });
   }
 
   if (req.method !== "POST") {
     return json(405, { error: "Method not allowed" }, cors);
   }
 
-  const supabaseUrl = Deno.env.get("SUPABASE_URL");
-  const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+  try {
+    const supabaseUrl = Deno.env.get("SUPABASE_URL");
+    const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
 
-  if (!supabaseUrl || !supabaseServiceKey) {
-    console.error("Missing Supabase credentials");
-    return json(500, { error: "Server configuration error" }, cors);
+    if (!supabaseUrl || !supabaseServiceKey) {
+      console.error("Missing Supabase credentials");
+      return json(500, { error: "Server configuration error" }, cors);
+    }
+
+    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    return await createShortlink(req, supabase);
+  } catch (error) {
+    console.error("Handler error:", error);
+    return json(500, { error: "Internal server error" }, cors);
   }
-
-  const supabase = createClient(supabaseUrl, supabaseServiceKey);
-
-  return createShortlink(req, supabase);
 }
