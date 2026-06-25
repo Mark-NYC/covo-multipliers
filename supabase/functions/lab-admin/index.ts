@@ -58,6 +58,12 @@ interface ContentSource {
   count: number;
 }
 
+interface AffinityPair {
+  topic_a: string;
+  topic_b: string;
+  shared_count: number;
+}
+
 interface Registrant {
   name: string;
   email: string;
@@ -89,6 +95,7 @@ interface DashboardData {
   channelBreakdown: ChannelStat[];
   topicDemand: TopicDemand[];
   contentAttribution: ContentSource[];
+  topicAffinity: AffinityPair[];
   labSummary: LabSummary[];
   registrants: Registrant[];
   personSummary: PersonSummary[];
@@ -285,6 +292,36 @@ Deno.serve(async (req: Request): Promise<Response> => {
       .map(([page, count]) => ({ page, count }))
       .sort((a, b) => b.count - a.count);
 
+    // Topic affinity: "people who signed up for X also signed up for Y".
+    // Build each person's set of topics, then count co-occurring topic pairs.
+    // Guides content series and sequencing.
+    const personTopics = new Map<string, Set<string>>();
+    allRegsFull.forEach((r: any) => {
+      if (r.registration_status !== "active") return;
+      const e = eventById.get(r.event_id);
+      if (!e) return;
+      const title = e.title || e.slug;
+      if (!personTopics.has(r.email)) personTopics.set(r.email, new Set());
+      personTopics.get(r.email)!.add(title);
+    });
+    const PAIR_SEP = " ||| ";
+    const pairCounts = new Map<string, number>();
+    for (const topics of personTopics.values()) {
+      const arr = Array.from(topics).sort();
+      for (let i = 0; i < arr.length; i++) {
+        for (let j = i + 1; j < arr.length; j++) {
+          const key = arr[i] + PAIR_SEP + arr[j];
+          pairCounts.set(key, (pairCounts.get(key) || 0) + 1);
+        }
+      }
+    }
+    const topicAffinity: AffinityPair[] = Array.from(pairCounts.entries())
+      .map(([key, count]) => {
+        const [topic_a, topic_b] = key.split(PAIR_SEP);
+        return { topic_a, topic_b, shared_count: count };
+      })
+      .sort((a, b) => b.shared_count - a.shared_count);
+
     // --- Pace benchmark helper ---
     // For a lab, how many active signups it had by D days before its event date.
     const signupsByDaysBefore = (event: any, daysBefore: number): number => {
@@ -392,6 +429,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
       channelBreakdown,
       topicDemand,
       contentAttribution,
+      topicAffinity,
       labSummary,
       registrants,
       personSummary,
