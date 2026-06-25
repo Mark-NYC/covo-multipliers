@@ -47,6 +47,17 @@ interface ChannelStat {
   count: number;
 }
 
+interface TopicDemand {
+  title: string;
+  lab_count: number;
+  total_signups: number;
+}
+
+interface ContentSource {
+  page: string;
+  count: number;
+}
+
 interface Registrant {
   name: string;
   email: string;
@@ -76,6 +87,8 @@ interface DashboardData {
     benchmarkLabCount: number;
   };
   channelBreakdown: ChannelStat[];
+  topicDemand: TopicDemand[];
+  contentAttribution: ContentSource[];
   labSummary: LabSummary[];
   registrants: Registrant[];
   personSummary: PersonSummary[];
@@ -178,7 +191,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
 
     const { data: regsRaw, error: regsError } = await supabaseAdmin
       .from("registrations")
-      .select("id, name, email, event_id, registration_status, utm_source, first_utm_source, created_at")
+      .select("id, name, email, event_id, registration_status, utm_source, first_utm_source, first_landing_page, created_at")
       .order("created_at", { ascending: false });
 
     if (regsError) throw new Error(`registrations: ${regsError.message}`);
@@ -228,6 +241,48 @@ Deno.serve(async (req: Request): Promise<Response> => {
     });
     const channelBreakdown: ChannelStat[] = Array.from(channelMap.entries())
       .map(([source, count]) => ({ source, count }))
+      .sort((a, b) => b.count - a.count);
+
+    // --- Content insights (all-time, for article/podcast planning) ---
+    // Topic demand: total active signups per topic (aggregated by title so
+    // repeat runs of the same topic combine). Includes past + future labs.
+    const topicMap = new Map<string, { signups: number; labs: Set<string> }>();
+    allEvents.forEach((e: any) => {
+      const title = e.title || e.slug;
+      if (!topicMap.has(title)) topicMap.set(title, { signups: 0, labs: new Set() });
+      topicMap.get(title)!.labs.add(e.id);
+    });
+    allRegsFull.forEach((r: any) => {
+      if (r.registration_status !== "active") return;
+      const e = eventById.get(r.event_id);
+      if (!e) return;
+      const title = e.title || e.slug;
+      topicMap.get(title)!.signups += 1;
+    });
+    const topicDemand: TopicDemand[] = Array.from(topicMap.entries())
+      .map(([title, v]) => ({ title, lab_count: v.labs.size, total_signups: v.signups }))
+      .sort((a, b) => b.total_signups - a.total_signups);
+
+    // Content attribution: which first-touch landing page brought registrants.
+    // first_landing_page is the first page a person hit before ever registering,
+    // so this is piece-level "which article/episode converts" signal.
+    const normalizePage = (raw: string | null): string => {
+      if (!raw) return "(direct / unknown)";
+      try {
+        const u = new URL(raw);
+        return u.pathname || "/";
+      } catch {
+        return raw;
+      }
+    };
+    const contentMap = new Map<string, number>();
+    allRegsFull.forEach((r: any) => {
+      if (r.registration_status !== "active") return;
+      const page = normalizePage(r.first_landing_page);
+      contentMap.set(page, (contentMap.get(page) || 0) + 1);
+    });
+    const contentAttribution: ContentSource[] = Array.from(contentMap.entries())
+      .map(([page, count]) => ({ page, count }))
       .sort((a, b) => b.count - a.count);
 
     // --- Pace benchmark helper ---
@@ -335,6 +390,8 @@ Deno.serve(async (req: Request): Promise<Response> => {
         benchmarkLabCount,
       },
       channelBreakdown,
+      topicDemand,
+      contentAttribution,
       labSummary,
       registrants,
       personSummary,
