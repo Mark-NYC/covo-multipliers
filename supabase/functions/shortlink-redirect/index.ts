@@ -9,15 +9,26 @@
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-async function redirectShortlink(
-  code: string,
-  supabase: ReturnType<typeof createClient>
-): Promise<Response> {
+Deno.serve(async (req: Request): Promise<Response> => {
+  // Get short code from query parameter
+  const url = new URL(req.url);
+  const code = url.searchParams.get("code");
+
   if (!code || typeof code !== "string") {
     return new Response("Short code is required", { status: 400 });
   }
 
   try {
+    const supabaseUrl = Deno.env.get("SUPABASE_URL");
+    const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+
+    if (!supabaseUrl || !supabaseServiceKey) {
+      console.error("Missing Supabase credentials");
+      return new Response("Server configuration error", { status: 500 });
+    }
+
+    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+
     // Fetch the shortlink
     const { data, error } = await supabase
       .from("shortlinks")
@@ -51,22 +62,4 @@ async function redirectShortlink(
     console.error("Error redirecting shortlink:", err);
     return new Response("Server error", { status: 500 });
   }
-}
-
-export default async function handler(req: Request): Promise<Response> {
-  // Get short code from query parameter
-  const url = new URL(req.url);
-  const code = url.searchParams.get("code");
-
-  const supabaseUrl = Deno.env.get("SUPABASE_URL");
-  const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
-
-  if (!supabaseUrl || !supabaseServiceKey) {
-    console.error("Missing Supabase credentials");
-    return new Response("Server configuration error", { status: 500 });
-  }
-
-  const supabase = createClient(supabaseUrl, supabaseServiceKey);
-
-  return redirectShortlink(code || "", supabase);
-}
+});
