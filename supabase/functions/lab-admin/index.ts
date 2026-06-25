@@ -33,6 +33,7 @@ interface LabSummary {
   event_date: string;
   max_seats: number | null;
   active_signups: number;
+  seats_remaining: number | null;
   cancelled_signups: number;
 }
 
@@ -126,178 +127,121 @@ Deno.serve(async (req: Request): Promise<Response> => {
   });
 
   try {
-    // --- Fetch summary stats ---
-    const { data: registrations, error: regError } = await supabaseAdmin
-      .from("registrations")
-      .select("registration_status", { count: "exact" });
-
-    if (regError) throw new Error(`registrations query: ${regError.message}`);
-
-    const totalActiveSignups = registrations?.filter((r: any) => r.registration_status === "active").length || 0;
-    const totalCancelledSignups = registrations?.filter((r: any) => r.registration_status === "cancelled").length || 0;
-
-    // Unique registrants
-    const { data: uniqueEmails, error: uniqueError } = await supabaseAdmin
-      .from("registrations")
-      .select("email")
-      .eq("registration_status", "active");
-
-    if (uniqueError) throw new Error(`unique emails: ${uniqueError.message}`);
-
-    const totalUniqueRegistrants = new Set(uniqueEmails?.map((r: any) => r.email) || []).size;
-
-    // Upcoming labs (next 30 days)
-    const now = new Date();
-    const thirtyDaysFromNow = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
-
-    const { data: upcomingLabs, error: upcomingError } = await supabaseAdmin
-      .from("events")
-      .select("id")
-      .gte("event_date", now.toISOString())
-      .lte("event_date", thirtyDaysFromNow.toISOString())
-      .eq("is_published", true);
-
-    if (upcomingError) throw new Error(`upcoming labs: ${upcomingError.message}`);
-
-    const upcomingLabCount = upcomingLabs?.length || 0;
-
-    // --- Per-lab summary ---
-    const { data: labData, error: labError } = await supabaseAdmin
-      .from("events")
-      .select(`
-        id,
-        slug,
-        event_date,
-        max_seats,
-        registrations(count)
-      `)
-      .eq("is_published", true)
-      .order("event_date", { ascending: false });
-
-    if (labError) throw new Error(`lab summary: ${labError.message}`);
-
-    const labSummary: LabSummary[] = (labData || []).map((event: any) => {
-      const allRegs = event.registrations || [];
-      const activeCount = allRegs.filter((r: any) => r.registration_status === "active").length;
-      const cancelledCount = allRegs.filter((r: any) => r.registration_status === "cancelled").length;
-
-      return {
-        id: event.id,
-        slug: event.slug,
-        event_date: event.event_date,
-        max_seats: event.max_seats,
-        active_signups: activeCount,
-        cancelled_signups: cancelledCount,
-      };
-    });
-
-    // Actually, the above join is wrong. Let me redo with separate queries.
-    // Fetch registrations per event
-    const { data: labRegistrations, error: labRegError } = await supabaseAdmin
-      .from("registrations")
-      .select("event_id, registration_status");
-
-    if (labRegError) throw new Error(`lab registrations: ${labRegError.message}`);
-
-    // Build lab summary properly
-    const labSummaryMap = new Map<string, any>();
+    // -----------------------------------------------------------------------
+    // Three base queries; all aggregation happens in memory.
+    //
+    // Schema notes (verified against migrations):
+    //   events:         id, slug, event_date, seat_limit, is_published
+    //   registrations:  id, name, email, event_id, registration_status,
+    //                   utm_source (latest-touch), first_utm_source (first-touch),
+    //                   created_at
+    //   lab_attendance: registration_id (FK -> registrations.id), status
+    //                   (no event_id / email column; join via registration_id)
+    // -----------------------------------------------------------------------
     const { data: events, error: eventsError } = await supabaseAdmin
       .from("events")
-      .select("id, slug, event_date, max_seats, is_published")
+      .select("id, slug, event_date, seat_limit")
       .eq("is_published", true)
       .order("event_date", { ascending: false });
 
     if (eventsError) throw new Error(`events: ${eventsError.message}`);
 
-    (events || []).forEach((event: any) => {
-      const eventRegs = (labRegistrations || []).filter((r: any) => r.event_id === event.id);
-      labSummaryMap.set(event.id, {
-        id: event.id,
-        slug: event.slug,
-        event_date: event.event_date,
-        max_seats: event.max_seats,
-        active_signups: eventRegs.filter((r: any) => r.registration_status === "active").length,
-        cancelled_signups: eventRegs.filter((r: any) => r.registration_status === "cancelled").length,
-        seats_remaining: event.max_seats ? event.max_seats - eventRegs.filter((r: any) => r.registration_status === "active").length : null,
-      });
-    });
-
-    const labSummaryArray = Array.from(labSummaryMap.values());
-
-    // --- Registrants list ---
-    const { data: registrantList, error: regListError } = await supabaseAdmin
+    const { data: regs, error: regsError } = await supabaseAdmin
       .from("registrations")
-      .select(`
-        name,
-        email,
-        event_id,
-        registration_status,
-        utm_source_first,
-        utm_source_latest,
-        created_at,
-        events(slug, event_date)
-      `)
+      .select("id, name, email, event_id, registration_status, utm_source, first_utm_source, created_at")
       .order("created_at", { ascending: false });
 
-    if (regListError) throw new Error(`registrant list: ${regListError.message}`);
+    if (regsError) throw new Error(`registrations: ${regsError.message}`);
 
-    const registrants: Registrant[] = (registrantList || []).map((reg: any) => ({
-      name: reg.name || "",
-      email: reg.email || "",
-      event_slug: reg.events?.slug || "",
-      event_date: reg.events?.event_date || "",
-      registration_status: reg.registration_status || "",
-      utm_source_first: reg.utm_source_first,
-      utm_source_latest: reg.utm_source_latest,
-      created_at: reg.created_at,
-    }));
-
-    // --- Person summary (Labs Registered & Labs Attended) ---
-    // Get unique people with their lab counts
-    const { data: allRegistrations, error: allRegError } = await supabaseAdmin
-      .from("registrations")
-      .select(`
-        email,
-        name,
-        event_id,
-        registration_status
-      `);
-
-    if (allRegError) throw new Error(`all registrations: ${allRegError.message}`);
-
-    // Get attendance data
-    const { data: attendanceData, error: attError } = await supabaseAdmin
+    const { data: attendance, error: attError } = await supabaseAdmin
       .from("lab_attendance")
-      .select("event_id, attendee_email, status");
+      .select("registration_id, status");
 
     if (attError) throw new Error(`attendance: ${attError.message}`);
 
-    // Build person summary
+    const allEvents = events || [];
+    const allRegs = regs || [];
+    const allAttendance = attendance || [];
+
+    // Lookup maps
+    const eventById = new Map<string, any>();
+    allEvents.forEach((e: any) => eventById.set(e.id, e));
+
+    const regById = new Map<string, any>();
+    allRegs.forEach((r: any) => regById.set(r.id, r));
+
+    // --- Summary stats ---
+    const totalActiveSignups = allRegs.filter((r: any) => r.registration_status === "active").length;
+    const totalCancelledSignups = allRegs.filter((r: any) => r.registration_status === "cancelled").length;
+    const totalUniqueRegistrants = new Set(
+      allRegs.filter((r: any) => r.registration_status === "active").map((r: any) => r.email),
+    ).size;
+
+    const now = new Date();
+    const thirtyDaysFromNow = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+    const upcomingLabCount = allEvents.filter((e: any) => {
+      const d = new Date(e.event_date);
+      return d >= now && d <= thirtyDaysFromNow;
+    }).length;
+
+    // --- Per-lab summary ---
+    const labSummary: LabSummary[] = allEvents.map((event: any) => {
+      const eventRegs = allRegs.filter((r: any) => r.event_id === event.id);
+      const activeCount = eventRegs.filter((r: any) => r.registration_status === "active").length;
+      const cancelledCount = eventRegs.filter((r: any) => r.registration_status === "cancelled").length;
+      return {
+        id: event.id,
+        slug: event.slug,
+        event_date: event.event_date,
+        max_seats: event.seat_limit ?? null,
+        active_signups: activeCount,
+        seats_remaining: event.seat_limit != null ? Math.max(event.seat_limit - activeCount, 0) : null,
+        cancelled_signups: cancelledCount,
+      };
+    });
+
+    // --- Registrants list ---
+    const registrants: Registrant[] = allRegs.map((reg: any) => {
+      const ev = eventById.get(reg.event_id);
+      return {
+        name: reg.name || "",
+        email: reg.email || "",
+        event_slug: ev?.slug || "",
+        event_date: ev?.event_date || "",
+        registration_status: reg.registration_status || "",
+        utm_source_first: reg.first_utm_source ?? null,
+        utm_source_latest: reg.utm_source ?? null,
+        created_at: reg.created_at,
+      };
+    });
+
+    // --- Person summary (Labs Registered & Labs Attended) ---
+    // Labs Registered: distinct events with an active registration, keyed by email.
+    // Labs Attended:   attendance rows with status attended/partial, mapped to the
+    //                  registrant's email + event via registration_id.
     const personMap = new Map<string, { name: string; labs_registered: Set<string>; labs_attended: Set<string> }>();
 
-    (allRegistrations || []).forEach((reg: any) => {
+    const ensurePerson = (email: string, name: string) => {
+      if (!personMap.has(email)) {
+        personMap.set(email, { name: name || "", labs_registered: new Set(), labs_attended: new Set() });
+      }
+      const p = personMap.get(email)!;
+      if (!p.name && name) p.name = name;
+      return p;
+    };
+
+    allRegs.forEach((reg: any) => {
       if (reg.registration_status === "active") {
-        if (!personMap.has(reg.email)) {
-          personMap.set(reg.email, {
-            name: reg.name || "",
-            labs_registered: new Set(),
-            labs_attended: new Set(),
-          });
-        }
-        personMap.get(reg.email)!.labs_registered.add(reg.event_id);
+        ensurePerson(reg.email, reg.name).labs_registered.add(reg.event_id);
       }
     });
 
-    (attendanceData || []).forEach((att: any) => {
+    allAttendance.forEach((att: any) => {
       if (att.status === "attended" || att.status === "partial") {
-        if (!personMap.has(att.attendee_email)) {
-          personMap.set(att.attendee_email, {
-            name: "",
-            labs_registered: new Set(),
-            labs_attended: new Set(),
-          });
+        const reg = regById.get(att.registration_id);
+        if (reg) {
+          ensurePerson(reg.email, reg.name).labs_attended.add(reg.event_id);
         }
-        personMap.get(att.attendee_email)!.labs_attended.add(att.event_id);
       }
     });
 
@@ -316,7 +260,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
         totalCancelledSignups,
         upcomingLabCount,
       },
-      labSummary: labSummaryArray,
+      labSummary,
       registrants,
       personSummary,
     };
