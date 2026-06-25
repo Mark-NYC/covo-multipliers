@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting...</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <p>Redirecting...</p>
+    <script>
+        console.log('[REDIRECT] Page loaded');
+        console.log('[REDIRECT] URL:', window.location.href);
+        console.log('[REDIRECT] Pathname:', window.location.pathname);
+
+        // Extract the code from the URL path
+        // URL format: /s/abc123
+        const pathParts = window.location.pathname.split('/');
+        console.log('[REDIRECT] Path parts:', pathParts);
+
+        const code = pathParts[pathParts.length - 1];
+        console.log('[REDIRECT] Extracted code:', code);
+
+        if (!code || code === 's' || code === '') {
+            document.body.innerHTML = '<p>Invalid shortlink code.</p>';
+            throw new Error('No code provided');
+        }
+
+        // Initialize Supabase client
+        const supabaseUrl = 'https://mryjrvinzbxebzvxtggi.supabase.co';
+        const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1yeWpydmluemJ4ZWJ6dnh0Z2dpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYyNzQ3MzksImV4cCI6MjA5MTg1MDczOX0.U1JJQTBVKePsVFXr2oFRCdUZasWaZiTQg6g8QrFdRyw';
+        const { createClient } = window.supabase;
+        const client = createClient(supabaseUrl, supabaseAnonKey);
+
+        console.log('[REDIRECT] Supabase client created');
+
+        // Fetch the shortlink
+        client
+            .from('shortlinks')
+            .select('long_url, click_count')
+            .eq('short_code', code)
+            .limit(1)
+            .then(async ({ data, error }) => {
+                console.log('[REDIRECT] Query result:', { data, error });
+
+                if (error || !data || data.length === 0) {
+                    console.error('[REDIRECT] Shortlink not found:', code, error);
+                    document.body.innerHTML = '<p>Shortlink not found.</p>';
+                    return;
+                }
+
+                const longUrl = data[0].long_url;
+                console.log('[REDIRECT] Found URL:', longUrl);
+
+                // Update click count
+                client
+                    .from('shortlinks')
+                    .update({
+                        click_count: (data[0].click_count || 0) + 1,
+                        last_clicked_at: new Date().toISOString(),
+                    })
+                    .eq('short_code', code)
+                    .then(() => {
+                        console.log('[REDIRECT] Click count updated');
+                    })
+                    .catch((err) => {
+                        console.error('[REDIRECT] Failed to update click count:', err);
+                    });
+
+                // Redirect
+                console.log('[REDIRECT] Redirecting to:', longUrl);
+                window.location.href = longUrl;
+            })
+            .catch((err) => {
+                console.error('[REDIRECT] Error:', err);
+                document.body.innerHTML = '<p>Error processing shortlink.</p>';
+            });
+    </script>
+</body>
+</html>
