@@ -365,6 +365,37 @@
             </table>
         </div>
 
+        <!-- Content insights: topic demand -->
+        <div class="table-section">
+            <h2>Topic Demand <span style="font-weight:400;font-size:13px;color:#888;">— all-time signups by lab topic (your content compass)</span></h2>
+            <div id="topic-loading" class="loading">Loading...</div>
+            <table id="topic-table" style="display: none;">
+                <thead>
+                    <tr>
+                        <th>Topic</th>
+                        <th>Times Run</th>
+                        <th>Total Signups</th>
+                    </tr>
+                </thead>
+                <tbody id="topic-body"></tbody>
+            </table>
+        </div>
+
+        <!-- Content insights: first-touch content attribution -->
+        <div class="table-section">
+            <h2>Content That Drives Signups <span style="font-weight:400;font-size:13px;color:#888;">— first page a registrant landed on before signing up</span></h2>
+            <div id="content-loading" class="loading">Loading...</div>
+            <table id="content-table" style="display: none;">
+                <thead>
+                    <tr>
+                        <th>First landing page</th>
+                        <th>Signups</th>
+                    </tr>
+                </thead>
+                <tbody id="content-body"></tbody>
+            </table>
+        </div>
+
         <!-- Registrant table -->
         <div class="table-section">
             <h2>Registrants</h2>
@@ -580,6 +611,36 @@
         }
         document.getElementById("channel-loading").style.display = "none";
         document.getElementById("channel-table").style.display = "table";
+
+        // Topic demand leaderboard
+        const topicBody = document.getElementById("topic-body");
+        topicBody.innerHTML = "";
+        if (!data.topicDemand || data.topicDemand.length === 0) {
+            topicBody.innerHTML = `<tr><td colspan="3" style="color:#999;">No labs yet.</td></tr>`;
+        } else {
+            data.topicDemand.forEach(t => {
+                const row = document.createElement("tr");
+                row.innerHTML = `<td><strong>${t.title}</strong></td><td>${t.lab_count}</td><td>${t.total_signups}</td>`;
+                topicBody.appendChild(row);
+            });
+        }
+        document.getElementById("topic-loading").style.display = "none";
+        document.getElementById("topic-table").style.display = "table";
+
+        // Content attribution (first landing page)
+        const contentBody = document.getElementById("content-body");
+        contentBody.innerHTML = "";
+        if (!data.contentAttribution || data.contentAttribution.length === 0) {
+            contentBody.innerHTML = `<tr><td colspan="2" style="color:#999;">No signups yet.</td></tr>`;
+        } else {
+            data.contentAttribution.forEach(c => {
+                const row = document.createElement("tr");
+                row.innerHTML = `<td>${c.page}</td><td>${c.count}</td>`;
+                contentBody.appendChild(row);
+            });
+        }
+        document.getElementById("content-loading").style.display = "none";
+        document.getElementById("content-table").style.display = "table";
 
         // Registrant table
         const registrantBody = document.getElementById("registrant-body");
