@@ -411,7 +411,14 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
+        // Initialize Supabase client
+        const supabase = window.supabase.createClient(
+            'https://mryjrvinzbxebzvxtggi.supabase.co',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1yeWpydmluemJ4ZWJ6dnh0Z2dpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYyNzQ3MzksImV4cCI6MjA5MTg1MDczOX0.U1JJQTBVKePsVFXr2oFRCdUZasWaZiTQg6g8QrFdRyw'
+        );
+
         const form = document.getElementById('shortlinkForm');
         const longUrlInput = document.getElementById('longUrl');
         const generateBtn = document.getElementById('generateBtn');
@@ -421,6 +428,15 @@
         const shortLink = document.getElementById('shortLink');
         const originalUrl = document.getElementById('originalUrl');
         const copyBtn = document.getElementById('copyBtn');
+
+        function generateShortCode() {
+            const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let code = '';
+            for (let i = 0; i < 6; i++) {
+                code += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return code;
+        }
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -434,45 +450,82 @@
                 return;
             }
 
+            // Validate URL
+            try {
+                new URL(longUrl);
+            } catch {
+                showError('Invalid URL format');
+                return;
+            }
+
             generateBtn.disabled = true;
             btnText.innerHTML = '<span class="loading"></span>';
 
             try {
-                const functionUrl = 'https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1/shortlink-create';
-                console.log('Calling:', functionUrl);
+                // Generate unique short code
+                let shortCode = '';
+                let attempts = 0;
+                const maxAttempts = 10;
 
-                const response = await fetch(functionUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ long_url: longUrl }),
-                });
+                while (attempts < maxAttempts) {
+                    shortCode = generateShortCode();
+                    const { data: existing, error: checkError } = await supabase
+                        .from('shortlinks')
+                        .select('short_code')
+                        .eq('short_code', shortCode)
+                        .limit(1);
 
-                console.log('Response status:', response.status);
-
-                if (!response.ok) {
-                    const text = await response.text();
-                    console.log('Error response:', text);
-                    try {
-                        const data = JSON.parse(text);
-                        throw new Error(data.error || 'Failed to create shortlink');
-                    } catch (e) {
-                        throw new Error(`Server error (${response.status}): ${text.substring(0, 100)}`);
+                    if (checkError) {
+                        console.error('Check error:', checkError);
                     }
+
+                    if (!existing || existing.length === 0) {
+                        break;
+                    }
+                    attempts++;
                 }
 
-                const data = await response.json();
+                if (attempts >= maxAttempts) {
+                    throw new Error('Failed to generate unique short code');
+                }
+
+                console.log('Inserting shortlink with code:', shortCode);
+
+                // Insert shortlink
+                const { data, error } = await supabase
+                    .from('shortlinks')
+                    .insert({
+                        short_code: shortCode,
+                        long_url: longUrl,
+                        metadata: {
+                            user_agent: navigator.userAgent,
+                            created_from: 'shortlink-maker',
+                        },
+                    })
+                    .select()
+                    .single();
+
+                if (error) {
+                    console.error('Insert error:', error);
+                    console.error('Error details:', JSON.stringify(error, null, 2));
+                    throw new Error(`Database error: ${error.message}`);
+                }
+
+                console.log('Insert successful:', data);
+
+                const baseDomain = 'https://covomultipliers.com';
+                const shortUrl = `${baseDomain}/s/${data.short_code}`;
 
                 // Display result
-                shortLink.href = data.short_url;
-                shortLink.textContent = data.short_url;
+                shortLink.href = shortUrl;
+                shortLink.textContent = shortUrl;
                 originalUrl.textContent = data.long_url;
                 result.classList.add('show');
 
                 // Scroll to result
                 result.scrollIntoView({ behavior: 'smooth', block: 'center' });
             } catch (err) {
+                console.error('Error:', err);
                 showError(err.message || 'An error occurred');
             } finally {
                 generateBtn.disabled = false;

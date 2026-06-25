@@ -17,15 +17,21 @@ CREATE INDEX idx_shortlinks_created_at ON shortlinks(created_at DESC);
 -- Enable RLS
 ALTER TABLE shortlinks ENABLE ROW LEVEL SECURITY;
 
--- Allow anyone to read shortlinks (for redirects)
+-- Allow authenticated and anonymous users to read shortlinks
 CREATE POLICY "public_read" ON shortlinks
-  FOR SELECT USING (true);
+  FOR SELECT
+  USING (true);
 
--- Allow anyone to create shortlinks
-CREATE POLICY "public_create" ON shortlinks
-  FOR INSERT WITH CHECK (true);
-
--- Allow updating click_count
-CREATE POLICY "public_update_clicks" ON shortlinks
-  FOR UPDATE USING (true)
+-- Allow authenticated and anonymous users to create shortlinks
+CREATE POLICY "public_insert" ON shortlinks
+  FOR INSERT
   WITH CHECK (true);
+
+-- Allow authenticated and anonymous users to update click_count
+CREATE POLICY "public_update" ON shortlinks
+  FOR UPDATE
+  USING (true)
+  WITH CHECK (true);
+
+-- Grant permissions to anon role
+GRANT SELECT, INSERT, UPDATE ON shortlinks TO anon;
