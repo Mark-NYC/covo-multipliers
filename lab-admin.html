@@ -254,20 +254,57 @@
         }
 
         @media (max-width: 768px) {
+            /* Mobile-only refinements. Desktop layout is unchanged. */
+            .main {
+                padding: 14px;
+            }
             .summary-grid {
-                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            .card {
+                padding: 14px;
+            }
+            .card-label {
+                font-size: 11px;
+            }
+            .card-value {
+                font-size: 26px;
+            }
+            .table-section h2 {
+                font-size: 14px;
+                padding: 14px 16px;
             }
             table {
                 font-size: 12px;
             }
             thead th, tbody td {
-                padding: 8px 12px;
+                padding: 8px 10px;
+            }
+            /* Wide tables scroll horizontally inside their section instead of
+               being clipped. Making the table itself the scroll container keeps
+               the heading and notes fixed in place. */
+            .table-section table {
+                display: block;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                white-space: nowrap;
             }
             /* On mobile, the registrant table shows only Name (col 1) and
                Lab (col 3) — the two pieces of info that matter at a glance. */
             #registrant-table th:not(:nth-child(1)):not(:nth-child(3)),
             #registrant-table td:not(:nth-child(1)):not(:nth-child(3)) {
                 display: none;
+            }
+            /* Registrant table needs no horizontal scroll (only 2 columns). */
+            #registrant-table {
+                display: table;
+                white-space: normal;
+            }
+            #registrant-table td:nth-child(1),
+            #registrant-table td:nth-child(3) {
+                white-space: normal;
+                word-break: break-word;
             }
         }
     </style>
