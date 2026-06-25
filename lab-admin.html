@@ -316,10 +316,6 @@
                 <div class="card-value" id="card-unique-registrants">—</div>
             </div>
             <div class="card">
-                <div class="card-label">Cancelled signups</div>
-                <div class="card-value" id="card-cancelled">—</div>
-            </div>
-            <div class="card">
                 <div class="card-label">Upcoming labs</div>
                 <div class="card-value" id="card-upcoming-labs">—</div>
             </div>
@@ -489,7 +485,6 @@
         // Summary cards
         document.getElementById("card-active-signups").textContent = data.summaryStats.totalActiveSignups;
         document.getElementById("card-unique-registrants").textContent = data.summaryStats.totalUniqueRegistrants;
-        document.getElementById("card-cancelled").textContent = data.summaryStats.totalCancelledSignups;
         document.getElementById("card-upcoming-labs").textContent = data.summaryStats.upcomingLabCount;
 
         // Lab summary table

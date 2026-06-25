@@ -60,7 +60,6 @@ interface DashboardData {
   summaryStats: {
     totalActiveSignups: number;
     totalUniqueRegistrants: number;
-    totalCancelledSignups: number;
     upcomingLabCount: number;
   };
   labSummary: LabSummary[];
@@ -181,17 +180,12 @@ Deno.serve(async (req: Request): Promise<Response> => {
 
     // --- Summary stats ---
     const totalActiveSignups = allRegs.filter((r: any) => r.registration_status === "active").length;
-    const totalCancelledSignups = allRegs.filter((r: any) => r.registration_status === "cancelled").length;
     const totalUniqueRegistrants = new Set(
       allRegs.filter((r: any) => r.registration_status === "active").map((r: any) => r.email),
     ).size;
 
-    const now = new Date();
-    const thirtyDaysFromNow = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
-    const upcomingLabCount = allEvents.filter((e: any) => {
-      const d = new Date(e.event_date);
-      return d >= now && d <= thirtyDaysFromNow;
-    }).length;
+    // All current/future published labs (the same set shown in the per-lab table).
+    const upcomingLabCount = allEvents.length;
 
     // --- Per-lab summary ---
     const labSummary: LabSummary[] = allEvents.map((event: any) => {
@@ -266,7 +260,6 @@ Deno.serve(async (req: Request): Promise<Response> => {
       summaryStats: {
         totalActiveSignups,
         totalUniqueRegistrants,
-        totalCancelledSignups,
         upcomingLabCount,
       },
       labSummary,
