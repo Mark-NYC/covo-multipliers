@@ -13,9 +13,11 @@
 // 5. Return JSON
 //
 // Secrets (set with: supabase secrets set KEY=value)
-//   RESEND_API_KEY     — from resend.com dashboard
-//   RESEND_FROM_EMAIL  — verified sender, e.g. labs@covomultipliers.com
-//   SITE_ORIGIN        — https://covomultipliers.com (used for CORS)
+//   RESEND_API_KEY      — from resend.com dashboard
+//   RESEND_FROM_EMAIL   — verified sender, e.g. labs@covomultipliers.com
+//   SITE_ORIGIN         — https://covomultipliers.com (used for CORS)
+//   ADMIN_NOTIFY_EMAILS — optional, comma-separated admin addresses that get a
+//                         notification email on each new signup. Unset = off.
 //
 // Auto-injected by Supabase (do not set manually):
 //   SUPABASE_URL
@@ -257,6 +259,17 @@ Deno.serve(async (req: Request): Promise<Response> => {
 
   console.log(`[register] attribution and consent saved. opt_in=${consent.marketing_opt_in} consent_at=${consent.marketing_consent_at ?? "null"}`);
 
+  // Fetch the canonical database slug for the branded join-lab redirect.
+  // This is separate from the page-provided eventSlug (which may be a short slug used for calendar alias mapping).
+  const { data: eventRow } = await supabase
+    .from("events")
+    .select("slug")
+    .eq("id", event_id)
+    .single();
+
+  const dbSlug = eventRow?.slug ?? null;
+  console.log(`[register] fetched canonical event slug for join-lab redirect: ${dbSlug ?? "MISSING"}`);
+
   // Phase 2: Send confirmation email. Non-fatal — failure does not undo saved consent.
   console.log(`[register] attempting confirmation email to=${cleanEmail} event="${result.event_title}"`);
 
@@ -266,7 +279,8 @@ Deno.serve(async (req: Request): Promise<Response> => {
     eventTitle: result.event_title!,
     eventDate: result.event_date!,
     zoomLink: result.zoom_link ?? null,
-    eventSlug,
+    pageSlug: eventSlug,
+    dbSlug,
   });
 
   console.log(`[register] Resend result: ${resendMessageId ? `sent, id=${resendMessageId}` : "FAILED — email not sent"}`);
@@ -290,6 +304,39 @@ Deno.serve(async (req: Request): Promise<Response> => {
     console.warn("[register] skipping confirmation_sent_at update — email was not sent");
   }
 
+  // Phase 4: Admin signup notification. Fully non-blocking — any failure here
+  // must never affect the registrant's response. Off unless ADMIN_NOTIFY_EMAILS
+  // is set. Sent via Resend (the reliable path), never Supabase's mailer.
+  try {
+    const adminEmails = (Deno.env.get("ADMIN_NOTIFY_EMAILS") ?? "")
+      .split(",")
+      .map((e) => e.trim())
+      .filter((e) => e.length > 0);
+
+    if (adminEmails.length > 0) {
+      // Running total of active signups for this lab (includes the one just made).
+      const { count: activeCount } = await supabase
+        .from("registrations")
+        .select("id", { count: "exact", head: true })
+        .eq("event_id", event_id)
+        .eq("registration_status", "active");
+
+      await sendAdminNotification({
+        adminEmails,
+        registrantName: cleanName,
+        registrantEmail: cleanEmail,
+        eventTitle: result.event_title ?? "(unknown lab)",
+        eventDate: result.event_date ?? "",
+        totalSignups: activeCount ?? null,
+        reactivated: result.reactivated === true,
+        firstSource: attribution.first_utm_source ?? attribution.utm_source,
+        firstLandingPage: attribution.first_landing_page,
+      });
+    }
+  } catch (err) {
+    console.error("[register] admin notification failed (non-fatal):", err);
+  }
+
   return json(200, {
     success: true,
     message: "You're registered! Check your inbox for a confirmation email.",
@@ -308,14 +355,16 @@ async function sendEmail({
   eventTitle,
   eventDate,
   zoomLink,
-  eventSlug,
+  pageSlug,
+  dbSlug,
 }: {
   to: string;
   toName: string;
   eventTitle: string;
   eventDate: string;
   zoomLink: string | null;
-  eventSlug: string | null;
+  pageSlug: string | null;
+  dbSlug: string | null;
 }): Promise<string | null> {
   const apiKey = Deno.env.get("RESEND_API_KEY");
   const from = Deno.env.get("RESEND_FROM_EMAIL") ?? "labs@covomultipliers.com";
@@ -325,32 +374,26 @@ async function sendEmail({
     return null;
   }
 
-  const calendarUrl = eventSlug
-    ? `https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1/lab-calendar?event=${encodeURIComponent(eventSlug)}`
+  const calendarUrl = pageSlug
+    ? `https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1/lab-calendar?event=${encodeURIComponent(pageSlug)}`
     : null;
 
-  // CTA hierarchy mirrors the reminder emails:
-  //   Zoom present → Join the Lab (primary) ▸ quiet fallback ▸ secondary calendar link
-  //   Zoom absent  → Add to Calendar (primary) ▸ "sent before the lab" note
-  const secondaryCalendarLink = calendarUrl
-    ? `<p style="text-align:center;margin:18px 0 0;font-size:14px;line-height:20px;">
-        <a href="${esc(calendarUrl)}" style="color:#1b4d3e;text-decoration:underline;font-weight:600;">Add to calendar</a>
+  const joinLabUrl = dbSlug
+    ? `https://www.covomultipliers.com/join-lab.html?event=${encodeURIComponent(dbSlug)}`
+    : null;
+
+  // CTA hierarchy: immediately after registration the main behavioral goal is
+  // getting the lab onto the calendar, so Add to Calendar is the primary action.
+  //   Calendar available → Add to Calendar (primary) ▸ quiet Zoom secondary line
+  //   Calendar missing    → fall back to Join the Lab (Zoom) ▸ quiet fallback
+  //   Neither             → "sent before the lab" note
+  const zoomSecondaryLink = zoomLink && joinLabUrl
+    ? `<p style="text-align:center;margin:14px 0 0;font-size:14px;line-height:20px;color:#888888;">
+        When it's time, <a href="${esc(joinLabUrl)}" style="color:#1b4d3e;text-decoration:underline;font-weight:600;">join the lab here</a>.
       </p>`
     : "";
 
-  const ctaSection = zoomLink
-    ? `<div style="text-align:center;margin:28px 0 0;">
-        <a href="${esc(zoomLink)}"
-           style="display:inline-block;padding:15px 40px;background:#1b4d3e;color:#ffffff;font-size:16px;font-weight:700;text-decoration:none;border-radius:8px;letter-spacing:0.01em;">
-          Join the Lab
-        </a>
-      </div>
-      <p style="text-align:center;margin:12px 0 0;font-size:13px;line-height:18px;color:#999999;">
-        Having trouble joining?
-        <a href="${esc(zoomLink)}" style="color:#888888;text-decoration:underline;">Open the Zoom link here.</a>
-      </p>
-      ${secondaryCalendarLink}`
-    : calendarUrl
+  const ctaSection = calendarUrl
     ? `<div style="text-align:center;margin:28px 0 0;">
         <a href="${esc(calendarUrl)}"
            style="display:inline-block;padding:15px 40px;background:#1b4d3e;color:#ffffff;font-size:16px;font-weight:700;text-decoration:none;border-radius:8px;letter-spacing:0.01em;">
@@ -358,8 +401,16 @@ async function sendEmail({
         </a>
       </div>
       <p style="text-align:center;margin:12px 0 0;font-size:14px;line-height:20px;color:#888888;">
-        The Zoom link will be sent before the lab.
-      </p>`
+        Add it now so it doesn't slip — we'll remind you before we start.
+      </p>
+      ${zoomSecondaryLink}`
+    : zoomLink && joinLabUrl
+    ? `<div style="text-align:center;margin:28px 0 0;">
+        <a href="${esc(joinLabUrl)}"
+           style="display:inline-block;padding:15px 40px;background:#1b4d3e;color:#ffffff;font-size:16px;font-weight:700;text-decoration:none;border-radius:8px;letter-spacing:0.01em;">
+          Join the Lab
+        </a>
+      </div>`
     : `<p style="text-align:center;margin:28px 0 0;font-size:14px;line-height:20px;color:#888888;">
         The Zoom link will be sent before the lab.
       </p>`;
@@ -395,8 +446,9 @@ async function sendEmail({
 
               <p style="margin:0 0 16px;font-size:16px;color:#1a1a1a;">Hi ${esc(toName)},</p>
               <p style="margin:0 0 24px;font-size:15px;color:#444444;line-height:1.65;">
-                You're confirmed for the upcoming Covo Multipliers Lab.
-                Here are your details — save this email so you have everything in one place.
+                You're confirmed for <strong>${esc(eventTitle)}</strong>.
+                This is a free 45-minute live lab — practical, simple, and built to use right away.
+                The people who get the most out of it are the ones who show up live.
               </p>
 
               <!-- Event detail rows -->
@@ -458,6 +510,104 @@ async function sendEmail({
   } catch (err) {
     console.error("[register] fetch to Resend threw an exception:", err);
     return null;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Admin signup notification
+// Plain Resend REST call. Best-effort: returns void, swallows nothing upstream
+// because the caller already wraps this in try/catch.
+// ---------------------------------------------------------------------------
+async function sendAdminNotification({
+  adminEmails,
+  registrantName,
+  registrantEmail,
+  eventTitle,
+  eventDate,
+  totalSignups,
+  reactivated,
+  firstSource,
+  firstLandingPage,
+}: {
+  adminEmails: string[];
+  registrantName: string;
+  registrantEmail: string;
+  eventTitle: string;
+  eventDate: string;
+  totalSignups: number | null;
+  reactivated: boolean;
+  firstSource: string | null;
+  firstLandingPage: string | null;
+}): Promise<void> {
+  const apiKey = Deno.env.get("RESEND_API_KEY");
+  const from = Deno.env.get("RESEND_FROM_EMAIL") ?? "labs@covomultipliers.com";
+
+  if (!apiKey) {
+    console.error("[register] RESEND_API_KEY not set — skipping admin notification.");
+    return;
+  }
+
+  const dashboardUrl = "https://www.covomultipliers.com/lab-admin.html";
+  const totalLine = totalSignups != null ? `${totalSignups}` : "—";
+  const kind = reactivated ? "Re-registration" : "New signup";
+
+  const row = (label: string, value: string) =>
+    `<tr>
+       <td style="padding:8px 12px;font-weight:600;color:#245c4a;width:140px;">${esc(label)}</td>
+       <td style="padding:8px 12px;color:#1a1a1a;">${value}</td>
+     </tr>`;
+
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width,initial-scale=1.0" /></head>
+<body style="margin:0;padding:0;background:#f4f4f5;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="padding:32px 16px;">
+    <tr><td align="center">
+      <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="max-width:560px;">
+        <tr><td style="background:#10281f;padding:22px 24px;border-radius:12px 12px 0 0;">
+          <p style="margin:0;font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.6);">Lab Admin</p>
+          <h1 style="margin:4px 0 0;font-size:20px;font-weight:800;color:#ffffff;">${esc(kind)}: ${esc(eventTitle)}</h1>
+        </td></tr>
+        <tr><td style="background:#ffffff;padding:24px;border:1px solid #e5e7eb;border-top:none;border-radius:0 0 12px 12px;">
+          <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
+            style="border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;font-size:14px;">
+            ${row("Name", esc(registrantName))}
+            ${row("Email", esc(registrantEmail))}
+            ${row("Lab", esc(eventTitle))}
+            ${row("Lab date", eventDate ? formatDate(eventDate) : "—")}
+            ${row("Total signups", esc(totalLine))}
+            ${row("First source", esc(firstSource ?? "direct / unknown"))}
+            ${row("First page", esc(firstLandingPage ?? "—"))}
+          </table>
+          <div style="text-align:center;margin:24px 0 0;">
+            <a href="${dashboardUrl}" style="display:inline-block;padding:12px 28px;background:#1b4d3e;color:#ffffff;font-size:15px;font-weight:700;text-decoration:none;border-radius:8px;">Open the dashboard</a>
+          </div>
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`;
+
+  try {
+    const res = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        from: `Covo Multipliers <${from}>`,
+        to: adminEmails,
+        subject: `${kind}: ${eventTitle} (${totalLine} total)`,
+        html,
+      }),
+    });
+    if (!res.ok) {
+      const b = await res.json().catch(() => ({}));
+      console.error(`[register] admin notification Resend error status=${res.status}:`, JSON.stringify(b));
+    } else {
+      console.log(`[register] admin notification sent to ${adminEmails.length} recipient(s)`);
+    }
+  } catch (err) {
+    console.error("[register] admin notification fetch threw:", err);
   }
 }
 

@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "openai": "^6.0.0"
+    "openai": "^6.0.0",
+    "@supabase/supabase-js": "^2.43.0"
   }
 }

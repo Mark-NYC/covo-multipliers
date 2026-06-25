@@ -37,4 +37,6 @@ jobs:
           supabase functions deploy send-lost-to-leader-reminder --no-verify-jwt
           supabase functions deploy join-whatsapp --no-verify-jwt
           supabase functions deploy lab-calendar --no-verify-jwt
+          supabase functions deploy get-zoom-link --no-verify-jwt
+          supabase functions deploy lab-admin
           supabase functions deploy send-lab-reminders --no-verify-jwt

@@ -32,9 +32,14 @@
 //   test_email by itself is invalid — it requires both test_type and event_slug.
 //
 // ── Reminder windows (events.event_date) ─────────────────────────────────────
-//   week (5-day) → [now+4d,  now+5d)  — stamps reminder_week_sent_at
-//   24h          → [now+23h, now+24h) — stamps reminder_24h_sent_at
-//   1h           → [now,     now+1h)  — stamps reminder_1h_sent_at
+//   week (5-day) → [now+4d,   now+5d)  — stamps reminder_week_sent_at
+//   24h          → [now+23h,  now+24h) — stamps reminder_24h_sent_at
+//   1h           → [now+10m,  now+1h)  — stamps reminder_1h_sent_at
+//   10min        → [now,      now+10m) — stamps reminder_10min_sent_at
+//
+// NOTE: the 1h window starts at now+10m so it does not overlap the 10-minute
+// window; this requires the scheduler to run at least every ~5 minutes for the
+// 1h and 10min reminders to fire reliably.
 //
 // ── Required secrets (supabase secrets set KEY=value) ────────────────────────
 //   REMINDER_ADMIN_SECRET    — value compared against x-admin-secret header
@@ -54,7 +59,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 const BATCH_SIZE = 100;
 const CALENDAR_BASE = "https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1/lab-calendar";
 
-type ReminderType = "week" | "24h" | "1h";
+type ReminderType = "week" | "24h" | "1h" | "10min" | "followup";
 
 interface LabEvent {
   id: string;
@@ -113,8 +118,8 @@ Deno.serve(async (req: Request): Promise<Response> => {
     if (!isEmail(rawTestEmail!)) {
       return jsonResp(400, { error: "test_email must be a valid email address." });
     }
-    if (rawTestType !== "week" && rawTestType !== "24h" && rawTestType !== "1h") {
-      return jsonResp(400, { error: "test_type must be \"week\", \"24h\", or \"1h\"." });
+    if (rawTestType !== "week" && rawTestType !== "24h" && rawTestType !== "1h" && rawTestType !== "10min" && rawTestType !== "followup") {
+      return jsonResp(400, { error: "test_type must be \"week\", \"24h\", \"1h\", \"10min\", or \"followup\"." });
     }
     if (isDryRun) {
       return jsonResp(400, { error: "dry_run and forced test mode cannot both be set." });
@@ -164,7 +169,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
       body: JSON.stringify({
         from: `Covo Multipliers <${fromEmail}>`,
         to: [testEmailAddr],
-        subject: buildSubject(testType, event.title),
+        subject: buildSubject(testType, event.title, event.slug),
         html: buildEmailHtml(testType, "there", event),
       }),
     });
@@ -228,9 +233,19 @@ Deno.serve(async (req: Request): Promise<Response> => {
       column: "reminder_24h_sent_at",
     },
     "1h": {
-      lower: now,
+      lower: addMs(now, 10 * 60 * 1000),
       upper: addMs(now, 60 * 60 * 1000),
       column: "reminder_1h_sent_at",
+    },
+    "10min": {
+      lower: now,
+      upper: addMs(now, 10 * 60 * 1000),
+      column: "reminder_10min_sent_at",
+    },
+    followup: {
+      lower: addMs(now, -165 * 60 * 1000),
+      upper: addMs(now, -105 * 60 * 1000),
+      column: "followup_sent_at",
     },
   };
 
@@ -264,9 +279,11 @@ Deno.serve(async (req: Request): Promise<Response> => {
     week: { eligible: 0, sent: 0, failed: 0, skipped: 0 },
     "24h": { eligible: 0, sent: 0, failed: 0, skipped: 0 },
     "1h": { eligible: 0, sent: 0, failed: 0, skipped: 0 },
+    "10min": { eligible: 0, sent: 0, failed: 0, skipped: 0 },
+    followup: { eligible: 0, sent: 0, failed: 0, skipped: 0 },
   };
 
-  for (const type of (["week", "24h", "1h"] as ReminderType[])) {
+  for (const type of (["week", "24h", "1h", "10min", "followup"] as ReminderType[])) {
     const { lower, upper, column } = windows[type];
 
     // Events whose date falls in this reminder window
@@ -330,7 +347,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
       const batchPayload = chunk.map((r) => ({
         from: `Covo Multipliers <${fromEmail}>`,
         to: [r.email],
-        subject: buildSubject(type, r.event.title),
+        subject: buildSubject(type, r.event.title, r.event.slug),
         html: buildEmailHtml(type, r.name, r.event),
       }));
 
@@ -427,11 +444,30 @@ Deno.serve(async (req: Request): Promise<Response> => {
 // Email subjects
 // ---------------------------------------------------------------------------
 
-function buildSubject(type: ReminderType, eventTitle: string): string {
+function followupVariant(slug: string): number {
+  let hash = 0;
+  for (const char of slug) hash = ((hash << 5) - hash) + char.charCodeAt(0);
+  return Math.abs(hash) % 5;
+}
+
+function buildSubject(type: ReminderType, eventTitle: string, eventSlug?: string): string {
   switch (type) {
-    case "week": return `What you'll walk away with: ${eventTitle}`;
-    case "24h":  return `Tomorrow: ${eventTitle}`;
-    case "1h":   return `Starting in 1 hour: ${eventTitle}`;
+    case "week":  return `What you'll walk away with: ${eventTitle}`;
+    case "24h":   return `Tomorrow: ${eventTitle}`;
+    case "1h":    return `Starting in 1 hour: ${eventTitle}`;
+    case "10min": return `We start in 10 minutes`;
+    case "followup": {
+      if (!eventSlug) return "Next step: practice together";
+      const variant = followupVariant(eventSlug);
+      const subjects = [
+        "Don't let this stay in your notes",
+        "Pick one person this week",
+        "The lab is not the finish line",
+        "You need more than information",
+        "What's your follow/fish goal?",
+      ];
+      return subjects[variant];
+    }
   }
 }
 
@@ -441,9 +477,11 @@ function buildSubject(type: ReminderType, eventTitle: string): string {
 
 function buildEmailHtml(type: ReminderType, fullName: string, event: LabEvent): string {
   switch (type) {
-    case "week": return buildWeekEmail(fullName, event);
-    case "24h":  return build24hEmail(fullName, event);
-    case "1h":   return build1hEmail(fullName, event);
+    case "week":  return buildWeekEmail(fullName, event);
+    case "24h":   return build24hEmail(fullName, event);
+    case "1h":    return build1hEmail(fullName, event);
+    case "10min": return build10minEmail(fullName, event);
+    case "followup": return buildFollowupEmail(fullName, event);
   }
 }
 
@@ -465,10 +503,10 @@ function buildWeekEmail(fullName: string, event: LabEvent): string {
     </div>` : ""}
 
     ${renderDetailCard(dateStr)}
-    ${renderCtaSection(event)}
+    ${renderCalendarCta(event)}
 
     <p style="margin:28px 0 0;font-size:15px;color:#555555;line-height:1.65;">
-      We look forward to seeing you there.
+      Block out the time now so it's there when the day comes.
     </p>
     ${renderTransactionalFooter()}
   `, "What you'll walk away with");
@@ -482,11 +520,12 @@ function build24hEmail(fullName: string, event: LabEvent): string {
     <p style="margin:0 0 16px;font-size:16px;color:#1a1a1a;">Hi ${esc(firstName)},</p>
     <p style="margin:0 0 24px;font-size:15px;color:#444444;line-height:1.65;">
       <strong>${esc(event.title)}</strong> is tomorrow.
-      This is a free 45-minute live lab — come ready to think about real people, not theory.
+      Come live if you can — this is practical and simple, and the people who show up
+      live are the ones who walk away with a real next step.
     </p>
 
     ${renderDetailCard(dateStr)}
-    ${renderCtaSection(event)}
+    ${renderJoinCta(event)}
 
     <p style="margin:28px 0 0;font-size:15px;color:#555555;line-height:1.65;">
       See you tomorrow.
@@ -503,17 +542,81 @@ function build1hEmail(fullName: string, event: LabEvent): string {
     <p style="margin:0 0 16px;font-size:16px;color:#1a1a1a;">Hi ${esc(firstName)},</p>
     <p style="margin:0 0 24px;font-size:15px;color:#444444;line-height:1.65;">
       <strong>${esc(event.title)}</strong> starts in one hour.
-      Bring a notebook and come ready to engage with what you are already doing.
+      Grab a notebook and come ready to work on one real situation —
+      you'll leave with something you can use today.
     </p>
 
     ${renderDetailCard(dateStr)}
-    ${renderCtaSection(event)}
+    ${renderJoinCta(event)}
 
     <p style="margin:28px 0 0;font-size:15px;color:#555555;">
       See you soon.
     </p>
     ${renderTransactionalFooter()}
   `, "Starting in 1 hour");
+}
+
+function build10minEmail(fullName: string, event: LabEvent): string {
+  const firstName = firstWord(fullName);
+
+  return wrapEmail(`
+    <p style="margin:0 0 16px;font-size:16px;color:#1a1a1a;">Hi ${esc(firstName)},</p>
+    <p style="margin:0 0 4px;font-size:16px;color:#1a1a1a;line-height:1.6;font-weight:600;">
+      We're starting in 10 minutes.
+    </p>
+
+    ${renderJoinCta(event)}
+
+    <p style="margin:24px 0 0;font-size:15px;color:#444444;line-height:1.65;">
+      Come live if you can. This will be practical, simple, and immediately usable.
+    </p>
+    ${renderTransactionalFooter()}
+  `, "We start in 10 minutes");
+}
+
+function buildFollowupEmail(fullName: string, event: LabEvent): string {
+  const firstName = firstWord(fullName);
+  const variant = followupVariant(event.slug);
+
+  const variants = [
+    {
+      heading: "Don't let this stay in your notes",
+      body: `The win is not learning another tool. The win is obeying Jesus with one real person this week. Don't let the insights from the lab fade — put one into practice, with one person, this week.`,
+    },
+    {
+      heading: "Pick one person this week",
+      body: `You don't need to overthink the whole mission field. Don't be paralyzed by the size of the work. Start with one person God has already put near you — at work, at home, in your community.`,
+    },
+    {
+      heading: "The lab is not the finish line",
+      body: `A 45-minute lab can give you the tool and the clarity. But it cannot give you traction. Traction comes from practice — repeating the tool, seeing how it works, learning from real conversations.`,
+    },
+    {
+      heading: "You need more than information",
+      body: `Most people don't get stuck because they lack content. They get stuck because they're trying to practice alone. Join the community and keep practicing with others who are learning the same things.`,
+    },
+    {
+      heading: "What's your follow/fish goal?",
+      body: `Before this fades: name your next step. How will you follow Jesus this week? And who will you fish for — who will you have a spiritual conversation with?`,
+    },
+  ];
+
+  const v = variants[variant];
+
+  return wrapEmail(`
+    <p style="margin:0 0 16px;font-size:16px;color:#1a1a1a;">Hi ${esc(firstName)},</p>
+    <p style="margin:0 0 20px;font-size:15px;color:#444444;line-height:1.65;">
+      ${v.body}
+    </p>
+
+    <p style="margin:0 0 24px;font-size:13px;color:#888888;line-height:1.6;font-style:italic;">
+      Already in the WhatsApp? Jump back in and post your follow/fish goal.
+    </p>
+
+    ${renderFollowupCta(event)}
+
+    ${renderTransactionalFooter()}
+  `, v.heading);
 }
 
 // ---------------------------------------------------------------------------
@@ -589,43 +692,35 @@ function renderPrimaryButton(href: string, label: string): string {
     </div>`;
 }
 
-// Small, visually quiet fallback line that still carries the real Zoom URL in href.
-function renderZoomFallbackLink(zoomLink: string): string {
-  return `
-    <p style="text-align:center;margin:12px 0 0;font-size:13px;line-height:18px;color:#999999;">
-      Having trouble joining?
-      <a href="${esc(zoomLink)}" style="color:#888888;text-decoration:underline;">Open the Zoom link here.</a>
-    </p>`;
-}
-
-// Quiet secondary text link for "Add to calendar" — never competes with the
-// primary Join button.
-function renderSecondaryCalendarLink(slug: string): string {
-  const calendarUrl = `${CALENDAR_BASE}?event=${encodeURIComponent(slug)}`;
-  return `
-    <p style="text-align:center;margin:18px 0 0;font-size:14px;line-height:20px;">
-      <a href="${esc(calendarUrl)}" style="color:#1b4d3e;text-decoration:underline;font-weight:600;">Add to calendar</a>
-    </p>`;
-}
-
-// Full CTA block with clear hierarchy.
-//   Zoom present → Join the Lab (primary) ▸ quiet fallback ▸ secondary calendar link
-//   Zoom absent  → Add to Calendar (primary) ▸ "sent before the lab" note
-function renderCtaSection(event: LabEvent): string {
+// Single-action CTA for the 5-day reminder: the most useful step days out is
+// getting the lab onto the calendar. One button, no competing links.
+function renderCalendarCta(event: LabEvent): string {
   const calendarUrl = `${CALENDAR_BASE}?event=${encodeURIComponent(event.slug)}`;
+  return renderPrimaryButton(calendarUrl, "Add to Calendar");
+}
 
+// Single-action CTA for the 24h / 1h / 10min reminders: the only goal close to
+// the lab is joining live. One "Join the Lab" button with the branded redirect URL.
+// No competing calendar CTA.
+//   Zoom present → Join the Lab (primary, via branded redirect)
+//   Zoom absent  → "sent before the lab" note
+function renderJoinCta(event: LabEvent): string {
   if (event.zoom_link) {
-    return `
-      ${renderPrimaryButton(event.zoom_link, "Join the Lab")}
-      ${renderZoomFallbackLink(event.zoom_link)}
-      ${renderSecondaryCalendarLink(event.slug)}`;
+    const joinUrl = `https://www.covomultipliers.com/join-lab.html?event=${encodeURIComponent(event.slug)}`;
+    return renderPrimaryButton(joinUrl, "Join the Lab");
   }
 
   return `
-    ${renderPrimaryButton(calendarUrl, "Add to Calendar")}
-    <p style="text-align:center;margin:12px 0 0;font-size:14px;line-height:20px;color:#888888;">
+    <p style="text-align:center;margin:28px 0 0;font-size:14px;line-height:20px;color:#888888;">
       The Zoom link will be sent before the lab.
     </p>`;
+}
+
+// Single-action CTA for the post-lab followup reminder: move from information
+// to practice in community. One button, no competing links.
+function renderFollowupCta(event: LabEvent): string {
+  const nextStepUrl = `https://www.covomultipliers.com/lab-next-step.html?utm_source=email&utm_medium=postlab&utm_campaign=${encodeURIComponent(event.slug)}`;
+  return renderPrimaryButton(nextStepUrl, "Join the community of practice");
 }
 
 function renderTransactionalFooter(): string {

@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DXGLXDTF9V"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-DXGLXDTF9V');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Create short links from your long URLs with UTM parameters. Perfect for tracking campaigns and sharing.">
+    <title>Shortlink Maker — Covo Multipliers</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="canonical" href="https://covomultipliers.com/shortlink-maker.html">
+
+    <style>
+        /* ==============================================
+           Shortlink Maker page styles
+        ============================================== */
+
+        .site-header {
+            background: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .site-header .brand {
+            font-size: 0.95rem;
+            font-weight: 900;
+            color: #10281f;
+            text-decoration: none;
+            letter-spacing: -0.01em;
+        }
+
+        .site-header .back-link {
+            font-size: 0.875rem;
+            color: #5a6b65;
+            text-decoration: none;
+            transition: color 0.15s ease;
+        }
+
+        .site-header .back-link:hover {
+            color: #1b4d3e;
+        }
+
+        /* Hero section */
+        .shortlink-hero {
+            padding: 3.5rem 2rem 3rem;
+            background: linear-gradient(135deg,
+                #10281f 0%,
+                #1b4d3e 28%,
+                #2c6b5d 56%,
+                #9f7a2f 82%,
+                #dcb55a 100%
+            );
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .shortlink-hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.12;
+            background-image:
+                radial-gradient(circle at 20% 20%, rgba(255,255,255,0.12) 0.7px, transparent 0.8px),
+                radial-gradient(circle at 80% 30%, rgba(0,0,0,0.10) 0.7px, transparent 0.8px),
+                radial-gradient(circle at 40% 70%, rgba(255,255,255,0.08) 0.6px, transparent 0.7px),
+                radial-gradient(circle at 70% 80%, rgba(0,0,0,0.08) 0.6px, transparent 0.7px);
+        }
+
+        .shortlink-hero-inner {
+            position: relative;
+            max-width: 580px;
+            margin: 0 auto;
+        }
+
+        .shortlink-hero h1 {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #ffffff;
+            margin: 0 0 0.5rem 0;
+            line-height: 1.2;
+        }
+
+        .shortlink-hero p {
+            font-size: 1rem;
+            color: #d4d9d7;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Main container */
+        .shortlink-container {
+            max-width: 650px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* Form section */
+        .shortlink-form {
+            background: #f9faf9;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #10281f;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+            box-sizing: border-box;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #2c6b5d;
+            box-shadow: 0 0 0 3px rgba(44, 107, 93, 0.1);
+        }
+
+        .form-input::placeholder {
+            color: #9ca3af;
+        }
+
+        .btn-generate {
+            width: 100%;
+            padding: 0.875rem 1.5rem;
+            background: linear-gradient(135deg, #1b4d3e 0%, #2c6b5d 100%);
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .btn-generate:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(44, 107, 93, 0.2);
+        }
+
+        .btn-generate:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Result section */
+        .shortlink-result {
+            background: #f0f9f7;
+            border: 1px solid #b3d9d0;
+            border-radius: 12px;
+            padding: 2rem;
+            display: none;
+        }
+
+        .shortlink-result.show {
+            display: block;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #5a6b65;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .result-content {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .result-link-container {
+            flex: 1;
+        }
+
+        .result-link {
+            display: block;
+            padding: 0.75rem 1rem;
+            background: #ffffff;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            color: #1b4d3e;
+            text-decoration: none;
+            word-break: break-all;
+            font-weight: 500;
+        }
+
+        .result-link:hover {
+            background: #f0f9f7;
+        }
+
+        .btn-copy {
+            padding: 0.75rem 1.25rem;
+            background: #2c6b5d;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background 0.15s ease;
+        }
+
+        .btn-copy:hover {
+            background: #1b4d3e;
+        }
+
+        .btn-copy.copied {
+            background: #059669;
+        }
+
+        .result-info {
+            font-size: 0.875rem;
+            color: #5a6b65;
+            line-height: 1.5;
+        }
+
+        .result-info strong {
+            color: #10281f;
+        }
+
+        /* Loading state */
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #ffffff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Error message */
+        .error-message {
+            background: #fee2e2;
+            border: 1px solid #fecaca;
+            color: #991b1b;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            display: none;
+            font-size: 0.875rem;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        /* Success toast */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: #10281f;
+            color: #ffffff;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            animation: slideIn 0.3s ease, slideOut 0.3s ease 2.7s forwards;
+            z-index: 1000;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .shortlink-hero h1 {
+                font-size: 1.5rem;
+            }
+
+            .shortlink-container {
+                padding: 2rem 1rem;
+            }
+
+            .shortlink-form,
+            .shortlink-result {
+                padding: 1.5rem;
+            }
+
+            .result-content {
+                flex-direction: column;
+            }
+
+            .toast {
+                left: 1rem;
+                right: 1rem;
+                bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <a href="/" class="brand">Covo Multipliers</a>
+        <a href="/" class="back-link">← Back</a>
+    </header>
+
+    <section class="shortlink-hero">
+        <div class="shortlink-hero-inner">
+            <h1>Shortlink Maker</h1>
+            <p>Shorten your long URLs with UTM parameters. Perfect for tracking campaigns and sharing.</p>
+        </div>
+    </section>
+
+    <div class="shortlink-container">
+        <form class="shortlink-form" id="shortlinkForm">
+            <div class="form-group">
+                <label class="form-label" for="longUrl">Long URL with UTM Parameters</label>
+                <input
+                    type="url"
+                    id="longUrl"
+                    class="form-input"
+                    placeholder="https://example.com?utm_source=email&utm_medium=campaign"
+                    required
+                    autocomplete="off"
+                />
+            </div>
+
+            <button type="submit" class="btn-generate" id="generateBtn">
+                <span id="btnText">Generate Shortlink</span>
+            </button>
+
+            <div class="error-message" id="errorMessage"></div>
+        </form>
+
+        <div class="shortlink-result" id="result">
+            <div class="result-label">Your Short Link</div>
+            <div class="result-content">
+                <div class="result-link-container">
+                    <a href="#" class="result-link" id="shortLink" target="_blank"></a>
+                </div>
+                <button type="button" class="btn-copy" id="copyBtn">Copy</button>
+            </div>
+            <div class="result-info">
+                <strong>Original URL:</strong><br/>
+                <span id="originalUrl"></span>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        console.log('[DEBUG] Script loaded');
+
+        // Use a namespace to avoid conflicts
+        window.shortlinkApp = window.shortlinkApp || {};
+
+        async function initSupabase() {
+            console.log('[DEBUG] initSupabase called');
+
+            // Create client from the Supabase library
+            const { createClient } = window.supabase;
+            if (!createClient) {
+                console.error('[ERROR] Supabase createClient not available');
+                return null;
+            }
+
+            console.log('[DEBUG] Creating Supabase client...');
+            try {
+                window.shortlinkApp.client = createClient(
+                    'https://mryjrvinzbxebzvxtggi.supabase.co',
+                    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1yeWpydmluemJ4ZWJ6dnh0Z2dpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYyNzQ3MzksImV4cCI6MjA5MTg1MDczOX0.U1JJQTBVKePsVFXr2oFRCdUZasWaZiTQg6g8QrFdRyw'
+                );
+                console.log('[DEBUG] Supabase client created successfully');
+                return window.shortlinkApp.client;
+            } catch (err) {
+                console.error('[ERROR] Failed to create client:', err);
+                return null;
+            }
+        }
+
+        // Initialize on page load
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initSupabase);
+        } else {
+            initSupabase();
+        }
+
+        const form = document.getElementById('shortlinkForm');
+        const longUrlInput = document.getElementById('longUrl');
+        const generateBtn = document.getElementById('generateBtn');
+        const btnText = document.getElementById('btnText');
+        const errorMessage = document.getElementById('errorMessage');
+        const result = document.getElementById('result');
+        const shortLink = document.getElementById('shortLink');
+        const originalUrl = document.getElementById('originalUrl');
+        const copyBtn = document.getElementById('copyBtn');
+
+        function generateShortCode() {
+            const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let code = '';
+            for (let i = 0; i < 6; i++) {
+                code += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return code;
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            console.log('[DEBUG] Form submitted');
+            console.log('[DEBUG] Supabase client available?', !!window.shortlinkApp.client);
+
+            errorMessage.classList.remove('show');
+            errorMessage.textContent = '';
+
+            const longUrl = longUrlInput.value.trim();
+
+            if (!longUrl) {
+                console.warn('[WARN] No URL entered');
+                showError('Please enter a URL');
+                return;
+            }
+
+            // Validate URL
+            try {
+                new URL(longUrl);
+                console.log('[DEBUG] URL is valid:', longUrl);
+            } catch {
+                console.error('[ERROR] Invalid URL:', longUrl);
+                showError('Invalid URL format');
+                return;
+            }
+
+            generateBtn.disabled = true;
+            btnText.innerHTML = '<span class="loading"></span>';
+
+            try {
+                console.log('[DEBUG] Starting shortlink creation...');
+
+                const client = window.shortlinkApp.client;
+                if (!client) {
+                    throw new Error('Supabase client not initialized');
+                }
+
+                // Generate unique short code
+                let shortCode = '';
+                let attempts = 0;
+                const maxAttempts = 10;
+
+                console.log('[DEBUG] Generating unique short code...');
+
+                while (attempts < maxAttempts) {
+                    shortCode = generateShortCode();
+                    console.log(`[DEBUG] Attempt ${attempts + 1}: checking code ${shortCode}`);
+
+                    const { data: existing, error: checkError } = await client
+                        .from('shortlinks')
+                        .select('short_code')
+                        .eq('short_code', shortCode)
+                        .limit(1);
+
+                    if (checkError) {
+                        console.error('[ERROR] Check error:', checkError);
+                        throw checkError;
+                    }
+
+                    console.log('[DEBUG] Query result:', existing);
+
+                    if (!existing || existing.length === 0) {
+                        console.log('[DEBUG] Found unique code:', shortCode);
+                        break;
+                    }
+                    attempts++;
+                }
+
+                if (attempts >= maxAttempts) {
+                    throw new Error('Failed to generate unique short code');
+                }
+
+                console.log('[DEBUG] Inserting shortlink with code:', shortCode);
+
+                // Insert shortlink
+                const { data, error } = await client
+                    .from('shortlinks')
+                    .insert({
+                        short_code: shortCode,
+                        long_url: longUrl,
+                        metadata: {
+                            user_agent: navigator.userAgent,
+                            created_from: 'shortlink-maker',
+                        },
+                    })
+                    .select()
+                    .single();
+
+                if (error) {
+                    console.error('Insert error:', error);
+                    console.error('Error details:', JSON.stringify(error, null, 2));
+                    throw new Error(`Database error: ${error.message}`);
+                }
+
+                console.log('Insert successful:', data);
+
+                const baseDomain = 'https://covomultipliers.com';
+                const shortUrl = `${baseDomain}/s/${data.short_code}`;
+
+                // Display result
+                shortLink.href = shortUrl;
+                shortLink.textContent = shortUrl;
+                originalUrl.textContent = data.long_url;
+                result.classList.add('show');
+
+                // Scroll to result
+                result.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } catch (err) {
+                console.error('Error:', err);
+                showError(err.message || 'An error occurred');
+            } finally {
+                generateBtn.disabled = false;
+                btnText.textContent = 'Generate Shortlink';
+            }
+        });
+
+        copyBtn.addEventListener('click', () => {
+            const shortUrl = shortLink.textContent;
+            navigator.clipboard.writeText(shortUrl).then(() => {
+                showToast('Copied to clipboard!');
+                copyBtn.classList.add('copied');
+                copyBtn.textContent = '✓ Copied';
+                setTimeout(() => {
+                    copyBtn.classList.remove('copied');
+                    copyBtn.textContent = 'Copy';
+                }, 2000);
+            }).catch(() => {
+                showError('Failed to copy to clipboard');
+            });
+        });
+
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.classList.add('show');
+        }
+
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+    </script>
+</body>
+</html>
