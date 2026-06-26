@@ -783,6 +783,23 @@
       </div>
     </div>
 
+    <!-- ─── Substack Metrics ─────────────────────────────────────── -->
+    <div class="collapsible-section">
+      <div class="collapsible-header" id="toggle-substack">
+        <h2>Substack Analytics</h2>
+        <span class="collapsible-toggle" id="substack-toggle-label">Show ›</span>
+      </div>
+      <div class="collapsible-body" id="substack-body">
+        <p class="muted-note" style="margin-bottom:10px">Post performance metrics and subscriber engagement from Substack.</p>
+        <div class="mini-metric-row" id="substack-summary-row"></div>
+        <div style="margin-bottom:16px">
+          <button class="btn btn-primary btn-sm" id="substack-sync-btn">Sync Now</button>
+          <span id="substack-sync-status" style="margin-left:8px;font-size:12px;color:#666"></span>
+        </div>
+        <div id="substack-content" class="loading-state"><span class="spinner"></span> Loading…</div>
+      </div>
+    </div>
+
   </div><!-- /main -->
 </div><!-- /app -->
 
@@ -795,8 +812,9 @@
 const ANALYTICS_API_URL  = "https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1/analytics-admin";
 const GA4_API_URL         = "https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1/ga4-admin";
 const YOUTUBE_API_URL     = "https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1/youtube-admin";
+const SUBSTACK_API_URL    = "https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1/substack-sync";
 
-const dash = { overview: null, cohort: null, activity: null, health: null, ga4: null, yt: null };
+const dash = { overview: null, cohort: null, activity: null, health: null, ga4: null, yt: null, substack: null };
 
 // =============================================================================
 // Auth
@@ -1003,6 +1021,14 @@ function bootApp() {
     const open = body.classList.toggle("open");
     lbl.textContent = open ? "Hide ‹" : "Show ›";
   });
+  document.getElementById("toggle-substack").addEventListener("click", function() {
+    const body = document.getElementById("substack-body");
+    const lbl  = document.getElementById("substack-toggle-label");
+    const open = body.classList.toggle("open");
+    lbl.textContent = open ? "Hide ‹" : "Show ›";
+    if (open && !dash.substack) loadSubstack();
+  });
+  document.getElementById("substack-sync-btn").addEventListener("click", syncSubstackPosts);
 
   loadAll();
 }
@@ -1025,6 +1051,7 @@ function loadAll() {
   loadWhatsappClicks();
   loadGA4();
   loadYoutube();
+  loadSubstack();
 }
 
 document.getElementById("apply-btn").addEventListener("click", loadAll);
@@ -1963,6 +1990,151 @@ function renderGA4BridgeRegs() {
     'UTM-tagged GA4 sessions that converted to registrations will share the same source/medium labels. ' +
     'Organic and direct GA4 sessions cannot be matched to Supabase contacts.' +
     '</p>';
+}
+
+// =============================================================================
+// Substack Metrics
+// =============================================================================
+async function loadSubstack() {
+  const el = document.getElementById("substack-content");
+  if (el) el.innerHTML = '<div class="loading-state"><span class="spinner"></span> Loading…</div>';
+
+  try {
+    const secret = sessionStorage.getItem("analytics_secret");
+    const res = await fetch(SUBSTACK_API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "x-admin-secret": secret },
+      body: JSON.stringify({ action: "get_metrics" })
+    });
+
+    if (!res.ok) {
+      throw new Error(`Error: ${res.status}`);
+    }
+
+    const result = await res.json() as { data?: Array<{
+      id: string;
+      post_id: string;
+      metric_date: string;
+      likes?: number;
+      views?: number;
+      clicks?: number;
+      comments?: number;
+      substack_posts?: {
+        id: string;
+        title: string;
+        post_url: string;
+        published_at?: string;
+      };
+    }> };
+
+    dash.substack = result.data || [];
+    renderSubstack(dash.substack);
+  } catch(e) {
+    const el = document.getElementById("substack-content");
+    if (el) el.innerHTML = '<div class="empty-state" style="color:#dc2626">Error: ' + esc(String(e)) + '</div>';
+  }
+}
+
+function renderSubstack(data: Array<unknown>) {
+  const el = document.getElementById("substack-content");
+  if (!el) return;
+
+  if (!data || data.length === 0) {
+    el.innerHTML = '<div class="empty-state">No Substack posts synced yet. Click "Sync Now" to fetch posts and metrics.</div>';
+    return;
+  }
+
+  // Group by post and get latest metrics
+  const postMap: Record<string, { title?: string; post_url?: string; metrics: Array<unknown> }> = {};
+  for (const metric of data) {
+    const m = metric as {
+      post_id: string;
+      substack_posts?: { title?: string; post_url?: string };
+      likes?: number;
+      views?: number;
+      clicks?: number;
+    };
+    if (!postMap[m.post_id]) {
+      postMap[m.post_id] = {
+        title: m.substack_posts?.title,
+        post_url: m.substack_posts?.post_url,
+        metrics: []
+      };
+    }
+    postMap[m.post_id].metrics.push(metric);
+  }
+
+  // Calculate summary metrics
+  let totalClicks = 0, totalViews = 0, totalLikes = 0;
+  for (const post of Object.values(postMap)) {
+    const latest = (post.metrics[0] as { clicks?: number; views?: number; likes?: number }) || {};
+    totalClicks += latest.clicks || 0;
+    totalViews += latest.views || 0;
+    totalLikes += latest.likes || 0;
+  }
+
+  document.getElementById("substack-summary-row").innerHTML =
+    miniMetric(num(Object.keys(postMap).length), "Posts Tracked") +
+    miniMetric(num(totalClicks), "Total Clicks") +
+    miniMetric(num(totalViews), "Total Views") +
+    miniMetric(num(totalLikes), "Total Likes");
+
+  // Render table
+  let html = '<div style="overflow-x:auto"><table class="data-table"><thead><tr>' +
+    '<th>Post</th><th style="text-align:right">Clicks</th><th style="text-align:right">Views</th>' +
+    '<th style="text-align:right">Likes</th><th style="text-align:right">Comments</th>' +
+    '</tr></thead><tbody>';
+
+  for (const [postId, post] of Object.entries(postMap)) {
+    const latest = (post.metrics[0] as { clicks?: number; views?: number; likes?: number; comments?: number }) || {};
+    const title = post.title || "Untitled";
+    const url = post.post_url || "#";
+    html += '<tr>' +
+      '<td><a href="' + esc(url) + '" target="_blank" style="color:#1b4d3e">' + esc(title) + '</a></td>' +
+      '<td style="text-align:right;font-weight:700">' + num(latest.clicks || 0) + '</td>' +
+      '<td style="text-align:right">' + num(latest.views || 0) + '</td>' +
+      '<td style="text-align:right">' + num(latest.likes || 0) + '</td>' +
+      '<td style="text-align:right">' + num(latest.comments || 0) + '</td>' +
+      '</tr>';
+  }
+
+  html += '</tbody></table></div>';
+  el.innerHTML = html;
+}
+
+async function syncSubstackPosts() {
+  const secret = sessionStorage.getItem("analytics_secret");
+  const statusEl = document.getElementById("substack-sync-status");
+  const btnEl = document.getElementById("substack-sync-btn") as HTMLButtonElement;
+
+  if (!statusEl || !btnEl) return;
+
+  statusEl.textContent = "Syncing…";
+  btnEl.disabled = true;
+
+  try {
+    const res = await fetch(SUBSTACK_API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "x-admin-secret": secret },
+      body: JSON.stringify({ action: "sync_posts", publication_id: "covomultipliers" })
+    });
+
+    if (!res.ok) {
+      throw new Error(`Sync failed: ${res.status}`);
+    }
+
+    const result = await res.json() as { synced?: number; total?: number };
+    statusEl.textContent = `Synced ${result.synced || 0} of ${result.total || 0} posts`;
+    showToast(`Synced ${result.synced || 0} posts`, "ok");
+
+    // Reload metrics
+    setTimeout(loadSubstack, 1000);
+  } catch(e) {
+    statusEl.textContent = "Sync failed: " + String(e);
+    showToast("Sync failed: " + String(e), "err");
+  } finally {
+    btnEl.disabled = false;
+  }
 }
 
 // =============================================================================
