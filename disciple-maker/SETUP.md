@@ -142,25 +142,26 @@ Update your Substack article to link to `/disciple-maker/`.
    - Function:
      - Stores responses in `disciple_maker_responses`
      - Calculates average score per dimension
-     - Identifies pathway (Explorer, Practitioner, Multiplier, Catalyst)
+     - Identifies pathway (Explorer, Practitioner, Multiplier, Catalyst) [INTERNAL ONLY]
      - Identifies strongest and lowest dimensions
      - Diagnoses bottleneck
      - Generates results_token
      - Stores all in `disciple_maker_sessions`
    - Redirects to `results.html?r=<token>`
 
-5. **Results** `results.html`
+5. **Results** `results.html` — Coaching Conversation Structure
    - Fetches results using `disciple-maker-results` function (token-secured)
-   - Displays:
+   - Displays (NO pathway labels shown to user):
+     - "Your Snapshot" (title, no stage)
      - Radar chart (8 dimensions, 1-5 scale)
-     - Pathway name + description
-     - Strengths (3) + Growth Areas (3)
-     - Encouragement message
-     - Next reps for this week (3 actions)
-     - Dimension score bars
-   - Clarifying note: "Labs and Immersions are public opportunities you can explore anytime. WhatsApp is where we practice together and discern next steps. Deeper programs like Online Simple Multiplier Church, coaching, and our Institute emerge from WhatsApp participation."
+     - "Where You Are Right Now" (dimension bars)
+     - "What We're Seeing" (3 observations about their practice)
+     - "Your Biggest Growth Edge" (1-2 growth areas)
+     - "Your Next Rep This Week" (3 actionable practices)
+     - Encouragement message (about apprenticeship, not achievement)
+     - "This snapshot is a starting point for your next conversation"
    - **Single CTA**: "Join the CoVo WhatsApp Community"
-   - Pathway-specific WhatsApp guidance (what to do when you join)
+   - Community invitation (no pathway-specific guidance, no programs mentioned)
 
 ### Resume Flow
 
