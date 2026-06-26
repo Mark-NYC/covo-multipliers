@@ -748,15 +748,8 @@
       const hasCoachability = observations.some(o => o.includes('willing to learn'));
       const hasMission = observations.some(o => o.includes('know where'));
 
-      // Priority-based identity determination
-      if (hasPractice && hasMission && hasCoachability) {
-        return {
-          type: 'Rooted Multiplier',
-          image: '/image/discipleicons/rooted-multiplier.webp',
-          subtitle: 'Making Disciples Where You Are',
-          meaning: 'You walk out your faith while bringing others along.'
-        };
-      }
+      // Priority-based identity determination (most specific first)
+      // Check for all four first (most advanced identity)
       if (hasVision && hasPractice && hasMission && hasCoachability) {
         return {
           type: 'Multiplying Influence',
@@ -765,6 +758,16 @@
           meaning: 'You see the calling and help others follow it.'
         };
       }
+      // Practice + Mission + Coachability (without vision)
+      if (hasPractice && hasMission && hasCoachability && !hasVision) {
+        return {
+          type: 'Rooted Multiplier',
+          image: '/image/discipleicons/rooted-multiplier.webp',
+          subtitle: 'Making Disciples Where You Are',
+          meaning: 'You walk out your faith while bringing others along.'
+        };
+      }
+      // Vision only (no practice yet, not eager)
       if (hasVision && !hasPractice && !hasEager) {
         return {
           type: 'Vision-Centered',
@@ -773,6 +776,7 @@
           meaning: 'You have clarity about the calling. Now it\'s time to step in.'
         };
       }
+      // Practice without vision
       if (hasPractice && !hasVision) {
         return {
           type: 'Faithful Practitioner',
@@ -781,6 +785,7 @@
           meaning: 'You live out your faith through faithful obedience.'
         };
       }
+      // Coachability without practice
       if (hasCoachability && !hasPractice) {
         return {
           type: 'Community Builder',
@@ -789,6 +794,7 @@
           meaning: 'Your openness and humility accelerate growth in community.'
         };
       }
+      // Eager to learn (eager but not practicing)
       if (hasEager) {
         return {
           type: 'Awakening Disciple',
