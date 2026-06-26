@@ -130,11 +130,12 @@ Update your Substack article to link to `/disciple-maker/`.
    - Redirects to `take.html`
 
 3. **Taking Assessment** `take.html`
-   - Shows 32 questions (8 dimensions × 4 questions each)
+   - Shows 20 questions (5 dimensions, 3-5 questions each)
    - 5-point Likert scale (Strongly Disagree → Strongly Agree)
-   - Single question per screen
+   - Single question per screen, completable in 4-5 minutes
    - Auto-saves after each response
-   - Progress bar shows completion %
+   - Progress bar with color progression (cool greens → warm gold)
+   - Coaching messages at Q5, Q10, Q15, Q18 milestones
    - "Submit Checkup" button appears on last question
 
 4. **Submit** `take.html`
@@ -149,11 +150,13 @@ Update your Substack article to link to `/disciple-maker/`.
      - Stores all in `disciple_maker_sessions`
    - Redirects to `results.html?r=<token>`
 
-5. **Results** `results.html` — Coaching Conversation Structure
+5. **Results** `results.html` — Coaching Conversation with Momentum
    - Fetches results using `disciple-maker-results` function (token-secured)
+   - Loading screen: 2-3s animated checklist ("Looking for strengths", "Identifying growth edges", "Finding your next rep")
+   - Results reveal with staggered animations (sections appear 0.1s apart)
    - Displays (NO pathway labels shown to user):
      - "Your Snapshot" (title, no stage)
-     - Radar chart (8 dimensions, 1-5 scale)
+     - Radar chart (5 dimensions, 1-5 scale)
      - "Where You Are Right Now" (dimension bars)
      - "What We're Seeing" (3 observations about their practice)
      - "Your Biggest Growth Edge" (1-2 growth areas)
@@ -262,15 +265,22 @@ Global styles in `/styles.css`. Assessment-specific styles in inline `<style>` t
 
 - [ ] Start assessment at `/disciple-maker/`
 - [ ] Complete intake form
-- [ ] Answer all 32 questions
+- [ ] Answer all 20 questions (should complete in 4-5 minutes)
+- [ ] Coaching message appears after Q5 ("Great start…")
+- [ ] Coaching message appears after Q10 ("Halfway there…")
+- [ ] Coaching message appears after Q15 ("Almost done…")
+- [ ] Coaching message appears after Q18 ("You're almost there…")
+- [ ] Progress bar color shifts from green to gold
 - [ ] Verify auto-save works (check browser console)
 - [ ] Submit assessment
-- [ ] View results page
-- [ ] Verify radar chart renders
+- [ ] Loading screen appears with animated checklist
+- [ ] Results page reveals with staggered animations
+- [ ] Verify radar chart renders with 5 dimensions (Vision, Practice, Rhythm, Coachability, Everyday Mission)
+- [ ] Confirm observations, growth edges, and next reps display
 - [ ] Confirm WhatsApp CTA link works
 - [ ] Click "Resume" link
 - [ ] Verify can resume in-progress assessment
-- [ ] Test on mobile
+- [ ] Test on mobile (progress bar, text sizing, responsiveness)
 
 ### Verifying Database
 
