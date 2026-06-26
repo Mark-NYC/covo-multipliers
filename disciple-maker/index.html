@@ -264,25 +264,49 @@
       font-style: italic;
     }
 
+    /* HERO IMAGE */
+    .hero-image {
+      margin-bottom: 48px;
+      border-radius: 12px;
+      overflow: hidden;
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    .hero-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
     /* REASSURANCE SECTION */
-    .reassurance {
-      padding: 60px 0;
+    .reassurance-wrapper {
+      background: #1b4d3e;
+      color: white;
+      margin: 60px -24px 0;
+      padding: 60px 24px;
       animation: fadeIn 0.5s ease-out 0.3s both;
+    }
+
+    .reassurance {
+      max-width: 680px;
+      margin: 0 auto;
     }
 
     .reassurance h2 {
       margin-bottom: 16px;
       font-size: 22px;
+      color: white;
     }
 
     .reassurance p {
       font-size: 15px;
       margin-bottom: 12px;
+      color: rgba(255, 255, 255, 0.9);
     }
 
     .reassurance p:last-child {
       margin-bottom: 0;
-      color: #999;
+      color: rgba(255, 255, 255, 0.7);
       font-size: 13px;
       font-style: italic;
       margin-top: 20px;
@@ -356,6 +380,13 @@
         padding: 0 20px;
       }
 
+      .hero-image {
+        margin-left: -20px;
+        margin-right: -20px;
+        margin-bottom: 40px;
+        border-radius: 0;
+      }
+
       h1 {
         font-size: 28px;
         margin-bottom: 12px;
@@ -367,6 +398,11 @@
 
       .hero {
         padding: 48px 0 32px;
+      }
+
+      .reassurance-wrapper {
+        margin: 48px -20px 0;
+        padding: 40px 20px;
       }
 
       .hero-subheading {
@@ -428,6 +464,11 @@
         padding: 0 16px;
       }
 
+      .hero-image {
+        margin-left: -16px;
+        margin-right: -16px;
+      }
+
       h1 {
         font-size: 24px;
       }
@@ -442,6 +483,11 @@
 
       .combined-section {
         padding: 28px 20px;
+      }
+
+      .reassurance-wrapper {
+        margin: 40px -16px 0;
+        padding: 32px 16px;
       }
 
       .bullet-list li {
@@ -460,6 +506,11 @@
   </header>
 
   <main class="main">
+
+    <!-- HERO IMAGE -->
+    <div class="hero-image">
+      <img src="/image/Covo Multipliers Winging It.webp" alt="Disciple makers in everyday life">
+    </div>
 
     <!-- HERO: Visible in 1 screen on mobile -->
     <section class="hero">
@@ -498,12 +549,14 @@
     </section>
 
     <!-- REASSURANCE SECTION: For people who scroll -->
-    <section class="reassurance">
-      <h2>Why this matters</h2>
-      <p>Most Christians don't need more information. They need one next step.</p>
-      <p>That's why we built this.</p>
-      <p>This isn't another quiz. It's a coaching tool designed to get you unstuck and practicing.</p>
-    </section>
+    <div class="reassurance-wrapper">
+      <section class="reassurance">
+        <h2>Why this matters</h2>
+        <p>Most Christians don't need more information. They need one next step.</p>
+        <p>That's why we built this.</p>
+        <p>This isn't another quiz. It's a coaching tool designed to get you unstuck and practicing.</p>
+      </section>
+    </div>
 
     <!-- SECONDARY CTA -->
     <a href="intake.html" class="cta-secondary">Start the Checkup</a>
