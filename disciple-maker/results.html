@@ -11,7 +11,7 @@
     </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Your Results — Disciple Maker Checkup</title>
+  <title>Your Results — Disciple Maker Assessment</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&display=swap" rel="stylesheet">
@@ -477,7 +477,7 @@
         <div id="dimension-summary"></div>
       </div>
 
-      <div class="dm-card">
+      <div class="dm-card" id="observations-card">
         <h2 class="dm-h2">What We're Seeing</h2>
         <p class="dm-body">
           Observations based on your responses:
@@ -762,7 +762,7 @@
       // Render dimension summary
       renderDimensionSummary(scores);
 
-      // Render observations with icons
+      // Render observations with icons (hide section if no observations)
       const observationsHtml = observations
         .map(obs => `
           <div class="observation-item">
@@ -771,7 +771,12 @@
           </div>
         `)
         .join('');
-      document.getElementById('observations-section').innerHTML = observationsHtml;
+
+      if (observations.length === 0) {
+        document.getElementById('observations-card').style.display = 'none';
+      } else {
+        document.getElementById('observations-section').innerHTML = observationsHtml;
+      }
 
       // Render growth edge
       document.getElementById('growth-edge-section').innerHTML =
@@ -853,7 +858,7 @@
         <div class="cta-title">What's Next?</div>
         <p class="cta-text">Growth doesn't happen through assessments. It happens shoulder-to-shoulder with other people learning to follow Jesus.</p>
         <p class="cta-text">Join our WhatsApp community where we encourage one another, practice together, share Follow & Fish goals, celebrate stories, ask questions, and take the next step together.</p>
-        <a href="/whatsapp.html" class="btn-gold">Join the CoVo WhatsApp Community</a>
+        <a href="https://chat.whatsapp.com/HBFSp1fsSW79V3iqelxTWh?mode=gi_t?utm_source=discipleshipassessment&utm_medium=whatsapp" class="btn-gold">Join the CoVo WhatsApp Community</a>
       `;
       document.getElementById('cta-section').innerHTML = ctaHtml;
 
