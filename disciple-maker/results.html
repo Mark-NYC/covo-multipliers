@@ -817,12 +817,20 @@
       const firstName = data.first_name || 'Friend';
       const scores = data.dimension_scores || {};
 
+      // Debug logging
+      console.log('Raw dimension scores:', scores);
+
       // Analyze scores using new conservative engine
       const analysis = analyzeScores(scores);
+      console.log('Analyzed scores:', analysis);
+
       const observations = generateObservations(analysis);
+      console.log('Generated observations:', observations);
+
       const growthEdge = generateGrowthEdge(analysis);
       const nextRep = generateNextRep(analysis);
       const identity = determineIdentity(observations, analysis);
+      console.log('Determined identity:', identity);
 
       // Render greeting
       document.getElementById('result-greeting').textContent = `Hello, ${firstName}.`;
