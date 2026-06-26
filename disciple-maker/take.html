@@ -202,10 +202,12 @@
       display: block;
     }
 
-    .coaching-message::before {
-      content: "🎯 ";
+    .coaching-message svg {
+      width: 18px;
+      height: 18px;
       margin-right: 6px;
-      font-size: 18px;
+      display: inline-block;
+      vertical-align: middle;
     }
 
     @keyframes slideInBounce {
@@ -407,6 +409,16 @@
       position: relative;
       overflow: hidden;
       box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-primary svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
     }
 
     .btn-primary::before {
@@ -461,6 +473,16 @@
       transition: all 0.3s ease;
       min-height: 20px;
       font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .save-indicator svg {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
     }
 
     .save-indicator.saving {
@@ -646,12 +668,43 @@
     let responses = {};
     let saveTimer = null;
     let answersInRow = 0;
+    let isAutoAdvancing = false;
+
+    // SVG ICONS
+    const icons = {
+      target: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="12" r="5"></circle><circle cx="12" cy="12" r="9"></circle></svg>',
+      fire: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>',
+      lightning: '<svg viewBox="0 0 24 24" fill="currentColor"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>',
+      flag: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.36 6l.4 2H18V4H6.77L7.13 6M5 21h14v-7H8.95l-.4-2H5v9z"/></svg>',
+      save: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>',
+      check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>',
+      sparkle: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>',
+      rocket: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.49 5.48c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm-3.6 13.9L8 19v4h8v-4l-1.89-3.62c-1.6 1.41-3.8 2.25-6.21 2.25-2.41 0-4.61-.84-6.21-2.25zM12 5.5c2.49 0 4.74.88 6.53 2.35 1.26 1.04 2.3 2.37 2.99 3.84.33.64.52 1.36.52 2.11 0 .55-.08 1.08-.24 1.59-.32 1.03-1.02 1.94-1.96 2.56-.19.13-.39.26-.59.37l-2.95 2.95c-.37.37-.88.58-1.41.58h-.01c-.53 0-1.04-.21-1.41-.58L9.46 13.4c-.2-.11-.4-.24-.59-.37-.94-.62-1.64-1.53-1.96-2.56-.16-.51-.24-1.04-.24-1.59 0-.75.19-1.47.52-2.11.69-1.47 1.73-2.8 2.99-3.84C7.26 6.38 9.51 5.5 12 5.5z"/></svg>',
+      muscle: '<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="15" cy="6" r="2"/><path d="M17 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor" stroke-width="2" fill="none"/><path d="M7 11h4V6h-4v5zm6-1v3" stroke="currentColor" stroke-width="2"/></svg>',
+      star: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>'
+    };
 
     const milestoneMessages = {
-      5: ["Great start! 🚀", "You're rolling! 🎯", "Perfect pace! 💪"],
-      10: ["Halfway! You're crushing it! 🔥", "50% done—amazing! ⚡", "Momentum building! 🌟"],
-      15: ["Final stretch! 🎉", "Almost there! So close! 🏁", "The finish line is near! 🎯"],
-      18: ["One more! You got this! 🚀", "Final question incoming! 💥", "Here we go! The moment is coming! ✨"]
+      5: [
+        { text: "Great start! ", icon: "rocket" },
+        { text: "You're rolling! ", icon: "target" },
+        { text: "Perfect pace! ", icon: "muscle" }
+      ],
+      10: [
+        { text: "Halfway! You're crushing it! ", icon: "fire" },
+        { text: "50% done—amazing! ", icon: "lightning" },
+        { text: "Momentum building! ", icon: "star" }
+      ],
+      15: [
+        { text: "Final stretch! ", icon: "sparkle" },
+        { text: "Almost there! So close! ", icon: "flag" },
+        { text: "The finish line is near! ", icon: "target" }
+      ],
+      18: [
+        { text: "One more! You got this! ", icon: "rocket" },
+        { text: "Final question incoming! ", icon: "fire" },
+        { text: "Here we go! The moment is coming! ", icon: "lightning" }
+      ]
     };
 
     function getCoachingMessage(questionNumber) {
@@ -661,6 +714,12 @@
         return options[Math.floor(Math.random() * options.length)];
       }
       return null;
+    }
+
+    function renderCoachingMessage(msg) {
+      if (!msg) return '';
+      const iconSvg = icons[msg.icon] || '';
+      return iconSvg + msg.text;
     }
 
     function triggerConfetti() {
@@ -754,16 +813,31 @@
     }
 
     function selectResponse(qId, value) {
+      if (isAutoAdvancing) return;
+
       responses[qId] = value;
       answersInRow++;
       displayQuestion();
       scheduleAutoSave();
 
-      // Milestone emojis at certain answer counts
-      if (answersInRow === 5) triggerMilestoneEmoji('🎯');
-      if (answersInRow === 10) triggerMilestoneEmoji('🔥');
-      if (answersInRow === 15) triggerMilestoneEmoji('⚡');
+      // Milestone celebrations at certain answer counts
+      if (answersInRow === 5) triggerMilestoneEmoji('✨');
+      if (answersInRow === 10) triggerMilestoneEmoji('⚡');
+      if (answersInRow === 15) triggerMilestoneEmoji('🎯');
       if (answersInRow === 20) triggerMilestoneEmoji('🏁');
+
+      // Auto-advance to next question after a brief delay (not on final question)
+      if (currentIndex < allQuestions.length - 1) {
+        isAutoAdvancing = true;
+        setTimeout(() => {
+          currentIndex++;
+          displayQuestion();
+          isAutoAdvancing = false;
+        }, 600);
+      } else {
+        // On final question, just update UI
+        updateNavButtons();
+      }
     }
 
     function updateNavButtons() {
@@ -774,7 +848,7 @@
       const allAnswered = allQuestions.every(q => responses[q.id] !== undefined);
 
       if (currentIndex === allQuestions.length - 1) {
-        document.getElementById('next-btn').textContent = '🎉 Submit Checkup';
+        document.getElementById('next-btn').innerHTML = icons.sparkle + ' Submit Checkup';
         document.getElementById('next-btn').onclick = submitAssessment;
         document.getElementById('next-btn').disabled = !allAnswered;
       } else {
@@ -814,11 +888,11 @@
         setTimeout(() => { streakEl.classList.remove('show'); }, 2000);
       }
 
-      // Coaching messages
+      // Coaching messages with SVG icons
       const coachingMsg = getCoachingMessage(questionNumber);
       const coachingEl = document.getElementById('coaching-message');
       if (coachingMsg) {
-        coachingEl.textContent = coachingMsg;
+        coachingEl.innerHTML = renderCoachingMessage(coachingMsg);
         coachingEl.classList.add('show');
       } else {
         coachingEl.classList.remove('show');
@@ -842,13 +916,13 @@
     function scheduleAutoSave() {
       clearTimeout(saveTimer);
       const saveIndicator = document.getElementById('save-indicator');
-      saveIndicator.textContent = '💾 Saving…';
+      saveIndicator.innerHTML = icons.save + ' Saving…';
       saveIndicator.classList.add('saving');
 
       saveTimer = setTimeout(() => {
         saveIndicator.classList.remove('saving');
         saveIndicator.classList.add('celebration');
-        saveIndicator.textContent = '✅ Saved!';
+        saveIndicator.innerHTML = icons.check + ' Saved!';
         setTimeout(() => {
           saveIndicator.classList.remove('celebration');
           saveIndicator.textContent = 'Your progress is saved automatically.';
