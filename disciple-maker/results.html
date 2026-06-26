@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DXGLXDTF9V"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-DXGLXDTF9V');
+    </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Results — Disciple Maker Checkup</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="config.js"></script>
+  <script src="questions.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+  <meta name="robots" content="noindex, nofollow">
+  <style>
+    body {
+      background: #fafafa;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .dm-header {
+      background: #1b4d3e;
+      color: white;
+      padding: 16px 20px;
+      text-align: center;
+      border-bottom: 1px solid #164033;
+    }
+
+    .dm-header-brand {
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      color: white;
+      opacity: 0.9;
+    }
+
+    .dm-main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 32px 20px;
+    }
+
+    .results-hero {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .results-eyebrow {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #888;
+      margin: 0 0 12px;
+    }
+
+    .results-title {
+      font-size: 32px;
+      font-weight: 800;
+      line-height: 1.2;
+      color: #1a1a1a;
+      margin: 0 0 12px;
+    }
+
+    .results-subtitle {
+      font-size: 16px;
+      line-height: 1.6;
+      color: #555;
+      margin: 0;
+    }
+
+    .dm-card {
+      background: white;
+      border-radius: 12px;
+      padding: 28px;
+      margin-bottom: 24px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+
+    .dm-h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin: 0 0 16px;
+    }
+
+    .dm-body {
+      font-size: 15px;
+      line-height: 1.7;
+      color: #555;
+      margin: 0 0 16px;
+    }
+
+    .dm-body:last-child {
+      margin-bottom: 0;
+    }
+
+    .radar-container {
+      position: relative;
+      width: 100%;
+      max-width: 400px;
+      margin: 0 auto 24px;
+      aspect-ratio: 1;
+    }
+
+    .pathway-box {
+      background: linear-gradient(135deg, #f0f9f7 0%, #e8f5f1 100%);
+      border-left: 4px solid #1b4d3e;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 24px;
+    }
+
+    .pathway-name {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1b4d3e;
+      margin-bottom: 8px;
+    }
+
+    .pathway-description {
+      font-size: 15px;
+      line-height: 1.6;
+      color: #444;
+      margin: 0;
+    }
+
+    .three-column {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    .strength-item {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 8px;
+      padding: 16px;
+    }
+
+    .strength-item-title {
+      font-weight: 700;
+      color: #166534;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .strength-item-text {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #15803d;
+    }
+
+    .growth-item {
+      background: #fef3c7;
+      border: 1px solid #fde68a;
+      border-radius: 8px;
+      padding: 16px;
+    }
+
+    .growth-item-title {
+      font-weight: 700;
+      color: #92400e;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .growth-item-text {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #b45309;
+    }
+
+    .encouragement-box {
+      background: #f3f4f6;
+      border-radius: 8px;
+      padding: 20px;
+      border-left: 3px solid #6b7280;
+      margin: 24px 0;
+    }
+
+    .encouragement-text {
+      font-size: 15px;
+      line-height: 1.7;
+      color: #374151;
+      margin: 0;
+      font-style: italic;
+    }
+
+    .next-reps {
+      background: #f9fafb;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 24px 0;
+    }
+
+    .next-reps-title {
+      font-weight: 700;
+      color: #1a1a1a;
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+
+    .next-reps-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .next-reps-list li {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 10px;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #555;
+    }
+
+    .next-reps-list li:last-child {
+      margin-bottom: 0;
+    }
+
+    .next-reps-bullet {
+      color: #1b4d3e;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .cta-section {
+      background: white;
+      border-radius: 12px;
+      padding: 28px;
+      text-align: center;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      margin-top: 32px;
+    }
+
+    .cta-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 12px;
+    }
+
+    .cta-text {
+      font-size: 15px;
+      line-height: 1.6;
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    .btn-gold {
+      display: inline-block;
+      background: #d4af37;
+      color: #1a1a1a;
+      padding: 14px 40px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-gold:hover {
+      background: #c9a227;
+    }
+
+    .loading-state {
+      display: none;
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid #f0f0f0;
+      border-top-color: #1b4d3e;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      margin: 0 auto 16px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .error-state {
+      display: none;
+    }
+
+    .error-state-icon {
+      font-size: 48px;
+      margin-bottom: 12px;
+    }
+
+    .error-state h2 {
+      color: #1a1a1a;
+      margin: 0 0 8px;
+    }
+
+    .error-state p {
+      color: #555;
+      margin: 0 0 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="dm-header">
+    <a class="dm-header-brand" href="/">Covo Multipliers</a>
+  </header>
+
+  <main class="dm-main">
+
+    <div id="loading-view" class="dm-card loading-state">
+      <div class="loading-spinner"></div>
+      <p>Loading your results…</p>
+    </div>
+
+    <div id="error-view" class="dm-card error-state">
+      <div class="error-state-icon">⚠️</div>
+      <h2>Results not found</h2>
+      <p>This link may be invalid or expired. Please check the email we sent you.</p>
+      <a href="/" style="color: #1b4d3e; font-weight: 600; text-decoration: none;">Return Home</a>
+    </div>
+
+    <div id="results-view" style="display:none;">
+
+      <div class="results-hero">
+        <p class="results-eyebrow">Your Disciple Maker Checkup Results</p>
+        <h1 class="results-title" id="result-name"></h1>
+        <p class="results-subtitle" id="result-greeting"></p>
+      </div>
+
+      <!-- Radar Chart -->
+      <div class="dm-card">
+        <h2 class="dm-h2">Your Journey at a Glance</h2>
+        <p class="dm-body">
+          These eight dimensions show where you are right now. This isn't about scoring high—it's about seeing where you're strong and where you're ready to grow.
+        </p>
+        <div class="radar-container">
+          <canvas id="radarChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Pathway Identification -->
+      <div class="pathway-box" id="pathway-box"></div>
+
+      <!-- Strengths & Growth Areas -->
+      <div class="dm-card" id="strengths-section"></div>
+
+      <!-- Encouragement -->
+      <div class="encouragement-box" id="encouragement-section"></div>
+
+      <!-- Next Reps -->
+      <div class="dm-card">
+        <h2 class="dm-h2">Your Next Rep This Week</h2>
+        <div class="next-reps" id="next-reps-section"></div>
+        <p class="dm-body" style="font-size: 13px; color: #888; margin-top: 16px;">
+          "Rep" = one more step of practice. Not a big goal. Just the next obedience in front of you.
+        </p>
+      </div>
+
+      <!-- CTA -->
+      <div class="cta-section" id="cta-section"></div>
+
+    </div>
+
+  </main>
+
+  <script>
+    const SUPABASE_FUNCTIONS = window.DISCIPLE_MAKER_CONFIG.SUPABASE_FUNCTIONS;
+    let radarChart = null;
+
+    // Pathway definitions
+    const pathways = {
+      explorer: {
+        name: "Explorer",
+        condition: (scores) => scores.vision >= 3.5 && scores.obedience <= 3 && scores.coachability >= 3.5,
+        description: "You're inspired by the vision and ready to practice. You need confidence to take first steps.",
+        strengths: [
+          "Hungry to grow",
+          "Willing to learn",
+          "Open to feedback"
+        ],
+        growthAreas: [
+          "Building consistency",
+          "Taking first steps",
+          "Practicing despite uncertainty"
+        ],
+        encouragement: "The first rep is always the hardest. You don't need to feel ready—you just need to start. Jesus didn't wait for perfect disciples; He called fishermen and tax collectors and invited them to follow. That's you right now.",
+        nextReps: [
+          "Pray for five people by name this week",
+          "Have one intentional spiritual conversation",
+          "Invite someone to read Scripture with you"
+        ],
+        whatsappMessage: "You'll connect with other people just starting out. See how they're taking their first steps and get the encouragement you need to keep practicing."
+      },
+      practitioner: {
+        name: "Practitioner",
+        condition: (scores) => scores.obedience >= 3.5 && scores.consistency <= 3.5 && scores.coachability >= 3.5,
+        description: "You're already taking action. The gap now isn't knowledge—it's consistency. You need accountability.",
+        strengths: [
+          "Actually practicing",
+          "Willing to learn",
+          "Open to community"
+        ],
+        growthAreas: [
+          "Weekly consistency",
+          "Building rhythms",
+          "Staying accountable"
+        ],
+        encouragement: "You're already doing it. Most people read about disciple-making; you're actually doing it. The hardest part now is keeping the rhythm week after week. That's exactly what the community is for.",
+        nextReps: [
+          "Identify your weekly rhythm for prayer and Scripture",
+          "Ask one person this week how they're obeying Jesus",
+          "Make room in your schedule for consistent disciple-making"
+        ],
+        whatsappMessage: "You'll find your people here. Other practitioners who are building weekly rhythms and staying faithful. You'll learn how they're doing it and hold each other accountable."
+      },
+      multiplier: {
+        name: "Multiplier",
+        condition: (scores) => scores.obedience >= 3.5 && scores.consistency >= 3.5 && scores.multiplication >= 3.5,
+        description: "You're already making disciples. You don't need more knowledge—you need sharpening and community with others at your level.",
+        strengths: [
+          "Actively making disciples",
+          "Faithful and consistent",
+          "Multiplication mindset"
+        ],
+        growthAreas: [
+          "Developing leaders",
+          "Multiplying others",
+          "Scaling your impact"
+        ],
+        encouragement: "What you're doing is rare and beautiful. Most church leaders talk about multiplication; you're actually doing it. Don't slow down. The world needs more multipliers, and we're here to sharpen you.",
+        nextReps: [
+          "Coach someone through one step of obedience",
+          "Identify one faithful person to invest in as a multiplier",
+          "Pray specifically for the leaders you're developing"
+        ],
+        whatsappMessage: "You'll connect with other multipliers who are doing the same work. We'll sharpen your skills, help you think bigger about leadership development, and celebrate multiplication together."
+      },
+      catalyst: {
+        name: "Catalyst",
+        condition: (scores) => true, // Fallback or highest scores
+        description: "You're already multiplying leaders and thinking beyond your personal ministry. You need peers, not teachers.",
+        strengths: [
+          "Multiplying leaders",
+          "Network thinker",
+          "Movement builder"
+        ],
+        growthAreas: [
+          "Scaling multiplication",
+          "Mobilizing networks",
+          "Mentoring emerging catalysts"
+        ],
+        encouragement: "You're building a movement. The multipliers you're raising will multiply others, and the impact will ripple across networks and generations. This is exactly what the Kingdom looks like.",
+        nextReps: [
+          "Identify one emerging multiplier to mentor",
+          "Plan how you'll help them see their multiplication potential",
+          "Pray for the networks they're reaching"
+        ],
+        whatsappMessage: "You'll connect with peers doing the same kingdom work. You'll shape the movement together, help other multipliers scale their impact, and think about reaching entire networks."
+      }
+    };
+
+    function showView(viewName) {
+      document.getElementById('loading-view').style.display = viewName === 'loading' ? 'block' : 'none';
+      document.getElementById('results-view').style.display = viewName === 'results' ? 'block' : 'none';
+      document.getElementById('error-view').style.display = viewName === 'error' ? 'block' : 'none';
+    }
+
+    function identifyPathway(scores) {
+      for (const [key, pathway] of Object.entries(pathways)) {
+        if (pathway.condition(scores)) {
+          return { key, pathway };
+        }
+      }
+      // Fallback based on highest dimension
+      const highest = Object.entries(scores).sort((a, b) => b[1] - a[1])[0][0];
+      if (highest === 'multiplication') return { key: 'catalyst', pathway: pathways.catalyst };
+      if (highest === 'obedience') return { key: 'multiplier', pathway: pathways.multiplier };
+      if (highest === 'consistency') return { key: 'practitioner', pathway: pathways.practitioner };
+      return { key: 'explorer', pathway: pathways.explorer };
+    }
+
+    async function loadResults() {
+      const params = new URLSearchParams(window.location.search);
+      const resultsToken = params.get('r');
+
+      if (!resultsToken) {
+        showView('error');
+        return;
+      }
+
+      try {
+        const response = await fetch(
+          `${SUPABASE_FUNCTIONS}/disciple-maker-results?token=${resultsToken}`
+        );
+
+        const data = response.json();
+        if (!response.ok) throw new Error('Failed to load results');
+
+        renderResults(data);
+      } catch (error) {
+        console.error('Error:', error);
+        showView('error');
+      }
+    }
+
+    function renderResults(data) {
+      // Calculate scores (average per dimension)
+      const scores = {};
+      ASSESSMENT_QUESTIONS.dimensions.forEach(dim => {
+        const dimQuestions = dim.questions.map(q => q.id);
+        const dimScores = dimQuestions
+          .map(qId => data.responses[qId] || 0)
+          .filter(s => s > 0);
+        scores[dim.key] = dimScores.length > 0
+          ? dimScores.reduce((a, b) => a + b) / dimScores.length
+          : 0;
+      });
+
+      const { key: pathwayKey, pathway } = identifyPathway(scores);
+
+      // Render hero
+      const firstName = data.first_name || 'Friend';
+      document.getElementById('result-name').textContent = `Hello, ${firstName}.`;
+      document.getElementById('result-greeting').textContent = `You currently fit best in the ${pathway.name} stage.`;
+
+      // Render radar chart
+      renderRadarChart(scores);
+
+      // Render pathway box
+      document.getElementById('pathway-box').innerHTML = `
+        <div class="pathway-name">${pathway.name}</div>
+        <div class="pathway-description">${pathway.description}</div>
+      `;
+
+      // Render strengths and growth areas
+      const strengthsHtml = `
+        <h2 class="dm-h2">Your Strengths & Growth Areas</h2>
+        <div style="margin-bottom: 20px;">
+          <div style="font-weight: 700; color: #1a1a1a; margin-bottom: 12px; font-size: 14px;">Strengths</div>
+          <div class="three-column">
+            ${pathway.strengths.map(s => `
+              <div class="strength-item">
+                <div class="strength-item-text">${s}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+        <div>
+          <div style="font-weight: 700; color: #1a1a1a; margin-bottom: 12px; font-size: 14px;">Growth Areas</div>
+          <div class="three-column">
+            ${pathway.growthAreas.map(g => `
+              <div class="growth-item">
+                <div class="growth-item-text">${g}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+      document.getElementById('strengths-section').innerHTML = strengthsHtml;
+
+      // Render encouragement
+      document.getElementById('encouragement-section').innerHTML =
+        `<p class="encouragement-text">"${pathway.encouragement}"</p>`;
+
+      // Render next reps
+      const nextRepsHtml = `
+        <div class="next-reps-title">Your Next Rep</div>
+        <ul class="next-reps-list">
+          ${pathway.nextReps.map(rep => `
+            <li>
+              <span class="next-reps-bullet">•</span>
+              <span>${rep}</span>
+            </li>
+          `).join('')}
+        </ul>
+      `;
+      document.getElementById('next-reps-section').innerHTML = nextRepsHtml;
+
+      // Render CTA
+      const ctaHtml = `
+        <div class="cta-title">Ready to take your next step?</div>
+        <p class="cta-text">${pathway.whatsappMessage}</p>
+        <a href="/whatsapp.html" class="btn-gold">Join the WhatsApp Community</a>
+      `;
+      document.getElementById('cta-section').innerHTML = ctaHtml;
+
+      showView('results');
+    }
+
+    function renderRadarChart(scores) {
+      const ctx = document.getElementById('radarChart').getContext('2d');
+
+      const labels = ASSESSMENT_QUESTIONS.dimensions.map(d => d.name);
+      const data = ASSESSMENT_QUESTIONS.dimensions.map(d => scores[d.key] || 0);
+
+      if (radarChart) radarChart.destroy();
+
+      radarChart = new Chart(ctx, {
+        type: 'radar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Your Journey',
+            data: data,
+            borderColor: '#1b4d3e',
+            backgroundColor: 'rgba(27, 77, 62, 0.15)',
+            borderWidth: 2,
+            pointBackgroundColor: '#1b4d3e',
+            pointBorderColor: '#fff',
+            pointBorderWidth: 2,
+            pointRadius: 5,
+            pointHoverRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          scales: {
+            r: {
+              beginAtZero: true,
+              max: 5,
+              ticks: {
+                stepSize: 1,
+                color: '#999',
+                font: { size: 11 }
+              },
+              grid: { color: 'rgba(0,0,0,0.05)' },
+              pointLabels: {
+                font: { size: 12, weight: '600' },
+                color: '#333'
+              }
+            }
+          },
+          plugins: {
+            legend: { display: false }
+          }
+        }
+      });
+    }
+
+    // Initialize
+    showView('loading');
+    setTimeout(() => loadResults(), 100);
+  </script>
+
+</body>
+</html>

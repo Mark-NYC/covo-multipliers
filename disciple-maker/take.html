@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DXGLXDTF9V"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-DXGLXDTF9V');
+    </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Disciple Maker Checkup</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="config.js"></script>
+  <script src="questions.js"></script>
+  <style>
+    body {
+      background: #fafafa;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .dm-header {
+      background: #1b4d3e;
+      color: white;
+      padding: 16px 20px;
+      text-align: center;
+      border-bottom: 1px solid #164033;
+    }
+
+    .dm-header-brand {
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      color: white;
+      opacity: 0.9;
+    }
+
+    .dm-header-progress {
+      font-size: 13px;
+      opacity: 0.9;
+    }
+
+    .dm-main {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 32px 20px;
+    }
+
+    .progress-container {
+      margin-bottom: 28px;
+    }
+
+    .progress-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #555;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .progress-bar {
+      background: #e5e7eb;
+      height: 6px;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      background: linear-gradient(90deg, #1b4d3e, #52b788);
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.3s ease;
+    }
+
+    .question-card {
+      background: white;
+      border-radius: 12px;
+      padding: 32px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      margin-bottom: 24px;
+    }
+
+    .question-dimension {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #888;
+      margin-bottom: 12px;
+    }
+
+    .question-text {
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 1.4;
+      color: #1a1a1a;
+      margin-bottom: 24px;
+    }
+
+    .response-options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .response-button {
+      background: white;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 16px;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 15px;
+      font-weight: 500;
+      color: #555;
+    }
+
+    .response-button:hover {
+      border-color: #1b4d3e;
+      background: #f8fdf8;
+    }
+
+    .response-button.selected {
+      border-color: #1b4d3e;
+      background: #f0f9f7;
+      color: #1b4d3e;
+      font-weight: 600;
+    }
+
+    .response-button .response-value {
+      font-size: 12px;
+      opacity: 0.6;
+      margin-top: 4px;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid #ddd;
+      color: #555;
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      border-color: #1b4d3e;
+      color: #1b4d3e;
+    }
+
+    .btn-secondary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .btn-primary {
+      background: #d4af37;
+      color: #1a1a1a;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: #c9a227;
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .save-indicator {
+      font-size: 12px;
+      color: #888;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .save-indicator.saving {
+      color: #1b4d3e;
+    }
+
+    .loading-state {
+      display: none;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid #f0f0f0;
+      border-top-color: #1b4d3e;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      margin: 0 auto 16px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .error-state {
+      display: none;
+    }
+
+    .error-state-icon {
+      font-size: 48px;
+      margin-bottom: 12px;
+    }
+
+    .error-state h2 {
+      color: #1a1a1a;
+      margin: 0 0 8px;
+    }
+
+    .error-state p {
+      color: #555;
+      margin: 0 0 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="dm-header">
+    <a class="dm-header-brand" href="/">Covo Multipliers</a>
+    <div class="dm-header-progress" id="header-progress">Loading…</div>
+  </header>
+
+  <main class="dm-main">
+
+    <div id="loading-view" class="question-card loading-state">
+      <div class="loading-spinner"></div>
+      <p>Loading your checkup…</p>
+    </div>
+
+    <div id="error-view" class="question-card error-state">
+      <div class="error-state-icon">⚠️</div>
+      <h2>Something went wrong</h2>
+      <p id="error-msg">Could not load your checkup. Please try again.</p>
+      <button class="btn-primary" onclick="location.reload()">Try Again</button>
+    </div>
+
+    <div id="assessment-view" style="display:none;">
+      <div class="progress-container">
+        <div class="progress-label">
+          <span id="progress-text">Question 1 of 50</span>
+          <span id="progress-percent">0%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+        </div>
+      </div>
+
+      <div class="question-card">
+        <div class="question-dimension" id="current-dimension"></div>
+        <h1 class="question-text" id="current-question"></h1>
+        <div class="response-options" id="response-options"></div>
+      </div>
+
+      <div class="nav-buttons">
+        <button class="btn-secondary" id="prev-btn" onclick="previousQuestion()" disabled>← Previous</button>
+        <button class="btn-primary" id="next-btn" onclick="nextQuestion()" disabled>Next →</button>
+      </div>
+
+      <div class="save-indicator" id="save-indicator">
+        Your progress is saved automatically.
+      </div>
+
+      <div style="text-align:center;margin-top:24px;">
+        <button class="btn-secondary" onclick="saveAndExit()">Save & Exit</button>
+      </div>
+    </div>
+
+    <div id="submitting-view" class="question-card loading-state" style="display:none;">
+      <div class="loading-spinner"></div>
+      <p>Submitting your checkup…</p>
+    </div>
+
+  </main>
+
+  <script>
+    const SUPABASE_FUNCTIONS = window.DISCIPLE_MAKER_CONFIG.SUPABASE_FUNCTIONS;
+
+    let sessionId = null;
+    let resumeToken = null;
+    let allQuestions = [];
+    let currentIndex = 0;
+    let responses = {};
+    let saveTimer = null;
+
+    // Get credentials from sessionStorage
+    function getCredentials() {
+      const params = new URLSearchParams(window.location.search);
+      const urlSession = params.get('s');
+      const urlToken = params.get('t');
+
+      if (urlSession && urlToken) {
+        sessionStorage.setItem('dm_session_id', urlSession);
+        sessionStorage.setItem('dm_resume_token', urlToken);
+        history.replaceState({}, '', window.location.pathname);
+      }
+
+      sessionId = sessionStorage.getItem('dm_session_id');
+      resumeToken = sessionStorage.getItem('dm_resume_token');
+    }
+
+    getCredentials();
+
+    if (!sessionId || !resumeToken) {
+      window.location.replace('intake.html');
+    }
+
+    // Load all questions
+    function loadQuestions() {
+      allQuestions = ASSESSMENT_QUESTIONS.getAllQuestions();
+      displayQuestion();
+      updateProgress();
+    }
+
+    function showView(viewName) {
+      document.getElementById('loading-view').style.display = viewName === 'loading' ? 'block' : 'none';
+      document.getElementById('assessment-view').style.display = viewName === 'assessment' ? 'block' : 'none';
+      document.getElementById('error-view').style.display = viewName === 'error' ? 'block' : 'none';
+      document.getElementById('submitting-view').style.display = viewName === 'submitting' ? 'block' : 'none';
+    }
+
+    function displayQuestion() {
+      if (currentIndex < 0 || currentIndex >= allQuestions.length) return;
+
+      const q = allQuestions[currentIndex];
+      const dim = ASSESSMENT_QUESTIONS.getDimensionById(q.dimension);
+
+      document.getElementById('current-dimension').textContent = dim.name;
+      document.getElementById('current-question').textContent = q.text;
+
+      const optionsContainer = document.getElementById('response-options');
+      optionsContainer.innerHTML = '';
+
+      ASSESSMENT_QUESTIONS.scale.forEach(option => {
+        const button = document.createElement('button');
+        button.className = 'response-button';
+        button.type = 'button';
+
+        const currentResponse = responses[q.id];
+        if (currentResponse === option.value) {
+          button.classList.add('selected');
+        }
+
+        button.innerHTML = `
+          <div>${option.label}</div>
+          <div class="response-value">${option.value}</div>
+        `;
+
+        button.onclick = () => selectResponse(q.id, option.value);
+        optionsContainer.appendChild(button);
+      });
+
+      updateNavButtons();
+      updateProgress();
+    }
+
+    function selectResponse(qId, value) {
+      responses[qId] = value;
+      displayQuestion();
+      scheduleAutoSave();
+    }
+
+    function updateNavButtons() {
+      document.getElementById('prev-btn').disabled = currentIndex === 0;
+
+      const allAnswered = allQuestions.every(q => responses[q.id] !== undefined);
+      document.getElementById('next-btn').disabled = !allAnswered;
+
+      if (currentIndex === allQuestions.length - 1 && allAnswered) {
+        document.getElementById('next-btn').textContent = 'Submit Checkup';
+        document.getElementById('next-btn').onclick = submitAssessment;
+        document.getElementById('next-btn').disabled = false;
+      } else {
+        document.getElementById('next-btn').textContent = 'Next →';
+        document.getElementById('next-btn').onclick = nextQuestion;
+      }
+    }
+
+    function updateProgress() {
+      const total = allQuestions.length;
+      const answered = Object.keys(responses).length;
+      const percent = Math.round((currentIndex + 1) / total * 100);
+
+      document.getElementById('progress-text').textContent = `Question ${currentIndex + 1} of ${total}`;
+      document.getElementById('progress-percent').textContent = `${percent}%`;
+      document.getElementById('progress-fill').style.width = percent + '%';
+      document.getElementById('header-progress').textContent = `${percent}% complete`;
+    }
+
+    function nextQuestion() {
+      if (currentIndex < allQuestions.length - 1) {
+        currentIndex++;
+        displayQuestion();
+      }
+    }
+
+    function previousQuestion() {
+      if (currentIndex > 0) {
+        currentIndex--;
+        displayQuestion();
+      }
+    }
+
+    function scheduleAutoSave() {
+      clearTimeout(saveTimer);
+      document.getElementById('save-indicator').textContent = 'Saving…';
+      document.getElementById('save-indicator').classList.add('saving');
+
+      saveTimer = setTimeout(() => {
+        document.getElementById('save-indicator').textContent = 'Saved!';
+        setTimeout(() => {
+          document.getElementById('save-indicator').textContent = 'Your progress is saved automatically.';
+          document.getElementById('save-indicator').classList.remove('saving');
+        }, 1500);
+      }, 500);
+    }
+
+    function saveAndExit() {
+      sessionStorage.setItem('dm_session_id', sessionId);
+      sessionStorage.setItem('dm_resume_token', resumeToken);
+      sessionStorage.setItem('dm_responses', JSON.stringify(responses));
+      sessionStorage.setItem('dm_current_index', currentIndex.toString());
+      window.location.replace('index.html');
+    }
+
+    async function submitAssessment() {
+      showView('submitting');
+
+      try {
+        const response = await fetch(
+          `${SUPABASE_FUNCTIONS}/disciple-maker-submit`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              session_id: sessionId,
+              resume_token: resumeToken,
+              responses: responses
+            })
+          }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || 'Failed to submit assessment');
+        }
+
+        // Redirect to results
+        window.location.replace(`results.html?r=${data.results_token}`);
+      } catch (error) {
+        console.error('Error:', error);
+        showView('error');
+        document.getElementById('error-msg').textContent = error.message;
+      }
+    }
+
+    // Initialize
+    showView('loading');
+    loadQuestions();
+    showView('assessment');
+  </script>
+
+</body>
+</html>
