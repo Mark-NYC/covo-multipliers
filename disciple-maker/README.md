@@ -10,27 +10,38 @@ This is NOT:
 - ❌ A spiritual gifts inventory
 - ❌ A Bible knowledge quiz
 - ❌ An approval gate for programs
+- ❌ A way to assign identity or stage labels
 
 This IS:
-- ✅ A coaching tool that diagnoses bottlenecks
+- ✅ A coaching tool that diagnoses where you are
 - ✅ An 8-dimension radar chart showing current state
-- ✅ Four pathway recommendations (Explorer, Practitioner, Multiplier, Catalyst)
-- ✅ Personalized encouragement and next steps
-- ✅ A funnel to WhatsApp (the discernment space)
+- ✅ Concrete observations about your practice
+- ✅ Specific growth edges to pursue
+- ✅ Actionable next steps for this week
+- ✅ A pathway to community practice (WhatsApp)
 
 ## The Core Model
 
-**Assessment → Results → WhatsApp → Discernment → Deeper Programs**
+**Assessment → Coaching Conversation → Next Step → WhatsApp Community**
 
-Assessment identifies where someone is and what their bottleneck is. It does NOT approve people into programs.
+The assessment asks one question: **What is your next step?**
 
-**Public opportunities** (Labs & Immersions) are always visible on the website. People explore them anytime.
+It is NOT asking: "Who are you?" or "What stage are you at?"
 
-Everyone joins the WhatsApp community where:
-- They practice
+Results page shows:
+- Your current snapshot (radar chart + 8 dimensions)
+- Three concrete observations based on your responses
+- Your biggest growth edge (1-2 areas to accelerate)
+- Your next rep this week (3 actionable practices)
+- Encouragement rooted in apprenticeship, not achievement
+
+There are NO pathway labels shown to users. No categories. No stages.
+
+Everyone joins the same WhatsApp community where:
+- People practice together
 - Coaches observe real behavior
-- Discernment happens
-- Deeper programs (Online Simple Multiplier Church, coaching, Institute) emerge from WhatsApp participation
+- Stories and encouragement are shared
+- Deeper programs emerge from participation
 
 **Three tiers:**
 1. **Public** — Labs, Immersions (explore anytime)
@@ -71,29 +82,16 @@ The assessment reflects CoVo Multipliers' DNA:
 4 = Agree
 5 = Strongly Agree
 
-### Four Pathways
+### Internal Pathway Logic (Not Shown to Users)
 
-Each pathway has different WhatsApp entry guidance (not different CTAs).
+The assessment still calculates four internal pathways for analytics and coaching notes:
 
-#### Explorer
-- **Characteristics**: Inspired by vision + little practice + willing to learn
-- **Bottleneck**: Needs confidence to take first steps
-- **WhatsApp guidance**: Join and start with one small practice. Watch others practicing. (Labs are public—explore when ready.)
+- **Explorer**: Vision + limited practice + willing to learn → Next step: Build confidence through first practices
+- **Practitioner**: Active practice + low consistency + coachable → Next step: Build weekly rhythms
+- **Multiplier**: Making disciples + consistent + multiplication mindset → Next step: Develop emerging leaders
+- **Catalyst**: Multiplying leaders + systemic thinking + scaling → Next step: Help multipliers scale
 
-#### Practitioner
-- **Characteristics**: Already taking action + needs consistency + wants accountability
-- **Bottleneck**: Building weekly rhythms
-- **WhatsApp guidance**: Join and post Follow & Fish goals. Share weekly practice updates. Look for coaching and accountability.
-
-#### Multiplier
-- **Characteristics**: Making disciples + wants sharpening + wants community
-- **Bottleneck**: Developing and multiplying leaders
-- **WhatsApp guidance**: Join and share what you are already practicing. Help others take reps. Discern deeper next steps through WhatsApp.
-
-#### Catalyst
-- **Characteristics**: Multiplying leaders + helping others multiply + thinks beyond personal ministry
-- **Bottleneck**: Scaling movement impact
-- **WhatsApp guidance**: Join and identify where you're multiplying disciples, leaders, or churches. Help sharpen the community. Discern fit through WhatsApp participation.
+**Critical:** These labels never appear on the results page. Users see observations and growth edges instead. Coaches use pathways internally for understanding patterns, but users experience coaching conversation, not categorization.
 
 ## User Flow
 
@@ -107,25 +105,25 @@ Each pathway has different WhatsApp entry guidance (not different CTAs).
 ## Key Features
 
 ### Radar Chart Visualization
-Shows 8 dimensions scored 1–5 with clear visual on strengths and growth areas.
+Shows 8 dimensions scored 1–5 with clear visual of current state.
 
-### Bottleneck Diagnosis
-Algorithm identifies best-fit pathway based on pattern of scores. Two people with same average can be in different pathways based on which dimensions are high.
+### Coaching Conversation Structure
+Results page follows coaching flow:
+1. **Where You Are Right Now** — Radar chart + dimension summary
+2. **What We're Seeing** — Three observations based on responses
+3. **Your Biggest Growth Edge** — One or two areas to accelerate
+4. **Your Next Rep This Week** — Three actionable practices
+5. **Encouragement** — Reframes via apprenticeship, not achievement
 
-### Personalized Results
-Each pathway gets:
-- Validation (affirms where they are)
-- Clarity (explains their stage)
-- Direction (what's next rep)
-- Encouragement (makes them feel capable)
-- Next reps (specific actions this week)
-- WhatsApp guidance (what to expect when they join)
+### Observations vs. Labels
+Instead of assigning a stage ("You're a Catalyst"), the assessment:
+- Makes concrete observations ("You're already multiplying leaders")
+- Identifies growth edges ("Help emerging multipliers scale")
+- Recommends specific practices ("Coach one person this week")
+- Encourages humility ("Growth happens through practice")
 
-### Single CTA
-Everyone gets the same call-to-action: Join the WhatsApp community.
-
-### No Program Routing
-Results page does NOT direct people to Labs, Online Church, coaching, immersion, or Institute.
+### Single CTA, Same for Everyone
+Everyone gets identical invitation to WhatsApp community. No pathway-specific guidance. No program routing.
 
 ### Auto-Save & Resume
 - Questions auto-save after each response
