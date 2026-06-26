@@ -20,19 +20,22 @@ This IS:
 
 ## The Core Model
 
-**Assessment → Results → WhatsApp → Discernment → Programs**
+**Assessment → Results → WhatsApp → Discernment → Deeper Programs**
 
-Assessment does NOT approve people into Labs, Online Simple Multiplier Church, coaching, immersion, or Institute.
+Assessment identifies where someone is and what their bottleneck is. It does NOT approve people into programs.
 
-Assessment identifies where someone is and what their bottleneck is.
+**Public opportunities** (Labs & Immersions) are always visible on the website. People explore them anytime.
 
-Then everyone joins the WhatsApp community where:
+Everyone joins the WhatsApp community where:
 - They practice
-- Coaches observe
-- Real discernment happens
-- When appropriate, people are invited toward specific programs
+- Coaches observe real behavior
+- Discernment happens
+- Deeper programs (Online Simple Multiplier Church, coaching, Institute) emerge from WhatsApp participation
 
-WhatsApp is not a destination. It's where the real coaching begins.
+**Three tiers:**
+1. **Public** — Labs, Immersions (explore anytime)
+2. **Shared practice** — WhatsApp (everyone joins here)
+3. **Discerned** — Online Church, Coaching, Institute (from WhatsApp participation)
 
 ## Design Philosophy
 
@@ -75,7 +78,7 @@ Each pathway has different WhatsApp entry guidance (not different CTAs).
 #### Explorer
 - **Characteristics**: Inspired by vision + little practice + willing to learn
 - **Bottleneck**: Needs confidence to take first steps
-- **WhatsApp guidance**: Join and start with one small practice. Watch others practicing. Attend a Lab when ready.
+- **WhatsApp guidance**: Join and start with one small practice. Watch others practicing. (Labs are public—explore when ready.)
 
 #### Practitioner
 - **Characteristics**: Already taking action + needs consistency + wants accountability
@@ -85,12 +88,12 @@ Each pathway has different WhatsApp entry guidance (not different CTAs).
 #### Multiplier
 - **Characteristics**: Making disciples + wants sharpening + wants community
 - **Bottleneck**: Developing and multiplying leaders
-- **WhatsApp guidance**: Join and share what you are already practicing. Help others take reps. Discern next steps toward Online Simple Multiplier Church, coaching, or immersion.
+- **WhatsApp guidance**: Join and share what you are already practicing. Help others take reps. Discern deeper next steps through WhatsApp.
 
 #### Catalyst
 - **Characteristics**: Multiplying leaders + helping others multiply + thinks beyond personal ministry
 - **Bottleneck**: Scaling movement impact
-- **WhatsApp guidance**: Join and identify where you're multiplying disciples, leaders, or churches. Help sharpen the community. Discern fit for coaching, Institute, or leadership development.
+- **WhatsApp guidance**: Join and identify where you're multiplying disciples, leaders, or churches. Help sharpen the community. Discern fit through WhatsApp participation.
 
 ## User Flow
 
