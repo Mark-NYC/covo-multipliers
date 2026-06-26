@@ -119,8 +119,8 @@ Update your Substack article to link to `/disciple-maker/`.
 ### Assessment Flow
 
 1. **Landing** `index.html`
-   - Explains the checkup
-   - Clicks "Start the Checkup"
+   - Explains the assessment
+   - Clicks "Start the Assessment"
 
 2. **Intake** `intake.html`
    - Collects: first_name, email, optional organization
@@ -136,7 +136,7 @@ Update your Substack article to link to `/disciple-maker/`.
    - Auto-saves after each response
    - Progress bar with color progression (cool greens → warm gold)
    - Coaching messages at Q5, Q10, Q15, Q18 milestones
-   - "Submit Checkup" button appears on last question
+   - "Submit Assessment" button appears on last question
 
 4. **Submit** `take.html`
    - Posts responses to `disciple-maker-submit` function
@@ -168,7 +168,7 @@ Update your Substack article to link to `/disciple-maker/`.
 
 ### Resume Flow
 
-1. User clicks "Resume your checkup" on `index.html`
+1. User clicks "Resume your assessment" on `index.html`
 2. Enters email at `resume.html`
 3. Posts to `disciple-maker-resume` function
 4. Function finds most recent `in_progress` session
