@@ -87,7 +87,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
 
   if (sessionsErr || !sessions || sessions.length === 0) {
     console.error("[disciple-maker-resume] no in_progress session found");
-    return json(404, { error: "No in-progress checkup found. Please start a new one." }, cors);
+    return json(404, { error: "No in-progress assessment found. Please start a new one." }, cors);
   }
 
   const session = sessions[0];

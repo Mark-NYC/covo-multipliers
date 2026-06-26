@@ -11,7 +11,7 @@
     </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Disciple Maker Checkup</title>
+  <title>Disciple Maker Assessment</title>
   <link rel="stylesheet" href="/styles.css">
   <script src="config.js"></script>
   <script src="questions.js"></script>
@@ -607,13 +607,13 @@
 
     <div id="loading-view" class="loading-state" style="display:block;">
       <div class="loading-spinner"></div>
-      <p style="font-size: 16px; font-weight: 600; color: #1a1a1a;">Loading your checkup…</p>
+      <p style="font-size: 16px; font-weight: 600; color: #1a1a1a;">Loading your assessment…</p>
     </div>
 
     <div id="error-view" style="display:none;">
       <div class="error-state-icon">⚠️</div>
       <h2>Something went wrong</h2>
-      <p id="error-msg">Could not load your checkup. Please try again.</p>
+      <p id="error-msg">Could not load your assessment. Please try again.</p>
       <button class="btn-primary" onclick="location.reload()">Try Again</button>
     </div>
 
@@ -653,7 +653,7 @@
 
     <div id="submitting-view" class="loading-state" style="display:none;">
       <div class="loading-spinner"></div>
-      <p>Submitting your checkup…</p>
+      <p>Submitting your assessment…</p>
     </div>
 
   </main>
@@ -848,7 +848,7 @@
       const allAnswered = allQuestions.every(q => responses[q.id] !== undefined);
 
       if (currentIndex === allQuestions.length - 1) {
-        document.getElementById('next-btn').innerHTML = icons.sparkle + ' Submit Checkup';
+        document.getElementById('next-btn').innerHTML = icons.sparkle + ' Submit Assessment';
         document.getElementById('next-btn').onclick = submitAssessment;
         document.getElementById('next-btn').disabled = !allAnswered;
       } else {
