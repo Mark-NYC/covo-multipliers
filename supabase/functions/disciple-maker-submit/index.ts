@@ -24,24 +24,18 @@ const ALLOWED_ORIGINS = new Set([
 // Dimension metadata for scoring
 const DIMENSIONS = [
   "vision",
-  "obedience",
-  "consistency",
+  "practice",
+  "rhythm",
   "coachability",
   "everyday_mission",
-  "multiplication",
-  "holy_spirit",
-  "hunger",
 ];
 
 const DIMENSION_QUESTIONS: Record<string, string[]> = {
-  vision: ["v1", "v2", "v3", "v4", "v5", "v6"],
-  obedience: ["o1", "o2", "o3", "o4", "o5", "o6", "o7", "o8"],
-  consistency: ["c1", "c2", "c3", "c4", "c5", "c6", "c7"],
-  coachability: ["cb1", "cb2", "cb3", "cb4", "cb5", "cb6", "cb7", "cb8"],
-  everyday_mission: ["em1", "em2", "em3", "em4", "em5", "em6", "em7"],
-  multiplication: ["m1", "m2", "m3", "m4", "m5", "m6"],
-  holy_spirit: ["hs1", "hs2", "hs3", "hs4", "hs5", "hs6"],
-  hunger: ["h1", "h2", "h3", "h4", "h5", "h6"],
+  vision: ["v1", "v2", "v4", "v5"],
+  practice: ["p1", "p2", "p3", "p4", "p5"],
+  rhythm: ["r1", "r2", "r3", "r4"],
+  coachability: ["c1", "c2", "c3", "c4"],
+  everyday_mission: ["em1", "em2", "em3"],
 };
 
 function corsHeaders(req: Request): Record<string, string> {
@@ -105,13 +99,13 @@ function scoreResponses(responses: Record<string, number>): {
 
 function identifyPathway(scores: Record<string, number>): string {
   // Conditions for each pathway
-  if (scores.vision >= 3.5 && scores.obedience <= 3 && scores.coachability >= 3.5) {
+  if (scores.vision >= 3.5 && scores.practice <= 3 && scores.coachability >= 3.5) {
     return "explorer";
   }
-  if (scores.obedience >= 3.5 && scores.consistency <= 3.5 && scores.coachability >= 3.5) {
+  if (scores.practice >= 3.5 && scores.rhythm <= 3.5 && scores.coachability >= 3.5) {
     return "practitioner";
   }
-  if (scores.obedience >= 3.5 && scores.consistency >= 3.5 && scores.multiplication >= 3.5) {
+  if (scores.practice >= 3.5 && scores.rhythm >= 3.5 && scores.everyday_mission >= 3.5) {
     return "multiplier";
   }
   // Fallback to catalyst
