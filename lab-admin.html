@@ -310,6 +310,76 @@
             display: none !important;
         }
 
+        /* Tab styles (desktop only) */
+        .tabs-container {
+            display: none;
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            margin-bottom: 24px;
+            overflow: hidden;
+        }
+
+        .tabs-nav {
+            display: flex;
+            border-bottom: 1px solid #e5e7eb;
+            background: #fafafa;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .tab-button {
+            background: none;
+            border: none;
+            padding: 12px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            color: #666;
+            white-space: nowrap;
+            border-bottom: 3px solid transparent;
+            transition: all 0.15s;
+            flex-shrink: 0;
+        }
+
+        .tab-button:hover {
+            background: #f5f5f5;
+            color: #1b4d3e;
+        }
+
+        .tab-button.active {
+            color: #1b4d3e;
+            border-bottom-color: #1b4d3e;
+            background: #fff;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .tab-content-wrapper {
+            padding: 0;
+        }
+
+        @media (min-width: 769px) {
+            /* Desktop: Show tabs, hide accordions */
+            .tabs-container {
+                display: block;
+            }
+
+            .table-section {
+                display: none !important;
+            }
+
+            .tab-content {
+                padding: 16px 20px;
+            }
+        }
+
         @media (max-width: 768px) {
             /* Mobile-only refinements. Desktop layout is unchanged. */
             .main {
@@ -420,6 +490,166 @@
             <div class="card">
                 <div class="card-label">Upcoming labs</div>
                 <div class="card-value" id="card-upcoming-labs">—</div>
+            </div>
+        </div>
+
+        <!-- Tabs container (desktop only) -->
+        <div class="tabs-container">
+            <div class="tabs-nav">
+                <button class="tab-button active" onclick="switchTab('registrants')">Registrants</button>
+                <button class="tab-button" onclick="switchTab('shortlink')">Shortlink Performance</button>
+                <button class="tab-button" onclick="switchTab('lab-summary')">Per-Lab Summary</button>
+                <button class="tab-button" onclick="switchTab('channel')">Signups by Channel</button>
+                <button class="tab-button" onclick="switchTab('topic')">Topic Demand</button>
+                <button class="tab-button" onclick="switchTab('content')">Content That Drives Signups</button>
+                <button class="tab-button" onclick="switchTab('affinity')">Topic Affinity</button>
+                <button class="tab-button" onclick="switchTab('person')">Person Summary</button>
+            </div>
+            <div class="tab-content-wrapper">
+                <!-- Registrants Tab -->
+                <div id="tab-registrants" class="tab-content active">
+                    <div id="registrant-loading" class="loading">Loading...</div>
+                    <table id="registrant-table-tab" style="display: none;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Lab</th>
+                                <th>Event Date</th>
+                                <th>Status</th>
+                                <th>First UTM</th>
+                                <th>Latest UTM</th>
+                                <th>Registered</th>
+                            </tr>
+                        </thead>
+                        <tbody id="registrant-body-tab"></tbody>
+                    </table>
+                </div>
+
+                <!-- Shortlink Tab -->
+                <div id="tab-shortlink" class="tab-content">
+                    <div style="padding: 16px 20px; border-bottom: 1px solid #e5e7eb; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px;">
+                        <div>
+                            <div style="font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; margin-bottom: 6px;">Total Shortlinks</div>
+                            <div style="font-size: 24px; font-weight: 700; color: #10281f;" id="shortlink-count">—</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; margin-bottom: 6px;">Total Clicks</div>
+                            <div style="font-size: 24px; font-weight: 700; color: #10281f;" id="shortlink-total-clicks">—</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; margin-bottom: 6px;">Avg Clicks/Link</div>
+                            <div style="font-size: 24px; font-weight: 700; color: #10281f;" id="shortlink-avg-clicks">—</div>
+                        </div>
+                    </div>
+                    <div id="shortlink-loading-tab" class="loading">Loading...</div>
+                    <table id="shortlink-table-tab" style="display: none;">
+                        <thead>
+                            <tr>
+                                <th>Short Code</th>
+                                <th>Long URL</th>
+                                <th>Clicks</th>
+                                <th>Created</th>
+                                <th>Last Clicked</th>
+                            </tr>
+                        </thead>
+                        <tbody id="shortlink-body-tab"></tbody>
+                    </table>
+                </div>
+
+                <!-- Lab Summary Tab -->
+                <div id="tab-lab-summary" class="tab-content">
+                    <div id="lab-summary-loading-tab" class="loading">Loading...</div>
+                    <table id="lab-summary-table-tab" style="display: none;">
+                        <thead>
+                            <tr>
+                                <th>Lab</th>
+                                <th>Event Date</th>
+                                <th>Days Left</th>
+                                <th>Max Seats</th>
+                                <th>Active Signups</th>
+                                <th>Seats Remaining</th>
+                                <th>Pace vs. usual</th>
+                            </tr>
+                        </thead>
+                        <tbody id="lab-summary-body-tab"></tbody>
+                    </table>
+                    <p id="pace-note-tab" style="display: none; padding: 12px 20px; font-size: 12px; color: #888; border-top: 1px solid #f0f0f0;"></p>
+                </div>
+
+                <!-- Channel Tab -->
+                <div id="tab-channel" class="tab-content">
+                    <div id="channel-loading-tab" class="loading">Loading...</div>
+                    <table id="channel-table-tab" style="display: none;">
+                        <thead>
+                            <tr>
+                                <th>Source</th>
+                                <th>Signups</th>
+                            </tr>
+                        </thead>
+                        <tbody id="channel-body-tab"></tbody>
+                    </table>
+                </div>
+
+                <!-- Topic Tab -->
+                <div id="tab-topic" class="tab-content">
+                    <div id="topic-loading-tab" class="loading">Loading...</div>
+                    <table id="topic-table-tab" style="display: none;">
+                        <thead>
+                            <tr>
+                                <th>Topic</th>
+                                <th>Times Run</th>
+                                <th>Total Signups</th>
+                            </tr>
+                        </thead>
+                        <tbody id="topic-body-tab"></tbody>
+                    </table>
+                </div>
+
+                <!-- Content Tab -->
+                <div id="tab-content" class="tab-content">
+                    <div id="content-loading-tab" class="loading">Loading...</div>
+                    <table id="content-table-tab" style="display: none;">
+                        <thead>
+                            <tr>
+                                <th>First landing page</th>
+                                <th>Signups</th>
+                            </tr>
+                        </thead>
+                        <tbody id="content-body-tab"></tbody>
+                    </table>
+                </div>
+
+                <!-- Affinity Tab -->
+                <div id="tab-affinity" class="tab-content">
+                    <div id="affinity-loading-tab" class="loading">Loading...</div>
+                    <table id="affinity-table-tab" style="display: none;">
+                        <thead>
+                            <tr>
+                                <th>Topic A</th>
+                                <th>Topic B</th>
+                                <th>Shared registrants</th>
+                            </tr>
+                        </thead>
+                        <tbody id="affinity-body-tab"></tbody>
+                    </table>
+                </div>
+
+                <!-- Person Tab -->
+                <div id="tab-person" class="tab-content">
+                    <div id="person-loading-tab" class="loading">Loading...</div>
+                    <table id="person-table-tab" style="display: none;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Labs Registered</th>
+                                <th>Labs Attended</th>
+                            </tr>
+                        </thead>
+                        <tbody id="person-body-tab"></tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
@@ -614,6 +844,17 @@
 </div>
 
 <script>
+    function switchTab(tabName) {
+        const tabs = document.querySelectorAll('.tab-content');
+        const buttons = document.querySelectorAll('.tab-button');
+
+        tabs.forEach(tab => tab.classList.remove('active'));
+        buttons.forEach(btn => btn.classList.remove('active'));
+
+        document.getElementById(`tab-${tabName}`).classList.add('active');
+        event.target.classList.add('active');
+    }
+
     function toggleAccordion(button) {
         const section = button.closest('.table-section');
         const content = button.nextElementSibling;
@@ -738,8 +979,12 @@
             if (!data || data.length === 0) {
                 document.getElementById("shortlink-loading").style.display = "none";
                 const tbody = document.getElementById("shortlink-body");
-                tbody.innerHTML = `<tr><td colspan="5" style="color:#999; text-align: center; padding: 20px;">No shortlinks created yet. <a href="/shortlink-maker.html" style="color:#1b4d3e; font-weight:600;">Create one</a></td></tr>`;
+                const tbodyTab = document.getElementById("shortlink-body-tab");
+                const emptyMsg = `<tr><td colspan="5" style="color:#999; text-align: center; padding: 20px;">No shortlinks created yet. <a href="/shortlink-maker.html" style="color:#1b4d3e; font-weight:600;">Create one</a></td></tr>`;
+                tbody.innerHTML = emptyMsg;
+                tbodyTab.innerHTML = emptyMsg;
                 document.getElementById("shortlink-table").style.display = "table";
+                document.getElementById("shortlink-table-tab").style.display = "table";
                 return;
             }
 
@@ -751,31 +996,36 @@
             document.getElementById("shortlink-total-clicks").textContent = totalClicks;
             document.getElementById("shortlink-avg-clicks").textContent = avgClicks;
 
-            // Populate table with top 20 shortlinks
+            // Populate table with top 20 shortlinks (accordion + tab)
             const tbody = document.getElementById("shortlink-body");
-            tbody.innerHTML = "";
-            data.slice(0, 20).forEach(link => {
-                const row = document.createElement("tr");
-                const createdDate = new Date(link.created_at).toLocaleDateString();
-                const lastClickedDate = link.last_clicked_at
-                    ? new Date(link.last_clicked_at).toLocaleDateString()
-                    : "—";
-                const urlDisplay = link.long_url.length > 50
-                    ? link.long_url.substring(0, 50) + "..."
-                    : link.long_url;
+            const tbodyTab = document.getElementById("shortlink-body-tab");
+            [tbody, tbodyTab].forEach(body => {
+                body.innerHTML = "";
+                data.slice(0, 20).forEach(link => {
+                    const row = document.createElement("tr");
+                    const createdDate = new Date(link.created_at).toLocaleDateString();
+                    const lastClickedDate = link.last_clicked_at
+                        ? new Date(link.last_clicked_at).toLocaleDateString()
+                        : "—";
+                    const urlDisplay = link.long_url.length > 50
+                        ? link.long_url.substring(0, 50) + "..."
+                        : link.long_url;
 
-                row.innerHTML = `
-                    <td><code style="background: #f0f0f0; padding: 2px 6px; border-radius: 3px; font-size: 12px;">${link.short_code}</code></td>
-                    <td title="${link.long_url}" style="color: #666;">${urlDisplay}</td>
-                    <td style="font-weight: 600; color: #1b4d3e;">${link.click_count || 0}</td>
-                    <td style="color: #999; font-size: 13px;">${createdDate}</td>
-                    <td style="color: #999; font-size: 13px;">${lastClickedDate}</td>
-                `;
-                tbody.appendChild(row);
+                    row.innerHTML = `
+                        <td><code style="background: #f0f0f0; padding: 2px 6px; border-radius: 3px; font-size: 12px;">${link.short_code}</code></td>
+                        <td title="${link.long_url}" style="color: #666;">${urlDisplay}</td>
+                        <td style="font-weight: 600; color: #1b4d3e;">${link.click_count || 0}</td>
+                        <td style="color: #999; font-size: 13px;">${createdDate}</td>
+                        <td style="color: #999; font-size: 13px;">${lastClickedDate}</td>
+                    `;
+                    body.appendChild(row.cloneNode(true));
+                });
             });
 
             document.getElementById("shortlink-loading").style.display = "none";
             document.getElementById("shortlink-table").style.display = "table";
+            document.getElementById("shortlink-loading-tab").style.display = "none";
+            document.getElementById("shortlink-table-tab").style.display = "table";
         } catch (err) {
             console.error("Error loading shortlink analytics:", err);
             document.getElementById("shortlink-loading").innerHTML = `<div style="color: #b91c1c;">Error loading shortlinks: ${err.message}</div>`;
@@ -812,133 +1062,173 @@
         document.getElementById("card-unique-registrants").textContent = data.summaryStats.totalUniqueRegistrants;
         document.getElementById("card-upcoming-labs").textContent = data.summaryStats.upcomingLabCount;
 
-        // Lab summary table
+        // Lab summary table (accordion + tab)
         const labSummaryBody = document.getElementById("lab-summary-body");
-        labSummaryBody.innerHTML = "";
-        data.labSummary.forEach(lab => {
-            const row = document.createElement("tr");
-            row.innerHTML = `
-                <td><strong>${lab.title}</strong></td>
-                <td>${new Date(lab.event_date).toLocaleDateString()}</td>
-                <td>${lab.days_left}</td>
-                <td>${lab.max_seats || "N/A"}</td>
-                <td>${lab.active_signups}</td>
-                <td>${lab.seats_remaining !== null ? lab.seats_remaining : "N/A"}</td>
-                <td>${paceCell(lab)}</td>
-            `;
-            labSummaryBody.appendChild(row);
+        const labSummaryBodyTab = document.getElementById("lab-summary-body-tab");
+        [labSummaryBody, labSummaryBodyTab].forEach(body => {
+            body.innerHTML = "";
+            data.labSummary.forEach(lab => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td><strong>${lab.title}</strong></td>
+                    <td>${new Date(lab.event_date).toLocaleDateString()}</td>
+                    <td>${lab.days_left}</td>
+                    <td>${lab.max_seats || "N/A"}</td>
+                    <td>${lab.active_signups}</td>
+                    <td>${lab.seats_remaining !== null ? lab.seats_remaining : "N/A"}</td>
+                    <td>${paceCell(lab)}</td>
+                `;
+                body.appendChild(row.cloneNode(true));
+            });
         });
         document.getElementById("lab-summary-loading").style.display = "none";
         document.getElementById("lab-summary-table").style.display = "table";
+        document.getElementById("lab-summary-loading-tab").style.display = "none";
+        document.getElementById("lab-summary-table-tab").style.display = "table";
 
-        // Pace benchmark honesty note
+        // Pace benchmark honesty note (accordion + tab)
         const paceNote = document.getElementById("pace-note");
+        const paceNoteTab = document.getElementById("pace-note-tab");
         const n = data.summaryStats.benchmarkLabCount;
+        let paceText;
         if (n === 0) {
-            paceNote.textContent = "Pace vs. usual needs at least one completed lab to compare against. No past labs yet.";
+            paceText = "Pace vs. usual needs at least one completed lab to compare against. No past labs yet.";
         } else {
-            paceNote.textContent = `Pace vs. usual compares each lab to the average of ${n} past lab${n === 1 ? "" : "s"} at the same days-before-event. ${n < 4 ? "Treat as directional until more labs complete." : ""}`.trim();
+            paceText = `Pace vs. usual compares each lab to the average of ${n} past lab${n === 1 ? "" : "s"} at the same days-before-event. ${n < 4 ? "Treat as directional until more labs complete." : ""}`.trim();
         }
+        paceNote.textContent = paceText;
+        paceNoteTab.textContent = paceText;
         paceNote.style.display = "block";
+        paceNoteTab.style.display = "block";
 
-        // Channel breakdown table
+        // Channel breakdown table (accordion + tab)
         const channelBody = document.getElementById("channel-body");
-        channelBody.innerHTML = "";
-        if (!data.channelBreakdown || data.channelBreakdown.length === 0) {
-            channelBody.innerHTML = `<tr><td colspan="2" style="color:#999;">No signups yet.</td></tr>`;
-        } else {
-            data.channelBreakdown.forEach(ch => {
-                const row = document.createElement("tr");
-                row.innerHTML = `<td>${ch.source}</td><td>${ch.count}</td>`;
-                channelBody.appendChild(row);
-            });
-        }
+        const channelBodyTab = document.getElementById("channel-body-tab");
+        [channelBody, channelBodyTab].forEach(body => {
+            body.innerHTML = "";
+            if (!data.channelBreakdown || data.channelBreakdown.length === 0) {
+                body.innerHTML = `<tr><td colspan="2" style="color:#999;">No signups yet.</td></tr>`;
+            } else {
+                data.channelBreakdown.forEach(ch => {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `<td>${ch.source}</td><td>${ch.count}</td>`;
+                    body.appendChild(row.cloneNode(true));
+                });
+            }
+        });
         document.getElementById("channel-loading").style.display = "none";
         document.getElementById("channel-table").style.display = "table";
+        document.getElementById("channel-loading-tab").style.display = "none";
+        document.getElementById("channel-table-tab").style.display = "table";
 
-        // Topic demand leaderboard
+        // Topic demand leaderboard (accordion + tab)
         const topicBody = document.getElementById("topic-body");
-        topicBody.innerHTML = "";
-        if (!data.topicDemand || data.topicDemand.length === 0) {
-            topicBody.innerHTML = `<tr><td colspan="3" style="color:#999;">No labs yet.</td></tr>`;
-        } else {
-            data.topicDemand.forEach(t => {
-                const row = document.createElement("tr");
-                row.innerHTML = `<td><strong>${t.title}</strong></td><td>${t.lab_count}</td><td>${t.total_signups}</td>`;
-                topicBody.appendChild(row);
-            });
-        }
+        const topicBodyTab = document.getElementById("topic-body-tab");
+        [topicBody, topicBodyTab].forEach(body => {
+            body.innerHTML = "";
+            if (!data.topicDemand || data.topicDemand.length === 0) {
+                body.innerHTML = `<tr><td colspan="3" style="color:#999;">No labs yet.</td></tr>`;
+            } else {
+                data.topicDemand.forEach(t => {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `<td><strong>${t.title}</strong></td><td>${t.lab_count}</td><td>${t.total_signups}</td>`;
+                    body.appendChild(row.cloneNode(true));
+                });
+            }
+        });
         document.getElementById("topic-loading").style.display = "none";
         document.getElementById("topic-table").style.display = "table";
+        document.getElementById("topic-loading-tab").style.display = "none";
+        document.getElementById("topic-table-tab").style.display = "table";
 
-        // Content attribution (first landing page)
+        // Content attribution (first landing page) (accordion + tab)
         const contentBody = document.getElementById("content-body");
-        contentBody.innerHTML = "";
-        if (!data.contentAttribution || data.contentAttribution.length === 0) {
-            contentBody.innerHTML = `<tr><td colspan="2" style="color:#999;">No signups yet.</td></tr>`;
-        } else {
-            data.contentAttribution.forEach(c => {
-                const row = document.createElement("tr");
-                row.innerHTML = `<td>${c.page}</td><td>${c.count}</td>`;
-                contentBody.appendChild(row);
-            });
-        }
+        const contentBodyTab = document.getElementById("content-body-tab");
+        [contentBody, contentBodyTab].forEach(body => {
+            body.innerHTML = "";
+            if (!data.contentAttribution || data.contentAttribution.length === 0) {
+                body.innerHTML = `<tr><td colspan="2" style="color:#999;">No signups yet.</td></tr>`;
+            } else {
+                data.contentAttribution.forEach(c => {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `<td>${c.page}</td><td>${c.count}</td>`;
+                    body.appendChild(row.cloneNode(true));
+                });
+            }
+        });
         document.getElementById("content-loading").style.display = "none";
         document.getElementById("content-table").style.display = "table";
+        document.getElementById("content-loading-tab").style.display = "none";
+        document.getElementById("content-table-tab").style.display = "table";
 
-        // Topic affinity
+        // Topic affinity (accordion + tab)
         const affinityBody = document.getElementById("affinity-body");
-        affinityBody.innerHTML = "";
-        if (!data.topicAffinity || data.topicAffinity.length === 0) {
-            affinityBody.innerHTML = `<tr><td colspan="3" style="color:#999;">No one has signed up for two or more topics yet.</td></tr>`;
-        } else {
-            data.topicAffinity.forEach(p => {
-                const row = document.createElement("tr");
-                row.innerHTML = `<td>${p.topic_a}</td><td>${p.topic_b}</td><td>${p.shared_count}</td>`;
-                affinityBody.appendChild(row);
-            });
-        }
+        const affinityBodyTab = document.getElementById("affinity-body-tab");
+        [affinityBody, affinityBodyTab].forEach(body => {
+            body.innerHTML = "";
+            if (!data.topicAffinity || data.topicAffinity.length === 0) {
+                body.innerHTML = `<tr><td colspan="3" style="color:#999;">No one has signed up for two or more topics yet.</td></tr>`;
+            } else {
+                data.topicAffinity.forEach(p => {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `<td>${p.topic_a}</td><td>${p.topic_b}</td><td>${p.shared_count}</td>`;
+                    body.appendChild(row.cloneNode(true));
+                });
+            }
+        });
         document.getElementById("affinity-loading").style.display = "none";
         document.getElementById("affinity-table").style.display = "table";
+        document.getElementById("affinity-loading-tab").style.display = "none";
+        document.getElementById("affinity-table-tab").style.display = "table";
 
         // Load shortlink analytics
         loadShortlinkAnalytics();
 
-        // Registrant table
+        // Registrant table (accordion + tab)
         const registrantBody = document.getElementById("registrant-body");
-        registrantBody.innerHTML = "";
-        data.registrants.forEach(reg => {
-            const row = document.createElement("tr");
-            row.innerHTML = `
-                <td>${reg.name}</td>
-                <td>${reg.email}</td>
-                <td>${reg.event_title}</td>
-                <td>${new Date(reg.event_date).toLocaleDateString()}</td>
-                <td>${reg.registration_status}</td>
-                <td>${reg.utm_source_first || "—"}</td>
-                <td>${reg.utm_source_latest || "—"}</td>
-                <td>${new Date(reg.created_at).toLocaleDateString()}</td>
-            `;
-            registrantBody.appendChild(row);
+        const registrantBodyTab = document.getElementById("registrant-body-tab");
+        [registrantBody, registrantBodyTab].forEach(body => {
+            body.innerHTML = "";
+            data.registrants.forEach(reg => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${reg.name}</td>
+                    <td>${reg.email}</td>
+                    <td>${reg.event_title}</td>
+                    <td>${new Date(reg.event_date).toLocaleDateString()}</td>
+                    <td>${reg.registration_status}</td>
+                    <td>${reg.utm_source_first || "—"}</td>
+                    <td>${reg.utm_source_latest || "—"}</td>
+                    <td>${new Date(reg.created_at).toLocaleDateString()}</td>
+                `;
+                body.appendChild(row.cloneNode(true));
+            });
         });
         document.getElementById("registrant-loading").style.display = "none";
         document.getElementById("registrant-table").style.display = "table";
+        document.getElementById("registrant-loading").style.display = "none";
+        document.getElementById("registrant-table-tab").style.display = "table";
 
-        // Person summary table
+        // Person summary table (accordion + tab)
         const personBody = document.getElementById("person-body");
-        personBody.innerHTML = "";
-        data.personSummary.forEach(person => {
-            const row = document.createElement("tr");
-            row.innerHTML = `
-                <td>${person.name}</td>
-                <td>${person.email}</td>
-                <td>${person.labs_registered}</td>
-                <td>${person.labs_attended}</td>
-            `;
-            personBody.appendChild(row);
+        const personBodyTab = document.getElementById("person-body-tab");
+        [personBody, personBodyTab].forEach(body => {
+            body.innerHTML = "";
+            data.personSummary.forEach(person => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${person.name}</td>
+                    <td>${person.email}</td>
+                    <td>${person.labs_registered}</td>
+                    <td>${person.labs_attended}</td>
+                `;
+                body.appendChild(row.cloneNode(true));
+            });
         });
         document.getElementById("person-loading").style.display = "none";
         document.getElementById("person-table").style.display = "table";
+        document.getElementById("person-loading-tab").style.display = "none";
+        document.getElementById("person-table-tab").style.display = "table";
     }
 
     function showError(message) {
