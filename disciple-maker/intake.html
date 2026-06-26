@@ -196,7 +196,7 @@
     <div id="form-view" class="dm-card">
       <h2 class="dm-h2">Let's get started.</h2>
       <p class="dm-body">
-        We'll use this info to send you your results and invite you into the community.
+        Share your email and get your results
       </p>
 
       <form id="intake-form" onsubmit="handleSubmit(event)">
@@ -210,11 +210,6 @@
           <label for="email">Email Address *</label>
           <input type="email" id="email" name="email" placeholder="you@example.com" required>
           <div class="error-message" id="email-error"></div>
-        </div>
-
-        <div class="form-group">
-          <label for="organization">Church or Organization (optional)</label>
-          <input type="text" id="organization" name="organization" placeholder="e.g., Grace Community Church">
         </div>
 
         <div class="checkbox-group">
@@ -251,7 +246,6 @@
       const formData = {
         first_name: document.getElementById('first-name').value.trim(),
         email: document.getElementById('email').value.trim(),
-        organization: document.getElementById('organization').value.trim() || null,
         consent: document.getElementById('consent').checked,
       };
 
