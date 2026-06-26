@@ -517,36 +517,34 @@
     // SVG icon generator for observations
     function getObservationIcon(observation) {
       if (observation.includes('vision')) {
-        // Eye/clarity icon
+        // Eye icon
         return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1b4d3e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
           <circle cx="12" cy="12" r="3"/>
         </svg>`;
-      } else if (observation.includes('taking concrete steps') || observation.includes('practice')) {
-        // Check circle / obedience icon
-        return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1b4d3e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-          <polyline points="22 4 12 14.01 9 11.01"/>
-        </svg>`;
-      } else if (observation.includes('willing to learn') || observation.includes('coachability')) {
-        // People/community icon
-        return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1b4d3e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-          <circle cx="9" cy="7" r="4"/>
-          <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-          <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-        </svg>`;
-      } else if (observation.includes('know where') || observation.includes('mission')) {
-        // Compass/mission icon
+      } else if (observation.includes('taking concrete steps')) {
+        // Target/compass icon
         return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1b4d3e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="12" r="9"/>
-          <path d="M12 6l2.16 5.27h5.54L14.8 14l2.16 5.27L12 17.27 9.84 19.27l2.16-5.27H6.3l5.54-.08z"/>
+          <circle cx="12" cy="12" r="5"/>
+          <circle cx="12" cy="12" r="1"/>
         </svg>`;
       } else if (observation.includes('eager')) {
-        // Arrow up / growth icon
+        // Light bulb icon
         return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1b4d3e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="12" y1="19" x2="12" y2="5"/>
-          <polyline points="5 12 12 5 19 12"/>
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>`;
+      } else if (observation.includes('willing to learn') || observation.includes('coachability')) {
+        // Plant/growth icon
+        return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1b4d3e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 3v12m-4-8l4-4 4 4M6 9c0-2 2-3 6-3s6 1 6 3M8 20h8"/>
+          <ellipse cx="12" cy="20" rx="5" ry="2"/>
+        </svg>`;
+      } else if (observation.includes('know where') || observation.includes('mission')) {
+        // Map pin icon
+        return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1b4d3e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1 1 18 0z"/>
+          <circle cx="12" cy="10" r="3"/>
         </svg>`;
       }
       // Default icon
