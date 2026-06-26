@@ -366,6 +366,38 @@
             </div>
         </div>
 
+        <!-- Shortlink Performance -->
+        <div class="table-section">
+            <h2>Shortlink Performance <span style="font-weight:400;font-size:13px;color:#888;">— track clicks on shortened URLs</span></h2>
+            <div style="padding: 16px 20px; border-bottom: 1px solid #e5e7eb; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px;">
+                <div>
+                    <div style="font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; margin-bottom: 6px;">Total Shortlinks</div>
+                    <div style="font-size: 24px; font-weight: 700; color: #10281f;" id="shortlink-count">—</div>
+                </div>
+                <div>
+                    <div style="font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; margin-bottom: 6px;">Total Clicks</div>
+                    <div style="font-size: 24px; font-weight: 700; color: #10281f;" id="shortlink-total-clicks">—</div>
+                </div>
+                <div>
+                    <div style="font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; margin-bottom: 6px;">Avg Clicks/Link</div>
+                    <div style="font-size: 24px; font-weight: 700; color: #10281f;" id="shortlink-avg-clicks">—</div>
+                </div>
+            </div>
+            <div id="shortlink-loading" class="loading">Loading...</div>
+            <table id="shortlink-table" style="display: none;">
+                <thead>
+                    <tr>
+                        <th>Short Code</th>
+                        <th>Long URL</th>
+                        <th>Clicks</th>
+                        <th>Created</th>
+                        <th>Last Clicked</th>
+                    </tr>
+                </thead>
+                <tbody id="shortlink-body"></tbody>
+            </table>
+        </div>
+
         <!-- Per-lab summary table -->
         <div class="table-section">
             <h2>Per-Lab Summary</h2>
@@ -591,6 +623,62 @@
         }
     }
 
+    async function loadShortlinkAnalytics() {
+        try {
+            const { data, error } = await supabase
+                .from('shortlinks')
+                .select('short_code, long_url, click_count, created_at, last_clicked_at')
+                .order('click_count', { ascending: false });
+
+            if (error) throw error;
+
+            if (!data || data.length === 0) {
+                document.getElementById("shortlink-loading").style.display = "none";
+                const tbody = document.getElementById("shortlink-body");
+                tbody.innerHTML = `<tr><td colspan="5" style="color:#999; text-align: center; padding: 20px;">No shortlinks created yet. <a href="/shortlink-maker.html" style="color:#1b4d3e; font-weight:600;">Create one</a></td></tr>`;
+                document.getElementById("shortlink-table").style.display = "table";
+                return;
+            }
+
+            // Calculate summary stats
+            const totalClicks = data.reduce((sum, link) => sum + (link.click_count || 0), 0);
+            const avgClicks = data.length > 0 ? Math.round(totalClicks / data.length * 10) / 10 : 0;
+
+            document.getElementById("shortlink-count").textContent = data.length;
+            document.getElementById("shortlink-total-clicks").textContent = totalClicks;
+            document.getElementById("shortlink-avg-clicks").textContent = avgClicks;
+
+            // Populate table with top 20 shortlinks
+            const tbody = document.getElementById("shortlink-body");
+            tbody.innerHTML = "";
+            data.slice(0, 20).forEach(link => {
+                const row = document.createElement("tr");
+                const createdDate = new Date(link.created_at).toLocaleDateString();
+                const lastClickedDate = link.last_clicked_at
+                    ? new Date(link.last_clicked_at).toLocaleDateString()
+                    : "—";
+                const urlDisplay = link.long_url.length > 50
+                    ? link.long_url.substring(0, 50) + "..."
+                    : link.long_url;
+
+                row.innerHTML = `
+                    <td><code style="background: #f0f0f0; padding: 2px 6px; border-radius: 3px; font-size: 12px;">${link.short_code}</code></td>
+                    <td title="${link.long_url}" style="color: #666;">${urlDisplay}</td>
+                    <td style="font-weight: 600; color: #1b4d3e;">${link.click_count || 0}</td>
+                    <td style="color: #999; font-size: 13px;">${createdDate}</td>
+                    <td style="color: #999; font-size: 13px;">${lastClickedDate}</td>
+                `;
+                tbody.appendChild(row);
+            });
+
+            document.getElementById("shortlink-loading").style.display = "none";
+            document.getElementById("shortlink-table").style.display = "table";
+        } catch (err) {
+            console.error("Error loading shortlink analytics:", err);
+            document.getElementById("shortlink-loading").innerHTML = `<div style="color: #b91c1c;">Error loading shortlinks: ${err.message}</div>`;
+        }
+    }
+
     function paceCell(lab) {
         // No benchmark yet (no past labs) or expected couldn't be computed.
         if (lab.expected_signups === null) {
@@ -709,6 +797,9 @@
         }
         document.getElementById("affinity-loading").style.display = "none";
         document.getElementById("affinity-table").style.display = "table";
+
+        // Load shortlink analytics
+        loadShortlinkAnalytics();
 
         // Registrant table
         const registrantBody = document.getElementById("registrant-body");
