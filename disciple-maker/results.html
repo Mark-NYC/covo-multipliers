@@ -274,22 +274,6 @@
       font-style: italic;
     }
 
-    .encouragement-box {
-      background: #f3f4f6;
-      border-radius: 8px;
-      padding: 20px;
-      border-left: 3px solid #6b7280;
-      margin: 24px 0;
-    }
-
-    .encouragement-text {
-      font-size: 15px;
-      line-height: 1.7;
-      color: #374151;
-      margin: 0;
-      font-style: italic;
-    }
-
     .cta-section {
       background: white;
       border-radius: 12px;
@@ -515,10 +499,6 @@
       </div>
 
       <div class="dm-card">
-        <div class="encouragement-box" id="encouragement-section"></div>
-      </div>
-
-      <div class="dm-card">
         <div class="about-box">
           <strong>This snapshot is simply a starting point for your next conversation and your next step.</strong> Growth doesn't happen through assessments. It happens shoulder-to-shoulder with other people learning to follow Jesus.
         </div>
@@ -722,24 +702,6 @@
       };
     }
 
-    function generateEncouragement(analysis) {
-      const { practiceAvg } = analysis;
-
-      if (practiceAvg < 2) {
-        return "Starting is often the hardest part. You don't need to feel ready. Jesus called fishermen and tax collectors and invited them to follow. That's you right now.";
-      }
-
-      if (practiceAvg < 3) {
-        return "You're practicing. That puts you ahead of most. Keep going. Consistency beats intensity.";
-      }
-
-      if (practiceAvg < 4) {
-        return "You're building a real practice. Growth happens through faithful obedience, not by getting every answer right.";
-      }
-
-      return "Keep going. The work you're doing matters more than you can see right now.";
-    }
-
     function showView(viewName) {
       document.getElementById('loading-view').style.display = viewName === 'loading' ? 'block' : 'none';
       document.getElementById('results-view').style.display = viewName === 'results' ? 'block' : 'none';
@@ -790,7 +752,6 @@
       const observations = generateObservations(analysis);
       const growthEdge = generateGrowthEdge(analysis);
       const nextRep = generateNextRep(analysis);
-      const encouragement = generateEncouragement(analysis);
 
       // Render greeting
       document.getElementById('result-greeting').textContent = `Hello, ${firstName}.`;
@@ -885,10 +846,6 @@
         </div>
       `;
       document.getElementById('next-rep-section').innerHTML = nextRepHtml;
-
-      // Render encouragement
-      document.getElementById('encouragement-section').innerHTML =
-        `<p class="encouragement-text">"${encouragement}"</p>`;
 
       // Render CTA
       const ctaHtml = `
