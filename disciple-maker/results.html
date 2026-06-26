@@ -47,6 +47,7 @@
     .results-hero {
       text-align: center;
       margin-bottom: 40px;
+      animation: fadeIn 0.5s ease;
     }
 
     .results-eyebrow {
@@ -79,6 +80,30 @@
       padding: 28px;
       margin-bottom: 24px;
       box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      opacity: 0;
+      animation: slideUp 0.6s ease forwards;
+    }
+
+    .dm-card:nth-child(2) { animation-delay: 0.1s; }
+    .dm-card:nth-child(3) { animation-delay: 0.2s; }
+    .dm-card:nth-child(4) { animation-delay: 0.3s; }
+    .dm-card:nth-child(5) { animation-delay: 0.4s; }
+    .dm-card:nth-child(6) { animation-delay: 0.5s; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .dm-h2 {
@@ -283,6 +308,9 @@
 
     .loading-state {
       display: none;
+    }
+
+    .loading-container {
       text-align: center;
       padding: 60px 20px;
     }
@@ -294,7 +322,44 @@
       border-top-color: #1b4d3e;
       border-radius: 50%;
       animation: spin 0.6s linear infinite;
-      margin: 0 auto 16px;
+      margin: 0 auto 24px;
+    }
+
+    .loading-checklist {
+      text-align: left;
+      display: inline-block;
+      margin-top: 20px;
+    }
+
+    .loading-check-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .loading-check-item.done {
+      color: #166534;
+      font-weight: 600;
+    }
+
+    .loading-check-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid #ddd;
+      font-size: 12px;
+    }
+
+    .loading-check-item.done .loading-check-icon {
+      background: #166534;
+      border-color: #166534;
+      color: white;
     }
 
     @keyframes spin {
@@ -340,9 +405,27 @@
 
   <main class="dm-main">
 
-    <div id="loading-view" class="dm-card loading-state">
-      <div class="loading-spinner"></div>
-      <p>Loading your results…</p>
+    <div id="loading-view" class="loading-state" style="display:block;">
+      <div class="dm-card">
+        <div class="loading-container">
+          <div class="loading-spinner"></div>
+          <p style="font-size: 16px; font-weight: 600; color: #1a1a1a; margin-bottom: 24px;">Building your Disciple Maker Snapshot…</p>
+          <div class="loading-checklist">
+            <div class="loading-check-item" id="check-1">
+              <div class="loading-check-icon">✓</div>
+              <span>Looking for strengths</span>
+            </div>
+            <div class="loading-check-item" id="check-2">
+              <div class="loading-check-icon"></div>
+              <span>Identifying growth edges</span>
+            </div>
+            <div class="loading-check-item" id="check-3">
+              <div class="loading-check-icon"></div>
+              <span>Finding your next rep</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div id="error-view" class="dm-card error-state">
@@ -360,11 +443,10 @@
         <p class="results-subtitle" id="result-greeting"></p>
       </div>
 
-      <!-- Radar Chart -->
       <div class="dm-card">
         <h2 class="dm-h2">Where You Are Right Now</h2>
         <p class="dm-body">
-          These eight dimensions show your current state. This isn't about scoring high—it's about seeing your real picture and knowing what to practice next.
+          These five dimensions show your current state. This isn't about scoring high—it's about seeing your real picture and knowing what to practice next.
         </p>
         <div class="radar-container">
           <canvas id="radarChart"></canvas>
@@ -372,7 +454,6 @@
         <div id="dimension-summary"></div>
       </div>
 
-      <!-- What We're Seeing -->
       <div class="dm-card">
         <h2 class="dm-h2">What We're Seeing</h2>
         <p class="dm-body">
@@ -381,7 +462,6 @@
         <div id="observations-section"></div>
       </div>
 
-      <!-- Your Biggest Growth Edge -->
       <div class="dm-card">
         <h2 class="dm-h2">Your Biggest Growth Edge</h2>
         <p class="dm-body">
@@ -390,7 +470,6 @@
         <div class="growth-edge-box" id="growth-edge-section"></div>
       </div>
 
-      <!-- Your Next Rep This Week -->
       <div class="dm-card">
         <h2 class="dm-h2">Your Next Rep This Week</h2>
         <p class="dm-body">
@@ -402,15 +481,16 @@
         </p>
       </div>
 
-      <!-- Encouragement -->
-      <div class="encouragement-box" id="encouragement-section"></div>
-
-      <!-- About These Results -->
-      <div class="about-box">
-        <strong>This snapshot is simply a starting point for your next conversation and your next step.</strong> Growth doesn't happen through assessments. It happens shoulder-to-shoulder with other people learning to follow Jesus.
+      <div class="dm-card">
+        <div class="encouragement-box" id="encouragement-section"></div>
       </div>
 
-      <!-- CTA -->
+      <div class="dm-card">
+        <div class="about-box">
+          <strong>This snapshot is simply a starting point for your next conversation and your next step.</strong> Growth doesn't happen through assessments. It happens shoulder-to-shoulder with other people learning to follow Jesus.
+        </div>
+      </div>
+
       <div class="cta-section" id="cta-section"></div>
 
     </div>
@@ -508,6 +588,16 @@
         return;
       }
 
+      // Animate loading checklist
+      let checkCount = 0;
+      const checkInterval = setInterval(() => {
+        checkCount++;
+        if (checkCount <= 3) {
+          document.getElementById(`check-${checkCount}`).classList.add('done');
+        }
+        if (checkCount >= 3) clearInterval(checkInterval);
+      }, 600);
+
       try {
         const response = await fetch(
           `${SUPABASE_FUNCTIONS}/disciple-maker-results?token=${resultsToken}`
@@ -516,7 +606,10 @@
         const data = await response.json();
         if (!response.ok) throw new Error('Failed to load results');
 
-        renderResults(data);
+        // Wait for animation to complete
+        setTimeout(() => {
+          renderResults(data);
+        }, 1800);
       } catch (error) {
         console.error('Error:', error);
         showView('error');
@@ -584,24 +677,18 @@
 
       const dimensionLabels = [
         "Vision",
-        "Obedience",
-        "Consistency",
+        "Practice",
+        "Rhythm",
         "Coachability",
-        "Everyday Mission",
-        "Multiplication",
-        "Holy Spirit",
-        "Hunger"
+        "Everyday Mission"
       ];
 
       const dimensionKeys = [
         "vision",
-        "obedience",
-        "consistency",
+        "practice",
+        "rhythm",
         "coachability",
-        "everyday_mission",
-        "multiplication",
-        "holy_spirit",
-        "hunger"
+        "everyday_mission"
       ];
 
       const data = dimensionKeys.map(k => scores[k] || 0);
@@ -654,24 +741,18 @@
     function renderDimensionSummary(scores, strongest, lowest) {
       const dimensionNames = {
         vision: "Vision",
-        obedience: "Obedience",
-        consistency: "Consistency",
+        practice: "Practice",
+        rhythm: "Rhythm",
         coachability: "Coachability",
-        everyday_mission: "Everyday Mission",
-        multiplication: "Multiplication",
-        holy_spirit: "Holy Spirit",
-        hunger: "Hunger"
+        everyday_mission: "Everyday Mission"
       };
 
       const dimensionKeys = [
         "vision",
-        "obedience",
-        "consistency",
+        "practice",
+        "rhythm",
         "coachability",
-        "everyday_mission",
-        "multiplication",
-        "holy_spirit",
-        "hunger"
+        "everyday_mission"
       ];
 
       let html = '<div style="margin-top: 24px;">';
@@ -699,7 +780,7 @@
 
     // Initialize
     showView('loading');
-    setTimeout(() => loadResults(), 100);
+    loadResults();
   </script>
 
 </body>

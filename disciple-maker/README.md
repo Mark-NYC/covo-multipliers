@@ -63,16 +63,17 @@ The assessment reflects CoVo Multipliers' DNA:
 
 ## Assessment Structure
 
-### 8 Dimensions (32 questions total, 4 per dimension)
+### 5 Dimensions (20 questions total)
+
+Consolidated for speed (4-5 minute completion) while maintaining diagnostic value:
 
 1. **Vision** (4 q) — Do they believe in the mission?
-2. **Obedience** (4 q) — Are they practicing?
-3. **Consistency** (4 q) — Are they faithful week after week?
+2. **Practice** (5 q) — Are they actually doing it? (behavior-focused)
+3. **Rhythm** (4 q) — Are they faithful week after week? (consistency + reliability)
 4. **Coachability** (4 q) — Will they let someone sharpen them?
-5. **Everyday Mission** (4 q) — Do they know where God sent them?
-6. **Multiplication** (4 q) — Are they helping others reproduce?
-7. **Dependence on Holy Spirit** (4 q) — Are they Spirit-led?
-8. **Hunger** (4 q) — Do they actually want this?
+5. **Everyday Mission** (3 q) — Do they know where God sent them?
+
+Note: Hunger, Holy Spirit Dependence, and Multiplication concepts are woven into remaining dimensions (especially Practice and Rhythm) rather than siloed as separate dimensions.
 
 ### 5-Point Likert Scale
 
@@ -244,12 +245,16 @@ Change WhatsApp CTA in `results.html` to your group invite.
 ## Testing Checklist
 
 - [ ] Complete intake flow
-- [ ] Answer all 32 questions
+- [ ] Answer all 20 questions (completes in 4-5 min)
+- [ ] Coaching messages appear at Q5, Q10, Q15, Q18
+- [ ] Progress bar shows color progression (green → gold)
 - [ ] Verify auto-save works
 - [ ] Submit assessment
-- [ ] See results page load
-- [ ] Radar chart renders
-- [ ] All four pathways can be reached
+- [ ] See loading animation with checklist
+- [ ] Results page reveals with staggered animations
+- [ ] Radar chart renders with 5 dimensions
+- [ ] All observations, growth edges, next reps display correctly
+- [ ] All pathways can be reached (internal logic)
 - [ ] WhatsApp CTA has correct link
 - [ ] Resume flow works
 - [ ] Mobile responsive

@@ -69,10 +69,52 @@
     }
 
     .progress-fill {
-      background: linear-gradient(90deg, #1b4d3e, #52b788);
       height: 100%;
       border-radius: 4px;
-      transition: width 0.3s ease;
+      transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      background: linear-gradient(90deg, #1b4d3e, #52b788);
+    }
+
+    /* Progress color shifts based on completion */
+    body.progress-0-25 .progress-fill {
+      background: linear-gradient(90deg, #1b4d3e, #2d6a4f);
+    }
+    body.progress-25-50 .progress-fill {
+      background: linear-gradient(90deg, #2d6a4f, #40916c);
+    }
+    body.progress-50-75 .progress-fill {
+      background: linear-gradient(90deg, #40916c, #74c69d);
+    }
+    body.progress-75-100 .progress-fill {
+      background: linear-gradient(90deg, #74c69d, #d4af37);
+    }
+
+    .coaching-message {
+      background: #f0f9f7;
+      border-left: 3px solid #1b4d3e;
+      padding: 16px;
+      margin: 16px 0;
+      border-radius: 6px;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #1b4d3e;
+      animation: slideInCoach 0.4s ease;
+      display: none;
+    }
+
+    .coaching-message.show {
+      display: block;
+    }
+
+    @keyframes slideInCoach {
+      from {
+        opacity: 0;
+        transform: translateY(-8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .question-card {
@@ -262,13 +304,15 @@
     <div id="assessment-view" style="display:none;">
       <div class="progress-container">
         <div class="progress-label">
-          <span id="progress-text">Question 1 of 32</span>
+          <span id="progress-text">Question 1 of 20</span>
           <span id="progress-percent">0%</span>
         </div>
         <div class="progress-bar">
           <div class="progress-fill" id="progress-fill" style="width:0%"></div>
         </div>
       </div>
+
+      <div class="coaching-message" id="coaching-message"></div>
 
       <div class="question-card">
         <div class="question-dimension" id="current-dimension"></div>
@@ -406,11 +450,34 @@
       const total = allQuestions.length;
       const answered = Object.keys(responses).length;
       const percent = Math.round((currentIndex + 1) / total * 100);
+      const questionNumber = currentIndex + 1;
 
-      document.getElementById('progress-text').textContent = `Question ${currentIndex + 1} of ${total}`;
+      document.getElementById('progress-text').textContent = `Question ${questionNumber} of ${total}`;
       document.getElementById('progress-percent').textContent = `${percent}%`;
       document.getElementById('progress-fill').style.width = percent + '%';
       document.getElementById('header-progress').textContent = `${percent}% complete`;
+
+      // Update progress color based on completion
+      document.body.classList.remove('progress-0-25', 'progress-25-50', 'progress-50-75', 'progress-75-100');
+      if (percent <= 25) {
+        document.body.classList.add('progress-0-25');
+      } else if (percent <= 50) {
+        document.body.classList.add('progress-25-50');
+      } else if (percent <= 75) {
+        document.body.classList.add('progress-50-75');
+      } else {
+        document.body.classList.add('progress-75-100');
+      }
+
+      // Show coaching message at milestones
+      const coachingMsg = ASSESSMENT_QUESTIONS.getCoachingMessage(questionNumber);
+      const coachingEl = document.getElementById('coaching-message');
+      if (coachingMsg) {
+        coachingEl.textContent = coachingMsg;
+        coachingEl.classList.add('show');
+      } else {
+        coachingEl.classList.remove('show');
+      }
     }
 
     function nextQuestion() {
