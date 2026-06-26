@@ -52,16 +52,16 @@ The assessment reflects CoVo Multipliers' DNA:
 
 ## Assessment Structure
 
-### 8 Dimensions (50 questions total)
+### 8 Dimensions (32 questions total, 4 per dimension)
 
-1. **Vision** (6 q) — Do they believe in the mission?
-2. **Obedience** (8 q) — Are they practicing?
-3. **Consistency** (7 q) — Are they faithful week after week?
-4. **Coachability** (8 q) — Will they let someone sharpen them?
-5. **Everyday Mission** (7 q) — Do they know where God sent them?
-6. **Multiplication** (6 q) — Are they helping others reproduce?
-7. **Dependence on Holy Spirit** (6 q) — Are they Spirit-led?
-8. **Hunger** (6 q) — Do they actually want this?
+1. **Vision** (4 q) — Do they believe in the mission?
+2. **Obedience** (4 q) — Are they practicing?
+3. **Consistency** (4 q) — Are they faithful week after week?
+4. **Coachability** (4 q) — Will they let someone sharpen them?
+5. **Everyday Mission** (4 q) — Do they know where God sent them?
+6. **Multiplication** (4 q) — Are they helping others reproduce?
+7. **Dependence on Holy Spirit** (4 q) — Are they Spirit-led?
+8. **Hunger** (4 q) — Do they actually want this?
 
 ### 5-Point Likert Scale
 
@@ -98,7 +98,7 @@ Each pathway has different WhatsApp entry guidance (not different CTAs).
 ## User Flow
 
 1. **Substack article** (external)  → Assessment CTA
-2. **Assessment** → 50 questions, radar chart, pathway ID
+2. **Assessment** → 32 questions, radar chart, pathway ID
 3. **Results page** → Radar chart + pathway + bottleneck diagnosis + next rep
 4. **Single CTA**: Join the CoVo WhatsApp Community
 5. **In WhatsApp** → Practice, conversation, Follow & Fish, coach observation
@@ -246,7 +246,7 @@ Change WhatsApp CTA in `results.html` to your group invite.
 ## Testing Checklist
 
 - [ ] Complete intake flow
-- [ ] Answer all 50 questions
+- [ ] Answer all 32 questions
 - [ ] Verify auto-save works
 - [ ] Submit assessment
 - [ ] See results page load
