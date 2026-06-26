@@ -286,19 +286,23 @@
 
     .response-options {
       display: flex;
-      flex-direction: column;
-      gap: 14px;
+      flex-direction: row;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: space-between;
     }
 
     .response-button {
+      flex: 1;
+      min-width: 60px;
       background: white;
       border: 2px solid #e5e7eb;
-      border-radius: 10px;
-      padding: 18px;
-      text-align: left;
+      border-radius: 8px;
+      padding: 12px 8px;
+      text-align: center;
       cursor: pointer;
       transition: all 0.2s;
-      font-size: 15px;
+      font-size: 13px;
       font-weight: 500;
       color: #555;
       position: relative;
@@ -799,10 +803,7 @@
           button.classList.add('selected');
         }
 
-        button.innerHTML = `
-          <div>${option.label}</div>
-          <div class="response-value">${option.value}</div>
-        `;
+        button.innerHTML = `<div>${option.label}</div>`;
 
         button.onclick = () => selectResponse(q.id, option.value);
         optionsContainer.appendChild(button);
