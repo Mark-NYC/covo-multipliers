@@ -2,11 +2,15 @@
 
 ## Overview
 
-The Disciple Maker Pathway Assessment is a standalone assessment that identifies where someone is on their disciple-making journey and recommends their next step via WhatsApp discernment, not direct program routing.
+The Disciple Maker Pathway Assessment is a standalone assessment that identifies where someone is on their disciple-making journey.
 
-**Core model**: Assessment → Results → WhatsApp (discernment) → Programs
+**Core model**: 
+- Assessment identifies pathway & bottleneck
+- Labs & Immersions are public (explore anytime)
+- WhatsApp is shared practice & discernment space
+- Deeper programs (Online Church, Coaching, Institute) emerge from WhatsApp
 
-Assessment does NOT approve people into Labs, Online Church, coaching, immersion, or Institute. It identifies pathway and bottleneck. WhatsApp is where coaches discern fit.
+Assessment does NOT approve people into programs. It provides diagnostic clarity so coaches can help people take their next step.
 
 ## Architecture
 
@@ -153,9 +157,10 @@ Update your Substack article to link to `/disciple-maker/`.
      - Strengths (3) + Growth Areas (3)
      - Encouragement message
      - Next reps for this week (3 actions)
-     - Note: "This checkup doesn't approve you into programs. WhatsApp is where discernment happens."
+     - Dimension score bars
+   - Clarifying note: "Labs and Immersions are public opportunities you can explore anytime. WhatsApp is where we practice together and discern next steps. Deeper programs like Online Simple Multiplier Church, coaching, and our Institute emerge from WhatsApp participation."
    - **Single CTA**: "Join the CoVo WhatsApp Community"
-   - Pathway-specific WhatsApp guidance (what to expect)
+   - Pathway-specific WhatsApp guidance (what to do when you join)
 
 ### Resume Flow
 
@@ -336,6 +341,6 @@ For issues with:
 
 ---
 
-**Model**: Assessment → Results → WhatsApp Discernment → Programs  
+**Model**: Assessment → Results → WhatsApp (public Labs/Immersions anytime, deeper programs from WhatsApp)  
 **Database**: Dedicated tables (safe, isolated)  
 **Status**: Ready to deploy
