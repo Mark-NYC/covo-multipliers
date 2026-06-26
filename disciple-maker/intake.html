@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DXGLXDTF9V"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-DXGLXDTF9V');
+    </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Disciple Maker Checkup — Get Started</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="config.js"></script>
+  <style>
+    body {
+      background: #fafafa;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .dm-header {
+      background: #1b4d3e;
+      color: white;
+      padding: 16px 20px;
+      text-align: center;
+      border-bottom: 1px solid #164033;
+    }
+
+    .dm-header-brand {
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      color: white;
+      opacity: 0.9;
+    }
+
+    .dm-main {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 32px 20px;
+    }
+
+    .dm-card {
+      background: white;
+      border-radius: 12px;
+      padding: 28px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+
+    .dm-h2 {
+      font-size: 24px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin: 0 0 12px;
+    }
+
+    .dm-body {
+      font-size: 15px;
+      line-height: 1.6;
+      color: #555;
+      margin: 0 0 24px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group:last-child {
+      margin-bottom: 0;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      font-size: 14px;
+      color: #1a1a1a;
+      margin-bottom: 6px;
+    }
+
+    input[type="text"],
+    input[type="email"] {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 15px;
+      font-family: inherit;
+      box-sizing: border-box;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus {
+      outline: none;
+      border-color: #1b4d3e;
+      box-shadow: 0 0 0 3px rgba(27, 77, 62, 0.1);
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .checkbox-group input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      margin-top: 2px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .checkbox-label {
+      font-size: 14px;
+      line-height: 1.5;
+      color: #555;
+      flex: 1;
+    }
+
+    .checkbox-label a {
+      color: #1b4d3e;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .form-buttons {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .btn-primary {
+      flex: 1;
+      background: #d4af37;
+      color: #1a1a1a;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 15px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: #c9a227;
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .error-message {
+      color: #dc2626;
+      font-size: 14px;
+      margin-top: 4px;
+      display: none;
+    }
+
+    .error-message.show {
+      display: block;
+    }
+
+    .loading-state {
+      display: none;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid #f0f0f0;
+      border-top-color: #1b4d3e;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      margin: 0 auto 16px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="dm-header">
+    <a class="dm-header-brand" href="/">Covo Multipliers</a>
+  </header>
+
+  <main class="dm-main">
+
+    <div id="form-view" class="dm-card">
+      <h2 class="dm-h2">Let's get started.</h2>
+      <p class="dm-body">
+        We'll use this info to send you your results and invite you into the community.
+      </p>
+
+      <form id="intake-form" onsubmit="handleSubmit(event)">
+        <div class="form-group">
+          <label for="first-name">First Name *</label>
+          <input type="text" id="first-name" name="first_name" placeholder="e.g., Sarah" required>
+          <div class="error-message" id="first-name-error"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email Address *</label>
+          <input type="email" id="email" name="email" placeholder="you@example.com" required>
+          <div class="error-message" id="email-error"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="organization">Church or Organization (optional)</label>
+          <input type="text" id="organization" name="organization" placeholder="e.g., Grace Community Church">
+        </div>
+
+        <div class="checkbox-group">
+          <input type="checkbox" id="consent" name="consent" required>
+          <label class="checkbox-label" for="consent">
+            I consent to receive this checkup and be added to the CoVo community. We'll send you your results and occasional updates. <a href="#privacy">Privacy</a>
+          </label>
+        </div>
+
+        <div class="form-buttons">
+          <button type="submit" class="btn-primary" id="submit-btn">Begin the Checkup</button>
+        </div>
+
+        <div class="error-message" id="form-error"></div>
+      </form>
+    </div>
+
+    <div id="loading-view" class="dm-card loading-state">
+      <div class="loading-spinner"></div>
+      <p>Starting your checkup…</p>
+    </div>
+
+  </main>
+
+  <script>
+    const SUPABASE_FUNCTIONS = window.DISCIPLE_MAKER_CONFIG.SUPABASE_FUNCTIONS;
+
+    async function handleSubmit(event) {
+      event.preventDefault();
+
+      // Clear previous errors
+      document.querySelectorAll('.error-message').forEach(el => el.classList.remove('show'));
+
+      const formData = {
+        first_name: document.getElementById('first-name').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        organization: document.getElementById('organization').value.trim() || null,
+        consent: document.getElementById('consent').checked,
+      };
+
+      // Show loading
+      document.getElementById('form-view').style.display = 'none';
+      document.getElementById('loading-view').style.display = 'block';
+
+      try {
+        const response = await fetch(
+          `${SUPABASE_FUNCTIONS}/disciple-maker-start`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData)
+          }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || 'Something went wrong. Please try again.');
+        }
+
+        // Store session credentials
+        sessionStorage.setItem('dm_session_id', data.session_id);
+        sessionStorage.setItem('dm_session_token', data.session_token);
+
+        // Redirect to assessment
+        window.location.replace('take.html');
+      } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('form-view').style.display = 'block';
+        document.getElementById('loading-view').style.display = 'none';
+        document.getElementById('form-error').textContent = error.message;
+        document.getElementById('form-error').classList.add('show');
+      }
+    }
+  </script>
+
+</body>
+</html>
