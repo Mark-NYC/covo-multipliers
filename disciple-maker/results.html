@@ -210,6 +210,52 @@
       margin-bottom: 0;
     }
 
+    .next-rep-container {
+      background: #f9fafb;
+      border-radius: 8px;
+      padding: 24px;
+      margin: 24px 0;
+    }
+
+    .next-rep-title {
+      font-weight: 700;
+      color: #1a1a1a;
+      font-size: 16px;
+      margin-bottom: 12px;
+    }
+
+    .next-rep-description {
+      font-size: 15px;
+      line-height: 1.7;
+      color: #555;
+      margin-bottom: 12px;
+    }
+
+    .next-rep-why {
+      background: white;
+      padding: 12px 16px;
+      border-radius: 6px;
+      border-left: 3px solid #d4af37;
+      margin-bottom: 12px;
+      font-size: 14px;
+      color: #666;
+    }
+
+    .next-rep-why strong {
+      color: #1a1a1a;
+      display: block;
+      margin-bottom: 4px;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .next-rep-time {
+      font-size: 13px;
+      color: #888;
+      font-style: italic;
+    }
+
     .encouragement-box {
       background: #f3f4f6;
       border-radius: 8px;
@@ -224,45 +270,6 @@
       color: #374151;
       margin: 0;
       font-style: italic;
-    }
-
-    .next-reps {
-      background: #f9fafb;
-      border-radius: 8px;
-      padding: 20px;
-      margin: 24px 0;
-    }
-
-    .next-reps-title {
-      font-weight: 700;
-      color: #1a1a1a;
-      font-size: 14px;
-      margin-bottom: 12px;
-    }
-
-    .next-reps-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .next-reps-list li {
-      display: flex;
-      gap: 12px;
-      margin-bottom: 10px;
-      font-size: 14px;
-      line-height: 1.6;
-      color: #555;
-    }
-
-    .next-reps-list li:last-child {
-      margin-bottom: 0;
-    }
-
-    .next-reps-bullet {
-      color: #1b4d3e;
-      font-weight: 700;
-      flex-shrink: 0;
     }
 
     .cta-section {
@@ -457,7 +464,7 @@
       <div class="dm-card">
         <h2 class="dm-h2">What We're Seeing</h2>
         <p class="dm-body">
-          Three observations based on your responses:
+          Observations based on your responses:
         </p>
         <div id="observations-section"></div>
       </div>
@@ -465,20 +472,14 @@
       <div class="dm-card">
         <h2 class="dm-h2">Your Biggest Growth Edge</h2>
         <p class="dm-body">
-          One or two areas that would likely accelerate your growth:
+          Where you have the most opportunity to move forward:
         </p>
-        <div class="growth-edge-box" id="growth-edge-section"></div>
+        <div id="growth-edge-section"></div>
       </div>
 
       <div class="dm-card">
-        <h2 class="dm-h2">Your Next Rep This Week</h2>
-        <p class="dm-body">
-          Three simple practices. Choose what feels most like your next step:
-        </p>
-        <div class="next-reps" id="next-reps-section"></div>
-        <p class="dm-body" style="font-size: 13px; color: #888; margin-top: 16px;">
-          "Rep" = one more step of practice. Not a big goal. Just the next obedience in front of you.
-        </p>
+        <h2 class="dm-h2">Your Next Step</h2>
+        <div id="next-rep-section"></div>
       </div>
 
       <div class="dm-card">
@@ -501,77 +502,170 @@
     const SUPABASE_FUNCTIONS = window.DISCIPLE_MAKER_CONFIG.SUPABASE_FUNCTIONS;
     let radarChart = null;
 
-    // Coaching language based on pathway (internal only, not shown to user)
-    const pathwayCoaching = {
-      explorer: {
-        observations: [
-          "You have a strong vision for making disciples.",
-          "You're eager to learn and willing to take steps forward.",
-          "You're open to feedback and ready to grow."
-        ],
-        growthEdges: [
-          "Taking your first steps despite uncertainty",
-          "Building confidence through early practice"
-        ],
-        encouragement: "God often forms disciple makers through ordinary acts of consistent obedience. You don't need to feel ready—you just need to start. Jesus didn't wait for perfect disciples; He called fishermen and tax collectors and invited them to follow.",
-        nextReps: [
-          "Pray by name for five people this week",
-          "Have one intentional spiritual conversation",
-          "Invite someone to read Scripture with you"
-        ]
-      },
-      practitioner: {
-        observations: [
-          "You're already taking practical steps to obey Jesus.",
-          "You're willing to learn and grow through practice.",
-          "You want accountability and community to help you stay consistent."
-        ],
-        growthEdges: [
-          "Building weekly rhythms and consistency",
-          "Staying accountable to practices week after week"
-        ],
-        encouragement: "You're already doing it. Most people read about disciple-making; you're actually practicing it. The hardest part now is keeping the rhythm week after week. That's exactly what community is for.",
-        nextReps: [
-          "Identify your weekly rhythm for prayer and Scripture",
-          "Ask one person this week how they're obeying Jesus",
-          "Share your Follow & Fish goals with someone"
-        ]
-      },
-      multiplier: {
-        observations: [
-          "You're already making disciples and helping others grow.",
-          "You have consistent rhythms and faithful practice.",
-          "You're thinking about how to help others multiply disciples."
-        ],
-        growthEdges: [
-          "Developing and sharpening emerging leaders",
-          "Multiplying disciples who multiply others"
-        ],
-        encouragement: "What you're doing is rare and beautiful. Most people talk about multiplication; you're actually practicing it. Growth happens through practice, not by getting every answer right. The world needs more people doing what you're doing.",
-        nextReps: [
-          "Coach someone through one step of obedience",
-          "Identify one faithful person to invest in intentionally",
-          "Pray specifically for the leaders you're developing"
-        ]
-      },
-      catalyst: {
-        observations: [
-          "You're already multiplying leaders and thinking systemically.",
-          "You have strong rhythms and consistent obedience.",
-          "You're thinking beyond your personal ministry to networks and movements."
-        ],
-        growthEdges: [
-          "Helping emerging multipliers see and develop their potential",
-          "Scaling multiplication across networks"
-        ],
-        encouragement: "What you're building will ripple across networks and generations. Growth happens through practice, not by getting every answer right. The multipliers you're raising will multiply others, and the impact will continue far beyond what you can see.",
-        nextReps: [
-          "Identify one emerging multiplier to mentor",
-          "Plan one specific way you'll help them see their multiplication potential",
-          "Pray for the networks and communities they're reaching"
-        ]
+    // PRACTICE-FIRST RECOMMENDATION ENGINE
+    // Conservative, beginner-focused, only make claims we can support
+
+    function analyzeScores(scores) {
+      // Weight the dimensions appropriately
+      // Practice, Rhythm, Mission are primary drivers
+      // Coachability, Vision are secondary
+
+      const practice = scores.practice || 0;
+      const rhythm = scores.rhythm || 0;
+      const mission = scores.everyday_mission || 0;
+      const coachability = scores.coachability || 0;
+      const vision = scores.vision || 0;
+
+      return {
+        practice,
+        rhythm,
+        mission,
+        coachability,
+        vision,
+        practiceAvg: (practice + rhythm + mission) / 3,
+        allScores: scores
+      };
+    }
+
+    function generateObservations(analysis) {
+      const obs = [];
+
+      const { practice, rhythm, mission, coachability, vision } = analysis;
+
+      // Only claim things we can actually see in the data
+      // Avoid speculation
+
+      if (vision >= 3.5) {
+        obs.push("You have a genuine vision for disciple making.");
       }
-    };
+
+      if (practice >= 3 || (practice >= 2.5 && mission >= 2.5)) {
+        obs.push("You're taking concrete steps to live out your faith.");
+      } else if (vision >= 3 && practice < 2.5) {
+        obs.push("You're eager but haven't yet moved from inspiration to practice.");
+      }
+
+      if (coachability >= 3.5) {
+        obs.push("You're willing to learn and grow with others.");
+      }
+
+      if (mission >= 3) {
+        obs.push("You know where God has placed you.");
+      }
+
+      // Limit to 3 observations
+      return obs.slice(0, 3);
+    }
+
+    function generateGrowthEdge(analysis) {
+      const { practice, rhythm, mission, coachability, vision, practiceAvg } = analysis;
+
+      // Identify the biggest gap between vision and practice
+      const visionPracticGap = vision - practice;
+
+      if (practice < 2 && vision >= 3) {
+        return "Moving from inspiration to practice.";
+      }
+
+      if (practice >= 2.5 && rhythm < 2.5) {
+        return "Building a simple weekly rhythm.";
+      }
+
+      if (practice >= 2.5 && mission < 2.5) {
+        return "Identifying and spending time with people where you live, work, and play.";
+      }
+
+      if (coachability < 2.5) {
+        return "Becoming more open to learning and feedback.";
+      }
+
+      if (practiceAvg < 2.5) {
+        return "Taking your first steps of faithful obedience.";
+      }
+
+      if (practiceAvg >= 3 && practiceAvg < 4) {
+        return "Deepening consistency in one simple practice.";
+      }
+
+      return "Continuing to grow through faithful obedience.";
+    }
+
+    function generateNextRep(analysis) {
+      const { practice, rhythm, mission, coachability, practiceAvg } = analysis;
+
+      // CONSERVATIVE: Default to beginner practices unless we have clear evidence otherwise
+
+      if (practice < 2) {
+        return {
+          title: "Make an Oikos Map",
+          description: "Identify five people where you live, work, or play who don't yet follow Jesus. Write down their names.",
+          why: "Jesus usually started with existing relationships. This is step one.",
+          time: "10 minutes"
+        };
+      }
+
+      if (practice >= 2 && mission < 2.5) {
+        return {
+          title: "Identify Your Mission Field",
+          description: "Think about the people you already know—coworkers, neighbors, friends. Who among them would you most like to see follow Jesus?",
+          why: "Disciple making happens where you already are, not somewhere new.",
+          time: "15 minutes"
+        };
+      }
+
+      if (practice >= 2.5 && rhythm < 2.5) {
+        return {
+          title: "Set Your Follow & Fish Goal",
+          description: "Identify one person you'll pray for and one simple practice you'll do this week (pray, talk, read Scripture together, etc.).",
+          why: "Consistency matters more than intensity. Build one simple rhythm first.",
+          time: "20 minutes"
+        };
+      }
+
+      if (practice >= 2.5 && rhythm >= 2.5 && mission >= 2.5 && practiceAvg >= 3.5) {
+        return {
+          title: "Invest in One Faithful Person",
+          description: "Identify someone in your life who's also following Jesus. How could you encourage them to take their next step?",
+          why: "Once you're practicing consistently, multiplication often happens naturally. Help someone else take a step.",
+          time: "Ongoing relationship"
+        };
+      }
+
+      if (coachability < 2.5) {
+        return {
+          title: "Join the WhatsApp Community",
+          description: "Learn alongside others who are also figuring this out. Watch how they practice. Ask questions.",
+          why: "Growth happens in community. You don't have to have all the answers.",
+          time: "30 min/week"
+        };
+      }
+
+      // Default beginner practice
+      return {
+        title: "Pray by Name for Five People",
+        description: "Each day this week, spend a few minutes praying for five people who don't yet follow Jesus.",
+        why: "Prayer is where disciple making begins. It orients your heart toward the people around you.",
+        time: "5 minutes/day"
+      };
+    }
+
+    function generateEncouragement(analysis) {
+      const { practiceAvg } = analysis;
+
+      if (practiceAvg < 2) {
+        return "Starting is often the hardest part. You don't need to feel ready. Jesus called fishermen and tax collectors and invited them to follow. That's you right now.";
+      }
+
+      if (practiceAvg < 3) {
+        return "You're practicing. That puts you ahead of most. Keep going. Consistency beats intensity.";
+      }
+
+      if (practiceAvg < 4) {
+        return "You're building a real practice. Growth happens through faithful obedience, not by getting every answer right.";
+      }
+
+      return "Keep going. The work you're doing matters more than you can see right now.";
+    }
 
     function showView(viewName) {
       document.getElementById('loading-view').style.display = viewName === 'loading' ? 'block' : 'none';
@@ -588,7 +682,6 @@
         return;
       }
 
-      // Animate loading checklist
       let checkCount = 0;
       const checkInterval = setInterval(() => {
         checkCount++;
@@ -606,7 +699,6 @@
         const data = await response.json();
         if (!response.ok) throw new Error('Failed to load results');
 
-        // Wait for animation to complete
         setTimeout(() => {
           renderResults(data);
         }, 1800);
@@ -617,50 +709,54 @@
     }
 
     function renderResults(data) {
-      const coaching = pathwayCoaching[data.pathway] || pathwayCoaching.explorer;
       const firstName = data.first_name || 'Friend';
       const scores = data.dimension_scores || {};
 
-      // Render greeting (no pathway label)
+      // Analyze scores using new conservative engine
+      const analysis = analyzeScores(scores);
+      const observations = generateObservations(analysis);
+      const growthEdge = generateGrowthEdge(analysis);
+      const nextRep = generateNextRep(analysis);
+      const encouragement = generateEncouragement(analysis);
+
+      // Render greeting
       document.getElementById('result-greeting').textContent = `Hello, ${firstName}.`;
 
       // Render radar chart
       renderRadarChart(scores);
 
       // Render dimension summary
-      renderDimensionSummary(scores, data.strongest_dimension, data.lowest_dimension);
+      renderDimensionSummary(scores);
 
       // Render observations
-      const observationsHtml = coaching.observations
+      const observationsHtml = observations
         .map(obs => `<div class="observation-item">${obs}</div>`)
         .join('');
       document.getElementById('observations-section').innerHTML = observationsHtml;
 
-      // Render growth edges
-      const growthEdgesHtml = coaching.growthEdges
-        .map(edge => `<div class="growth-edge-item">• ${edge}</div>`)
-        .join('');
-      document.getElementById('growth-edge-section').innerHTML = growthEdgesHtml;
+      // Render growth edge
+      document.getElementById('growth-edge-section').innerHTML =
+        `<div class="growth-edge-box"><div class="growth-edge-item">• ${growthEdge}</div></div>`;
+
+      // Render next rep
+      const nextRepHtml = `
+        <div class="next-rep-container">
+          <div class="next-rep-title">${nextRep.title}</div>
+          <div class="next-rep-description">${nextRep.description}</div>
+          <div class="next-rep-why">
+            <strong>Why?</strong>
+            ${nextRep.why}
+          </div>
+          <div class="next-rep-time">Estimated time: ${nextRep.time}</div>
+        </div>
+      `;
+      document.getElementById('next-rep-section').innerHTML = nextRepHtml;
 
       // Render encouragement
       document.getElementById('encouragement-section').innerHTML =
-        `<p class="encouragement-text">"${coaching.encouragement}"</p>`;
+        `<p class="encouragement-text">"${encouragement}"</p>`;
 
-      // Render next reps
-      const nextRepsHtml = `
-        <div class="next-reps-title">Choose Your Next Step</div>
-        <ul class="next-reps-list">
-          ${coaching.nextReps.map(rep => `
-            <li>
-              <span class="next-reps-bullet">•</span>
-              <span>${rep}</span>
-            </li>
-          `).join('')}
-        </ul>
-      `;
-      document.getElementById('next-reps-section').innerHTML = nextRepsHtml;
-
-      // Render CTA (simplified, no pathway-specific guidance)
+      // Render CTA
       const ctaHtml = `
         <div class="cta-title">What's Next?</div>
         <p class="cta-text">Growth doesn't happen through assessments. It happens shoulder-to-shoulder with other people learning to follow Jesus.</p>
@@ -738,7 +834,7 @@
       });
     }
 
-    function renderDimensionSummary(scores, strongest, lowest) {
+    function renderDimensionSummary(scores) {
       const dimensionNames = {
         vision: "Vision",
         practice: "Practice",
@@ -760,12 +856,10 @@
       dimensionKeys.forEach(key => {
         const score = scores[key] || 0;
         const width = (score / 5) * 100;
-        const isStrongest = key === strongest ? ' font-weight: 700; color: #166534;' : '';
-        const isLowest = key === lowest ? ' font-weight: 700; color: #b45309;' : '';
 
         html += `
           <div class="dimension-row">
-            <div class="dimension-name" style="${isStrongest}${isLowest}">${dimensionNames[key]}</div>
+            <div class="dimension-name">${dimensionNames[key]}</div>
             <div class="dimension-bar">
               <div class="dimension-fill" style="width: ${width}%"></div>
             </div>
@@ -778,7 +872,6 @@
       document.getElementById('dimension-summary').innerHTML = html;
     }
 
-    // Initialize
     showView('loading');
     loadResults();
   </script>
