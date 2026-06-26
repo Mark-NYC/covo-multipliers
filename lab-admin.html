@@ -253,6 +253,63 @@
             margin-bottom: 20px;
         }
 
+        /* Accordion styles */
+        .accordion-header {
+            background: none;
+            border: none;
+            width: 100%;
+            padding: 16px 20px;
+            border-bottom: 1px solid #e5e7eb;
+            background: #fafafa;
+            font-size: 16px;
+            font-weight: 700;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: background 0.15s;
+        }
+
+        .accordion-header:hover {
+            background: #f5f5f5;
+        }
+
+        .accordion-header .accordion-toggle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+            transition: transform 0.2s;
+        }
+
+        .accordion-header.collapsed .accordion-toggle {
+            transform: rotate(-90deg);
+        }
+
+        .accordion-content {
+            display: none;
+        }
+
+        .accordion-content.open {
+            display: block;
+        }
+
+        .table-section.collapsed .accordion-content {
+            display: none;
+        }
+
+        .table-section.collapsed table,
+        .table-section.collapsed .loading {
+            display: none !important;
+        }
+
+        .table-section.collapsed p {
+            display: none !important;
+        }
+
         @media (max-width: 768px) {
             /* Mobile-only refinements. Desktop layout is unchanged. */
             .main {
@@ -367,118 +424,148 @@
         </div>
 
         <!-- Shortlink Performance -->
-        <div class="table-section">
-            <h2>Shortlink Performance <span style="font-weight:400;font-size:13px;color:#888;">— track clicks on shortened URLs</span></h2>
-            <div style="padding: 16px 20px; border-bottom: 1px solid #e5e7eb; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px;">
-                <div>
-                    <div style="font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; margin-bottom: 6px;">Total Shortlinks</div>
-                    <div style="font-size: 24px; font-weight: 700; color: #10281f;" id="shortlink-count">—</div>
+        <div class="table-section collapsed">
+            <button class="accordion-header collapsed" onclick="toggleAccordion(this)">
+                <span>Shortlink Performance <span style="font-weight:400;font-size:13px;color:#888;">— track clicks on shortened URLs</span></span>
+                <span class="accordion-toggle">▼</span>
+            </button>
+            <div class="accordion-content">
+                <div style="padding: 16px 20px; border-bottom: 1px solid #e5e7eb; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px;">
+                    <div>
+                        <div style="font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; margin-bottom: 6px;">Total Shortlinks</div>
+                        <div style="font-size: 24px; font-weight: 700; color: #10281f;" id="shortlink-count">—</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; margin-bottom: 6px;">Total Clicks</div>
+                        <div style="font-size: 24px; font-weight: 700; color: #10281f;" id="shortlink-total-clicks">—</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; margin-bottom: 6px;">Avg Clicks/Link</div>
+                        <div style="font-size: 24px; font-weight: 700; color: #10281f;" id="shortlink-avg-clicks">—</div>
+                    </div>
                 </div>
-                <div>
-                    <div style="font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; margin-bottom: 6px;">Total Clicks</div>
-                    <div style="font-size: 24px; font-weight: 700; color: #10281f;" id="shortlink-total-clicks">—</div>
-                </div>
-                <div>
-                    <div style="font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; margin-bottom: 6px;">Avg Clicks/Link</div>
-                    <div style="font-size: 24px; font-weight: 700; color: #10281f;" id="shortlink-avg-clicks">—</div>
-                </div>
+                <div id="shortlink-loading" class="loading">Loading...</div>
+                <table id="shortlink-table" style="display: none;">
+                    <thead>
+                        <tr>
+                            <th>Short Code</th>
+                            <th>Long URL</th>
+                            <th>Clicks</th>
+                            <th>Created</th>
+                            <th>Last Clicked</th>
+                        </tr>
+                    </thead>
+                    <tbody id="shortlink-body"></tbody>
+                </table>
             </div>
-            <div id="shortlink-loading" class="loading">Loading...</div>
-            <table id="shortlink-table" style="display: none;">
-                <thead>
-                    <tr>
-                        <th>Short Code</th>
-                        <th>Long URL</th>
-                        <th>Clicks</th>
-                        <th>Created</th>
-                        <th>Last Clicked</th>
-                    </tr>
-                </thead>
-                <tbody id="shortlink-body"></tbody>
-            </table>
         </div>
 
         <!-- Per-lab summary table -->
-        <div class="table-section">
-            <h2>Per-Lab Summary</h2>
-            <div id="lab-summary-loading" class="loading">Loading...</div>
-            <table id="lab-summary-table" style="display: none;">
-                <thead>
-                    <tr>
-                        <th>Lab</th>
-                        <th>Event Date</th>
-                        <th>Days Left</th>
-                        <th>Max Seats</th>
-                        <th>Active Signups</th>
-                        <th>Seats Remaining</th>
-                        <th>Pace vs. usual</th>
-                    </tr>
-                </thead>
-                <tbody id="lab-summary-body"></tbody>
-            </table>
-            <p id="pace-note" style="display: none; padding: 12px 20px; font-size: 12px; color: #888; border-top: 1px solid #f0f0f0;"></p>
+        <div class="table-section collapsed">
+            <button class="accordion-header collapsed" onclick="toggleAccordion(this)">
+                <span>Per-Lab Summary</span>
+                <span class="accordion-toggle">▼</span>
+            </button>
+            <div class="accordion-content">
+                <div id="lab-summary-loading" class="loading">Loading...</div>
+                <table id="lab-summary-table" style="display: none;">
+                    <thead>
+                        <tr>
+                            <th>Lab</th>
+                            <th>Event Date</th>
+                            <th>Days Left</th>
+                            <th>Max Seats</th>
+                            <th>Active Signups</th>
+                            <th>Seats Remaining</th>
+                            <th>Pace vs. usual</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lab-summary-body"></tbody>
+                </table>
+                <p id="pace-note" style="display: none; padding: 12px 20px; font-size: 12px; color: #888; border-top: 1px solid #f0f0f0;"></p>
+            </div>
         </div>
 
         <!-- Channel breakdown -->
-        <div class="table-section">
-            <h2>Signups by Channel (first touch)</h2>
-            <div id="channel-loading" class="loading">Loading...</div>
-            <table id="channel-table" style="display: none;">
-                <thead>
-                    <tr>
-                        <th>Source</th>
-                        <th>Signups</th>
-                    </tr>
-                </thead>
-                <tbody id="channel-body"></tbody>
-            </table>
+        <div class="table-section collapsed">
+            <button class="accordion-header collapsed" onclick="toggleAccordion(this)">
+                <span>Signups by Channel (first touch)</span>
+                <span class="accordion-toggle">▼</span>
+            </button>
+            <div class="accordion-content">
+                <div id="channel-loading" class="loading">Loading...</div>
+                <table id="channel-table" style="display: none;">
+                    <thead>
+                        <tr>
+                            <th>Source</th>
+                            <th>Signups</th>
+                        </tr>
+                    </thead>
+                    <tbody id="channel-body"></tbody>
+                </table>
+            </div>
         </div>
 
         <!-- Content insights: topic demand -->
-        <div class="table-section">
-            <h2>Topic Demand <span style="font-weight:400;font-size:13px;color:#888;">— all-time signups by lab topic (your content compass)</span></h2>
-            <div id="topic-loading" class="loading">Loading...</div>
-            <table id="topic-table" style="display: none;">
-                <thead>
-                    <tr>
-                        <th>Topic</th>
-                        <th>Times Run</th>
-                        <th>Total Signups</th>
-                    </tr>
-                </thead>
-                <tbody id="topic-body"></tbody>
-            </table>
+        <div class="table-section collapsed">
+            <button class="accordion-header collapsed" onclick="toggleAccordion(this)">
+                <span>Topic Demand <span style="font-weight:400;font-size:13px;color:#888;">— all-time signups by lab topic (your content compass)</span></span>
+                <span class="accordion-toggle">▼</span>
+            </button>
+            <div class="accordion-content">
+                <div id="topic-loading" class="loading">Loading...</div>
+                <table id="topic-table" style="display: none;">
+                    <thead>
+                        <tr>
+                            <th>Topic</th>
+                            <th>Times Run</th>
+                            <th>Total Signups</th>
+                        </tr>
+                    </thead>
+                    <tbody id="topic-body"></tbody>
+                </table>
+            </div>
         </div>
 
         <!-- Content insights: first-touch content attribution -->
-        <div class="table-section">
-            <h2>Content That Drives Signups <span style="font-weight:400;font-size:13px;color:#888;">— first page a registrant landed on before signing up</span></h2>
-            <div id="content-loading" class="loading">Loading...</div>
-            <table id="content-table" style="display: none;">
-                <thead>
-                    <tr>
-                        <th>First landing page</th>
-                        <th>Signups</th>
-                    </tr>
-                </thead>
-                <tbody id="content-body"></tbody>
-            </table>
+        <div class="table-section collapsed">
+            <button class="accordion-header collapsed" onclick="toggleAccordion(this)">
+                <span>Content That Drives Signups <span style="font-weight:400;font-size:13px;color:#888;">— first page a registrant landed on before signing up</span></span>
+                <span class="accordion-toggle">▼</span>
+            </button>
+            <div class="accordion-content">
+                <div id="content-loading" class="loading">Loading...</div>
+                <table id="content-table" style="display: none;">
+                    <thead>
+                        <tr>
+                            <th>First landing page</th>
+                            <th>Signups</th>
+                        </tr>
+                    </thead>
+                    <tbody id="content-body"></tbody>
+                </table>
+            </div>
         </div>
 
         <!-- Content insights: topic affinity -->
-        <div class="table-section">
-            <h2>Topic Affinity <span style="font-weight:400;font-size:13px;color:#888;">— people who signed up for one topic also signed up for another (guides series &amp; sequencing)</span></h2>
-            <div id="affinity-loading" class="loading">Loading...</div>
-            <table id="affinity-table" style="display: none;">
-                <thead>
-                    <tr>
-                        <th>Topic A</th>
-                        <th>Topic B</th>
-                        <th>Shared registrants</th>
-                    </tr>
-                </thead>
-                <tbody id="affinity-body"></tbody>
-            </table>
+        <div class="table-section collapsed">
+            <button class="accordion-header collapsed" onclick="toggleAccordion(this)">
+                <span>Topic Affinity <span style="font-weight:400;font-size:13px;color:#888;">— people who signed up for one topic also signed up for another (guides series &amp; sequencing)</span></span>
+                <span class="accordion-toggle">▼</span>
+            </button>
+            <div class="accordion-content">
+                <div id="affinity-loading" class="loading">Loading...</div>
+                <table id="affinity-table" style="display: none;">
+                    <thead>
+                        <tr>
+                            <th>Topic A</th>
+                            <th>Topic B</th>
+                            <th>Shared registrants</th>
+                        </tr>
+                    </thead>
+                    <tbody id="affinity-body"></tbody>
+                </table>
+            </div>
         </div>
 
         <!-- Registrant table -->
@@ -503,23 +590,39 @@
         </div>
 
         <!-- Person summary table -->
-        <div class="table-section">
-            <h2>Person Summary</h2>
-            <div id="person-loading" class="loading">Loading...</div>
-            <table id="person-table" style="display: none;">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Labs Registered</th>
-                        <th>Labs Attended</th>
-                    </tr>
-                </thead>
-                <tbody id="person-body"></tbody>
-            </table>
+        <div class="table-section collapsed">
+            <button class="accordion-header collapsed" onclick="toggleAccordion(this)">
+                <span>Person Summary</span>
+                <span class="accordion-toggle">▼</span>
+            </button>
+            <div class="accordion-content">
+                <div id="person-loading" class="loading">Loading...</div>
+                <table id="person-table" style="display: none;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Labs Registered</th>
+                            <th>Labs Attended</th>
+                        </tr>
+                    </thead>
+                    <tbody id="person-body"></tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
+
+<script>
+    function toggleAccordion(button) {
+        const section = button.closest('.table-section');
+        const content = button.nextElementSibling;
+
+        button.classList.toggle('collapsed');
+        section.classList.toggle('collapsed');
+        content.classList.toggle('open');
+    }
+</script>
 
 <script type="module">
     import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
