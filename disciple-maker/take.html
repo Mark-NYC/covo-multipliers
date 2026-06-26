@@ -16,9 +16,27 @@
   <script src="config.js"></script>
   <script src="questions.js"></script>
   <style>
+    /* PAGE BACKGROUND PROGRESSION: Cool → Warm Gold */
     body {
-      background: #fafafa;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      transition: background 0.8s ease;
+      background: #fafafa;
+    }
+
+    body.progress-0-25 {
+      background: #fafafa;
+    }
+
+    body.progress-25-50 {
+      background: linear-gradient(135deg, #fafafa 0%, #fefaf0 100%);
+    }
+
+    body.progress-50-75 {
+      background: linear-gradient(135deg, #fef8f0 0%, #fffef5 100%);
+    }
+
+    body.progress-75-100 {
+      background: linear-gradient(135deg, #fffef5 0%, #fffbf0 100%);
     }
 
     .dm-header {
@@ -27,6 +45,11 @@
       padding: 16px 20px;
       text-align: center;
       border-bottom: 1px solid #164033;
+      transition: background 0.8s ease;
+    }
+
+    body.progress-75-100 .dm-header {
+      background: linear-gradient(90deg, #1b4d3e, #2d5a47);
     }
 
     .dm-header-brand {
@@ -66,6 +89,12 @@
       height: 6px;
       border-radius: 4px;
       overflow: hidden;
+      transition: height 0.3s ease;
+    }
+
+    /* Progress bar gets taller as you approach finish */
+    body.progress-75-100 .progress-bar {
+      height: 8px;
     }
 
     .progress-fill {
@@ -75,18 +104,36 @@
       background: linear-gradient(90deg, #1b4d3e, #52b788);
     }
 
-    /* Progress color shifts based on completion */
+    /* Color progression */
     body.progress-0-25 .progress-fill {
       background: linear-gradient(90deg, #1b4d3e, #2d6a4f);
     }
+
     body.progress-25-50 .progress-fill {
       background: linear-gradient(90deg, #2d6a4f, #40916c);
     }
+
     body.progress-50-75 .progress-fill {
       background: linear-gradient(90deg, #40916c, #74c69d);
     }
+
     body.progress-75-100 .progress-fill {
-      background: linear-gradient(90deg, #74c69d, #d4af37);
+      background: linear-gradient(90deg, #95d5b2, #d4af37);
+      animation: pulse-glow 1.5s ease-in-out infinite;
+    }
+
+    /* PULSE ANIMATION - intensifies in final stretch */
+    @keyframes pulse-glow {
+      0%, 100% {
+        box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4);
+      }
+      50% {
+        box-shadow: 0 0 0 6px rgba(212, 175, 55, 0);
+      }
+    }
+
+    body.progress-75-100 .progress-bar {
+      box-shadow: inset 0 0 8px rgba(212, 175, 55, 0.3);
     }
 
     .coaching-message {
@@ -102,8 +149,21 @@
       display: none;
     }
 
+    body.progress-75-100 .coaching-message {
+      background: linear-gradient(135deg, #fffbf0 0%, #fef8f0 100%);
+      border-left-color: #d4af37;
+      color: #d4af37;
+      font-weight: 600;
+    }
+
     .coaching-message.show {
       display: block;
+    }
+
+    /* Celebration checkmark for final stretch */
+    .coaching-message.celebration::before {
+      content: "🎯 ";
+      margin-right: 4px;
     }
 
     @keyframes slideInCoach {
@@ -123,6 +183,41 @@
       padding: 32px;
       box-shadow: 0 1px 3px rgba(0,0,0,0.08);
       margin-bottom: 24px;
+      animation: slideUp 0.4s ease;
+    }
+
+    /* SHAKE EFFECT in final quarter */
+    body.progress-75-100 .question-card {
+      animation: slideUpShake 0.5s ease;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideUpShake {
+      0% {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      60% {
+        opacity: 1;
+        transform: translateY(-2px);
+      }
+      75% {
+        transform: translateY(2px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .question-dimension {
@@ -159,11 +254,22 @@
       font-size: 15px;
       font-weight: 500;
       color: #555;
+      position: relative;
+      overflow: hidden;
     }
 
+    /* MORE PRONOUNCED HOVER - especially in final stretch */
     .response-button:hover {
       border-color: #1b4d3e;
       background: #f8fdf8;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(27, 77, 62, 0.15);
+    }
+
+    body.progress-75-100 .response-button:hover {
+      border-color: #d4af37;
+      background: #fffbf0;
+      box-shadow: 0 4px 12px rgba(212, 175, 55, 0.25);
     }
 
     .response-button.selected {
@@ -171,6 +277,26 @@
       background: #f0f9f7;
       color: #1b4d3e;
       font-weight: 600;
+      animation: selectPulse 0.3s ease;
+    }
+
+    body.progress-75-100 .response-button.selected {
+      border-color: #d4af37;
+      background: linear-gradient(135deg, #fffbf0 0%, #fef8f0 100%);
+      color: #d4af37;
+    }
+
+    /* SELECTION SATISFACTION ANIMATION */
+    @keyframes selectPulse {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.02);
+      }
+      100% {
+        transform: scale(1);
+      }
     }
 
     .response-button .response-value {
@@ -217,11 +343,31 @@
       font-weight: 600;
       font-size: 14px;
       cursor: pointer;
-      transition: background 0.2s;
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* BIGGER + MORE PROMINENT in final stretch */
+    body.progress-75-100 .btn-primary {
+      padding: 14px 28px;
+      font-size: 15px;
+      box-shadow: 0 4px 16px rgba(212, 175, 55, 0.3);
+      animation: buttonPulse 0.6s ease infinite;
+    }
+
+    @keyframes buttonPulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.02);
+      }
     }
 
     .btn-primary:hover:not(:disabled) {
       background: #c9a227;
+      transform: translateY(-2px);
     }
 
     .btn-primary:disabled {
@@ -234,10 +380,29 @@
       color: #888;
       text-align: center;
       margin-bottom: 16px;
+      transition: all 0.3s ease;
     }
 
     .save-indicator.saving {
       color: #1b4d3e;
+      font-weight: 600;
+    }
+
+    body.progress-75-100 .save-indicator.saving {
+      color: #d4af37;
+    }
+
+    /* CELEBRATION when final question answered */
+    .save-indicator.celebration {
+      color: #d4af37;
+      font-weight: 700;
+      font-size: 13px;
+      animation: celebration 0.5s ease;
+    }
+
+    @keyframes celebration {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
     }
 
     .loading-state {
@@ -278,6 +443,33 @@
       color: #555;
       margin: 0 0 16px;
     }
+
+    /* MILESTONE CELEBRATION BANNER */
+    .milestone-banner {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      font-size: 72px;
+      z-index: 1000;
+      opacity: 0;
+      animation: milestoneFloat 1.2s ease forwards;
+    }
+
+    @keyframes milestoneFloat {
+      0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(0.5);
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -200%) scale(1);
+      }
+    }
   </style>
 </head>
 <body>
@@ -289,12 +481,12 @@
 
   <main class="dm-main">
 
-    <div id="loading-view" class="question-card loading-state">
+    <div id="loading-view" class="loading-state">
       <div class="loading-spinner"></div>
       <p>Loading your checkup…</p>
     </div>
 
-    <div id="error-view" class="question-card error-state">
+    <div id="error-view" style="display:none;">
       <div class="error-state-icon">⚠️</div>
       <h2>Something went wrong</h2>
       <p id="error-msg">Could not load your checkup. Please try again.</p>
@@ -334,7 +526,7 @@
       </div>
     </div>
 
-    <div id="submitting-view" class="question-card loading-state" style="display:none;">
+    <div id="submitting-view" class="loading-state" style="display:none;">
       <div class="loading-spinner"></div>
       <p>Submitting your checkup…</p>
     </div>
@@ -350,6 +542,23 @@
     let currentIndex = 0;
     let responses = {};
     let saveTimer = null;
+
+    // Variable encouragement messages for freshness
+    const milestoneMessages = {
+      5: ["Great start. Your honest answers will make this much more useful.", "Nice. You're building momentum.", "Perfect. Keep going."],
+      10: ["You're halfway there. We're starting to see a clearer picture.", "Halfway done! You're doing great.", "50% complete! Almost there."],
+      15: ["Almost done. Just a few more questions to go.", "You're in the home stretch now.", "Close to the finish line!"],
+      18: ["You're almost there. Your Disciple Maker Snapshot is almost ready.", "One more push!", "Your snapshot is coming…"]
+    };
+
+    function getCoachingMessage(questionNumber) {
+      const milestone = Object.keys(milestoneMessages).find(m => m == questionNumber);
+      if (milestone) {
+        const options = milestoneMessages[milestone];
+        return options[Math.floor(Math.random() * options.length)];
+      }
+      return null;
+    }
 
     // Get credentials from sessionStorage
     function getCredentials() {
@@ -448,7 +657,6 @@
 
     function updateProgress() {
       const total = allQuestions.length;
-      const answered = Object.keys(responses).length;
       const percent = Math.round((currentIndex + 1) / total * 100);
       const questionNumber = currentIndex + 1;
 
@@ -457,7 +665,7 @@
       document.getElementById('progress-fill').style.width = percent + '%';
       document.getElementById('header-progress').textContent = `${percent}% complete`;
 
-      // Update progress color based on completion
+      // Update progress color and page background based on completion
       document.body.classList.remove('progress-0-25', 'progress-25-50', 'progress-50-75', 'progress-75-100');
       if (percent <= 25) {
         document.body.classList.add('progress-0-25');
@@ -470,13 +678,16 @@
       }
 
       // Show coaching message at milestones
-      const coachingMsg = ASSESSMENT_QUESTIONS.getCoachingMessage(questionNumber);
+      const coachingMsg = getCoachingMessage(questionNumber);
       const coachingEl = document.getElementById('coaching-message');
       if (coachingMsg) {
         coachingEl.textContent = coachingMsg;
         coachingEl.classList.add('show');
+        if (percent >= 75) {
+          coachingEl.classList.add('celebration');
+        }
       } else {
-        coachingEl.classList.remove('show');
+        coachingEl.classList.remove('show', 'celebration');
       }
     }
 
@@ -496,14 +707,19 @@
 
     function scheduleAutoSave() {
       clearTimeout(saveTimer);
-      document.getElementById('save-indicator').textContent = 'Saving…';
-      document.getElementById('save-indicator').classList.add('saving');
+      const saveIndicator = document.getElementById('save-indicator');
+      saveIndicator.textContent = 'Saving…';
+      saveIndicator.classList.add('saving');
 
       saveTimer = setTimeout(() => {
-        document.getElementById('save-indicator').textContent = 'Saved!';
+        saveIndicator.textContent = 'Saved! ✓';
+        if (currentIndex + 1 >= 18) {
+          saveIndicator.classList.add('celebration');
+          saveIndicator.textContent = 'Saved! 🎯';
+        }
         setTimeout(() => {
-          document.getElementById('save-indicator').textContent = 'Your progress is saved automatically.';
-          document.getElementById('save-indicator').classList.remove('saving');
+          saveIndicator.textContent = 'Your progress is saved automatically.';
+          saveIndicator.classList.remove('saving', 'celebration');
         }, 1500);
       }, 500);
     }
