@@ -417,6 +417,20 @@
       line-height: 1.6;
       color: #22543d;
     }
+
+    .cta-icon-image {
+      max-width: 120px;
+      margin: 0 auto 16px;
+      display: block;
+      border-radius: 8px;
+      opacity: 0.85;
+    }
+
+    @media (max-width: 600px) {
+      .cta-icon-image {
+        max-width: 90px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -520,40 +534,40 @@
     // SVG icon generator for observations
     function getObservationIcon(observation) {
       if (observation.includes('vision')) {
-        // Lightbulb for vision
-        return `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1b4d3e" stroke-width="2">
-          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z"/>
+        // Eye/clarity icon
+        return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1b4d3e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+          <circle cx="12" cy="12" r="3"/>
         </svg>`;
       } else if (observation.includes('taking concrete steps') || observation.includes('practice')) {
-        // Hands/action icon
-        return `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1b4d3e" stroke-width="2">
-          <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
-          <polyline points="10 17 14 13 10 9"/>
+        // Check circle / obedience icon
+        return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1b4d3e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+          <polyline points="22 4 12 14.01 9 11.01"/>
         </svg>`;
       } else if (observation.includes('willing to learn') || observation.includes('coachability')) {
-        // People/growth icon
-        return `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1b4d3e" stroke-width="2">
+        // People/community icon
+        return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1b4d3e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
           <circle cx="9" cy="7" r="4"/>
           <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
           <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
         </svg>`;
       } else if (observation.includes('know where') || observation.includes('mission')) {
-        // Target/compass icon
-        return `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1b4d3e" stroke-width="2">
-          <circle cx="12" cy="12" r="10"/>
-          <circle cx="12" cy="12" r="6"/>
-          <circle cx="12" cy="12" r="2"/>
+        // Compass/mission icon
+        return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1b4d3e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="9"/>
+          <path d="M12 6l2.16 5.27h5.54L14.8 14l2.16 5.27L12 17.27 9.84 19.27l2.16-5.27H6.3l5.54-.08z"/>
         </svg>`;
       } else if (observation.includes('eager')) {
-        // Spark/enthusiasm icon
-        return `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1b4d3e" stroke-width="2">
-          <circle cx="12" cy="12" r="1"/>
-          <path d="M12 1v6m8-2l-4.24 4.24M23 12h-6m-2 8l4.24-4.24M12 23v-6m-8-2l4.24 4.24M1 12h6m2-8l-4.24 4.24"/>
+        // Arrow up / growth icon
+        return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1b4d3e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="19" x2="12" y2="5"/>
+          <polyline points="5 12 12 5 19 12"/>
         </svg>`;
       }
       // Default icon
-      return `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1b4d3e" stroke-width="2">
+      return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1b4d3e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
         <polyline points="20 6 9 17 4 12"/>
       </svg>`;
     }
@@ -654,7 +668,7 @@
       if (practice < 2) {
         return {
           title: "Make an Oikos Map",
-          description: "Identify five people where you live, work, or play who don't yet follow Jesus. Write down their names.",
+          description: "Identify 5-6 people where you live, work, and play. Think through your passion, place, and profession. Write down names of real people you already know or naturally see.",
           why: "Jesus usually started with existing relationships. This is step one.",
           time: "10 minutes"
         };
@@ -875,7 +889,7 @@
 
       // Render CTA
       const ctaHtml = `
-        <img src="/image/Thumbs up.webp" alt="Thumbs up" style="width: 100%; max-width: 300px; margin: 0 auto 24px; display: block; border-radius: 8px;">
+        <img src="/image/Thumbs up.webp" alt="Thumbs up" class="cta-icon-image">
         <div class="cta-title">What's Next?</div>
         <p class="cta-text">Growth doesn't happen through assessments. It happens shoulder-to-shoulder with other people learning to follow Jesus.</p>
         <p class="cta-text">Join our WhatsApp community where we encourage one another, practice together, share Follow & Fish goals, celebrate stories, ask questions, and take the next step together.</p>
