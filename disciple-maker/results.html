@@ -461,8 +461,8 @@
     <div id="results-view" style="display:none;">
 
       <div class="results-hero">
-        <p class="results-eyebrow">Your Disciple Maker Checkup</p>
-        <h1 class="results-title">Your Snapshot</h1>
+        <p class="results-eyebrow">Your Disciple Maker Assessment</p>
+        <h1 class="results-title">Who You Are</h1>
         <p class="results-subtitle" id="result-greeting"></p>
       </div>
 
@@ -741,6 +741,40 @@
       }
     }
 
+    function determineIdentity(observations, analysis) {
+      const { practice, mission, coachability, vision } = analysis;
+
+      // Check for specific observation patterns
+      const hasVision = observations.some(o => o.includes('genuine vision'));
+      const hasPractice = observations.some(o => o.includes('taking concrete steps'));
+      const hasEager = observations.some(o => o.includes('eager'));
+      const hasCoachability = observations.some(o => o.includes('willing to learn'));
+      const hasMission = observations.some(o => o.includes('know where'));
+
+      // Priority-based identity determination
+      if (hasPractice && hasMission && hasCoachability) {
+        return { type: 'Rooted Multiplier', image: '/image/discipleicons/rooted-multiplier.webp', subtitle: 'Making Disciples Where You Are' };
+      }
+      if (hasVision && hasPractice && hasMission && hasCoachability) {
+        return { type: 'Multiplying Influence', image: '/image/discipleicons/multiplying-influence.webp', subtitle: 'Apprenticed and Multiplying' };
+      }
+      if (hasVision && !hasPractice && !hasEager) {
+        return { type: 'Vision-Centered', image: '/image/discipleicons/Vision-Centered.webp', subtitle: 'Ready to Take the First Step' };
+      }
+      if (hasPractice && !hasVision) {
+        return { type: 'Faithful Practitioner', image: '/image/discipleicons/Faithful-Practitioner.webp', subtitle: 'Living It Out' };
+      }
+      if (hasCoachability && !hasPractice) {
+        return { type: 'Community Builder', image: '/image/discipleicons/Community-Builder.webp', subtitle: 'Growing Together' };
+      }
+      if (hasEager) {
+        return { type: 'Awakening Disciple', image: '/image/discipleicons/Awakening-Disciple.webp', subtitle: 'Just Beginning' };
+      }
+
+      // Default fallback
+      return { type: 'Growing Disciple', image: '/image/discipleicons/Awakening-Disciple.webp', subtitle: 'On Your Journey' };
+    }
+
     function renderResults(data) {
       const firstName = data.first_name || 'Friend';
       const scores = data.dimension_scores || {};
@@ -750,9 +784,20 @@
       const observations = generateObservations(analysis);
       const growthEdge = generateGrowthEdge(analysis);
       const nextRep = generateNextRep(analysis);
+      const identity = determineIdentity(observations, analysis);
 
       // Render greeting
       document.getElementById('result-greeting').textContent = `Hello, ${firstName}.`;
+
+      // Render identity section
+      const identityHtml = `
+        <div style="text-align: center; margin-bottom: 12px;">
+          <img src="${identity.image}" alt="${identity.type}" style="width: 120px; height: 120px; border-radius: 12px; object-fit: cover; margin-bottom: 16px;">
+          <h2 class="dm-h2" style="margin-bottom: 8px;">${identity.type}</h2>
+          <p style="font-size: 16px; color: #888; margin: 0;">${identity.subtitle}</p>
+        </div>
+      `;
+      document.getElementById('result-greeting').insertAdjacentHTML('afterend', identityHtml);
 
       // Render radar chart
       renderRadarChart(scores);
