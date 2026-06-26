@@ -11,8 +11,8 @@
     </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="The Disciple Maker Checkup identifies where you are on your disciple-making journey and recommends your next step. Free. 15–20 minutes.">
-  <title>Disciple Maker Checkup — Covo Multipliers</title>
+  <meta name="description" content="Stop guessing your next step. Get clarity on what to practice next as a disciple maker in just 5 minutes. Free.">
+  <title>Disciple Maker Checkup — Clarity on Your Next Step</title>
   <link rel="stylesheet" href="/styles.css">
   <style>
     body {
@@ -39,80 +39,93 @@
     .dm-main {
       max-width: 640px;
       margin: 0 auto;
-      padding: 32px 20px;
+      padding: 48px 20px;
     }
 
     .dm-card {
       background: white;
       border-radius: 12px;
-      padding: 28px;
-      margin-bottom: 24px;
+      padding: 40px 28px;
+      margin-bottom: 32px;
       box-shadow: 0 1px 3px rgba(0,0,0,0.08);
     }
 
-    .dm-eyebrow {
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      color: #888;
-      margin: 0 0 12px;
+    .dm-card.hero {
+      text-align: center;
+      padding: 48px 28px;
     }
 
     .dm-h1 {
-      font-size: 32px;
+      font-size: 36px;
       font-weight: 800;
       line-height: 1.2;
       color: #1a1a1a;
       margin: 0 0 16px;
     }
 
+    .dm-subheading {
+      font-size: 16px;
+      line-height: 1.6;
+      color: #555;
+      margin: 0 0 32px;
+      max-width: 520px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .dm-trust {
+      font-size: 13px;
+      color: #888;
+      margin: 24px 0 0;
+      font-weight: 500;
+    }
+
     .dm-h2 {
-      font-size: 20px;
+      font-size: 22px;
       font-weight: 700;
       color: #1a1a1a;
-      margin: 0 0 12px;
+      margin: 0 0 24px;
+    }
+
+    .outcome-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .outcome-list li {
+      font-size: 16px;
+      line-height: 1.7;
+      color: #333;
+      margin-bottom: 16px;
+      padding-left: 24px;
+      position: relative;
+    }
+
+    .outcome-list li:before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: #1b4d3e;
+      font-weight: 700;
+    }
+
+    .outcome-list li:last-child {
+      margin-bottom: 0;
     }
 
     .dm-body {
       font-size: 15px;
       line-height: 1.7;
-      color: #444;
+      color: #555;
       margin: 0 0 16px;
-    }
-
-    .dm-body:last-child {
-      margin-bottom: 0;
-    }
-
-    .dm-note {
-      background: #fef3c7;
-      border-left: 3px solid #f59e0b;
-      padding: 14px 16px;
-      border-radius: 0 8px 8px 0;
-      font-size: 14px;
-      line-height: 1.6;
-      color: #333;
-      margin: 16px 0 0;
-    }
-
-    .dm-list {
-      font-size: 15px;
-      color: #444;
-      line-height: 1.8;
-      padding-left: 20px;
-      margin: 16px 0;
-    }
-
-    .dm-list li {
-      margin-bottom: 8px;
     }
 
     .btn-gold {
       display: inline-block;
       background: #d4af37;
       color: #1a1a1a;
-      padding: 14px 32px;
+      padding: 16px 40px;
       border-radius: 8px;
       text-decoration: none;
       font-weight: 600;
@@ -126,29 +139,11 @@
       background: #c9a227;
     }
 
-    .btn-secondary {
-      display: inline-block;
-      background: transparent;
-      color: #1b4d3e;
-      padding: 12px 24px;
-      border: 1px solid #1b4d3e;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 14px;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .btn-secondary:hover {
-      background: #f0f9f7;
-    }
-
     .cta-note {
-      font-size: 13px;
+      font-size: 14px;
       color: #888;
       text-align: center;
-      margin-top: 12px;
+      margin-top: 16px;
     }
 
     .cta-note a {
@@ -166,51 +161,41 @@
 
   <main class="dm-main">
 
-    <div class="dm-card">
-      <p class="dm-eyebrow">Disciple Maker Checkup</p>
-      <h1 class="dm-h1">Discover your next step.</h1>
-      <p class="dm-body">
-        You don't need to master disciple-making before you start. Jesus is inviting you to take one more step, right now, from wherever you are.
+    <div class="dm-card hero">
+      <h1 class="dm-h1">Stop wondering what to do next.</h1>
+      <p class="dm-subheading">
+        In 5 minutes, get clarity on exactly what to practice this week as a disciple maker.
       </p>
-      <p class="dm-body">
-        This checkup identifies where you currently are on the disciple-making journey and shows you exactly what's next.
-      </p>
-    </div>
-
-    <div class="dm-card">
-      <h2 class="dm-h2">What to expect</h2>
-      <p class="dm-body">
-        You'll answer questions about:
-      </p>
-      <ul class="dm-list">
-        <li><strong>Your vision</strong> — Do you believe in the mission?</li>
-        <li><strong>Your practice</strong> — What are you actually doing?</li>
-        <li><strong>Your faithfulness</strong> — Are you showing up week after week?</li>
-        <li><strong>Your willingness</strong> — Will you let someone sharpen you?</li>
-        <li><strong>Your mission field</strong> — Where has God sent you?</li>
-        <li><strong>Your multiplication mindset</strong> — Are you thinking beyond yourself?</li>
-        <li><strong>Your dependence on the Spirit</strong> — Are you relying on God?</li>
-        <li><strong>Your hunger</strong> — Do you actually want this?</li>
-      </ul>
-      <p class="dm-body">
-        Takes about 15–20 minutes. Your progress saves automatically.
-      </p>
-    </div>
-
-    <div class="dm-card">
-      <h2 class="dm-h2">After you finish</h2>
-      <p class="dm-body">
-        You'll see a personalized diagnosis of your current journey—not a label or a score, but clarity on what you're strong in and where you're ready to grow.
-      </p>
-      <p class="dm-body">
-        Then you'll join our WhatsApp community, where we'll connect you with others on this journey, invite you into our online church model, and help you take your next rep.
-      </p>
+      <p class="dm-trust">5 minutes • Free • Personalized results</p>
     </div>
 
     <div class="dm-card" style="text-align:center;">
-      <a href="intake.html" class="btn-gold" style="margin-bottom:12px;">Start the Checkup</a>
+      <a href="intake.html" class="btn-gold" style="margin-bottom:12px;">Start the 5-Minute Checkup</a>
       <p class="cta-note">
         Already started? <a href="resume.html">Resume your checkup</a>
+      </p>
+    </div>
+
+    <div class="dm-card">
+      <h2 class="dm-h2">You'll walk away with</h2>
+      <ul class="outcome-list">
+        <li>A clear picture of where you are right now</li>
+        <li>What's most holding you back</li>
+        <li>One simple practice to focus on this week</li>
+        <li>An invitation to practice alongside others</li>
+      </ul>
+    </div>
+
+    <div class="dm-card">
+      <h2 class="dm-h2">Why this matters</h2>
+      <p class="dm-body">
+        Most Christians know they should make disciples. Very few know what to practice next.
+      </p>
+      <p class="dm-body">
+        This checkup helps you move from inspiration to obedience through one simple next step.
+      </p>
+      <p class="dm-body" style="margin-top: 20px; font-size: 14px; color: #999;">
+        Built from years of coaching ordinary believers to make disciples.
       </p>
     </div>
 
