@@ -61,17 +61,6 @@
       text-transform: uppercase;
     }
 
-    .header-nav {
-      font-size: 13px;
-      color: #888;
-    }
-
-    .header-nav a {
-      color: #1b4d3e;
-      text-decoration: none;
-      font-weight: 600;
-    }
-
     /* MAIN */
     .main {
       max-width: 680px;
@@ -118,13 +107,13 @@
 
     /* HERO */
     .hero {
-      padding: 80px 0 64px;
+      padding: 80px 0 56px;
       animation: fadeIn 0.6s ease-out;
     }
 
     .hero h1 {
       max-width: 600px;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
       background: linear-gradient(135deg, #1b4d3e 0%, #1b4d3e 60%, #d4af37 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -132,43 +121,43 @@
     }
 
     .hero-subheading {
-      font-size: 20px;
+      font-size: 18px;
       line-height: 1.7;
       color: #555;
       max-width: 520px;
-      margin-bottom: 40px;
+      margin-bottom: 36px;
       font-weight: 400;
     }
 
-    /* VALUE BADGES */
-    .value-badges {
+    /* VALUE CHIPS */
+    .value-chips {
       display: flex;
       flex-wrap: wrap;
-      gap: 12px;
-      margin-bottom: 40px;
+      gap: 10px;
+      margin-bottom: 36px;
       animation: slideUp 0.6s ease-out 0.1s both;
     }
 
-    .badge {
+    .chip {
       background: white;
-      border: 1px solid #e0e0dc;
-      border-radius: 6px;
-      padding: 10px 16px;
+      border: 1px solid #d4af37;
+      border-radius: 20px;
+      padding: 10px 18px;
       font-size: 13px;
       font-weight: 600;
       color: #1b4d3e;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       transition: all 0.3s ease;
     }
 
-    .badge:hover {
-      border-color: #d4af37;
-      background: rgba(212, 175, 55, 0.04);
+    .chip:hover {
+      background: rgba(212, 175, 55, 0.08);
+      transform: translateY(-2px);
     }
 
-    .badge-dot {
+    .chip-icon {
       width: 4px;
       height: 4px;
       background: #d4af37;
@@ -196,8 +185,8 @@
     }
 
     .cta-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(27, 77, 62, 0.25);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(27, 77, 62, 0.2);
       background: linear-gradient(135deg, #0d3d2f, #052f24);
     }
 
@@ -215,36 +204,10 @@
       padding: 80px 0;
     }
 
-    .section-content {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 64px;
-      align-items: center;
-    }
-
-    .section.alternate .section-content {
-      grid-template-columns: 1fr 1fr;
-    }
-
-    .section-text h2 {
-      margin-bottom: 20px;
-    }
-
-    .section-image {
-      border-radius: 12px;
-      overflow: hidden;
-      background: linear-gradient(135deg, rgba(27, 77, 62, 0.06), rgba(212, 175, 55, 0.04));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 400px;
-      animation: fadeIn 0.6s ease-out 0.2s both;
-    }
-
-    .section-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #d4af37, transparent);
+      margin: 80px 0;
     }
 
     /* EMOTIONAL SECTION */
@@ -257,32 +220,31 @@
       animation: fadeIn 0.6s ease-out 0.2s both;
     }
 
-    .emotional-intro {
-      font-size: 14px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
+    .emotional-statement {
+      font-size: 18px;
+      line-height: 1.7;
+      color: #333;
+      margin-bottom: 20px;
+      font-weight: 500;
+    }
+
+    .emotional-statement strong {
+      font-weight: 700;
       color: #1b4d3e;
-      margin-bottom: 24px;
     }
 
-    .thought-list {
-      list-style: none;
-      margin-bottom: 0;
-    }
-
-    .thought-list li {
+    .emotional-resonance {
       font-size: 15px;
       line-height: 1.8;
-      color: #333;
-      padding: 16px 0;
-      border-left: 2px solid #d4af37;
-      padding-left: 20px;
-      margin-bottom: 0;
+      color: #555;
+      padding-top: 20px;
+      border-top: 1px solid rgba(27, 77, 62, 0.1);
+      margin-top: 20px;
     }
 
-    .thought-list li:last-child {
-      border-bottom: none;
+    .emotional-resonance strong {
+      color: #1b4d3e;
+      font-weight: 700;
     }
 
     /* COMPARISON SECTION */
@@ -299,7 +261,7 @@
     }
 
     .comparison-col h3 {
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 700;
       margin-bottom: 24px;
       padding-bottom: 16px;
@@ -352,8 +314,8 @@
 
     .benefit:hover {
       border-color: #d4af37;
-      box-shadow: 0 8px 24px rgba(27, 77, 62, 0.08);
-      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(27, 77, 62, 0.08);
+      transform: translateY(-6px);
     }
 
     .benefit-icon {
@@ -372,7 +334,8 @@
 
     .benefit h3 {
       margin-bottom: 8px;
-      font-size: 16px;
+      font-size: 15px;
+      color: #1a1a1a;
     }
 
     .benefit p {
@@ -382,11 +345,82 @@
       line-height: 1.6;
     }
 
-    /* DIVIDER */
-    .divider {
-      height: 1px;
-      background: linear-gradient(90deg, transparent, #d4af37, transparent);
+    /* FULL WIDTH IMAGE */
+    .image-section {
       margin: 80px 0;
+      border-radius: 12px;
+      overflow: hidden;
+      animation: fadeIn 0.6s ease-out 0.3s both;
+      box-shadow: 0 12px 40px rgba(27, 77, 62, 0.1);
+    }
+
+    .image-section img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* WHY THIS WORKS */
+    .why-section {
+      text-align: center;
+      padding: 80px 0;
+      animation: fadeIn 0.6s ease-out 0.25s both;
+    }
+
+    .why-section h2 {
+      margin-bottom: 28px;
+    }
+
+    .why-statement {
+      font-size: 18px;
+      line-height: 1.7;
+      color: #333;
+      max-width: 520px;
+      margin: 0 auto 16px;
+      font-weight: 500;
+    }
+
+    .why-statement strong {
+      color: #1b4d3e;
+      font-weight: 700;
+    }
+
+    /* ANTICIPATION SECTION */
+    .anticipation {
+      background: linear-gradient(135deg, rgba(27, 77, 62, 0.04) 0%, rgba(212, 175, 55, 0.02) 100%);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: 12px;
+      padding: 40px;
+      text-align: center;
+      margin: 80px 0;
+      animation: fadeIn 0.6s ease-out 0.3s both;
+    }
+
+    .anticipation h3 {
+      font-size: 16px;
+      margin-bottom: 24px;
+    }
+
+    .discover-list {
+      list-style: none;
+      display: inline-block;
+    }
+
+    .discover-list li {
+      font-size: 15px;
+      line-height: 1.8;
+      color: #555;
+      padding: 8px 0;
+      position: relative;
+      padding-left: 20px;
+    }
+
+    .discover-list li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: #d4af37;
+      font-weight: 700;
     }
 
     /* CLOSING CTA */
@@ -401,7 +435,7 @@
     }
 
     .closing p {
-      font-size: 18px;
+      font-size: 16px;
       max-width: 480px;
       margin: 0 auto 32px;
       color: #555;
@@ -465,24 +499,11 @@
 
       .hero-subheading {
         font-size: 16px;
+        margin-bottom: 24px;
       }
 
       .section {
         padding: 60px 0;
-      }
-
-      .section.alternate .section-content {
-        grid-template-columns: 1fr;
-        gap: 40px;
-      }
-
-      .section-image {
-        min-height: 280px;
-      }
-
-      .emotional-section {
-        padding: 32px 24px;
-        margin: 60px 0;
       }
 
       .comparison {
@@ -505,17 +526,32 @@
         margin: 60px 0;
       }
 
+      .emotional-section {
+        padding: 32px 24px;
+        margin: 60px 0;
+      }
+
+      .anticipation {
+        padding: 32px 24px;
+        margin: 60px 0;
+      }
+
+      .why-section {
+        padding: 60px 0;
+      }
+
       .closing {
         padding: 60px 0;
       }
 
-      .value-badges {
-        gap: 10px;
+      .value-chips {
+        gap: 8px;
+        margin-bottom: 24px;
       }
 
-      .badge {
+      .chip {
         font-size: 12px;
-        padding: 8px 12px;
+        padding: 8px 14px;
       }
     }
 
@@ -535,16 +571,12 @@
 
       .hero-subheading {
         font-size: 15px;
-        margin-bottom: 24px;
+        margin-bottom: 20px;
       }
 
       .cta-primary {
         width: 100%;
         justify-content: center;
-      }
-
-      .value-badges {
-        margin-bottom: 24px;
       }
 
       .emotional-section {
@@ -553,10 +585,9 @@
         border-radius: 8px;
       }
 
-      .thought-list li {
-        font-size: 14px;
-        padding: 12px 0 12px 16px;
-        border-left-width: 2px;
+      .anticipation {
+        padding: 24px 16px;
+        margin: 48px 0;
       }
 
       .comparison {
@@ -567,11 +598,15 @@
         margin: 48px 0;
       }
 
-      .benefit {
-        padding: 20px;
+      .why-section {
+        padding: 48px 0;
       }
 
       .section {
+        padding: 48px 0;
+      }
+
+      .closing {
         padding: 48px 0;
       }
     }
@@ -591,14 +626,14 @@
     <section class="hero">
       <h1>Stop guessing your next step.</h1>
       <p class="hero-subheading">
-        The problem probably isn't knowledge. It's knowing what to practice next. In 5 minutes, this checkup will give you clarity.
+        Most Christians know they should make disciples. Very few know what to practice next. In 5 minutes, this checkup will give you clarity.
       </p>
 
-      <div class="value-badges">
-        <div class="badge"><span class="badge-dot"></span> 5 Minutes</div>
-        <div class="badge"><span class="badge-dot"></span> Completely Free</div>
-        <div class="badge"><span class="badge-dot"></span> Personalized</div>
-        <div class="badge"><span class="badge-dot"></span> No Personality Test</div>
+      <div class="value-chips">
+        <div class="chip"><span class="chip-icon"></span> 5 Minutes</div>
+        <div class="chip"><span class="chip-icon"></span> Completely Free</div>
+        <div class="chip"><span class="chip-icon"></span> Personalized</div>
+        <div class="chip"><span class="chip-icon"></span> No Quiz</div>
       </div>
 
       <a href="intake.html" class="cta-primary">Start the Checkup</a>
@@ -606,13 +641,11 @@
 
     <!-- EMOTIONAL SECTION -->
     <section class="emotional-section">
-      <p class="emotional-intro">Have you ever felt this way?</p>
-      <ul class="thought-list">
-        <li>You believe Jesus called you to make disciples, but you're not sure what that looks like in your actual life right now.</li>
-        <li>You don't want another course, another study, another resource.</li>
-        <li>You just want someone to say: what should you actually do this week?</li>
-        <li>You're more inspired than practiced, and the gap frustrates you.</li>
-      </ul>
+      <p class="emotional-statement"><strong>I know Jesus called me to make disciples.</strong></p>
+      <p class="emotional-statement" style="margin-bottom: 0;"><strong>I just don't know what to do next.</strong></p>
+      <div class="emotional-resonance">
+        <strong>This checkup was built for people exactly like you.</strong>
+      </div>
     </section>
 
     <div class="divider"></div>
@@ -648,51 +681,60 @@
       <div class="benefits-grid">
         <div class="benefit">
           <div class="benefit-icon">✓</div>
-          <h3>Clarity on where you are</h3>
-          <p>A real picture of your current journey, without judgment.</p>
+          <h3>Know exactly what's next</h3>
+          <p>One clear practice to focus on this week.</p>
         </div>
         <div class="benefit">
           <div class="benefit-icon">→</div>
-          <h3>Your biggest obstacle</h3>
-          <p>Understand what's actually slowing you down.</p>
+          <h3>Leave knowing what's holding you back</h3>
+          <p>Clarity on your biggest obstacle.</p>
         </div>
         <div class="benefit">
           <div class="benefit-icon">◆</div>
-          <h3>One simple practice</h3>
-          <p>Not a to-do list. One concrete thing to focus on this week.</p>
+          <h3>Stop guessing. Start practicing.</h3>
+          <p>Move from knowing to doing with confidence.</p>
         </div>
         <div class="benefit">
           <div class="benefit-icon">◯</div>
-          <h3>A real community</h3>
-          <p>Join ordinary believers who are practicing together.</p>
+          <h3>Practice alongside others</h3>
+          <p>Join ordinary people learning by doing.</p>
         </div>
       </div>
     </section>
 
     <div class="divider"></div>
 
-    <!-- WHY IT MATTERS -->
-    <section class="section alternate">
-      <div class="section-content">
-        <div class="section-text">
-          <h2>Why this actually works</h2>
-          <p class="large">Most Christians know they should make disciples. Very few know what to practice next.</p>
-          <p>That gap—between knowing and doing—is where most people get stuck.</p>
-          <p>This checkup helps you cross it. Not with another course. Not with more information. With one simple, concrete next step.</p>
-          <p style="margin-bottom: 0; color: #888; font-size: 14px; margin-top: 32px;">Built from years of coaching ordinary believers to actually make disciples.</p>
-        </div>
-        <div class="section-image">
-          <img src="/image/who it's for.webp" alt="CoVo community" style="width: 100%; height: 100%; object-fit: cover;">
-        </div>
-      </div>
+    <!-- FULL WIDTH IMAGE -->
+    <section class="image-section">
+      <img src="/image/two-young-men-sharing-their-faith-in-Jesus.jpg" alt="Disciple makers sharing faith in everyday life">
     </section>
 
     <div class="divider"></div>
+
+    <!-- WHY THIS WORKS -->
+    <section class="why-section">
+      <h2>Why this matters</h2>
+      <p class="why-statement"><strong>Most Christians don't need more information.</strong></p>
+      <p class="why-statement" style="margin-bottom: 28px;">They need one next step.</p>
+      <p style="color: #666; font-size: 15px; margin-bottom: 0;">Built from years of coaching ordinary believers to actually make disciples.</p>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ANTICIPATION SECTION -->
+    <section class="anticipation">
+      <h3>In five minutes you'll discover:</h3>
+      <ul class="discover-list">
+        <li>what's holding you back</li>
+        <li>what to practice next</li>
+        <li>one clear step you can take this week</li>
+      </ul>
+    </section>
 
     <!-- CLOSING -->
     <section class="closing">
-      <h2>Ready to take your next step?</h2>
-      <p>Five minutes is all it takes to get clarity.</p>
+      <h2>Ready to get clarity?</h2>
+      <p>Five minutes is all it takes.</p>
       <a href="intake.html" class="cta-primary">Start the Checkup</a>
       <div class="resume-link">
         Already started? <a href="resume.html">Resume your checkup</a>
