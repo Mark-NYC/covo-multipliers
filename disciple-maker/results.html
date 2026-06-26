@@ -815,7 +815,15 @@
 
     function renderResults(data) {
       const firstName = data.first_name || 'Friend';
-      const scores = data.dimension_scores || {};
+      let scores = data.dimension_scores || {};
+
+      // Map old backend dimension names to new ones (temporary workaround)
+      if (scores.obedience !== undefined && scores.practice === undefined) {
+        scores.practice = scores.obedience;
+      }
+      if (scores.consistency !== undefined && scores.rhythm === undefined) {
+        scores.rhythm = scores.consistency;
+      }
 
       // Debug logging
       console.log('Raw dimension scores:', scores);
