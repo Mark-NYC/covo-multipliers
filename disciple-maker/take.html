@@ -16,28 +16,17 @@
   <script src="config.js"></script>
   <script src="questions.js"></script>
   <style>
-    /* PAGE BACKGROUND PROGRESSION: Cool → Warm Gold */
+    /* BOLD PAGE BACKGROUND TRANSFORMATION */
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      transition: background 0.8s ease;
+      transition: background 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
       background: #fafafa;
     }
 
-    body.progress-0-25 {
-      background: #fafafa;
-    }
-
-    body.progress-25-50 {
-      background: linear-gradient(135deg, #fafafa 0%, #fefaf0 100%);
-    }
-
-    body.progress-50-75 {
-      background: linear-gradient(135deg, #fef8f0 0%, #fffef5 100%);
-    }
-
-    body.progress-75-100 {
-      background: linear-gradient(135deg, #fffef5 0%, #fffbf0 100%);
-    }
+    body.progress-0-25 { background: #fafafa; }
+    body.progress-25-50 { background: linear-gradient(135deg, #fefaf0 0%, #fef5e7 100%); }
+    body.progress-50-75 { background: linear-gradient(135deg, #fff8e1 0%, #fffce8 100%); }
+    body.progress-75-100 { background: linear-gradient(135deg, #fffadb 0%, #fff9d6 100%); box-shadow: inset 0 0 40px rgba(212, 175, 55, 0.15); }
 
     .dm-header {
       background: #1b4d3e;
@@ -45,11 +34,12 @@
       padding: 16px 20px;
       text-align: center;
       border-bottom: 1px solid #164033;
-      transition: background 0.8s ease;
+      transition: all 0.6s ease;
     }
 
     body.progress-75-100 .dm-header {
-      background: linear-gradient(90deg, #1b4d3e, #2d5a47);
+      background: linear-gradient(90deg, #1b4d3e 0%, #2d6a4f 50%, #d4af37 100%);
+      box-shadow: 0 4px 20px rgba(212, 175, 55, 0.3);
     }
 
     .dm-header-brand {
@@ -63,6 +53,7 @@
     .dm-header-progress {
       font-size: 13px;
       opacity: 0.9;
+      font-weight: 600;
     }
 
     .dm-main {
@@ -71,148 +62,160 @@
       padding: 32px 20px;
     }
 
+    /* PROGRESS CONTAINER WITH STREAK INDICATOR */
     .progress-container {
-      margin-bottom: 28px;
+      margin-bottom: 32px;
+      position: relative;
+    }
+
+    .streak-indicator {
+      position: absolute;
+      right: 0;
+      top: -24px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #d4af37;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      opacity: 0;
+      animation: slideInStreak 0.4s ease forwards;
+    }
+
+    .streak-indicator.show {
+      animation: slideInStreak 0.4s ease forwards;
+    }
+
+    @keyframes slideInStreak {
+      from { opacity: 0; transform: translateX(20px); }
+      to { opacity: 1; transform: translateX(0); }
     }
 
     .progress-label {
-      font-size: 13px;
-      font-weight: 600;
+      font-size: 14px;
+      font-weight: 700;
       color: #555;
-      margin-bottom: 8px;
+      margin-bottom: 12px;
       display: flex;
       justify-content: space-between;
+      align-items: center;
+    }
+
+    .progress-percent {
+      background: #f0f0f0;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 700;
+      transition: all 0.3s ease;
+    }
+
+    body.progress-75-100 .progress-percent {
+      background: #d4af37;
+      color: #1a1a1a;
+      box-shadow: 0 0 12px rgba(212, 175, 55, 0.4);
+      animation: percentPulse 0.8s ease infinite;
+    }
+
+    @keyframes percentPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.08); }
     }
 
     .progress-bar {
       background: #e5e7eb;
-      height: 6px;
-      border-radius: 4px;
+      height: 8px;
+      border-radius: 6px;
       overflow: hidden;
-      transition: height 0.3s ease;
+      transition: all 0.4s ease;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      position: relative;
     }
 
-    /* Progress bar gets taller as you approach finish */
     body.progress-75-100 .progress-bar {
-      height: 8px;
+      height: 12px;
+      box-shadow: 0 0 20px rgba(212, 175, 55, 0.4), inset 0 0 6px rgba(212, 175, 55, 0.2);
     }
 
     .progress-fill {
       height: 100%;
-      border-radius: 4px;
-      transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      border-radius: 6px;
+      transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
       background: linear-gradient(90deg, #1b4d3e, #52b788);
+      position: relative;
+      overflow: hidden;
     }
 
-    /* Color progression */
-    body.progress-0-25 .progress-fill {
-      background: linear-gradient(90deg, #1b4d3e, #2d6a4f);
+    /* PROGRESS FILL ANIMATION - SURGE EFFECT */
+    .progress-fill::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+      animation: progressShine 1.5s ease infinite;
     }
 
-    body.progress-25-50 .progress-fill {
-      background: linear-gradient(90deg, #2d6a4f, #40916c);
+    @keyframes progressShine {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
     }
 
-    body.progress-50-75 .progress-fill {
-      background: linear-gradient(90deg, #40916c, #74c69d);
-    }
-
+    /* COLOR TRANSITIONS */
+    body.progress-0-25 .progress-fill { background: linear-gradient(90deg, #1b4d3e, #2d6a4f); }
+    body.progress-25-50 .progress-fill { background: linear-gradient(90deg, #2d6a4f, #40916c); }
+    body.progress-50-75 .progress-fill { background: linear-gradient(90deg, #40916c, #74c69d); }
     body.progress-75-100 .progress-fill {
       background: linear-gradient(90deg, #95d5b2, #d4af37);
-      animation: pulse-glow 1.5s ease-in-out infinite;
+      animation: progressGlow 1.2s ease-in-out infinite;
     }
 
-    /* PULSE ANIMATION - intensifies in final stretch */
-    @keyframes pulse-glow {
-      0%, 100% {
-        box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4);
-      }
-      50% {
-        box-shadow: 0 0 0 6px rgba(212, 175, 55, 0);
-      }
-    }
-
-    body.progress-75-100 .progress-bar {
-      box-shadow: inset 0 0 8px rgba(212, 175, 55, 0.3);
+    @keyframes progressGlow {
+      0%, 100% { box-shadow: 0 0 8px rgba(212, 175, 55, 0.6); }
+      50% { box-shadow: 0 0 16px rgba(212, 175, 55, 0.8); }
     }
 
     .coaching-message {
       background: #f0f9f7;
-      border-left: 3px solid #1b4d3e;
-      padding: 16px;
-      margin: 16px 0;
-      border-radius: 6px;
-      font-size: 14px;
+      border-left: 4px solid #1b4d3e;
+      padding: 18px;
+      margin: 20px 0;
+      border-radius: 8px;
+      font-size: 15px;
       line-height: 1.6;
       color: #1b4d3e;
-      animation: slideInCoach 0.4s ease;
+      animation: slideInBounce 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
       display: none;
+      font-weight: 600;
     }
 
     body.progress-75-100 .coaching-message {
-      background: linear-gradient(135deg, #fffbf0 0%, #fef8f0 100%);
+      background: linear-gradient(135deg, #fffae1 0%, #fffce8 100%);
       border-left-color: #d4af37;
       color: #d4af37;
-      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
     }
 
     .coaching-message.show {
       display: block;
     }
 
-    /* Celebration checkmark for final stretch */
-    .coaching-message.celebration::before {
+    .coaching-message::before {
       content: "🎯 ";
-      margin-right: 4px;
+      margin-right: 6px;
+      font-size: 18px;
     }
 
-    @keyframes slideInCoach {
-      from {
-        opacity: 0;
-        transform: translateY(-8px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .question-card {
-      background: white;
-      border-radius: 12px;
-      padding: 32px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-      margin-bottom: 24px;
-      animation: slideUp 0.4s ease;
-    }
-
-    /* SHAKE EFFECT in final quarter */
-    body.progress-75-100 .question-card {
-      animation: slideUpShake 0.5s ease;
-    }
-
-    @keyframes slideUp {
-      from {
-        opacity: 0;
-        transform: translateY(8px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes slideUpShake {
+    @keyframes slideInBounce {
       0% {
         opacity: 0;
-        transform: translateY(8px);
+        transform: translateY(-16px);
       }
       60% {
         opacity: 1;
-        transform: translateY(-2px);
-      }
-      75% {
-        transform: translateY(2px);
+        transform: translateY(4px);
       }
       100% {
         opacity: 1;
@@ -220,34 +223,76 @@
       }
     }
 
+    .question-card {
+      background: white;
+      border-radius: 14px;
+      padding: 36px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      margin-bottom: 28px;
+      animation: slideUpQuestion 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      border: 2px solid transparent;
+      transition: all 0.3s ease;
+    }
+
+    body.progress-75-100 .question-card {
+      border-color: rgba(212, 175, 55, 0.3);
+      box-shadow: 0 4px 16px rgba(212, 175, 55, 0.15);
+      animation: slideUpQuestion 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55), cardBounce 0.8s ease;
+    }
+
+    @keyframes slideUpQuestion {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes cardBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
+
     .question-dimension {
-      font-size: 12px;
-      font-weight: 700;
+      font-size: 11px;
+      font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 0.8px;
-      color: #888;
+      letter-spacing: 1.2px;
+      color: #d4af37;
       margin-bottom: 12px;
+      animation: fadeIn 0.4s ease 0.1s forwards;
+      opacity: 0;
     }
 
     .question-text {
-      font-size: 18px;
-      font-weight: 600;
+      font-size: 20px;
+      font-weight: 700;
       line-height: 1.4;
       color: #1a1a1a;
-      margin-bottom: 24px;
+      margin-bottom: 28px;
+      animation: fadeIn 0.4s ease 0.2s forwards;
+      opacity: 0;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
     .response-options {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 14px;
     }
 
     .response-button {
       background: white;
       border: 2px solid #e5e7eb;
-      border-radius: 8px;
-      padding: 16px;
+      border-radius: 10px;
+      padding: 18px;
       text-align: left;
       cursor: pointer;
       transition: all 0.2s;
@@ -256,118 +301,150 @@
       color: #555;
       position: relative;
       overflow: hidden;
+      animation: fadeIn 0.4s ease forwards;
+      opacity: 0;
     }
 
-    /* MORE PRONOUNCED HOVER - especially in final stretch */
+    .response-button:nth-child(1) { animation-delay: 0.15s; }
+    .response-button:nth-child(2) { animation-delay: 0.2s; }
+    .response-button:nth-child(3) { animation-delay: 0.25s; }
+    .response-button:nth-child(4) { animation-delay: 0.3s; }
+    .response-button:nth-child(5) { animation-delay: 0.35s; }
+
     .response-button:hover {
       border-color: #1b4d3e;
-      background: #f8fdf8;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(27, 77, 62, 0.15);
+      background: #f0fdf9;
+      transform: translateY(-4px);
+      box-shadow: 0 6px 16px rgba(27, 77, 62, 0.18);
     }
 
     body.progress-75-100 .response-button:hover {
       border-color: #d4af37;
-      background: #fffbf0;
-      box-shadow: 0 4px 12px rgba(212, 175, 55, 0.25);
+      background: linear-gradient(135deg, #fffae1 0%, #fffce8 100%);
+      box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
     }
 
     .response-button.selected {
       border-color: #1b4d3e;
-      background: #f0f9f7;
+      background: #e8f5f2;
       color: #1b4d3e;
-      font-weight: 600;
-      animation: selectPulse 0.3s ease;
+      font-weight: 700;
+      animation: selectBurst 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      box-shadow: 0 4px 12px rgba(27, 77, 62, 0.2);
     }
 
     body.progress-75-100 .response-button.selected {
       border-color: #d4af37;
-      background: linear-gradient(135deg, #fffbf0 0%, #fef8f0 100%);
+      background: linear-gradient(135deg, #fffadb 0%, #fffce8 100%);
       color: #d4af37;
+      box-shadow: 0 6px 16px rgba(212, 175, 55, 0.3);
     }
 
-    /* SELECTION SATISFACTION ANIMATION */
-    @keyframes selectPulse {
+    @keyframes selectBurst {
       0% {
-        transform: scale(1);
+        transform: scale(0.8);
+        opacity: 0;
       }
       50% {
-        transform: scale(1.02);
+        transform: scale(1.08);
       }
       100% {
         transform: scale(1);
+        opacity: 1;
       }
     }
 
     .response-button .response-value {
       font-size: 12px;
       opacity: 0.6;
-      margin-top: 4px;
+      margin-top: 6px;
     }
 
     .nav-buttons {
       display: flex;
-      gap: 12px;
+      gap: 16px;
       justify-content: space-between;
-      margin-bottom: 24px;
+      margin-bottom: 28px;
     }
 
     .btn-secondary {
       background: transparent;
-      border: 1px solid #ddd;
+      border: 2px solid #ddd;
       color: #555;
-      padding: 12px 24px;
-      border-radius: 6px;
-      font-weight: 600;
+      padding: 14px 28px;
+      border-radius: 8px;
+      font-weight: 700;
       font-size: 14px;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.3s;
+      position: relative;
     }
 
     .btn-secondary:hover:not(:disabled) {
       border-color: #1b4d3e;
       color: #1b4d3e;
+      background: #f8fdf8;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(27, 77, 62, 0.15);
     }
 
     .btn-secondary:disabled {
-      opacity: 0.5;
+      opacity: 0.4;
       cursor: not-allowed;
     }
 
+    /* PRIMARY BUTTON - GETS MASSIVE IN FINAL STRETCH */
     .btn-primary {
-      background: #d4af37;
+      background: linear-gradient(135deg, #d4af37 0%, #e5c158 100%);
       color: #1a1a1a;
-      padding: 12px 24px;
+      padding: 16px 32px;
       border: none;
-      border-radius: 6px;
-      font-weight: 600;
-      font-size: 14px;
+      border-radius: 10px;
+      font-weight: 800;
+      font-size: 15px;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.3s;
       position: relative;
       overflow: hidden;
+      box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
     }
 
-    /* BIGGER + MORE PROMINENT in final stretch */
-    body.progress-75-100 .btn-primary {
-      padding: 14px 28px;
-      font-size: 15px;
-      box-shadow: 0 4px 16px rgba(212, 175, 55, 0.3);
-      animation: buttonPulse 0.6s ease infinite;
-    }
-
-    @keyframes buttonPulse {
-      0%, 100% {
-        transform: scale(1);
-      }
-      50% {
-        transform: scale(1.02);
-      }
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
     }
 
     .btn-primary:hover:not(:disabled) {
-      background: #c9a227;
-      transform: translateY(-2px);
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 8px 24px rgba(212, 175, 55, 0.4);
+    }
+
+    .btn-primary:active:not(:disabled) {
+      transform: translateY(-2px) scale(1.03);
+    }
+
+    body.progress-75-100 .btn-primary {
+      padding: 18px 40px;
+      font-size: 16px;
+      animation: buttonPulse 0.8s ease-in-out infinite, buttonGlow 1.5s ease infinite;
+      box-shadow: 0 0 20px rgba(212, 175, 55, 0.5), 0 4px 12px rgba(212, 175, 55, 0.3);
+    }
+
+    @keyframes buttonPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.06); }
+    }
+
+    @keyframes buttonGlow {
+      0%, 100% { box-shadow: 0 0 20px rgba(212, 175, 55, 0.5), 0 4px 12px rgba(212, 175, 55, 0.3); }
+      50% { box-shadow: 0 0 30px rgba(212, 175, 55, 0.7), 0 4px 12px rgba(212, 175, 55, 0.4); }
     }
 
     .btn-primary:disabled {
@@ -375,34 +452,41 @@
       cursor: not-allowed;
     }
 
+    /* SAVE INDICATOR */
     .save-indicator {
-      font-size: 12px;
+      font-size: 13px;
       color: #888;
       text-align: center;
-      margin-bottom: 16px;
+      margin-bottom: 20px;
       transition: all 0.3s ease;
+      min-height: 20px;
+      font-weight: 600;
     }
 
     .save-indicator.saving {
       color: #1b4d3e;
-      font-weight: 600;
+      animation: savePulse 0.8s ease;
     }
 
     body.progress-75-100 .save-indicator.saving {
       color: #d4af37;
     }
 
-    /* CELEBRATION when final question answered */
     .save-indicator.celebration {
       color: #d4af37;
-      font-weight: 700;
-      font-size: 13px;
-      animation: celebration 0.5s ease;
+      font-size: 14px;
+      animation: celebrationPulse 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     }
 
-    @keyframes celebration {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.1); }
+    @keyframes savePulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.15); opacity: 1; }
+    }
+
+    @keyframes celebrationPulse {
+      0% { transform: scale(0.5) rotateZ(-10deg); opacity: 0; }
+      50% { transform: scale(1.15); }
+      100% { transform: scale(1) rotateZ(0deg); opacity: 1; }
     }
 
     .loading-state {
@@ -412,13 +496,13 @@
     }
 
     .loading-spinner {
-      width: 40px;
-      height: 40px;
-      border: 3px solid #f0f0f0;
+      width: 50px;
+      height: 50px;
+      border: 4px solid #f0f0f0;
       border-top-color: #1b4d3e;
       border-radius: 50%;
-      animation: spin 0.6s linear infinite;
-      margin: 0 auto 16px;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 20px;
     }
 
     @keyframes spin {
@@ -444,30 +528,48 @@
       margin: 0 0 16px;
     }
 
-    /* MILESTONE CELEBRATION BANNER */
-    .milestone-banner {
+    /* CONFETTI PARTICLES */
+    .confetti {
+      position: fixed;
+      pointer-events: none;
+      font-size: 24px;
+      z-index: 999;
+    }
+
+    @keyframes fall {
+      0% {
+        opacity: 1;
+        transform: translateY(0) rotateZ(0deg);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(300px) rotateZ(720deg);
+      }
+    }
+
+    /* MILESTONE CELEBRATION EMOJI */
+    .milestone-emoji {
       position: fixed;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
       pointer-events: none;
-      font-size: 72px;
+      font-size: 120px;
       z-index: 1000;
-      opacity: 0;
-      animation: milestoneFloat 1.2s ease forwards;
+      animation: milestoneFloat 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
     }
 
     @keyframes milestoneFloat {
       0% {
         opacity: 1;
-        transform: translate(-50%, -50%) scale(0.5);
+        transform: translate(-50%, -50%) scale(0);
       }
       50% {
         opacity: 1;
       }
       100% {
         opacity: 0;
-        transform: translate(-50%, -200%) scale(1);
+        transform: translate(-50%, -300%) scale(1.2);
       }
     }
   </style>
@@ -481,9 +583,9 @@
 
   <main class="dm-main">
 
-    <div id="loading-view" class="loading-state">
+    <div id="loading-view" class="loading-state" style="display:block;">
       <div class="loading-spinner"></div>
-      <p>Loading your checkup…</p>
+      <p style="font-size: 16px; font-weight: 600; color: #1a1a1a;">Loading your checkup…</p>
     </div>
 
     <div id="error-view" style="display:none;">
@@ -495,9 +597,10 @@
 
     <div id="assessment-view" style="display:none;">
       <div class="progress-container">
+        <div class="streak-indicator" id="streak-indicator"></div>
         <div class="progress-label">
           <span id="progress-text">Question 1 of 20</span>
-          <span id="progress-percent">0%</span>
+          <span class="progress-percent" id="progress-percent">0%</span>
         </div>
         <div class="progress-bar">
           <div class="progress-fill" id="progress-fill" style="width:0%"></div>
@@ -521,7 +624,7 @@
         Your progress is saved automatically.
       </div>
 
-      <div style="text-align:center;margin-top:24px;">
+      <div style="text-align:center;margin-top:32px;">
         <button class="btn-secondary" onclick="saveAndExit()">Save & Exit</button>
       </div>
     </div>
@@ -542,13 +645,13 @@
     let currentIndex = 0;
     let responses = {};
     let saveTimer = null;
+    let answersInRow = 0;
 
-    // Variable encouragement messages for freshness
     const milestoneMessages = {
-      5: ["Great start. Your honest answers will make this much more useful.", "Nice. You're building momentum.", "Perfect. Keep going."],
-      10: ["You're halfway there. We're starting to see a clearer picture.", "Halfway done! You're doing great.", "50% complete! Almost there."],
-      15: ["Almost done. Just a few more questions to go.", "You're in the home stretch now.", "Close to the finish line!"],
-      18: ["You're almost there. Your Disciple Maker Snapshot is almost ready.", "One more push!", "Your snapshot is coming…"]
+      5: ["Great start! 🚀", "You're rolling! 🎯", "Perfect pace! 💪"],
+      10: ["Halfway! You're crushing it! 🔥", "50% done—amazing! ⚡", "Momentum building! 🌟"],
+      15: ["Final stretch! 🎉", "Almost there! So close! 🏁", "The finish line is near! 🎯"],
+      18: ["One more! You got this! 🚀", "Final question incoming! 💥", "Here we go! The moment is coming! ✨"]
     };
 
     function getCoachingMessage(questionNumber) {
@@ -560,7 +663,27 @@
       return null;
     }
 
-    // Get credentials from sessionStorage
+    function triggerConfetti() {
+      for (let i = 0; i < 12; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.textContent = ['🎉', '🎯', '✨', '⭐', '🚀'][Math.floor(Math.random() * 5)];
+        confetti.style.left = Math.random() * 100 + '%';
+        confetti.style.top = '-20px';
+        confetti.style.animation = `fall ${1.5 + Math.random() * 0.5}s ease-in forwards`;
+        document.body.appendChild(confetti);
+        setTimeout(() => confetti.remove(), 2500);
+      }
+    }
+
+    function triggerMilestoneEmoji(emoji) {
+      const el = document.createElement('div');
+      el.className = 'milestone-emoji';
+      el.textContent = emoji;
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 1500);
+    }
+
     function getCredentials() {
       const params = new URLSearchParams(window.location.search);
       const urlSession = params.get('s');
@@ -582,7 +705,6 @@
       window.location.replace('intake.html');
     }
 
-    // Load all questions
     function loadQuestions() {
       allQuestions = ASSESSMENT_QUESTIONS.getAllQuestions();
       displayQuestion();
@@ -633,8 +755,15 @@
 
     function selectResponse(qId, value) {
       responses[qId] = value;
+      answersInRow++;
       displayQuestion();
       scheduleAutoSave();
+
+      // Milestone emojis at certain answer counts
+      if (answersInRow === 5) triggerMilestoneEmoji('🎯');
+      if (answersInRow === 10) triggerMilestoneEmoji('🔥');
+      if (answersInRow === 15) triggerMilestoneEmoji('⚡');
+      if (answersInRow === 20) triggerMilestoneEmoji('🏁');
     }
 
     function updateNavButtons() {
@@ -645,7 +774,7 @@
       const allAnswered = allQuestions.every(q => responses[q.id] !== undefined);
 
       if (currentIndex === allQuestions.length - 1) {
-        document.getElementById('next-btn').textContent = 'Submit Checkup';
+        document.getElementById('next-btn').textContent = '🎉 Submit Checkup';
         document.getElementById('next-btn').onclick = submitAssessment;
         document.getElementById('next-btn').disabled = !allAnswered;
       } else {
@@ -665,7 +794,7 @@
       document.getElementById('progress-fill').style.width = percent + '%';
       document.getElementById('header-progress').textContent = `${percent}% complete`;
 
-      // Update progress color and page background based on completion
+      // Update color scheme based on progress
       document.body.classList.remove('progress-0-25', 'progress-25-50', 'progress-50-75', 'progress-75-100');
       if (percent <= 25) {
         document.body.classList.add('progress-0-25');
@@ -677,17 +806,22 @@
         document.body.classList.add('progress-75-100');
       }
 
-      // Show coaching message at milestones
+      // Streak indicator
+      const streakEl = document.getElementById('streak-indicator');
+      if (questionNumber % 5 === 0) {
+        streakEl.innerHTML = `<span>🔥 ${questionNumber}</span>`;
+        streakEl.classList.add('show');
+        setTimeout(() => { streakEl.classList.remove('show'); }, 2000);
+      }
+
+      // Coaching messages
       const coachingMsg = getCoachingMessage(questionNumber);
       const coachingEl = document.getElementById('coaching-message');
       if (coachingMsg) {
         coachingEl.textContent = coachingMsg;
         coachingEl.classList.add('show');
-        if (percent >= 75) {
-          coachingEl.classList.add('celebration');
-        }
       } else {
-        coachingEl.classList.remove('show', 'celebration');
+        coachingEl.classList.remove('show');
       }
     }
 
@@ -708,18 +842,16 @@
     function scheduleAutoSave() {
       clearTimeout(saveTimer);
       const saveIndicator = document.getElementById('save-indicator');
-      saveIndicator.textContent = 'Saving…';
+      saveIndicator.textContent = '💾 Saving…';
       saveIndicator.classList.add('saving');
 
       saveTimer = setTimeout(() => {
-        saveIndicator.textContent = 'Saved! ✓';
-        if (currentIndex + 1 >= 18) {
-          saveIndicator.classList.add('celebration');
-          saveIndicator.textContent = 'Saved! 🎯';
-        }
+        saveIndicator.classList.remove('saving');
+        saveIndicator.classList.add('celebration');
+        saveIndicator.textContent = '✅ Saved!';
         setTimeout(() => {
+          saveIndicator.classList.remove('celebration');
           saveIndicator.textContent = 'Your progress is saved automatically.';
-          saveIndicator.classList.remove('saving', 'celebration');
         }, 1500);
       }, 500);
     }
@@ -733,6 +865,8 @@
     }
 
     async function submitAssessment() {
+      triggerConfetti();
+      triggerMilestoneEmoji('🎉');
       showView('submitting');
 
       try {
@@ -755,7 +889,6 @@
           throw new Error(data.error || 'Failed to submit assessment');
         }
 
-        // Redirect to results
         window.location.replace(`results.html?r=${data.results_token}`);
       } catch (error) {
         console.error('Error:', error);
@@ -764,7 +897,6 @@
       }
     }
 
-    // Initialize
     showView('loading');
     loadQuestions();
     showView('assessment');
