@@ -750,26 +750,61 @@
 
       // Priority-based identity determination
       if (hasPractice && hasMission && hasCoachability) {
-        return { type: 'Rooted Multiplier', image: '/image/discipleicons/rooted-multiplier.webp', subtitle: 'Making Disciples Where You Are' };
+        return {
+          type: 'Rooted Multiplier',
+          image: '/image/discipleicons/rooted-multiplier.webp',
+          subtitle: 'Making Disciples Where You Are',
+          meaning: 'You walk out your faith while bringing others along.'
+        };
       }
       if (hasVision && hasPractice && hasMission && hasCoachability) {
-        return { type: 'Multiplying Influence', image: '/image/discipleicons/multiplying-influence.webp', subtitle: 'Apprenticed and Multiplying' };
+        return {
+          type: 'Multiplying Influence',
+          image: '/image/discipleicons/multiplying-influence.webp',
+          subtitle: 'Apprenticed and Multiplying',
+          meaning: 'You see the calling and help others follow it.'
+        };
       }
       if (hasVision && !hasPractice && !hasEager) {
-        return { type: 'Vision-Centered', image: '/image/discipleicons/Vision-Centered.webp', subtitle: 'Ready to Take the First Step' };
+        return {
+          type: 'Vision-Centered',
+          image: '/image/discipleicons/Vision-Centered.webp',
+          subtitle: 'Ready to Take the First Step',
+          meaning: 'You have clarity about the calling. Now it\'s time to step in.'
+        };
       }
       if (hasPractice && !hasVision) {
-        return { type: 'Faithful Practitioner', image: '/image/discipleicons/Faithful-Practitioner.webp', subtitle: 'Living It Out' };
+        return {
+          type: 'Faithful Practitioner',
+          image: '/image/discipleicons/Faithful-Practitioner.webp',
+          subtitle: 'Living It Out',
+          meaning: 'You live out your faith through faithful obedience.'
+        };
       }
       if (hasCoachability && !hasPractice) {
-        return { type: 'Community Builder', image: '/image/discipleicons/Community-Builder.webp', subtitle: 'Growing Together' };
+        return {
+          type: 'Community Builder',
+          image: '/image/discipleicons/Community-Builder.webp',
+          subtitle: 'Growing Together',
+          meaning: 'Your openness and humility accelerate growth in community.'
+        };
       }
       if (hasEager) {
-        return { type: 'Awakening Disciple', image: '/image/discipleicons/Awakening-Disciple.webp', subtitle: 'Just Beginning' };
+        return {
+          type: 'Awakening Disciple',
+          image: '/image/discipleicons/Awakening-Disciple.webp',
+          subtitle: 'Just Beginning',
+          meaning: 'You\'re ready to take your first step. The journey is just beginning.'
+        };
       }
 
       // Default fallback
-      return { type: 'Growing Disciple', image: '/image/discipleicons/Awakening-Disciple.webp', subtitle: 'On Your Journey' };
+      return {
+        type: 'Growing Disciple',
+        image: '/image/discipleicons/Awakening-Disciple.webp',
+        subtitle: 'On Your Journey',
+        meaning: 'You\'re growing in your faith and faithful obedience.'
+      };
     }
 
     function renderResults(data) {
@@ -791,7 +826,8 @@
         <div style="text-align: center; margin-bottom: 24px; display: flex; flex-direction: column; align-items: center;">
           <img src="${identity.image}" alt="${identity.type}" style="width: 120px; height: 120px; border-radius: 12px; object-fit: cover; margin-bottom: 16px;">
           <h2 class="dm-h2" style="margin-bottom: 8px; margin-top: 0;">You are a<br>${identity.type}</h2>
-          <p style="font-size: 16px; color: #888; margin: 0; margin-bottom: 24px;">${identity.subtitle}</p>
+          <p style="font-size: 15px; color: #555; margin: 0; margin-bottom: 12px; line-height: 1.6;">${identity.meaning}</p>
+          <p style="font-size: 14px; color: #999; margin: 0;">${identity.subtitle}</p>
         </div>
       `;
       document.getElementById('identity-section').innerHTML = identityHtml;
