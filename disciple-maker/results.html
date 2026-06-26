@@ -14,7 +14,6 @@
   <title>Your Results — Disciple Maker Checkup</title>
   <link rel="stylesheet" href="/styles.css">
   <script src="config.js"></script>
-  <script src="questions.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
   <meta name="robots" content="noindex, nofollow">
   <style>
@@ -130,6 +129,50 @@
       margin: 0;
     }
 
+    .dimension-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .dimension-row:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .dimension-name {
+      font-weight: 600;
+      color: #1a1a1a;
+      font-size: 15px;
+    }
+
+    .dimension-bar {
+      flex: 1;
+      height: 8px;
+      background: #e5e7eb;
+      border-radius: 4px;
+      margin: 0 16px;
+      overflow: hidden;
+    }
+
+    .dimension-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #1b4d3e, #52b788);
+      border-radius: 4px;
+    }
+
+    .dimension-score {
+      font-weight: 600;
+      color: #1b4d3e;
+      font-size: 14px;
+      min-width: 30px;
+      text-align: right;
+    }
+
     .three-column {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -144,13 +187,6 @@
       padding: 16px;
     }
 
-    .strength-item-title {
-      font-weight: 700;
-      color: #166534;
-      font-size: 13px;
-      margin-bottom: 8px;
-    }
-
     .strength-item-text {
       font-size: 14px;
       line-height: 1.6;
@@ -162,13 +198,6 @@
       border: 1px solid #fde68a;
       border-radius: 8px;
       padding: 16px;
-    }
-
-    .growth-item-title {
-      font-weight: 700;
-      color: #92400e;
-      font-size: 13px;
-      margin-bottom: 8px;
     }
 
     .growth-item-text {
@@ -230,6 +259,50 @@
       color: #1b4d3e;
       font-weight: 700;
       flex-shrink: 0;
+    }
+
+    .discernment-box {
+      background: #fef3c7;
+      border: 1px solid #fde68a;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 24px 0;
+    }
+
+    .discernment-title {
+      font-weight: 700;
+      color: #92400e;
+      font-size: 15px;
+      margin-bottom: 8px;
+    }
+
+    .discernment-text {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #b45309;
+      margin: 0;
+    }
+
+    .whatsapp-guidance-box {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 24px 0;
+    }
+
+    .whatsapp-guidance-title {
+      font-weight: 700;
+      color: #166534;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .whatsapp-guidance-text {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #15803d;
+      margin: 0;
     }
 
     .cta-section {
@@ -341,19 +414,20 @@
         <p class="results-subtitle" id="result-greeting"></p>
       </div>
 
+      <!-- Pathway -->
+      <div class="pathway-box" id="pathway-box"></div>
+
       <!-- Radar Chart -->
       <div class="dm-card">
-        <h2 class="dm-h2">Your Journey at a Glance</h2>
+        <h2 class="dm-h2">Your Current State</h2>
         <p class="dm-body">
-          These eight dimensions show where you are right now. This isn't about scoring high—it's about seeing where you're strong and where you're ready to grow.
+          These eight dimensions show where you are right now. This isn't about scoring high—it's about seeing your real picture.
         </p>
         <div class="radar-container">
           <canvas id="radarChart"></canvas>
         </div>
+        <div id="dimension-summary"></div>
       </div>
-
-      <!-- Pathway Identification -->
-      <div class="pathway-box" id="pathway-box"></div>
 
       <!-- Strengths & Growth Areas -->
       <div class="dm-card" id="strengths-section"></div>
@@ -370,7 +444,15 @@
         </p>
       </div>
 
-      <!-- CTA -->
+      <!-- Discernment note -->
+      <div class="discernment-box">
+        <div class="discernment-title">📝 About These Results</div>
+        <div class="discernment-text">
+          This checkup doesn't approve you into programs. It helps you see where you are on the journey. WhatsApp is where the real discernment happens—through practice, conversation, and coach observation.
+        </div>
+      </div>
+
+      <!-- CTA with WhatsApp-specific guidance -->
       <div class="cta-section" id="cta-section"></div>
 
     </div>
@@ -385,91 +467,55 @@
     const pathways = {
       explorer: {
         name: "Explorer",
-        condition: (scores) => scores.vision >= 3.5 && scores.obedience <= 3 && scores.coachability >= 3.5,
         description: "You're inspired by the vision and ready to practice. You need confidence to take first steps.",
-        strengths: [
-          "Hungry to grow",
-          "Willing to learn",
-          "Open to feedback"
-        ],
-        growthAreas: [
-          "Building consistency",
-          "Taking first steps",
-          "Practicing despite uncertainty"
-        ],
+        strengths: ["Hunger to grow", "Willing to learn", "Open to feedback"],
+        growthAreas: ["Building consistency", "Taking first steps", "Practicing despite uncertainty"],
         encouragement: "The first rep is always the hardest. You don't need to feel ready—you just need to start. Jesus didn't wait for perfect disciples; He called fishermen and tax collectors and invited them to follow. That's you right now.",
         nextReps: [
           "Pray for five people by name this week",
           "Have one intentional spiritual conversation",
           "Invite someone to read Scripture with you"
         ],
-        whatsappMessage: "You'll connect with other people just starting out. See how they're taking their first steps and get the encouragement you need to keep practicing."
+        whatsappGuidance: "Join and start with one small practice. Watch others practicing. Attend a Lab when ready."
       },
       practitioner: {
         name: "Practitioner",
-        condition: (scores) => scores.obedience >= 3.5 && scores.consistency <= 3.5 && scores.coachability >= 3.5,
         description: "You're already taking action. The gap now isn't knowledge—it's consistency. You need accountability.",
-        strengths: [
-          "Actually practicing",
-          "Willing to learn",
-          "Open to community"
-        ],
-        growthAreas: [
-          "Weekly consistency",
-          "Building rhythms",
-          "Staying accountable"
-        ],
+        strengths: ["Already practicing", "Willing to learn", "Open to community"],
+        growthAreas: ["Weekly consistency", "Building rhythms", "Staying accountable"],
         encouragement: "You're already doing it. Most people read about disciple-making; you're actually doing it. The hardest part now is keeping the rhythm week after week. That's exactly what the community is for.",
         nextReps: [
           "Identify your weekly rhythm for prayer and Scripture",
           "Ask one person this week how they're obeying Jesus",
           "Make room in your schedule for consistent disciple-making"
         ],
-        whatsappMessage: "You'll find your people here. Other practitioners who are building weekly rhythms and staying faithful. You'll learn how they're doing it and hold each other accountable."
+        whatsappGuidance: "Join and post Follow & Fish goals. Share weekly practice updates. Look for coaching and accountability."
       },
       multiplier: {
         name: "Multiplier",
-        condition: (scores) => scores.obedience >= 3.5 && scores.consistency >= 3.5 && scores.multiplication >= 3.5,
         description: "You're already making disciples. You don't need more knowledge—you need sharpening and community with others at your level.",
-        strengths: [
-          "Actively making disciples",
-          "Faithful and consistent",
-          "Multiplication mindset"
-        ],
-        growthAreas: [
-          "Developing leaders",
-          "Multiplying others",
-          "Scaling your impact"
-        ],
+        strengths: ["Actively making disciples", "Faithful and consistent", "Multiplication mindset"],
+        growthAreas: ["Developing leaders", "Multiplying others", "Scaling your impact"],
         encouragement: "What you're doing is rare and beautiful. Most church leaders talk about multiplication; you're actually doing it. Don't slow down. The world needs more multipliers, and we're here to sharpen you.",
         nextReps: [
           "Coach someone through one step of obedience",
           "Identify one faithful person to invest in as a multiplier",
           "Pray specifically for the leaders you're developing"
         ],
-        whatsappMessage: "You'll connect with other multipliers who are doing the same work. We'll sharpen your skills, help you think bigger about leadership development, and celebrate multiplication together."
+        whatsappGuidance: "Join and share what you are already practicing. Help others take reps. Discern next steps toward Online Simple Multiplier Church, coaching, or immersion."
       },
       catalyst: {
         name: "Catalyst",
-        condition: (scores) => true, // Fallback or highest scores
         description: "You're already multiplying leaders and thinking beyond your personal ministry. You need peers, not teachers.",
-        strengths: [
-          "Multiplying leaders",
-          "Network thinker",
-          "Movement builder"
-        ],
-        growthAreas: [
-          "Scaling multiplication",
-          "Mobilizing networks",
-          "Mentoring emerging catalysts"
-        ],
+        strengths: ["Multiplying leaders", "Network thinker", "Movement builder"],
+        growthAreas: ["Scaling multiplication", "Mobilizing networks", "Mentoring emerging catalysts"],
         encouragement: "You're building a movement. The multipliers you're raising will multiply others, and the impact will ripple across networks and generations. This is exactly what the Kingdom looks like.",
         nextReps: [
           "Identify one emerging multiplier to mentor",
           "Plan how you'll help them see their multiplication potential",
           "Pray for the networks they're reaching"
         ],
-        whatsappMessage: "You'll connect with peers doing the same kingdom work. You'll shape the movement together, help other multipliers scale their impact, and think about reaching entire networks."
+        whatsappGuidance: "Join and identify where you're multiplying disciples, leaders, or churches. Help sharpen the community. Discern fit for coaching, Institute, or leadership development."
       }
     };
 
@@ -477,20 +523,6 @@
       document.getElementById('loading-view').style.display = viewName === 'loading' ? 'block' : 'none';
       document.getElementById('results-view').style.display = viewName === 'results' ? 'block' : 'none';
       document.getElementById('error-view').style.display = viewName === 'error' ? 'block' : 'none';
-    }
-
-    function identifyPathway(scores) {
-      for (const [key, pathway] of Object.entries(pathways)) {
-        if (pathway.condition(scores)) {
-          return { key, pathway };
-        }
-      }
-      // Fallback based on highest dimension
-      const highest = Object.entries(scores).sort((a, b) => b[1] - a[1])[0][0];
-      if (highest === 'multiplication') return { key: 'catalyst', pathway: pathways.catalyst };
-      if (highest === 'obedience') return { key: 'multiplier', pathway: pathways.multiplier };
-      if (highest === 'consistency') return { key: 'practitioner', pathway: pathways.practitioner };
-      return { key: 'explorer', pathway: pathways.explorer };
     }
 
     async function loadResults() {
@@ -507,7 +539,7 @@
           `${SUPABASE_FUNCTIONS}/disciple-maker-results?token=${resultsToken}`
         );
 
-        const data = response.json();
+        const data = await response.json();
         if (!response.ok) throw new Error('Failed to load results');
 
         renderResults(data);
@@ -518,33 +550,25 @@
     }
 
     function renderResults(data) {
-      // Calculate scores (average per dimension)
-      const scores = {};
-      ASSESSMENT_QUESTIONS.dimensions.forEach(dim => {
-        const dimQuestions = dim.questions.map(q => q.id);
-        const dimScores = dimQuestions
-          .map(qId => data.responses[qId] || 0)
-          .filter(s => s > 0);
-        scores[dim.key] = dimScores.length > 0
-          ? dimScores.reduce((a, b) => a + b) / dimScores.length
-          : 0;
-      });
-
-      const { key: pathwayKey, pathway } = identifyPathway(scores);
+      const pathway = pathways[data.pathway] || pathways.explorer;
+      const firstName = data.first_name || 'Friend';
+      const scores = data.dimension_scores || {};
 
       // Render hero
-      const firstName = data.first_name || 'Friend';
       document.getElementById('result-name').textContent = `Hello, ${firstName}.`;
-      document.getElementById('result-greeting').textContent = `You currently fit best in the ${pathway.name} stage.`;
-
-      // Render radar chart
-      renderRadarChart(scores);
+      document.getElementById('result-greeting').textContent = `You're in the ${pathway.name} stage.`;
 
       // Render pathway box
       document.getElementById('pathway-box').innerHTML = `
         <div class="pathway-name">${pathway.name}</div>
         <div class="pathway-description">${pathway.description}</div>
       `;
+
+      // Render radar chart
+      renderRadarChart(scores);
+
+      // Render dimension summary
+      renderDimensionSummary(scores, data.strongest_dimension, data.lowest_dimension);
 
       // Render strengths and growth areas
       const strengthsHtml = `
@@ -592,8 +616,12 @@
 
       // Render CTA
       const ctaHtml = `
-        <div class="cta-title">Ready to take your next step?</div>
-        <p class="cta-text">${pathway.whatsappMessage}</p>
+        <div class="cta-title">What's Next?</div>
+        <p class="cta-text">Join the CoVo WhatsApp community. That's where we discern fit, practice together, and invite you toward coaching, churches, labs, and programs when the time is right.</p>
+        <div class="whatsapp-guidance-box">
+          <div class="whatsapp-guidance-title">In the WhatsApp, you'll:</div>
+          <div class="whatsapp-guidance-text">${pathway.whatsappGuidance}</div>
+        </div>
         <a href="/whatsapp.html" class="btn-gold">Join the WhatsApp Community</a>
       `;
       document.getElementById('cta-section').innerHTML = ctaHtml;
@@ -604,15 +632,36 @@
     function renderRadarChart(scores) {
       const ctx = document.getElementById('radarChart').getContext('2d');
 
-      const labels = ASSESSMENT_QUESTIONS.dimensions.map(d => d.name);
-      const data = ASSESSMENT_QUESTIONS.dimensions.map(d => scores[d.key] || 0);
+      const dimensionLabels = [
+        "Vision",
+        "Obedience",
+        "Consistency",
+        "Coachability",
+        "Everyday Mission",
+        "Multiplication",
+        "Holy Spirit",
+        "Hunger"
+      ];
+
+      const dimensionKeys = [
+        "vision",
+        "obedience",
+        "consistency",
+        "coachability",
+        "everyday_mission",
+        "multiplication",
+        "holy_spirit",
+        "hunger"
+      ];
+
+      const data = dimensionKeys.map(k => scores[k] || 0);
 
       if (radarChart) radarChart.destroy();
 
       radarChart = new Chart(ctx, {
         type: 'radar',
         data: {
-          labels: labels,
+          labels: dimensionLabels,
           datasets: [{
             label: 'Your Journey',
             data: data,
@@ -650,6 +699,52 @@
           }
         }
       });
+    }
+
+    function renderDimensionSummary(scores, strongest, lowest) {
+      const dimensionNames = {
+        vision: "Vision",
+        obedience: "Obedience",
+        consistency: "Consistency",
+        coachability: "Coachability",
+        everyday_mission: "Everyday Mission",
+        multiplication: "Multiplication",
+        holy_spirit: "Holy Spirit Dependence",
+        hunger: "Hunger"
+      };
+
+      const dimensionKeys = [
+        "vision",
+        "obedience",
+        "consistency",
+        "coachability",
+        "everyday_mission",
+        "multiplication",
+        "holy_spirit",
+        "hunger"
+      ];
+
+      let html = '<div style="margin-top: 24px;">';
+
+      dimensionKeys.forEach(key => {
+        const score = scores[key] || 0;
+        const width = (score / 5) * 100;
+        const isStrongest = key === strongest ? ' font-weight: 700; color: #166534;' : '';
+        const isLowest = key === lowest ? ' font-weight: 700; color: #b45309;' : '';
+
+        html += `
+          <div class="dimension-row">
+            <div class="dimension-name" style="${isStrongest}${isLowest}">${dimensionNames[key]}</div>
+            <div class="dimension-bar">
+              <div class="dimension-fill" style="width: ${width}%"></div>
+            </div>
+            <div class="dimension-score">${score.toFixed(1)}</div>
+          </div>
+        `;
+      });
+
+      html += '</div>';
+      document.getElementById('dimension-summary').innerHTML = html;
     }
 
     // Initialize

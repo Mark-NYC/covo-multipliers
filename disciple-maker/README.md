@@ -6,16 +6,33 @@ A diagnostic tool that identifies where someone is on their disciple-making jour
 
 This is NOT:
 - ❌ A personality test
-- ❌ An APEST assessment
+- ❌ An APEST assessment  
 - ❌ A spiritual gifts inventory
 - ❌ A Bible knowledge quiz
+- ❌ An approval gate for programs
 
 This IS:
 - ✅ A coaching tool that diagnoses bottlenecks
 - ✅ An 8-dimension radar chart showing current state
 - ✅ Four pathway recommendations (Explorer, Practitioner, Multiplier, Catalyst)
 - ✅ Personalized encouragement and next steps
-- ✅ A funnel to WhatsApp community
+- ✅ A funnel to WhatsApp (the discernment space)
+
+## The Core Model
+
+**Assessment → Results → WhatsApp → Discernment → Programs**
+
+Assessment does NOT approve people into Labs, Online Simple Multiplier Church, coaching, immersion, or Institute.
+
+Assessment identifies where someone is and what their bottleneck is.
+
+Then everyone joins the WhatsApp community where:
+- They practice
+- Coaches observe
+- Real discernment happens
+- When appropriate, people are invited toward specific programs
+
+WhatsApp is not a destination. It's where the real coaching begins.
 
 ## Design Philosophy
 
@@ -28,6 +45,7 @@ The assessment reflects CoVo Multipliers' DNA:
 - **Multiplication over accumulation** — Celebrates reproducing disciples
 - **Ordinary believers living on mission** — Assumes everyone can make disciples
 - **Temporary incompetence is expected** — "Even if you don't feel ready"
+- **Discernment happens in community** — Not through algorithms
 
 ## Assessment Structure
 
@@ -52,70 +70,69 @@ The assessment reflects CoVo Multipliers' DNA:
 
 ### Four Pathways
 
+Each pathway has different WhatsApp entry guidance (not different CTAs).
+
 #### Explorer
 - **Characteristics**: Inspired by vision + little practice + willing to learn
 - **Bottleneck**: Needs confidence to take first steps
-- **Next Step**: Monthly Lab + one Follow & Fish challenge
+- **WhatsApp guidance**: Join and start with one small practice. Watch others practicing. Attend a Lab when ready.
 
 #### Practitioner
 - **Characteristics**: Already taking action + needs consistency + wants accountability
 - **Bottleneck**: Building weekly rhythms
-- **Next Step**: WhatsApp community + weekly Follow & Fish + Monthly Labs
+- **WhatsApp guidance**: Join and post Follow & Fish goals. Share weekly practice updates. Look for coaching and accountability.
 
 #### Multiplier
-- **Characteristics**: Making disciples + wants sharpening + community
+- **Characteristics**: Making disciples + wants sharpening + wants community
 - **Bottleneck**: Developing and multiplying leaders
-- **Next Step**: Online Simple Multiplier Church + Shoulder-to-shoulder coaching + Leadership cohort
+- **WhatsApp guidance**: Join and share what you are already practicing. Help others take reps. Discern next steps toward Online Simple Multiplier Church, coaching, or immersion.
 
 #### Catalyst
 - **Characteristics**: Multiplying leaders + helping others multiply + thinks beyond personal ministry
 - **Bottleneck**: Scaling movement impact
-- **Next Step**: CoVo Institute + Coaching emerging multipliers + Leadership cohort
+- **WhatsApp guidance**: Join and identify where you're multiplying disciples, leaders, or churches. Help sharpen the community. Discern fit for coaching, Institute, or leadership development.
 
 ## User Flow
 
-1. **Substack article** (external)
-   ↓
-2. **CTA**: "Ready to stop reading and start practicing?"
-   ↓
-3. **`/disciple-maker/index.html`** — Assessment landing
-   ↓
-4. **`/disciple-maker/intake.html`** — Collect name/email
-   ↓
-5. **`/disciple-maker/take.html`** — Answer 50 questions (15–20 min)
-   ↓
-6. **`/disciple-maker/results.html`** — See radar chart + pathway
-   ↓
-7. **WhatsApp CTA** — Join community (everyone gets same CTA)
-   ↓
-8. **In WhatsApp**: Coaches see pathway, invite to coaching/church/labs
+1. **Substack article** (external)  → Assessment CTA
+2. **Assessment** → 50 questions, radar chart, pathway ID
+3. **Results page** → Radar chart + pathway + bottleneck diagnosis + next rep
+4. **Single CTA**: Join the CoVo WhatsApp Community
+5. **In WhatsApp** → Practice, conversation, Follow & Fish, coach observation
+6. **Discernment** → Coaches invite to programs when appropriate
 
 ## Key Features
 
 ### Radar Chart Visualization
-Shows 8 dimensions scored 1–5 with visual clarity on where someone is strong and where they need to grow.
+Shows 8 dimensions scored 1–5 with clear visual on strengths and growth areas.
 
-### Pathway Identification
-Algorithm identifies best-fit pathway based on pattern of scores, not total score. Two people with same average can be in different pathways based on which dimensions are high.
+### Bottleneck Diagnosis
+Algorithm identifies best-fit pathway based on pattern of scores. Two people with same average can be in different pathways based on which dimensions are high.
 
 ### Personalized Results
 Each pathway gets:
 - Validation (affirms where they are)
 - Clarity (explains their stage)
-- Direction (what's next)
+- Direction (what's next rep)
 - Encouragement (makes them feel capable)
 - Next reps (specific actions this week)
-- Unified CTA (join WhatsApp)
+- WhatsApp guidance (what to expect when they join)
+
+### Single CTA
+Everyone gets the same call-to-action: Join the WhatsApp community.
+
+### No Program Routing
+Results page does NOT direct people to Labs, Online Church, coaching, immersion, or Institute.
 
 ### Auto-Save & Resume
 - Questions auto-save after each response
 - Users can "Save & Exit" and resume later
 - Resume link asks for email to find their session
 
-### No Public Scaling
+### Secure Token Access
 - Results accessible only via secure token
-- No public results page or gallery
-- Results not stored permanently (unless needed for coaching notes)
+- No public results page
+- Results not stored permanently (stored in session, not in results table)
 
 ## Technical Stack
 
@@ -125,22 +142,22 @@ Each pathway gets:
 - Chart.js for radar visualization
 
 ### Backend
-- Supabase PostgreSQL
+- Supabase PostgreSQL (dedicated tables)
 - Supabase Edge Functions (TypeScript/Deno)
 - Token-based security (SHA-256 hashes)
 
 ### Deployment
 - Static files in `/disciple-maker/` directory
 - Edge functions in `/supabase/functions/`
-- Database schema via migrations
+- Database schema via migrations (dedicated tables)
 
 ## Files
 
 ### HTML Pages
 - `index.html` — Landing page
-- `intake.html` — Intake form
+- `intake.html` — Intake form (name, email, optional org)
 - `take.html` — Assessment questions
-- `results.html` — Personalized results
+- `results.html` — Personalized results with radar chart
 - `resume.html` — Resume assessment
 
 ### Configuration
@@ -149,16 +166,32 @@ Each pathway gets:
 
 ### Edge Functions
 - `disciple-maker-start` — Initialize session
-- `disciple-maker-submit` — Submit responses
+- `disciple-maker-submit` — Submit responses, calculate pathway
 - `disciple-maker-results` — Retrieve results
 - `disciple-maker-resume` — Resume session
 
 ### Database
 - Migration: `20260626000000_disciple_maker_assessment.sql`
+- Dedicated tables: `disciple_maker_sessions`, `disciple_maker_responses`
 
 ### Documentation
-- `SETUP.md` — Deployment instructions
 - `README.md` — This file
+- `SETUP.md` — Deployment instructions
+
+## What Gets Saved
+
+### In `disciple_maker_sessions`:
+- email, first_name, organization
+- session_token_hash (for resume)
+- results_token_hash (for results access)
+- pathway, strongest_dimension, lowest_dimension, bottleneck
+- dimension_scores (JSON)
+- status, created_at, completed_at
+
+### In `disciple_maker_responses`:
+- session_id, question_id, dimension, score, created_at
+
+NO raw tokens are stored. Only SHA-256 hashes.
 
 ## Deployment
 
@@ -169,13 +202,22 @@ Each pathway gets:
 
 2. **Deploy edge functions**
    ```bash
-   supabase functions deploy disciple-maker-{start,submit,results,resume}
+   supabase functions deploy disciple-maker-start
+   supabase functions deploy disciple-maker-submit
+   supabase functions deploy disciple-maker-results
+   supabase functions deploy disciple-maker-resume
    ```
 
-3. **Push to production**
-   ```bash
-   git push origin claude/disciple-maker-pathway-assessment-629r5g
-   ```
+3. **Update WhatsApp link**
+   In `results.html`, update the WhatsApp CTA URL to your group invite.
+
+4. **Test the flow**
+   - Complete intake → assessment → results
+   - Verify WhatsApp link works
+   - Test resume flow
+
+5. **Link from Substack**
+   Add CTA to your article pointing to `/disciple-maker/`
 
 See `SETUP.md` for detailed instructions.
 
@@ -186,17 +228,17 @@ Edit `questions.js` to change questions, dimensions, or scale.
 
 ### Update Pathways
 Edit `pathways` object in `results.html` to change:
-- Conditions for each pathway
-- Descriptions and messaging
+- Descriptions
 - Strengths/growth areas
-- Next reps actions
-- WhatsApp invitation copy
+- Encouragement messages
+- Next reps
+- WhatsApp guidance
 
 ### Update Styling
 Global styles in `/styles.css` + inline styles in each HTML file.
 
 ### Update WhatsApp Link
-Change WhatsApp CTA in `results.html` line where it says `Join the WhatsApp Community`.
+Change WhatsApp CTA in `results.html` to your group invite.
 
 ## Testing Checklist
 
@@ -205,26 +247,27 @@ Change WhatsApp CTA in `results.html` line where it says `Join the WhatsApp Comm
 - [ ] Verify auto-save works
 - [ ] Submit assessment
 - [ ] See results page load
-- [ ] Radar chart renders correctly
+- [ ] Radar chart renders
 - [ ] All four pathways can be reached
-- [ ] WhatsApp CTA works
+- [ ] WhatsApp CTA has correct link
 - [ ] Resume flow works
 - [ ] Mobile responsive
 
-## Next Steps
+## Important Principles
 
-1. Customize WhatsApp link in results page
-2. Add tracking to Substack article
-3. Set up monitoring for assessment submissions
-4. Prepare coaches to interpret pathway data
-5. Create follow-up email sequence post-assessment
-6. Gather feedback from first cohort
+**Assessment is diagnostic, not prescriptive.**
+It identifies where someone is and what's holding them back. It doesn't assign them to programs or levels.
 
-## Support
+**WhatsApp is the discernment space.**
+Coaches see the pathway data, watch people practice, have conversations, and then invite people toward appropriate next steps.
 
-See `SETUP.md` for troubleshooting and configuration help.
+**Everyone joins WhatsApp.**
+There is no differentiated entry point. Everyone gets the same CTA. Differentiation happens inside WhatsApp based on coach observation.
+
+**Results page respects the journey.**
+No one is told "you're not ready." Every pathway gets encouragement and practical next steps.
 
 ---
 
-**Status**: Ready to deploy
+**Status**: Ready to deploy (revised with dedicated tables & corrected model)
 **Last Updated**: June 26, 2026

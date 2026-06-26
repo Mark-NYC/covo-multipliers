@@ -315,12 +315,12 @@
 
       if (urlSession && urlToken) {
         sessionStorage.setItem('dm_session_id', urlSession);
-        sessionStorage.setItem('dm_resume_token', urlToken);
+        sessionStorage.setItem('dm_session_token', urlToken);
         history.replaceState({}, '', window.location.pathname);
       }
 
       sessionId = sessionStorage.getItem('dm_session_id');
-      resumeToken = sessionStorage.getItem('dm_resume_token');
+      resumeToken = sessionStorage.getItem('dm_session_token');
     }
 
     getCredentials();
@@ -458,7 +458,7 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               session_id: sessionId,
-              resume_token: resumeToken,
+              session_token: resumeToken,
               responses: responses
             })
           }

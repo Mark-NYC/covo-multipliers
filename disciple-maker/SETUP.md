@@ -2,13 +2,18 @@
 
 ## Overview
 
-The Disciple Maker Pathway Assessment is a standalone assessment that identifies where someone is on their disciple-making journey and recommends their next step. It uses the same Supabase backend as the Fivefold Stewardship Assessment but is fully independent.
+The Disciple Maker Pathway Assessment is a standalone assessment that identifies where someone is on their disciple-making journey and recommends their next step via WhatsApp discernment, not direct program routing.
+
+**Core model**: Assessment → Results → WhatsApp (discernment) → Programs
+
+Assessment does NOT approve people into Labs, Online Church, coaching, immersion, or Institute. It identifies pathway and bottleneck. WhatsApp is where coaches discern fit.
 
 ## Architecture
 
 - **Frontend**: Static HTML + vanilla JavaScript (no framework)
-- **Backend**: Supabase PostgreSQL + Edge Functions
-- **Assessment Type**: 8-dimension radar chart with pathway identification
+- **Backend**: Supabase PostgreSQL + Edge Functions  
+- **Database**: Dedicated tables (isolated from Fivefold assessment)
+- **Assessment Type**: 8-dimension radar with pathway ID + bottleneck diagnosis
 - **Pathways**: Explorer, Practitioner, Multiplier, Catalyst
 
 ## Files
@@ -17,7 +22,7 @@ The Disciple Maker Pathway Assessment is a standalone assessment that identifies
 - `index.html` - Landing page
 - `intake.html` - Collect name/email
 - `take.html` - The assessment questions
-- `results.html` - Show radar chart + personalized results
+- `results.html` - Show radar chart + pathway + bottleneck diagnosis
 - `resume.html` - Resume an in-progress assessment
 
 ### Configuration
@@ -26,25 +31,38 @@ The Disciple Maker Pathway Assessment is a standalone assessment that identifies
 
 ### Backend (Supabase Edge Functions)
 - `disciple-maker-start` - Initialize session
-- `disciple-maker-submit` - Submit responses
-- `disciple-maker-results` - Retrieve results
+- `disciple-maker-submit` - Submit responses, calculate pathway
+- `disciple-maker-results` - Retrieve results for display
 - `disciple-maker-resume` - Resume in-progress assessment
+
+### Database
+- `20260626000000_disciple_maker_assessment.sql` - Creates dedicated tables
 
 ## Deployment Steps
 
 ### 1. Run Database Migration
 
-Apply the migration that adds disciple-maker support to assessment_sessions:
+The migration creates two dedicated tables completely isolated from the Fivefold assessment:
 
+```sql
+disciple_maker_sessions
+  - id, email, first_name, organization
+  - status (in_progress | completed)
+  - session_token_hash, results_token_hash
+  - dimension_scores, pathway, strongest_dimension, lowest_dimension, bottleneck
+  - created_at, completed_at
+
+disciple_maker_responses
+  - id, session_id, question_id, dimension, score
+  - created_at
+```
+
+Deploy:
 ```bash
 supabase db push
 ```
 
-The migration adds:
-- `assessment_type` column (distinguishes fivefold vs disciple-maker)
-- `results_token_hash` and `completed_at` columns
-- `question_id` column to assessment_responses
-- Necessary indexes
+**Safety**: These tables are completely separate from `assessment_sessions` and `assessment_responses`. Zero risk of breaking the Fivefold assessment.
 
 ### 2. Deploy Edge Functions
 
@@ -65,130 +83,136 @@ window.DISCIPLE_MAKER_CONFIG = {
 };
 ```
 
-Currently set to: `https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1`
+Currently configured for: `https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1`
 
-### 4. Test Locally (Optional)
+### 4. Update WhatsApp Link
 
-```bash
-# Start a local Supabase instance
-supabase start
+In `results.html`, find the WhatsApp CTA and update with your group invite URL:
 
-# Test the assessment at http://localhost:8000/disciple-maker/
+```html
+<a href="/whatsapp.html" class="btn-gold">Join the WhatsApp Community</a>
 ```
 
-### 5. Deploy to Production
+Change `/whatsapp.html` to your actual WhatsApp group link.
 
-Push the `/disciple-maker/` directory to your production server at `/disciple-maker/`.
+### 5. Test Locally (Optional)
 
-Update any links in your Substack or blog to point to `/disciple-maker/`.
+```bash
+# Start local Supabase
+supabase start
+
+# Test at http://localhost:8000/disciple-maker/
+```
+
+### 6. Deploy to Production
+
+Push the `/disciple-maker/` directory to your production server.
+
+Update your Substack article to link to `/disciple-maker/`.
 
 ## How It Works
 
 ### Assessment Flow
 
-1. **User lands on** `/disciple-maker/index.html`
-   - Sees overview of the assessment
+1. **Landing** `index.html`
+   - Explains the checkup
    - Clicks "Start the Checkup"
 
 2. **Intake** `intake.html`
-   - Collects: first_name, email, optional church/org
+   - Collects: first_name, email, optional organization
    - Posts to `disciple-maker-start` function
-   - Receives: session_id and resume_token
+   - Receives: session_id and session_token
    - Stores in sessionStorage
    - Redirects to `take.html`
 
 3. **Taking Assessment** `take.html`
-   - Shows 50 questions (8 dimensions × 6-8 questions each)
+   - Shows 50 questions (8 dimensions)
    - 5-point Likert scale (Strongly Disagree → Strongly Agree)
    - Single question per screen
    - Auto-saves after each response
-   - Progress bar shows completion
-   - "Submit Checkup" appears on last question
+   - Progress bar shows completion %
+   - "Submit Checkup" button appears on last question
 
-4. **Submit** `take.html` → `results.html`
-   - Posts responses to `disciple-maker-submit`
-   - Receives results_token
+4. **Submit** `take.html`
+   - Posts responses to `disciple-maker-submit` function
+   - Function:
+     - Stores responses in `disciple_maker_responses`
+     - Calculates average score per dimension
+     - Identifies pathway (Explorer, Practitioner, Multiplier, Catalyst)
+     - Identifies strongest and lowest dimensions
+     - Diagnoses bottleneck
+     - Generates results_token
+     - Stores all in `disciple_maker_sessions`
    - Redirects to `results.html?r=<token>`
 
 5. **Results** `results.html`
-   - Fetches results using `disciple-maker-results` function
-   - Displays radar chart (8 dimensions)
-   - Identifies pathway: Explorer, Practitioner, Multiplier, or Catalyst
-   - Shows personalized:
-     - Strengths (3)
-     - Growth areas (3)
+   - Fetches results using `disciple-maker-results` function (token-secured)
+   - Displays:
+     - Radar chart (8 dimensions, 1-5 scale)
+     - Pathway name + description
+     - Strengths (3) + Growth Areas (3)
      - Encouragement message
      - Next reps for this week (3 actions)
-   - CTA: Join the WhatsApp community
+     - Note: "This checkup doesn't approve you into programs. WhatsApp is where discernment happens."
+   - **Single CTA**: "Join the CoVo WhatsApp Community"
+   - Pathway-specific WhatsApp guidance (what to expect)
 
 ### Resume Flow
 
 1. User clicks "Resume your checkup" on `index.html`
-2. Enters their email at `resume.html`
+2. Enters email at `resume.html`
 3. Posts to `disciple-maker-resume` function
-4. Function finds most recent in_progress session
-5. Generates new resume token
+4. Function finds most recent `in_progress` session
+5. Generates new session_token
 6. Redirects to `take.html`
 
 ## Database Schema
 
-### assessment_sessions (extended)
+### disciple_maker_sessions
 
 ```sql
--- New columns:
-assessment_type           text -- 'fivefold' or 'disciple_maker'
-results_token_hash        text -- SHA-256 hash for secure results access
-completed_at              timestamptz -- When assessment was completed
-version_id                uuid -- Now nullable (only for fivefold)
+id                    uuid PRIMARY KEY
+email                 text NOT NULL (used for resume lookup)
+first_name            text NOT NULL
+organization          text (nullable)
+status                text NOT NULL ('in_progress' | 'completed')
+session_token_hash    text (SHA-256 hash, for resume security)
+results_token_hash    text (SHA-256 hash, for results access security)
+dimension_scores      jsonb ({ dimension_key: avg_score, ... })
+pathway               text ('explorer' | 'practitioner' | 'multiplier' | 'catalyst')
+strongest_dimension   text (dimension with highest score)
+lowest_dimension      text (dimension with lowest score)
+bottleneck            text (diagnosis of main constraint)
+created_at            timestamptz
+completed_at          timestamptz
 ```
 
-### assessment_responses (extended)
+### disciple_maker_responses
 
 ```sql
--- New columns:
-question_id               text -- Question ID from questions.js (for disciple-maker)
-score                     numeric -- Response score 1-5 (for disciple-maker)
+id            uuid PRIMARY KEY
+session_id    uuid REFERENCES disciple_maker_sessions(id) ON DELETE CASCADE
+question_id   text (e.g., "v1", "o2", "c3")
+dimension     text (dimension_key for this question)
+score         integer (1-5 Likert scale)
+created_at    timestamptz
 ```
-
-## Pathway Determination
-
-The assessment calculates average scores across 8 dimensions:
-
-1. **Vision** - Do they believe in the mission?
-2. **Obedience** - Are they practicing?
-3. **Consistency** - Are they faithful?
-4. **Coachability** - Will they let someone sharpen them?
-5. **Everyday Mission** - Do they know where God sent them?
-6. **Multiplication** - Are they helping others reproduce?
-7. **Dependence on Holy Spirit** - Are they Spirit-led?
-8. **Hunger** - Do they actually want this?
-
-### Pathway Rules
-
-- **Explorer**: High vision + low obedience + high coachability
-- **Practitioner**: High obedience + low consistency + high coachability
-- **Multiplier**: High obedience + high consistency + high multiplication
-- **Catalyst**: Everything high (or falls through to highest dimension)
-
-Each pathway receives different messaging but the same CTA: Join the WhatsApp community.
 
 ## Security
 
 ### Token-Based Access
 
-Results are accessed using a secure token pattern:
+Both tokens are 64-character hex strings (256 bits) generated by `crypto.getRandomValues()`:
 
-1. `resume_token` - Used to resume in-progress assessment
-   - Stored as SHA-256 hash in database
+1. **session_token** - Used to submit assessment
+   - Stored as SHA-256 hash in `session_token_hash`
    - Token itself never stored plain
-   - Prevents unauthorized access to someone else's session
+   - Prevents unauthorized submission to someone else's session
 
-2. `results_token` - Used to view results
-   - Stored as SHA-256 hash in database
+2. **results_token** - Used to view results
+   - Stored as SHA-256 hash in `results_token_hash`
    - Token passed in URL (`results.html?r=<token>`)
    - Used to retrieve results via `disciple-maker-results` function
-
-Both tokens are 64-character hex strings (256 bits) generated by `crypto.getRandomValues()`.
 
 ### CORS
 
@@ -205,19 +229,26 @@ Update in edge functions if you need additional origins.
 Edit `questions.js`:
 - Add/remove questions from any dimension
 - Keep dimensions balanced (6-8 questions each)
-- Use consistent scale (1-5 Likert)
+- Use consistent 1-5 Likert scale
+
+### Changing Pathways
+
+Edit `pathways` object in `results.html`:
+- Modify `description` for each pathway
+- Change `strengths`, `growthAreas`
+- Update `encouragement` message
+- Modify `nextReps` actions
+- Update `whatsappGuidance` (what to expect in WhatsApp)
 
 ### Changing Pathway Logic
 
-Edit the `pathways` object in `results.html`:
-- Modify `condition()` function for each pathway
-- Change `description`, `strengths`, `growthAreas`, `encouragement`
-- Update `nextReps` actions
-- Modify WhatsApp messaging
+Edit scoring logic in `disciple-maker-submit` function:
+- Modify `identifyPathway()` function conditions
+- Adjust dimension thresholds
 
 ### Styling
 
-Global styles are in `/styles.css`. Assessment-specific styles are in inline `<style>` tags in each HTML file.
+Global styles in `/styles.css`. Assessment-specific styles in inline `<style>` tags in each HTML file.
 
 ## Testing
 
@@ -226,61 +257,85 @@ Global styles are in `/styles.css`. Assessment-specific styles are in inline `<s
 - [ ] Start assessment at `/disciple-maker/`
 - [ ] Complete intake form
 - [ ] Answer all 50 questions
+- [ ] Verify auto-save works (check browser console)
 - [ ] Submit assessment
 - [ ] View results page
 - [ ] Verify radar chart renders
-- [ ] Click WhatsApp CTA
+- [ ] Confirm WhatsApp CTA link works
 - [ ] Click "Resume" link
 - [ ] Verify can resume in-progress assessment
-- [ ] Check email in browser console for any errors
+- [ ] Test on mobile
 
-### Load Testing
+### Verifying Database
 
-The Edge Functions have built-in rate limiting. If testing with many users:
+Check that data is being stored:
 
-```bash
-# Monitor function logs
-supabase functions logs disciple-maker-start --follow
+```sql
+-- Check sessions
+SELECT id, email, pathway, status FROM disciple_maker_sessions LIMIT 5;
+
+-- Check responses
+SELECT session_id, question_id, score FROM disciple_maker_responses LIMIT 10;
 ```
 
 ## Troubleshooting
 
 ### "Session not found" error
 
-- Check that `config.js` has the correct Supabase URL
-- Verify edge functions are deployed
-- Check function logs: `supabase functions logs disciple-maker-start`
+- Check that `config.js` has correct Supabase URL
+- Verify edge functions are deployed: `supabase functions list`
+- Check function logs: `supabase functions logs disciple-maker-start --follow`
 
 ### Radar chart not rendering
 
-- Ensure Chart.js is loading: check browser console
-- Verify scores are being calculated correctly
+- Ensure Chart.js loads from CDN (check browser console)
+- Verify `dimension_scores` are being calculated
 - Check browser DevTools for JavaScript errors
 
 ### Results not loading
 
-- Verify results_token is being passed in URL
-- Check function logs for `disciple-maker-results`
-- Confirm SHA-256 hash comparison is working
+- Verify results_token is in URL (`results.html?r=...`)
+- Check `disciple-maker-results` function logs
+- Confirm SHA-256 hash comparison is working (tokens should match)
 
 ### CORS errors
 
-- Check function CORS headers
-- Verify site is using exact domain (https://covomultipliers.com)
-- Add domain to ALLOWED_ORIGINS in edge functions if needed
+- Check function CORS headers in edge functions
+- Verify site uses exact domain (https://covomultipliers.com)
+- Add domain to ALLOWED_ORIGINS if needed
+
+### Sessions not persisting
+
+- Check `disciple_maker_sessions` table exists: `supabase db inspect`
+- Verify migration ran successfully: `supabase db pull`
+- Check for database errors in Supabase dashboard
+
+## Data Retention
+
+- Sessions stored indefinitely (for coach reference)
+- Responses stored indefinitely (for analytics)
+- NO results table (results computed on-the-fly for security)
+- Consider archiving old sessions after 6-12 months
 
 ## Next Steps
 
-1. Link to `/disciple-maker/` from your Substack article
-2. Add WhatsApp group invitation link to the results page
-3. Monitor analytics to see which pathways people are landing in
-4. Iterate on questions based on user feedback
-5. Consider adding optional demographic questions (age, region, role)
-6. Set up email notifications when new assessments are submitted
+1. Test the full flow locally
+2. Deploy to production
+3. Update Substack article with CTA to `/disciple-maker/`
+4. Share WhatsApp group link with team
+5. Train coaches on interpreting pathway data
+6. Monitor submissions and gather feedback
+7. Iterate on questions/messaging based on user feedback
 
 ## Support
 
 For issues with:
 - **Edge Functions**: Check Supabase dashboard > Functions > Logs
 - **Database**: Check Supabase dashboard > SQL Editor
-- **Frontend**: Check browser DevTools > Console
+- **Frontend**: Check browser DevTools > Console & Network
+
+---
+
+**Model**: Assessment → Results → WhatsApp Discernment → Programs  
+**Database**: Dedicated tables (safe, isolated)  
+**Status**: Ready to deploy

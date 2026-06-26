@@ -3,8 +3,7 @@
 // GET /functions/v1/disciple-maker-results?token=<results_token>
 //
 // 1. Validate token
-// 2. Return participant name and responses
-// 3. No authorization check — token acts as access control
+// 2. Return participant name, dimension scores, pathway, bottleneck
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
@@ -60,14 +59,13 @@ Deno.serve(async (req: Request): Promise<Response> => {
     { auth: { persistSession: false } },
   );
 
-  // Find session by results token hash
+  // Find session by results token hash (from dedicated table)
   const tokenHash = await sha256hex(token);
 
   const { data: session, error: sessionErr } = await supabase
-    .from("assessment_sessions")
-    .select("id, participant_id, status")
+    .from("disciple_maker_sessions")
+    .select("id, first_name, status, dimension_scores, pathway, strongest_dimension, lowest_dimension, bottleneck")
     .eq("results_token_hash", tokenHash)
-    .eq("assessment_type", "disciple_maker")
     .single();
 
   if (sessionErr || !session) {
@@ -79,39 +77,14 @@ Deno.serve(async (req: Request): Promise<Response> => {
     return json(400, { error: "Assessment not yet completed." }, cors);
   }
 
-  // Get participant info
-  const { data: participant, error: participantErr } = await supabase
-    .from("participants")
-    .select("first_name")
-    .eq("id", session.participant_id)
-    .single();
-
-  if (participantErr || !participant) {
-    console.error("[disciple-maker-results] participant not found");
-    return json(500, { error: "Could not load results." }, cors);
-  }
-
-  // Get responses
-  const { data: responses, error: responsesErr } = await supabase
-    .from("assessment_responses")
-    .select("question_id, score")
-    .eq("session_id", session.id);
-
-  if (responsesErr) {
-    console.error("[disciple-maker-results] responses error:", responsesErr);
-    return json(500, { error: "Could not load responses." }, cors);
-  }
-
-  // Build response map
-  const responseMap: Record<string, number> = {};
-  responses.forEach((r: { question_id: string; score: number }) => {
-    responseMap[r.question_id] = r.score;
-  });
-
   console.log(`[disciple-maker-results] retrieved results for session ${session.id}`);
 
   return json(200, {
-    first_name: participant.first_name,
-    responses: responseMap,
+    first_name: session.first_name,
+    dimension_scores: session.dimension_scores || {},
+    pathway: session.pathway || "explorer",
+    strongest_dimension: session.strongest_dimension,
+    lowest_dimension: session.lowest_dimension,
+    bottleneck: session.bottleneck,
   }, cors);
 });

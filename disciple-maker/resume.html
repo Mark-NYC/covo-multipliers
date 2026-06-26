@@ -257,7 +257,7 @@
 
         // Store session and redirect
         sessionStorage.setItem('dm_session_id', data.session_id);
-        sessionStorage.setItem('dm_resume_token', data.resume_token);
+        sessionStorage.setItem('dm_session_token', data.session_token);
         window.location.replace('take.html');
       } catch (error) {
         console.error('Error:', error);

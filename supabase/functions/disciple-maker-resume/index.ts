@@ -3,9 +3,9 @@
 // POST /functions/v1/disciple-maker-resume
 // Body: { email: string }
 //
-// 1. Find participant by email
-// 2. Find their most recent in_progress session
-// 3. Generate new resume token
+// 1. Find session by email
+// 2. Find most recent in_progress session
+// 3. Generate new session token
 // 4. Return session_id and token
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
@@ -76,24 +76,11 @@ Deno.serve(async (req: Request): Promise<Response> => {
     { auth: { persistSession: false } },
   );
 
-  // Find participant
-  const { data: participant, error: participantErr } = await supabase
-    .from("participants")
+  // Find most recent in_progress session by email (from dedicated table)
+  const { data: sessions, error: sessionsErr } = await supabase
+    .from("disciple_maker_sessions")
     .select("id")
     .eq("email", cleanEmail)
-    .single();
-
-  if (participantErr || !participant) {
-    console.error("[disciple-maker-resume] participant not found");
-    return json(404, { error: "Email not found. Please start a new checkup." }, cors);
-  }
-
-  // Find most recent in_progress session
-  const { data: sessions, error: sessionsErr } = await supabase
-    .from("assessment_sessions")
-    .select("id")
-    .eq("participant_id", participant.id)
-    .eq("assessment_type", "disciple_maker")
     .eq("status", "in_progress")
     .order("created_at", { ascending: false })
     .limit(1);
@@ -105,14 +92,14 @@ Deno.serve(async (req: Request): Promise<Response> => {
 
   const session = sessions[0];
 
-  // Generate new resume token
-  const resumeToken = generateToken();
-  const resumeTokenHash = await sha256hex(resumeToken);
+  // Generate new session token
+  const sessionToken = generateToken();
+  const sessionTokenHash = await sha256hex(sessionToken);
 
   // Update session with new token
   const { error: updateErr } = await supabase
-    .from("assessment_sessions")
-    .update({ resume_token_hash: resumeTokenHash })
+    .from("disciple_maker_sessions")
+    .update({ session_token_hash: sessionTokenHash })
     .eq("id", session.id);
 
   if (updateErr) {
@@ -124,6 +111,6 @@ Deno.serve(async (req: Request): Promise<Response> => {
 
   return json(200, {
     session_id: session.id,
-    resume_token: resumeToken,
+    session_token: sessionToken,
   }, cors);
 });

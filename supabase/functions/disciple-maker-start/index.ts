@@ -75,7 +75,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
     return json(400, { error: "Request body must be valid JSON." }, cors);
   }
 
-  const { first_name, email, church_org, consent } = body;
+  const { first_name, email, organization, consent } = body;
 
   if (typeof first_name !== "string" || first_name.trim().length < 1) {
     return json(400, { error: "Please enter your first name." }, cors);
@@ -89,7 +89,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
 
   const cleanFirst = first_name.trim();
   const cleanEmail = email.trim().toLowerCase();
-  const cleanChurch = typeof church_org === "string" ? church_org.trim() : null;
+  const cleanOrg = typeof organization === "string" ? organization.trim() : null;
 
   const supabase = createClient(
     Deno.env.get("SUPABASE_URL")!,
@@ -97,50 +97,19 @@ Deno.serve(async (req: Request): Promise<Response> => {
     { auth: { persistSession: false } },
   );
 
-  // Check for existing participant
-  const { data: existingParticipant } = await supabase
-    .from("participants")
-    .select("id")
-    .eq("email", cleanEmail)
-    .maybeSingle();
+  // Generate resume token (use session token for resume)
+  const sessionToken = generateToken();
+  const sessionTokenHash = await sha256hex(sessionToken);
 
-  const participantRow: Record<string, unknown> = {
-    email: cleanEmail,
-    first_name: cleanFirst,
-    church_org: cleanChurch,
-    updated_at: new Date().toISOString(),
-  };
-
-  if (!existingParticipant) {
-    participantRow.first_touch_at = new Date().toISOString();
-  }
-
-  // Upsert participant
-  const { data: participant, error: participantErr } = await supabase
-    .from("participants")
-    .upsert(participantRow, { onConflict: "email", ignoreDuplicates: false })
-    .select("id")
-    .single();
-
-  if (participantErr || !participant) {
-    console.error("[disciple-maker-start] participant upsert error:", participantErr);
-    return json(500, { error: "Could not create participant. Please try again." }, cors);
-  }
-
-  // Generate resume token
-  const resumeToken = generateToken();
-  const resumeTokenHash = await sha256hex(resumeToken);
-
-  // Create session
+  // Create session in dedicated disciple_maker_sessions table
   const { data: session, error: sessionErr } = await supabase
-    .from("assessment_sessions")
+    .from("disciple_maker_sessions")
     .insert({
-      participant_id: participant.id,
-      assessment_type: "disciple_maker",
+      email: cleanEmail,
+      first_name: cleanFirst,
+      organization: cleanOrg,
       status: "in_progress",
-      consent_given: true,
-      consent_timestamp: new Date().toISOString(),
-      resume_token_hash: resumeTokenHash,
+      session_token_hash: sessionTokenHash,
     })
     .select("id")
     .single();
@@ -150,11 +119,11 @@ Deno.serve(async (req: Request): Promise<Response> => {
     return json(500, { error: "Could not create session. Please try again." }, cors);
   }
 
-  console.log(`[disciple-maker-start] created session=${session.id} participant=${participant.id}`);
+  console.log(`[disciple-maker-start] created session=${session.id}`);
 
   return json(200, {
     session_id: session.id,
-    resume_token: resumeToken,
+    session_token: sessionToken,
     first_name: cleanFirst,
   }, cors);
 });
