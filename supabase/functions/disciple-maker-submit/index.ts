@@ -79,21 +79,34 @@ function scoreResponses(responses: Record<string, number>): {
 } {
   const scores: Record<string, number> = {};
 
+  console.log("[scoreResponses] received responses:", JSON.stringify(responses));
+  console.log("[scoreResponses] DIMENSIONS:", DIMENSIONS);
+  console.log("[scoreResponses] DIMENSION_QUESTIONS:", JSON.stringify(DIMENSION_QUESTIONS));
+
   for (const dim of DIMENSIONS) {
     const qIds = DIMENSION_QUESTIONS[dim] || [];
+    console.log(`[scoreResponses] scoring ${dim}: expecting questions ${qIds.join(', ')}`);
+
     const dimScores = qIds
-      .map(qId => responses[qId])
+      .map(qId => {
+        const val = responses[qId];
+        console.log(`  ${qId} = ${val}`);
+        return val;
+      })
       .filter(s => typeof s === 'number' && s > 0);
 
     scores[dim] = dimScores.length > 0
       ? dimScores.reduce((a, b) => a + b) / dimScores.length
       : 0;
+
+    console.log(`[scoreResponses] ${dim} score: ${scores[dim]} (from ${dimScores.length} responses)`);
   }
 
   const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
   const strongest = sorted[0][0];
   const lowest = sorted[sorted.length - 1][0];
 
+  console.log("[scoreResponses] final scores:", JSON.stringify(scores));
   return { scores, strongest, lowest };
 }
 
@@ -162,6 +175,8 @@ Deno.serve(async (req: Request): Promise<Response> => {
     return json(401, { error: "Invalid session." }, cors);
   }
 
+  console.log(`[disciple-maker-submit] session ${session_id} found`);
+
   // Validate token
   const tokenHash = await sha256hex(session_token);
   if (tokenHash !== session.session_token_hash) {
@@ -169,8 +184,11 @@ Deno.serve(async (req: Request): Promise<Response> => {
     return json(401, { error: "Invalid token." }, cors);
   }
 
+  console.log("[disciple-maker-submit] token validated");
+
   // Score responses and identify pathway
   const responseMap = responses as Record<string, number>;
+  console.log("[disciple-maker-submit] responses received:", JSON.stringify(responseMap));
   const { scores, strongest, lowest } = scoreResponses(responseMap);
   const pathway = identifyPathway(scores);
   const bottleneck = diagnoseBottleneck(scores, pathway);

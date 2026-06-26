@@ -40,3 +40,7 @@ jobs:
           supabase functions deploy get-zoom-link --no-verify-jwt
           supabase functions deploy lab-admin
           supabase functions deploy send-lab-reminders --no-verify-jwt
+          supabase functions deploy disciple-maker-start --no-verify-jwt
+          supabase functions deploy disciple-maker-submit --no-verify-jwt
+          supabase functions deploy disciple-maker-results --no-verify-jwt
+          supabase functions deploy disciple-maker-resume --no-verify-jwt
