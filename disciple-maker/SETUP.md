@@ -130,7 +130,7 @@ Update your Substack article to link to `/disciple-maker/`.
    - Redirects to `take.html`
 
 3. **Taking Assessment** `take.html`
-   - Shows 50 questions (8 dimensions)
+   - Shows 32 questions (8 dimensions × 4 questions each)
    - 5-point Likert scale (Strongly Disagree → Strongly Agree)
    - Single question per screen
    - Auto-saves after each response
@@ -261,7 +261,7 @@ Global styles in `/styles.css`. Assessment-specific styles in inline `<style>` t
 
 - [ ] Start assessment at `/disciple-maker/`
 - [ ] Complete intake form
-- [ ] Answer all 50 questions
+- [ ] Answer all 32 questions
 - [ ] Verify auto-save works (check browser console)
 - [ ] Submit assessment
 - [ ] View results page

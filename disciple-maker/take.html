@@ -262,7 +262,7 @@
     <div id="assessment-view" style="display:none;">
       <div class="progress-container">
         <div class="progress-label">
-          <span id="progress-text">Question 1 of 50</span>
+          <span id="progress-text">Question 1 of 32</span>
           <span id="progress-percent">0%</span>
         </div>
         <div class="progress-bar">
@@ -387,16 +387,18 @@
     function updateNavButtons() {
       document.getElementById('prev-btn').disabled = currentIndex === 0;
 
+      const currentQuestion = allQuestions[currentIndex];
+      const currentAnswered = responses[currentQuestion.id] !== undefined;
       const allAnswered = allQuestions.every(q => responses[q.id] !== undefined);
-      document.getElementById('next-btn').disabled = !allAnswered;
 
-      if (currentIndex === allQuestions.length - 1 && allAnswered) {
+      if (currentIndex === allQuestions.length - 1) {
         document.getElementById('next-btn').textContent = 'Submit Checkup';
         document.getElementById('next-btn').onclick = submitAssessment;
-        document.getElementById('next-btn').disabled = false;
+        document.getElementById('next-btn').disabled = !allAnswered;
       } else {
         document.getElementById('next-btn').textContent = 'Next →';
         document.getElementById('next-btn').onclick = nextQuestion;
+        document.getElementById('next-btn').disabled = !currentAnswered;
       }
     }
 

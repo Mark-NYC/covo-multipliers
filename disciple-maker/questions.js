@@ -1,5 +1,5 @@
 // Disciple Maker Pathway Assessment - Questions & Dimensions
-// 8 dimensions × 6-8 questions each = 50 total questions
+// 8 dimensions × 4 questions each = 32 total questions
 
 const ASSESSMENT_QUESTIONS = {
   dimensions: [
@@ -20,11 +20,6 @@ const ASSESSMENT_QUESTIONS = {
           type: "agreement"
         },
         {
-          id: "v3",
-          text: "I want to become an apprentice of Jesus who helps others follow Him.",
-          type: "agreement"
-        },
-        {
           id: "v4",
           text: "I care more about making disciples than simply attending church.",
           type: "agreement"
@@ -32,11 +27,6 @@ const ASSESSMENT_QUESTIONS = {
         {
           id: "v5",
           text: "I believe multiplication is God's normal strategy for advancing His Kingdom.",
-          type: "agreement"
-        },
-        {
-          id: "v6",
-          text: "I want to be coached, not simply consume more Christian content.",
           type: "agreement"
         }
       ]
@@ -47,11 +37,6 @@ const ASSESSMENT_QUESTIONS = {
       description: "Are you practicing?",
       color: "#2d6a4f",
       questions: [
-        {
-          id: "o1",
-          text: "I regularly pray by name for people who don't know Jesus.",
-          type: "agreement"
-        },
         {
           id: "o2",
           text: "During the past month I intentionally moved at least one conversation toward spiritual things.",
@@ -68,23 +53,8 @@ const ASSESSMENT_QUESTIONS = {
           type: "agreement"
         },
         {
-          id: "o5",
-          text: "I regularly ask others how they are obeying Jesus.",
-          type: "agreement"
-        },
-        {
           id: "o6",
           text: "I have helped someone take a next step in following Jesus.",
-          type: "agreement"
-        },
-        {
-          id: "o7",
-          text: "I naturally look for opportunities to make disciples throughout my week.",
-          type: "agreement"
-        },
-        {
-          id: "o8",
-          text: "I regularly pray with people outside of church settings.",
           type: "agreement"
         }
       ]
@@ -106,11 +76,6 @@ const ASSESSMENT_QUESTIONS = {
           type: "agreement"
         },
         {
-          id: "c3",
-          text: "I regularly set goals for following Jesus and reaching others.",
-          type: "agreement"
-        },
-        {
           id: "c4",
           text: "I generally follow through on commitments I make.",
           type: "agreement"
@@ -118,16 +83,6 @@ const ASSESSMENT_QUESTIONS = {
         {
           id: "c5",
           text: "I have weekly rhythms that help me stay spiritually healthy.",
-          type: "agreement"
-        },
-        {
-          id: "c6",
-          text: "I can realistically invest several hours each week into disciple making.",
-          type: "agreement"
-        },
-        {
-          id: "c7",
-          text: "I intentionally spend time in places where I can build relationships with people far from Jesus.",
           type: "agreement"
         }
       ]
@@ -138,11 +93,6 @@ const ASSESSMENT_QUESTIONS = {
       description: "Will you let someone sharpen you?",
       color: "#52b788",
       questions: [
-        {
-          id: "cb1",
-          text: "I am willing to practice before I feel fully prepared.",
-          type: "agreement"
-        },
         {
           id: "cb2",
           text: "I welcome honest feedback.",
@@ -161,21 +111,6 @@ const ASSESSMENT_QUESTIONS = {
         {
           id: "cb5",
           text: "I enjoy practicing ministry alongside others.",
-          type: "agreement"
-        },
-        {
-          id: "cb6",
-          text: "I am comfortable admitting when I don't know something.",
-          type: "agreement"
-        },
-        {
-          id: "cb7",
-          text: "I actively look for someone who can coach me.",
-          type: "agreement"
-        },
-        {
-          id: "cb8",
-          text: "I enjoy helping others practice new skills.",
           type: "agreement"
         }
       ]
@@ -205,21 +140,6 @@ const ASSESSMENT_QUESTIONS = {
           id: "em4",
           text: "I can identify my primary mission field.",
           type: "agreement"
-        },
-        {
-          id: "em5",
-          text: "I have clarity around my passion, people, place, and profession.",
-          type: "agreement"
-        },
-        {
-          id: "em6",
-          text: "I intentionally spend time where lost people naturally gather.",
-          type: "agreement"
-        },
-        {
-          id: "em7",
-          text: "I know who I will invest in over the next three months.",
-          type: "agreement"
         }
       ]
     },
@@ -240,11 +160,6 @@ const ASSESSMENT_QUESTIONS = {
           type: "agreement"
         },
         {
-          id: "m3",
-          text: "I celebrate multiplication more than personal success.",
-          type: "agreement"
-        },
-        {
           id: "m4",
           text: "I enjoy developing leaders more than being the primary leader.",
           type: "agreement"
@@ -252,11 +167,6 @@ const ASSESSMENT_QUESTIONS = {
         {
           id: "m5",
           text: "I believe simple, reproducible practices are more valuable than impressive programs.",
-          type: "agreement"
-        },
-        {
-          id: "m6",
-          text: "I think about reaching entire networks of relationships, not just individuals.",
           type: "agreement"
         }
       ]
@@ -273,11 +183,6 @@ const ASSESSMENT_QUESTIONS = {
           type: "agreement"
         },
         {
-          id: "hs2",
-          text: "I expect God to open doors.",
-          type: "agreement"
-        },
-        {
           id: "hs3",
           text: "I listen for the Spirit's leading throughout my week.",
           type: "agreement"
@@ -291,11 +196,6 @@ const ASSESSMENT_QUESTIONS = {
           id: "hs5",
           text: "I depend on God more than my own ability.",
           type: "agreement"
-        },
-        {
-          id: "hs6",
-          text: "I see my prayer life as central to my disciple-making efforts.",
-          type: "agreement"
         }
       ]
     },
@@ -305,11 +205,6 @@ const ASSESSMENT_QUESTIONS = {
       description: "Do you actually want this?",
       color: "#f4a261",
       questions: [
-        {
-          id: "h1",
-          text: "I regularly ask God to use me.",
-          type: "agreement"
-        },
         {
           id: "h2",
           text: "I want to see people follow Jesus more than I want to stay comfortable.",
@@ -328,11 +223,6 @@ const ASSESSMENT_QUESTIONS = {
         {
           id: "h5",
           text: "I actively look for opportunities to obey what I'm learning.",
-          type: "agreement"
-        },
-        {
-          id: "h6",
-          text: "I'm more excited about someone taking a step toward Jesus than my own comfort.",
           type: "agreement"
         }
       ]
