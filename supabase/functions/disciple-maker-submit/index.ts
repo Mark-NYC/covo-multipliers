@@ -127,15 +127,16 @@ function identifyPathway(scores: Record<string, number>): string {
 
 function diagnoseBottleneck(scores: Record<string, number>, pathway: string): string {
   if (pathway === "explorer") {
-    return "Needs confidence to take first steps";
+    return "Moving from inspiration to first steps";
   }
   if (pathway === "practitioner") {
     return "Building weekly rhythms and consistency";
   }
   if (pathway === "multiplier") {
-    return "Developing and multiplying leaders";
+    return "Deepening disciple multiplication";
   }
-  return "Scaling movement impact";
+  // catalyst pathway (beginner, just starting)
+  return "Taking your first faithful step";
 }
 
 async function sendResultsEmail({
