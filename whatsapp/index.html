@@ -650,7 +650,7 @@
             <div class="hero-cta-row">
                 <a
                     class="btn-whatsapp"
-                    href="https://chat.whatsapp.com/HBFSp1fsSW79V3iqelxTWh?mode=gi_t"
+                    href="https://www.covomultipliers.com/join-whatsapp?utm_source=whatsapp_page&utm_medium=cta&utm_campaign=whatsapp_field_room"
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Join the Covo Multipliers WhatsApp group"
@@ -685,7 +685,7 @@
                 </div>
 
                 <div class="qr-link-row">
-                    <span class="qr-link-text" id="wa-link-text">https://chat.whatsapp.com/HBFSp1fsSW79V3iqelxTWh?mode=gi_t</span>
+                    <span class="qr-link-text" id="wa-link-text">https://www.covomultipliers.com/join-whatsapp</span>
                     <button class="btn-copy" id="btn-copy" type="button" aria-label="Copy WhatsApp link">
                         Copy Link
                     </button>
@@ -829,7 +829,8 @@
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script>
-        const WA_LINK = 'https://chat.whatsapp.com/HBFSp1fsSW79V3iqelxTWh?mode=gi_t';
+        const WA_LINK     = 'https://chat.whatsapp.com/HBFSp1fsSW79V3iqelxTWh?mode=gi_t';
+        const WA_COPY_URL = 'https://www.covomultipliers.com/join-whatsapp';
 
         try {
             new QRCode(document.getElementById('qr-code'), {
@@ -846,7 +847,7 @@
 
         document.getElementById('btn-copy').addEventListener('click', async function () {
             try {
-                await navigator.clipboard.writeText(WA_LINK);
+                await navigator.clipboard.writeText(WA_COPY_URL);
                 this.textContent = 'Copied!';
                 this.classList.add('copied');
                 setTimeout(() => {
