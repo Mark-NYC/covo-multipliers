@@ -644,6 +644,65 @@
       return "Continuing to grow through faithful obedience.";
     }
 
+    function generateCFCFeedback(analysis) {
+      const { commitment, focus, consistency } = analysis;
+      const threshold = 3.5;
+
+      const hasCommitment = commitment >= threshold;
+      const hasFocus = focus >= threshold;
+      const hasConsistency = consistency >= threshold;
+
+      // Identify strengths
+      const strengths = [];
+      if (hasCommitment) strengths.push("Clear on your mission");
+      if (hasFocus) strengths.push("Taking active steps");
+      if (hasConsistency) strengths.push("Building faithful rhythms");
+
+      // Identify gaps (what's holding back)
+      const gaps = [];
+      if (!hasCommitment) gaps.push({
+        area: "Commitment",
+        issue: "Unclear mission field",
+        description: "You haven't yet identified where God has placed you or who He's calling you to reach."
+      });
+      if (!hasFocus) gaps.push({
+        area: "Focus",
+        issue: "Not yet practicing or stuck on approach",
+        description: "You're either not taking action yet, or you're doing activities without a clear strategy."
+      });
+      if (!hasConsistency) gaps.push({
+        area: "Consistency",
+        issue: "No weekly rhythm",
+        description: "You're not building the habits and weekly practices that sustain disciple-making."
+      });
+
+      // Determine priority (what to tackle first)
+      let priority = null;
+      if (gaps.length > 0) {
+        if (!hasCommitment) {
+          priority = {
+            title: "Start with Commitment",
+            reason: "Without clarity on your mission, any action will feel scattered. Get crystal clear on who God has placed around you and what He's calling you to do.",
+            action: "Identify 5-6 people in your everyday circles (work, neighborhood, family, hobbies). This is your mission field."
+          };
+        } else if (!hasFocus) {
+          priority = {
+            title: "Build Focus Next",
+            reason: "You know your mission but aren't acting on it yet. Start with one simple practice this week.",
+            action: "Choose one person to pray for. Have one spiritual conversation. Take one action."
+          };
+        } else if (!hasConsistency) {
+          priority = {
+            title: "Establish Consistency",
+            reason: "You're taking steps but not building the rhythm that sustains it. Consistency beats intensity.",
+            action: "Set one weekly practice (e.g., pray Monday mornings, lunch conversation Friday, Scripture reading together). Repeat every week."
+          };
+        }
+      }
+
+      return { strengths, gaps, priority };
+    }
+
     function generateNextRep(analysis) {
       const { practice, rhythm, mission, coachability, practiceAvg } = analysis;
 
@@ -937,10 +996,12 @@
 
       const growthEdge = generateGrowthEdge(analysis);
       const nextRep = generateNextRep(analysis);
+      const cfcFeedback = generateCFCFeedback(analysis);
 
       // Determine identity based on CFC framework
       const identity = determineCFCIdentity(analysis);
       console.log('Determined identity:', identity);
+      console.log('CFC Feedback:', cfcFeedback);
 
       // Render greeting
       document.getElementById('result-greeting').textContent = `Hello, ${firstName}.`;
@@ -955,6 +1016,46 @@
         </div>
       `;
       document.getElementById('identity-section').innerHTML = identityHtml;
+
+      // Render CFC Feedback section
+      let cfcFeedbackHtml = `
+        <div style="background: linear-gradient(135deg, rgba(27, 77, 62, 0.04), rgba(212, 175, 55, 0.02)); border-radius: 12px; padding: 28px; margin-bottom: 28px;">
+          <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 18px; color: #1a1a1a; font-weight: 700;">Your CFC Profile</h3>
+
+          ${cfcFeedback.strengths.length > 0 ? `
+            <div style="margin-bottom: 24px;">
+              <p style="margin: 0 0 12px; font-size: 14px; font-weight: 600; color: #1b4d3e; text-transform: uppercase; letter-spacing: 0.5px;">What's Strong</p>
+              <div style="display: flex; flex-direction: column; gap: 8px;">
+                ${cfcFeedback.strengths.map(s => `<p style="margin: 0; font-size: 14px; color: #555;">✓ ${s}</p>`).join('')}
+              </div>
+            </div>
+          ` : ''}
+
+          ${cfcFeedback.gaps.length > 0 ? `
+            <div style="margin-bottom: 24px;">
+              <p style="margin: 0 0 12px; font-size: 14px; font-weight: 600; color: #d4af37; text-transform: uppercase; letter-spacing: 0.5px;">What's Holding You Back</p>
+              <div style="display: flex; flex-direction: column; gap: 12px;">
+                ${cfcFeedback.gaps.map(gap => `
+                  <div style="background: white; border-left: 4px solid #d4af37; padding: 12px 16px; border-radius: 6px;">
+                    <p style="margin: 0 0 4px; font-size: 14px; font-weight: 600; color: #1b4d3e;">${gap.area}: ${gap.issue}</p>
+                    <p style="margin: 0; font-size: 13px; color: #666; line-height: 1.5;">${gap.description}</p>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          ` : ''}
+
+          ${cfcFeedback.priority ? `
+            <div style="background: linear-gradient(135deg, #1b4d3e 0%, #2d6a4f 100%); border-radius: 8px; padding: 18px; color: white;">
+              <p style="margin: 0 0 8px; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.9;">Priority</p>
+              <p style="margin: 0 0 12px; font-size: 15px; font-weight: 700; color: #d4af37;">${cfcFeedback.priority.title}</p>
+              <p style="margin: 0 0 12px; font-size: 14px; line-height: 1.6; color: rgba(255, 255, 255, 0.95);">${cfcFeedback.priority.reason}</p>
+              <p style="margin: 0; font-size: 14px; font-weight: 600; color: #ffffff;">→ ${cfcFeedback.priority.action}</p>
+            </div>
+          ` : ''}
+        </div>
+      `;
+      document.getElementById('dimension-summary').insertAdjacentHTML('beforebegin', cfcFeedbackHtml);
 
       // Render radar chart
       renderRadarChart(scores);
