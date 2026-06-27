@@ -206,31 +206,27 @@ async function sendResultsEmail({
                 <span style="color:#555;">${escapeHtml(bottleneck)}</span>
               </p>
 
-              <!-- View Results Button -->
-              <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="margin:0 0 32px;">
-                <tr>
-                  <td align="center">
-                    <a href="${resultsUrl}" style="display:inline-block;background:linear-gradient(135deg,#1b4d3e,#0d3d2f);color:#ffffff;padding:16px 48px;border-radius:8px;text-decoration:none;font-weight:600;font-size:15px;">
-                      View Your Full Results
-                    </a>
-                  </td>
-                </tr>
-              </table>
-
               <p style="margin:0 0 20px;font-size:15px;color:#444444;line-height:1.7;">
                 Growth doesn't happen alone. Join the WhatsApp community where we practice together, celebrate stories, and take the next step together.
               </p>
 
-              <!-- WhatsApp CTA -->
-              <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="margin:0 0 32px;">
+              <!-- WhatsApp CTA (Prominent Button) -->
+              <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="margin:0 0 28px;">
                 <tr>
                   <td align="center">
-                    <a href="${whatsappUrl}" style="display:inline-block;background:#25D366;color:#ffffff;padding:14px 44px;border-radius:8px;text-decoration:none;font-weight:600;font-size:15px;">
+                    <a href="${whatsappUrl}" style="display:inline-block;background:#25D366;color:#ffffff;padding:16px 48px;border-radius:8px;text-decoration:none;font-weight:700;font-size:16px;">
                       Join the WhatsApp Community
                     </a>
                   </td>
                 </tr>
               </table>
+
+              <!-- View Results Link -->
+              <p style="margin:0 0 32px;text-align:center;font-size:15px;">
+                <a href="${resultsUrl}" style="color:#1b4d3e;text-decoration:none;font-weight:600;">
+                  View your full results →
+                </a>
+              </p>
 
               <!-- Signature -->
               <hr style="border:none;border-top:1px solid #e5e7eb;margin:28px 0;" />

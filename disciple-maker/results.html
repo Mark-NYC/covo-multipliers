@@ -737,6 +737,43 @@
       }
     }
 
+    function mapPathwayToIdentity(pathway, observations, analysis) {
+      // Map backend pathway to frontend identity
+      const pathwayMap = {
+        multiplier: {
+          type: 'Multiplying Influence',
+          image: '/image/discipleicons/multiplying-influence.webp',
+          subtitle: 'Apprenticed and Multiplying',
+          meaning: 'You see the calling and help others follow it.'
+        },
+        practitioner: {
+          type: 'Faithful Practitioner',
+          image: '/image/discipleicons/Faithful-Practitioner.webp',
+          subtitle: 'Living It Out',
+          meaning: 'You live out your faith through faithful obedience.'
+        },
+        explorer: {
+          type: 'Vision-Centered',
+          image: '/image/discipleicons/Vision-Centered.webp',
+          subtitle: 'Ready to Take the First Step',
+          meaning: 'You have clarity about the calling. Now it\'s time to step in.'
+        },
+        catalyst: {
+          type: 'Awakening Disciple',
+          image: '/image/discipleicons/Awakening-Disciple.webp',
+          subtitle: 'Just Beginning',
+          meaning: 'You\'re ready to take your first step. The journey is just beginning.'
+        }
+      };
+
+      return pathwayMap[pathway] || {
+        type: 'Growing Disciple',
+        image: '/image/discipleicons/Awakening-Disciple.webp',
+        subtitle: 'On Your Journey',
+        meaning: 'You\'re growing in your faith and faithful obedience.'
+      };
+    }
+
     function determineIdentity(observations, analysis) {
       const { practice, mission, coachability, vision } = analysis;
 
@@ -836,7 +873,9 @@
 
       const growthEdge = generateGrowthEdge(analysis);
       const nextRep = generateNextRep(analysis);
-      const identity = determineIdentity(observations, analysis);
+
+      // Use backend pathway as the source of truth
+      const identity = mapPathwayToIdentity(data.pathway || 'catalyst', observations, analysis);
       console.log('Determined identity:', identity);
 
       // Render greeting
