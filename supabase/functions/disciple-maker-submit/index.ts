@@ -145,12 +145,14 @@ async function sendResultsEmail({
   pathway,
   bottleneck,
   resultsToken,
+  scores,
 }: {
   to: string;
   toName: string;
   pathway: string;
   bottleneck: string;
   resultsToken: string;
+  scores: Record<string, number>;
 }): Promise<boolean> {
   const apiKey = Deno.env.get("RESEND_API_KEY");
   const from = Deno.env.get("RESEND_FROM_EMAIL") ?? "results@covomultipliers.com";
@@ -161,7 +163,6 @@ async function sendResultsEmail({
   }
 
   // Map pathway to CFC-based identity name
-  // (These map to the frontend identity types based on CFC framework)
   const pathwayNameMap: Record<string, string> = {
     multiplier: "Multiplying Influence",
     practitioner: "Faithful Practitioner",
@@ -169,6 +170,43 @@ async function sendResultsEmail({
     catalyst: "Awakening Disciple",
   };
   const identityName = pathwayNameMap[pathway] || "Awakening Disciple";
+
+  // Calculate CFC scores
+  const commitment = ((scores.vision ?? 0) + (scores.everyday_mission ?? 0)) / 2;
+  const focus = ((scores.practice ?? 0) + (scores.coachability ?? 0)) / 2;
+  const consistency = scores.rhythm ?? 0;
+  const threshold = 3.5;
+
+  // Generate CFC-based priority
+  let priorityHtml = "";
+  if (commitment < threshold) {
+    priorityHtml = `
+      <tr>
+        <td style="padding: 16px; background: #f0fdf9; border-left: 4px solid #1b4d3e;">
+          <p style="margin: 0 0 8px; font-size: 13px; font-weight: 700; color: #1b4d3e;">🎯 Start Here: Build Commitment</p>
+          <p style="margin: 0; font-size: 13px; color: #555; line-height: 1.5;">Identify 5-6 people in your everyday circles (work, neighborhood, family). Who has God placed around you?</p>
+        </td>
+      </tr>
+    `;
+  } else if (focus < threshold) {
+    priorityHtml = `
+      <tr>
+        <td style="padding: 16px; background: #f0fdf9; border-left: 4px solid #1b4d3e;">
+          <p style="margin: 0 0 8px; font-size: 13px; font-weight: 700; color: #1b4d3e;">🎯 Start Here: Build Focus</p>
+          <p style="margin: 0; font-size: 13px; color: #555; line-height: 1.5;">You know your mission. Now take one step: pray for someone, have a spiritual conversation, or pray Scripture with them.</p>
+        </td>
+      </tr>
+    `;
+  } else if (consistency < threshold) {
+    priorityHtml = `
+      <tr>
+        <td style="padding: 16px; background: #f0fdf9; border-left: 4px solid #1b4d3e;">
+          <p style="margin: 0 0 8px; font-size: 13px; font-weight: 700; color: #1b4d3e;">🎯 Start Here: Build Consistency</p>
+          <p style="margin: 0; font-size: 13px; color: #555; line-height: 1.5;">You're taking steps. Now build the rhythm. Choose one weekly practice (pray Mondays, lunch Fridays, Scripture together). Repeat every week.</p>
+        </td>
+      </tr>
+    `;
+  }
 
   const resultsUrl = `https://www.covomultipliers.com/disciple-maker/results.html?r=${resultsToken}`;
   const whatsappUrl = "https://chat.whatsapp.com/HBFSp1fsSW79V3iqelxTWh?mode=gi_t?utm_source=discipleshipassessment&utm_medium=whatsapp";
@@ -216,6 +254,10 @@ async function sendResultsEmail({
                 <strong>Your Focus Area:</strong><br />
                 <span style="color:#555;">${escapeHtml(bottleneck)}</span>
               </p>
+
+              <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="margin:0 0 28px;">
+                ${priorityHtml}
+              </table>
 
               <p style="margin:0 0 20px;font-size:15px;color:#444444;line-height:1.7;">
                 Growth doesn't happen alone. Join the WhatsApp community where we practice together, celebrate stories, and take the next step together.
@@ -410,6 +452,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
     pathway,
     bottleneck,
     resultsToken,
+    scores,
   });
 
   if (emailSent) {
