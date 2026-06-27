@@ -209,7 +209,7 @@ async function sendResultsEmail({
   }
 
   const resultsUrl = `https://www.covomultipliers.com/disciple-maker/results.html?r=${resultsToken}`;
-  const whatsappUrl = "https://chat.whatsapp.com/HBFSp1fsSW79V3iqelxTWh?mode=gi_t?utm_source=discipleshipassessment&utm_medium=whatsapp";
+  const whatsappUrl = "https://www.covomultipliers.com/join-whatsapp?utm_source=disciple_maker_results_email&utm_medium=email&utm_campaign=whatsapp_field_room";
 
   const html = `<!DOCTYPE html>
 <html lang="en">
@@ -268,7 +268,7 @@ async function sendResultsEmail({
                 <tr>
                   <td align="center">
                     <a href="${whatsappUrl}" style="display:inline-block;background:#25D366;color:#ffffff;padding:16px 48px;border-radius:8px;text-decoration:none;font-weight:700;font-size:16px;">
-                      Join the WhatsApp Community
+                      Join the WhatsApp Field Room
                     </a>
                   </td>
                 </tr>

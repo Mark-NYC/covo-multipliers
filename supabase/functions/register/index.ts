@@ -466,7 +466,15 @@ async function sendEmail({
 
               ${ctaSection}
 
-              <p style="margin:0;font-size:15px;color:#555555;">
+              <!-- WhatsApp Field Room secondary CTA -->
+              <div style="margin:28px 0 0;padding:16px 20px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;text-align:center;">
+                <p style="margin:0 0 4px;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#15803d;">WhatsApp Field Room</p>
+                <p style="margin:0 0 10px;font-size:14px;color:#374151;line-height:1.55;">Want to start practicing before the lab? Join the WhatsApp Field Room for prompts, reminders, and next steps with other disciple makers.</p>
+                <a href="https://www.covomultipliers.com/join-whatsapp?utm_source=lab_confirmation_email&utm_medium=email&utm_campaign=whatsapp_field_room"
+                   style="font-size:14px;font-weight:600;color:#15803d;text-decoration:underline;">Join the WhatsApp Field Room →</a>
+              </div>
+
+              <p style="margin:28px 0 0;font-size:15px;color:#555555;">
                 Looking forward to seeing you there.
               </p>
 
