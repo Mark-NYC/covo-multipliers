@@ -679,23 +679,9 @@ img {
 .labs-title {
     font-size: clamp(1.9rem, 3.5vw, 2.6rem);
     font-weight: 900;
-    text-align: left;
+    text-align: center;
     margin-bottom: 0.75rem;
     color: #ffffff;
-}
-
-.labs-header {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-    align-items: center;
-    margin-bottom: 2.5rem;
-}
-
-.labs-header-copy {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
 }
 
 .zoom-photo-frame {
@@ -1118,9 +1104,6 @@ img {
         grid-template-columns: 1fr;
     }
 
-    .labs-header {
-        grid-template-columns: 1fr;
-    }
 
     .logo-wordmark {
         font-size: clamp(2.2rem, 8vw, 3.3rem);
