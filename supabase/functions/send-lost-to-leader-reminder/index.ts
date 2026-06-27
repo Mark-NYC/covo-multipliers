@@ -316,7 +316,7 @@ Come ready to think about real people, not theory.
 See you tomorrow,
 Mark
 
-P.S. Not in the WhatsApp Field Room yet? Join before the lab and practice with other disciple makers: https://www.covomultipliers.com/join-whatsapp?utm_source=lab_reminder_email&utm_medium=email&utm_campaign=whatsapp_field_room`;
+P.S. Not in the WhatsApp Field Room yet? Join before the lab and practice with other disciple makers: https://www.covomultipliers.com/join-whatsapp?utm_source=lab_reminder_email&utm_medium=email&utm_campaign=whatsapp_field_room&utm_content=24h_reminder`;
   }
 
   return `Hey ${firstName},
