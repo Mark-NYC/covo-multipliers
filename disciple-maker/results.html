@@ -991,10 +991,6 @@
       const analysis = analyzeScores(scores);
       console.log('Analyzed scores:', analysis);
 
-      const observations = generateObservations(analysis);
-      console.log('Generated observations:', observations);
-
-      const growthEdge = generateGrowthEdge(analysis);
       const nextRep = generateNextRep(analysis);
       const cfcFeedback = generateCFCFeedback(analysis);
 
@@ -1057,31 +1053,8 @@
       `;
       document.getElementById('dimension-summary').insertAdjacentHTML('beforebegin', cfcFeedbackHtml);
 
-      // Render radar chart
-      renderRadarChart(scores);
-
-      // Render dimension summary
-      renderDimensionSummary(scores);
-
-      // Render observations with icons (hide section if no observations)
-      const observationsHtml = observations
-        .map(obs => `
-          <div class="observation-item">
-            <div class="observation-icon">${getObservationIcon(obs)}</div>
-            <div class="observation-text">${obs}</div>
-          </div>
-        `)
-        .join('');
-
-      if (observations.length === 0) {
-        document.getElementById('observations-card').style.display = 'none';
-      } else {
-        document.getElementById('observations-section').innerHTML = observationsHtml;
-      }
-
-      // Render growth edge
-      document.getElementById('growth-edge-section').innerHTML =
-        `<div class="growth-edge-box"><div class="growth-edge-item">• ${growthEdge}</div></div>`;
+      // Render CFC bars chart
+      renderCFCBars(analysis);
 
       // Render next rep with oikos map illustration if applicable
       let oikosMapHtml = '';
@@ -1166,65 +1139,49 @@
       showView('results');
     }
 
-    function renderRadarChart(scores) {
-      const ctx = document.getElementById('radarChart').getContext('2d');
+    function renderCFCBars(analysis) {
+      const { commitment, focus, consistency } = analysis;
 
-      // Calculate CFC from original dimensions
-      const commitment = ((scores.vision || 0) + (scores.everyday_mission || 0)) / 2;
-      const focus = ((scores.practice || 0) + (scores.coachability || 0)) / 2;
-      const consistency = scores.rhythm || 0;
+      const cfcBarsHtml = `
+        <div style="margin-bottom: 28px;">
+          <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 16px; color: #1a1a1a; font-weight: 700;">Your CFC Scores</h3>
 
-      const dimensionLabels = [
-        "Commitment",
-        "Focus",
-        "Consistency"
-      ];
+          <div style="display: flex; flex-direction: column; gap: 18px;">
+            <div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                <span style="font-size: 14px; font-weight: 600; color: #1b4d3e;">Commitment</span>
+                <span style="font-size: 14px; font-weight: 600; color: #1b4d3e;">${commitment.toFixed(1)}/5</span>
+              </div>
+              <div style="background: #e5e7eb; height: 10px; border-radius: 6px; overflow: hidden;">
+                <div style="background: linear-gradient(90deg, #1b4d3e, #2d6a4f); height: 100%; width: ${(commitment/5)*100}%; border-radius: 6px;"></div>
+              </div>
+            </div>
 
-      const data = [commitment, focus, consistency];
+            <div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                <span style="font-size: 14px; font-weight: 600; color: #1b4d3e;">Focus</span>
+                <span style="font-size: 14px; font-weight: 600; color: #1b4d3e;">${focus.toFixed(1)}/5</span>
+              </div>
+              <div style="background: #e5e7eb; height: 10px; border-radius: 6px; overflow: hidden;">
+                <div style="background: linear-gradient(90deg, #1b4d3e, #2d6a4f); height: 100%; width: ${(focus/5)*100}%; border-radius: 6px;"></div>
+              </div>
+            </div>
 
-      if (radarChart) radarChart.destroy();
+            <div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                <span style="font-size: 14px; font-weight: 600; color: #1b4d3e;">Consistency</span>
+                <span style="font-size: 14px; font-weight: 600; color: #1b4d3e;">${consistency.toFixed(1)}/5</span>
+              </div>
+              <div style="background: #e5e7eb; height: 10px; border-radius: 6px; overflow: hidden;">
+                <div style="background: linear-gradient(90deg, #1b4d3e, #2d6a4f); height: 100%; width: ${(consistency/5)*100}%; border-radius: 6px;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
 
-      radarChart = new Chart(ctx, {
-        type: 'radar',
-        data: {
-          labels: dimensionLabels,
-          datasets: [{
-            label: 'Your Journey',
-            data: data,
-            borderColor: '#1b4d3e',
-            backgroundColor: 'rgba(27, 77, 62, 0.15)',
-            borderWidth: 2,
-            pointBackgroundColor: '#1b4d3e',
-            pointBorderColor: '#fff',
-            pointBorderWidth: 2,
-            pointRadius: 5,
-            pointHoverRadius: 6
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: true,
-          scales: {
-            r: {
-              beginAtZero: true,
-              max: 5,
-              ticks: {
-                stepSize: 1,
-                color: '#999',
-                font: { size: 11 }
-              },
-              grid: { color: 'rgba(0,0,0,0.05)' },
-              pointLabels: {
-                font: { size: 12, weight: '600' },
-                color: '#333'
-              }
-            }
-          },
-          plugins: {
-            legend: { display: false }
-          }
-        }
-      });
+      // Insert before the next rep section
+      document.getElementById('next-rep-section').insertAdjacentHTML('beforebegin', cfcBarsHtml);
     }
 
     function renderDimensionSummary(scores) {
@@ -1263,6 +1220,8 @@
 
       html += '</div>';
       document.getElementById('dimension-summary').innerHTML = html;
+      // Hide dimension summary - kept for diagnostic but not in main narrative
+      document.getElementById('dimension-summary').style.display = 'none';
     }
 
     showView('loading');
