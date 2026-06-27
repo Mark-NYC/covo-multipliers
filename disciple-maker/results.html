@@ -738,6 +738,8 @@
     }
 
     function mapPathwayToIdentity(pathway, observations, analysis) {
+      console.log('[mapPathwayToIdentity] received pathway:', pathway);
+
       // Map backend pathway to frontend identity
       const pathwayMap = {
         multiplier: {
@@ -766,7 +768,9 @@
         }
       };
 
-      return pathwayMap[pathway] || {
+      const identity = pathwayMap[pathway];
+      console.log('[mapPathwayToIdentity] mapped identity:', identity?.type);
+      return identity || {
         type: 'Growing Disciple',
         image: '/image/discipleicons/Awakening-Disciple.webp',
         subtitle: 'On Your Journey',
@@ -852,6 +856,10 @@
     function renderResults(data) {
       const firstName = data.first_name || 'Friend';
       let scores = data.dimension_scores || {};
+
+      // Debug logging for backend data
+      console.log('Full backend data received:', data);
+      console.log('Backend pathway:', data.pathway);
 
       // Map old backend dimension names to new ones (temporary workaround)
       if (scores.obedience !== undefined && scores.practice === undefined) {
