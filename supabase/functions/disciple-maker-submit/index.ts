@@ -159,6 +159,15 @@ async function sendResultsEmail({
     return false;
   }
 
+  // Map pathway to friendly identity name
+  const pathwayNameMap: Record<string, string> = {
+    multiplier: "Multiplying Influence",
+    practitioner: "Faithful Practitioner",
+    explorer: "Vision-Centered",
+    catalyst: "Awakening Disciple",
+  };
+  const identityName = pathwayNameMap[pathway] || "Growing Disciple";
+
   const resultsUrl = `https://www.covomultipliers.com/disciple-maker/results.html?r=${resultsToken}`;
   const whatsappUrl = "https://chat.whatsapp.com/HBFSp1fsSW79V3iqelxTWh?mode=gi_t?utm_source=discipleshipassessment&utm_medium=whatsapp";
 
@@ -198,7 +207,7 @@ async function sendResultsEmail({
 
               <p style="margin:0 0 24px;font-size:15px;color:#444444;line-height:1.7;">
                 <strong>Your Assessment Identified:</strong><br />
-                <span style="font-size:18px;color:#1b4d3e;font-weight:700;">${escapeHtml(pathway)}</span>
+                <span style="font-size:18px;color:#1b4d3e;font-weight:700;">${escapeHtml(identityName)}</span>
               </p>
 
               <p style="margin:0 0 28px;font-size:15px;color:#444444;line-height:1.7;">
