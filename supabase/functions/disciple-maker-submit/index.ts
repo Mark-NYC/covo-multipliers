@@ -138,6 +138,156 @@ function diagnoseBottleneck(scores: Record<string, number>, pathway: string): st
   return "Scaling movement impact";
 }
 
+async function sendResultsEmail({
+  to,
+  toName,
+  pathway,
+  bottleneck,
+  resultsToken,
+}: {
+  to: string;
+  toName: string;
+  pathway: string;
+  bottleneck: string;
+  resultsToken: string;
+}): Promise<boolean> {
+  const apiKey = Deno.env.get("RESEND_API_KEY");
+  const from = Deno.env.get("RESEND_FROM_EMAIL") ?? "results@covomultipliers.com";
+
+  if (!apiKey) {
+    console.warn("[disciple-maker-submit] RESEND_API_KEY not set — skipping email");
+    return false;
+  }
+
+  const resultsUrl = `https://www.covomultipliers.com/disciple-maker/results.html?r=${resultsToken}`;
+  const whatsappUrl = "https://chat.whatsapp.com/HBFSp1fsSW79V3iqelxTWh?mode=gi_t?utm_source=discipleshipassessment&utm_medium=whatsapp";
+
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+</head>
+<body style="margin:0;padding:0;background:#f4f4f5;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="padding:40px 16px;">
+    <tr>
+      <td align="center">
+        <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="max-width:580px;">
+
+          <!-- Header -->
+          <tr>
+            <td style="background:linear-gradient(135deg,#1b4d3e 0%,#2d6a4f 50%,#d4af37 100%);padding:40px 32px;border-radius:12px 12px 0 0;text-align:center;">
+              <p style="margin:0 0 12px;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.75);">
+                Disciple Maker Assessment
+              </p>
+              <h1 style="margin:0;font-size:28px;font-weight:900;color:#ffffff;line-height:1.2;">
+                Your Results Are Ready
+              </h1>
+            </td>
+          </tr>
+
+          <!-- Body -->
+          <tr>
+            <td style="background:#ffffff;padding:40px 32px;border:1px solid #e5e7eb;border-top:none;">
+
+              <p style="margin:0 0 24px;font-size:16px;color:#1a1a1a;font-weight:600;">Hey ${escapeHtml(toName)},</p>
+
+              <p style="margin:0 0 24px;font-size:15px;color:#444444;line-height:1.7;">
+                You just completed the Disciple Maker Assessment. Your personal snapshot is ready to view.
+              </p>
+
+              <p style="margin:0 0 24px;font-size:15px;color:#444444;line-height:1.7;">
+                <strong>Your Assessment Identified:</strong><br />
+                <span style="font-size:18px;color:#1b4d3e;font-weight:700;">${escapeHtml(pathway)}</span>
+              </p>
+
+              <p style="margin:0 0 28px;font-size:15px;color:#444444;line-height:1.7;">
+                <strong>Your Focus Area:</strong><br />
+                <span style="color:#555;">${escapeHtml(bottleneck)}</span>
+              </p>
+
+              <!-- View Results Button -->
+              <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="margin:0 0 32px;">
+                <tr>
+                  <td align="center">
+                    <a href="${resultsUrl}" style="display:inline-block;background:linear-gradient(135deg,#1b4d3e,#0d3d2f);color:#ffffff;padding:16px 48px;border-radius:8px;text-decoration:none;font-weight:600;font-size:15px;">
+                      View Your Full Results
+                    </a>
+                  </td>
+                </tr>
+              </table>
+
+              <p style="margin:0 0 20px;font-size:15px;color:#444444;line-height:1.7;">
+                Growth doesn't happen alone. Join the WhatsApp community where we practice together, celebrate stories, and take the next step together.
+              </p>
+
+              <!-- WhatsApp CTA -->
+              <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="margin:0 0 32px;">
+                <tr>
+                  <td align="center">
+                    <a href="${whatsappUrl}" style="display:inline-block;background:#25D366;color:#ffffff;padding:14px 44px;border-radius:8px;text-decoration:none;font-weight:600;font-size:15px;">
+                      Join the WhatsApp Community
+                    </a>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Signature -->
+              <hr style="border:none;border-top:1px solid #e5e7eb;margin:28px 0;" />
+              <p style="margin:0;font-size:13px;color:#999999;line-height:1.6;">
+                — The Covo Multipliers Team<br />
+                <a href="https://www.covomultipliers.com" style="color:#1b4d3e;text-decoration:none;font-weight:600;">covomultipliers.com</a>
+              </p>
+
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`;
+
+  try {
+    const res = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from: `Covo Multipliers <${from}>`,
+        to: [to],
+        subject: "Your Disciple Maker Assessment Results",
+        html,
+      }),
+    });
+
+    const resBody = await res.json().catch(() => ({}));
+
+    if (!res.ok) {
+      console.error(`[disciple-maker-submit] Resend API error status=${res.status}:`, JSON.stringify(resBody));
+      return false;
+    }
+
+    console.log(`[disciple-maker-submit] Resend accepted email`);
+    return true;
+  } catch (err) {
+    console.error("[disciple-maker-submit] fetch to Resend threw an exception:", err);
+    return false;
+  }
+}
+
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#x27;");
+}
+
 Deno.serve(async (req: Request): Promise<Response> => {
   const cors = corsHeaders(req);
 
@@ -166,7 +316,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
   // Validate session
   const { data: session, error: sessionErr } = await supabase
     .from("disciple_maker_sessions")
-    .select("id, session_token_hash")
+    .select("id, email, first_name, session_token_hash")
     .eq("id", session_id)
     .single();
 
@@ -245,6 +395,21 @@ Deno.serve(async (req: Request): Promise<Response> => {
   }
 
   console.log(`[disciple-maker-submit] session ${session_id} completed as ${pathway}`);
+
+  // Send results email (non-fatal — session is already saved)
+  const emailSent = await sendResultsEmail({
+    to: session.email,
+    toName: session.first_name,
+    pathway,
+    bottleneck,
+    resultsToken,
+  });
+
+  if (emailSent) {
+    console.log(`[disciple-maker-submit] results email sent for ${session_id}`);
+  } else {
+    console.warn(`[disciple-maker-submit] results email failed for ${session_id} — but assessment is saved`);
+  }
 
   return json(200, { results_token: resultsToken }, cors);
 });
