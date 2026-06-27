@@ -684,6 +684,28 @@ img {
     color: #ffffff;
 }
 
+.zoom-photo-frame {
+    margin: 1.75rem auto 2.5rem;
+    max-width: 720px;
+    border: 2px solid rgba(255, 255, 255, 0.18);
+    border-radius: 12px;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.25);
+}
+
+.zoom-photo-frame img {
+    display: block;
+    width: 100%;
+}
+
+.zoom-photo-frame figcaption {
+    padding: 0.65rem 1rem;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.70);
+    text-align: center;
+    font-style: italic;
+}
+
 .labs-tagline {
     font-size: 1.08rem;
     text-align: center;
