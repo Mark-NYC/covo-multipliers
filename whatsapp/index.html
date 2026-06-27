@@ -685,7 +685,7 @@
                 </div>
 
                 <div class="qr-link-row">
-                    <span class="qr-link-text" id="wa-link-text">https://www.covomultipliers.com/join-whatsapp</span>
+                    <span class="qr-link-text" id="wa-link-text">covomultipliers.com/join-whatsapp</span>
                     <button class="btn-copy" id="btn-copy" type="button" aria-label="Copy WhatsApp link">
                         Copy Link
                     </button>
@@ -829,12 +829,12 @@
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script>
-        const WA_LINK     = 'https://chat.whatsapp.com/HBFSp1fsSW79V3iqelxTWh?mode=gi_t';
-        const WA_COPY_URL = 'https://www.covomultipliers.com/join-whatsapp';
+        const WA_QR_URL   = 'https://www.covomultipliers.com/join-whatsapp?utm_source=whatsapp_page&utm_medium=qr&utm_campaign=whatsapp_field_room';
+        const WA_COPY_URL = 'https://www.covomultipliers.com/join-whatsapp?utm_source=whatsapp_page&utm_medium=share&utm_campaign=whatsapp_field_room';
 
         try {
             new QRCode(document.getElementById('qr-code'), {
-                text:         WA_LINK,
+                text:         WA_QR_URL,
                 width:        156,
                 height:       156,
                 colorDark:    '#10281f',
@@ -842,7 +842,7 @@
                 correctLevel: QRCode.CorrectLevel.M,
             });
         } catch (e) {
-            document.getElementById('qr-code').textContent = WA_LINK;
+            document.getElementById('qr-code').textContent = WA_QR_URL;
         }
 
         document.getElementById('btn-copy').addEventListener('click', async function () {
