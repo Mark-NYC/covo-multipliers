@@ -160,14 +160,15 @@ async function sendResultsEmail({
     return false;
   }
 
-  // Map pathway to friendly identity name
+  // Map pathway to CFC-based identity name
+  // (These map to the frontend identity types based on CFC framework)
   const pathwayNameMap: Record<string, string> = {
     multiplier: "Multiplying Influence",
     practitioner: "Faithful Practitioner",
     explorer: "Vision-Centered",
     catalyst: "Awakening Disciple",
   };
-  const identityName = pathwayNameMap[pathway] || "Growing Disciple";
+  const identityName = pathwayNameMap[pathway] || "Awakening Disciple";
 
   const resultsUrl = `https://www.covomultipliers.com/disciple-maker/results.html?r=${resultsToken}`;
   const whatsappUrl = "https://chat.whatsapp.com/HBFSp1fsSW79V3iqelxTWh?mode=gi_t?utm_source=discipleshipassessment&utm_medium=whatsapp";
