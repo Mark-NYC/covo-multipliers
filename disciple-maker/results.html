@@ -554,15 +554,17 @@
     // Conservative, beginner-focused, only make claims we can support
 
     function analyzeScores(scores) {
-      // Weight the dimensions appropriately
-      // Practice, Rhythm, Mission are primary drivers
-      // Coachability, Vision are secondary
-
+      // Original 5 dimensions
       const practice = scores.practice || 0;
       const rhythm = scores.rhythm || 0;
       const mission = scores.everyday_mission || 0;
       const coachability = scores.coachability || 0;
       const vision = scores.vision || 0;
+
+      // CFC Framework (calculated from 5 dimensions)
+      const commitment = (vision + mission) / 2;  // Do you have a clear mission?
+      const focus = (practice + coachability) / 2; // Are you actively pursuing & refining?
+      const consistency = rhythm;                  // Are you faithful week-to-week?
 
       return {
         practice,
@@ -570,6 +572,11 @@
         mission,
         coachability,
         vision,
+        // CFC scores
+        commitment,
+        focus,
+        consistency,
+        // Legacy
         practiceAvg: (practice + rhythm + mission) / 3,
         allScores: scores
       };
@@ -737,44 +744,93 @@
       }
     }
 
-    function mapPathwayToIdentity(pathway, observations, analysis) {
-      console.log('[mapPathwayToIdentity] received pathway:', pathway);
+    function determineCFCIdentity(analysis) {
+      const { commitment, focus, consistency } = analysis;
+      const threshold = 3.5;
 
-      // Map backend pathway to frontend identity
-      const pathwayMap = {
-        multiplier: {
+      const hasCommitment = commitment >= threshold;
+      const hasFocus = focus >= threshold;
+      const hasConsistency = consistency >= threshold;
+
+      console.log('[determineCFCIdentity] CFC scores:', { commitment, focus, consistency });
+      console.log('[determineCFCIdentity] CFC flags:', { hasCommitment, hasFocus, hasConsistency });
+
+      // All three (Commitment + Focus + Consistency)
+      if (hasCommitment && hasFocus && hasConsistency) {
+        return {
           type: 'Multiplying Influence',
           image: '/image/discipleicons/multiplying-influence.webp',
           subtitle: 'Apprenticed and Multiplying',
-          meaning: 'You see the calling and help others follow it.'
-        },
-        practitioner: {
-          type: 'Faithful Practitioner',
-          image: '/image/discipleicons/Faithful-Practitioner.webp',
-          subtitle: 'Living It Out',
-          meaning: 'You live out your faith through faithful obedience.'
-        },
-        explorer: {
+          meaning: 'You see the calling, take bold action, and stay faithful.'
+        };
+      }
+
+      // Commitment + Consistency (but not Focus)
+      if (hasCommitment && hasConsistency && !hasFocus) {
+        return {
+          type: 'Rooted Multiplier',
+          image: '/image/discipleicons/rooted-multiplier.webp',
+          subtitle: 'Making Disciples Where You Are',
+          meaning: 'You know your calling and show up faithfully, even if the approach is still forming.'
+        };
+      }
+
+      // Commitment + Focus (but not Consistency)
+      if (hasCommitment && hasFocus && !hasConsistency) {
+        return {
           type: 'Vision-Centered',
           image: '/image/discipleicons/Vision-Centered.webp',
           subtitle: 'Ready to Take the First Step',
-          meaning: 'You have clarity about the calling. Now it\'s time to step in.'
-        },
-        catalyst: {
-          type: 'Awakening Disciple',
-          image: '/image/discipleicons/Awakening-Disciple.webp',
-          subtitle: 'Just Beginning',
-          meaning: 'You\'re ready to take your first step. The journey is just beginning.'
-        }
-      };
+          meaning: 'You have clarity and intention. Now build the weekly rhythm to sustain it.'
+        };
+      }
 
-      const identity = pathwayMap[pathway];
-      console.log('[mapPathwayToIdentity] mapped identity:', identity?.type);
-      return identity || {
-        type: 'Growing Disciple',
+      // Focus + Consistency (but not Commitment)
+      if (hasFocus && hasConsistency && !hasCommitment) {
+        return {
+          type: 'Faithful Practitioner',
+          image: '/image/discipleicons/Faithful-Practitioner.webp',
+          subtitle: 'Living It Out',
+          meaning: 'You execute well and stay consistent. Clarify your mission to multiply impact.'
+        };
+      }
+
+      // Commitment only
+      if (hasCommitment && !hasFocus && !hasConsistency) {
+        return {
+          type: 'Inspired but Waiting',
+          image: '/image/discipleicons/Vision-Centered.webp',
+          subtitle: 'Ready to Begin',
+          meaning: 'You know where God has called you. Take your first step and build the rhythm.'
+        };
+      }
+
+      // Focus only
+      if (hasFocus && !hasCommitment && !hasConsistency) {
+        return {
+          type: 'Strategist without Calling',
+          image: '/image/discipleicons/Faithful-Practitioner.webp',
+          subtitle: 'Activity without Purpose',
+          meaning: 'You move purposefully but need clarity on your mission field.'
+        };
+      }
+
+      // Consistency only
+      if (hasConsistency && !hasCommitment && !hasFocus) {
+        return {
+          type: 'Disciplined but Drifting',
+          image: '/image/discipleicons/Community-Builder.webp',
+          subtitle: 'Rhythm without Direction',
+          meaning: 'Your faithfulness is admirable. Anchor it to a clear mission and take action.'
+        };
+      }
+
+      // None (default for beginners)
+      return {
+        type: 'Awakening Disciple',
         image: '/image/discipleicons/Awakening-Disciple.webp',
-        subtitle: 'On Your Journey',
-        meaning: 'You\'re growing in your faith and faithful obedience.'
+        subtitle: 'Just Beginning',
+        meaning: 'You\'re ready to take your first step. The journey is just beginning.'
       };
     }
 
@@ -882,8 +938,8 @@
       const growthEdge = generateGrowthEdge(analysis);
       const nextRep = generateNextRep(analysis);
 
-      // Use backend pathway as the source of truth
-      const identity = mapPathwayToIdentity(data.pathway || 'catalyst', observations, analysis);
+      // Determine identity based on CFC framework
+      const identity = determineCFCIdentity(analysis);
       console.log('Determined identity:', identity);
 
       // Render greeting
@@ -1012,23 +1068,18 @@
     function renderRadarChart(scores) {
       const ctx = document.getElementById('radarChart').getContext('2d');
 
+      // Calculate CFC from original dimensions
+      const commitment = ((scores.vision || 0) + (scores.everyday_mission || 0)) / 2;
+      const focus = ((scores.practice || 0) + (scores.coachability || 0)) / 2;
+      const consistency = scores.rhythm || 0;
+
       const dimensionLabels = [
-        "Vision",
-        "Practice",
-        "Rhythm",
-        "Coachability",
-        "Everyday Mission"
+        "Commitment",
+        "Focus",
+        "Consistency"
       ];
 
-      const dimensionKeys = [
-        "vision",
-        "practice",
-        "rhythm",
-        "coachability",
-        "everyday_mission"
-      ];
-
-      const data = dimensionKeys.map(k => scores[k] || 0);
+      const data = [commitment, focus, consistency];
 
       if (radarChart) radarChart.destroy();
 
