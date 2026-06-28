@@ -8,11 +8,11 @@
 -- pg_cron and pg_net are enabled by default on Supabase hosted projects.
 --
 -- ONE-TIME SETUP REQUIRED before running this migration:
--- Store your REMINDER_ADMIN_SECRET in the database so the cron job can read it
--- without it being committed to source control. Run this once in the Supabase
--- SQL editor (replace the value with your actual secret):
+-- Store your REMINDER_ADMIN_SECRET in Supabase Vault so the cron job can read
+-- it without it being committed to source control. Run this once in the
+-- Supabase SQL editor (replace the value with your actual secret):
 --
---   ALTER DATABASE postgres SET app.reminder_admin_secret = 'your-secret-here';
+--   SELECT vault.create_secret('your-secret-here', 'reminder_admin_secret');
 --
 -- After running that, apply this migration normally.
 -- =============================================================================
@@ -20,10 +20,13 @@
 
 -- Unschedule any previous version of this job before (re)creating it so this
 -- migration is idempotent.
-SELECT cron.unschedule('weekly-lab-report')
-WHERE EXISTS (
-  SELECT 1 FROM cron.job WHERE jobname = 'weekly-lab-report'
-);
+DO $$
+BEGIN
+  IF EXISTS (SELECT 1 FROM cron.job WHERE jobname = 'weekly-lab-report') THEN
+    PERFORM cron.unschedule('weekly-lab-report');
+  END IF;
+END;
+$$;
 
 SELECT cron.schedule(
   'weekly-lab-report',
@@ -33,7 +36,12 @@ SELECT cron.schedule(
     url     := 'https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1/weekly-report',
     headers := jsonb_build_object(
       'Content-Type',  'application/json',
-      'x-admin-secret', current_setting('app.reminder_admin_secret', true)
+      'x-admin-secret', (
+        SELECT decrypted_secret
+        FROM vault.decrypted_secrets
+        WHERE name = 'reminder_admin_secret'
+        LIMIT 1
+      )
     ),
     body    := '{}'::jsonb
   );
