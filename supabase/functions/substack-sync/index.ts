@@ -249,6 +249,12 @@ Deno.serve(async (req) => {
 
   // Verify admin secret
   const secret = req.headers.get("x-admin-secret");
+  console.log("[substack-sync] auth_diag", {
+    secret_env_set: !!ADMIN_SECRET,
+    secret_env_len: ADMIN_SECRET.length,
+    provided_len: secret?.length ?? 0,
+    match: secret === ADMIN_SECRET,
+  });
   if (secret !== ADMIN_SECRET) {
     return json(401, { error: "Unauthorized" });
   }
