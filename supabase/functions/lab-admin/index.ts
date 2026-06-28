@@ -106,7 +106,6 @@ interface SignupPatterns {
   showUpByChannel: ChannelShowUpStat[];
   newVsReturning: LabNewReturning[];
   daysToRegisterBuckets: BucketStat[];
-  cancellationBuckets: BucketStat[];
 }
 
 interface LabCurveData {
@@ -242,7 +241,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
 
     const { data: regsRaw, error: regsError } = await supabaseAdmin
       .from("registrations")
-      .select("id, name, email, event_id, registration_status, utm_source, first_utm_source, first_landing_page, created_at, cancelled_at")
+      .select("id, name, email, event_id, registration_status, utm_source, first_utm_source, first_landing_page, created_at")
       .order("created_at", { ascending: false });
 
     if (regsError) throw new Error(`registrations: ${regsError.message}`);
@@ -541,35 +540,10 @@ Deno.serve(async (req: Request): Promise<Response> => {
       else daysToRegBuckets[5].count++;
     });
 
-    // Cancellation timing: when do cancellations happen relative to the event.
-    const cancellationBuckets: BucketStat[] = [
-      { label: "30+ days before", count: 0 },
-      { label: "15–29 days", count: 0 },
-      { label: "8–14 days", count: 0 },
-      { label: "3–7 days", count: 0 },
-      { label: "1–2 days", count: 0 },
-      { label: "Same day", count: 0 },
-    ];
-    allRegsFull.forEach((r: any) => {
-      if (r.registration_status !== "cancelled" || !r.cancelled_at) return;
-      const ev = eventById.get(r.event_id);
-      if (!ev) return;
-      const daysBefore = Math.max(0, Math.round(
-        (new Date(ev.event_date).getTime() - new Date(r.cancelled_at).getTime()) / DAY_MS
-      ));
-      if (daysBefore >= 30) cancellationBuckets[0].count++;
-      else if (daysBefore >= 15) cancellationBuckets[1].count++;
-      else if (daysBefore >= 8) cancellationBuckets[2].count++;
-      else if (daysBefore >= 3) cancellationBuckets[3].count++;
-      else if (daysBefore >= 1) cancellationBuckets[4].count++;
-      else cancellationBuckets[5].count++;
-    });
-
     const signupPatterns: SignupPatterns = {
       showUpByChannel,
       newVsReturning,
       daysToRegisterBuckets: daysToRegBuckets,
-      cancellationBuckets,
     };
 
     // --- Registrants list ---
