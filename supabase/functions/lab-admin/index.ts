@@ -83,6 +83,22 @@ interface PersonSummary {
   labs_attended: number;
 }
 
+interface LabCurveData {
+  id: string;
+  title: string;
+  daysLeft: number;
+  // Index d = cumulative active signups at exactly d days before the event.
+  // Length is MAX_DAYS_WINDOW + 1 (indices 0..MAX_DAYS_WINDOW).
+  points: number[];
+}
+
+interface PaceChartData {
+  maxDaysWindow: number;
+  // averageCurve[d] = average cumulative signups across all past labs at d days before event.
+  averageCurve: number[];
+  labCurves: LabCurveData[];
+}
+
 interface DashboardData {
   summaryStats: {
     totalActiveSignups: number;
@@ -99,6 +115,7 @@ interface DashboardData {
   labSummary: LabSummary[];
   registrants: Registrant[];
   personSummary: PersonSummary[];
+  paceChart: PaceChartData;
 }
 
 function jsonResp(status: number, data: unknown, cors: Record<string, string> = {}): Response {
@@ -363,6 +380,61 @@ Deno.serve(async (req: Request): Promise<Response> => {
       };
     });
 
+    // --- Signup pace chart data ---
+    // Build cumulative signup curve for a given event. Returns an array of length
+    // MAX_DAYS_WINDOW+1 where result[d] = cumulative active signups at d days before event.
+    const MAX_DAYS_WINDOW = 60;
+    const buildCurve = (event: any): number[] => {
+      const regs = activeRegsByEvent.get(event.id) || [];
+      const eventTime = new Date(event.event_date).getTime();
+      const sorted = regs.slice().sort(
+        (a: any, b: any) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime(),
+      );
+      const result: number[] = new Array(MAX_DAYS_WINDOW + 1).fill(0);
+      let count = 0;
+      let idx = 0;
+      // Iterate d from high to low: cutoff moves forward in time, so pointer only advances.
+      for (let d = MAX_DAYS_WINDOW; d >= 0; d--) {
+        const cutoff = eventTime - d * DAY_MS;
+        while (idx < sorted.length && new Date(sorted[idx].created_at).getTime() <= cutoff) {
+          count++;
+          idx++;
+        }
+        result[d] = count;
+      }
+      return result;
+    };
+
+    // Average curve across all past labs
+    const averageCurve: number[] = new Array(MAX_DAYS_WINDOW + 1).fill(0);
+    if (pastEvents.length > 0) {
+      const pastCurves = pastEvents.map((e: any) => buildCurve(e));
+      for (let d = 0; d <= MAX_DAYS_WINDOW; d++) {
+        const sum = pastCurves.reduce((acc: number, curve: number[]) => acc + curve[d], 0);
+        averageCurve[d] = Math.round((sum / pastCurves.length) * 10) / 10;
+      }
+    }
+
+    // Per-upcoming-lab curves
+    const labCurves: LabCurveData[] = upcomingEvents.map((event: any) => {
+      const daysLeft = Math.max(
+        0,
+        Math.ceil((new Date(event.event_date).getTime() - now.getTime()) / DAY_MS),
+      );
+      return {
+        id: event.id,
+        title: event.title || event.slug,
+        daysLeft,
+        points: buildCurve(event),
+      };
+    });
+
+    const paceChart: PaceChartData = {
+      maxDaysWindow: MAX_DAYS_WINDOW,
+      averageCurve,
+      labCurves,
+    };
+
     // --- Registrants list ---
     const registrants: Registrant[] = allRegs.map((reg: any) => {
       const ev = eventById.get(reg.event_id);
@@ -433,6 +505,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
       labSummary,
       registrants,
       personSummary,
+      paceChart,
     };
 
     return jsonResp(200, dashboard, cors);
