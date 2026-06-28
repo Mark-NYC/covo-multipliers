@@ -84,6 +84,66 @@ async function fetchPostMetrics(
   }
 }
 
+async function debugShapes(publicationName: string): Promise<Response> {
+  // Fetch raw API responses and return them as-is for field inspection
+  const postsUrl = `https://${publicationName}.substack.com/api/v1/posts?limit=2`;
+  const postsRes = await fetch(postsUrl);
+  const postsRaw = await postsRes.json();
+
+  const posts = Array.isArray(postsRaw) ? postsRaw : (postsRaw.posts || []);
+  const firstPost = posts[0];
+  const postId = firstPost?.id;
+
+  let postDetailRaw: unknown = null;
+  if (postId) {
+    const detailUrl = `https://${publicationName}.substack.com/api/v1/posts/${postId}`;
+    const detailRes = await fetch(detailUrl);
+    postDetailRaw = await detailRes.json();
+  }
+
+  // Surface only the keys and their types/values — avoid giant HTML bodies
+  function shapeOf(obj: unknown, depth = 0): unknown {
+    if (depth > 2 || obj === null || typeof obj !== "object") return obj;
+    if (Array.isArray(obj)) return obj.slice(0, 2).map((v) => shapeOf(v, depth + 1));
+    const out: Record<string, unknown> = {};
+    for (const [k, v] of Object.entries(obj as Record<string, unknown>)) {
+      if (typeof v === "string" && v.length > 120) {
+        out[k] = v.slice(0, 80) + "…[truncated]";
+      } else {
+        out[k] = shapeOf(v, depth + 1);
+      }
+    }
+    return out;
+  }
+
+  return json(200, {
+    posts_endpoint_is_array: Array.isArray(postsRaw),
+    first_post_shape: shapeOf(firstPost),
+    post_detail_shape: shapeOf(postDetailRaw),
+    fields_of_interest: {
+      id: firstPost?.id,
+      title: firstPost?.title,
+      canonical_url: firstPost?.canonical_url,
+      post_url: firstPost?.post_url,
+      slug: firstPost?.slug,
+      post_date: firstPost?.post_date,
+      published_at: firstPost?.published_at,
+      reactions: (firstPost as Record<string, unknown>)?.reactions,
+      reaction_count: (firstPost as Record<string, unknown>)?.reaction_count,
+      comment_count: firstPost?.comment_count,
+      comments: (firstPost as Record<string, unknown>)?.comments,
+      // detail endpoint fields
+      detail_reactions: (postDetailRaw as Record<string, unknown>)?.reactions,
+      detail_reaction_count: (postDetailRaw as Record<string, unknown>)?.reaction_count,
+      detail_comment_count: (postDetailRaw as Record<string, unknown>)?.comment_count,
+      detail_likes: (postDetailRaw as Record<string, unknown>)?.likes,
+      detail_total_views: (postDetailRaw as Record<string, unknown>)?.total_views,
+      detail_views: (postDetailRaw as Record<string, unknown>)?.views,
+      detail_clicks: (postDetailRaw as Record<string, unknown>)?.clicks,
+    }
+  });
+}
+
 async function syncPosts(publicationName: string): Promise<Response> {
   try {
     const posts = await fetchSubstackPosts(publicationName);
@@ -203,6 +263,13 @@ Deno.serve(async (req) => {
 
     if (!action) {
       return json(400, { error: "Missing action parameter" });
+    }
+
+    if (action === "debug_shapes") {
+      if (!publication_id) {
+        return json(400, { error: "Missing publication_id for debug_shapes" });
+      }
+      return await debugShapes(publication_id);
     }
 
     if (action === "sync_posts") {
