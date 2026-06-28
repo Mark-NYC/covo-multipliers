@@ -217,11 +217,17 @@ Deno.serve(async (req: Request): Promise<Response> => {
       });
     });
 
-    // --- Urgent flags ---
+    // --- Alerts (problems) ---
     const behindLabs = labRows.filter((l) => l.paceDelta !== null && l.paceDelta < -10);
-    const almostFullLabs = labRows.filter(
-      (l) => l.maxSeats && l.seatsRemaining !== null && l.seatsRemaining <= 5 && l.seatsRemaining > 0,
+    const fullLabs = labRows.filter(
+      (l) => l.maxSeats && l.seatsRemaining !== null && l.seatsRemaining === 0,
     );
+
+    // --- Wins (celebrations) ---
+    const nearlyFullLabs = labRows.filter(
+      (l) => l.maxSeats && l.seatsRemaining !== null && l.seatsRemaining > 0 && l.seatsRemaining <= 5,
+    );
+    const aheadLabs = labRows.filter((l) => l.paceDelta !== null && l.paceDelta > 10);
 
     // --- Build email ---
     const html = buildEmail({
@@ -233,7 +239,9 @@ Deno.serve(async (req: Request): Promise<Response> => {
       totalNew,
       totalReturning,
       behindLabs,
-      almostFullLabs,
+      fullLabs,
+      nearlyFullLabs,
+      aheadLabs,
     });
 
     if (isDryRun) {
@@ -299,7 +307,9 @@ interface ReportData {
   totalNew: number;
   totalReturning: number;
   behindLabs: any[];
-  almostFullLabs: any[];
+  fullLabs: any[];
+  nearlyFullLabs: any[];
+  aheadLabs: any[];
 }
 
 function buildEmail(d: ReportData): string {
@@ -311,17 +321,15 @@ function buildEmail(d: ReportData): string {
 
   const title = `Labs weekly · ${fmtDate(d.weekStart)} – ${fmtDate(d.generatedAt)}`;
 
-  // --- Urgent flags banner ---
+  // --- Needs attention banner (problems) ---
   let urgentBanner = "";
   const urgentItems: string[] = [];
-  d.behindLabs.forEach((l) => urgentItems.push(`<strong>${esc(l.title)}</strong> is behind pace`));
-  d.almostFullLabs.forEach((l) =>
-    urgentItems.push(`<strong>${esc(l.title)}</strong> has only ${l.seatsRemaining} seat${l.seatsRemaining === 1 ? "" : "s"} left`)
-  );
+  d.behindLabs.forEach((l) => urgentItems.push(`<strong>${esc(l.title)}</strong> is behind pace (${l.paceLabel})`));
+  d.fullLabs.forEach((l) => urgentItems.push(`<strong>${esc(l.title)}</strong> is full — consider expanding capacity`));
   if (urgentItems.length > 0) {
     urgentBanner = `
       <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
-        style="background:#fef2f2;border:1px solid #fecaca;border-radius:8px;margin-bottom:28px;">
+        style="background:#fef2f2;border:1px solid #fecaca;border-radius:8px;margin-bottom:16px;">
         <tr>
           <td style="padding:14px 16px;">
             <p style="margin:0 0 6px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#b91c1c;">Needs attention</p>
@@ -332,6 +340,30 @@ function buildEmail(d: ReportData): string {
         </tr>
       </table>`;
   }
+
+  // --- Wins banner (celebrations) ---
+  let winsBanner = "";
+  const winItems: string[] = [];
+  d.nearlyFullLabs.forEach((l) =>
+    winItems.push(`<strong>${esc(l.title)}</strong> is almost full — only ${l.seatsRemaining} seat${l.seatsRemaining === 1 ? "" : "s"} left`)
+  );
+  d.aheadLabs.forEach((l) => winItems.push(`<strong>${esc(l.title)}</strong> is ahead of pace (${l.paceLabel})`));
+  if (winItems.length > 0) {
+    winsBanner = `
+      <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
+        style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;margin-bottom:16px;">
+        <tr>
+          <td style="padding:14px 16px;">
+            <p style="margin:0 0 6px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#15803d;">Wins this week</p>
+            <ul style="margin:0;padding-left:20px;color:#166534;font-size:14px;line-height:1.7;">
+              ${winItems.map((i) => `<li>${i}</li>`).join("")}
+            </ul>
+          </td>
+        </tr>
+      </table>`;
+  }
+
+  const spacer = (urgentBanner || winsBanner) ? `<div style="margin-bottom:12px;"></div>` : "";
 
   // --- Velocity row ---
   const velocityRow = `
@@ -419,7 +451,7 @@ function buildEmail(d: ReportData): string {
       CoVo Multipliers Labs · weekly digest
     </p>`;
 
-  const body = urgentBanner + velocityRow + audienceRow + labTable + channelsSection + footer;
+  const body = urgentBanner + winsBanner + spacer + velocityRow + audienceRow + labTable + channelsSection + footer;
   return wrapEmail(body, title);
 }
 
