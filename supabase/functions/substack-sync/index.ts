@@ -10,7 +10,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL") || "";
 const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || "";
-const ADMIN_SECRET = Deno.env.get("ADMIN_SECRET") || "";
+const ADMIN_SECRET = Deno.env.get("ADMIN_ANALYTICS_SECRET") || "";
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
@@ -42,14 +42,16 @@ async function fetchSubstackPosts(
     if (!response.ok) {
       throw new Error(`Substack API error: ${response.status}`);
     }
-    const data = await response.json() as { posts?: Array<{
-      id: string;
-      title: string;
-      subtitle?: string;
-      post_url: string;
-      published_at?: string;
-    }> };
-    return data.posts || [];
+    // Substack /api/v1/posts returns a plain array, not { posts: [...] }
+    const data = await response.json();
+    const posts = Array.isArray(data) ? data : (data.posts || []);
+    return posts.map((p: Record<string, unknown>) => ({
+      id: String(p.id),
+      title: String(p.title || ""),
+      subtitle: p.subtitle ? String(p.subtitle) : undefined,
+      post_url: String(p.canonical_url || p.post_url || ""),
+      published_at: p.post_date ? String(p.post_date) : (p.published_at ? String(p.published_at) : undefined),
+    }));
   } catch (error) {
     console.error("Error fetching Substack posts:", error);
     return [];
@@ -69,12 +71,12 @@ async function fetchPostMetrics(
     if (!response.ok) {
       return {};
     }
-    const data = await response.json() as { likes?: number; total_views?: number; clicks?: number; comments?: number };
+    const data = await response.json() as Record<string, unknown>;
     return {
-      likes: data.likes || 0,
-      views: data.total_views || 0,
-      clicks: data.clicks || 0,
-      comments: data.comments || 0,
+      likes: Number(data.reactions || data.likes || 0),
+      views: Number(data.total_views || data.views || 0),
+      clicks: Number(data.clicks || 0),
+      comments: Number(data.comment_count || data.comments || 0),
     };
   } catch (error) {
     console.error("Error fetching post metrics:", error);
@@ -110,23 +112,22 @@ async function syncPosts(publicationName: string): Promise<Response> {
           post_url: post.post_url,
           published_at: post.published_at || null,
         });
-
-        if (!error) {
-          synced++;
-
-          // Fetch and record metrics
-          const metrics = await fetchPostMetrics(publicationName, post.id);
-          if (Object.keys(metrics).length > 0) {
-            await supabase.from("substack_metrics").insert({
-              post_id: post.id,
-              likes: metrics.likes || 0,
-              views: metrics.views || 0,
-              clicks: metrics.clicks || 0,
-              comments: metrics.comments || 0,
-            });
-          }
-        }
+        if (error) continue;
       }
+
+      synced++;
+
+      // Upsert today's metrics snapshot (one row per post per day)
+      const metrics = await fetchPostMetrics(publicationName, post.id);
+      const today = new Date().toISOString().slice(0, 10);
+      await supabase.from("substack_metrics").upsert({
+        post_id: post.id,
+        metric_day: today,
+        likes: metrics.likes || 0,
+        views: metrics.views || 0,
+        clicks: metrics.clicks || 0,
+        comments: metrics.comments || 0,
+      }, { onConflict: "post_id,metric_day" });
     }
 
     return json(200, {
@@ -148,7 +149,7 @@ async function getMetrics(publicationName?: string): Promise<Response> {
         `
         id,
         post_id,
-        metric_date,
+        metric_day,
         likes,
         views,
         clicks,
@@ -161,7 +162,7 @@ async function getMetrics(publicationName?: string): Promise<Response> {
         )
       `
       )
-      .order("metric_date", { ascending: false })
+      .order("metric_day", { ascending: false })
       .limit(50);
 
     if (publicationName) {
