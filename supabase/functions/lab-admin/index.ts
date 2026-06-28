@@ -83,6 +83,32 @@ interface PersonSummary {
   labs_attended: number;
 }
 
+interface ChannelShowUpStat {
+  source: string;
+  registered: number;
+  attended: number;
+  show_up_rate: number;
+}
+
+interface LabNewReturning {
+  id: string;
+  title: string;
+  new_count: number;
+  returning_count: number;
+}
+
+interface BucketStat {
+  label: string;
+  count: number;
+}
+
+interface SignupPatterns {
+  showUpByChannel: ChannelShowUpStat[];
+  newVsReturning: LabNewReturning[];
+  daysToRegisterBuckets: BucketStat[];
+  cancellationBuckets: BucketStat[];
+}
+
 interface LabCurveData {
   id: string;
   title: string;
@@ -116,6 +142,7 @@ interface DashboardData {
   registrants: Registrant[];
   personSummary: PersonSummary[];
   paceChart: PaceChartData;
+  signupPatterns: SignupPatterns;
 }
 
 function jsonResp(status: number, data: unknown, cors: Record<string, string> = {}): Response {
@@ -215,7 +242,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
 
     const { data: regsRaw, error: regsError } = await supabaseAdmin
       .from("registrations")
-      .select("id, name, email, event_id, registration_status, utm_source, first_utm_source, first_landing_page, created_at")
+      .select("id, name, email, event_id, registration_status, utm_source, first_utm_source, first_landing_page, created_at, cancelled_at")
       .order("created_at", { ascending: false });
 
     if (regsError) throw new Error(`registrations: ${regsError.message}`);
@@ -435,6 +462,116 @@ Deno.serve(async (req: Request): Promise<Response> => {
       labCurves,
     };
 
+    // --- Signup patterns ---
+
+    // Show-up rate by channel: across all labs, what % of active registrants attended
+    // (attended or partial) grouped by first-touch utm source.
+    const regIdToChannel = new Map<string, string>();
+    allRegsFull.forEach((r: any) => {
+      if (r.registration_status === "active") {
+        regIdToChannel.set(r.id, (r.first_utm_source || r.utm_source || "direct / unknown").toString());
+      }
+    });
+    const channelRegistered = new Map<string, number>();
+    const channelAttended = new Map<string, number>();
+    allRegsFull.forEach((r: any) => {
+      if (r.registration_status !== "active") return;
+      const src = (r.first_utm_source || r.utm_source || "direct / unknown").toString();
+      channelRegistered.set(src, (channelRegistered.get(src) || 0) + 1);
+    });
+    allAttendance.forEach((att: any) => {
+      if (att.status !== "attended" && att.status !== "partial") return;
+      const src = regIdToChannel.get(att.registration_id);
+      if (!src) return;
+      channelAttended.set(src, (channelAttended.get(src) || 0) + 1);
+    });
+    const showUpByChannel: ChannelShowUpStat[] = Array.from(channelRegistered.entries())
+      .map(([source, registered]) => {
+        const attended = channelAttended.get(source) || 0;
+        return { source, registered, attended, show_up_rate: Math.round((attended / registered) * 100) };
+      })
+      .sort((a, b) => b.registered - a.registered);
+
+    // New vs. returning registrants per upcoming lab.
+    // "Returning" = email has a attended/partial record on any past lab.
+    const returnerEmails = new Set<string>();
+    allAttendance.forEach((att: any) => {
+      if (att.status !== "attended" && att.status !== "partial") return;
+      const reg = allRegsFull.find((r: any) => r.id === att.registration_id);
+      if (!reg) return;
+      const ev = eventById.get(reg.event_id);
+      if (ev && new Date(ev.event_date) < startOfToday) {
+        returnerEmails.add(reg.email);
+      }
+    });
+    const newVsReturning: LabNewReturning[] = upcomingEvents.map((event: any) => {
+      const regs = activeRegsByEvent.get(event.id) || [];
+      let returning_count = 0;
+      regs.forEach((r: any) => { if (returnerEmails.has(r.email)) returning_count++; });
+      return {
+        id: event.id,
+        title: event.title || event.slug,
+        new_count: regs.length - returning_count,
+        returning_count,
+      };
+    });
+
+    // Days-to-register distribution across all active registrations (all labs).
+    // Shows how far in advance people tend to sign up relative to the event.
+    const daysToRegBuckets: BucketStat[] = [
+      { label: "30+ days before", count: 0 },
+      { label: "15–29 days", count: 0 },
+      { label: "8–14 days", count: 0 },
+      { label: "3–7 days", count: 0 },
+      { label: "1–2 days", count: 0 },
+      { label: "Same day", count: 0 },
+    ];
+    allRegsFull.forEach((r: any) => {
+      if (r.registration_status !== "active") return;
+      const ev = eventById.get(r.event_id);
+      if (!ev) return;
+      const daysBefore = Math.max(0, Math.round(
+        (new Date(ev.event_date).getTime() - new Date(r.created_at).getTime()) / DAY_MS
+      ));
+      if (daysBefore >= 30) daysToRegBuckets[0].count++;
+      else if (daysBefore >= 15) daysToRegBuckets[1].count++;
+      else if (daysBefore >= 8) daysToRegBuckets[2].count++;
+      else if (daysBefore >= 3) daysToRegBuckets[3].count++;
+      else if (daysBefore >= 1) daysToRegBuckets[4].count++;
+      else daysToRegBuckets[5].count++;
+    });
+
+    // Cancellation timing: when do cancellations happen relative to the event.
+    const cancellationBuckets: BucketStat[] = [
+      { label: "30+ days before", count: 0 },
+      { label: "15–29 days", count: 0 },
+      { label: "8–14 days", count: 0 },
+      { label: "3–7 days", count: 0 },
+      { label: "1–2 days", count: 0 },
+      { label: "Same day", count: 0 },
+    ];
+    allRegsFull.forEach((r: any) => {
+      if (r.registration_status !== "cancelled" || !r.cancelled_at) return;
+      const ev = eventById.get(r.event_id);
+      if (!ev) return;
+      const daysBefore = Math.max(0, Math.round(
+        (new Date(ev.event_date).getTime() - new Date(r.cancelled_at).getTime()) / DAY_MS
+      ));
+      if (daysBefore >= 30) cancellationBuckets[0].count++;
+      else if (daysBefore >= 15) cancellationBuckets[1].count++;
+      else if (daysBefore >= 8) cancellationBuckets[2].count++;
+      else if (daysBefore >= 3) cancellationBuckets[3].count++;
+      else if (daysBefore >= 1) cancellationBuckets[4].count++;
+      else cancellationBuckets[5].count++;
+    });
+
+    const signupPatterns: SignupPatterns = {
+      showUpByChannel,
+      newVsReturning,
+      daysToRegisterBuckets: daysToRegBuckets,
+      cancellationBuckets,
+    };
+
     // --- Registrants list ---
     const registrants: Registrant[] = allRegs.map((reg: any) => {
       const ev = eventById.get(reg.event_id);
@@ -506,6 +643,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
       registrants,
       personSummary,
       paceChart,
+      signupPatterns,
     };
 
     return jsonResp(200, dashboard, cors);
