@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lab Admin Dashboard — CoVo Multipliers</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -365,6 +366,72 @@
             padding: 0;
         }
 
+        /* Pace chart */
+        .pace-chart-controls {
+            padding: 16px 20px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .pace-chart-controls label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #444;
+            white-space: nowrap;
+        }
+
+        .pace-chart-controls select {
+            padding: 7px 10px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 13px;
+            background: #fff;
+            color: #1a1a1a;
+            cursor: pointer;
+            min-width: 200px;
+        }
+
+        .pace-chart-controls select:focus {
+            outline: none;
+            border-color: #1b4d3e;
+            box-shadow: 0 0 0 3px rgba(27,77,62,0.1);
+        }
+
+        .pace-chart-wrap {
+            padding: 16px 20px;
+            position: relative;
+            height: 320px;
+        }
+
+        .pace-chart-legend {
+            padding: 0 20px 14px;
+            display: flex;
+            gap: 20px;
+            font-size: 12px;
+            color: #555;
+        }
+
+        .pace-chart-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .pace-chart-legend-swatch {
+            width: 24px;
+            height: 3px;
+            border-radius: 2px;
+        }
+
+        .pace-chart-note {
+            padding: 0 20px 14px;
+            font-size: 12px;
+            color: #888;
+        }
+
         @media (min-width: 769px) {
             /* Desktop: Show tabs, hide accordions */
             .tabs-container {
@@ -497,6 +564,7 @@
         <div class="tabs-container">
             <div class="tabs-nav">
                 <button class="tab-button active" onclick="switchTab('registrants')">Registrants</button>
+                <button class="tab-button" onclick="switchTab('pace')">Signup Pace</button>
                 <button class="tab-button" onclick="switchTab('shortlink')">Shortlink Performance</button>
                 <button class="tab-button" onclick="switchTab('lab-summary')">Per-Lab Summary</button>
                 <button class="tab-button" onclick="switchTab('channel')">Signups by Channel</button>
@@ -633,6 +701,30 @@
                         </thead>
                         <tbody id="affinity-body-tab"></tbody>
                     </table>
+                </div>
+
+                <!-- Signup Pace Tab -->
+                <div id="tab-pace" class="tab-content">
+                    <div class="pace-chart-controls">
+                        <label for="pace-lab-select">Lab:</label>
+                        <select id="pace-lab-select" onchange="onPaceLabChange()">
+                            <option value="">— select a lab —</option>
+                        </select>
+                    </div>
+                    <div class="pace-chart-wrap">
+                        <canvas id="pace-chart-canvas"></canvas>
+                    </div>
+                    <div class="pace-chart-legend">
+                        <div class="pace-chart-legend-item">
+                            <div class="pace-chart-legend-swatch" style="background:#b0b8c4;"></div>
+                            Historical average
+                        </div>
+                        <div class="pace-chart-legend-item">
+                            <div class="pace-chart-legend-swatch" style="background:#1b4d3e;"></div>
+                            <span id="pace-legend-current">Selected lab</span>
+                        </div>
+                    </div>
+                    <div class="pace-chart-note" id="pace-chart-note"></div>
                 </div>
 
                 <!-- Person Tab -->
@@ -795,6 +887,36 @@
                     </thead>
                     <tbody id="affinity-body"></tbody>
                 </table>
+            </div>
+        </div>
+
+        <!-- Signup Pace Chart (mobile accordion) -->
+        <div class="table-section collapsed">
+            <button class="accordion-header collapsed" onclick="toggleAccordion(this)">
+                <span>Signup Pace <span style="font-weight:400;font-size:13px;color:#888;">— current lab vs. historical average</span></span>
+                <span class="accordion-toggle">▼</span>
+            </button>
+            <div class="accordion-content">
+                <div class="pace-chart-controls">
+                    <label for="pace-lab-select-mobile">Lab:</label>
+                    <select id="pace-lab-select-mobile" onchange="onPaceLabChangeMobile()">
+                        <option value="">— select a lab —</option>
+                    </select>
+                </div>
+                <div class="pace-chart-wrap">
+                    <canvas id="pace-chart-canvas-mobile"></canvas>
+                </div>
+                <div class="pace-chart-legend">
+                    <div class="pace-chart-legend-item">
+                        <div class="pace-chart-legend-swatch" style="background:#b0b8c4;"></div>
+                        Historical average
+                    </div>
+                    <div class="pace-chart-legend-item">
+                        <div class="pace-chart-legend-swatch" style="background:#1b4d3e;"></div>
+                        <span id="pace-legend-current-mobile">Selected lab</span>
+                    </div>
+                </div>
+                <div class="pace-chart-note" id="pace-chart-note-mobile"></div>
             </div>
         </div>
 
@@ -1181,6 +1303,11 @@
         document.getElementById("affinity-loading-tab").style.display = "none";
         document.getElementById("affinity-table-tab").style.display = "table";
 
+        // Signup pace chart
+        if (data.paceChart) {
+            populatePaceChart(data.paceChart, data.summaryStats.benchmarkLabCount);
+        }
+
         // Load shortlink analytics
         loadShortlinkAnalytics();
 
@@ -1230,6 +1357,144 @@
         document.getElementById("person-loading-tab").style.display = "none";
         document.getElementById("person-table-tab").style.display = "table";
     }
+
+    // --- Signup pace chart ---
+    let _paceData = null;
+    let _paceChartDesktop = null;
+    let _paceChartMobile = null;
+
+    function populatePaceChart(paceChart, benchmarkLabCount) {
+        _paceData = paceChart;
+
+        const note = benchmarkLabCount === 0
+            ? "No past labs yet — the historical average will appear once at least one lab has run."
+            : `Historical average is based on ${benchmarkLabCount} past lab${benchmarkLabCount === 1 ? "" : "s"}.${benchmarkLabCount < 4 ? " Treat as directional until more labs complete." : ""}`;
+
+        ["pace-chart-note", "pace-chart-note-mobile"].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = note;
+        });
+
+        // Populate lab selectors
+        const options = paceChart.labCurves.map(lab =>
+            `<option value="${lab.id}">${lab.title} (${lab.daysLeft}d left)</option>`
+        ).join("");
+
+        ["pace-lab-select", "pace-lab-select-mobile"].forEach(id => {
+            const sel = document.getElementById(id);
+            if (!sel) return;
+            sel.innerHTML = options || `<option value="">No upcoming labs</option>`;
+        });
+
+        // Auto-render with first lab
+        if (paceChart.labCurves.length > 0) {
+            drawPaceChart(paceChart.labCurves[0].id, "pace-chart-canvas", "_paceChartDesktop");
+            drawPaceChart(paceChart.labCurves[0].id, "pace-chart-canvas-mobile", "_paceChartMobile");
+        }
+    }
+
+    function drawPaceChart(labId, canvasId, instanceKey) {
+        if (!_paceData) return;
+        const { maxDaysWindow, averageCurve, labCurves } = _paceData;
+        const lab = labCurves.find(l => l.id === labId);
+        if (!lab) return;
+
+        // X-axis labels: days before event, high → low (left → right = approaching event)
+        const labels = [];
+        for (let d = maxDaysWindow; d >= 0; d--) labels.push(d);
+
+        const avgData = labels.map(d => averageCurve[d]);
+
+        // Show lab data only for days that have already passed (d >= daysLeft)
+        const labData = labels.map(d => (d >= lab.daysLeft ? lab.points[d] : null));
+
+        const ctx = document.getElementById(canvasId);
+        if (!ctx) return;
+
+        // Destroy existing chart instance
+        if (window[instanceKey]) {
+            window[instanceKey].destroy();
+            window[instanceKey] = null;
+        }
+
+        window[instanceKey] = new Chart(ctx, {
+            type: "line",
+            data: {
+                labels,
+                datasets: [
+                    {
+                        label: "Historical average",
+                        data: avgData,
+                        borderColor: "#b0b8c4",
+                        backgroundColor: "transparent",
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        tension: 0.3,
+                        order: 2,
+                    },
+                    {
+                        label: lab.title,
+                        data: labData,
+                        borderColor: "#1b4d3e",
+                        backgroundColor: "rgba(27,77,62,0.08)",
+                        borderWidth: 2.5,
+                        pointRadius: 0,
+                        tension: 0.3,
+                        fill: true,
+                        spanGaps: false,
+                        order: 1,
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        mode: "index",
+                        intersect: false,
+                        callbacks: {
+                            title: (items) => `${items[0].label} days before event`,
+                        },
+                    },
+                },
+                scales: {
+                    x: {
+                        title: { display: true, text: "Days before event", font: { size: 12 }, color: "#888" },
+                        ticks: {
+                            callback: (val, idx) => labels[idx] % 10 === 0 ? labels[idx] : "",
+                            maxRotation: 0,
+                        },
+                        grid: { color: "#f0f0f0" },
+                    },
+                    y: {
+                        title: { display: true, text: "Cumulative signups", font: { size: 12 }, color: "#888" },
+                        beginAtZero: true,
+                        ticks: { precision: 0 },
+                        grid: { color: "#f0f0f0" },
+                    },
+                },
+            },
+        });
+
+        // Update legend labels
+        const desktopLegend = document.getElementById("pace-legend-current");
+        const mobileLegend = document.getElementById("pace-legend-current-mobile");
+        if (desktopLegend) desktopLegend.textContent = lab.title;
+        if (mobileLegend) mobileLegend.textContent = lab.title;
+    }
+
+    window.onPaceLabChange = function() {
+        const labId = document.getElementById("pace-lab-select").value;
+        if (labId) drawPaceChart(labId, "pace-chart-canvas", "_paceChartDesktop");
+    };
+
+    window.onPaceLabChangeMobile = function() {
+        const labId = document.getElementById("pace-lab-select-mobile").value;
+        if (labId) drawPaceChart(labId, "pace-chart-canvas-mobile", "_paceChartMobile");
+    };
 
     function showError(message) {
         const errorContainer = document.getElementById("error-container");
