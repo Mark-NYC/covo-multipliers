@@ -432,6 +432,64 @@
             color: #888;
         }
 
+        /* Pattern sections inside Pace & Patterns tab */
+        .pattern-section {
+            border-top: 1px solid #e5e7eb;
+            padding: 16px 20px;
+        }
+
+        .pattern-section h3 {
+            font-size: 13px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .pattern-section .pattern-sub {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 14px;
+        }
+
+        .pattern-chart-wrap {
+            position: relative;
+            height: 200px;
+        }
+
+        .pattern-chart-wrap.tall {
+            height: 260px;
+        }
+
+        .fill-forecast {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 4px;
+        }
+
+        .fill-forecast-card {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 10px 14px;
+            min-width: 160px;
+        }
+
+        .fill-forecast-card .ffc-label {
+            font-size: 11px;
+            color: #888;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            margin-bottom: 4px;
+        }
+
+        .fill-forecast-card .ffc-value {
+            font-size: 15px;
+            font-weight: 700;
+            color: #10281f;
+        }
+
         @media (min-width: 769px) {
             /* Desktop: Show tabs, hide accordions */
             .tabs-container {
@@ -564,7 +622,7 @@
         <div class="tabs-container">
             <div class="tabs-nav">
                 <button class="tab-button active" onclick="switchTab('registrants')">Registrants</button>
-                <button class="tab-button" onclick="switchTab('pace')">Signup Pace</button>
+                <button class="tab-button" onclick="switchTab('pace')">Pace &amp; Patterns</button>
                 <button class="tab-button" onclick="switchTab('shortlink')">Shortlink Performance</button>
                 <button class="tab-button" onclick="switchTab('lab-summary')">Per-Lab Summary</button>
                 <button class="tab-button" onclick="switchTab('channel')">Signups by Channel</button>
@@ -725,6 +783,49 @@
                         </div>
                     </div>
                     <div class="pace-chart-note" id="pace-chart-note"></div>
+
+                    <!-- Seat fill forecast (shown only for labs with seat limits) -->
+                    <div class="pattern-section" id="fill-forecast-section" style="display:none;">
+                        <h3>Seat fill forecast</h3>
+                        <p class="pattern-sub">At current pace, when will each lab fill?</p>
+                        <div class="fill-forecast" id="fill-forecast-cards"></div>
+                    </div>
+
+                    <!-- When do people register? -->
+                    <div class="pattern-section">
+                        <h3>When do people sign up?</h3>
+                        <p class="pattern-sub">Days before the event — all active registrations across all labs</p>
+                        <div class="pattern-chart-wrap">
+                            <canvas id="days-to-reg-chart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Show-up rate by channel -->
+                    <div class="pattern-section">
+                        <h3>Show-up rate by channel</h3>
+                        <p class="pattern-sub">Of everyone who signed up via each channel, what % actually attended?</p>
+                        <div class="pattern-chart-wrap tall" id="showup-chart-wrap">
+                            <canvas id="showup-channel-chart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- New vs. returning -->
+                    <div class="pattern-section">
+                        <h3>New vs. returning registrants</h3>
+                        <p class="pattern-sub">Returning = has attended at least one previous lab</p>
+                        <div class="pattern-chart-wrap">
+                            <canvas id="new-returning-chart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Cancellation timing -->
+                    <div class="pattern-section">
+                        <h3>When do cancellations happen?</h3>
+                        <p class="pattern-sub">Days before the event when a registration was cancelled</p>
+                        <div class="pattern-chart-wrap">
+                            <canvas id="cancellation-chart"></canvas>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Person Tab -->
@@ -893,7 +994,7 @@
         <!-- Signup Pace Chart (mobile accordion) -->
         <div class="table-section collapsed">
             <button class="accordion-header collapsed" onclick="toggleAccordion(this)">
-                <span>Signup Pace <span style="font-weight:400;font-size:13px;color:#888;">— current lab vs. historical average</span></span>
+                <span>Pace &amp; Patterns <span style="font-weight:400;font-size:13px;color:#888;">— signup pace, timing, channels &amp; retention</span></span>
                 <span class="accordion-toggle">▼</span>
             </button>
             <div class="accordion-content">
@@ -917,6 +1018,44 @@
                     </div>
                 </div>
                 <div class="pace-chart-note" id="pace-chart-note-mobile"></div>
+
+                <div class="pattern-section" id="fill-forecast-section-mobile" style="display:none;">
+                    <h3>Seat fill forecast</h3>
+                    <p class="pattern-sub">At current pace, when will each lab fill?</p>
+                    <div class="fill-forecast" id="fill-forecast-cards-mobile"></div>
+                </div>
+
+                <div class="pattern-section">
+                    <h3>When do people sign up?</h3>
+                    <p class="pattern-sub">Days before the event — all active registrations across all labs</p>
+                    <div class="pattern-chart-wrap">
+                        <canvas id="days-to-reg-chart-mobile"></canvas>
+                    </div>
+                </div>
+
+                <div class="pattern-section">
+                    <h3>Show-up rate by channel</h3>
+                    <p class="pattern-sub">Of everyone who signed up via each channel, what % actually attended?</p>
+                    <div class="pattern-chart-wrap tall" id="showup-chart-wrap-mobile">
+                        <canvas id="showup-channel-chart-mobile"></canvas>
+                    </div>
+                </div>
+
+                <div class="pattern-section">
+                    <h3>New vs. returning registrants</h3>
+                    <p class="pattern-sub">Returning = has attended at least one previous lab</p>
+                    <div class="pattern-chart-wrap">
+                        <canvas id="new-returning-chart-mobile"></canvas>
+                    </div>
+                </div>
+
+                <div class="pattern-section">
+                    <h3>When do cancellations happen?</h3>
+                    <p class="pattern-sub">Days before the event when a registration was cancelled</p>
+                    <div class="pattern-chart-wrap">
+                        <canvas id="cancellation-chart-mobile"></canvas>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -1303,9 +1442,12 @@
         document.getElementById("affinity-loading-tab").style.display = "none";
         document.getElementById("affinity-table-tab").style.display = "table";
 
-        // Signup pace chart
+        // Signup pace chart + patterns
         if (data.paceChart) {
             populatePaceChart(data.paceChart, data.summaryStats.benchmarkLabCount);
+        }
+        if (data.signupPatterns) {
+            populateSignupPatterns(data.signupPatterns, data.labSummary, data.paceChart);
         }
 
         // Load shortlink analytics
@@ -1484,6 +1626,192 @@
         const mobileLegend = document.getElementById("pace-legend-current-mobile");
         if (desktopLegend) desktopLegend.textContent = lab.title;
         if (mobileLegend) mobileLegend.textContent = lab.title;
+    }
+
+    // --- Signup patterns charts ---
+    const CHART_COLORS = {
+        green: "#1b4d3e",
+        greenLight: "rgba(27,77,62,0.15)",
+        amber: "#9f7a2f",
+        amberLight: "rgba(159,122,47,0.15)",
+        gray: "#b0b8c4",
+        grayLight: "rgba(176,184,196,0.15)",
+        red: "#b91c1c",
+        redLight: "rgba(185,28,28,0.12)",
+    };
+
+    const BAR_DEFAULTS = {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: false,
+        plugins: { legend: { display: false }, tooltip: { mode: "index", intersect: false } },
+        scales: {
+            x: { grid: { color: "#f0f0f0" }, ticks: { font: { size: 11 } } },
+            y: { beginAtZero: true, ticks: { precision: 0, font: { size: 11 } }, grid: { color: "#f0f0f0" } },
+        },
+    };
+
+    const _patternCharts = {};
+
+    function makeBarChart(canvasId, labels, datasets, optOverrides = {}) {
+        const ctx = document.getElementById(canvasId);
+        if (!ctx) return;
+        if (_patternCharts[canvasId]) { _patternCharts[canvasId].destroy(); }
+        _patternCharts[canvasId] = new Chart(ctx, {
+            type: "bar",
+            data: { labels, datasets },
+            options: { ...BAR_DEFAULTS, ...optOverrides },
+        });
+    }
+
+    function populateSignupPatterns(patterns, labSummary, paceChart) {
+        // --- Seat fill forecast ---
+        const labsWithSeats = labSummary.filter(l => l.max_seats && l.days_left > 0);
+        ["fill-forecast-section", "fill-forecast-section-mobile"].forEach(sectionId => {
+            const section = document.getElementById(sectionId);
+            const cards = document.getElementById(sectionId === "fill-forecast-section" ? "fill-forecast-cards" : "fill-forecast-cards-mobile");
+            if (!section || !cards) return;
+            if (labsWithSeats.length === 0) { section.style.display = "none"; return; }
+            section.style.display = "";
+            cards.innerHTML = labsWithSeats.map(lab => {
+                const curve = paceChart.labCurves.find(c => c.id === lab.id);
+                const daysElapsed = paceChart.maxDaysWindow - lab.days_left;
+                let forecastText = "—";
+                if (curve && daysElapsed > 0) {
+                    const rate = lab.active_signups / daysElapsed; // signups/day
+                    const remaining = lab.max_seats - lab.active_signups;
+                    if (remaining <= 0) {
+                        forecastText = "Full now";
+                    } else if (rate <= 0) {
+                        forecastText = "No signups yet";
+                    } else {
+                        const daysToFull = Math.ceil(remaining / rate);
+                        if (daysToFull <= lab.days_left) {
+                            forecastText = `~${daysToFull}d (before event)`;
+                        } else {
+                            forecastText = `Won't fill at this pace`;
+                        }
+                    }
+                }
+                const pct = Math.round((lab.active_signups / lab.max_seats) * 100);
+                return `<div class="fill-forecast-card">
+                    <div class="ffc-label">${lab.title}</div>
+                    <div class="ffc-value">${pct}% full · ${forecastText}</div>
+                </div>`;
+            }).join("");
+        });
+
+        // --- Days-to-register chart ---
+        const dtrLabels = patterns.daysToRegisterBuckets.map(b => b.label);
+        const dtrCounts = patterns.daysToRegisterBuckets.map(b => b.count);
+        ["days-to-reg-chart", "days-to-reg-chart-mobile"].forEach(id => {
+            makeBarChart(id, dtrLabels, [{
+                data: dtrCounts,
+                backgroundColor: CHART_COLORS.green,
+                borderRadius: 4,
+            }]);
+        });
+
+        // --- Show-up rate by channel ---
+        const suData = patterns.showUpByChannel.slice(0, 8); // cap at 8 channels
+        const suLabels = suData.map(d => d.source);
+        const suRates = suData.map(d => d.show_up_rate);
+        // Set chart height proportional to channels
+        ["showup-chart-wrap", "showup-chart-wrap-mobile"].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.style.height = Math.max(160, suLabels.length * 36) + "px";
+        });
+        ["showup-channel-chart", "showup-channel-chart-mobile"].forEach(id => {
+            const ctx = document.getElementById(id);
+            if (!ctx) return;
+            if (_patternCharts[id]) { _patternCharts[id].destroy(); }
+            _patternCharts[id] = new Chart(ctx, {
+                type: "bar",
+                data: {
+                    labels: suLabels,
+                    datasets: [{
+                        label: "Show-up rate %",
+                        data: suRates,
+                        backgroundColor: suRates.map(r =>
+                            r >= 60 ? CHART_COLORS.green : r >= 35 ? CHART_COLORS.amber : CHART_COLORS.red
+                        ),
+                        borderRadius: 4,
+                    }],
+                },
+                options: {
+                    ...BAR_DEFAULTS,
+                    indexAxis: "y",
+                    scales: {
+                        x: { beginAtZero: true, max: 100, ticks: { callback: v => v + "%", font: { size: 11 } }, grid: { color: "#f0f0f0" } },
+                        y: { grid: { display: false }, ticks: { font: { size: 11 } } },
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: (item) => {
+                                    const d = suData[item.dataIndex];
+                                    return ` ${d.show_up_rate}% (${d.attended}/${d.registered})`;
+                                },
+                            },
+                        },
+                    },
+                },
+            });
+        });
+
+        // --- New vs. returning ---
+        const nrData = patterns.newVsReturning;
+        const nrLabels = nrData.map(d => d.title);
+        ["new-returning-chart", "new-returning-chart-mobile"].forEach(id => {
+            const ctx = document.getElementById(id);
+            if (!ctx) return;
+            if (_patternCharts[id]) { _patternCharts[id].destroy(); }
+            _patternCharts[id] = new Chart(ctx, {
+                type: "bar",
+                data: {
+                    labels: nrLabels,
+                    datasets: [
+                        {
+                            label: "New",
+                            data: nrData.map(d => d.new_count),
+                            backgroundColor: CHART_COLORS.gray,
+                            borderRadius: 4,
+                            stack: "s",
+                        },
+                        {
+                            label: "Returning",
+                            data: nrData.map(d => d.returning_count),
+                            backgroundColor: CHART_COLORS.green,
+                            borderRadius: 4,
+                            stack: "s",
+                        },
+                    ],
+                },
+                options: {
+                    ...BAR_DEFAULTS,
+                    plugins: {
+                        legend: { display: true, position: "top", labels: { font: { size: 11 }, boxWidth: 12 } },
+                        tooltip: { mode: "index", intersect: false },
+                    },
+                    scales: {
+                        x: { stacked: true, grid: { color: "#f0f0f0" }, ticks: { font: { size: 11 } } },
+                        y: { stacked: true, beginAtZero: true, ticks: { precision: 0, font: { size: 11 } }, grid: { color: "#f0f0f0" } },
+                    },
+                },
+            });
+        });
+
+        // --- Cancellation timing ---
+        const ctLabels = patterns.cancellationBuckets.map(b => b.label);
+        const ctCounts = patterns.cancellationBuckets.map(b => b.count);
+        ["cancellation-chart", "cancellation-chart-mobile"].forEach(id => {
+            makeBarChart(id, ctLabels, [{
+                data: ctCounts,
+                backgroundColor: CHART_COLORS.amber,
+                borderRadius: 4,
+            }]);
+        });
     }
 
     window.onPaceLabChange = function() {
