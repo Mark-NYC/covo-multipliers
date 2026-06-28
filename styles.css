@@ -140,44 +140,59 @@ img {
    3. BUTTONS
 ----------------------------------------------- */
 
-.btn-pill {
+.btn {
     display: inline-block;
-    padding: 0.65rem 1.6rem;
-    border-radius: 999px;
+    padding: 0.85rem 1.6rem;
+    border-radius: 10px;
     font-size: 0.92rem;
     font-weight: 700;
-    text-decoration: none;
+    font-family: inherit;
     letter-spacing: 0.01em;
-    color: #1b4d3e;
-    background: transparent;
-    border: 2px solid #1b4d3e;
-    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+    text-decoration: none;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
     white-space: nowrap;
+    cursor: pointer;
 }
 
-.btn-pill:hover {
-    background: #1b4d3e;
-    color: #ffffff;
-    border-color: #1b4d3e;
-    transform: translateY(-1px);
-}
-
-.btn-pill:focus-visible {
+.btn:focus-visible {
     outline: 3px solid #dcb55a;
     outline-offset: 3px;
 }
 
-.btn-pill-primary {
+.btn-primary {
     background: #1b4d3e;
     color: #ffffff;
-    border-color: #1b4d3e;
-    box-shadow: 0 10px 24px rgba(27, 77, 62, 0.14);
+    border: 2px solid #1b4d3e;
 }
 
-.btn-pill-primary:hover {
+.btn-primary:hover {
     background: #10281f;
-    color: #ffffff;
     border-color: #10281f;
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background: transparent;
+    color: #1b4d3e;
+    border: 2px solid #1b4d3e;
+}
+
+.btn-secondary:hover {
+    background: #1b4d3e;
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+.btn-accent {
+    background: #bd5a22;
+    color: #ffffff;
+    border: 2px solid #bd5a22;
+}
+
+.btn-accent:hover {
+    background: #a44d1c;
+    border-color: #a44d1c;
+    transform: translateY(-1px);
 }
 
 
@@ -1142,7 +1157,7 @@ img {
         align-items: stretch;
     }
 
-    .hero-cta-row .btn-pill {
+    .hero-cta-row .btn {
         width: 100%;
         text-align: center;
     }
@@ -1158,7 +1173,7 @@ img {
         width: min(92vw, 340px);
     }
 
-    .btn-pill {
+    .btn {
         padding: 0.6rem 1.3rem;
         font-size: 0.875rem;
     }
@@ -1292,24 +1307,6 @@ img {
     align-items: center;
 }
 
-.btn-immersion-primary {
-    display: inline-block;
-    padding: 0.95rem 1.85rem;
-    background: #1b4d3e;
-    color: #ffffff;
-    font-size: 0.95rem;
-    font-weight: 800;
-    font-family: inherit;
-    letter-spacing: 0.01em;
-    border-radius: 999px;
-    text-decoration: none;
-    transition: background 0.2s ease, transform 0.15s ease;
-}
-
-.btn-immersion-primary:hover {
-    background: #10281f;
-    transform: translateY(-1px);
-}
 
 .immersion-cta-note {
     font-size: 0.9rem;

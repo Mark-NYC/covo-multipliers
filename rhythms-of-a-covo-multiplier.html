@@ -15,7 +15,7 @@
     <meta name="description" content="Rhythms of a Covo Multiplier - a free 45-minute live lab from Covo Multipliers introducing the 5 rhythms of the 4 Fields pathway: Go, Gospel, Grow, Gather, Guide.">
     <title>Rhythms of a Covo Multiplier - Covo Multipliers</title>
 
-    <!-- Shared site styles (reset, fonts, .btn-pill, testimonial cards, etc.) -->
+    <!-- Shared site styles -->
     <link rel="stylesheet" href="styles.css">
 
     <style>
@@ -270,35 +270,6 @@
             cursor: not-allowed;
         }
 
-        .btn-submit {
-            width: 100%;
-            padding: 0.9rem 1.5rem;
-            margin-top: 0.5rem;
-            border: none;
-            border-radius: 10px;
-            font-size: 1rem;
-            font-weight: 700;
-            font-family: inherit;
-            cursor: pointer;
-            background: #1b4d3e;
-            color: #ffffff;
-            letter-spacing: 0.01em;
-            transition: background 0.2s ease;
-        }
-
-        .btn-submit:hover:not(:disabled) {
-            background: #10281f;
-        }
-
-        .btn-submit:focus-visible {
-            outline: 3px solid #dcb55a;
-            outline-offset: 3px;
-        }
-
-        .btn-submit:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
 
         .form-opt-in {
             display: flex;
@@ -870,7 +841,7 @@
                     <strong>Event not found.</strong>
                     This event may have ended or the link may be incorrect.
                     <br><br>
-                    <a class="btn-pill" href="/#upcoming-labs">See all upcoming labs</a>
+                    <a class="btn btn-secondary" href="/#upcoming-labs">See all upcoming labs</a>
                 </div>
 
                 <!-- Hidden countdown. Kept in place so existing logic does not break. -->
@@ -926,7 +897,7 @@
                             </label>
                         </div>
 
-                        <button class="btn-submit" type="submit" id="submit-btn">
+                        <button class="btn btn-primary" style="width:100%;" type="submit" id="submit-btn">
                             Save My Seat
                         </button>
 
@@ -1150,7 +1121,7 @@
                 This lab will introduce you to the pathway: Go, Gospel, Grow, Gather, and Guide. You will not leave with everything figured out. You will leave with a clearer map and one faithful next step.
             </p>
 
-            <button class="btn-cta" id="cta-scroll-btn">Save My Seat</button>
+            <button class="btn btn-primary" id="cta-scroll-btn">Save My Seat</button>
             <p style="margin-top:1.25rem;font-size:0.85rem;color:rgba(255,255,255,0.5);">or</p>
             <a href="https://www.covomultipliers.com/join-whatsapp?utm_source=lab_page&utm_medium=cta&utm_campaign=whatsapp_field_room" style="font-size:0.9rem;color:rgba(255,255,255,0.7);text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.3);">Start practicing with us in WhatsApp →</a>
 
@@ -1278,7 +1249,7 @@
                     <h2>Save Your Seat</h2>
                     <div class="full-notice">
                         <p>This event is full. Check back for future labs with open seats.</p>
-                        <a class="btn-pill" href="/#upcoming-labs">← See all upcoming labs</a>
+                        <a class="btn btn-secondary" href="/#upcoming-labs">← See all upcoming labs</a>
                     </div>
                 `;
                 return;

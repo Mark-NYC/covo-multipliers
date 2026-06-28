@@ -146,29 +146,6 @@
       margin-top: 0.3rem;
     }
 
-    .hero-cta-row .btn-pill {
-      border-color: rgba(255,255,255,0.92);
-      color: #ffffff;
-    }
-
-    .hero-cta-row .btn-pill:hover {
-      background: #ffffff;
-      color: #10281f;
-      border-color: #ffffff;
-    }
-
-    .hero-cta-row .btn-pill-primary {
-      background: #ffffff;
-      color: #10281f;
-      border-color: #ffffff;
-      box-shadow: 0 10px 24px rgba(16, 40, 31, 0.16);
-    }
-
-    .hero-cta-row .btn-pill-primary:hover {
-      background: #f5f5f5;
-      color: #10281f;
-      border-color: #f5f5f5;
-    }
 
     .hero-support-line {
       font-size: 0.88rem;
@@ -177,39 +154,6 @@
       margin-top: 0.85rem;
     }
 
-    .btn-cta {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0.95rem 1.5rem;
-      border-radius: 999px;
-      background: #dcb55a;
-      color: #10281f;
-      border: 1px solid #dcb55a;
-      font-size: 0.95rem;
-      font-weight: 800;
-      letter-spacing: -0.01em;
-      text-decoration: none;
-      line-height: 1;
-      transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease, color 0.18s ease;
-      box-shadow: 0 10px 24px rgba(16, 40, 31, 0.16);
-    }
-
-    .btn-cta:hover {
-      background: #e7c574;
-      border-color: #e7c574;
-      color: #10281f;
-      transform: translateY(-1px);
-    }
-
-    .btn-cta:active {
-      transform: translateY(0);
-    }
-
-    .btn-cta:focus-visible {
-      outline: 3px solid rgba(255, 255, 255, 0.4);
-      outline-offset: 3px;
-    }
 
     .page-section {
       background: #ffffff;
@@ -1068,38 +1012,12 @@
       padding: 0.28rem 0.75rem;
     }
 
-    .btn-apply {
-      display: flex;
-      width: 100%;
-      align-items: center;
-      justify-content: center;
-      padding: 0.78rem 1.25rem;
-      border-radius: 999px;
-      background: #1b4d3e;
-      color: #ffffff;
-      border: 1.5px solid #1b4d3e;
-      font-size: 0.9rem;
-      font-weight: 800;
-      letter-spacing: -0.01em;
-      cursor: pointer;
-      font-family: inherit;
-      text-decoration: none;
-      line-height: 1;
-      transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
-    }
-
-    .btn-apply:hover {
-      background: #245c4a;
-      border-color: #245c4a;
-      transform: translateY(-1px);
-    }
-
-    .btn-apply.is-waitlist {
+    .btn.is-waitlist {
       background: transparent;
       color: #1b4d3e;
     }
 
-    .btn-apply.is-waitlist:hover {
+    .btn.is-waitlist:hover {
       background: #f0fdf4;
     }
 
@@ -1342,12 +1260,12 @@
       margin-top: 1.6rem;
     }
 
-    .btn-submit {
+    .btn-submit-layout {
       width: 100%;
       text-align: center;
     }
 
-    .btn-submit:disabled {
+    .btn-submit-layout:disabled {
       opacity: 0.65;
       cursor: not-allowed;
       transform: none;
@@ -1403,7 +1321,7 @@
         </p>
 
         <div class="hero-cta-row">
-          <a class="btn-pill btn-pill-primary" href="#open-immersions">Apply for the Next Immersion</a>
+          <a class="btn btn-primary" href="#open-immersions">Apply for the Next Immersion</a>
         </div>
 
         <p class="hero-support-line">
@@ -1734,7 +1652,7 @@
           </ul>
           <p class="section-copy" style="margin:0; font-size:0.92rem; line-height:1.6;">Step into real workplaces, homes, and everyday rhythms where disciple-making is being practiced in normal life.</p>
           <div class="immersion-card-cta">
-            <button class="btn-apply" type="button"
+            <button class="btn btn-primary" type="button"
               data-immersion-id="e1a7c0de-0c4f-4a11-9b00-000000000001"
               data-immersion-title="OKC Immersion"
               data-waitlist="false">
@@ -1751,7 +1669,7 @@
           </ul>
           <p class="section-copy" style="margin:0; font-size:0.92rem; line-height:1.6;">See how disciple-making can happen in dense, relational, urban settings through ordinary work, hospitality, and daily life.</p>
           <div class="immersion-card-cta">
-            <button class="btn-apply" type="button"
+            <button class="btn btn-primary" type="button"
               data-immersion-id="e1a7c0de-0c4f-4a11-9b00-000000000002"
               data-immersion-title="New York City, NY"
               data-waitlist="false">
@@ -1893,7 +1811,7 @@
         <p>If you’re done guessing what disciple-making looks like in normal life, come see it up close.</p>
       </div>
 
-      <a class="btn-cta" href="#open-immersions">Apply for the Next Immersion</a>
+      <a class="btn btn-primary" href="#open-immersions">Apply for the Next Immersion</a>
     </div>
   </section>
 
@@ -1936,7 +1854,7 @@
       <div id="modal-success" class="form-success-msg" hidden>
         <p style="margin:0 0 0.25rem;">Application received. Check your email for confirmation. We&rsquo;ll follow up soon with next steps.</p>
         <div class="modal-success-actions">
-          <button type="button" class="btn-cta" id="modal-success-close-btn">Close</button>
+          <button type="button" class="btn btn-primary" id="modal-success-close-btn">Close</button>
         </div>
       </div>
 
@@ -2024,7 +1942,7 @@
         <div id="form-error" class="form-error-msg" hidden></div>
 
         <div class="form-submit-row">
-          <button type="submit" class="btn-cta btn-submit">Submit Application</button>
+          <button type="submit" class="btn btn-primary btn-submit-layout" style="width:100%;">Submit Application</button>
         </div>
       </form>
     </div>
@@ -2279,7 +2197,7 @@
           '</ul>' +
           '<div class="seat-indicator">' + seatHtml + '</div>' +
           '<div class="immersion-card-cta">' +
-            '<button class="btn-apply' + (isWaitlist ? ' is-waitlist' : '') + '" type="button"' +
+            '<button class="btn btn-primary' + (isWaitlist ? ' is-waitlist' : '') + '" type="button"' +
               ' data-immersion-id="' + escHtml(String(im.id)) + '"' +
               ' data-immersion-title="' + escHtml(im.title) + '"' +
               ' data-waitlist="' + (isWaitlist ? 'true' : 'false') + '">' +
@@ -2290,7 +2208,7 @@
       }
 
       function attachCardHandlers(grid) {
-        grid.querySelectorAll('.btn-apply').forEach(function (btn) {
+        grid.querySelectorAll('.btn.btn-primary').forEach(function (btn) {
           btn.addEventListener('click', function () {
             openModal(
               btn.dataset.immersionId,

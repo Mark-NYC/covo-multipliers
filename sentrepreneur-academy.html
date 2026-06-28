@@ -146,52 +146,16 @@
       margin-top: 0.3rem;
     }
 
-    .btn-pill {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0.9rem 1.35rem;
-      border-radius: 999px;
-      border: 1.5px solid #1b4d3e;
-      color: #1b4d3e;
-      background: transparent;
-      font-size: 0.92rem;
-      font-weight: 800;
-      letter-spacing: -0.01em;
-      text-decoration: none;
-      line-height: 1;
-      transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease, color 0.18s ease;
-    }
 
-    .btn-pill:hover {
-      background: #1b4d3e;
-      border-color: #1b4d3e;
+    /* .btn-secondary on dark hero needs white outline for contrast */
+    .academy-hero .btn-secondary {
       color: #ffffff;
-      transform: translateY(-1px);
+      border-color: rgba(255,255,255,0.85);
     }
-
-    .hero-cta-row .btn-pill {
-      border-color: rgba(255,255,255,0.92);
+    .academy-hero .btn-secondary:hover {
+      background: rgba(255,255,255,0.15);
       color: #ffffff;
-    }
-
-    .hero-cta-row .btn-pill:hover {
-      background: #ffffff;
-      color: #10281f;
       border-color: #ffffff;
-    }
-
-    .hero-cta-row .btn-pill-primary {
-      background: #ffffff;
-      color: #10281f;
-      border-color: #ffffff;
-      box-shadow: 0 10px 24px rgba(16, 40, 31, 0.16);
-    }
-
-    .hero-cta-row .btn-pill-primary:hover {
-      background: #f5f5f5;
-      color: #10281f;
-      border-color: #f5f5f5;
     }
 
     .hero-support-line {
@@ -201,30 +165,6 @@
       margin-top: 0.85rem;
     }
 
-    .btn-cta {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0.95rem 1.5rem;
-      border-radius: 999px;
-      background: #dcb55a;
-      color: #10281f;
-      border: 1px solid #dcb55a;
-      font-size: 0.95rem;
-      font-weight: 800;
-      letter-spacing: -0.01em;
-      text-decoration: none;
-      line-height: 1;
-      transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease, color 0.18s ease;
-      box-shadow: 0 10px 24px rgba(16, 40, 31, 0.16);
-    }
-
-    .btn-cta:hover {
-      background: #e7c574;
-      border-color: #e7c574;
-      color: #10281f;
-      transform: translateY(-1px);
-    }
 
     .page-section {
       background: #ffffff;
@@ -691,7 +631,7 @@
         font-size: clamp(1.7rem, 8vw, 2.3rem);
       }
 
-      .hero-cta-row .btn-pill {
+      .hero-cta-row .btn {
         width: 100%;
       }
     }
@@ -717,8 +657,8 @@
         </p>
 
         <div class="hero-cta-row">
-          <a class="btn-pill btn-pill-primary" href="#interest">Join the Interest List</a>
-          <a class="btn-pill" href="#pathway">See the Pathway</a>
+          <a class="btn btn-primary" href="#interest">Join the Interest List</a>
+          <a class="btn btn-secondary" href="#pathway">See the Pathway</a>
         </div>
 
         <p class="hero-support-line">
@@ -1047,7 +987,7 @@
         <p>We are looking for emerging leaders who are ready to learn, build, and live sent through real work.</p>
       </div>
 
-      <a class="btn-cta" href="mailto:hello@covomultipliers.com?subject=Sentrepreneur%20Academy%20Interest">Join the Interest List</a>
+      <a class="btn btn-primary" href="mailto:hello@covomultipliers.com?subject=Sentrepreneur%20Academy%20Interest">Join the Interest List</a>
     </div>
   </section>
 
