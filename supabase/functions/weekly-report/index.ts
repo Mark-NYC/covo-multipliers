@@ -76,7 +76,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
         .order("event_date", { ascending: true }),
       supabase
         .from("registrations")
-        .select("id, email, event_id, registration_status, utm_source, first_utm_source, created_at, cancelled_at")
+        .select("id, email, event_id, registration_status, utm_source, first_utm_source, created_at")
         .order("created_at", { ascending: false }),
       supabase
         .from("lab_attendance")
@@ -113,13 +113,6 @@ Deno.serve(async (req: Request): Promise<Response> => {
         r.registration_status === "active" &&
         upcomingIds.has(r.event_id) &&
         new Date(r.created_at) >= weekAgo,
-    ).length;
-
-    const cancellationsThisWeek = allRegs.filter(
-      (r) =>
-        r.registration_status === "cancelled" &&
-        r.cancelled_at &&
-        new Date(r.cancelled_at) >= weekAgo,
     ).length;
 
     // --- Per-lab summaries ---
@@ -235,7 +228,6 @@ Deno.serve(async (req: Request): Promise<Response> => {
       generatedAt: now,
       weekStart: weekAgo,
       signupsThisWeek,
-      cancellationsThisWeek,
       labRows,
       topChannels,
       totalNew,
@@ -302,7 +294,6 @@ interface ReportData {
   generatedAt: Date;
   weekStart: Date;
   signupsThisWeek: number;
-  cancellationsThisWeek: number;
   labRows: any[];
   topChannels: [string, number][];
   totalNew: number;
@@ -346,11 +337,8 @@ function buildEmail(d: ReportData): string {
   const velocityRow = `
     <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="margin-bottom:28px;">
       <tr>
-        <td width="50%" style="padding-right:8px;">
+        <td>
           ${statCard("New signups this week", String(d.signupsThisWeek), "#10281f")}
-        </td>
-        <td width="50%" style="padding-left:8px;">
-          ${statCard("Cancellations this week", String(d.cancellationsThisWeek), d.cancellationsThisWeek > 0 ? "#b91c1c" : "#10281f")}
         </td>
       </tr>
     </table>`;

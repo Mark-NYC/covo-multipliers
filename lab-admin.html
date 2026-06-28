@@ -818,14 +818,6 @@
                         </div>
                     </div>
 
-                    <!-- Cancellation timing -->
-                    <div class="pattern-section">
-                        <h3>When do cancellations happen?</h3>
-                        <p class="pattern-sub">Days before the event when a registration was cancelled</p>
-                        <div class="pattern-chart-wrap">
-                            <canvas id="cancellation-chart"></canvas>
-                        </div>
-                    </div>
                 </div>
 
                 <!-- Person Tab -->
@@ -1049,13 +1041,6 @@
                     </div>
                 </div>
 
-                <div class="pattern-section">
-                    <h3>When do cancellations happen?</h3>
-                    <p class="pattern-sub">Days before the event when a registration was cancelled</p>
-                    <div class="pattern-chart-wrap">
-                        <canvas id="cancellation-chart-mobile"></canvas>
-                    </div>
-                </div>
             </div>
         </div>
 
@@ -1802,16 +1787,6 @@
             });
         });
 
-        // --- Cancellation timing ---
-        const ctLabels = patterns.cancellationBuckets.map(b => b.label);
-        const ctCounts = patterns.cancellationBuckets.map(b => b.count);
-        ["cancellation-chart", "cancellation-chart-mobile"].forEach(id => {
-            makeBarChart(id, ctLabels, [{
-                data: ctCounts,
-                backgroundColor: CHART_COLORS.amber,
-                borderRadius: 4,
-            }]);
-        });
     }
 
     window.onPaceLabChange = function() {
