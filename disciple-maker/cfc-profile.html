@@ -696,6 +696,8 @@
       return { practice, rhythm, mission, coachability, vision, commitment, focus, consistency };
     }
 
+    let resultsToken = null;
+
     function generateCFCFeedback(analysis) {
       const { commitment, focus, consistency } = analysis;
       const threshold = 3.5;
@@ -766,7 +768,7 @@
 
     async function loadProfile() {
       const params = new URLSearchParams(window.location.search);
-      const resultsToken = params.get('r');
+      resultsToken = params.get('r');
 
       if (!resultsToken) {
         showView('error');
@@ -783,6 +785,10 @@
 
         setTimeout(() => {
           renderProfile(data);
+          // Show diagnostic modal after 4 seconds
+          setTimeout(() => {
+            showDiagnosticModal();
+          }, 4000);
         }, 1500);
       } catch (error) {
         console.error('Error:', error);
@@ -962,38 +968,6 @@
         `;
         document.getElementById('priority-section').innerHTML = priorityHtml;
         document.getElementById('priority-card').style.display = 'block';
-      }
-    }
-
-    let resultsToken = null;
-
-    function loadProfile() {
-      const params = new URLSearchParams(window.location.search);
-      resultsToken = params.get('r');
-
-      if (!resultsToken) {
-        showView('error');
-        return;
-      }
-
-      try {
-        const response = await fetch(
-          `${SUPABASE_FUNCTIONS}/disciple-maker-results?token=${resultsToken}`
-        );
-
-        const data = await response.json();
-        if (!response.ok) throw new Error('Failed to load profile');
-
-        setTimeout(() => {
-          renderProfile(data);
-          // Show diagnostic modal after 4 seconds
-          setTimeout(() => {
-            showDiagnosticModal();
-          }, 4000);
-        }, 1500);
-      } catch (error) {
-        console.error('Error:', error);
-        showView('error');
       }
     }
 
