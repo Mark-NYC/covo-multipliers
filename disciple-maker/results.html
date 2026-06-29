@@ -473,6 +473,115 @@
     .breakthrough-together {
       background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
     }
+
+    .email-gate {
+      display: none;
+    }
+
+    .email-gate.show {
+      display: block;
+    }
+
+    .gate-container {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .gate-icon {
+      font-size: 64px;
+      margin-bottom: 24px;
+    }
+
+    .gate-title {
+      font-size: 32px;
+      font-weight: 800;
+      color: #1a1a1a;
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+
+    .gate-subtitle {
+      font-size: 16px;
+      line-height: 1.7;
+      color: #555;
+      margin-bottom: 40px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .gate-form {
+      background: white;
+      border-radius: 12px;
+      padding: 32px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      margin-bottom: 32px;
+    }
+
+    .gate-input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .gate-input {
+      padding: 14px 16px;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 16px;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+
+    .gate-input:focus {
+      outline: none;
+      border-color: #1b4d3e;
+      box-shadow: 0 0 0 3px rgba(27, 77, 62, 0.1);
+    }
+
+    .gate-button {
+      background: linear-gradient(135deg, #1b4d3e, #0d3d2f);
+      color: white;
+      padding: 14px 32px;
+      border-radius: 8px;
+      border: none;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.2s;
+      width: 100%;
+    }
+
+    .gate-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(27, 77, 62, 0.2);
+    }
+
+    .gate-button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .gate-error {
+      color: #dc2626;
+      font-size: 14px;
+      margin-top: 12px;
+      display: none;
+    }
+
+    .gate-error.show {
+      display: block;
+    }
+
+    .gate-note {
+      font-size: 13px;
+      color: #888;
+      margin-top: 16px;
+      font-style: italic;
+    }
   </style>
 </head>
 <body>
@@ -513,6 +622,31 @@
       <a href="/" style="color: #1b4d3e; font-weight: 600; text-decoration: none;">Return Home</a>
     </div>
 
+    <div id="email-gate" class="email-gate">
+      <div class="gate-container">
+        <div class="gate-icon">📬</div>
+        <h1 class="gate-title">Your Snapshot Awaits</h1>
+        <p class="gate-subtitle">Enter your email to see your personalized breakthrough area and next step. We'll also send it to your inbox.</p>
+
+        <div class="gate-form">
+          <form id="email-form" onsubmit="handleEmailSubmit(event)">
+            <div class="gate-input-group">
+              <input
+                type="email"
+                id="gate-email"
+                class="gate-input"
+                placeholder="your@email.com"
+                required
+              >
+            </div>
+            <button type="submit" class="gate-button" id="gate-submit-btn">Show My Results</button>
+            <div class="gate-error" id="gate-error-msg"></div>
+            <p class="gate-note">We'll send your results and occasional coaching. You can unsubscribe anytime.</p>
+          </form>
+        </div>
+      </div>
+    </div>
+
     <div id="results-view" style="display:none;">
 
       <div class="results-hero">
@@ -524,12 +658,11 @@
       <div class="dm-card">
         <h2 class="dm-h2">Where You Are Right Now</h2>
         <p class="dm-body">
-          These five dimensions show your current state. This isn't about scoring high—it's about seeing your real picture and knowing what to practice next.
+          This snapshot shows your current state across five key dimensions of disciple-making practice.
         </p>
         <div class="radar-container">
           <canvas id="radarChart"></canvas>
         </div>
-        <div id="dimension-summary"></div>
       </div>
 
       <div id="breakthrough-card" class="dm-card" style="display:none;"></div>
@@ -872,9 +1005,43 @@
 
     function showView(viewName) {
       document.getElementById('loading-view').style.display = viewName === 'loading' ? 'block' : 'none';
+      document.getElementById('email-gate').style.display = viewName === 'email-gate' ? 'block' : 'none';
       document.getElementById('results-view').style.display = viewName === 'results' ? 'block' : 'none';
       document.getElementById('error-view').style.display = viewName === 'error' ? 'block' : 'none';
     }
+
+    function handleEmailSubmit(event) {
+      event.preventDefault();
+      const email = document.getElementById('gate-email').value;
+      const errorMsg = document.getElementById('gate-error-msg');
+      const submitBtn = document.getElementById('gate-submit-btn');
+
+      // Clear previous error
+      errorMsg.classList.remove('show');
+      submitBtn.disabled = true;
+
+      // Validate email
+      if (!email || !email.includes('@')) {
+        errorMsg.textContent = 'Please enter a valid email';
+        errorMsg.classList.add('show');
+        submitBtn.disabled = false;
+        return;
+      }
+
+      // Store email for follow-up
+      sessionStorage.setItem('dm_user_email', email);
+
+      // Render results with stored data
+      if (resultsData) {
+        renderResults(resultsData);
+      } else {
+        errorMsg.textContent = 'Error loading results. Please try again.';
+        errorMsg.classList.add('show');
+        submitBtn.disabled = false;
+      }
+    }
+
+    let resultsData = null;
 
     async function loadResults() {
       const params = new URLSearchParams(window.location.search);
@@ -902,8 +1069,10 @@
         const data = await response.json();
         if (!response.ok) throw new Error('Failed to load results');
 
+        // Store data and show email gate after loading animation
+        resultsData = data;
         setTimeout(() => {
-          renderResults(data);
+          showView('email-gate');
         }, 1800);
       } catch (error) {
         console.error('Error:', error);
@@ -928,9 +1097,6 @@
 
       // Render radar chart
       renderRadarChart(scores);
-
-      // Render dimension summary
-      renderDimensionSummary(scores);
 
       // Render breakthrough area
       const breakthroughHtml = `
