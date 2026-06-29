@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lab Admin Dashboard — CoVo Multipliers</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -365,6 +366,130 @@
             padding: 0;
         }
 
+        /* Pace chart */
+        .pace-chart-controls {
+            padding: 16px 20px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .pace-chart-controls label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #444;
+            white-space: nowrap;
+        }
+
+        .pace-chart-controls select {
+            padding: 7px 10px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 13px;
+            background: #fff;
+            color: #1a1a1a;
+            cursor: pointer;
+            min-width: 200px;
+        }
+
+        .pace-chart-controls select:focus {
+            outline: none;
+            border-color: #1b4d3e;
+            box-shadow: 0 0 0 3px rgba(27,77,62,0.1);
+        }
+
+        .pace-chart-wrap {
+            padding: 16px 20px;
+            position: relative;
+            height: 320px;
+        }
+
+        .pace-chart-legend {
+            padding: 0 20px 14px;
+            display: flex;
+            gap: 20px;
+            font-size: 12px;
+            color: #555;
+        }
+
+        .pace-chart-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .pace-chart-legend-swatch {
+            width: 24px;
+            height: 3px;
+            border-radius: 2px;
+        }
+
+        .pace-chart-note {
+            padding: 0 20px 14px;
+            font-size: 12px;
+            color: #888;
+        }
+
+        /* Pattern sections inside Pace & Patterns tab */
+        .pattern-section {
+            border-top: 1px solid #e5e7eb;
+            padding: 16px 20px;
+        }
+
+        .pattern-section h3 {
+            font-size: 13px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .pattern-section .pattern-sub {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 14px;
+        }
+
+        .pattern-chart-wrap {
+            position: relative;
+            height: 200px;
+        }
+
+        .pattern-chart-wrap.tall {
+            height: 260px;
+        }
+
+        .fill-forecast {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 4px;
+        }
+
+        .fill-forecast-card {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 10px 14px;
+            min-width: 160px;
+        }
+
+        .fill-forecast-card .ffc-label {
+            font-size: 11px;
+            color: #888;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            margin-bottom: 4px;
+        }
+
+        .fill-forecast-card .ffc-value {
+            font-size: 15px;
+            font-weight: 700;
+            color: #10281f;
+        }
+
         @media (min-width: 769px) {
             /* Desktop: Show tabs, hide accordions */
             .tabs-container {
@@ -497,6 +622,7 @@
         <div class="tabs-container">
             <div class="tabs-nav">
                 <button class="tab-button active" onclick="switchTab('registrants')">Registrants</button>
+                <button class="tab-button" onclick="switchTab('pace')">Pace &amp; Patterns</button>
                 <button class="tab-button" onclick="switchTab('shortlink')">Shortlink Performance</button>
                 <button class="tab-button" onclick="switchTab('lab-summary')">Per-Lab Summary</button>
                 <button class="tab-button" onclick="switchTab('channel')">Signups by Channel</button>
@@ -633,6 +759,65 @@
                         </thead>
                         <tbody id="affinity-body-tab"></tbody>
                     </table>
+                </div>
+
+                <!-- Signup Pace Tab -->
+                <div id="tab-pace" class="tab-content">
+                    <div class="pace-chart-controls">
+                        <label for="pace-lab-select">Lab:</label>
+                        <select id="pace-lab-select" onchange="onPaceLabChange()">
+                            <option value="">— select a lab —</option>
+                        </select>
+                    </div>
+                    <div class="pace-chart-wrap">
+                        <canvas id="pace-chart-canvas"></canvas>
+                    </div>
+                    <div class="pace-chart-legend">
+                        <div class="pace-chart-legend-item">
+                            <div class="pace-chart-legend-swatch" style="background:#b0b8c4;"></div>
+                            Historical average
+                        </div>
+                        <div class="pace-chart-legend-item">
+                            <div class="pace-chart-legend-swatch" style="background:#1b4d3e;"></div>
+                            <span id="pace-legend-current">Selected lab</span>
+                        </div>
+                    </div>
+                    <div class="pace-chart-note" id="pace-chart-note"></div>
+
+                    <!-- Seat fill forecast (shown only for labs with seat limits) -->
+                    <div class="pattern-section" id="fill-forecast-section" style="display:none;">
+                        <h3>Seat fill forecast</h3>
+                        <p class="pattern-sub">At current pace, when will each lab fill?</p>
+                        <div class="fill-forecast" id="fill-forecast-cards"></div>
+                    </div>
+
+                    <!-- When do people register? -->
+                    <div class="pattern-section">
+                        <h3>When do people sign up?</h3>
+                        <p class="pattern-sub">Days before the event — all active registrations across all labs</p>
+                        <div class="pattern-chart-wrap">
+                            <canvas id="days-to-reg-chart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Show-up rate by channel -->
+                    <div class="pattern-section">
+                        <h3>Show-up rate by channel</h3>
+                        <p class="pattern-sub">Of everyone who signed up via each channel, what % actually attended?</p>
+                        <div class="pattern-chart-wrap tall" id="showup-chart-wrap">
+                            <canvas id="showup-channel-chart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- New vs. returning -->
+                    <div class="pattern-section">
+                        <h3>New vs. returning registrants</h3>
+                        <p class="pattern-sub">Returning = has attended at least one previous lab</p>
+                        <div class="pattern-chart-wrap">
+                            <canvas id="new-returning-chart"></canvas>
+                        </div>
+                    </div>
+
                 </div>
 
                 <!-- Person Tab -->
@@ -795,6 +980,67 @@
                     </thead>
                     <tbody id="affinity-body"></tbody>
                 </table>
+            </div>
+        </div>
+
+        <!-- Signup Pace Chart (mobile accordion) -->
+        <div class="table-section collapsed">
+            <button class="accordion-header collapsed" onclick="toggleAccordion(this)">
+                <span>Pace &amp; Patterns <span style="font-weight:400;font-size:13px;color:#888;">— signup pace, timing, channels &amp; retention</span></span>
+                <span class="accordion-toggle">▼</span>
+            </button>
+            <div class="accordion-content">
+                <div class="pace-chart-controls">
+                    <label for="pace-lab-select-mobile">Lab:</label>
+                    <select id="pace-lab-select-mobile" onchange="onPaceLabChangeMobile()">
+                        <option value="">— select a lab —</option>
+                    </select>
+                </div>
+                <div class="pace-chart-wrap">
+                    <canvas id="pace-chart-canvas-mobile"></canvas>
+                </div>
+                <div class="pace-chart-legend">
+                    <div class="pace-chart-legend-item">
+                        <div class="pace-chart-legend-swatch" style="background:#b0b8c4;"></div>
+                        Historical average
+                    </div>
+                    <div class="pace-chart-legend-item">
+                        <div class="pace-chart-legend-swatch" style="background:#1b4d3e;"></div>
+                        <span id="pace-legend-current-mobile">Selected lab</span>
+                    </div>
+                </div>
+                <div class="pace-chart-note" id="pace-chart-note-mobile"></div>
+
+                <div class="pattern-section" id="fill-forecast-section-mobile" style="display:none;">
+                    <h3>Seat fill forecast</h3>
+                    <p class="pattern-sub">At current pace, when will each lab fill?</p>
+                    <div class="fill-forecast" id="fill-forecast-cards-mobile"></div>
+                </div>
+
+                <div class="pattern-section">
+                    <h3>When do people sign up?</h3>
+                    <p class="pattern-sub">Days before the event — all active registrations across all labs</p>
+                    <div class="pattern-chart-wrap">
+                        <canvas id="days-to-reg-chart-mobile"></canvas>
+                    </div>
+                </div>
+
+                <div class="pattern-section">
+                    <h3>Show-up rate by channel</h3>
+                    <p class="pattern-sub">Of everyone who signed up via each channel, what % actually attended?</p>
+                    <div class="pattern-chart-wrap tall" id="showup-chart-wrap-mobile">
+                        <canvas id="showup-channel-chart-mobile"></canvas>
+                    </div>
+                </div>
+
+                <div class="pattern-section">
+                    <h3>New vs. returning registrants</h3>
+                    <p class="pattern-sub">Returning = has attended at least one previous lab</p>
+                    <div class="pattern-chart-wrap">
+                        <canvas id="new-returning-chart-mobile"></canvas>
+                    </div>
+                </div>
+
             </div>
         </div>
 
@@ -1181,6 +1427,14 @@
         document.getElementById("affinity-loading-tab").style.display = "none";
         document.getElementById("affinity-table-tab").style.display = "table";
 
+        // Signup pace chart + patterns
+        if (data.paceChart) {
+            populatePaceChart(data.paceChart, data.summaryStats.benchmarkLabCount);
+        }
+        if (data.signupPatterns) {
+            populateSignupPatterns(data.signupPatterns, data.labSummary, data.paceChart);
+        }
+
         // Load shortlink analytics
         loadShortlinkAnalytics();
 
@@ -1230,6 +1484,320 @@
         document.getElementById("person-loading-tab").style.display = "none";
         document.getElementById("person-table-tab").style.display = "table";
     }
+
+    // --- Signup pace chart ---
+    let _paceData = null;
+    let _paceChartDesktop = null;
+    let _paceChartMobile = null;
+
+    function populatePaceChart(paceChart, benchmarkLabCount) {
+        _paceData = paceChart;
+
+        const note = benchmarkLabCount === 0
+            ? "No past labs yet — the historical average will appear once at least one lab has run."
+            : `Historical average is based on ${benchmarkLabCount} past lab${benchmarkLabCount === 1 ? "" : "s"}.${benchmarkLabCount < 4 ? " Treat as directional until more labs complete." : ""}`;
+
+        ["pace-chart-note", "pace-chart-note-mobile"].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = note;
+        });
+
+        // Populate lab selectors
+        const options = paceChart.labCurves.map(lab =>
+            `<option value="${lab.id}">${lab.title} (${lab.daysLeft}d left)</option>`
+        ).join("");
+
+        ["pace-lab-select", "pace-lab-select-mobile"].forEach(id => {
+            const sel = document.getElementById(id);
+            if (!sel) return;
+            sel.innerHTML = options || `<option value="">No upcoming labs</option>`;
+        });
+
+        // Auto-render with first lab
+        if (paceChart.labCurves.length > 0) {
+            drawPaceChart(paceChart.labCurves[0].id, "pace-chart-canvas", "_paceChartDesktop");
+            drawPaceChart(paceChart.labCurves[0].id, "pace-chart-canvas-mobile", "_paceChartMobile");
+        }
+    }
+
+    function drawPaceChart(labId, canvasId, instanceKey) {
+        if (!_paceData) return;
+        const { maxDaysWindow, averageCurve, labCurves } = _paceData;
+        const lab = labCurves.find(l => l.id === labId);
+        if (!lab) return;
+
+        // X-axis labels: days before event, high → low (left → right = approaching event)
+        const labels = [];
+        for (let d = maxDaysWindow; d >= 0; d--) labels.push(d);
+
+        const avgData = labels.map(d => averageCurve[d]);
+
+        // Show lab data only for days that have already passed (d >= daysLeft)
+        const labData = labels.map(d => (d >= lab.daysLeft ? lab.points[d] : null));
+
+        const ctx = document.getElementById(canvasId);
+        if (!ctx) return;
+
+        // Destroy existing chart instance
+        if (window[instanceKey]) {
+            window[instanceKey].destroy();
+            window[instanceKey] = null;
+        }
+
+        window[instanceKey] = new Chart(ctx, {
+            type: "line",
+            data: {
+                labels,
+                datasets: [
+                    {
+                        label: "Historical average",
+                        data: avgData,
+                        borderColor: "#b0b8c4",
+                        backgroundColor: "transparent",
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        tension: 0.3,
+                        order: 2,
+                    },
+                    {
+                        label: lab.title,
+                        data: labData,
+                        borderColor: "#1b4d3e",
+                        backgroundColor: "rgba(27,77,62,0.08)",
+                        borderWidth: 2.5,
+                        pointRadius: 0,
+                        tension: 0.3,
+                        fill: true,
+                        spanGaps: false,
+                        order: 1,
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        mode: "index",
+                        intersect: false,
+                        callbacks: {
+                            title: (items) => `${items[0].label} days before event`,
+                        },
+                    },
+                },
+                scales: {
+                    x: {
+                        title: { display: true, text: "Days before event", font: { size: 12 }, color: "#888" },
+                        ticks: {
+                            callback: (val, idx) => labels[idx] % 10 === 0 ? labels[idx] : "",
+                            maxRotation: 0,
+                        },
+                        grid: { color: "#f0f0f0" },
+                    },
+                    y: {
+                        title: { display: true, text: "Cumulative signups", font: { size: 12 }, color: "#888" },
+                        beginAtZero: true,
+                        ticks: { precision: 0 },
+                        grid: { color: "#f0f0f0" },
+                    },
+                },
+            },
+        });
+
+        // Update legend labels
+        const desktopLegend = document.getElementById("pace-legend-current");
+        const mobileLegend = document.getElementById("pace-legend-current-mobile");
+        if (desktopLegend) desktopLegend.textContent = lab.title;
+        if (mobileLegend) mobileLegend.textContent = lab.title;
+    }
+
+    // --- Signup patterns charts ---
+    const CHART_COLORS = {
+        green: "#1b4d3e",
+        greenLight: "rgba(27,77,62,0.15)",
+        amber: "#9f7a2f",
+        amberLight: "rgba(159,122,47,0.15)",
+        gray: "#b0b8c4",
+        grayLight: "rgba(176,184,196,0.15)",
+        red: "#b91c1c",
+        redLight: "rgba(185,28,28,0.12)",
+    };
+
+    const BAR_DEFAULTS = {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: false,
+        plugins: { legend: { display: false }, tooltip: { mode: "index", intersect: false } },
+        scales: {
+            x: { grid: { color: "#f0f0f0" }, ticks: { font: { size: 11 } } },
+            y: { beginAtZero: true, ticks: { precision: 0, font: { size: 11 } }, grid: { color: "#f0f0f0" } },
+        },
+    };
+
+    const _patternCharts = {};
+
+    function makeBarChart(canvasId, labels, datasets, optOverrides = {}) {
+        const ctx = document.getElementById(canvasId);
+        if (!ctx) return;
+        if (_patternCharts[canvasId]) { _patternCharts[canvasId].destroy(); }
+        _patternCharts[canvasId] = new Chart(ctx, {
+            type: "bar",
+            data: { labels, datasets },
+            options: { ...BAR_DEFAULTS, ...optOverrides },
+        });
+    }
+
+    function populateSignupPatterns(patterns, labSummary, paceChart) {
+        // --- Seat fill forecast ---
+        const labsWithSeats = labSummary.filter(l => l.max_seats && l.days_left > 0);
+        ["fill-forecast-section", "fill-forecast-section-mobile"].forEach(sectionId => {
+            const section = document.getElementById(sectionId);
+            const cards = document.getElementById(sectionId === "fill-forecast-section" ? "fill-forecast-cards" : "fill-forecast-cards-mobile");
+            if (!section || !cards) return;
+            if (labsWithSeats.length === 0) { section.style.display = "none"; return; }
+            section.style.display = "";
+            cards.innerHTML = labsWithSeats.map(lab => {
+                const curve = paceChart.labCurves.find(c => c.id === lab.id);
+                const daysElapsed = paceChart.maxDaysWindow - lab.days_left;
+                let forecastText = "—";
+                if (curve && daysElapsed > 0) {
+                    const rate = lab.active_signups / daysElapsed; // signups/day
+                    const remaining = lab.max_seats - lab.active_signups;
+                    if (remaining <= 0) {
+                        forecastText = "Full now";
+                    } else if (rate <= 0) {
+                        forecastText = "No signups yet";
+                    } else {
+                        const daysToFull = Math.ceil(remaining / rate);
+                        if (daysToFull <= lab.days_left) {
+                            forecastText = `~${daysToFull}d (before event)`;
+                        } else {
+                            forecastText = `Won't fill at this pace`;
+                        }
+                    }
+                }
+                const pct = Math.round((lab.active_signups / lab.max_seats) * 100);
+                return `<div class="fill-forecast-card">
+                    <div class="ffc-label">${lab.title}</div>
+                    <div class="ffc-value">${pct}% full · ${forecastText}</div>
+                </div>`;
+            }).join("");
+        });
+
+        // --- Days-to-register chart ---
+        const dtrLabels = patterns.daysToRegisterBuckets.map(b => b.label);
+        const dtrCounts = patterns.daysToRegisterBuckets.map(b => b.count);
+        ["days-to-reg-chart", "days-to-reg-chart-mobile"].forEach(id => {
+            makeBarChart(id, dtrLabels, [{
+                data: dtrCounts,
+                backgroundColor: CHART_COLORS.green,
+                borderRadius: 4,
+            }]);
+        });
+
+        // --- Show-up rate by channel ---
+        const suData = patterns.showUpByChannel.slice(0, 8); // cap at 8 channels
+        const suLabels = suData.map(d => d.source);
+        const suRates = suData.map(d => d.show_up_rate);
+        // Set chart height proportional to channels
+        ["showup-chart-wrap", "showup-chart-wrap-mobile"].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.style.height = Math.max(160, suLabels.length * 36) + "px";
+        });
+        ["showup-channel-chart", "showup-channel-chart-mobile"].forEach(id => {
+            const ctx = document.getElementById(id);
+            if (!ctx) return;
+            if (_patternCharts[id]) { _patternCharts[id].destroy(); }
+            _patternCharts[id] = new Chart(ctx, {
+                type: "bar",
+                data: {
+                    labels: suLabels,
+                    datasets: [{
+                        label: "Show-up rate %",
+                        data: suRates,
+                        backgroundColor: suRates.map(r =>
+                            r >= 60 ? CHART_COLORS.green : r >= 35 ? CHART_COLORS.amber : CHART_COLORS.red
+                        ),
+                        borderRadius: 4,
+                    }],
+                },
+                options: {
+                    ...BAR_DEFAULTS,
+                    indexAxis: "y",
+                    scales: {
+                        x: { beginAtZero: true, max: 100, ticks: { callback: v => v + "%", font: { size: 11 } }, grid: { color: "#f0f0f0" } },
+                        y: { grid: { display: false }, ticks: { font: { size: 11 } } },
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: (item) => {
+                                    const d = suData[item.dataIndex];
+                                    return ` ${d.show_up_rate}% (${d.attended}/${d.registered})`;
+                                },
+                            },
+                        },
+                    },
+                },
+            });
+        });
+
+        // --- New vs. returning ---
+        const nrData = patterns.newVsReturning;
+        const nrLabels = nrData.map(d => d.title);
+        ["new-returning-chart", "new-returning-chart-mobile"].forEach(id => {
+            const ctx = document.getElementById(id);
+            if (!ctx) return;
+            if (_patternCharts[id]) { _patternCharts[id].destroy(); }
+            _patternCharts[id] = new Chart(ctx, {
+                type: "bar",
+                data: {
+                    labels: nrLabels,
+                    datasets: [
+                        {
+                            label: "New",
+                            data: nrData.map(d => d.new_count),
+                            backgroundColor: CHART_COLORS.gray,
+                            borderRadius: 4,
+                            stack: "s",
+                        },
+                        {
+                            label: "Returning",
+                            data: nrData.map(d => d.returning_count),
+                            backgroundColor: CHART_COLORS.green,
+                            borderRadius: 4,
+                            stack: "s",
+                        },
+                    ],
+                },
+                options: {
+                    ...BAR_DEFAULTS,
+                    plugins: {
+                        legend: { display: true, position: "top", labels: { font: { size: 11 }, boxWidth: 12 } },
+                        tooltip: { mode: "index", intersect: false },
+                    },
+                    scales: {
+                        x: { stacked: true, grid: { color: "#f0f0f0" }, ticks: { font: { size: 11 } } },
+                        y: { stacked: true, beginAtZero: true, ticks: { precision: 0, font: { size: 11 } }, grid: { color: "#f0f0f0" } },
+                    },
+                },
+            });
+        });
+
+    }
+
+    window.onPaceLabChange = function() {
+        const labId = document.getElementById("pace-lab-select").value;
+        if (labId) drawPaceChart(labId, "pace-chart-canvas", "_paceChartDesktop");
+    };
+
+    window.onPaceLabChangeMobile = function() {
+        const labId = document.getElementById("pace-lab-select-mobile").value;
+        if (labId) drawPaceChart(labId, "pace-chart-canvas-mobile", "_paceChartMobile");
+    };
 
     function showError(message) {
         const errorContainer = document.getElementById("error-container");

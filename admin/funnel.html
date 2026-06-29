@@ -2011,21 +2011,7 @@ async function loadSubstack() {
       throw new Error(`Error: ${res.status}`);
     }
 
-    const result = await res.json() as { data?: Array<{
-      id: string;
-      post_id: string;
-      metric_date: string;
-      likes?: number;
-      views?: number;
-      clicks?: number;
-      comments?: number;
-      substack_posts?: {
-        id: string;
-        title: string;
-        post_url: string;
-        published_at?: string;
-      };
-    }> };
+    const result = await res.json();
 
     dash.substack = result.data || [];
     renderSubstack(dash.substack);
@@ -2035,7 +2021,7 @@ async function loadSubstack() {
   }
 }
 
-function renderSubstack(data: Array<unknown>) {
+function renderSubstack(data) {
   const el = document.getElementById("substack-content");
   if (!el) return;
 
@@ -2045,15 +2031,9 @@ function renderSubstack(data: Array<unknown>) {
   }
 
   // Group by post and get latest metrics
-  const postMap: Record<string, { title?: string; post_url?: string; metrics: Array<unknown> }> = {};
+  const postMap = {};
   for (const metric of data) {
-    const m = metric as {
-      post_id: string;
-      substack_posts?: { title?: string; post_url?: string };
-      likes?: number;
-      views?: number;
-      clicks?: number;
-    };
+    const m = metric;
     if (!postMap[m.post_id]) {
       postMap[m.post_id] = {
         title: m.substack_posts?.title,
@@ -2067,7 +2047,7 @@ function renderSubstack(data: Array<unknown>) {
   // Calculate summary metrics
   let totalClicks = 0, totalViews = 0, totalLikes = 0;
   for (const post of Object.values(postMap)) {
-    const latest = (post.metrics[0] as { clicks?: number; views?: number; likes?: number }) || {};
+    const latest = post.metrics[0] || {};
     totalClicks += latest.clicks || 0;
     totalViews += latest.views || 0;
     totalLikes += latest.likes || 0;
@@ -2086,7 +2066,7 @@ function renderSubstack(data: Array<unknown>) {
     '</tr></thead><tbody>';
 
   for (const [postId, post] of Object.entries(postMap)) {
-    const latest = (post.metrics[0] as { clicks?: number; views?: number; likes?: number; comments?: number }) || {};
+    const latest = post.metrics[0] || {};
     const title = post.title || "Untitled";
     const url = post.post_url || "#";
     html += '<tr>' +
@@ -2105,7 +2085,7 @@ function renderSubstack(data: Array<unknown>) {
 async function syncSubstackPosts() {
   const secret = sessionStorage.getItem("analytics_secret");
   const statusEl = document.getElementById("substack-sync-status");
-  const btnEl = document.getElementById("substack-sync-btn") as HTMLButtonElement;
+  const btnEl = document.getElementById("substack-sync-btn");
 
   if (!statusEl || !btnEl) return;
 
@@ -2123,7 +2103,7 @@ async function syncSubstackPosts() {
       throw new Error(`Sync failed: ${res.status}`);
     }
 
-    const result = await res.json() as { synced?: number; total?: number };
+    const result = await res.json();
     statusEl.textContent = `Synced ${result.synced || 0} of ${result.total || 0} posts`;
     showToast(`Synced ${result.synced || 0} posts`, "ok");
 

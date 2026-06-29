@@ -146,48 +146,17 @@
             flex-wrap: wrap;
         }
 
-        .btn-hero-gold,
-        .btn-cta-gold {
-            display: inline-block;
-            padding: 0.9rem 2rem;
-            background: #dcb55a;
-            color: #10281f;
-            font-size: 0.975rem;
-            font-weight: 800;
-            font-family: inherit;
-            letter-spacing: 0.01em;
-            border-radius: 10px;
-            text-decoration: none;
-            transition: background 0.2s ease, transform 0.15s ease;
-        }
-
-        .btn-hero-gold:hover,
-        .btn-cta-gold:hover {
-            background: #c9a24e;
-            transform: translateY(-1px);
-        }
-
-        .btn-hero-outline,
-        .btn-cta-outline {
-            display: inline-block;
-            padding: 0.9rem 2rem;
-            background: transparent;
+        /* .btn-secondary on dark hero needs white outline for contrast */
+        .vp-hero .btn-secondary {
             color: #ffffff;
-            font-size: 0.975rem;
-            font-weight: 700;
-            font-family: inherit;
-            letter-spacing: 0.01em;
-            border: 2px solid rgba(255, 255, 255, 0.5);
-            border-radius: 10px;
-            text-decoration: none;
-            transition: border-color 0.2s ease, background 0.2s ease;
+            border-color: rgba(255,255,255,0.85);
+        }
+        .vp-hero .btn-secondary:hover {
+            background: rgba(255,255,255,0.15);
+            color: #ffffff;
+            border-color: #ffffff;
         }
 
-        .btn-hero-outline:hover,
-        .btn-cta-outline:hover {
-            border-color: #ffffff;
-            background: rgba(255, 255, 255, 0.08);
-        }
 
         .section-inner {
             max-width: 1000px;
@@ -261,23 +230,6 @@
             margin-bottom: 1.5rem;
         }
 
-        .btn-podcast {
-            display: inline-block;
-            padding: 0.75rem 1.75rem;
-            background: #1b4d3e;
-            color: #ffffff;
-            font-size: 0.9rem;
-            font-weight: 700;
-            font-family: inherit;
-            letter-spacing: 0.01em;
-            border-radius: 10px;
-            text-decoration: none;
-            transition: background 0.2s ease;
-        }
-
-        .btn-podcast:hover {
-            background: #10281f;
-        }
 
         .covo-section {
             background: #f8faf9;
@@ -436,24 +388,6 @@
             align-items: center;
         }
 
-        .btn-immersion-primary {
-            display: inline-block;
-            padding: 0.95rem 1.85rem;
-            background: #1b4d3e;
-            color: #ffffff;
-            font-size: 0.95rem;
-            font-weight: 800;
-            font-family: inherit;
-            letter-spacing: 0.01em;
-            border-radius: 999px;
-            text-decoration: none;
-            transition: background 0.2s ease, transform 0.15s ease;
-        }
-
-        .btn-immersion-primary:hover {
-            background: #10281f;
-            transform: translateY(-1px);
-        }
 
         .immersion-cta-note {
             font-size: 0.9rem;
@@ -696,8 +630,8 @@
                 </div>
 
                 <div class="hero-buttons">
-                    <a class="btn-hero-gold" href="https://podcasts.apple.com/gb/podcast/the-rise-of-covo-multipliers-why-priscilla-aquila/id1562206185?i=1000705387220" target="_blank" rel="noopener">Listen to the Episode</a>
-                    <a class="btn-hero-outline" href="/#upcoming-labs">Join a Lab</a>
+                    <a class="btn btn-primary" href="https://podcasts.apple.com/gb/podcast/the-rise-of-covo-multipliers-why-priscilla-aquila/id1562206185?i=1000705387220" target="_blank" rel="noopener">Listen to the Episode</a>
+                    <a class="btn btn-secondary" href="/#upcoming-labs">Join a Lab</a>
                 </div>
             </div>
 
@@ -719,7 +653,7 @@
             <div class="podcast-card">
                 <h2 class="podcast-title">The Rise of Covo Multipliers</h2>
                 <p class="podcast-copy">Listen to the episode on why Priscilla and Aquila offer a blueprint for leaders learning to build disciple making into everyday life.</p>
-                <a class="btn-podcast" href="https://podcasts.apple.com/gb/podcast/the-rise-of-covo-multipliers-why-priscilla-aquila/id1562206185?i=1000705387220" target="_blank" rel="noopener">Listen on Apple Podcasts</a>
+                <a class="btn btn-primary" href="https://podcasts.apple.com/gb/podcast/the-rise-of-covo-multipliers-why-priscilla-aquila/id1562206185?i=1000705387220" target="_blank" rel="noopener">Listen on Apple Podcasts</a>
             </div>
         </div>
     </section>
@@ -827,7 +761,7 @@
                 </ul>
 
                 <div class="immersion-cta-actions">
-                    <a class="btn-immersion-primary" href="/immersions.html">Explore Covo Immersions</a>
+                    <a class="btn btn-primary" href="/immersions.html">Explore Covo Immersions</a>
                     <span class="immersion-cta-note">2 to 3 days. Small group. Real settings.</span>
                 </div>
             </div>
@@ -891,14 +825,27 @@
         </div>
     </section>
 
+    <section style="background:#f0fdf4;border-top:1px solid #bbf7d0;border-bottom:1px solid #bbf7d0;padding:4rem 2rem;text-align:center;">
+        <div style="max-width:640px;margin:0 auto;">
+            <span style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#15803d;display:block;margin-bottom:0.75rem;">WhatsApp Field Room</span>
+            <h2 style="font-size:clamp(1.5rem,3vw,2rem);font-weight:900;color:#10281f;line-height:1.15;letter-spacing:-0.02em;margin-bottom:1rem;">Tribe starts here. Practice happens in WhatsApp.</h2>
+            <p style="font-size:1rem;line-height:1.75;color:#444444;margin-bottom:1.75rem;">The lab is where we train. WhatsApp is where we practice it together week to week. Join other covocational leaders making disciples in everyday life.</p>
+            <a href="https://www.covomultipliers.com/join-whatsapp?utm_source=vision_page&utm_medium=cta&utm_campaign=whatsapp_field_room"
+               style="display:inline-block;padding:0.9rem 2rem;background:#15803d;color:#ffffff;font-size:0.975rem;font-weight:800;font-family:inherit;letter-spacing:0.01em;border-radius:10px;text-decoration:none;">
+                Join the WhatsApp Field Room
+            </a>
+        </div>
+    </section>
+
     <section class="final-cta">
         <div class="final-cta-inner">
             <h2 class="final-cta-headline">Start with the vision. Then take the next step.</h2>
 
             <div class="cta-buttons">
-                <a class="btn-cta-gold" href="https://podcasts.apple.com/gb/podcast/the-rise-of-covo-multipliers-why-priscilla-aquila/id1562206185?i=1000705387220" target="_blank" rel="noopener">Listen to the Episode</a>
-                <a class="btn-cta-outline" href="/#upcoming-labs">Join a Lab</a>
+                <a class="btn btn-primary" href="/#upcoming-labs">Join a Lab</a>
             </div>
+
+            <p style="margin:1.5rem 0 0;font-size:0.925rem;color:rgba(255,255,255,0.65);">or <a href="https://www.covomultipliers.com/join-whatsapp?utm_source=vision_page&utm_medium=cta_secondary&utm_campaign=whatsapp_field_room" style="color:rgba(255,255,255,0.9);text-decoration:underline;font-weight:600;">Start practicing with us in WhatsApp →</a></p>
         </div>
     </section>
 
@@ -914,6 +861,7 @@
                 <a href="/vision.html">Vision &amp; Pathway</a>
                 <a href="/resources.html">Resources</a>
                 <a href="https://obey.tools">Obey.Tools</a>
+                <a href="https://www.covomultipliers.com/join-whatsapp?utm_source=footer&utm_medium=cta&utm_campaign=whatsapp_field_room" style="color:#4ade80;font-weight:700;">Join the Field Room</a>
             </nav>
         </div>
     </footer>

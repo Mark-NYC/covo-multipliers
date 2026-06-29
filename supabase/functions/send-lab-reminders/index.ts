@@ -505,6 +505,8 @@ function buildWeekEmail(fullName: string, event: LabEvent): string {
     ${renderDetailCard(dateStr)}
     ${renderCalendarCta(event)}
 
+    ${renderWhatsAppCta("lab_reminder_email", "The lab is where we train. WhatsApp is where we practice. Join the Field Room before we meet.", "week_reminder")}
+
     <p style="margin:28px 0 0;font-size:15px;color:#555555;line-height:1.65;">
       Block out the time now so it's there when the day comes.
     </p>
@@ -526,6 +528,8 @@ function build24hEmail(fullName: string, event: LabEvent): string {
 
     ${renderDetailCard(dateStr)}
     ${renderJoinCta(event)}
+
+    ${renderWhatsAppCta("lab_reminder_email", "The lab is where we train. WhatsApp is where we practice. Join the Field Room before we meet.", "24h_reminder")}
 
     <p style="margin:28px 0 0;font-size:15px;color:#555555;line-height:1.65;">
       See you tomorrow.
@@ -609,11 +613,9 @@ function buildFollowupEmail(fullName: string, event: LabEvent): string {
       ${v.body}
     </p>
 
-    <p style="margin:0 0 24px;font-size:13px;color:#888888;line-height:1.6;font-style:italic;">
-      Already in the WhatsApp? Jump back in and post your follow/fish goal.
-    </p>
-
     ${renderFollowupCta(event)}
+
+    ${renderWhatsAppCta("post_lab_email", "Don't let the lab stay theoretical. Join the WhatsApp Field Room and keep practicing with us this week.")}
 
     ${renderTransactionalFooter()}
   `, v.heading);
@@ -714,6 +716,19 @@ function renderJoinCta(event: LabEvent): string {
     <p style="text-align:center;margin:28px 0 0;font-size:14px;line-height:20px;color:#888888;">
       The Zoom link will be sent before the lab.
     </p>`;
+}
+
+// Secondary WhatsApp Field Room CTA — used as a soft next step below the primary action.
+// Never replaces the primary CTA; always comes after it.
+function renderWhatsAppCta(utmSource: string, copy: string, utmContent?: string): string {
+  const contentParam = utmContent ? `&utm_content=${encodeURIComponent(utmContent)}` : "";
+  const url = `https://www.covomultipliers.com/join-whatsapp?utm_source=${encodeURIComponent(utmSource)}&utm_medium=email&utm_campaign=whatsapp_field_room${contentParam}`;
+  return `
+    <div style="margin:20px 0 0;padding:14px 18px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;text-align:center;">
+      <p style="margin:0 0 4px;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#15803d;">WhatsApp Field Room</p>
+      <p style="margin:0 0 8px;font-size:13px;color:#374151;line-height:1.55;">${esc(copy)}</p>
+      <a href="${esc(url)}" style="font-size:13px;font-weight:600;color:#15803d;text-decoration:underline;">Join the WhatsApp Field Room →</a>
+    </div>`;
 }
 
 // Single-action CTA for the post-lab followup reminder: move from information

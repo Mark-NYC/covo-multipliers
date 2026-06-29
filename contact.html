@@ -230,35 +230,6 @@
             pointer-events: none;
         }
 
-        .btn-submit {
-            display: block;
-            width: 100%;
-            margin-top: 1.5rem;
-            padding: 0.85rem 1.5rem;
-            font-size: 1rem;
-            font-weight: 700;
-            font-family: inherit;
-            color: #ffffff;
-            background: #1b4d3e;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: background 0.18s ease, transform 0.1s ease;
-            letter-spacing: 0.01em;
-        }
-
-        .btn-submit:hover:not(:disabled) {
-            background: #10281f;
-        }
-
-        .btn-submit:active:not(:disabled) {
-            transform: scale(0.98);
-        }
-
-        .btn-submit:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
 
         .form-message {
             margin-top: 1rem;
@@ -459,7 +430,7 @@
                         >
                     </div>
 
-                    <button class="btn-submit" type="submit" id="submit-btn">
+                    <button class="btn btn-primary" type="submit" id="submit-btn" style="width:100%;display:block;margin-top:1.5rem;">
                         Send Message
                     </button>
 

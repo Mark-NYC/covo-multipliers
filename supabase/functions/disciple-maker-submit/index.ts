@@ -24,24 +24,18 @@ const ALLOWED_ORIGINS = new Set([
 // Dimension metadata for scoring
 const DIMENSIONS = [
   "vision",
-  "obedience",
-  "consistency",
+  "practice",
+  "rhythm",
   "coachability",
   "everyday_mission",
-  "multiplication",
-  "holy_spirit",
-  "hunger",
 ];
 
 const DIMENSION_QUESTIONS: Record<string, string[]> = {
-  vision: ["v1", "v2", "v3", "v4", "v5", "v6"],
-  obedience: ["o1", "o2", "o3", "o4", "o5", "o6", "o7", "o8"],
-  consistency: ["c1", "c2", "c3", "c4", "c5", "c6", "c7"],
-  coachability: ["cb1", "cb2", "cb3", "cb4", "cb5", "cb6", "cb7", "cb8"],
-  everyday_mission: ["em1", "em2", "em3", "em4", "em5", "em6", "em7"],
-  multiplication: ["m1", "m2", "m3", "m4", "m5", "m6"],
-  holy_spirit: ["hs1", "hs2", "hs3", "hs4", "hs5", "hs6"],
-  hunger: ["h1", "h2", "h3", "h4", "h5", "h6"],
+  vision: ["v1", "v2", "v4", "v5"],
+  practice: ["p1", "p2", "p3", "p4", "p5"],
+  rhythm: ["r1", "r2", "r3", "r4"],
+  coachability: ["c1", "c2", "c3", "c4"],
+  everyday_mission: ["em1", "em2", "em3"],
 };
 
 function corsHeaders(req: Request): Record<string, string> {
@@ -85,33 +79,46 @@ function scoreResponses(responses: Record<string, number>): {
 } {
   const scores: Record<string, number> = {};
 
+  console.log("[scoreResponses] received responses:", JSON.stringify(responses));
+  console.log("[scoreResponses] DIMENSIONS:", DIMENSIONS);
+  console.log("[scoreResponses] DIMENSION_QUESTIONS:", JSON.stringify(DIMENSION_QUESTIONS));
+
   for (const dim of DIMENSIONS) {
     const qIds = DIMENSION_QUESTIONS[dim] || [];
+    console.log(`[scoreResponses] scoring ${dim}: expecting questions ${qIds.join(', ')}`);
+
     const dimScores = qIds
-      .map(qId => responses[qId])
+      .map(qId => {
+        const val = responses[qId];
+        console.log(`  ${qId} = ${val}`);
+        return val;
+      })
       .filter(s => typeof s === 'number' && s > 0);
 
     scores[dim] = dimScores.length > 0
       ? dimScores.reduce((a, b) => a + b) / dimScores.length
       : 0;
+
+    console.log(`[scoreResponses] ${dim} score: ${scores[dim]} (from ${dimScores.length} responses)`);
   }
 
   const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
   const strongest = sorted[0][0];
   const lowest = sorted[sorted.length - 1][0];
 
+  console.log("[scoreResponses] final scores:", JSON.stringify(scores));
   return { scores, strongest, lowest };
 }
 
 function identifyPathway(scores: Record<string, number>): string {
   // Conditions for each pathway
-  if (scores.vision >= 3.5 && scores.obedience <= 3 && scores.coachability >= 3.5) {
+  if (scores.vision >= 3.5 && scores.practice <= 3 && scores.coachability >= 3.5) {
     return "explorer";
   }
-  if (scores.obedience >= 3.5 && scores.consistency <= 3.5 && scores.coachability >= 3.5) {
+  if (scores.practice >= 3.5 && scores.rhythm <= 3.5 && scores.coachability >= 3.5) {
     return "practitioner";
   }
-  if (scores.obedience >= 3.5 && scores.consistency >= 3.5 && scores.multiplication >= 3.5) {
+  if (scores.practice >= 3.5 && scores.rhythm >= 3.5 && scores.everyday_mission >= 3.5) {
     return "multiplier";
   }
   // Fallback to catalyst
@@ -120,15 +127,214 @@ function identifyPathway(scores: Record<string, number>): string {
 
 function diagnoseBottleneck(scores: Record<string, number>, pathway: string): string {
   if (pathway === "explorer") {
-    return "Needs confidence to take first steps";
+    return "Moving from inspiration to first steps";
   }
   if (pathway === "practitioner") {
     return "Building weekly rhythms and consistency";
   }
   if (pathway === "multiplier") {
-    return "Developing and multiplying leaders";
+    return "Deepening disciple multiplication";
   }
-  return "Scaling movement impact";
+  // catalyst pathway (beginner, just starting)
+  return "Taking your first faithful step";
+}
+
+async function sendResultsEmail({
+  to,
+  toName,
+  pathway,
+  bottleneck,
+  resultsToken,
+  scores,
+}: {
+  to: string;
+  toName: string;
+  pathway: string;
+  bottleneck: string;
+  resultsToken: string;
+  scores: Record<string, number>;
+}): Promise<boolean> {
+  const apiKey = Deno.env.get("RESEND_API_KEY");
+  const from = Deno.env.get("RESEND_FROM_EMAIL") ?? "results@covomultipliers.com";
+
+  if (!apiKey) {
+    console.warn("[disciple-maker-submit] RESEND_API_KEY not set — skipping email");
+    return false;
+  }
+
+  // Map pathway to CFC-based identity name
+  const pathwayNameMap: Record<string, string> = {
+    multiplier: "Multiplying Influence",
+    practitioner: "Faithful Practitioner",
+    explorer: "Vision-Centered",
+    catalyst: "Awakening Disciple",
+  };
+  const identityName = pathwayNameMap[pathway] || "Awakening Disciple";
+
+  // Calculate CFC scores
+  const commitment = ((scores.vision ?? 0) + (scores.everyday_mission ?? 0)) / 2;
+  const focus = ((scores.practice ?? 0) + (scores.coachability ?? 0)) / 2;
+  const consistency = scores.rhythm ?? 0;
+  const threshold = 3.5;
+
+  // Generate CFC-based priority
+  let priorityHtml = "";
+  if (commitment < threshold) {
+    priorityHtml = `
+      <tr>
+        <td style="padding: 16px; background: #f0fdf9; border-left: 4px solid #1b4d3e;">
+          <p style="margin: 0 0 8px; font-size: 13px; font-weight: 700; color: #1b4d3e;">🎯 Start Here: Build Commitment</p>
+          <p style="margin: 0; font-size: 13px; color: #555; line-height: 1.5;">Identify 5-6 people in your everyday circles (work, neighborhood, family). Who has God placed around you?</p>
+        </td>
+      </tr>
+    `;
+  } else if (focus < threshold) {
+    priorityHtml = `
+      <tr>
+        <td style="padding: 16px; background: #f0fdf9; border-left: 4px solid #1b4d3e;">
+          <p style="margin: 0 0 8px; font-size: 13px; font-weight: 700; color: #1b4d3e;">🎯 Start Here: Build Focus</p>
+          <p style="margin: 0; font-size: 13px; color: #555; line-height: 1.5;">You know your mission. Now take one step: pray for someone, have a spiritual conversation, or pray Scripture with them.</p>
+        </td>
+      </tr>
+    `;
+  } else if (consistency < threshold) {
+    priorityHtml = `
+      <tr>
+        <td style="padding: 16px; background: #f0fdf9; border-left: 4px solid #1b4d3e;">
+          <p style="margin: 0 0 8px; font-size: 13px; font-weight: 700; color: #1b4d3e;">🎯 Start Here: Build Consistency</p>
+          <p style="margin: 0; font-size: 13px; color: #555; line-height: 1.5;">You're taking steps. Now build the rhythm. Choose one weekly practice (pray Mondays, lunch Fridays, Scripture together). Repeat every week.</p>
+        </td>
+      </tr>
+    `;
+  }
+
+  const resultsUrl = `https://www.covomultipliers.com/disciple-maker/results.html?r=${resultsToken}`;
+  const whatsappUrl = "https://www.covomultipliers.com/join-whatsapp?utm_source=disciple_maker_results_email&utm_medium=email&utm_campaign=whatsapp_field_room";
+
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+</head>
+<body style="margin:0;padding:0;background:#f4f4f5;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="padding:40px 16px;">
+    <tr>
+      <td align="center">
+        <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="max-width:580px;">
+
+          <!-- Header -->
+          <tr>
+            <td style="background:linear-gradient(135deg,#1b4d3e 0%,#2d6a4f 50%,#d4af37 100%);padding:40px 32px;border-radius:12px 12px 0 0;text-align:center;">
+              <p style="margin:0 0 12px;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.75);">
+                Disciple Maker Assessment
+              </p>
+              <h1 style="margin:0;font-size:28px;font-weight:900;color:#ffffff;line-height:1.2;">
+                Your Results Are Ready
+              </h1>
+            </td>
+          </tr>
+
+          <!-- Body -->
+          <tr>
+            <td style="background:#ffffff;padding:40px 32px;border:1px solid #e5e7eb;border-top:none;">
+
+              <p style="margin:0 0 24px;font-size:16px;color:#1a1a1a;font-weight:600;">Hey ${escapeHtml(toName)},</p>
+
+              <p style="margin:0 0 24px;font-size:15px;color:#444444;line-height:1.7;">
+                You just completed the Disciple Maker Assessment. Your personal snapshot is ready to view.
+              </p>
+
+              <p style="margin:0 0 24px;font-size:15px;color:#444444;line-height:1.7;">
+                <strong>Your Assessment Identified:</strong><br />
+                <span style="font-size:18px;color:#1b4d3e;font-weight:700;">${escapeHtml(identityName)}</span>
+              </p>
+
+              <p style="margin:0 0 28px;font-size:15px;color:#444444;line-height:1.7;">
+                <strong>Your Focus Area:</strong><br />
+                <span style="color:#555;">${escapeHtml(bottleneck)}</span>
+              </p>
+
+              <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="margin:0 0 28px;">
+                ${priorityHtml}
+              </table>
+
+              <p style="margin:0 0 20px;font-size:15px;color:#444444;line-height:1.7;">
+                Growth doesn't happen alone. Join the WhatsApp community where we practice together, celebrate stories, and take the next step together.
+              </p>
+
+              <!-- WhatsApp CTA (Prominent Button) -->
+              <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="margin:0 0 28px;">
+                <tr>
+                  <td align="center">
+                    <a href="${whatsappUrl}" style="display:inline-block;background:#25D366;color:#ffffff;padding:16px 48px;border-radius:8px;text-decoration:none;font-weight:700;font-size:16px;">
+                      Join the WhatsApp Field Room
+                    </a>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- View Results Link -->
+              <p style="margin:0 0 32px;text-align:center;font-size:15px;">
+                <a href="${resultsUrl}" style="color:#1b4d3e;text-decoration:none;font-weight:600;">
+                  View your full results →
+                </a>
+              </p>
+
+              <!-- Signature -->
+              <hr style="border:none;border-top:1px solid #e5e7eb;margin:28px 0;" />
+              <p style="margin:0;font-size:13px;color:#999999;line-height:1.6;">
+                — The Covo Multipliers Team<br />
+                <a href="https://www.covomultipliers.com" style="color:#1b4d3e;text-decoration:none;font-weight:600;">covomultipliers.com</a>
+              </p>
+
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`;
+
+  try {
+    const res = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from: `Covo Multipliers <${from}>`,
+        to: [to],
+        subject: "Your Disciple Maker Assessment Results",
+        html,
+      }),
+    });
+
+    const resBody = await res.json().catch(() => ({}));
+
+    if (!res.ok) {
+      console.error(`[disciple-maker-submit] Resend API error status=${res.status}:`, JSON.stringify(resBody));
+      return false;
+    }
+
+    console.log(`[disciple-maker-submit] Resend accepted email`);
+    return true;
+  } catch (err) {
+    console.error("[disciple-maker-submit] fetch to Resend threw an exception:", err);
+    return false;
+  }
+}
+
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#x27;");
 }
 
 Deno.serve(async (req: Request): Promise<Response> => {
@@ -159,7 +365,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
   // Validate session
   const { data: session, error: sessionErr } = await supabase
     .from("disciple_maker_sessions")
-    .select("id, session_token_hash")
+    .select("id, email, first_name, session_token_hash")
     .eq("id", session_id)
     .single();
 
@@ -168,6 +374,8 @@ Deno.serve(async (req: Request): Promise<Response> => {
     return json(401, { error: "Invalid session." }, cors);
   }
 
+  console.log(`[disciple-maker-submit] session ${session_id} found`);
+
   // Validate token
   const tokenHash = await sha256hex(session_token);
   if (tokenHash !== session.session_token_hash) {
@@ -175,8 +383,11 @@ Deno.serve(async (req: Request): Promise<Response> => {
     return json(401, { error: "Invalid token." }, cors);
   }
 
+  console.log("[disciple-maker-submit] token validated");
+
   // Score responses and identify pathway
   const responseMap = responses as Record<string, number>;
+  console.log("[disciple-maker-submit] responses received:", JSON.stringify(responseMap));
   const { scores, strongest, lowest } = scoreResponses(responseMap);
   const pathway = identifyPathway(scores);
   const bottleneck = diagnoseBottleneck(scores, pathway);
@@ -233,6 +444,22 @@ Deno.serve(async (req: Request): Promise<Response> => {
   }
 
   console.log(`[disciple-maker-submit] session ${session_id} completed as ${pathway}`);
+
+  // Send results email (non-fatal — session is already saved)
+  const emailSent = await sendResultsEmail({
+    to: session.email,
+    toName: session.first_name,
+    pathway,
+    bottleneck,
+    resultsToken,
+    scores,
+  });
+
+  if (emailSent) {
+    console.log(`[disciple-maker-submit] results email sent for ${session_id}`);
+  } else {
+    console.warn(`[disciple-maker-submit] results email failed for ${session_id} — but assessment is saved`);
+  }
 
   return json(200, { results_token: resultsToken }, cors);
 });

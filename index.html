@@ -97,6 +97,75 @@
             }
         }
     </style>
+    <style>
+        /* WhatsApp Field Room CTA — homepage section */
+        .whatsapp-cta-section {
+            background: #f0fdf4;
+            border-top: 1px solid #bbf7d0;
+            border-bottom: 1px solid #bbf7d0;
+            padding: 3rem 1.5rem;
+            text-align: center;
+        }
+        .whatsapp-cta-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .whatsapp-cta-eyebrow {
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #15803d;
+            margin: 0 0 0.6rem;
+        }
+        .whatsapp-cta-title {
+            font-size: clamp(1.4rem, 3vw, 1.9rem);
+            font-weight: 900;
+            color: #10281f;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            margin: 0 0 0.9rem;
+        }
+        .whatsapp-cta-copy {
+            font-size: 1rem;
+            color: #3a4a44;
+            line-height: 1.7;
+            margin: 0 0 1.5rem;
+        }
+        .whatsapp-cta-btn {
+            display: inline-block;
+            padding: 0.85rem 1.75rem;
+            background: #25D366;
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: 800;
+            text-decoration: none;
+            border-radius: 999px;
+            letter-spacing: -0.01em;
+            box-shadow: 0 4px 16px rgba(37,211,102,0.3);
+            transition: background 0.18s ease, transform 0.15s ease;
+        }
+        .whatsapp-cta-btn:hover {
+            background: #1ebe59;
+            transform: translateY(-1px);
+        }
+        /* Final CTA secondary WhatsApp link */
+        .final-cta-or {
+            margin: 1.1rem 0 0.4rem;
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.5);
+        }
+        .final-cta-whatsapp-link {
+            font-size: 0.92rem;
+            color: rgba(255,255,255,0.75);
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+            transition: color 0.15s ease;
+        }
+        .final-cta-whatsapp-link:hover {
+            color: #ffffff;
+        }
+    </style>
     <link rel="canonical" href="https://covomultipliers.com/">
     <script type="application/ld+json">
     {
@@ -134,7 +203,7 @@
             </p>
 
             <div class="hero-cta-row">
-                <a class="btn-pill btn-pill-primary" href="#upcoming-labs">Join a Free Lab</a>
+                <a class="btn btn-primary" href="#upcoming-labs">Join a Free Lab</a>
             </div>
 
             <p class="hero-microcopy">45 min. Live. Free. Max 25. No pitch.</p>
@@ -376,6 +445,15 @@
     </div>
 </section>
 
+    <section class="whatsapp-cta-section">
+        <div class="whatsapp-cta-container">
+            <p class="whatsapp-cta-eyebrow">WhatsApp Field Room</p>
+            <h2 class="whatsapp-cta-title">The lab is where we train. WhatsApp is where we practice.</h2>
+            <p class="whatsapp-cta-copy">Get around practitioners who are actually making disciples in everyday life. Weekly practice prompts, lab invites, follow/fish goals, and next steps — in a group small enough to actually know you.</p>
+            <a class="whatsapp-cta-btn" href="https://www.covomultipliers.com/join-whatsapp?utm_source=homepage&utm_medium=cta&utm_campaign=whatsapp_field_room">Join the WhatsApp Field Room</a>
+        </div>
+    </section>
+
     <section class="testimonials-section">
         <div class="testimonials-container">
             <img
@@ -449,7 +527,7 @@
                 </ul>
 
                 <div class="immersion-cta-actions">
-                    <a class="btn-immersion-primary" href="/immersions.html">See the Immersion Option</a>
+                    <a class="btn btn-primary" href="/immersions.html">See the Immersion Option</a>
                     <span class="immersion-cta-note">2 to 3 days. Small group. Real settings.</span>
                 </div>
             </div>
@@ -461,7 +539,9 @@
         <div class="final-cta-container">
             <h2 class="final-cta-title">Ready to try this for yourself?</h2>
             <p class="final-cta-copy">Start with a free lab. One session. One framework. Use it this week.</p>
-            <a class="btn-pill btn-pill-primary" href="#upcoming-labs">Join a Free Lab</a>
+            <a class="btn btn-primary" href="#upcoming-labs">Join a Free Lab</a>
+            <p class="final-cta-or">or</p>
+            <a class="final-cta-whatsapp-link" href="https://www.covomultipliers.com/join-whatsapp?utm_source=homepage&utm_medium=cta_secondary&utm_campaign=whatsapp_field_room">Start practicing with us in WhatsApp →</a>
         </div>
     </section>
 
@@ -478,6 +558,7 @@
                 <a href="/blog/">Blog</a>
                 <a href="/h3x.html">H3X Podcast</a>
                 <a href="/contact.html">Contact</a>
+                <a href="https://www.covomultipliers.com/join-whatsapp?utm_source=footer&utm_medium=cta&utm_campaign=whatsapp_field_room" style="color:#25D366;">Join the Field Room</a>
             </nav>
         </div>
     </footer>

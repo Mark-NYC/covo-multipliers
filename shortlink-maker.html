@@ -152,28 +152,6 @@
             color: #9ca3af;
         }
 
-        .btn-generate {
-            width: 100%;
-            padding: 0.875rem 1.5rem;
-            background: linear-gradient(135deg, #1b4d3e 0%, #2c6b5d 100%);
-            color: #ffffff;
-            border: none;
-            border-radius: 8px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.15s ease, box-shadow 0.15s ease;
-        }
-
-        .btn-generate:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 16px rgba(44, 107, 93, 0.2);
-        }
-
-        .btn-generate:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
 
         /* Result section */
         .shortlink-result {
@@ -236,25 +214,9 @@
             background: #f0f9f7;
         }
 
-        .btn-copy {
-            padding: 0.75rem 1.25rem;
-            background: #2c6b5d;
-            color: #ffffff;
-            border: none;
-            border-radius: 8px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            cursor: pointer;
-            white-space: nowrap;
-            transition: background 0.15s ease;
-        }
-
-        .btn-copy:hover {
-            background: #1b4d3e;
-        }
-
-        .btn-copy.copied {
+        #copyBtn.copied {
             background: #059669;
+            border-color: #059669;
         }
 
         .result-info {
@@ -389,7 +351,7 @@
                 />
             </div>
 
-            <button type="submit" class="btn-generate" id="generateBtn">
+            <button type="submit" class="btn btn-primary" style="width:100%;" id="generateBtn">
                 <span id="btnText">Generate Shortlink</span>
             </button>
 
@@ -402,7 +364,7 @@
                 <div class="result-link-container">
                     <a href="#" class="result-link" id="shortLink" target="_blank"></a>
                 </div>
-                <button type="button" class="btn-copy" id="copyBtn">Copy</button>
+                <button type="button" class="btn btn-primary" id="copyBtn">Copy</button>
             </div>
             <div class="result-info">
                 <strong>Original URL:</strong><br/>

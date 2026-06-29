@@ -11,7 +11,10 @@
     </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Your Results — Disciple Maker Checkup</title>
+  <title>Your Results — Disciple Maker Assessment</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css">
   <script src="config.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
@@ -124,44 +127,6 @@
       margin-bottom: 0;
     }
 
-    .radar-container {
-      position: relative;
-      width: 100%;
-      max-width: 400px;
-      margin: 0 auto 24px;
-      aspect-ratio: 1;
-    }
-
-    .observation-item {
-      display: flex;
-      gap: 16px;
-      padding: 16px;
-      background: #f9fafb;
-      border-left: 3px solid #1b4d3e;
-      margin-bottom: 12px;
-      border-radius: 4px;
-      font-size: 15px;
-      line-height: 1.6;
-      color: #333;
-    }
-
-    .observation-item:last-child {
-      margin-bottom: 0;
-    }
-
-    .observation-icon {
-      flex-shrink: 0;
-      width: 24px;
-      height: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .observation-text {
-      flex: 1;
-    }
-
     .dimension-row {
       display: flex;
       justify-content: space-between;
@@ -206,26 +171,7 @@
       text-align: right;
     }
 
-    .growth-edge-box {
-      background: #fef3c7;
-      border: 1px solid #fde68a;
-      border-radius: 8px;
-      padding: 20px;
-      margin: 24px 0;
-    }
-
-    .growth-edge-item {
-      font-size: 15px;
-      line-height: 1.6;
-      color: #b45309;
-      margin-bottom: 12px;
-    }
-
-    .growth-edge-item:last-child {
-      margin-bottom: 0;
-    }
-
-    .next-rep-container {
+.next-rep-container {
       background: #f9fafb;
       border-radius: 8px;
       padding: 24px;
@@ -268,22 +214,6 @@
     .next-rep-time {
       font-size: 13px;
       color: #888;
-      font-style: italic;
-    }
-
-    .encouragement-box {
-      background: #f3f4f6;
-      border-radius: 8px;
-      padding: 20px;
-      border-left: 3px solid #6b7280;
-      margin: 24px 0;
-    }
-
-    .encouragement-text {
-      font-size: 15px;
-      line-height: 1.7;
-      color: #374151;
-      margin: 0;
       font-style: italic;
     }
 
@@ -417,6 +347,20 @@
       line-height: 1.6;
       color: #22543d;
     }
+
+    .cta-icon-image {
+      max-width: 120px;
+      margin: 0 auto 16px;
+      display: block;
+      border-radius: 8px;
+      opacity: 0.85;
+    }
+
+    @media (max-width: 600px) {
+      .cta-icon-image {
+        max-width: 90px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -460,45 +404,19 @@
     <div id="results-view" style="display:none;">
 
       <div class="results-hero">
-        <p class="results-eyebrow">Your Disciple Maker Checkup</p>
-        <h1 class="results-title">Your Snapshot</h1>
+        <p class="results-eyebrow">Your Disciple Maker Assessment</p>
+
         <p class="results-subtitle" id="result-greeting"></p>
       </div>
 
-      <div class="dm-card">
-        <h2 class="dm-h2">Where You Are Right Now</h2>
-        <p class="dm-body">
-          These five dimensions show your current state. This isn't about scoring high—it's about seeing your real picture and knowing what to practice next.
-        </p>
-        <div class="radar-container">
-          <canvas id="radarChart"></canvas>
-        </div>
+      <div class="dm-card" id="identity-card">
+        <div id="identity-section"></div>
         <div id="dimension-summary"></div>
-      </div>
-
-      <div class="dm-card">
-        <h2 class="dm-h2">What We're Seeing</h2>
-        <p class="dm-body">
-          Observations based on your responses:
-        </p>
-        <div id="observations-section"></div>
-      </div>
-
-      <div class="dm-card">
-        <h2 class="dm-h2">Your Biggest Growth Edge</h2>
-        <p class="dm-body">
-          Where you have the most opportunity to move forward:
-        </p>
-        <div id="growth-edge-section"></div>
       </div>
 
       <div class="dm-card">
         <h2 class="dm-h2">Your Next Step</h2>
         <div id="next-rep-section"></div>
-      </div>
-
-      <div class="dm-card">
-        <div class="encouragement-box" id="encouragement-section"></div>
       </div>
 
       <div class="dm-card">
@@ -520,40 +438,38 @@
     // SVG icon generator for observations
     function getObservationIcon(observation) {
       if (observation.includes('vision')) {
-        // Lightbulb for vision
-        return `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1b4d3e" stroke-width="2">
-          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z"/>
+        // Eye icon
+        return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1b4d3e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+          <circle cx="12" cy="12" r="3"/>
         </svg>`;
-      } else if (observation.includes('taking concrete steps') || observation.includes('practice')) {
-        // Hands/action icon
-        return `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1b4d3e" stroke-width="2">
-          <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
-          <polyline points="10 17 14 13 10 9"/>
-        </svg>`;
-      } else if (observation.includes('willing to learn') || observation.includes('coachability')) {
-        // People/growth icon
-        return `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1b4d3e" stroke-width="2">
-          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-          <circle cx="9" cy="7" r="4"/>
-          <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-          <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-        </svg>`;
-      } else if (observation.includes('know where') || observation.includes('mission')) {
+      } else if (observation.includes('taking concrete steps')) {
         // Target/compass icon
-        return `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1b4d3e" stroke-width="2">
-          <circle cx="12" cy="12" r="10"/>
-          <circle cx="12" cy="12" r="6"/>
-          <circle cx="12" cy="12" r="2"/>
+        return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1b4d3e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="9"/>
+          <circle cx="12" cy="12" r="5"/>
+          <circle cx="12" cy="12" r="1"/>
         </svg>`;
       } else if (observation.includes('eager')) {
-        // Spark/enthusiasm icon
-        return `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1b4d3e" stroke-width="2">
-          <circle cx="12" cy="12" r="1"/>
-          <path d="M12 1v6m8-2l-4.24 4.24M23 12h-6m-2 8l4.24-4.24M12 23v-6m-8-2l4.24 4.24M1 12h6m2-8l-4.24 4.24"/>
+        // Light bulb icon
+        return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1b4d3e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>`;
+      } else if (observation.includes('willing to learn') || observation.includes('coachability')) {
+        // Plant/growth icon
+        return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1b4d3e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 3v12m-4-8l4-4 4 4M6 9c0-2 2-3 6-3s6 1 6 3M8 20h8"/>
+          <ellipse cx="12" cy="20" rx="5" ry="2"/>
+        </svg>`;
+      } else if (observation.includes('know where') || observation.includes('mission')) {
+        // Map pin icon
+        return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1b4d3e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1 1 18 0z"/>
+          <circle cx="12" cy="10" r="3"/>
         </svg>`;
       }
       // Default icon
-      return `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1b4d3e" stroke-width="2">
+      return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1b4d3e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
         <polyline points="20 6 9 17 4 12"/>
       </svg>`;
     }
@@ -562,15 +478,17 @@
     // Conservative, beginner-focused, only make claims we can support
 
     function analyzeScores(scores) {
-      // Weight the dimensions appropriately
-      // Practice, Rhythm, Mission are primary drivers
-      // Coachability, Vision are secondary
-
+      // Original 5 dimensions
       const practice = scores.practice || 0;
       const rhythm = scores.rhythm || 0;
       const mission = scores.everyday_mission || 0;
       const coachability = scores.coachability || 0;
       const vision = scores.vision || 0;
+
+      // CFC Framework (calculated from 5 dimensions)
+      const commitment = (vision + mission) / 2;  // Do you have a clear mission?
+      const focus = (practice + coachability) / 2; // Are you actively pursuing & refining?
+      const consistency = rhythm;                  // Are you faithful week-to-week?
 
       return {
         practice,
@@ -578,6 +496,11 @@
         mission,
         coachability,
         vision,
+        // CFC scores
+        commitment,
+        focus,
+        consistency,
+        // Legacy
         practiceAvg: (practice + rhythm + mission) / 3,
         allScores: scores
       };
@@ -609,8 +532,7 @@
         obs.push("You know where God has placed you.");
       }
 
-      // Limit to 3 observations
-      return obs.slice(0, 3);
+      return obs;
     }
 
     function generateGrowthEdge(analysis) {
@@ -646,6 +568,65 @@
       return "Continuing to grow through faithful obedience.";
     }
 
+    function generateCFCFeedback(analysis) {
+      const { commitment, focus, consistency } = analysis;
+      const threshold = 3.5;
+
+      const hasCommitment = commitment >= threshold;
+      const hasFocus = focus >= threshold;
+      const hasConsistency = consistency >= threshold;
+
+      // Identify strengths
+      const strengths = [];
+      if (hasCommitment) strengths.push("Clear on your mission");
+      if (hasFocus) strengths.push("Taking active steps");
+      if (hasConsistency) strengths.push("Building faithful rhythms");
+
+      // Identify gaps (what's holding back)
+      const gaps = [];
+      if (!hasCommitment) gaps.push({
+        area: "Commitment",
+        issue: "Unclear mission field",
+        description: "You haven't yet identified where God has placed you or who He's calling you to reach."
+      });
+      if (!hasFocus) gaps.push({
+        area: "Focus",
+        issue: "Not yet practicing or stuck on approach",
+        description: "You're either not taking action yet, or you're doing activities without a clear strategy."
+      });
+      if (!hasConsistency) gaps.push({
+        area: "Consistency",
+        issue: "No weekly rhythm",
+        description: "You're not building the habits and weekly practices that sustain disciple-making."
+      });
+
+      // Determine priority (what to tackle first)
+      let priority = null;
+      if (gaps.length > 0) {
+        if (!hasCommitment) {
+          priority = {
+            title: "Start with Commitment",
+            reason: "Without clarity on your mission, any action will feel scattered. Get crystal clear on who God has placed around you and what He's calling you to do.",
+            action: "Identify 5-6 people in your everyday circles (work, neighborhood, family, hobbies). This is your mission field."
+          };
+        } else if (!hasFocus) {
+          priority = {
+            title: "Build Focus Next",
+            reason: "You know your mission but aren't acting on it yet. Start with one simple practice this week.",
+            action: "Choose one person to pray for. Have one spiritual conversation. Take one action."
+          };
+        } else if (!hasConsistency) {
+          priority = {
+            title: "Establish Consistency",
+            reason: "You're taking steps but not building the rhythm that sustains it. Consistency beats intensity.",
+            action: "Set one weekly practice (e.g., pray Monday mornings, lunch conversation Friday, Scripture reading together). Repeat every week."
+          };
+        }
+      }
+
+      return { strengths, gaps, priority };
+    }
+
     function generateNextRep(analysis) {
       const { practice, rhythm, mission, coachability, practiceAvg } = analysis;
 
@@ -654,7 +635,7 @@
       if (practice < 2) {
         return {
           title: "Make an Oikos Map",
-          description: "Identify five people where you live, work, or play who don't yet follow Jesus. Write down their names.",
+          description: "Identify 5-6 people where you live, work, and play. Think through your passion, place, and profession. Write down names of real people you already know or naturally see.",
           why: "Jesus usually started with existing relationships. This is step one.",
           time: "10 minutes"
         };
@@ -705,24 +686,6 @@
       };
     }
 
-    function generateEncouragement(analysis) {
-      const { practiceAvg } = analysis;
-
-      if (practiceAvg < 2) {
-        return "Starting is often the hardest part. You don't need to feel ready. Jesus called fishermen and tax collectors and invited them to follow. That's you right now.";
-      }
-
-      if (practiceAvg < 3) {
-        return "You're practicing. That puts you ahead of most. Keep going. Consistency beats intensity.";
-      }
-
-      if (practiceAvg < 4) {
-        return "You're building a real practice. Growth happens through faithful obedience, not by getting every answer right.";
-      }
-
-      return "Keep going. The work you're doing matters more than you can see right now.";
-    }
-
     function showView(viewName) {
       document.getElementById('loading-view').style.display = viewName === 'loading' ? 'block' : 'none';
       document.getElementById('results-view').style.display = viewName === 'results' ? 'block' : 'none';
@@ -764,45 +727,314 @@
       }
     }
 
+    function determineCFCIdentity(analysis) {
+      const { commitment, focus, consistency } = analysis;
+      const threshold = 3.5;
+
+      const hasCommitment = commitment >= threshold;
+      const hasFocus = focus >= threshold;
+      const hasConsistency = consistency >= threshold;
+
+      console.log('[determineCFCIdentity] CFC scores:', { commitment, focus, consistency });
+      console.log('[determineCFCIdentity] CFC flags:', { hasCommitment, hasFocus, hasConsistency });
+
+      // All three (Commitment + Focus + Consistency)
+      if (hasCommitment && hasFocus && hasConsistency) {
+        return {
+          type: 'Multiplying Influence',
+          image: '/image/discipleicons/multiplying-influence.webp',
+          subtitle: 'Apprenticed and Multiplying',
+          meaning: 'You see the calling, take bold action, and stay faithful.'
+        };
+      }
+
+      // Commitment + Consistency (but not Focus)
+      if (hasCommitment && hasConsistency && !hasFocus) {
+        return {
+          type: 'Rooted Multiplier',
+          image: '/image/discipleicons/rooted-multiplier.webp',
+          subtitle: 'Making Disciples Where You Are',
+          meaning: 'You know your calling and show up faithfully, even if the approach is still forming.'
+        };
+      }
+
+      // Commitment + Focus (but not Consistency)
+      if (hasCommitment && hasFocus && !hasConsistency) {
+        return {
+          type: 'Vision-Centered',
+          image: '/image/discipleicons/Vision-Centered.webp',
+          subtitle: 'Ready to Take the First Step',
+          meaning: 'You have clarity and intention. Now build the weekly rhythm to sustain it.'
+        };
+      }
+
+      // Focus + Consistency (but not Commitment)
+      if (hasFocus && hasConsistency && !hasCommitment) {
+        return {
+          type: 'Faithful Practitioner',
+          image: '/image/discipleicons/Faithful-Practitioner.webp',
+          subtitle: 'Living It Out',
+          meaning: 'You execute well and stay consistent. Clarify your mission to multiply impact.'
+        };
+      }
+
+      // Commitment only
+      if (hasCommitment && !hasFocus && !hasConsistency) {
+        return {
+          type: 'Inspired but Waiting',
+          image: '/image/discipleicons/Vision-Centered.webp',
+          subtitle: 'Ready to Begin',
+          meaning: 'You know where God has called you. Take your first step and build the rhythm.'
+        };
+      }
+
+      // Focus only
+      if (hasFocus && !hasCommitment && !hasConsistency) {
+        return {
+          type: 'Strategist without Calling',
+          image: '/image/discipleicons/Faithful-Practitioner.webp',
+          subtitle: 'Activity without Purpose',
+          meaning: 'You move purposefully but need clarity on your mission field.'
+        };
+      }
+
+      // Consistency only
+      if (hasConsistency && !hasCommitment && !hasFocus) {
+        return {
+          type: 'Disciplined but Drifting',
+          image: '/image/discipleicons/Community-Builder.webp',
+          subtitle: 'Rhythm without Direction',
+          meaning: 'Your faithfulness is admirable. Anchor it to a clear mission and take action.'
+        };
+      }
+
+      // None (default for beginners)
+      return {
+        type: 'Awakening Disciple',
+        image: '/image/discipleicons/Awakening-Disciple.webp',
+        subtitle: 'Just Beginning',
+        meaning: 'You\'re ready to take your first step. The journey is just beginning.'
+      };
+    }
+
+    function determineIdentity(observations, analysis) {
+      const { practice, mission, coachability, vision } = analysis;
+
+      // Check for specific observation patterns
+      const hasVision = observations.some(o => o.includes('genuine vision'));
+      const hasPractice = observations.some(o => o.includes('taking concrete steps'));
+      const hasEager = observations.some(o => o.includes('eager'));
+      const hasCoachability = observations.some(o => o.includes('willing to learn'));
+      const hasMission = observations.some(o => o.includes('know where'));
+
+      // Priority-based identity determination (most specific first)
+      // Check for all four first (most advanced identity)
+      if (hasVision && hasPractice && hasMission && hasCoachability) {
+        return {
+          type: 'Multiplying Influence',
+          image: '/image/discipleicons/multiplying-influence.webp',
+          subtitle: 'Apprenticed and Multiplying',
+          meaning: 'You see the calling and help others follow it.'
+        };
+      }
+      // Practice + Mission + Coachability (without vision)
+      if (hasPractice && hasMission && hasCoachability && !hasVision) {
+        return {
+          type: 'Rooted Multiplier',
+          image: '/image/discipleicons/rooted-multiplier.webp',
+          subtitle: 'Making Disciples Where You Are',
+          meaning: 'You walk out your faith while bringing others along.'
+        };
+      }
+      // Vision only (no practice yet, not eager)
+      if (hasVision && !hasPractice && !hasEager) {
+        return {
+          type: 'Vision-Centered',
+          image: '/image/discipleicons/Vision-Centered.webp',
+          subtitle: 'Ready to Take the First Step',
+          meaning: 'You have clarity about the calling. Now it\'s time to step in.'
+        };
+      }
+      // Practice without vision
+      if (hasPractice && !hasVision) {
+        return {
+          type: 'Faithful Practitioner',
+          image: '/image/discipleicons/Faithful-Practitioner.webp',
+          subtitle: 'Living It Out',
+          meaning: 'You live out your faith through faithful obedience.'
+        };
+      }
+      // Coachability without practice
+      if (hasCoachability && !hasPractice) {
+        return {
+          type: 'Community Builder',
+          image: '/image/discipleicons/Community-Builder.webp',
+          subtitle: 'Growing Together',
+          meaning: 'Your openness and humility accelerate growth in community.'
+        };
+      }
+      // Eager to learn (eager but not practicing)
+      if (hasEager) {
+        return {
+          type: 'Awakening Disciple',
+          image: '/image/discipleicons/Awakening-Disciple.webp',
+          subtitle: 'Just Beginning',
+          meaning: 'You\'re ready to take your first step. The journey is just beginning.'
+        };
+      }
+
+      // Default fallback
+      return {
+        type: 'Growing Disciple',
+        image: '/image/discipleicons/Awakening-Disciple.webp',
+        subtitle: 'On Your Journey',
+        meaning: 'You\'re growing in your faith and faithful obedience.'
+      };
+    }
+
     function renderResults(data) {
       const firstName = data.first_name || 'Friend';
-      const scores = data.dimension_scores || {};
+      let scores = data.dimension_scores || {};
+
+      // Debug logging for backend data
+      console.log('Full backend data received:', data);
+      console.log('Backend pathway:', data.pathway);
+
+      // Map old backend dimension names to new ones (temporary workaround)
+      if (scores.obedience !== undefined && scores.practice === undefined) {
+        scores.practice = scores.obedience;
+      }
+      if (scores.consistency !== undefined && scores.rhythm === undefined) {
+        scores.rhythm = scores.consistency;
+      }
+
+      // Debug logging
+      console.log('Raw dimension scores:', scores);
 
       // Analyze scores using new conservative engine
       const analysis = analyzeScores(scores);
-      const observations = generateObservations(analysis);
-      const growthEdge = generateGrowthEdge(analysis);
+      console.log('Analyzed scores:', analysis);
+
       const nextRep = generateNextRep(analysis);
-      const encouragement = generateEncouragement(analysis);
+      const cfcFeedback = generateCFCFeedback(analysis);
+
+      // Determine identity based on CFC framework
+      const identity = determineCFCIdentity(analysis);
+      console.log('Determined identity:', identity);
+      console.log('CFC Feedback:', cfcFeedback);
 
       // Render greeting
       document.getElementById('result-greeting').textContent = `Hello, ${firstName}.`;
 
-      // Render radar chart
-      renderRadarChart(scores);
+      // Render identity section (now inside the card)
+      const identityHtml = `
+        <div style="text-align: center; margin-bottom: 24px; display: flex; flex-direction: column; align-items: center;">
+          <img src="${identity.image}" alt="${identity.type}" style="width: 120px; height: 120px; border-radius: 12px; object-fit: cover; margin-bottom: 16px;">
+          <h2 class="dm-h2" style="margin-bottom: 8px; margin-top: 0;">You are a<br>${identity.type}</h2>
+          <p style="font-size: 15px; color: #555; margin: 0; margin-bottom: 12px; line-height: 1.6;">${identity.meaning}</p>
+          <p style="font-size: 14px; color: #999; margin: 0;">${identity.subtitle}</p>
+        </div>
+      `;
+      document.getElementById('identity-section').innerHTML = identityHtml;
 
-      // Render dimension summary
-      renderDimensionSummary(scores);
+      // Render CFC Feedback section
+      let cfcFeedbackHtml = `
+        <div style="background: linear-gradient(135deg, rgba(27, 77, 62, 0.04), rgba(212, 175, 55, 0.02)); border-radius: 12px; padding: 28px; margin-bottom: 28px;">
+          <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 18px; color: #1a1a1a; font-weight: 700;">Your CFC Profile</h3>
 
-      // Render observations with icons
-      const observationsHtml = observations
-        .map(obs => `
-          <div class="observation-item">
-            <div class="observation-icon">${getObservationIcon(obs)}</div>
-            <div class="observation-text">${obs}</div>
-          </div>
-        `)
-        .join('');
-      document.getElementById('observations-section').innerHTML = observationsHtml;
+          ${cfcFeedback.strengths.length > 0 ? `
+            <div style="margin-bottom: 24px;">
+              <p style="margin: 0 0 12px; font-size: 14px; font-weight: 600; color: #1b4d3e; text-transform: uppercase; letter-spacing: 0.5px;">What's Strong</p>
+              <div style="display: flex; flex-direction: column; gap: 8px;">
+                ${cfcFeedback.strengths.map(s => `<p style="margin: 0; font-size: 14px; color: #555;">✓ ${s}</p>`).join('')}
+              </div>
+            </div>
+          ` : ''}
 
-      // Render growth edge
-      document.getElementById('growth-edge-section').innerHTML =
-        `<div class="growth-edge-box"><div class="growth-edge-item">• ${growthEdge}</div></div>`;
+          ${cfcFeedback.gaps.length > 0 ? `
+            <div style="margin-bottom: 24px;">
+              <p style="margin: 0 0 12px; font-size: 14px; font-weight: 600; color: #d4af37; text-transform: uppercase; letter-spacing: 0.5px;">What's Holding You Back</p>
+              <div style="display: flex; flex-direction: column; gap: 12px;">
+                ${cfcFeedback.gaps.map(gap => `
+                  <div style="background: white; border-left: 4px solid #d4af37; padding: 12px 16px; border-radius: 6px;">
+                    <p style="margin: 0 0 4px; font-size: 14px; font-weight: 600; color: #1b4d3e;">${gap.area}: ${gap.issue}</p>
+                    <p style="margin: 0; font-size: 13px; color: #666; line-height: 1.5;">${gap.description}</p>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          ` : ''}
+
+          ${cfcFeedback.priority ? `
+            <div style="background: linear-gradient(135deg, #1b4d3e 0%, #2d6a4f 100%); border-radius: 8px; padding: 18px; color: white;">
+              <p style="margin: 0 0 8px; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.9;">Priority</p>
+              <p style="margin: 0 0 12px; font-size: 15px; font-weight: 700; color: #d4af37;">${cfcFeedback.priority.title}</p>
+              <p style="margin: 0 0 12px; font-size: 14px; line-height: 1.6; color: rgba(255, 255, 255, 0.95);">${cfcFeedback.priority.reason}</p>
+              <p style="margin: 0; font-size: 14px; font-weight: 600; color: #ffffff;">→ ${cfcFeedback.priority.action}</p>
+            </div>
+          ` : ''}
+        </div>
+      `;
+      document.getElementById('dimension-summary').insertAdjacentHTML('beforebegin', cfcFeedbackHtml);
+
+      // Render CFC bars chart
+      renderCFCBars(analysis);
 
       // Render next rep with oikos map illustration if applicable
       let oikosMapHtml = '';
       if (nextRep.title === 'Make an Oikos Map') {
-        oikosMapHtml = `<img src="/image/4-questions-lab-image.webp" alt="Oikos Map" style="width: 100%; max-width: 300px; margin-bottom: 20px; border-radius: 8px;">`;
+        oikosMapHtml = `
+          <div style="width: 100%; max-width: 420px; margin: 0 auto 20px; border-radius: 8px;">
+            <svg viewBox="0 0 580 480" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: auto; display: block;">
+              <defs>
+                <filter id="pen3" x="-15%" y="-15%" width="130%" height="130%">
+                  <feTurbulence type="fractalNoise" baseFrequency="0.6" numOctaves="3" stitchTiles="stitch" result="noise"/>
+                  <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.0" xChannelSelector="R" yChannelSelector="G"/>
+                </filter>
+              </defs>
+              <!-- spokes: center→Passion (top), center→Place (bottom-right), center→Profession (bottom-left) -->
+              <line x1="300" y1="237" x2="300" y2="178" stroke="#111" stroke-width="2.8" stroke-linecap="round"/>
+              <line x1="361" y1="287" x2="358" y2="328" stroke="#111" stroke-width="2.8" stroke-linecap="round"/>
+              <line x1="239" y1="287" x2="242" y2="328" stroke="#111" stroke-width="2.8" stroke-linecap="round"/>
+              <!-- branches: Passion→Bob, Passion→Jim -->
+              <line x1="267" y1="118" x2="233" y2="89" stroke="#111" stroke-width="2.2" stroke-linecap="round"/>
+              <line x1="333" y1="118" x2="367" y2="89" stroke="#111" stroke-width="2.2" stroke-linecap="round"/>
+              <!-- branches: Place→Sam, Place→Mary -->
+              <line x1="462" y1="322" x2="489" y2="313" stroke="#111" stroke-width="2.2" stroke-linecap="round"/>
+              <line x1="444" y1="368" x2="431" y2="431" stroke="#111" stroke-width="2.2" stroke-linecap="round"/>
+              <!-- branches: Profession→James, Profession→Mark -->
+              <line x1="138" y1="322" x2="111" y2="313" stroke="#111" stroke-width="2.2" stroke-linecap="round"/>
+              <line x1="156" y1="368" x2="169" y2="431" stroke="#111" stroke-width="2.2" stroke-linecap="round"/>
+              <!-- name nodes -->
+              <ellipse cx="208" cy="68" rx="44" ry="26" fill="white" stroke="#111" stroke-width="2.8" filter="url(#pen3)"/>
+              <text x="208" y="76" font-family="'Amatic SC',cursive" font-weight="700" font-size="26" fill="#111" stroke="#111" stroke-width="1.2" paint-order="stroke" text-anchor="middle">Bob</text>
+              <ellipse cx="392" cy="68" rx="44" ry="26" fill="white" stroke="#111" stroke-width="2.8" filter="url(#pen3)"/>
+              <text x="392" y="76" font-family="'Amatic SC',cursive" font-weight="700" font-size="26" fill="#111" stroke="#111" stroke-width="1.2" paint-order="stroke" text-anchor="middle">Jim</text>
+              <ellipse cx="526" cy="299" rx="44" ry="26" fill="white" stroke="#111" stroke-width="2.8" filter="url(#pen3)"/>
+              <text x="526" y="307" font-family="'Amatic SC',cursive" font-weight="700" font-size="26" fill="#111" stroke="#111" stroke-width="1.2" paint-order="stroke" text-anchor="middle">Sam</text>
+              <ellipse cx="454" cy="453" rx="44" ry="26" fill="white" stroke="#111" stroke-width="2.8" filter="url(#pen3)"/>
+              <text x="454" y="461" font-family="'Amatic SC',cursive" font-weight="700" font-size="26" fill="#111" stroke="#111" stroke-width="1.2" paint-order="stroke" text-anchor="middle">Mary</text>
+              <ellipse cx="74" cy="299" rx="44" ry="26" fill="white" stroke="#111" stroke-width="2.8" filter="url(#pen3)"/>
+              <text x="74" y="307" font-family="'Amatic SC',cursive" font-weight="700" font-size="26" fill="#111" stroke="#111" stroke-width="1.2" paint-order="stroke" text-anchor="middle">James</text>
+              <ellipse cx="146" cy="453" rx="44" ry="26" fill="white" stroke="#111" stroke-width="2.8" filter="url(#pen3)"/>
+              <text x="146" y="461" font-family="'Amatic SC',cursive" font-weight="700" font-size="26" fill="#111" stroke="#111" stroke-width="1.2" paint-order="stroke" text-anchor="middle">Mark</text>
+              <!-- arm nodes -->
+              <ellipse cx="300" cy="145" rx="58" ry="33" fill="white" stroke="#111" stroke-width="3.2" filter="url(#pen3)"/>
+              <ellipse cx="300" cy="145" rx="58" ry="33" fill="none" stroke="#111" stroke-width="1.0" opacity="0.25" filter="url(#pen3)"/>
+              <text x="300" y="153" font-family="'Amatic SC',cursive" font-weight="700" font-size="30" fill="#111" stroke="#111" stroke-width="1.4" paint-order="stroke" text-anchor="middle">Passion</text>
+              <ellipse cx="413" cy="340" rx="58" ry="33" fill="white" stroke="#111" stroke-width="3.2" filter="url(#pen3)"/>
+              <ellipse cx="413" cy="340" rx="58" ry="33" fill="none" stroke="#111" stroke-width="1.0" opacity="0.25" filter="url(#pen3)"/>
+              <text x="413" y="348" font-family="'Amatic SC',cursive" font-weight="700" font-size="30" fill="#111" stroke="#111" stroke-width="1.4" paint-order="stroke" text-anchor="middle">Place</text>
+              <ellipse cx="187" cy="340" rx="64" ry="33" fill="white" stroke="#111" stroke-width="3.2" filter="url(#pen3)"/>
+              <ellipse cx="187" cy="340" rx="64" ry="33" fill="none" stroke="#111" stroke-width="1.0" opacity="0.25" filter="url(#pen3)"/>
+              <text x="187" y="348" font-family="'Amatic SC',cursive" font-weight="700" font-size="28" fill="#111" stroke="#111" stroke-width="1.4" paint-order="stroke" text-anchor="middle">Profession</text>
+              <!-- center node -->
+              <ellipse cx="300" cy="275" rx="64" ry="38" fill="white" stroke="#111" stroke-width="4.0" filter="url(#pen3)"/>
+              <ellipse cx="300" cy="275" rx="64" ry="38" fill="none" stroke="#111" stroke-width="1.2" opacity="0.25" filter="url(#pen3)"/>
+              <text x="300" y="283" font-family="'Amatic SC',cursive" font-weight="700" font-size="36" fill="#111" stroke="#111" stroke-width="1.6" paint-order="stroke" text-anchor="middle">Name</text>
+            </svg>
+          </div>
+        `;
       }
       const nextRepHtml = `
         ${oikosMapHtml}
@@ -818,87 +1050,62 @@
       `;
       document.getElementById('next-rep-section').innerHTML = nextRepHtml;
 
-      // Render encouragement
-      document.getElementById('encouragement-section').innerHTML =
-        `<p class="encouragement-text">"${encouragement}"</p>`;
-
       // Render CTA
       const ctaHtml = `
-        <img src="/image/Thumbs up.webp" alt="Thumbs up" style="width: 100%; max-width: 300px; margin: 0 auto 24px; display: block; border-radius: 8px;">
+        <img src="/image/Thumbs up.webp" alt="Thumbs up" class="cta-icon-image">
         <div class="cta-title">What's Next?</div>
         <p class="cta-text">Growth doesn't happen through assessments. It happens shoulder-to-shoulder with other people learning to follow Jesus.</p>
         <p class="cta-text">Join our WhatsApp community where we encourage one another, practice together, share Follow & Fish goals, celebrate stories, ask questions, and take the next step together.</p>
-        <a href="/whatsapp.html" class="btn-gold">Join the CoVo WhatsApp Community</a>
+        <a href="https://www.covomultipliers.com/join-whatsapp?utm_source=disciple_maker_results&utm_medium=cta&utm_campaign=whatsapp_field_room" class="btn-gold">Join the WhatsApp Field Room</a>
       `;
       document.getElementById('cta-section').innerHTML = ctaHtml;
 
       showView('results');
     }
 
-    function renderRadarChart(scores) {
-      const ctx = document.getElementById('radarChart').getContext('2d');
+    function renderCFCBars(analysis) {
+      const { commitment, focus, consistency } = analysis;
 
-      const dimensionLabels = [
-        "Vision",
-        "Practice",
-        "Rhythm",
-        "Coachability",
-        "Everyday Mission"
-      ];
+      const cfcBarsHtml = `
+        <div style="margin-bottom: 28px;">
+          <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 16px; color: #1a1a1a; font-weight: 700;">Your CFC Scores</h3>
 
-      const dimensionKeys = [
-        "vision",
-        "practice",
-        "rhythm",
-        "coachability",
-        "everyday_mission"
-      ];
+          <div style="display: flex; flex-direction: column; gap: 18px;">
+            <div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                <span style="font-size: 14px; font-weight: 600; color: #1b4d3e;">Commitment</span>
+                <span style="font-size: 14px; font-weight: 600; color: #1b4d3e;">${commitment.toFixed(1)}/5</span>
+              </div>
+              <div style="background: #e5e7eb; height: 10px; border-radius: 6px; overflow: hidden;">
+                <div style="background: linear-gradient(90deg, #1b4d3e, #2d6a4f); height: 100%; width: ${(commitment/5)*100}%; border-radius: 6px;"></div>
+              </div>
+            </div>
 
-      const data = dimensionKeys.map(k => scores[k] || 0);
+            <div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                <span style="font-size: 14px; font-weight: 600; color: #1b4d3e;">Focus</span>
+                <span style="font-size: 14px; font-weight: 600; color: #1b4d3e;">${focus.toFixed(1)}/5</span>
+              </div>
+              <div style="background: #e5e7eb; height: 10px; border-radius: 6px; overflow: hidden;">
+                <div style="background: linear-gradient(90deg, #1b4d3e, #2d6a4f); height: 100%; width: ${(focus/5)*100}%; border-radius: 6px;"></div>
+              </div>
+            </div>
 
-      if (radarChart) radarChart.destroy();
+            <div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                <span style="font-size: 14px; font-weight: 600; color: #1b4d3e;">Consistency</span>
+                <span style="font-size: 14px; font-weight: 600; color: #1b4d3e;">${consistency.toFixed(1)}/5</span>
+              </div>
+              <div style="background: #e5e7eb; height: 10px; border-radius: 6px; overflow: hidden;">
+                <div style="background: linear-gradient(90deg, #1b4d3e, #2d6a4f); height: 100%; width: ${(consistency/5)*100}%; border-radius: 6px;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
 
-      radarChart = new Chart(ctx, {
-        type: 'radar',
-        data: {
-          labels: dimensionLabels,
-          datasets: [{
-            label: 'Your Journey',
-            data: data,
-            borderColor: '#1b4d3e',
-            backgroundColor: 'rgba(27, 77, 62, 0.15)',
-            borderWidth: 2,
-            pointBackgroundColor: '#1b4d3e',
-            pointBorderColor: '#fff',
-            pointBorderWidth: 2,
-            pointRadius: 5,
-            pointHoverRadius: 6
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: true,
-          scales: {
-            r: {
-              beginAtZero: true,
-              max: 5,
-              ticks: {
-                stepSize: 1,
-                color: '#999',
-                font: { size: 11 }
-              },
-              grid: { color: 'rgba(0,0,0,0.05)' },
-              pointLabels: {
-                font: { size: 12, weight: '600' },
-                color: '#333'
-              }
-            }
-          },
-          plugins: {
-            legend: { display: false }
-          }
-        }
-      });
+      // Insert before the next rep section
+      document.getElementById('next-rep-section').insertAdjacentHTML('beforebegin', cfcBarsHtml);
     }
 
     function renderDimensionSummary(scores) {
@@ -937,6 +1144,8 @@
 
       html += '</div>';
       document.getElementById('dimension-summary').innerHTML = html;
+      // Hide dimension summary - kept for diagnostic but not in main narrative
+      document.getElementById('dimension-summary').style.display = 'none';
     }
 
     showView('loading');

@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-DXGLXDTF9V"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -11,207 +10,561 @@
     </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="The Disciple Maker Checkup identifies where you are on your disciple-making journey and recommends your next step. Free. 15–20 minutes.">
-  <title>Disciple Maker Checkup — Covo Multipliers</title>
+  <meta name="description" content="Stop guessing your next step. In 5 minutes, get clarity on exactly what to practice this week as a disciple maker.">
+  <title>Disciple Maker Assessment</title>
   <link rel="stylesheet" href="/styles.css">
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
-      background: #fafafa;
+      background: #fafaf8;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: #1a1a1a;
+      line-height: 1.6;
+      font-size: 16px;
     }
 
-    .dm-header {
-      background: #1b4d3e;
-      color: white;
-      padding: 16px 20px;
-      text-align: center;
-      border-bottom: 1px solid #164033;
+    /* HEADER */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(250, 250, 248, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(27, 77, 62, 0.06);
+      padding: 12px 0;
     }
 
-    .dm-header-brand {
-      font-size: 14px;
-      font-weight: 600;
-      text-decoration: none;
-      color: white;
-      opacity: 0.9;
-    }
-
-    .dm-main {
-      max-width: 640px;
+    .header-inner {
+      max-width: 680px;
       margin: 0 auto;
-      padding: 32px 20px;
+      padding: 0 24px;
     }
 
-    .dm-card {
-      background: white;
-      border-radius: 12px;
-      padding: 28px;
-      margin-bottom: 24px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-    }
-
-    .dm-eyebrow {
-      font-size: 12px;
+    .header-brand {
+      font-size: 13px;
       font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      color: #888;
-      margin: 0 0 12px;
+      letter-spacing: 0.5px;
+      color: #1b4d3e;
+      text-decoration: none;
     }
 
-    .dm-h1 {
-      font-size: 32px;
+    /* MAIN */
+    .main {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* TYPOGRAPHY */
+    h1 {
+      font-size: clamp(32px, 9vw, 48px);
       font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.5px;
+      color: #1a1a1a;
+      margin-bottom: 12px;
+    }
+
+    h2 {
+      font-size: 24px;
+      font-weight: 700;
       line-height: 1.2;
       color: #1a1a1a;
-      margin: 0 0 16px;
+      margin-bottom: 20px;
     }
 
-    .dm-h2 {
-      font-size: 20px;
-      font-weight: 700;
-      color: #1a1a1a;
-      margin: 0 0 12px;
-    }
-
-    .dm-body {
-      font-size: 15px;
+    p {
+      color: #555;
       line-height: 1.7;
-      color: #444;
-      margin: 0 0 16px;
+      margin-bottom: 16px;
     }
 
-    .dm-body:last-child {
-      margin-bottom: 0;
-    }
-
-    .dm-note {
-      background: #fef3c7;
-      border-left: 3px solid #f59e0b;
-      padding: 14px 16px;
-      border-radius: 0 8px 8px 0;
-      font-size: 14px;
-      line-height: 1.6;
+    p.large {
+      font-size: 17px;
       color: #333;
-      margin: 16px 0 0;
+      font-weight: 400;
     }
 
-    .dm-list {
-      font-size: 15px;
-      color: #444;
-      line-height: 1.8;
-      padding-left: 20px;
-      margin: 16px 0;
+    /* HERO */
+    .hero {
+      padding: 60px 0 40px;
+      animation: fadeIn 0.5s ease-out;
     }
 
-    .dm-list li {
-      margin-bottom: 8px;
+    .hero h1 {
+      background: linear-gradient(135deg, #1b4d3e 0%, #1b4d3e 60%, #d4af37 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 16px;
     }
 
-    .btn-gold {
-      display: inline-block;
+    .hero-subheading {
+      font-size: 16px;
+      line-height: 1.6;
+      color: #555;
+      margin-bottom: 32px;
+      max-width: 500px;
+    }
+
+    /* TRUST CHIPS */
+    .trust-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 28px;
+      animation: slideUp 0.5s ease-out 0.1s both;
+    }
+
+    .chip {
+      background: white;
+      border: 1px solid #d4af37;
+      border-radius: 20px;
+      padding: 9px 16px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #1b4d3e;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .chip:hover {
+      background: rgba(212, 175, 55, 0.06);
+      transform: translateY(-1px);
+    }
+
+    .chip-dot {
+      width: 3px;
+      height: 3px;
       background: #d4af37;
-      color: #1a1a1a;
-      padding: 14px 32px;
+      border-radius: 50%;
+    }
+
+    /* CTA */
+    .cta-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: linear-gradient(135deg, #1b4d3e, #0d3d2f);
+      color: white;
+      padding: 16px 40px;
       border-radius: 8px;
       text-decoration: none;
       font-weight: 600;
       font-size: 16px;
       border: none;
       cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    .btn-gold:hover {
-      background: #c9a227;
-    }
-
-    .btn-secondary {
-      display: inline-block;
-      background: transparent;
-      color: #1b4d3e;
-      padding: 12px 24px;
-      border: 1px solid #1b4d3e;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 14px;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .btn-secondary:hover {
-      background: #f0f9f7;
-    }
-
-    .cta-note {
-      font-size: 13px;
-      color: #888;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(27, 77, 62, 0.15);
+      animation: slideUp 0.5s ease-out 0.15s both;
+      width: 100%;
       text-align: center;
-      margin-top: 12px;
+      margin-bottom: 12px;
     }
 
-    .cta-note a {
-      color: #1b4d3e;
-      font-weight: 600;
+    .cta-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(27, 77, 62, 0.2);
+    }
+
+    .cta-primary::after {
+      content: '→';
+      transition: transform 0.2s ease;
+    }
+
+    .cta-primary:hover::after {
+      transform: translateX(2px);
+    }
+
+    /* COMBINED SECTION */
+    .combined-section {
+      background: linear-gradient(135deg, rgba(27, 77, 62, 0.03) 0%, rgba(212, 175, 55, 0.015) 100%);
+      border: 1px solid rgba(27, 77, 62, 0.06);
+      border-radius: 12px;
+      padding: 40px 32px;
+      margin: 60px 0 40px;
+      animation: fadeIn 0.5s ease-out 0.2s both;
+    }
+
+    .combined-section h2 {
+      font-size: 20px;
+      margin-bottom: 20px;
+      color: #1a1a1a;
+    }
+
+    .bullet-list {
+      list-style: none;
+      margin: 24px 0;
+    }
+
+    .bullet-list li {
+      font-size: 15px;
+      line-height: 1.7;
+      color: #333;
+      margin-bottom: 12px;
+      padding-left: 24px;
+      position: relative;
+    }
+
+    .bullet-list li:last-child {
+      margin-bottom: 0;
+    }
+
+    .bullet-list li::before {
+      content: '';
+      position: absolute;
+      left: 6px;
+      top: 8px;
+      width: 6px;
+      height: 6px;
+      background: #1b4d3e;
+      border-radius: 50%;
+    }
+
+    .bullet-list.result li::before {
+      content: '✓';
+      width: auto;
+      height: auto;
+      background: none;
+      color: #d4af37;
+      font-weight: 700;
+      left: 0;
+      top: 0;
+    }
+
+    .section-divider {
+      margin: 8px 0 24px;
+    }
+
+    .section-divider svg {
+      width: 40px;
+      height: 2px;
+      stroke: #d4af37;
+      opacity: 0.3;
+    }
+
+    .section-closing {
+      font-size: 14px;
+      color: #888;
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(27, 77, 62, 0.08);
+      font-style: italic;
+    }
+
+    /* HERO IMAGE */
+    .hero-image {
+      margin-bottom: 48px;
+      border-radius: 12px;
+      overflow: visible;
+      animation: fadeIn 0.5s ease-out;
+      text-align: center;
+    }
+
+    .hero-image img {
+      width: 50%;
+      height: auto;
+      display: inline-block;
+      border-radius: 12px;
+    }
+
+    /* REASSURANCE SECTION */
+    .reassurance-wrapper {
+      background: #1b4d3e;
+      color: white;
+      margin: 60px -24px 0;
+      padding: 60px 24px;
+      animation: fadeIn 0.5s ease-out 0.3s both;
+    }
+
+    .reassurance {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .reassurance h2 {
+      margin-bottom: 16px;
+      font-size: 22px;
+      color: white;
+    }
+
+    .reassurance p {
+      font-size: 15px;
+      margin-bottom: 12px;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .reassurance p:last-child {
+      margin-bottom: 0;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 13px;
+      font-style: italic;
+      margin-top: 20px;
+    }
+
+    /* SECONDARY CTA */
+    .cta-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: linear-gradient(135deg, #1b4d3e, #0d3d2f);
+      color: white;
+      padding: 16px 40px;
+      border-radius: 8px;
       text-decoration: none;
+      font-weight: 600;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(27, 77, 62, 0.15);
+      width: 100%;
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    .cta-secondary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(27, 77, 62, 0.2);
+    }
+
+    /* RESUME LINK */
+    .resume-link {
+      text-align: center;
+      margin-top: 16px;
+      font-size: 13px;
+    }
+
+    .resume-link a {
+      color: #1b4d3e;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+
+    .resume-link a:hover {
+      color: #d4af37;
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 600px) {
+      .main {
+        padding: 0 20px;
+      }
+
+      .hero-image {
+        margin-left: -20px;
+        margin-right: -20px;
+        margin-bottom: 40px;
+        border-radius: 0;
+      }
+
+      h1 {
+        font-size: 28px;
+        margin-bottom: 12px;
+      }
+
+      h2 {
+        font-size: 20px;
+      }
+
+      .hero {
+        padding: 48px 0 32px;
+      }
+
+      .reassurance-wrapper {
+        margin: 48px -20px 0;
+        padding: 40px 20px;
+      }
+
+      .hero-subheading {
+        font-size: 15px;
+        margin-bottom: 24px;
+      }
+
+      .trust-chips {
+        margin-bottom: 24px;
+        gap: 8px;
+      }
+
+      .chip {
+        font-size: 11px;
+        padding: 8px 12px;
+      }
+
+      .cta-primary {
+        padding: 14px 32px;
+        font-size: 15px;
+        margin-bottom: 10px;
+      }
+
+      .combined-section {
+        padding: 32px 24px;
+        margin: 48px 0 32px;
+      }
+
+      .combined-section h2 {
+        font-size: 18px;
+      }
+
+      .bullet-list li {
+        font-size: 14px;
+        padding-left: 22px;
+      }
+
+      .reassurance {
+        padding: 48px 0;
+      }
+
+      .reassurance h2 {
+        font-size: 20px;
+      }
+
+      .reassurance p {
+        font-size: 14px;
+      }
+
+      .cta-secondary {
+        padding: 14px 32px;
+        font-size: 15px;
+        margin-top: 32px;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .main {
+        padding: 0 16px;
+      }
+
+      .hero-image {
+        margin-left: -16px;
+        margin-right: -16px;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+
+      .hero {
+        padding: 40px 0 28px;
+      }
+
+      .trust-chips {
+        margin-bottom: 20px;
+      }
+
+      .combined-section {
+        padding: 28px 20px;
+      }
+
+      .reassurance-wrapper {
+        margin: 40px -16px 0;
+        padding: 32px 16px;
+      }
+
+      .bullet-list li {
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
     }
   </style>
 </head>
 <body>
 
-  <header class="dm-header">
-    <a class="dm-header-brand" href="/">Covo Multipliers</a>
+  <header class="header">
+    <div class="header-inner">
+      <a class="header-brand" href="/">CoVo Multipliers</a>
+    </div>
   </header>
 
-  <main class="dm-main">
+  <main class="main">
 
-    <div class="dm-card">
-      <p class="dm-eyebrow">Disciple Maker Checkup</p>
-      <h1 class="dm-h1">Discover your next step.</h1>
-      <p class="dm-body">
-        You don't need to master disciple-making before you start. Jesus is inviting you to take one more step, right now, from wherever you are.
-      </p>
-      <p class="dm-body">
-        This checkup identifies where you currently are on the disciple-making journey and shows you exactly what's next.
-      </p>
-    </div>
+    <!-- HERO: Visible in 1 screen on mobile -->
+    <section class="hero">
+      <!-- HERO IMAGE -->
+      <div class="hero-image">
+        <img src="/image/the-transformation.webp" alt="Disciple maker transformation">
+      </div>
 
-    <div class="dm-card">
-      <h2 class="dm-h2">What to expect</h2>
-      <p class="dm-body">
-        You'll answer questions about:
-      </p>
-      <ul class="dm-list">
-        <li><strong>Your vision</strong> — Do you believe in the mission?</li>
-        <li><strong>Your practice</strong> — What are you actually doing?</li>
-        <li><strong>Your faithfulness</strong> — Are you showing up week after week?</li>
-        <li><strong>Your willingness</strong> — Will you let someone sharpen you?</li>
-        <li><strong>Your mission field</strong> — Where has God sent you?</li>
-        <li><strong>Your multiplication mindset</strong> — Are you thinking beyond yourself?</li>
-        <li><strong>Your dependence on the Spirit</strong> — Are you relying on God?</li>
-        <li><strong>Your hunger</strong> — Do you actually want this?</li>
+      <h1>Stop guessing at<br>your next step.</h1>
+      <p class="hero-subheading">Get clarity on exactly what to practice this week as a disciple maker.</p>
+
+      <div class="trust-chips">
+        <div class="chip"><span class="chip-dot"></span> 5 Min</div>
+        <div class="chip"><span class="chip-dot"></span> Free</div>
+        <div class="chip"><span class="chip-dot"></span> Personal</div>
+      </div>
+
+      <a href="intake.html" class="cta-primary">Start the Assessment</a>
+    </section>
+
+    <!-- COMBINED SECTION: Is this you? + You'll get + Why this works -->
+    <section class="combined-section">
+      <h2>Is this you?</h2>
+      <ul class="bullet-list">
+        <li>I know Jesus called me to make disciples.</li>
+        <li>I just don't know what to do next.</li>
       </ul>
-      <p class="dm-body">
-        Takes about 15–20 minutes. Your progress saves automatically.
-      </p>
+
+      <div class="section-divider">
+        <svg viewBox="0 0 40 2" preserveAspectRatio="none"><line x1="0" y1="1" x2="40" y2="1"/></svg>
+      </div>
+
+      <h2 style="font-size: 18px; margin-top: 0;">After five minutes you'll know:</h2>
+      <ul class="bullet-list result">
+        <li>What's holding you back.</li>
+        <li>What to practice next.</li>
+        <li>One simple action for this week.</li>
+      </ul>
+
+      <p class="section-closing">Built from years of coaching people like you to actually make disciples.</p>
+    </section>
+
+    <!-- REASSURANCE SECTION: For people who scroll -->
+    <div class="reassurance-wrapper">
+      <section class="reassurance">
+        <h2>Why this matters</h2>
+        <p>Most Christians don't need more information. They need one next step.</p>
+        <p>That's why we built this.</p>
+        <p>This isn't another quiz. It's a coaching tool designed to get you unstuck and practicing.</p>
+      </section>
     </div>
 
-    <div class="dm-card">
-      <h2 class="dm-h2">After you finish</h2>
-      <p class="dm-body">
-        You'll see a personalized diagnosis of your current journey—not a label or a score, but clarity on what you're strong in and where you're ready to grow.
-      </p>
-      <p class="dm-body">
-        Then you'll join our WhatsApp community, where we'll connect you with others on this journey, invite you into our online church model, and help you take your next rep.
-      </p>
-    </div>
+    <!-- SECONDARY CTA -->
+    <a href="intake.html" class="cta-secondary">Start the Assessment</a>
 
-    <div class="dm-card" style="text-align:center;">
-      <a href="/disciple-maker/intake.html" class="btn-gold" style="margin-bottom:12px;">Start the Checkup</a>
-      <p class="cta-note">
-        Already started? <a href="/disciple-maker/resume.html">Resume your checkup</a>
-      </p>
+    <div class="resume-link">
+      Already started? <a href="resume.html">Resume your assessment</a>
     </div>
 
   </main>

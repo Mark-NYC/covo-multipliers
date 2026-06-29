@@ -196,7 +196,7 @@
     <div id="form-view" class="dm-card">
       <h2 class="dm-h2">Let's get started.</h2>
       <p class="dm-body">
-        We'll use this info to send you your results and invite you into the community.
+        Share your email and get your results
       </p>
 
       <form id="intake-form" onsubmit="handleSubmit(event)">
@@ -212,15 +212,10 @@
           <div class="error-message" id="email-error"></div>
         </div>
 
-        <div class="form-group">
-          <label for="organization">Church or Organization (optional)</label>
-          <input type="text" id="organization" name="organization" placeholder="e.g., Grace Community Church">
-        </div>
-
         <div class="checkbox-group">
           <input type="checkbox" id="consent" name="consent" required>
           <label class="checkbox-label" for="consent">
-            I consent to receive this checkup and be added to the CoVo community. We'll send you your results and occasional updates. <a href="#privacy">Privacy</a>
+            I consent to receive this assessment and be added to the CoVo community. We'll send you your results and occasional updates. <a href="#privacy">Privacy</a>
           </label>
         </div>
 
@@ -234,7 +229,7 @@
 
     <div id="loading-view" class="dm-card loading-state">
       <div class="loading-spinner"></div>
-      <p>Starting your checkup…</p>
+      <p>Starting your assessment…</p>
     </div>
 
   </main>
@@ -251,7 +246,6 @@
       const formData = {
         first_name: document.getElementById('first-name').value.trim(),
         email: document.getElementById('email').value.trim(),
-        organization: document.getElementById('organization').value.trim() || null,
         consent: document.getElementById('consent').checked,
       };
 

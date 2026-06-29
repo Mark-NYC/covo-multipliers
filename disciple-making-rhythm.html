@@ -15,7 +15,7 @@
 </script>
 <meta content="A free 45-minute live lab. Move from good intentions to real disciple-making traction. Build a simple rhythm using CFC — commitment, focus, and consistency — and leave with a plan and people moving with you." name="description"/>
 <title>From Intention to Disciple-Making Traction — Covo Multipliers</title>
-<!-- Shared site styles (reset, fonts, .btn-pill, etc.) -->
+<!-- Shared site styles -->
 <link href="styles.css" rel="stylesheet"/>
 <style>
         /* ==============================================
@@ -857,35 +857,6 @@
            8. SUBMIT BUTTON
         ----------------------------------------------- */
 
-        .btn-submit {
-            width: 100%;
-            padding: 0.9rem 1.5rem;
-            margin-top: 0.5rem;
-            border: none;
-            border-radius: 10px;
-            font-size: 1rem;
-            font-weight: 700;
-            font-family: inherit;
-            cursor: pointer;
-            background: #1b4d3e;
-            color: #ffffff;
-            letter-spacing: 0.01em;
-            transition: background 0.2s ease;
-        }
-
-        .btn-submit:hover:not(:disabled) {
-            background: #10281f;
-        }
-
-        .btn-submit:focus-visible {
-            outline: 3px solid #dcb55a;
-            outline-offset: 3px;
-        }
-
-        .btn-submit:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
 
 
         /* -----------------------------------------------
@@ -1070,32 +1041,6 @@
             color: rgba(255, 255, 255, 0.55);
         }
 
-        .btn-cta {
-            display: inline-block;
-            padding: 1rem 2.5rem;
-            background: #dcb55a;
-            color: #10281f;
-            font-size: 1rem;
-            font-weight: 800;
-            font-family: inherit;
-            letter-spacing: 0.01em;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            text-decoration: none;
-            transition: background 0.2s ease, transform 0.15s ease;
-        }
-
-        .btn-cta:hover {
-            background: #c9a24e;
-            transform: translateY(-1px);
-        }
-
-        .btn-cta:focus-visible {
-            outline: 3px solid #ffffff;
-            outline-offset: 3px;
-        }
-
 
         /* -----------------------------------------------
            14. FOOTER
@@ -1174,6 +1119,24 @@
 
             .form-social-proof img         { max-width: 145px; }
         }
+        .zoom-frame {
+            margin: 1.75rem 0 0;
+            border: 2px solid #e2e8e5;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #f4f7f6;
+        }
+        .zoom-frame img {
+            display: block;
+            width: 100%;
+        }
+        .zoom-frame figcaption {
+            padding: 0.55rem 1rem;
+            font-size: 0.82rem;
+            color: #6b7c76;
+            text-align: center;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
@@ -1208,7 +1171,7 @@
 <strong>Event not found.</strong>
                     This event may have ended or the link may be incorrect.
                     <br/><br/>
-<a class="btn-pill" href="/#upcoming-labs">See all upcoming labs</a>
+<a class="btn btn-secondary" href="/#upcoming-labs">See all upcoming labs</a>
 </div>
 <!-- Countdown — populated by startCountdown() -->
 <div hidden="" id="event-countdown"></div>
@@ -1355,6 +1318,11 @@
 <p class="content-p" style="margin-top: 1rem;">This lab is for people serious about making disciples where they live, work, and play — especially those who have tried before but keep stalling at intention. It's for covocational leaders with full weeks who need focus, not more inspiration. And it's for anyone who feels unfocused, unsure of the next step, or like they're doing this alone.</p>
 </div>
 
+<figure class="zoom-frame">
+<img alt="A live Covo Multipliers lab in session on Zoom" loading="lazy" src="image/covozoomfinal.webp"/>
+<figcaption>A live lab in session — real practitioners, real conversations.</figcaption>
+</figure>
+
 <!-- FAQ -->
 <div class="format-note">
 <strong>Common questions</strong>
@@ -1417,7 +1385,9 @@
 <div class="bottom-cta-inner">
 <h2 class="bottom-cta-headline">Stop Stalling at Good Intentions.</h2>
 <p class="bottom-cta-body">Join the October lab and leave with a disciple-making rhythm you can actually keep — and people moving with you. One focused, repeatable next step, built in 45 minutes.</p>
-<button class="btn-cta" id="cta-scroll-btn">Reserve Your Seat →</button>
+<button class="btn btn-primary" id="cta-scroll-btn">Reserve Your Seat →</button>
+<p style="margin-top:1.25rem;font-size:0.85rem;color:rgba(255,255,255,0.5);">or</p>
+<a href="https://www.covomultipliers.com/join-whatsapp?utm_source=lab_page&utm_medium=cta&utm_campaign=whatsapp_field_room" style="font-size:0.9rem;color:rgba(255,255,255,0.7);text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.3);">Start practicing with us in WhatsApp →</a>
 <p class="bottom-cta-date">Wednesday, October 21, 2026 · 3:00–3:45pm ET · Zoom · Free · <span data-seats-remaining>25</span> seats</p>
 </div>
 </section>
@@ -1546,7 +1516,7 @@
                     <h2>Reserve Your Seat</h2>
                     <div class="full-notice">
                         <p>This event is full. Check back for future labs with open seats.</p>
-                        <a class="btn-pill" href="/#upcoming-labs">← See all upcoming labs</a>
+                        <a class="btn btn-secondary" href="/#upcoming-labs">← See all upcoming labs</a>
                     </div>
                 `;
             }
@@ -1630,12 +1600,17 @@
                     <h3>You&rsquo;re in.</h3>
                     <p>Add this to your calendar now so you don&rsquo;t miss it.</p>
                     <p style="margin-top:1.25rem;">
-                        <a class="btn-pill btn-pill-primary" href="https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1/lab-calendar?event=disciple-making-rhythm">Add to Calendar</a>
+                        <a class="btn btn-primary" href="https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1/lab-calendar?event=disciple-making-rhythm">Add to Calendar</a>
                     </p>
                     <p style="margin-top:1rem;">
                         A confirmation email is on its way to
                         <strong>${esc(email)}</strong>.
                     </p>
+                    <div style="margin-top:1.5rem;padding:1.25rem;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;text-align:left;">
+                        <p style="font-size:0.82rem;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:#15803d;margin:0 0 0.4rem;">WhatsApp Field Room</p>
+                        <p style="font-size:0.93rem;color:#1a1a1a;line-height:1.6;margin:0 0 0.9rem;">Don&rsquo;t just attend the lab. Practice with us afterward. Join the field room for weekly practice prompts and next steps.</p>
+                        <a href="https://www.covomultipliers.com/join-whatsapp?utm_source=registration_confirmation&utm_medium=cta&utm_campaign=whatsapp_field_room" style="display:block;text-align:center;padding:0.72rem 1rem;background:#25D366;color:#fff;font-size:0.92rem;font-weight:800;text-decoration:none;border-radius:8px;" target="_blank" rel="noopener">Join the WhatsApp Field Room</a>
+                    </div>
                 </div>
             `;
 

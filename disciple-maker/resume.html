@@ -11,7 +11,7 @@
     </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Resume Your Checkup</title>
+  <title>Resume Your Assessment</title>
   <link rel="stylesheet" href="/styles.css">
   <script src="config.js"></script>
   <style>
@@ -187,7 +187,7 @@
   <main class="dm-main">
 
     <div id="form-view" class="dm-card">
-      <h2 class="dm-h2">Resume your checkup.</h2>
+      <h2 class="dm-h2">Resume your assessment.</h2>
       <p class="dm-body">
         We'll use your email to find where you left off.
       </p>
@@ -196,12 +196,12 @@
         <div class="form-group">
           <label for="email">Email Address *</label>
           <input type="email" id="email" name="email" placeholder="you@example.com" required>
-          <div class="form-note">The email you used to start your checkup</div>
+          <div class="form-note">The email you used to start your assessment</div>
           <div class="error-message" id="email-error"></div>
         </div>
 
         <div class="form-buttons">
-          <button type="submit" class="btn-primary" id="submit-btn">Find My Checkup</button>
+          <button type="submit" class="btn-primary" id="submit-btn">Find My Assessment</button>
         </div>
 
         <div class="error-message" id="form-error"></div>
@@ -214,7 +214,7 @@
 
     <div id="loading-view" class="dm-card loading-state">
       <div class="loading-spinner"></div>
-      <p>Finding your checkup…</p>
+      <p>Finding your assessment…</p>
     </div>
 
   </main>
@@ -252,7 +252,7 @@
         const data = await response.json();
 
         if (!response.ok) {
-          throw new Error(data.error || 'Email not found. Please try again or start a new checkup.');
+          throw new Error(data.error || 'Email not found. Please try again or start a new assessment.');
         }
 
         // Store session and redirect
