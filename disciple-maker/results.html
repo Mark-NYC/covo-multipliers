@@ -432,6 +432,34 @@
       color: #1a1a1a;
     }
 
+    .profile-header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .profile-archetype {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #1b4d3e;
+      margin-bottom: 8px;
+    }
+
+    .profile-title {
+      font-size: 24px;
+      font-weight: 800;
+      color: #1a1a1a;
+      margin-bottom: 12px;
+    }
+
+    .profile-description {
+      font-size: 15px;
+      line-height: 1.7;
+      color: #555;
+      margin-bottom: 0;
+    }
+
   </style>
 </head>
 <body>
@@ -479,6 +507,8 @@
         <h1 class="results-title">Your Snapshot</h1>
         <p class="results-subtitle" id="result-greeting"></p>
       </div>
+
+      <div id="profile-card" class="dm-card" style="display:none;"></div>
 
       <div class="dm-card">
         <h2 class="dm-h2">Where You Are Right Now</h2>
@@ -711,6 +741,59 @@
       return "Continuing to grow through faithful obedience.";
     }
 
+    function generateProfile(analysis) {
+      const { vision, practice, rhythm, mission, coachability } = analysis;
+
+      // Find the strongest dimension(s)
+      const scores = {
+        vision,
+        practice,
+        rhythm,
+        mission,
+        coachability
+      };
+
+      const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+      const strongest = sorted[0][0];
+      const secondStrongest = sorted[1][0];
+
+      // Profile definitions
+      const profiles = {
+        vision: {
+          archetype: "The Idealist",
+          description: "You see what's possible and have clarity about the mission. Your next move is translating that clarity into action. The gap between knowing and doing is where real transformation happens—and that's your frontier."
+        },
+        practice: {
+          archetype: "The Practitioner",
+          description: "You're actively doing the work of disciple making. You take action, learn from experience, and aren't waiting for perfect conditions. Keep building on this momentum."
+        },
+        rhythm: {
+          archetype: "The Rhythm Keeper",
+          description: "You understand the power of consistency. You show up week after week, building the habits that sustain long-term growth. This discipline is rare and powerful."
+        },
+        mission: {
+          archetype: "The Sent One",
+          description: "You know where God has placed you. You recognize the people and communities around you as your mission field. Now it's about moving from knowing to doing."
+        },
+        coachability: {
+          archetype: "The Learner",
+          description: "You're open to feedback and growth. You don't have all the answers and that's your strength—it keeps you humble and hungry to improve. This openness unlocks transformation."
+        }
+      };
+
+      // If scores are low across the board, show "The Awakening"
+      const avgScore = Object.values(scores).reduce((a, b) => a + b) / Object.keys(scores).length;
+      if (avgScore < 2.5) {
+        return {
+          archetype: "The Awakening",
+          description: "You're at the beginning of your journey. This assessment is your first step toward understanding what sustained disciple making looks like. Every expert was once a beginner."
+        };
+      }
+
+      // Use strongest dimension for profile
+      return profiles[strongest] || profiles.practice;
+    }
+
     function generateNextRep(analysis) {
       const { practice, rhythm, mission, coachability, practiceAvg } = analysis;
 
@@ -906,6 +989,7 @@
 
       // Analyze scores using new conservative engine
       const analysis = analyzeScores(scores);
+      const profile = generateProfile(analysis);
       const observations = generateObservations(analysis);
       const growthEdge = generateGrowthEdge(analysis);
       const nextRep = generateNextRep(analysis);
@@ -913,6 +997,16 @@
 
       // Render greeting
       document.getElementById('result-greeting').textContent = `Hello, ${firstName}.`;
+
+      // Render profile archetype
+      const profileHtml = `
+        <div class="profile-header">
+          <div class="profile-archetype">${profile.archetype}</div>
+          <p class="profile-description">${profile.description}</p>
+        </div>
+      `;
+      document.getElementById('profile-card').innerHTML = profileHtml;
+      document.getElementById('profile-card').style.display = 'block';
 
       // Render radar chart
       renderRadarChart(scores);
