@@ -67,7 +67,7 @@ async function sendCfcFollowupEmail({
 
   const cfcProfileUrl = `https://www.covomultipliers.com/disciple-maker/cfc-profile.html?r=${resultsToken}`;
   const whatsappUrl =
-    "https://www.covomultipliers.com/join-whatsapp?utm_source=cfc_profile_email&utm_medium=email&utm_campaign=whatsapp_field_room";
+    "https://www.covomultipliers.com/whatsapp.html?utm_source=cfc_followup_email&utm_medium=email&utm_campaign=whatsapp_field_room";
 
   const html = `<!DOCTYPE html>
 <html lang="en">
