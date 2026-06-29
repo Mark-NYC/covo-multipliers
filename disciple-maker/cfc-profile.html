@@ -379,7 +379,7 @@
 
       <div class="dm-card">
         <h2 class="dm-h2">Your CFC Scores</h2>
-        <p class="dm-body">Commitment, Focus, and Consistency are the three pillars that drive sustainable disciple making.</p>
+        <p class="dm-body">Three things determine whether disciple making actually happens: You need to be locked in on your mission field (Commitment), saying yes to the right activities and no to distractions (Focus), and doing it often enough and consistently enough to get traction (Consistency).</p>
         <div class="cfc-grid" id="cfc-scores-grid"></div>
       </div>
 
@@ -541,10 +541,16 @@
       document.getElementById('profile-greeting').textContent = `Your coaching framework, ${firstName}.`;
 
       // CFC Scores
+      const cfcDefinitions = {
+        Commitment: 'Locked in on stewarding those around you as your mission field',
+        Focus: 'Saying yes to the right activities and no to distractions',
+        Consistency: 'Doing this often enough and regularly enough to get to traction'
+      };
+
       const cfc = [
-        { label: 'Commitment', score: commitment, desc: 'Vision + Mission' },
-        { label: 'Focus', score: focus, desc: 'Practice + Coachability' },
-        { label: 'Consistency', score: consistency, desc: 'Rhythm' }
+        { label: 'Commitment', score: commitment, def: cfcDefinitions.Commitment },
+        { label: 'Focus', score: focus, def: cfcDefinitions.Focus },
+        { label: 'Consistency', score: consistency, def: cfcDefinitions.Consistency }
       ];
 
       const scoresHtml = cfc.map(c => {
@@ -558,6 +564,7 @@
               <div class="cfc-fill" style="width: ${width}%"></div>
             </div>
             <div class="cfc-status">${status}</div>
+            <div style="font-size:13px;color:#666;margin-top:8px;line-height:1.5;">${c.def}</div>
           </div>
         `;
       }).join('');
