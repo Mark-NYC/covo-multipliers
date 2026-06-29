@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DXGLXDTF9V"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-DXGLXDTF9V');
+    </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your CFC Profile — Disciple Maker Checkup</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="config.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+  <meta name="robots" content="noindex, nofollow">
+  <style>
+    body {
+      background: #fafafa;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .dm-header {
+      background: #1b4d3e;
+      color: white;
+      padding: 16px 20px;
+      text-align: center;
+      border-bottom: 1px solid #164033;
+    }
+
+    .dm-header-brand {
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      color: white;
+      opacity: 0.9;
+    }
+
+    .dm-main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 32px 20px;
+    }
+
+    .profile-hero {
+      text-align: center;
+      margin-bottom: 40px;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .profile-eyebrow {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #888;
+      margin: 0 0 12px;
+    }
+
+    .profile-title {
+      font-size: 32px;
+      font-weight: 800;
+      line-height: 1.2;
+      color: #1a1a1a;
+      margin: 0 0 12px;
+    }
+
+    .profile-subtitle {
+      font-size: 16px;
+      line-height: 1.6;
+      color: #555;
+      margin: 0;
+    }
+
+    .dm-card {
+      background: white;
+      border-radius: 12px;
+      padding: 28px;
+      margin-bottom: 24px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      opacity: 0;
+      animation: slideUp 0.6s ease forwards;
+    }
+
+    .dm-card:nth-child(2) { animation-delay: 0.1s; }
+    .dm-card:nth-child(3) { animation-delay: 0.2s; }
+    .dm-card:nth-child(4) { animation-delay: 0.3s; }
+    .dm-card:nth-child(5) { animation-delay: 0.4s; }
+    .dm-card:nth-child(6) { animation-delay: 0.5s; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .dm-h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin: 0 0 16px;
+    }
+
+    .dm-body {
+      font-size: 15px;
+      line-height: 1.7;
+      color: #555;
+      margin: 0 0 16px;
+    }
+
+    .dm-body:last-child {
+      margin-bottom: 0;
+    }
+
+    .cfc-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin: 24px 0;
+    }
+
+    .cfc-score-card {
+      background: #f9fafb;
+      border-radius: 8px;
+      padding: 20px;
+      text-align: center;
+      border: 1px solid #e5e7eb;
+    }
+
+    .cfc-label {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #888;
+      margin-bottom: 8px;
+    }
+
+    .cfc-score {
+      font-size: 28px;
+      font-weight: 800;
+      color: #1b4d3e;
+      margin-bottom: 8px;
+    }
+
+    .cfc-bar {
+      height: 6px;
+      background: #e5e7eb;
+      border-radius: 3px;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+
+    .cfc-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #1b4d3e, #2d6b56);
+      border-radius: 3px;
+    }
+
+    .cfc-status {
+      font-size: 13px;
+      font-weight: 600;
+      color: #1b4d3e;
+    }
+
+    .strength-item {
+      display: flex;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid #e5e7eb;
+      align-items: flex-start;
+    }
+
+    .strength-item:last-child {
+      border-bottom: none;
+    }
+
+    .strength-icon {
+      flex-shrink: 0;
+      font-size: 18px;
+      margin-top: 2px;
+    }
+
+    .strength-text {
+      flex: 1;
+    }
+
+    .strength-label {
+      font-weight: 600;
+      color: #1a1a1a;
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+
+    .strength-desc {
+      font-size: 13px;
+      color: #666;
+      line-height: 1.5;
+    }
+
+    .gap-item {
+      background: #fef3c7;
+      border: 1px solid #fde68a;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+
+    .gap-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .gap-area {
+      font-weight: 700;
+      color: #b45309;
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+
+    .gap-issue {
+      font-weight: 600;
+      color: #b45309;
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+
+    .gap-description {
+      font-size: 14px;
+      line-height: 1.5;
+      color: #92400e;
+    }
+
+    .priority-box {
+      background: linear-gradient(135deg, #1b4d3e 0%, #2d6b56 100%);
+      color: white;
+      border-radius: 12px;
+      padding: 24px;
+      margin: 24px 0;
+    }
+
+    .priority-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .priority-reason {
+      font-size: 15px;
+      line-height: 1.6;
+      margin-bottom: 16px;
+      opacity: 0.95;
+    }
+
+    .priority-action {
+      background: rgba(255,255,255,0.15);
+      padding: 16px;
+      border-radius: 8px;
+      font-size: 15px;
+      line-height: 1.6;
+      font-weight: 500;
+    }
+
+    .loading-state {
+      display: none;
+    }
+
+    .loading-container {
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid #f0f0f0;
+      border-top-color: #1b4d3e;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      margin: 0 auto 24px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .error-state {
+      display: none;
+    }
+
+    .error-state-icon {
+      font-size: 48px;
+      margin-bottom: 12px;
+    }
+
+    .error-state h2 {
+      color: #1a1a1a;
+      margin: 0 0 8px;
+    }
+
+    .error-state p {
+      color: #555;
+      margin: 0 0 16px;
+    }
+
+    .cta-link {
+      display: inline-block;
+      background: #d4af37;
+      color: #1a1a1a;
+      padding: 12px 24px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 600;
+      margin-top: 16px;
+      transition: background 0.2s;
+    }
+
+    .cta-link:hover {
+      background: #c9a227;
+    }
+
+    @media (max-width: 600px) {
+      .cfc-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .profile-title {
+        font-size: 24px;
+      }
+
+      .dm-main {
+        padding: 24px 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="dm-header">
+    <a class="dm-header-brand" href="/">Covo Multipliers</a>
+  </header>
+
+  <main class="dm-main">
+
+    <div id="loading-view" class="loading-state" style="display:block;">
+      <div class="dm-card">
+        <div class="loading-container">
+          <div class="loading-spinner"></div>
+          <p style="font-size: 16px; font-weight: 600; color: #1a1a1a; margin-bottom: 24px;">Building your CFC Profile…</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="error-view" class="dm-card error-state">
+      <div class="error-state-icon">⚠️</div>
+      <h2>Profile not found</h2>
+      <p>This link may be invalid or expired. Please check the email we sent you.</p>
+      <a href="/" style="color: #1b4d3e; font-weight: 600; text-decoration: none;">Return Home</a>
+    </div>
+
+    <div id="profile-view" style="display:none;">
+
+      <div class="profile-hero">
+        <p class="profile-eyebrow">Your CFC Profile</p>
+        <h1 class="profile-title">Your Coaching Framework</h1>
+        <p class="profile-subtitle" id="profile-greeting"></p>
+      </div>
+
+      <div class="dm-card">
+        <h2 class="dm-h2">Your CFC Scores</h2>
+        <p class="dm-body">Commitment, Focus, and Consistency are the three pillars that drive sustainable disciple making.</p>
+        <div class="cfc-grid" id="cfc-scores-grid"></div>
+      </div>
+
+      <div class="dm-card">
+        <h2 class="dm-h2">What's Strong</h2>
+        <p class="dm-body">Areas where you're already showing up:</p>
+        <div id="strengths-section"></div>
+      </div>
+
+      <div class="dm-card">
+        <h2 class="dm-h2">What's Holding You Back</h2>
+        <p class="dm-body">Gaps preventing your breakthrough:</p>
+        <div id="gaps-section"></div>
+      </div>
+
+      <div id="priority-card" class="dm-card" style="display:none;">
+        <h2 class="dm-h2">Your Priority Action</h2>
+        <div id="priority-section"></div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <script>
+    const SUPABASE_FUNCTIONS = window.DISCIPLE_MAKER_CONFIG.SUPABASE_FUNCTIONS;
+
+    function showView(viewName) {
+      document.getElementById('loading-view').style.display = viewName === 'loading' ? 'block' : 'none';
+      document.getElementById('profile-view').style.display = viewName === 'profile' ? 'block' : 'none';
+      document.getElementById('error-view').style.display = viewName === 'error' ? 'block' : 'none';
+    }
+
+    function analyzeScores(scores) {
+      const practice = scores.practice || 0;
+      const rhythm = scores.rhythm || 0;
+      const mission = scores.everyday_mission || 0;
+      const coachability = scores.coachability || 0;
+      const vision = scores.vision || 0;
+
+      // CFC Framework
+      const commitment = (vision + mission) / 2;
+      const focus = (practice + coachability) / 2;
+      const consistency = rhythm;
+
+      return { practice, rhythm, mission, coachability, vision, commitment, focus, consistency };
+    }
+
+    function generateCFCFeedback(analysis) {
+      const { commitment, focus, consistency } = analysis;
+      const threshold = 3.5;
+
+      const hasCommitment = commitment >= threshold;
+      const hasFocus = focus >= threshold;
+      const hasConsistency = consistency >= threshold;
+
+      // Strengths
+      const strengths = [];
+      if (hasCommitment) strengths.push({
+        label: "Commitment",
+        description: "You're clear on your mission and the people God has placed around you."
+      });
+      if (hasFocus) strengths.push({
+        label: "Focus",
+        description: "You're taking active steps and open to learning how to improve."
+      });
+      if (hasConsistency) strengths.push({
+        label: "Consistency",
+        description: "You're building the weekly rhythms that sustain disciple making."
+      });
+
+      // Gaps
+      const gaps = [];
+      if (!hasCommitment) gaps.push({
+        area: "Commitment",
+        issue: "Mission unclear",
+        description: "You haven't yet identified where God has placed you or who He's calling you to reach."
+      });
+      if (!hasFocus) gaps.push({
+        area: "Focus",
+        issue: "Not yet practicing consistently",
+        description: "You're either not taking action yet, or you're doing activities without a clear strategy for growth."
+      });
+      if (!hasConsistency) gaps.push({
+        area: "Consistency",
+        issue: "No weekly rhythm",
+        description: "You're not building the habits and weekly practices that sustain disciple making over time."
+      });
+
+      // Priority
+      let priority = null;
+      if (gaps.length > 0) {
+        if (!hasCommitment) {
+          priority = {
+            title: "Start with Commitment",
+            reason: "Without clarity on your mission, any action will feel scattered. Get crystal clear on who God has placed around you and what He's calling you to do.",
+            action: "This week: Identify 5-6 people in your everyday circles (work, neighborhood, family, hobbies). Write their names. This is your mission field."
+          };
+        } else if (!hasFocus) {
+          priority = {
+            title: "Build Focus Next",
+            reason: "You know your mission but aren't acting on it yet. Start small. One action this week changes everything.",
+            action: "This week: Choose one person to pray for. Have one spiritual conversation. Take one concrete action toward disciple making."
+          };
+        } else if (!hasConsistency) {
+          priority = {
+            title: "Establish Consistency",
+            reason: "You're taking steps, but inconsistency kills momentum. Build the rhythm that sustains it. Consistency beats intensity.",
+            action: "This week: Set one weekly practice you can repeat (e.g., pray Monday mornings, lunch conversation Friday, Scripture reading together). Same time, same practice, every week."
+          };
+        }
+      }
+
+      return { strengths, gaps, priority };
+    }
+
+    async function loadProfile() {
+      const params = new URLSearchParams(window.location.search);
+      const resultsToken = params.get('r');
+
+      if (!resultsToken) {
+        showView('error');
+        return;
+      }
+
+      try {
+        const response = await fetch(
+          `${SUPABASE_FUNCTIONS}/disciple-maker-results?token=${resultsToken}`
+        );
+
+        const data = await response.json();
+        if (!response.ok) throw new Error('Failed to load profile');
+
+        setTimeout(() => {
+          renderProfile(data);
+        }, 1500);
+      } catch (error) {
+        console.error('Error:', error);
+        showView('error');
+      }
+    }
+
+    function renderProfile(data) {
+      const firstName = data.first_name || 'Friend';
+      const scores = data.dimension_scores || {};
+
+      const analysis = analyzeScores(scores);
+      const { commitment, focus, consistency } = analysis;
+      const feedback = generateCFCFeedback(analysis);
+
+      // Greeting
+      document.getElementById('profile-greeting').textContent = `Your coaching framework, ${firstName}.`;
+
+      // CFC Scores
+      const cfc = [
+        { label: 'Commitment', score: commitment, desc: 'Vision + Mission' },
+        { label: 'Focus', score: focus, desc: 'Practice + Coachability' },
+        { label: 'Consistency', score: consistency, desc: 'Rhythm' }
+      ];
+
+      const scoresHtml = cfc.map(c => {
+        const width = (c.score / 5) * 100;
+        const status = c.score >= 3.5 ? '✓ Strong' : c.score >= 2.5 ? '→ Developing' : '⚠ Needs Work';
+        return `
+          <div class="cfc-score-card">
+            <div class="cfc-label">${c.label}</div>
+            <div class="cfc-score">${c.score.toFixed(1)}</div>
+            <div class="cfc-bar">
+              <div class="cfc-fill" style="width: ${width}%"></div>
+            </div>
+            <div class="cfc-status">${status}</div>
+          </div>
+        `;
+      }).join('');
+      document.getElementById('cfc-scores-grid').innerHTML = scoresHtml;
+
+      // Strengths
+      const strengthsHtml = feedback.strengths.length > 0
+        ? feedback.strengths.map(s => `
+            <div class="strength-item">
+              <div class="strength-icon">✓</div>
+              <div class="strength-text">
+                <div class="strength-label">${s.label}</div>
+                <div class="strength-desc">${s.description}</div>
+              </div>
+            </div>
+          `).join('')
+        : '<p class="dm-body" style="color: #888;">Keep building on what you have.</p>';
+      document.getElementById('strengths-section').innerHTML = strengthsHtml;
+
+      // Gaps
+      const gapsHtml = feedback.gaps.length > 0
+        ? feedback.gaps.map(g => `
+            <div class="gap-item">
+              <div class="gap-area">${g.area}</div>
+              <div class="gap-issue">${g.issue}</div>
+              <div class="gap-description">${g.description}</div>
+            </div>
+          `).join('')
+        : '<p class="dm-body" style="color: #888;">You\'re strong across all three pillars. Keep going.</p>';
+      document.getElementById('gaps-section').innerHTML = gapsHtml;
+
+      // Priority
+      if (feedback.priority) {
+        const priorityHtml = `
+          <div class="priority-box">
+            <div class="priority-title">${feedback.priority.title}</div>
+            <div class="priority-reason">${feedback.priority.reason}</div>
+            <div class="priority-action">${feedback.priority.action}</div>
+          </div>
+        `;
+        document.getElementById('priority-section').innerHTML = priorityHtml;
+        document.getElementById('priority-card').style.display = 'block';
+      }
+
+      showView('profile');
+    }
+
+    showView('loading');
+    loadProfile();
+  </script>
+
+</body>
+</html>
