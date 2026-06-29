@@ -208,7 +208,7 @@
       </form>
 
       <div style="text-align: center; margin-top: 24px;">
-        <a href="index.html" class="btn-secondary">Start Over</a>
+        <a href="/disciple-maker/index.html" class="btn-secondary">Start Over</a>
       </div>
     </div>
 
@@ -258,7 +258,7 @@
         // Store session and redirect
         sessionStorage.setItem('dm_session_id', data.session_id);
         sessionStorage.setItem('dm_session_token', data.session_token);
-        window.location.replace('take.html');
+        window.location.replace('/disciple-maker/take.html');
       } catch (error) {
         console.error('Error:', error);
         document.getElementById('form-view').style.display = 'block';

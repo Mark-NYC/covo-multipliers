@@ -761,7 +761,7 @@
     getCredentials();
 
     if (!sessionId || !resumeToken) {
-      window.location.replace('intake.html');
+      window.location.replace('/disciple-maker/intake.html');
     }
 
     function loadQuestions() {
@@ -935,7 +935,7 @@
       sessionStorage.setItem('dm_resume_token', resumeToken);
       sessionStorage.setItem('dm_responses', JSON.stringify(responses));
       sessionStorage.setItem('dm_current_index', currentIndex.toString());
-      window.location.replace('index.html');
+      window.location.replace('/disciple-maker/index.html');
     }
 
     async function submitAssessment() {
@@ -963,7 +963,7 @@
           throw new Error(data.error || 'Failed to submit assessment');
         }
 
-        window.location.replace(`results.html?r=${data.results_token}`);
+        window.location.replace(`/disciple-maker/results.html?r=${data.results_token}`);
       } catch (error) {
         console.error('Error:', error);
         showView('error');
