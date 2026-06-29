@@ -455,23 +455,33 @@
     }
 
     .breakthrough-seeing {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #1b4d3e 0%, #2d6b56 100%);
     }
 
     .breakthrough-practice {
-      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      background: linear-gradient(135deg, #d4af37 0%, #c9a227 100%);
+      color: #1a1a1a;
+    }
+
+    .breakthrough-practice .breakthrough-action {
+      background: rgba(26, 26, 26, 0.1);
     }
 
     .breakthrough-people {
-      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      background: linear-gradient(135deg, #1b4d3e 0%, #164033 100%);
     }
 
     .breakthrough-rhythms {
-      background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+      background: linear-gradient(135deg, #2d6b56 0%, #1b4d3e 100%);
     }
 
     .breakthrough-together {
-      background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+      background: linear-gradient(135deg, #d4af37 0%, #e5c158 100%);
+      color: #1a1a1a;
+    }
+
+    .breakthrough-together .breakthrough-action {
+      background: rgba(26, 26, 26, 0.1);
     }
 
     .email-gate {
@@ -749,6 +759,50 @@
       </svg>`;
     }
 
+    // SVG icon generator for breakthrough areas
+    function getBreakthroughIcon(breakthroughType) {
+      const color = breakthroughType === 'practice' || breakthroughType === 'together' ? '#1a1a1a' : 'white';
+
+      if (breakthroughType === 'seeing') {
+        // Minimalist eye icon
+        return `<svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="${color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 7C8 7 2.5 14 2.5 14s5.5 7 11.5 7 11.5-7 11.5-7-5.5-7-11.5-7Z"/>
+          <circle cx="14" cy="14" r="3"/>
+        </svg>`;
+      } else if (breakthroughType === 'practice') {
+        // Minimalist target/action icon
+        return `<svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="${color}" stroke-width="1.5" stroke-linecap="round">
+          <circle cx="14" cy="14" r="11"/>
+          <circle cx="14" cy="14" r="7"/>
+          <circle cx="14" cy="14" r="3"/>
+        </svg>`;
+      } else if (breakthroughType === 'people') {
+        // Minimalist people/connection icon
+        return `<svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="${color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="9" r="3"/>
+          <circle cx="19" cy="9" r="3"/>
+          <path d="M7 14c-1 0-2 1-2 2v3c0 1 1 2 2 2h4v-7Z"/>
+          <path d="M21 14c1 0 2 1 2 2v3c0 1-1 2-2 2h-4v-7Z"/>
+          <path d="M9 14v5c0 1 1 2 2 2h6c1 0 2-1 2-2v-5"/>
+        </svg>`;
+      } else if (breakthroughType === 'rhythms') {
+        // Minimalist rhythm/wave icon
+        return `<svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="${color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 14h2c1.5-3 2.5-4 4-4s2.5 1 4 4h2c1-2.5 2-3.5 3-3.5s2 1 3 3.5h2"/>
+          <line x1="4" y1="14" x2="24" y2="14"/>
+        </svg>`;
+      } else if (breakthroughType === 'together') {
+        // Minimalist collaboration/learning icon
+        return `<svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="${color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="10" cy="10" r="4"/>
+          <circle cx="18" cy="10" r="4"/>
+          <path d="M8 16h4c0-1.5 1-2.5 2-2.5s2 1 2 2.5h4"/>
+          <path d="M8 16v2c0 1 1 2 2 2h8c1 0 2-1 2-2v-2"/>
+        </svg>`;
+      }
+      return '';
+    }
+
     // PRACTICE-FIRST RECOMMENDATION ENGINE
     // Conservative, beginner-focused, only make claims we can support
 
@@ -934,7 +988,7 @@
       if (lowest[0] === 'vision' || vision < 2.5) {
         return {
           title: "Seeing",
-          icon: "👁️",
+          iconType: "seeing",
           description: "Your next breakthrough is noticing the mission field already in front of you.",
           detail: "The new hire. The mom two houses down. The friend who calls at 10pm. God keeps setting people right in front of you. Your breakthrough isn't finding a mission field—it's seeing the one that's been there all along.",
           actionTitle: "This Week:",
@@ -946,7 +1000,7 @@
       if (lowest[0] === 'practice' || practice < 2.5) {
         return {
           title: "Practice",
-          icon: "🎯",
+          iconType: "practice",
           description: "Your next breakthrough moves you from inspiration to action.",
           detail: "Reading feels like obeying. An article lights up the same wiring obedience does, except it asks nothing of you and risks nothing of yours. You already know more than you're living. What changes that isn't another insight—it's one small act of obedience you could start this week.",
           actionTitle: "This Week:",
@@ -958,7 +1012,7 @@
       if (lowest[0] === 'mission' || mission < 2.5) {
         return {
           title: "The People Already Around You",
-          icon: "🤝",
+          iconType: "people",
           description: "Your next breakthrough puts names on blurry intentions.",
           detail: "Most of us walk around with a vague intention to 'reach people' that never actually touches anyone. You eat lunch with the coworker. You're at soccer every Saturday with the same parents. The people you keep begging God to send are already there.",
           actionTitle: "This Week:",
@@ -970,7 +1024,7 @@
       if (lowest[0] === 'rhythm' || rhythm < 2.5) {
         return {
           title: "Rhythms",
-          icon: "🔄",
+          iconType: "rhythms",
           description: "Your next breakthrough builds patterns you don't have to keep relighting.",
           detail: "Conference lights a fire. You're a new person for a week. Then life rolls in, the fire goes out, and you're waiting for the next spark. The fix usually isn't a bigger fire—it's a smaller one you don't have to keep relighting every time life gets busy.",
           actionTitle: "This Week:",
@@ -982,7 +1036,7 @@
       if (lowest[0] === 'coachability' || coachability < 2.5) {
         return {
           title: "Learning Together",
-          icon: "👥",
+          iconType: "together",
           description: "Your next breakthrough is finding one person to keep you honest.",
           detail: "Nobody really learns this on their own. You need someone who'll ask you flat out, 'So what happened this week?' Not to grade you. To keep you honest, and to be there when the first few clumsy tries make you want to quit—because they will. Feeling like a beginner is the toll for starting.",
           actionTitle: "This Week:",
@@ -994,7 +1048,7 @@
       // Default
       return {
         title: "Keep Growing",
-        icon: "🌱",
+        iconType: "seeing",
         description: "You're on the path. Keep taking the next right step.",
         detail: "Your breakthrough probably isn't waiting behind five new habits. It's waiting behind one honest step in a direction God's already pointing you.",
         actionTitle: "This Week:",
@@ -1099,10 +1153,11 @@
       renderRadarChart(scores);
 
       // Render breakthrough area
+      const breakthroughIcon = getBreakthroughIcon(breakthrough.iconType);
       const breakthroughHtml = `
         <div class="breakthrough-box ${breakthrough.className}">
           <div class="breakthrough-heading">
-            <span class="breakthrough-icon">${breakthrough.icon}</span>
+            <span class="breakthrough-icon">${breakthroughIcon}</span>
             <span>${breakthrough.title}</span>
           </div>
           <div class="breakthrough-description">${breakthrough.description}</div>
