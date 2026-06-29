@@ -903,10 +903,12 @@
         consistency
       };
 
+      console.log('[Diagnostic] Submitting:', diagnosticData);
       closeDiagnosticModal();
 
       // Call diagnostic function to recalculate CFC
       try {
+        console.log('[Diagnostic] Calling API with resultsToken:', resultsToken);
         const response = await fetch(
           `${SUPABASE_FUNCTIONS}/disciple-maker-cfc-diagnostic`,
           {
@@ -919,14 +921,20 @@
           }
         );
 
+        console.log('[Diagnostic] API Response status:', response.status);
         const data = await response.json();
+        console.log('[Diagnostic] API Response data:', data);
+
         if (response.ok) {
           diagnosticResults = data;
+          console.log('[Diagnostic] Rendering updated profile with:', data);
           // Re-render profile with new scores and recommendations
           renderProfileWithDiagnostic(data);
+        } else {
+          console.error('[Diagnostic] API returned error:', data);
         }
       } catch (error) {
-        console.error('Diagnostic error:', error);
+        console.error('[Diagnostic] Error:', error);
       }
     });
 
