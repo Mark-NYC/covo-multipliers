@@ -684,12 +684,21 @@
       const coachability = scores.coachability || 0;
       const vision = scores.vision || 0;
 
+      // CFC Framework (Commitment, Focus, Consistency)
+      const commitment = (vision + mission) / 2;  // Do you have a clear mission?
+      const focus = (practice + coachability) / 2; // Are you actively pursuing & refining?
+      const consistency = rhythm;                  // Are you faithful week-to-week?
+
       return {
         practice,
         rhythm,
         mission,
         coachability,
         vision,
+        // CFC scores
+        commitment,
+        focus,
+        consistency,
         practiceAvg: (practice + rhythm + mission) / 3,
         allScores: scores
       };
