@@ -761,22 +761,27 @@
       const profiles = {
         vision: {
           archetype: "The Idealist",
+          icon: "/image/discipleicons/Vision-Centered.webp",
           description: "You see what's possible and have clarity about the mission. Your next move is translating that clarity into action. The gap between knowing and doing is where real transformation happens—and that's your frontier."
         },
         practice: {
           archetype: "The Practitioner",
+          icon: "/image/discipleicons/rooted-multiplier.webp",
           description: "You're actively doing the work of disciple making. You take action, learn from experience, and aren't waiting for perfect conditions. Keep building on this momentum."
         },
         rhythm: {
           archetype: "The Rhythm Keeper",
+          icon: "/image/discipleicons/Community-Builder.webp",
           description: "You understand the power of consistency. You show up week after week, building the habits that sustain long-term growth. This discipline is rare and powerful."
         },
         mission: {
           archetype: "The Sent One",
+          icon: "/image/discipleicons/multiplying-influence.webp",
           description: "You know where God has placed you. You recognize the people and communities around you as your mission field. Now it's about moving from knowing to doing."
         },
         coachability: {
           archetype: "The Learner",
+          icon: "/image/discipleicons/Faithful-Practitioner.webp",
           description: "You're open to feedback and growth. You don't have all the answers and that's your strength—it keeps you humble and hungry to improve. This openness unlocks transformation."
         }
       };
@@ -786,6 +791,7 @@
       if (avgScore < 2.5) {
         return {
           archetype: "The Awakening",
+          icon: "/image/discipleicons/Awakening-Disciple.webp",
           description: "You're at the beginning of your journey. This assessment is your first step toward understanding what sustained disciple making looks like. Every expert was once a beginner."
         };
       }
@@ -1001,6 +1007,7 @@
       // Render profile archetype
       const profileHtml = `
         <div class="profile-header">
+          <img src="${profile.icon}" alt="${profile.archetype}" style="width: 48px; height: 48px; margin: 0 auto 12px; display: block;">
           <div class="profile-archetype">${profile.archetype}</div>
           <p class="profile-description">${profile.description}</p>
         </div>
