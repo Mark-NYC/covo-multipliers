@@ -425,17 +425,8 @@
     .breakthrough-description {
       font-size: 16px;
       line-height: 1.7;
-      margin-bottom: 16px;
+      margin-bottom: 0;
       opacity: 0.95;
-    }
-
-    .breakthrough-action {
-      background: rgba(255,255,255,0.2);
-      padding: 16px;
-      border-radius: 8px;
-      font-size: 15px;
-      line-height: 1.6;
-      font-weight: 500;
     }
 
     .breakthrough-seeing {
@@ -445,10 +436,6 @@
     .breakthrough-practice {
       background: linear-gradient(135deg, #d4af37 0%, #c9a227 100%);
       color: #1a1a1a;
-    }
-
-    .breakthrough-practice .breakthrough-action {
-      background: rgba(26, 26, 26, 0.1);
     }
 
     .breakthrough-people {
@@ -462,10 +449,6 @@
     .breakthrough-together {
       background: linear-gradient(135deg, #d4af37 0%, #e5c158 100%);
       color: #1a1a1a;
-    }
-
-    .breakthrough-together .breakthrough-action {
-      background: rgba(26, 26, 26, 0.1);
     }
 
   </style>
@@ -962,11 +945,7 @@
             <span>${breakthrough.title}</span>
           </div>
           <div class="breakthrough-description">${breakthrough.description}</div>
-          <p style="margin-bottom: 16px; line-height: 1.7;">${breakthrough.detail}</p>
-          <div class="breakthrough-action">
-            <div style="font-weight: 700; margin-bottom: 8px;">${breakthrough.actionTitle}</div>
-            ${breakthrough.action}
-          </div>
+          <p style="margin-bottom: 0; line-height: 1.7;">${breakthrough.detail}</p>
         </div>
       `;
       document.getElementById('breakthrough-card').innerHTML = breakthroughHtml;
