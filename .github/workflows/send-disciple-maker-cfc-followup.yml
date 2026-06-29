@@ -1,0 +1,25 @@
+name: Send Disciple Maker CFC Follow-up Emails
+
+# Run daily at 8 AM UTC (3 AM ET / 12 AM PT)
+on:
+  schedule:
+    - cron: '0 8 * * *'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  send-followup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send CFC Follow-up Emails
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          curl -X POST \
+            -H "Content-Type: application/json" \
+            -H "x-admin-secret: ${{ secrets.REMINDER_ADMIN_SECRET }}" \
+            "${{ secrets.SUPABASE_URL }}/functions/v1/disciple-maker-cfc-followup"
+
+      - name: Log Result
+        if: always()
+        run: echo "CFC Follow-up Email Job Completed"
