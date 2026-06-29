@@ -330,6 +330,175 @@
       background: #c9a227;
     }
 
+    .diagnostic-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .diagnostic-modal.show {
+      display: flex;
+    }
+
+    .diagnostic-content {
+      background: white;
+      border-radius: 16px;
+      padding: 40px;
+      max-width: 520px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+      animation: slideUp 0.4s ease;
+    }
+
+    .diagnostic-header {
+      margin-bottom: 28px;
+    }
+
+    .diagnostic-title {
+      font-size: 24px;
+      font-weight: 800;
+      color: #1a1a1a;
+      margin-bottom: 8px;
+    }
+
+    .diagnostic-subtitle {
+      font-size: 15px;
+      line-height: 1.6;
+      color: #555;
+      margin: 0;
+    }
+
+    .diagnostic-question {
+      margin-bottom: 32px;
+    }
+
+    .diagnostic-question-label {
+      font-size: 15px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .radio-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .radio-option {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .radio-option:hover {
+      border-color: #1b4d3e;
+      background: #f0fdf9;
+    }
+
+    .radio-option input[type="radio"] {
+      margin-top: 4px;
+      cursor: pointer;
+    }
+
+    .radio-label {
+      font-size: 15px;
+      color: #555;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .checkbox-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .checkbox-option {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .checkbox-option:hover {
+      border-color: #1b4d3e;
+      background: #f0fdf9;
+    }
+
+    .checkbox-option input[type="checkbox"] {
+      margin-top: 4px;
+      cursor: pointer;
+    }
+
+    .checkbox-label {
+      font-size: 15px;
+      color: #555;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .diagnostic-buttons {
+      display: flex;
+      gap: 12px;
+      margin-top: 32px;
+    }
+
+    .btn-diagnostic-submit {
+      flex: 1;
+      background: #1b4d3e;
+      color: white;
+      padding: 14px 24px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-diagnostic-submit:hover {
+      background: #164033;
+    }
+
+    .btn-diagnostic-skip {
+      flex: 1;
+      background: transparent;
+      border: 2px solid #ddd;
+      color: #555;
+      padding: 14px 24px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-diagnostic-skip:hover {
+      border-color: #1b4d3e;
+      color: #1b4d3e;
+    }
+
     @media (max-width: 600px) {
       .cfc-grid {
         grid-template-columns: 1fr;
@@ -341,6 +510,10 @@
 
       .dm-main {
         padding: 24px 16px;
+      }
+
+      .diagnostic-content {
+        padding: 32px 24px;
       }
     }
   </style>
@@ -367,6 +540,87 @@
       <h2>Profile not found</h2>
       <p>This link may be invalid or expired. Please check the email we sent you.</p>
       <a href="/" style="color: #1b4d3e; font-weight: 600; text-decoration: none;">Return Home</a>
+    </div>
+
+    <div id="diagnostic-modal" class="diagnostic-modal">
+      <div class="diagnostic-content">
+        <div class="diagnostic-header">
+          <h2 class="diagnostic-title">Let's get more specific</h2>
+          <p class="diagnostic-subtitle">A few quick questions to tailor your CFC profile to your situation.</p>
+        </div>
+
+        <form id="diagnostic-form">
+          <!-- Commitment Question -->
+          <div class="diagnostic-question">
+            <label class="diagnostic-question-label">Where is your primary mission field?</label>
+            <div class="radio-group">
+              <label class="radio-option">
+                <input type="radio" name="commitment" value="passion" required>
+                <span class="radio-label"><strong>Passion:</strong> A hobby or activity you already enjoy that you could do with lost people</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="commitment" value="people" required>
+                <span class="radio-label"><strong>People:</strong> Specific relationships or friend groups</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="commitment" value="place" required>
+                <span class="radio-label"><strong>Place:</strong> A geographic community or neighborhood</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="commitment" value="profession" required>
+                <span class="radio-label"><strong>Profession:</strong> Your workplace or professional network</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Focus Question -->
+          <div class="diagnostic-question">
+            <label class="diagnostic-question-label">Which of these are you actively doing? (Check all that apply)</label>
+            <div class="checkbox-group">
+              <label class="checkbox-option">
+                <input type="checkbox" name="focus" value="praying">
+                <span class="checkbox-label">Praying for lost people by name</span>
+              </label>
+              <label class="checkbox-option">
+                <input type="checkbox" name="focus" value="conversations">
+                <span class="checkbox-label">Having spiritual conversations regularly</span>
+              </label>
+              <label class="checkbox-option">
+                <input type="checkbox" name="focus" value="scripture">
+                <span class="checkbox-label">Reading Scripture or doing faith activities with someone</span>
+              </label>
+              <label class="checkbox-option">
+                <input type="checkbox" name="focus" value="investing">
+                <span class="checkbox-label">Actively investing in at least one person's discipleship</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Consistency Question -->
+          <div class="diagnostic-question">
+            <label class="diagnostic-question-label">Which of these rhythms are you maintaining? (Check all that apply)</label>
+            <div class="checkbox-group">
+              <label class="checkbox-option">
+                <input type="checkbox" name="consistency" value="three">
+                <span class="checkbox-label">3+ hours per week: Following & Fishing with lost people</span>
+              </label>
+              <label class="checkbox-option">
+                <input type="checkbox" name="consistency" value="two">
+                <span class="checkbox-label">2+ hours per week: In a multiplying gathering (focused on reproducing disciples)</span>
+              </label>
+              <label class="checkbox-option">
+                <input type="checkbox" name="consistency" value="one">
+                <span class="checkbox-label">1+ hour per week: Accountability team checking in on your CFC</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="diagnostic-buttons">
+            <button type="submit" class="btn-diagnostic-submit">Tailor My Profile</button>
+            <button type="button" class="btn-diagnostic-skip" id="skip-diagnostic">Skip</button>
+          </div>
+        </form>
+      </div>
     </div>
 
     <div id="profile-view" style="display:none;">
@@ -413,6 +667,13 @@
 
   <script>
     const SUPABASE_FUNCTIONS = window.DISCIPLE_MAKER_CONFIG.SUPABASE_FUNCTIONS;
+
+    // CFC Definitions used in multiple places
+    const cfcDefinitions = {
+      Commitment: 'Locked in on stewarding those around you as your mission field',
+      Focus: 'Saying yes to the right activities and no to distractions',
+      Consistency: 'Doing this often enough and regularly enough to get to traction'
+    };
 
     function showView(viewName) {
       document.getElementById('loading-view').style.display = viewName === 'loading' ? 'block' : 'none';
@@ -541,12 +802,6 @@
       document.getElementById('profile-greeting').textContent = `Your coaching framework, ${firstName}.`;
 
       // CFC Scores
-      const cfcDefinitions = {
-        Commitment: 'Locked in on stewarding those around you as your mission field',
-        Focus: 'Saying yes to the right activities and no to distractions',
-        Consistency: 'Doing this often enough and regularly enough to get to traction'
-      };
-
       const cfc = [
         { label: 'Commitment', score: commitment, def: cfcDefinitions.Commitment },
         { label: 'Focus', score: focus, def: cfcDefinitions.Focus },
@@ -610,6 +865,136 @@
       }
 
       showView('profile');
+    }
+
+    // Diagnostic modal handling
+    let diagnosticResults = null;
+
+    function showDiagnosticModal() {
+      document.getElementById('diagnostic-modal').classList.add('show');
+    }
+
+    function closeDiagnosticModal() {
+      document.getElementById('diagnostic-modal').classList.remove('show');
+    }
+
+    document.getElementById('skip-diagnostic').addEventListener('click', (e) => {
+      e.preventDefault();
+      closeDiagnosticModal();
+    });
+
+    document.getElementById('diagnostic-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(e.target);
+      const commitment = formData.get('commitment');
+      const focus = formData.getAll('focus');
+      const consistency = formData.getAll('consistency');
+
+      const diagnosticData = {
+        commitment,
+        focus,
+        consistency
+      };
+
+      closeDiagnosticModal();
+
+      // Call diagnostic function to recalculate CFC
+      try {
+        const response = await fetch(
+          `${SUPABASE_FUNCTIONS}/disciple-maker-cfc-diagnostic`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              results_token: resultsToken,
+              diagnostic: diagnosticData
+            })
+          }
+        );
+
+        const data = await response.json();
+        if (response.ok) {
+          diagnosticResults = data;
+          // Re-render profile with new scores and recommendations
+          renderProfileWithDiagnostic(data);
+        }
+      } catch (error) {
+        console.error('Diagnostic error:', error);
+      }
+    });
+
+    function renderProfileWithDiagnostic(diagnosticData) {
+      const { commitment, focus, consistency } = diagnosticData;
+
+      // Update CFC scores
+      const cfc = [
+        { label: 'Commitment', score: commitment, def: cfcDefinitions.Commitment },
+        { label: 'Focus', score: focus, def: cfcDefinitions.Focus },
+        { label: 'Consistency', score: consistency, def: cfcDefinitions.Consistency }
+      ];
+
+      const scoresHtml = cfc.map(c => {
+        const width = (c.score / 5) * 100;
+        const status = c.score >= 3.5 ? '✓ Strong' : c.score >= 2.5 ? '→ Developing' : '⚠ Needs Work';
+        return `
+          <div class="cfc-score-card">
+            <div class="cfc-label">${c.label}</div>
+            <div class="cfc-score">${c.score.toFixed(1)}</div>
+            <div class="cfc-bar">
+              <div class="cfc-fill" style="width: ${width}%"></div>
+            </div>
+            <div class="cfc-status">${status}</div>
+            <div style="font-size:13px;color:#666;margin-top:8px;line-height:1.5;">${c.def}</div>
+          </div>
+        `;
+      }).join('');
+      document.getElementById('cfc-scores-grid').innerHTML = scoresHtml;
+
+      // Update priority action if provided
+      if (diagnosticData.priority) {
+        const priorityHtml = `
+          <div class="priority-box">
+            <div class="priority-title">${diagnosticData.priority.title}</div>
+            <div class="priority-reason">${diagnosticData.priority.reason}</div>
+            <div class="priority-action">${diagnosticData.priority.action}</div>
+          </div>
+        `;
+        document.getElementById('priority-section').innerHTML = priorityHtml;
+        document.getElementById('priority-card').style.display = 'block';
+      }
+    }
+
+    let resultsToken = null;
+
+    function loadProfile() {
+      const params = new URLSearchParams(window.location.search);
+      resultsToken = params.get('r');
+
+      if (!resultsToken) {
+        showView('error');
+        return;
+      }
+
+      try {
+        const response = await fetch(
+          `${SUPABASE_FUNCTIONS}/disciple-maker-results?token=${resultsToken}`
+        );
+
+        const data = await response.json();
+        if (!response.ok) throw new Error('Failed to load profile');
+
+        setTimeout(() => {
+          renderProfile(data);
+          // Show diagnostic modal after 4 seconds
+          setTimeout(() => {
+            showDiagnosticModal();
+          }, 4000);
+        }, 1500);
+      } catch (error) {
+        console.error('Error:', error);
+        showView('error');
+      }
     }
 
     showView('loading');
