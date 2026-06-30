@@ -1,5 +1,6 @@
 {
   "rewrites": [
+    { "source": "/admin", "destination": "/admin/index.html" },
     { "source": "/4-questions", "destination": "/4-questions.html" },
     {
       "source": "/join-whatsapp",
