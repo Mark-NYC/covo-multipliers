@@ -105,13 +105,23 @@
       const secret = document.getElementById('admin-secret').value.trim();
       if (!secret) return;
       adminSecret = secret;
-      // Test the secret by calling admin endpoint
+      sessionStorage.setItem('covo_admin_secret', secret);
       loadOverview();
     }
 
     document.getElementById('admin-secret').addEventListener('keydown', e => {
       if (e.key === 'Enter') authenticate();
     });
+
+    // Auto-authenticate if secret was saved from the Admin Hub
+    (function autoAuth() {
+      const saved = sessionStorage.getItem('covo_admin_secret');
+      if (saved) {
+        adminSecret = saved;
+        document.getElementById('admin-secret').value = saved;
+        loadOverview();
+      }
+    })();
 
     function showTab(name, linkEl) {
       ['overview','pilot-analytics','sessions','items'].forEach(t => {
