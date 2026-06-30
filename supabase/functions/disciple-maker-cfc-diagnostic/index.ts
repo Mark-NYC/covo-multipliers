@@ -176,16 +176,23 @@ Deno.serve(async (req: Request): Promise<Response> => {
         action: `This week: Write down 5-6 specific names of people in your ${diagnostic.commitment} who don't yet follow Jesus. Put them on a prayer list. This is your mission field.`
       };
     } else if (!hasFocus) {
-      // Not taking action yet
+      // Not taking action yet or needs depth
       const missing = [];
       if (!diagnostic.focus.includes("praying")) missing.push("praying for them by name");
       if (!diagnostic.focus.includes("conversations")) missing.push("spiritual conversations");
       if (!diagnostic.focus.includes("scripture")) missing.push("faith activities together");
       if (!diagnostic.focus.includes("investing")) missing.push("investing in their growth");
 
+      let detail = "";
+      if (missing.length > 0) {
+        detail = `You know your mission field, but you're not yet taking action. Knowing about disciple-making doesn't cost you anything. Actually doing it requires time, vulnerability, and risk. You're currently doing ${focusCount} of the 4 core activities. The ones you're missing—${missing.join(", ")}—are what separate Christians who make disciples from those who don't.`;
+      } else {
+        detail = `You say you're doing all four core activities, but something isn't translating to real traction. Either the activities are shallow (checking a box instead of going deep), inconsistent, or lacking intentionality. Disciple-making isn't about doing more—it's about doing it with quality and persistence. The real question: Are these practices creating spiritual movement in people's lives?`;
+      }
+
       breakthroughPath = {
         title: "Move from Knowing to Doing",
-        detail: `You know your mission field, but you're not yet taking action. Knowing about disciple-making doesn't cost you anything. Actually doing it requires time, vulnerability, and risk. You're currently doing ${focusCount} of the 4 core activities. The ones you're missing—${missing.join(", ")}—are what separate Christians who make disciples from those who don't.`,
+        detail: detail,
         action: `This week: Choose ONE person and take ONE action. Pray with them. Ask a real spiritual question. Read Scripture together. Don't wait until you feel ready.`
       };
     } else if (!hasConsistency) {
