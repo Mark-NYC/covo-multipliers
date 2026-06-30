@@ -741,63 +741,40 @@
       return "Continuing to grow through faithful obedience.";
     }
 
-    function generateProfile(analysis) {
-      const { vision, practice, rhythm, mission, coachability } = analysis;
-
-      // Find the strongest dimension(s)
-      const scores = {
-        vision,
-        practice,
-        rhythm,
-        mission,
-        coachability
-      };
-
-      const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
-      const strongest = sorted[0][0];
-      const secondStrongest = sorted[1][0];
-
-      // Profile definitions
-      const profiles = {
-        vision: {
+    function generateProfile(analysis, pathway) {
+      // Pathway-driven profiles — backend scoring determines pathway, UI renders it.
+      // This keeps the results page and email in sync (both driven by the same pathway).
+      const pathwayProfiles = {
+        catalyst: {
+          archetype: "The Awakening",
+          icon: "/image/discipleicons/Awakening-Disciple.webp",
+          description: "You're at the beginning of your disciple-making journey — and that's exactly the right place to start. Every faithful practitioner started here. Your next step is simple and specific."
+        },
+        explorer: {
           archetype: "The Idealist",
           icon: "/image/discipleicons/Vision-Centered.webp",
-          description: "You see what's possible and have clarity about the mission. Your next move is translating that clarity into action. The gap between knowing and doing is where real transformation happens—and that's your frontier."
+          description: "You see what's possible and have real clarity about the mission. Your next move is translating that clarity into action. The gap between knowing and doing is where real transformation happens — and that's your frontier."
         },
-        practice: {
+        practitioner: {
           archetype: "The Practitioner",
           icon: "/image/discipleicons/rooted-multiplier.webp",
-          description: "You're actively doing the work of disciple making. You take action, learn from experience, and aren't waiting for perfect conditions. Keep building on this momentum."
+          description: "You're actively doing the work of disciple making. You take action and learn from experience. The next level is building the weekly rhythms that make this sustainable long-term."
         },
-        rhythm: {
-          archetype: "The Rhythm Keeper",
-          icon: "/image/discipleicons/Community-Builder.webp",
-          description: "You understand the power of consistency. You show up week after week, building the habits that sustain long-term growth. This discipline is rare and powerful."
-        },
-        mission: {
+        multiplier: {
           archetype: "The Sent One",
           icon: "/image/discipleicons/multiplying-influence.webp",
-          description: "You know where God has placed you. You recognize the people and communities around you as your mission field. Now it's about moving from knowing to doing."
-        },
-        coachability: {
-          archetype: "The Learner",
-          icon: "/image/discipleicons/Faithful-Practitioner.webp",
-          description: "You're open to feedback and growth. You don't have all the answers and that's your strength—it keeps you humble and hungry to improve. This openness unlocks transformation."
+          description: "You know where God has placed you, you're practicing consistently, and you're building real rhythms. Now it's about deepening the multiplication — investing in others who will invest in others."
         }
       };
 
-      // If scores are low across the board, show "The Awakening"
-      const avgScore = Object.values(scores).reduce((a, b) => a + b) / Object.keys(scores).length;
-      if (avgScore < 2.5) {
-        return {
-          archetype: "The Awakening",
-          icon: "/image/discipleicons/Awakening-Disciple.webp",
-          description: "You're at the beginning of your journey. This assessment is your first step toward understanding what sustained disciple making looks like. Every expert was once a beginner."
-        };
+      if (pathway && pathwayProfiles[pathway]) {
+        return pathwayProfiles[pathway];
       }
 
-      // Use strongest dimension for profile
-      return profiles[strongest] || profiles.practice;
+      // Fallback: if pathway is missing, use average score
+      const { vision, practice, rhythm, mission, coachability } = analysis;
+      const avgScore = (vision + practice + rhythm + mission + coachability) / 5;
+      return avgScore < 2.5 ? pathwayProfiles.catalyst : pathwayProfiles.explorer;
     }
 
     function generateNextRep(analysis) {
@@ -994,8 +971,9 @@
       const scores = data.dimension_scores || {};
 
       // Analyze scores using new conservative engine
+      const pathway = data.pathway || null;
       const analysis = analyzeScores(scores);
-      const profile = generateProfile(analysis);
+      const profile = generateProfile(analysis, pathway);
       const observations = generateObservations(analysis);
       const growthEdge = generateGrowthEdge(analysis);
       const nextRep = generateNextRep(analysis);

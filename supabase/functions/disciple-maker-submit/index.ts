@@ -164,12 +164,12 @@ async function sendResultsEmail({
 
   // Map pathway to CFC-based identity name
   const pathwayNameMap: Record<string, string> = {
-    multiplier: "Multiplying Influence",
-    practitioner: "Faithful Practitioner",
-    explorer: "Vision-Centered",
-    catalyst: "Awakening Disciple",
+    multiplier: "The Sent One",
+    practitioner: "The Practitioner",
+    explorer: "The Idealist",
+    catalyst: "The Awakening",
   };
-  const identityName = pathwayNameMap[pathway] || "Awakening Disciple";
+  const identityName = pathwayNameMap[pathway] || "The Awakening";
 
   // Calculate CFC scores
   const commitment = ((scores.vision ?? 0) + (scores.everyday_mission ?? 0)) / 2;
