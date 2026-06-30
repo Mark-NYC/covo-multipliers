@@ -402,6 +402,24 @@ Deno.serve(async (req: Request): Promise<Response> => {
   }
 
   // ---------------------------------------------------------------------------
+  // funnel_comparison → get_funnel_comparison
+  // ---------------------------------------------------------------------------
+  if (action === "funnel_comparison") {
+    const dates = validateDates();
+    if (!dates) return err(400, "p_start and p_end are required non-empty strings.", cors);
+
+    const { data, error } = await supabase.rpc("get_funnel_comparison", {
+      p_start: dates.p_start,
+      p_end:   dates.p_end,
+    });
+    if (error) {
+      console.error("[analytics-admin] funnel_comparison error:", JSON.stringify(error));
+      return err(500, "Failed to load funnel comparison.", cors);
+    }
+    return ok(data, cors);
+  }
+
+  // ---------------------------------------------------------------------------
   // funnel_trends → get_funnel_trends
   // ---------------------------------------------------------------------------
   if (action === "funnel_trends") {
