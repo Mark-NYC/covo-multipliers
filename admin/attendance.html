@@ -412,10 +412,12 @@ document.getElementById("sign-out-btn").addEventListener("click", () => {
   document.getElementById("secret-input").value = "";
 });
 
-// Auto-login if secret still in sessionStorage from this session
+// Auto-login if secret still in sessionStorage from this session (or from Admin Hub)
 (function () {
-  const saved = sessionStorage.getItem("att_admin_secret");
+  const saved = sessionStorage.getItem("att_admin_secret")
+             || sessionStorage.getItem("covo_admin_secret");
   if (saved) {
+    sessionStorage.setItem("att_admin_secret", saved);
     secret = saved;
     document.getElementById("auth-screen").style.display = "none";
     document.getElementById("app").style.display = "block";
