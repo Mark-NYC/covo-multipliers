@@ -356,6 +356,82 @@
     }
     #health-detail.open { display: block; }
     #health-detail h3 { font-size: 13px; font-weight: 700; color: #1b4d3e; margin-bottom: 10px; }
+
+    /* ── Coach panel ─────────────────────────────────────────────────── */
+    #coach-panel {
+      background: #fff; border: 1px solid #d1fae5;
+      border-left: 5px solid #1b4d3e;
+      border-radius: 10px; padding: 20px 22px;
+      margin-bottom: 16px;
+    }
+    #coach-headline {
+      font-size: 16px; font-weight: 700; color: #1a1a1a;
+      line-height: 1.45; margin-bottom: 10px;
+    }
+    #coach-action-box {
+      background: #f0fdf4; border: 1px solid #bbf7d0;
+      border-radius: 7px; padding: 10px 14px;
+      font-size: 13px; color: #14532d; font-weight: 600;
+      line-height: 1.5; margin-bottom: 12px;
+    }
+    #coach-action-box::before { content: "→ "; color: #16a34a; }
+    #coach-alerts { display: flex; flex-direction: column; gap: 6px; }
+    .coach-alert {
+      padding: 9px 13px; border-radius: 7px;
+      font-size: 13px; line-height: 1.4;
+    }
+    .coach-alert-red   { background: #fee2e2; color: #7f1d1d; border-left: 3px solid #dc2626; }
+    .coach-alert-amber { background: #fef3c7; color: #713f12; border-left: 3px solid #f59e0b; }
+    .coach-alert-green { background: #dcfce7; color: #14532d; border-left: 3px solid #16a34a; }
+    .coach-alert-blue  { background: #eff6ff; color: #1e3a5f; border-left: 3px solid #3b82f6; }
+
+    /* ── Stage card redesign ─────────────────────────────────────────── */
+    .card-top-row {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      padding-left: 10px; gap: 6px; margin-bottom: 2px;
+    }
+    .card-top-row .stage-label { flex: 1; }
+    .stage-trend-chip {
+      font-size: 11px; font-weight: 700; padding: 2px 8px;
+      border-radius: 999px; display: inline-block;
+      margin-left: 10px; margin-top: 1px; width: fit-content;
+    }
+    .trend-up   { background: #dcfce7; color: #166534; }
+    .trend-down { background: #fee2e2; color: #991b1b; }
+    .trend-flat { background: #f3f4f6; color: #6b7280; }
+    .stage-diag-main {
+      font-size: 13px; color: #374151; font-weight: 600;
+      padding-left: 10px; margin-top: 6px; line-height: 1.45; flex: 1;
+    }
+    .stage-num-row {
+      display: flex; align-items: baseline; gap: 5px;
+      padding-left: 10px; margin-top: 3px; flex-wrap: wrap;
+    }
+    .stage-num-val   { font-size: 14px; font-weight: 700; color: #c4c8d0; }
+    .stage-num-label { font-size: 10px; color: #d1d5db; text-transform: uppercase; letter-spacing: .04em; }
+    .stage-compare-badge {
+      font-size: 10px; font-weight: 600; padding: 1px 6px;
+      border-radius: 999px; white-space: nowrap;
+    }
+    .badge-up   { background: #dcfce7; color: #166534; }
+    .badge-down { background: #fee2e2; color: #991b1b; }
+    .badge-flat { background: #f3f4f6; color: #6b7280; }
+
+    /* ── Numbers drawer ──────────────────────────────────────────────── */
+    .numbers-drawer {
+      background: #f9fafb; border: 1px solid #e5e7eb;
+      border-radius: 8px; margin-bottom: 16px;
+    }
+    .numbers-drawer > summary {
+      padding: 9px 16px; font-size: 11px; font-weight: 600;
+      color: #b0b6c0; cursor: pointer; text-transform: uppercase;
+      letter-spacing: .06em; list-style: none;
+      display: flex; align-items: center; gap: 5px;
+    }
+    .numbers-drawer > summary::-webkit-details-marker { display: none; }
+    .numbers-drawer > summary::before { content: "▸"; font-size: 9px; transition: transform .15s; }
+    .numbers-drawer[open] > summary::before { content: "▾"; }
+    .numbers-drawer-body { padding: 0 20px 20px; }
   </style>
 </head>
 <body>
@@ -413,113 +489,136 @@
       <div id="health-content" class="loading-state"><span class="spinner"></span> Loading…</div>
     </div>
 
-    <!-- 2. Stage cards -->
+    <!-- 2. Coach panel -->
+    <div id="coach-panel" style="display:none">
+      <div id="coach-headline"></div>
+      <div id="coach-action-box"></div>
+      <div id="coach-alerts"></div>
+    </div>
+
+    <!-- 3. Stage cards -->
     <div class="stage-cards-row">
 
       <!-- Reach -->
       <div class="stage-card" id="card-reach" data-panel="panel-reach">
         <div class="stage-accent" style="background:#6366f1"></div>
-        <div class="stage-label">Reach</div>
-        <div class="stage-lag-val" id="reach-lag">—</div>
-        <div class="stage-lag-label">New Contacts</div>
-        <div class="stage-lead-wrap">
-          <div class="stage-lead-label">Website Sessions</div>
-          <div class="stage-lead-val" id="reach-lead">—</div>
-        </div>
-        <div class="stage-diagnosis" id="reach-diag">Loading website reach…</div>
-        <div class="stage-next-action" id="reach-next">Media platforms (YouTube, Spotify, Substack) still pending.</div>
-        <div class="stage-footer">
+        <div class="card-top-row">
+          <div class="stage-label">Reach</div>
           <span class="status-pill status-gray" id="reach-status">Loading…</span>
-          <span class="stage-cta-link">Details ›</span>
         </div>
+        <div class="stage-trend-chip" id="reach-trend-chip" style="display:none"></div>
+        <div class="stage-diag-main" id="reach-diag">Loading…</div>
+        <div class="stage-num-row">
+          <span class="stage-num-val" id="reach-lag">—</span>
+          <span class="stage-num-label">New Contacts</span>
+          <span class="stage-compare-badge" id="reach-compare"></span>
+        </div>
+        <div class="stage-num-row">
+          <span class="stage-num-val" id="reach-lead">—</span>
+          <span class="stage-num-label">Website Sessions</span>
+        </div>
+        <div class="stage-footer"><span class="stage-cta-link">Details ›</span></div>
       </div>
 
       <!-- Respond -->
       <div class="stage-card" id="card-respond" data-panel="panel-respond">
         <div class="stage-accent" style="background:#0ea5e9"></div>
-        <div class="stage-label">Respond</div>
-        <div class="stage-lag-val" id="respond-lag">—</div>
-        <div class="stage-lag-label">Registration Rate</div>
-        <div class="stage-lead-wrap">
-          <div class="stage-lead-label">Active Registrations</div>
-          <div class="stage-lead-val" id="respond-lead">—</div>
-        </div>
-        <div class="stage-diagnosis" id="respond-diag">Loading…</div>
-        <div class="stage-next-action" id="respond-next">Inspect top sources and campaigns.</div>
-        <div class="stage-footer">
+        <div class="card-top-row">
+          <div class="stage-label">Respond</div>
           <span class="status-pill status-gray" id="respond-status">—</span>
-          <span class="stage-cta-link">Details ›</span>
         </div>
+        <div class="stage-trend-chip" id="respond-trend-chip" style="display:none"></div>
+        <div class="stage-diag-main" id="respond-diag">Loading…</div>
+        <div class="stage-num-row">
+          <span class="stage-num-val" id="respond-lag">—</span>
+          <span class="stage-num-label">Reg. Rate</span>
+          <span class="stage-compare-badge" id="respond-compare"></span>
+        </div>
+        <div class="stage-num-row">
+          <span class="stage-num-val" id="respond-lead">—</span>
+          <span class="stage-num-label">Active Regs</span>
+        </div>
+        <div class="stage-footer"><span class="stage-cta-link">Details ›</span></div>
       </div>
 
       <!-- Participate -->
       <div class="stage-card" id="card-participate" data-panel="panel-participate">
         <div class="stage-accent" style="background:#10b981"></div>
-        <div class="stage-label">Participate</div>
-        <div class="stage-lag-val" id="participate-lag">—</div>
-        <div class="stage-lag-label">Attendance Rate</div>
-        <div class="stage-lead-wrap">
-          <div class="stage-lead-label">Data Completion</div>
-          <div class="stage-lead-val" id="participate-lead">—</div>
-        </div>
-        <div class="stage-diagnosis" id="participate-diag">Loading…</div>
-        <div class="stage-next-action" id="participate-next">Follow up no-shows and partial attendees.</div>
-        <div class="stage-footer">
+        <div class="card-top-row">
+          <div class="stage-label">Participate</div>
           <span class="status-pill status-gray" id="participate-status">—</span>
-          <span class="stage-cta-link">Details ›</span>
         </div>
+        <div class="stage-trend-chip" id="participate-trend-chip" style="display:none"></div>
+        <div class="stage-diag-main" id="participate-diag">Loading…</div>
+        <div class="stage-num-row">
+          <span class="stage-num-val" id="participate-lag">—</span>
+          <span class="stage-num-label">Attendance Rate</span>
+          <span class="stage-compare-badge" id="participate-compare"></span>
+        </div>
+        <div class="stage-num-row">
+          <span class="stage-num-val" id="participate-lead">—</span>
+          <span class="stage-num-label">Data Completion</span>
+        </div>
+        <div class="stage-footer"><span class="stage-cta-link">Details ›</span></div>
       </div>
 
       <!-- Return -->
       <div class="stage-card" id="card-return" data-panel="panel-return">
         <div class="stage-accent" style="background:#f59e0b"></div>
-        <div class="stage-label">Return</div>
-        <div class="stage-lag-val" id="return-lag">—</div>
-        <div class="stage-lag-label">Repeat Rate</div>
-        <div class="stage-lead-wrap">
-          <div class="stage-lead-label">Eligible to Return</div>
-          <div class="stage-lead-val" id="return-lead">—</div>
-        </div>
-        <div class="stage-diagnosis" id="return-diag">Loading…</div>
-        <div class="stage-next-action" id="return-next">Invite attendees into the next lab or pathway.</div>
-        <div class="stage-footer">
+        <div class="card-top-row">
+          <div class="stage-label">Return</div>
           <span class="status-pill status-gray" id="return-status">—</span>
-          <span class="stage-cta-link">Details ›</span>
         </div>
+        <div class="stage-trend-chip" id="return-trend-chip" style="display:none"></div>
+        <div class="stage-diag-main" id="return-diag">Loading…</div>
+        <div class="stage-num-row">
+          <span class="stage-num-val" id="return-lag">—</span>
+          <span class="stage-num-label">Repeat Rate</span>
+        </div>
+        <div class="stage-num-row">
+          <span class="stage-num-val" id="return-lead">—</span>
+          <span class="stage-num-label">Eligible to Return</span>
+        </div>
+        <div class="stage-footer"><span class="stage-cta-link">Details ›</span></div>
       </div>
 
       <!-- Go Deeper -->
       <div class="stage-card" id="card-deeper" data-panel="panel-deeper">
         <div class="stage-accent" style="background:#8b5cf6"></div>
-        <div class="stage-label">Go Deeper</div>
-        <div class="stage-lag-val" id="deeper-lag">—</div>
-        <div class="stage-lag-label">Completion Rate</div>
-        <div class="stage-lead-wrap">
-          <div class="stage-lead-label">Assessments Started</div>
-          <div class="stage-lead-val" id="deeper-lead">—</div>
-        </div>
-        <div class="stage-diagnosis" id="deeper-diag">Loading…</div>
-        <div class="stage-next-action" id="deeper-next">Nudge in-progress assessments.</div>
-        <div class="stage-footer">
+        <div class="card-top-row">
+          <div class="stage-label">Go Deeper</div>
           <span class="status-pill status-gray" id="deeper-status">—</span>
-          <span class="stage-cta-link">Details ›</span>
         </div>
+        <div class="stage-trend-chip" id="deeper-trend-chip" style="display:none"></div>
+        <div class="stage-diag-main" id="deeper-diag">Loading…</div>
+        <div class="stage-num-row">
+          <span class="stage-num-val" id="deeper-lag">—</span>
+          <span class="stage-num-label">Completion Rate</span>
+          <span class="stage-compare-badge" id="deeper-compare"></span>
+        </div>
+        <div class="stage-num-row">
+          <span class="stage-num-val" id="deeper-lead">—</span>
+          <span class="stage-num-label">Started</span>
+        </div>
+        <div class="stage-footer"><span class="stage-cta-link">Details ›</span></div>
       </div>
 
     </div><!-- /stage-cards-row -->
 
-    <!-- 3. Hero funnel -->
-    <div class="section-card">
-      <h2>People Funnel</h2>
-      <div class="section-note" id="funnel-note">Contacts first seen during the selected period. Downstream progress measured through today.</div>
-      <div id="funnel-visual" class="loading-state"><span class="spinner"></span> Loading…</div>
-      <div class="funnel-table-wrap" id="funnel-table-wrap" style="display:none">
-        <details style="margin-top:8px">
-          <summary style="font-size:12px;color:#888;cursor:pointer;margin-bottom:8px">Accessible table</summary>
-          <div id="funnel-table-content"></div>
-        </details>
+    <!-- 4. People Funnel numbers (secondary — collapsed by default) -->
+    <details class="numbers-drawer">
+      <summary>People Funnel Numbers</summary>
+      <div class="numbers-drawer-body">
+        <div class="section-note" id="funnel-note">Contacts first seen during the selected period. Downstream progress measured through today.</div>
+        <div id="funnel-visual" class="loading-state"><span class="spinner"></span> Loading…</div>
+        <div class="funnel-table-wrap" id="funnel-table-wrap" style="display:none">
+          <details style="margin-top:8px">
+            <summary style="font-size:12px;color:#888;cursor:pointer;margin-bottom:8px">Accessible table</summary>
+            <div id="funnel-table-content"></div>
+          </details>
+        </div>
       </div>
-    </div>
+    </details>
 
     <!-- 4. Trends -->
     <div class="section-card" id="trends-section">
@@ -849,7 +948,7 @@ const GA4_API_URL         = "https://mryjrvinzbxebzvxtggi.supabase.co/functions/
 const YOUTUBE_API_URL     = "https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1/youtube-admin";
 const SUBSTACK_API_URL    = "https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1/substack-sync";
 
-const dash = { overview: null, cohort: null, activity: null, health: null, ga4: null, yt: null, substack: null };
+const dash = { overview: null, cohort: null, activity: null, health: null, ga4: null, yt: null, substack: null, comparison: null, trends: null };
 
 // =============================================================================
 // Auth
@@ -1095,6 +1194,7 @@ function loadAll() {
   loadYoutube();
   loadSubstack();
   loadTrends();
+  loadComparison();
 }
 
 document.getElementById("apply-btn").addEventListener("click", loadAll);
@@ -1206,6 +1306,136 @@ function tryRenderStageCards() {
     miniMetric(num(ov.whatsapp_requests), "WhatsApp Requests") +
     miniMetric(num(ov.active_email_subscribers), "Active Email Subscribers") +
     '</div>';
+
+  renderCoachPanel(ov, co);
+}
+
+// =============================================================================
+// Coach panel — narrative, priority action, smart alerts
+// =============================================================================
+function renderCoachPanel(ov, co) {
+  const panel = document.getElementById("coach-panel");
+  const regRate    = (co.rates && co.rates.registered_rate != null) ? co.rates.registered_rate : null;
+  const attRate    = ov.attendance_rate;
+  const compRate   = ov.data_completion_rate;
+  const repeatN    = co.repeat_attendees || 0;
+  const attendedN  = co.attended || 0;
+  const eligibleN  = attendedN - repeatN;
+  const newContacts = ov.new_contacts || 0;
+
+  let headline, action;
+
+  if (newContacts === 0) {
+    headline = "No new contacts came in during this period — reach has stalled.";
+    action = "Prioritize outreach: post content, attend events, or run a campaign to add new contacts to the network.";
+  } else if (regRate != null && regRate < 25) {
+    headline = "You're reaching " + num(newContacts) + " new people, but only " + regRate + "% are registering. Registration is your biggest leak right now.";
+    action = "Simplify the registration call-to-action and follow up directly with contacts who haven't signed up yet.";
+  } else if (attRate != null && attRate < 50) {
+    headline = "Registration is working, but attendance is leaking — only " + attRate + "% of registrants are showing up.";
+    action = "Send a reminder 24 hours before each event, and personally follow up with recent no-shows.";
+  } else if (attendedN > 0 && repeatN === 0 && eligibleN > 0) {
+    headline = num(attendedN) + " people have attended, but none have come back yet. Retention is your next opportunity.";
+    action = "Personally invite all " + num(eligibleN) + " eligible attendees to the next event or lab.";
+  } else if (regRate != null && regRate >= 60 && attRate != null && attRate >= 65) {
+    headline = "Your funnel is healthy — people are finding you, signing up, and showing up.";
+    action = "Keep the momentum: consider increasing event frequency or pushing more people toward the assessment pathway.";
+  } else {
+    headline = "Your funnel is running steadily. Watch the trend charts below for early signals of change.";
+    action = "Review week-over-week trends to catch shifts before they show up in the monthly numbers.";
+  }
+
+  document.getElementById("coach-headline").textContent = headline;
+  document.getElementById("coach-action-box").textContent = action;
+
+  // ── Smart alerts ──
+  const alerts = [];
+
+  if (newContacts === 0) {
+    alerts.push({ level: "red", text: "No new contacts this period — reach has stalled." });
+  } else if (newContacts < 3) {
+    alerts.push({ level: "amber", text: "Only " + num(newContacts) + " new contacts this period — reach is thin." });
+  }
+
+  if (regRate != null) {
+    if (regRate < 20) {
+      alerts.push({ level: "red", text: "Registration rate is critically low at " + regRate + "% — less than 1 in 5 contacts are signing up." });
+    } else if (regRate < 40) {
+      alerts.push({ level: "amber", text: "Registration rate is " + regRate + "% — consider a clearer call to action." });
+    } else if (regRate >= 60) {
+      alerts.push({ level: "green", text: "Registration rate is strong at " + regRate + "%." });
+    }
+  }
+
+  if (attRate != null) {
+    if (attRate < 30) {
+      alerts.push({ level: "red", text: "Attendance rate is critically low at " + attRate + "% — most registrants aren't showing up." });
+    } else if (attRate < 55) {
+      alerts.push({ level: "amber", text: "Attendance rate is " + attRate + "% — follow up no-shows after each event." });
+    } else if (attRate >= 65) {
+      alerts.push({ level: "green", text: "Attendance rate is excellent at " + attRate + "%." });
+    }
+  }
+
+  if (compRate != null && compRate < 70) {
+    alerts.push({ level: "amber", text: "Data completion is " + compRate + "% — some attendance records may be missing review." });
+  }
+
+  if (attendedN > 0 && repeatN === 0 && eligibleN > 2) {
+    alerts.push({ level: "amber", text: num(eligibleN) + " people attended but have never come back — a personal invite could change that." });
+  } else if (repeatN > 0 && attendedN > 0) {
+    const repeatRate = Math.round(repeatN / attendedN * 100);
+    if (repeatRate >= 30) {
+      alerts.push({ level: "green", text: repeatRate + "% of attendees have returned — strong retention." });
+    }
+  }
+
+  const alertsEl = document.getElementById("coach-alerts");
+  alertsEl.innerHTML = alerts.map(function(a) {
+    return '<div class="coach-alert coach-alert-' + a.level + '">' + esc(a.text) + '</div>';
+  }).join("");
+
+  panel.style.display = "";
+}
+
+// =============================================================================
+// Period-over-period comparison badges
+// =============================================================================
+async function loadComparison() {
+  try {
+    const { data } = await callApi("funnel_comparison", getDateParams());
+    dash.comparison = data;
+    renderComparisonBadges(data);
+  } catch(e) { /* non-critical — badges just stay empty */ }
+}
+
+function renderComparisonBadges(comp) {
+  if (!comp || !comp.current || !comp.prior) return;
+  const cur = comp.current, pri = comp.prior;
+
+  function badge(id, curVal, priorVal, isRate) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (curVal == null || priorVal == null) { el.textContent = ""; return; }
+    const d = curVal - priorVal;
+    if (d === 0 && priorVal === 0) { el.textContent = ""; return; }
+    const sign = d > 0 ? "+" : "";
+    let text;
+    if (isRate) {
+      text = sign + d.toFixed(1) + "pp vs prior";
+    } else if (priorVal > 0) {
+      text = sign + Math.round(d / priorVal * 100) + "% vs prior";
+    } else {
+      text = sign + d + " vs prior";
+    }
+    el.textContent = text;
+    el.className = "stage-compare-badge " + (d > 0 ? "badge-up" : d < 0 ? "badge-down" : "badge-flat");
+  }
+
+  badge("reach-compare",       cur.new_contacts,           pri.new_contacts,           false);
+  badge("respond-compare",     cur.active_regs,             pri.active_regs,            false);
+  badge("participate-compare", cur.attendance_rate,         pri.attendance_rate,        true);
+  badge("deeper-compare",      cur.assessment_completions,  pri.assessment_completions, false);
 }
 
 function miniMetric(val, label) {
@@ -1338,12 +1568,14 @@ async function loadTrends() {
 
   try {
     const { data } = await callApi("funnel_trends", params);
+    dash.trends = data;
     if (!data || data.length === 0) {
       loadEl.style.display = "none";
       emptyEl.style.display = "";
       return;
     }
     renderTrendsCharts(data, bucket);
+    renderTrendChips(data);
     loadEl.style.display  = "none";
     chartsEl.style.display = "";
   } catch(e) {
@@ -1475,6 +1707,43 @@ function renderTrendsCharts(rows, bucket) {
       })
     })
   });
+}
+
+// =============================================================================
+// Trend direction chips on stage cards
+// =============================================================================
+function renderTrendChips(rows) {
+  function trendDir(vals) {
+    const nonNull = vals.filter(function(v) { return v != null; });
+    if (nonNull.length < 4) return null;
+    const mid = Math.floor(nonNull.length / 2);
+    const firstHalf = nonNull.slice(0, mid);
+    const lastHalf   = nonNull.slice(nonNull.length - mid);
+    const firstAvg = firstHalf.reduce(function(a,b){ return a+b; }, 0) / firstHalf.length;
+    const lastAvg  = lastHalf.reduce(function(a,b){ return a+b; }, 0) / lastHalf.length;
+    if (firstAvg === 0 && lastAvg === 0) return "flat";
+    const pctChange = firstAvg > 0 ? (lastAvg - firstAvg) / firstAvg : 1;
+    if (pctChange > 0.1) return "up";
+    if (pctChange < -0.1) return "down";
+    return "flat";
+  }
+
+  function setChip(id, dir) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (!dir) { el.style.display = "none"; return; }
+    const arrow = dir === "up" ? "↑" : dir === "down" ? "↓" : "→";
+    const cls   = dir === "up" ? "trend-up" : dir === "down" ? "trend-down" : "trend-flat";
+    const label = dir === "up" ? "Trending up" : dir === "down" ? "Trending down" : "Holding steady";
+    el.style.display = "inline-block";
+    el.className = "stage-trend-chip " + cls;
+    el.textContent = arrow + " " + label;
+  }
+
+  setChip("reach-trend-chip",       trendDir(rows.map(function(r){ return r.new_contacts; })));
+  setChip("respond-trend-chip",     trendDir(rows.map(function(r){ return r.active_regs; })));
+  setChip("participate-trend-chip", trendDir(rows.map(function(r){ return r.attendance_rate; })));
+  setChip("deeper-trend-chip",      trendDir(rows.map(function(r){ return r.assessments_started; })));
 }
 
 // =============================================================================
