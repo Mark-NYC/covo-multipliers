@@ -402,6 +402,32 @@ Deno.serve(async (req: Request): Promise<Response> => {
   }
 
   // ---------------------------------------------------------------------------
+  // funnel_trends → get_funnel_trends
+  // ---------------------------------------------------------------------------
+  if (action === "funnel_trends") {
+    const dates = validateDates();
+    if (!dates) return err(400, "p_start and p_end are required non-empty strings.", cors);
+
+    const p_bucket = body.p_bucket;
+    if (p_bucket !== undefined && p_bucket !== "week" && p_bucket !== "month") {
+      return err(400, "p_bucket must be 'week' or 'month'.", cors);
+    }
+
+    const params: Record<string, unknown> = {
+      p_start: dates.p_start,
+      p_end:   dates.p_end,
+    };
+    if (typeof p_bucket === "string") params.p_bucket = p_bucket;
+
+    const { data, error } = await supabase.rpc("get_funnel_trends", params);
+    if (error) {
+      console.error("[analytics-admin] funnel_trends error:", JSON.stringify(error));
+      return err(500, "Failed to load funnel trends.", cors);
+    }
+    return ok(data, cors);
+  }
+
+  // ---------------------------------------------------------------------------
   // Unknown action
   // ---------------------------------------------------------------------------
   return json(400, {
@@ -418,6 +444,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
       "data_health",
       "contact_drilldown",
       "whatsapp_clicks",
+      "funnel_trends",
     ],
   }, cors);
 });

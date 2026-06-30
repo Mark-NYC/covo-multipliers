@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CoVo Operating Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -79,6 +80,11 @@
     }
     .controls-bar .form-group { margin-bottom: 0; }
     .tz-label { font-size: 11px; color: #888; align-self: center; }
+
+    /* ── Trends grid responsive ─────────────────────────────────────── */
+    @media (max-width: 700px) {
+      #trends-charts > div { grid-template-columns: 1fr !important; }
+    }
 
     /* ── Stage cards row ────────────────────────────────────────────── */
     .stage-cards-row {
@@ -513,6 +519,35 @@
           <div id="funnel-table-content"></div>
         </details>
       </div>
+    </div>
+
+    <!-- 4. Trends -->
+    <div class="section-card" id="trends-section">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:4px">
+        <h2 style="margin:0">Funnel Trends</h2>
+        <div style="display:flex;gap:8px;align-items:center">
+          <label style="font-size:12px;font-weight:600;color:#555;text-transform:uppercase;letter-spacing:.04em">Bucket</label>
+          <select id="trends-bucket" style="padding:4px 8px;border:1px solid #d1d5db;border-radius:6px;font-size:12px">
+            <option value="week">Weekly</option>
+            <option value="month">Monthly</option>
+          </select>
+        </div>
+      </div>
+      <div class="section-note" id="trends-note">Week-by-week view of volume and rates across the selected period.</div>
+      <div id="trends-loading" class="loading-state"><span class="spinner"></span> Loading…</div>
+      <div id="trends-charts" style="display:none">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:8px">
+          <div>
+            <div style="font-size:12px;font-weight:700;color:#374151;margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em">Volume — New Contacts &amp; Registrations</div>
+            <div style="position:relative;height:220px"><canvas id="trends-volume-chart"></canvas></div>
+          </div>
+          <div>
+            <div style="font-size:12px;font-weight:700;color:#374151;margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em">Rates — Attendance &amp; Assessments</div>
+            <div style="position:relative;height:220px"><canvas id="trends-rate-chart"></canvas></div>
+          </div>
+        </div>
+      </div>
+      <div id="trends-empty" class="empty-state" style="display:none">No trend data for this period.</div>
     </div>
 
     <!-- ─── Detail nav ───────────────────────────────────────────────── -->
@@ -1059,6 +1094,7 @@ function loadAll() {
   loadGA4();
   loadYoutube();
   loadSubstack();
+  loadTrends();
 }
 
 document.getElementById("apply-btn").addEventListener("click", loadAll);
@@ -1279,6 +1315,166 @@ function renderFunnel(d) {
     '<th>Stage</th><th style="text-align:right">Count</th><th style="text-align:right">% of Cohort</th><th style="text-align:right">Drop-off</th>' +
     '</tr></thead><tbody>' + tableRows + '</tbody></table>';
   tableWrap.style.display = "";
+}
+
+// =============================================================================
+// Funnel Trends
+// =============================================================================
+var _trendsVolumeChart = null;
+var _trendsRateChart   = null;
+
+document.getElementById("trends-bucket").addEventListener("change", loadTrends);
+
+async function loadTrends() {
+  const loadEl  = document.getElementById("trends-loading");
+  const chartsEl = document.getElementById("trends-charts");
+  const emptyEl = document.getElementById("trends-empty");
+  loadEl.style.display  = "";
+  chartsEl.style.display = "none";
+  emptyEl.style.display = "none";
+
+  const bucket = document.getElementById("trends-bucket").value;
+  const params = Object.assign({}, getDateParams(), { p_bucket: bucket });
+
+  try {
+    const { data } = await callApi("funnel_trends", params);
+    if (!data || data.length === 0) {
+      loadEl.style.display = "none";
+      emptyEl.style.display = "";
+      return;
+    }
+    renderTrendsCharts(data, bucket);
+    loadEl.style.display  = "none";
+    chartsEl.style.display = "";
+  } catch(e) {
+    loadEl.style.display = "none";
+    emptyEl.style.display = "";
+    emptyEl.textContent = "Error loading trends: " + e.message;
+  }
+}
+
+function renderTrendsCharts(rows, bucket) {
+  const labels = rows.map(function(r) {
+    var d = new Date(r.bucket + "T00:00:00");
+    if (bucket === "month") {
+      return d.toLocaleDateString("en-US", { month: "short", year: "2-digit" });
+    }
+    return d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+  });
+
+  var contacts = rows.map(function(r) { return r.new_contacts; });
+  var regs     = rows.map(function(r) { return r.active_regs; });
+  var attRate  = rows.map(function(r) { return r.attendance_rate; });
+  var assessments = rows.map(function(r) { return r.assessments_started; });
+
+  var commonOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    interaction: { mode: "index", intersect: false },
+    plugins: {
+      legend: { position: "bottom", labels: { boxWidth: 12, font: { size: 11 } } },
+      tooltip: { callbacks: {} }
+    },
+    scales: {
+      x: {
+        grid: { color: "rgba(0,0,0,.05)" },
+        ticks: { font: { size: 11 }, maxRotation: 45 }
+      }
+    }
+  };
+
+  // ── Volume chart ──
+  if (_trendsVolumeChart) { _trendsVolumeChart.destroy(); _trendsVolumeChart = null; }
+  var volCtx = document.getElementById("trends-volume-chart").getContext("2d");
+  _trendsVolumeChart = new Chart(volCtx, {
+    type: "line",
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: "New Contacts",
+          data: contacts,
+          borderColor: "#6366f1",
+          backgroundColor: "rgba(99,102,241,.08)",
+          borderWidth: 2,
+          pointRadius: 3,
+          tension: 0.3,
+          fill: true
+        },
+        {
+          label: "New Registrations",
+          data: regs,
+          borderColor: "#0ea5e9",
+          backgroundColor: "transparent",
+          borderWidth: 2,
+          pointRadius: 3,
+          tension: 0.3
+        }
+      ]
+    },
+    options: Object.assign({}, commonOptions, {
+      scales: Object.assign({}, commonOptions.scales, {
+        y: {
+          beginAtZero: true,
+          grid: { color: "rgba(0,0,0,.05)" },
+          ticks: { font: { size: 11 }, precision: 0 }
+        }
+      })
+    })
+  });
+
+  // ── Rate chart ──
+  if (_trendsRateChart) { _trendsRateChart.destroy(); _trendsRateChart = null; }
+  var rateCtx = document.getElementById("trends-rate-chart").getContext("2d");
+  _trendsRateChart = new Chart(rateCtx, {
+    type: "line",
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: "Attendance Rate %",
+          data: attRate,
+          borderColor: "#10b981",
+          backgroundColor: "rgba(16,185,129,.08)",
+          borderWidth: 2,
+          pointRadius: 3,
+          tension: 0.3,
+          fill: true,
+          spanGaps: true,
+          yAxisID: "yPct"
+        },
+        {
+          label: "Assessments Started",
+          data: assessments,
+          borderColor: "#8b5cf6",
+          backgroundColor: "transparent",
+          borderWidth: 2,
+          pointRadius: 3,
+          tension: 0.3,
+          yAxisID: "yCount"
+        }
+      ]
+    },
+    options: Object.assign({}, commonOptions, {
+      scales: Object.assign({}, commonOptions.scales, {
+        yPct: {
+          type: "linear",
+          position: "left",
+          min: 0,
+          max: 100,
+          grid: { color: "rgba(0,0,0,.05)" },
+          ticks: { font: { size: 11 }, callback: function(v) { return v + "%"; } }
+        },
+        yCount: {
+          type: "linear",
+          position: "right",
+          beginAtZero: true,
+          grid: { drawOnChartArea: false },
+          ticks: { font: { size: 11 }, precision: 0 }
+        }
+      })
+    })
+  });
 }
 
 // =============================================================================
