@@ -151,49 +151,82 @@ Deno.serve(async (req: Request): Promise<Response> => {
       consistency = Math.min(5, consistency + 0.8);
     }
 
-    // === GENERATE TAILORED RECOMMENDATIONS ===
-    let priority = null;
+    // === GENERATE TACTICAL BREAKTHROUGH PATH ===
+    let breakthroughPath = null;
     const threshold = 3.5;
 
     const hasCommitment = commitment >= threshold;
     const hasFocus = focus >= threshold;
     const hasConsistency = consistency >= threshold;
 
-    // Identify gaps and create specific action items
+    // Mission field mapping for specific feedback
+    const missionFieldMap = {
+      passion: "hobby or activity you already enjoy",
+      people: "relationships and friend groups",
+      place: "geographic community or neighborhood",
+      profession: "workplace or professional network"
+    };
+
     if (!hasCommitment) {
-      priority = {
-        title: "Clarify Your Mission Field",
-        reason: `You selected "${diagnostic.commitment}" as your focus, but the diagnostic shows you need clearer conviction about who God has placed around you. Get crystal clear on the 3-5 specific people or community He's calling you to reach.`,
-        action: "This week: Write down 5-6 names of people in your ${diagnostic.commitment} who don't yet follow Jesus. This becomes your prayer list and your mission field."
+      // Not locked in on mission field
+      const fieldDesc = missionFieldMap[diagnostic.commitment as keyof typeof missionFieldMap] || "mission field";
+      breakthroughPath = {
+        title: "Lock In Your Mission Field",
+        detail: `You selected ${fieldDesc} as your focus, but you haven't crystallized who you're actually reaching. Without clarity on the specific people God has placed around you, you'll keep starting and stopping. You need to move from vague intention to named people.`,
+        action: `This week: Write down 5-6 specific names of people in your ${diagnostic.commitment} who don't yet follow Jesus. Put them on a prayer list. This is your mission field.`
       };
     } else if (!hasFocus) {
-      const missingActivities = [];
-      if (!diagnostic.focus.includes("praying")) missingActivities.push("praying for them by name");
-      if (!diagnostic.focus.includes("conversations")) missingActivities.push("having spiritual conversations");
-      if (!diagnostic.focus.includes("scripture")) missingActivities.push("doing faith activities together");
-      if (!diagnostic.focus.includes("investing")) missingActivities.push("investing in their discipleship");
+      // Not taking action yet
+      const missing = [];
+      if (!diagnostic.focus.includes("praying")) missing.push("praying for them by name");
+      if (!diagnostic.focus.includes("conversations")) missing.push("spiritual conversations");
+      if (!diagnostic.focus.includes("scripture")) missing.push("faith activities together");
+      if (!diagnostic.focus.includes("investing")) missing.push("investing in their growth");
 
-      priority = {
+      breakthroughPath = {
         title: "Move from Knowing to Doing",
-        reason: `You know your mission field, but you're not yet doing the basic discipling activities. You're currently doing ${focusCount} of the 4 key activities—you need to add ${missingActivities.join(" and ")} to build focus.`,
-        action: `This week: Pick ONE person and take ONE action. It could be a spiritual conversation, praying with them, or reading Scripture together. Don't aim for perfection—just start.`
+        detail: `You know your mission field, but you're not yet taking action. Knowing about disciple-making doesn't cost you anything. Actually doing it requires time, vulnerability, and risk. You're currently doing ${focusCount} of the 4 core activities. The ones you're missing—${missing.join(", ")}—are what separate Christians who make disciples from those who don't.`,
+        action: `This week: Choose ONE person and take ONE action. Pray with them. Ask a real spiritual question. Read Scripture together. Don't wait until you feel ready.`
       };
     } else if (!hasConsistency) {
-      const missingRhythms = [];
-      if (!diagnostic.consistency.includes("three")) missingRhythms.push("3+ hours/week Following & Fishing");
-      if (!diagnostic.consistency.includes("two")) missingRhythms.push("2+ hours/week in multiplying gathering");
-      if (!diagnostic.consistency.includes("one")) missingRhythms.push("1+ hour/week accountability team");
+      // Missing 3-2-1 rhythms
+      const missing = [];
+      if (!diagnostic.consistency.includes("three")) {
+        missing.push({
+          rhythm: "Following & Fishing (3+ hours/week)",
+          cost: "You're not spending enough time with lost people. Without relationship, there's no one to lead to Jesus.",
+          action: "This week: Schedule 3 separate times to be with lost people (could be lunch, coffee, your hobby, neighborhood time)."
+        });
+      }
+      if (!diagnostic.consistency.includes("two")) {
+        missing.push({
+          rhythm: "Multiplying Gathering (2+ hours/week)",
+          cost: "You're isolated. Without others who share your vision, you'll burn out alone. Multiplication happens in community.",
+          action: "This week: Find one other person serious about this and propose a weekly 2-hour gathering (meal, study, prayer)."
+        });
+      }
+      if (!diagnostic.consistency.includes("one")) {
+        missing.push({
+          rhythm: "Accountability Team (1+ hour/week)",
+          cost: "You're unaccountable. Without someone checking your progress weekly, you'll drift back to normal when life gets hard.",
+          action: "This week: Text one person and ask them to hold you accountable. One weekly check-in: 'How's your discipleship going?'"
+        });
+      }
 
-      priority = {
-        title: "Build Your Consistency Rhythms",
-        reason: `You're active, but inconsistency kills momentum. You're currently doing ${consistencyCount} of the 3 key rhythms. You need ${missingRhythms.join(", ")} to sustain this over time.`,
-        action: `This week: Pick one rhythm and commit to it for 12 weeks. It could be a weekly coffee with your accountability team, a Friday lunch with a friend, or a Monday prayer time. Same time, same practice, every week.`
+      // Format the missing rhythms into the detail
+      const rhythmDetails = missing.map(m => `\n**${m.rhythm}**\n${m.cost}\n${m.action}`).join("\n");
+
+      breakthroughPath = {
+        title: "Build the Rhythms That Stick",
+        detail: `You're doing ${consistencyCount} of the 3 critical rhythms. Here's what's missing—and why it matters:${rhythmDetails}`,
+        action: "" // Action is embedded in detail above
       };
     } else {
-      priority = {
+      // All strong
+      breakthroughPath = {
         title: "You're Ready to Multiply",
-        reason: "You've got Commitment, Focus, and Consistency locked in. You know your mission field, you're taking action, and you're building the rhythms that sustain it. Now the question is: who else is watching your example?",
-        action: "This week: Identify one person who's watching your journey. Invite them into the process. Tell them what you're doing and ask if they want to join you. Multiplication starts with invitation."
+        detail: `You've got it locked in. Clear mission field. Active practice. Building the rhythms. You're not waiting for perfect—you're just doing the work. The breakthrough question now is: who else is watching you? Who sees your commitment and wants to join?`,
+        action: `This week: Identify one person who's watching your journey. Invite them in. Tell them what you're doing and ask if they want to take their next step with you.`
       };
     }
 
@@ -214,7 +247,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
       commitment: parseFloat(commitment.toFixed(1)),
       focus: parseFloat(focus.toFixed(1)),
       consistency: parseFloat(consistency.toFixed(1)),
-      priority
+      breakthroughPath
     }, cors);
   } catch (error) {
     console.error("[cfc-diagnostic] Error:", error);
