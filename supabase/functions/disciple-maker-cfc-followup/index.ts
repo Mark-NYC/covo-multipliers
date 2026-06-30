@@ -85,7 +85,7 @@ async function sendCfcFollowupEmail({
           <tr>
             <td style="background:linear-gradient(135deg,#1b4d3e 0%,#2d6a4f 50%,#d4af37 100%);padding:40px 32px;border-radius:12px 12px 0 0;text-align:center;">
               <p style="margin:0 0 12px;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.75);">
-                Disciple Maker Assessment
+                Disciple Maker Next Step Finder
               </p>
               <h1 style="margin:0;font-size:28px;font-weight:900;color:#ffffff;line-height:1.2;">
                 Go Deeper with Your CFC Profile
@@ -100,7 +100,7 @@ async function sendCfcFollowupEmail({
               <p style="margin:0 0 24px;font-size:16px;color:#1a1a1a;font-weight:600;">Hey ${escapeHtml(toName)},</p>
 
               <p style="margin:0 0 24px;font-size:15px;color:#444444;line-height:1.7;">
-                Yesterday you completed the Disciple Maker Assessment. Today, we want to help you go deeper.
+                Yesterday you completed the Disciple Maker Next Step Finder. Today, we want to help you go deeper.
               </p>
 
               <p style="margin:0 0 24px;font-size:15px;color:#444444;line-height:1.7;">

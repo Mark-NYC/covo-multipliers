@@ -227,7 +227,7 @@ async function sendResultsEmail({
           <tr>
             <td style="background:linear-gradient(135deg,#1b4d3e 0%,#2d6a4f 50%,#d4af37 100%);padding:40px 32px;border-radius:12px 12px 0 0;text-align:center;">
               <p style="margin:0 0 12px;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.75);">
-                Disciple Maker Assessment
+                Disciple Maker Next Step Finder
               </p>
               <h1 style="margin:0;font-size:28px;font-weight:900;color:#ffffff;line-height:1.2;">
                 Your Results Are Ready
@@ -242,11 +242,11 @@ async function sendResultsEmail({
               <p style="margin:0 0 24px;font-size:16px;color:#1a1a1a;font-weight:600;">Hey ${escapeHtml(toName)},</p>
 
               <p style="margin:0 0 24px;font-size:15px;color:#444444;line-height:1.7;">
-                You just completed the Disciple Maker Assessment. Your personal snapshot is ready to view.
+                You just completed the Disciple Maker Next Step Finder. Your personal results are ready to view.
               </p>
 
               <p style="margin:0 0 24px;font-size:15px;color:#444444;line-height:1.7;">
-                <strong>Your Assessment Identified:</strong><br />
+                <strong>Your Next Step Finder Identified:</strong><br />
                 <span style="font-size:18px;color:#1b4d3e;font-weight:700;">${escapeHtml(identityName)}</span>
               </p>
 
@@ -308,7 +308,7 @@ async function sendResultsEmail({
       body: JSON.stringify({
         from: `Covo Multipliers <${from}>`,
         to: [to],
-        subject: "Your Disciple Maker Assessment Results",
+        subject: "Your Disciple Maker Next Step Finder Results",
         html,
       }),
     });
