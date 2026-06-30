@@ -637,21 +637,10 @@
         <div class="cfc-grid" id="cfc-scores-grid"></div>
       </div>
 
-      <div class="dm-card">
-        <h2 class="dm-h2">What's Strong</h2>
-        <p class="dm-body">Areas where you're already showing up:</p>
-        <div id="strengths-section"></div>
-      </div>
-
-      <div class="dm-card">
-        <h2 class="dm-h2">What's Holding You Back</h2>
-        <p class="dm-body">Gaps preventing your breakthrough:</p>
-        <div id="gaps-section"></div>
-      </div>
-
-      <div id="priority-card" class="dm-card" style="display:none;">
-        <h2 class="dm-h2">Your Priority Action</h2>
-        <div id="priority-section"></div>
+      <div id="breakthrough-path-card" class="dm-card" style="display:none;">
+        <h2 class="dm-h2" id="breakthrough-title"></h2>
+        <p class="dm-body" id="breakthrough-detail"></p>
+        <div id="breakthrough-action-section"></div>
       </div>
 
       <div class="dm-card" style="background:#f0fdf4;border:1.5px solid #bbf7d0;text-align:center;">
@@ -831,44 +820,6 @@
       }).join('');
       document.getElementById('cfc-scores-grid').innerHTML = scoresHtml;
 
-      // Strengths
-      const strengthsHtml = feedback.strengths.length > 0
-        ? feedback.strengths.map(s => `
-            <div class="strength-item">
-              <div class="strength-icon">✓</div>
-              <div class="strength-text">
-                <div class="strength-label">${s.label}</div>
-                <div class="strength-desc">${s.description}</div>
-              </div>
-            </div>
-          `).join('')
-        : '<p class="dm-body" style="color: #b45309; font-weight: 600;">None yet. That\'s where you\'re headed.</p>';
-      document.getElementById('strengths-section').innerHTML = strengthsHtml;
-
-      // Gaps
-      const gapsHtml = feedback.gaps.length > 0
-        ? feedback.gaps.map(g => `
-            <div class="gap-item">
-              <div class="gap-area">${g.area}</div>
-              <div class="gap-issue">${g.issue}</div>
-              <div class="gap-description">${g.description}</div>
-            </div>
-          `).join('')
-        : '<p class="dm-body" style="color: #888;">You\'re strong across all three pillars. Keep going.</p>';
-      document.getElementById('gaps-section').innerHTML = gapsHtml;
-
-      // Priority
-      if (feedback.priority) {
-        const priorityHtml = `
-          <div class="priority-box">
-            <div class="priority-title">${feedback.priority.title}</div>
-            <div class="priority-reason">${feedback.priority.reason}</div>
-            <div class="priority-action">${feedback.priority.action}</div>
-          </div>
-        `;
-        document.getElementById('priority-section').innerHTML = priorityHtml;
-        document.getElementById('priority-card').style.display = 'block';
-      }
 
       showView('profile');
     }
@@ -941,7 +892,7 @@
     function renderProfileWithDiagnostic(diagnosticData) {
       console.log('[Diagnostic] renderProfileWithDiagnostic called with:', diagnosticData);
 
-      const { commitment, focus, consistency } = diagnosticData;
+      const { commitment, focus, consistency, breakthroughPath } = diagnosticData;
 
       // Update CFC scores
       const cfc = [
@@ -976,18 +927,22 @@
         scoresGrid.style.backgroundColor = '';
       }, 2000);
 
-      // Update priority action if provided
-      if (diagnosticData.priority) {
-        console.log('[Diagnostic] Updating priority action:', diagnosticData.priority);
-        const priorityHtml = `
-          <div class="priority-box">
-            <div class="priority-title">${diagnosticData.priority.title}</div>
-            <div class="priority-reason">${diagnosticData.priority.reason}</div>
-            <div class="priority-action">${diagnosticData.priority.action}</div>
-          </div>
-        `;
-        document.getElementById('priority-section').innerHTML = priorityHtml;
-        document.getElementById('priority-card').style.display = 'block';
+      // Update breakthrough path if provided
+      if (breakthroughPath) {
+        console.log('[Diagnostic] Updating breakthrough path:', breakthroughPath);
+        document.getElementById('breakthrough-title').textContent = breakthroughPath.title;
+        document.getElementById('breakthrough-detail').innerHTML = breakthroughPath.detail;
+
+        // Handle action section - for most cases show action, but for Consistency
+        // the action may be embedded in detail so it can be empty
+        const actionSection = document.getElementById('breakthrough-action-section');
+        if (breakthroughPath.action) {
+          actionSection.innerHTML = `<div class="priority-action">${breakthroughPath.action}</div>`;
+        } else {
+          actionSection.innerHTML = '';
+        }
+
+        document.getElementById('breakthrough-path-card').style.display = 'block';
       }
 
       // Scroll to scores section
