@@ -939,6 +939,8 @@
     });
 
     function renderProfileWithDiagnostic(diagnosticData) {
+      console.log('[Diagnostic] renderProfileWithDiagnostic called with:', diagnosticData);
+
       const { commitment, focus, consistency } = diagnosticData;
 
       // Update CFC scores
@@ -963,10 +965,20 @@
           </div>
         `;
       }).join('');
-      document.getElementById('cfc-scores-grid').innerHTML = scoresHtml;
+
+      const scoresGrid = document.getElementById('cfc-scores-grid');
+      console.log('[Diagnostic] Found scores grid element:', scoresGrid);
+      scoresGrid.innerHTML = scoresHtml;
+
+      // Highlight the updated section
+      scoresGrid.style.backgroundColor = '#fffadb';
+      setTimeout(() => {
+        scoresGrid.style.backgroundColor = '';
+      }, 2000);
 
       // Update priority action if provided
       if (diagnosticData.priority) {
+        console.log('[Diagnostic] Updating priority action:', diagnosticData.priority);
         const priorityHtml = `
           <div class="priority-box">
             <div class="priority-title">${diagnosticData.priority.title}</div>
@@ -977,6 +989,10 @@
         document.getElementById('priority-section').innerHTML = priorityHtml;
         document.getElementById('priority-card').style.display = 'block';
       }
+
+      // Scroll to scores section
+      console.log('[Diagnostic] Scrolling to scores section');
+      scoresGrid.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
     showView('loading');
