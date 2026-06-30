@@ -15,21 +15,45 @@ interface DiagnosticData {
   consistency: string[];
 }
 
-interface SendEmailOptions {
-  results_token: string;
-  diagnostic: DiagnosticData;
+const ALLOWED_ORIGINS = new Set([
+  "https://covomultipliers.com",
+  "https://www.covomultipliers.com",
+]);
+
+function corsHeaders(req: Request): Record<string, string> {
+  const origin = req.headers.get("Origin") ?? "";
+  return {
+    "Access-Control-Allow-Origin": ALLOWED_ORIGINS.has(origin)
+      ? origin
+      : "https://covomultipliers.com",
+    "Access-Control-Allow-Headers": "content-type",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+  };
 }
 
-function jsonResp(status: number, body: Record<string, unknown>): Response {
+function jsonResp(status: number, body: Record<string, unknown>, cors: Record<string, string> = {}): Response {
   return new Response(JSON.stringify(body), {
     status,
-    headers: { "Content-Type": "application/json" },
+    headers: { ...cors, "Content-Type": "application/json" },
   });
 }
 
+async function sha256hex(input: string): Promise<string> {
+  const buf = await crypto.subtle.digest(
+    "SHA-256",
+    new TextEncoder().encode(input),
+  );
+  return Array.from(new Uint8Array(buf))
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
+}
+
 Deno.serve(async (req: Request): Promise<Response> => {
+  const cors = corsHeaders(req);
+
+  if (req.method === "OPTIONS") return new Response(null, { status: 204, headers: cors });
   if (req.method !== "POST") {
-    return jsonResp(405, { error: "Method not allowed." });
+    return jsonResp(405, { error: "Method not allowed." }, cors);
   }
 
   const supabase = createClient(
@@ -42,18 +66,22 @@ Deno.serve(async (req: Request): Promise<Response> => {
     const { results_token, diagnostic } = await req.json();
 
     if (!results_token || !diagnostic) {
-      return jsonResp(400, { error: "Missing required fields." });
+      return jsonResp(400, { error: "Missing required fields." }, cors);
     }
+
+    // Hash the token before querying
+    const tokenHash = await sha256hex(results_token);
 
     // Get the session and scores
     const { data: session, error: sessionErr } = await supabase
       .from("disciple_maker_sessions")
       .select("id, dimension_scores")
-      .eq("results_token_hash", results_token)
+      .eq("results_token_hash", tokenHash)
       .single();
 
     if (sessionErr || !session) {
-      return jsonResp(404, { error: "Session not found." });
+      console.error("[cfc-diagnostic] session not found:", sessionErr);
+      return jsonResp(404, { error: "Session not found." }, cors);
     }
 
     const scores = session.dimension_scores || {};
@@ -187,9 +215,9 @@ Deno.serve(async (req: Request): Promise<Response> => {
       focus: parseFloat(focus.toFixed(1)),
       consistency: parseFloat(consistency.toFixed(1)),
       priority
-    });
+    }, cors);
   } catch (error) {
     console.error("[cfc-diagnostic] Error:", error);
-    return jsonResp(500, { error: "Failed to process diagnostic." });
+    return jsonResp(500, { error: "Failed to process diagnostic." }, cors);
   }
 });
