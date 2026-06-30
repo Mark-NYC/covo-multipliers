@@ -843,7 +843,14 @@ document.getElementById("settings-btn").addEventListener("click", function() {
   location.reload();
 });
 
-(function() { if (sessionStorage.getItem("analytics_secret")) bootApp(); })();
+(function() {
+  const saved = sessionStorage.getItem("analytics_secret")
+             || sessionStorage.getItem("covo_admin_secret");
+  if (saved) {
+    sessionStorage.setItem("analytics_secret", saved);
+    bootApp();
+  }
+})();
 
 // =============================================================================
 // API
