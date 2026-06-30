@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Hub — CoVo Multipliers</title>
+  <meta name="robots" content="noindex, nofollow">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green-dark: #10281f;
+      --green-mid:  #1b4d3e;
+      --green-light: #2d6a56;
+      --green-pale: #e8f0ed;
+      --border: #e5e7eb;
+      --text: #1a1a1a;
+      --muted: #5a6b65;
+      --bg: #f4f4f5;
+      --white: #ffffff;
+      --red: #b91c1c;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── Auth Screen ─────────────────────────────────────────── */
+    #auth-screen {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 24px;
+      background: var(--bg);
+    }
+
+    .auth-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 40px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+
+    .auth-logo {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--green-mid);
+      margin-bottom: 20px;
+    }
+
+    .auth-card h1 {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--green-dark);
+      margin-bottom: 6px;
+    }
+
+    .auth-card .subtitle {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 28px;
+      line-height: 1.5;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 20px 0;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      font-size: 13px;
+      margin-bottom: 5px;
+      color: var(--text);
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 14px;
+      font-family: inherit;
+      color: var(--text);
+      background: var(--white);
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: var(--green-mid);
+      box-shadow: 0 0 0 3px rgba(27, 77, 62, 0.1);
+    }
+
+    .form-group .hint {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 10px 18px;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background 0.15s, opacity 0.15s;
+    }
+
+    .btn-primary {
+      background: var(--green-mid);
+      color: var(--white);
+      width: 100%;
+    }
+
+    .btn-primary:hover { background: var(--green-light); }
+    .btn-primary:disabled { opacity: 0.55; cursor: not-allowed; }
+
+    .auth-error {
+      color: var(--red);
+      font-size: 13px;
+      margin-top: 10px;
+      min-height: 18px;
+    }
+
+    /* ── App Shell ────────────────────────────────────────────── */
+    #app { display: none; min-height: 100vh; }
+
+    .topbar {
+      background: var(--green-dark);
+      color: var(--white);
+      padding: 0 24px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .topbar-brand {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .topbar-badge {
+      background: rgba(255,255,255,0.15);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      letter-spacing: 0.05em;
+    }
+
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .topbar-user {
+      font-size: 13px;
+      color: rgba(255,255,255,0.7);
+    }
+
+    .btn-ghost {
+      background: rgba(255,255,255,0.12);
+      color: var(--white);
+      padding: 6px 12px;
+      font-size: 12px;
+      border-radius: 5px;
+    }
+
+    .btn-ghost:hover { background: rgba(255,255,255,0.2); }
+
+    /* ── Main Layout ─────────────────────────────────────────── */
+    .main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 32px 24px 64px;
+    }
+
+    .page-header {
+      margin-bottom: 32px;
+    }
+
+    .page-header h2 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--green-dark);
+      margin-bottom: 4px;
+    }
+
+    .page-header p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    /* ── Stats Row ───────────────────────────────────────────── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 14px;
+      margin-bottom: 36px;
+    }
+
+    .stat-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px 20px;
+    }
+
+    .stat-num {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--green-dark);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    /* ── Section Headers ─────────────────────────────────────── */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .section-header h3 {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .section-header::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── Tool Cards ──────────────────────────────────────────── */
+    .tool-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 14px;
+      margin-bottom: 36px;
+    }
+
+    .tool-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px;
+      text-decoration: none;
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: border-color 0.15s, box-shadow 0.15s, transform 0.1s;
+      cursor: pointer;
+    }
+
+    .tool-card:hover {
+      border-color: var(--green-mid);
+      box-shadow: 0 4px 16px rgba(27,77,62,0.1);
+      transform: translateY(-1px);
+    }
+
+    .tool-icon {
+      font-size: 22px;
+      line-height: 1;
+    }
+
+    .tool-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--green-dark);
+    }
+
+    .tool-desc {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .tool-tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 2px 7px;
+      border-radius: 4px;
+      margin-top: 2px;
+      background: var(--green-pale);
+      color: var(--green-mid);
+    }
+
+    .tool-tag.external {
+      background: #f0f0f0;
+      color: #666;
+    }
+
+    /* ── Site Links ──────────────────────────────────────────── */
+    .link-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 10px;
+      margin-bottom: 36px;
+    }
+
+    .link-item {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 14px;
+      text-decoration: none;
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: border-color 0.15s, color 0.15s;
+    }
+
+    .link-item:hover {
+      border-color: var(--green-mid);
+      color: var(--green-mid);
+    }
+
+    .link-item .link-icon {
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    /* ── Assessment Secret Banner ─────────────────────────────── */
+    .secret-banner {
+      background: #fffbeb;
+      border: 1px solid #fcd34d;
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .secret-banner p {
+      font-size: 13px;
+      color: #92400e;
+    }
+
+    .secret-banner input {
+      padding: 6px 10px;
+      border: 1px solid #fcd34d;
+      border-radius: 5px;
+      font-size: 13px;
+      font-family: inherit;
+      background: var(--white);
+    }
+
+    .secret-banner button {
+      background: #d97706;
+      color: var(--white);
+      border: none;
+      padding: 6px 12px;
+      border-radius: 5px;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+    }
+
+    .secret-banner button:hover { background: #b45309; }
+
+    .secret-saved {
+      font-size: 12px;
+      color: var(--green-mid);
+      font-weight: 600;
+    }
+
+    /* ── Responsive ──────────────────────────────────────────── */
+    @media (max-width: 600px) {
+      .main { padding: 20px 16px 48px; }
+      .topbar { padding: 0 16px; }
+      .topbar-user { display: none; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════ AUTH SCREEN ═══════════ -->
+<div id="auth-screen">
+  <div class="auth-card">
+    <div class="auth-logo">CoVo Multipliers</div>
+    <h1>Admin Hub</h1>
+    <p class="subtitle">Sign in to access all admin tools and site management.</p>
+
+    <div class="section-label">Supabase Login</div>
+    <form id="auth-form">
+      <div class="form-group">
+        <label for="email">Email address</label>
+        <input type="email" id="email" name="email" required autocomplete="username" placeholder="name@example.com">
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required autocomplete="current-password" placeholder="••••••••">
+      </div>
+      <button type="submit" class="btn btn-primary" id="signin-btn">Sign in</button>
+    </form>
+
+    <hr class="divider">
+
+    <div class="section-label">Assessment Admin Secret <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></div>
+    <div class="form-group">
+      <label for="assess-secret">Assessment admin secret</label>
+      <input type="password" id="assess-secret" placeholder="Enter to unlock assessment admin">
+      <p class="hint">Stored in session only. Saves you re-entering on the assessment admin page.</p>
+    </div>
+
+    <div id="auth-error" class="auth-error"></div>
+  </div>
+</div>
+
+<!-- ═══════════ APP ═══════════ -->
+<div id="app">
+
+  <header class="topbar">
+    <div class="topbar-brand">
+      CoVo Multipliers <span class="topbar-badge">Admin Hub</span>
+    </div>
+    <div class="topbar-actions">
+      <span class="topbar-user" id="topbar-user"></span>
+      <button class="btn btn-ghost" id="signout-btn">Sign out</button>
+    </div>
+  </header>
+
+  <div class="main">
+
+    <div class="page-header">
+      <h2>Command Center</h2>
+      <p>All admin tools, dashboards, and site pages in one place.</p>
+    </div>
+
+    <!-- Stats Overview -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-num" id="stat-registrations">—</div>
+        <div class="stat-label">Lab Registrations (7d)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="stat-assessments">—</div>
+        <div class="stat-label">Assessments Completed</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="stat-shortlinks">—</div>
+        <div class="stat-label">Shortlink Clicks (total)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="stat-active-labs">—</div>
+        <div class="stat-label">Upcoming Labs</div>
+      </div>
+    </div>
+
+    <!-- Assessment secret status -->
+    <div id="secret-banner" class="secret-banner" style="display:none;">
+      <p>⚠️ Assessment admin secret not set. Add it to access the assessment admin without re-entering it.</p>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+        <input type="password" id="inline-secret" placeholder="Assessment admin secret">
+        <button onclick="saveAssessSecret()">Save</button>
+      </div>
+    </div>
+
+    <!-- Admin Tools -->
+    <div class="section-header"><h3>Admin Tools</h3></div>
+    <div class="tool-grid">
+
+      <a class="tool-card" href="/lab-admin.html" target="_blank">
+        <div class="tool-icon">📋</div>
+        <div class="tool-name">Lab Admin</div>
+        <div class="tool-desc">Event registrations, attendance check-in, CSV export, stats per lab.</div>
+        <span class="tool-tag">Supabase Auth</span>
+      </a>
+
+      <a class="tool-card" href="/admin/attendance.html" target="_blank">
+        <div class="tool-icon">✅</div>
+        <div class="tool-name">Attendance Tracker</div>
+        <div class="tool-desc">Mark attendance for lab sessions, view sign-up vs show-up rates.</div>
+        <span class="tool-tag">Supabase Auth</span>
+      </a>
+
+      <a class="tool-card" href="/admin/funnel.html" target="_blank">
+        <div class="tool-icon">📊</div>
+        <div class="tool-name">Funnel Analytics</div>
+        <div class="tool-desc">Registration → attendance → WhatsApp conversion funnel per lab.</div>
+        <span class="tool-tag">Supabase Auth</span>
+      </a>
+
+      <a class="tool-card" id="assess-admin-link" href="/assessment/admin/" target="_blank">
+        <div class="tool-icon">🧠</div>
+        <div class="tool-name">Assessment Admin</div>
+        <div class="tool-desc">Session analytics, domain score distributions, item viewer, pilot stats.</div>
+        <span class="tool-tag" id="assess-admin-tag">Secret Required</span>
+      </a>
+
+      <a class="tool-card" href="/assessment/profiles/" target="_blank">
+        <div class="tool-icon">👤</div>
+        <div class="tool-name">Assessment Profiles</div>
+        <div class="tool-desc">Browse completed assessment results and user profiles.</div>
+        <span class="tool-tag">Session-based</span>
+      </a>
+
+      <a class="tool-card" href="/shortlink-maker.html" target="_blank">
+        <div class="tool-icon">🔗</div>
+        <div class="tool-name">Shortlink Maker</div>
+        <div class="tool-desc">Create and manage /s/ short URLs with UTM parameters and click tracking.</div>
+        <span class="tool-tag">Open</span>
+      </a>
+
+    </div>
+
+    <!-- Lab Pages -->
+    <div class="section-header"><h3>Lab Pages</h3></div>
+    <div class="tool-grid">
+
+      <a class="tool-card" href="/from-lost-to-leader.html" target="_blank">
+        <div class="tool-icon">📅</div>
+        <div class="tool-name">From Lost to Leader</div>
+        <div class="tool-desc">Lab registration — May 20, 2026</div>
+        <span class="tool-tag external">Public</span>
+      </a>
+
+      <a class="tool-card" href="/rhythms-of-a-covo-multiplier.html" target="_blank">
+        <div class="tool-icon">📅</div>
+        <div class="tool-name">Rhythms of a Covo Multiplier</div>
+        <div class="tool-desc">Lab registration — Jun 17, 2026</div>
+        <span class="tool-tag external">Public</span>
+      </a>
+
+      <a class="tool-card" href="/aquila-and-priscilla-pattern.html" target="_blank">
+        <div class="tool-icon">📅</div>
+        <div class="tool-name">Aquila &amp; Priscilla Pattern</div>
+        <div class="tool-desc">Lab registration — Jul 15, 2026</div>
+        <span class="tool-tag external">Public</span>
+      </a>
+
+      <a class="tool-card" href="/4-questions.html" target="_blank">
+        <div class="tool-icon">📅</div>
+        <div class="tool-name">4 Questions</div>
+        <div class="tool-desc">Lab registration — Aug 19, 2026</div>
+        <span class="tool-tag external">Public</span>
+      </a>
+
+      <a class="tool-card" href="/church-circle-lab.html" target="_blank">
+        <div class="tool-icon">📅</div>
+        <div class="tool-name">Church Circle Lab</div>
+        <div class="tool-desc">Lab registration — Sep 16, 2026</div>
+        <span class="tool-tag external">Public</span>
+      </a>
+
+      <a class="tool-card" href="/disciple-making-rhythm.html" target="_blank">
+        <div class="tool-icon">📅</div>
+        <div class="tool-name">Disciple Making Rhythm</div>
+        <div class="tool-desc">Lab registration — Oct 21, 2026</div>
+        <span class="tool-tag external">Public</span>
+      </a>
+
+    </div>
+
+    <!-- Assessment & Tools -->
+    <div class="section-header"><h3>Assessments &amp; Tools</h3></div>
+    <div class="tool-grid">
+
+      <a class="tool-card" href="/assessment/" target="_blank">
+        <div class="tool-icon">📝</div>
+        <div class="tool-name">Fivefold Assessment</div>
+        <div class="tool-desc">88-item Fivefold Stewardship Assessment — Apostolic, Prophetic, Evangelistic, Shepherding, Teaching.</div>
+        <span class="tool-tag external">Public</span>
+      </a>
+
+      <a class="tool-card" href="/disciple-maker/" target="_blank">
+        <div class="tool-icon">🧭</div>
+        <div class="tool-name">Disciple Maker Tool</div>
+        <div class="tool-desc">5-minute assessment with AI-generated action plan and 6-week rhythm.</div>
+        <span class="tool-tag external">Public</span>
+      </a>
+
+      <a class="tool-card" href="/disciple-maker/cfc-profile.html" target="_blank">
+        <div class="tool-icon">🗂️</div>
+        <div class="tool-name">DM Coaching Profiles</div>
+        <div class="tool-desc">Disciple Maker follow-up coaching profiles.</div>
+        <span class="tool-tag external">Public</span>
+      </a>
+
+      <a class="tool-card" href="/six-week-plan.html" target="_blank">
+        <div class="tool-icon">🗓️</div>
+        <div class="tool-name">6-Week Plan Generator</div>
+        <div class="tool-desc">AI-powered six-week disciple-making plan. Powered by OpenAI.</div>
+        <span class="tool-tag external">Public</span>
+      </a>
+
+      <a class="tool-card" href="/find-your-field.html" target="_blank">
+        <div class="tool-icon">🌾</div>
+        <div class="tool-name">Find Your Field</div>
+        <div class="tool-desc">Field/oikos discovery tool for identifying where to multiply.</div>
+        <span class="tool-tag external">Public</span>
+      </a>
+
+    </div>
+
+    <!-- Site Pages -->
+    <div class="section-header"><h3>Site Pages</h3></div>
+    <div class="link-grid">
+      <a class="link-item" href="/" target="_blank"><span class="link-icon">🏠</span> Homepage</a>
+      <a class="link-item" href="/vision.html" target="_blank"><span class="link-icon">👁️</span> Vision</a>
+      <a class="link-item" href="/blog/" target="_blank"><span class="link-icon">📰</span> Blog</a>
+      <a class="link-item" href="/h3x.html" target="_blank"><span class="link-icon">🎙️</span> Podcast (H3X)</a>
+      <a class="link-item" href="/immersions.html" target="_blank"><span class="link-icon">🌊</span> Immersions</a>
+      <a class="link-item" href="/whatsapp/" target="_blank"><span class="link-icon">💬</span> WhatsApp Landing</a>
+      <a class="link-item" href="/contact.html" target="_blank"><span class="link-icon">✉️</span> Contact</a>
+      <a class="link-item" href="/resources.html" target="_blank"><span class="link-icon">📚</span> Resources</a>
+      <a class="link-item" href="/sentrepreneur-academy.html" target="_blank"><span class="link-icon">🎓</span> Sentrepreneur Academy</a>
+      <a class="link-item" href="/updates.html" target="_blank"><span class="link-icon">🔔</span> Updates</a>
+      <a class="link-item" href="/online-simple-multiplier-church.html" target="_blank"><span class="link-icon">⛪</span> Simple Multiplier Church</a>
+      <a class="link-item" href="/lab-next-step.html" target="_blank"><span class="link-icon">➡️</span> Lab Next Step</a>
+    </div>
+
+  </div><!-- /main -->
+</div><!-- /app -->
+
+<script type="module">
+  import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+  const SUPABASE_URL     = "https://mryjrvinzbxebzvxtggi.supabase.co";
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1yeWpydmluemJ4ZWJ6dnh0Z2dpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYyNzQ3MzksImV4cCI6MjA5MTg1MDczOX0.U1JJQTBVKePsVFXr2oFRCdUZasWaZiTQg6g8QrFdRyw";
+  const SUPABASE_FUNCTIONS = "https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1";
+
+  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  let currentSession = null;
+
+  // ── Auth State ───────────────────────────────────────────────
+  supabase.auth.onAuthStateChange((event, session) => {
+    currentSession = session;
+    if (session?.user) {
+      showApp(session);
+    }
+  });
+
+  document.getElementById("auth-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const email    = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+    const errEl    = document.getElementById("auth-error");
+    const btn      = document.getElementById("signin-btn");
+
+    errEl.textContent = "";
+    btn.disabled = true;
+    btn.textContent = "Signing in…";
+
+    try {
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) throw error;
+
+      // Store assessment secret if provided
+      const assessSecret = document.getElementById("assess-secret").value.trim();
+      if (assessSecret) {
+        sessionStorage.setItem("covo_admin_secret", assessSecret);
+      }
+    } catch (err) {
+      errEl.textContent = err.message || "Sign in failed";
+      btn.disabled = false;
+      btn.textContent = "Sign in";
+    }
+  });
+
+  document.getElementById("signout-btn").addEventListener("click", async () => {
+    sessionStorage.removeItem("covo_admin_secret");
+    await supabase.auth.signOut();
+    document.getElementById("app").style.display = "none";
+    document.getElementById("auth-screen").style.display = "flex";
+    document.getElementById("auth-form").reset();
+    document.getElementById("assess-secret").value = "";
+    document.getElementById("signin-btn").disabled = false;
+    document.getElementById("signin-btn").textContent = "Sign in";
+  });
+
+  // ── Show App ─────────────────────────────────────────────────
+  function showApp(session) {
+    document.getElementById("auth-screen").style.display = "none";
+    document.getElementById("app").style.display = "block";
+    document.getElementById("topbar-user").textContent = session.user.email;
+
+    updateAssessSecretStatus();
+    loadStats(session.access_token);
+  }
+
+  // ── Assessment Secret ─────────────────────────────────────────
+  function updateAssessSecretStatus() {
+    const secret = sessionStorage.getItem("covo_admin_secret");
+    const banner = document.getElementById("secret-banner");
+    const tag    = document.getElementById("assess-admin-tag");
+
+    if (secret) {
+      banner.style.display = "none";
+      tag.textContent = "Secret Saved ✓";
+      tag.style.background = "#dcfce7";
+      tag.style.color = "#166534";
+    } else {
+      banner.style.display = "flex";
+      tag.textContent = "Secret Required";
+    }
+  }
+
+  window.saveAssessSecret = function() {
+    const val = document.getElementById("inline-secret").value.trim();
+    if (!val) return;
+    sessionStorage.setItem("covo_admin_secret", val);
+    updateAssessSecretStatus();
+  };
+
+  // ── Load Stats ────────────────────────────────────────────────
+  async function loadStats(token) {
+    loadLabStats(token);
+    loadAssessmentStats();
+    loadShortlinkStats();
+    loadUpcomingLabs();
+  }
+
+  async function loadLabStats(token) {
+    try {
+      const res = await fetch(`${SUPABASE_URL}/functions/v1/lab-admin`, {
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json"
+        }
+      });
+      if (!res.ok) return;
+      const data = await res.json();
+      // Try to find 7-day signups from summary data
+      const val = data?.signups_7d ?? data?.registrations_7d ?? data?.total_signups ?? "—";
+      document.getElementById("stat-registrations").textContent = val;
+    } catch { /* silently skip */ }
+  }
+
+  async function loadAssessmentStats() {
+    const secret = sessionStorage.getItem("covo_admin_secret");
+    if (!secret) return;
+    try {
+      const res = await fetch(SUPABASE_FUNCTIONS + "/assessment-admin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-admin-secret": secret
+        },
+        body: JSON.stringify({ action: "overview" })
+      });
+      if (!res.ok) return;
+      const data = await res.json();
+      document.getElementById("stat-assessments").textContent = data.scored_sessions ?? "—";
+    } catch { /* silently skip */ }
+  }
+
+  async function loadShortlinkStats() {
+    try {
+      const { data, error } = await supabase
+        .from("shortlinks")
+        .select("click_count");
+      if (error || !data) return;
+      const total = data.reduce((sum, row) => sum + (row.click_count || 0), 0);
+      document.getElementById("stat-shortlinks").textContent = total.toLocaleString();
+    } catch { /* silently skip */ }
+  }
+
+  async function loadUpcomingLabs() {
+    try {
+      const { data, error } = await supabase
+        .from("events_with_availability")
+        .select("slug,event_date")
+        .gte("event_date", new Date().toISOString());
+      if (error || !data) return;
+      document.getElementById("stat-active-labs").textContent = data.length;
+    } catch { /* silently skip */ }
+  }
+</script>
+</body>
+</html>
