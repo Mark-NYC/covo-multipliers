@@ -164,7 +164,7 @@ async function sendResultsEmail({
 
   // Map pathway to CFC-based identity name
   const pathwayNameMap: Record<string, string> = {
-    multiplier: "The Sent One",
+    multiplier: "The Leader",
     practitioner: "The Practitioner",
     explorer: "The Idealist",
     catalyst: "The Awakening",
