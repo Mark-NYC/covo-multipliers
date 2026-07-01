@@ -446,6 +446,39 @@ Deno.serve(async (req: Request): Promise<Response> => {
   }
 
   // ---------------------------------------------------------------------------
+  // disciple_maker_overview → summary stats + pathway breakdown
+  // ---------------------------------------------------------------------------
+  if (action === "disciple_maker_overview") {
+    const { data: rows, error } = await supabase
+      .from("disciple_maker_sessions")
+      .select("status, pathway, completed_at");
+
+    if (error) {
+      console.error("[analytics-admin] disciple_maker_overview error:", JSON.stringify(error));
+      return err(500, "Failed to load Next Step Finder data.", cors);
+    }
+
+    const all       = rows || [];
+    const started   = all.length;
+    const completed = all.filter((r: { status: string }) => r.status === "completed");
+    const inProgress = all.filter((r: { status: string }) => r.status === "in_progress").length;
+    const rate      = started > 0 ? Math.round((completed.length / started) * 100) : 0;
+
+    const pathwayCounts: Record<string, number> = { catalyst: 0, explorer: 0, practitioner: 0, multiplier: 0 };
+    completed.forEach((r: { pathway: string }) => {
+      if (r.pathway && pathwayCounts[r.pathway] !== undefined) pathwayCounts[r.pathway]++;
+    });
+
+    return ok({
+      started,
+      completed: completed.length,
+      in_progress: inProgress,
+      completion_rate: rate,
+      by_pathway: pathwayCounts,
+    }, cors);
+  }
+
+  // ---------------------------------------------------------------------------
   // Unknown action
   // ---------------------------------------------------------------------------
   return json(400, {
@@ -462,6 +495,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
       "data_health",
       "contact_drilldown",
       "whatsapp_clicks",
+      "disciple_maker_overview",
       "funnel_trends",
     ],
   }, cors);

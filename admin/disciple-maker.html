@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Next Step Finder Admin — CoVo Multipliers</title>
+  <meta name="robots" content="noindex, nofollow">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green-dark: #10281f;
+      --green-mid:  #1b4d3e;
+      --green-light: #2d6a56;
+      --green-pale: #e8f0ed;
+      --border: #e5e7eb;
+      --text: #1a1a1a;
+      --muted: #5a6b65;
+      --bg: #f4f4f5;
+      --white: #ffffff;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── Auth ─────────────────────────────────────────── */
+    #auth-screen {
+      display: flex; align-items: center; justify-content: center;
+      min-height: 100vh; padding: 24px;
+    }
+    .auth-card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 12px; padding: 40px; width: 100%; max-width: 400px;
+    }
+    .auth-card h1 { font-size: 20px; font-weight: 700; margin-bottom: 8px; color: var(--green-dark); }
+    .auth-card p  { color: var(--muted); margin-bottom: 24px; font-size: 13px; }
+    .auth-error   { color: #dc2626; font-size: 13px; margin-top: 8px; }
+    .form-group { margin-bottom: 14px; }
+    .form-group label { display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); margin-bottom: 4px; }
+    .form-group input { width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px; font-size: 13px; }
+
+    /* ── App ──────────────────────────────────────────── */
+    #app { display: none; }
+
+    header {
+      background: linear-gradient(135deg, #10281f 0%, #1b4d3e 55%, #9f7a2f 100%);
+      padding: 14px 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      color: #fff; position: sticky; top: 0; z-index: 100;
+    }
+    header h1 { font-size: 15px; font-weight: 700; }
+    header .subtitle { font-size: 11px; opacity: .65; margin-top: 2px; }
+    .header-right { display: flex; align-items: center; gap: 12px; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 7px 14px; border-radius: 6px; font-size: 13px;
+      font-weight: 600; cursor: pointer; border: none; transition: opacity .15s;
+    }
+    .btn-ghost { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,.4); }
+    .btn-primary { background: var(--green-mid); color: #fff; }
+    .btn-sm { padding: 5px 10px; font-size: 12px; }
+
+    .main { padding: 24px; max-width: 1200px; margin: 0 auto; }
+
+    .back-link { font-size: 12px; color: var(--muted); text-decoration: none; margin-bottom: 20px; display: inline-block; }
+    .back-link:hover { color: var(--green-mid); }
+
+    /* ── Summary stats ────────────────────────────────── */
+    .stats-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 14px; margin-bottom: 24px;
+    }
+    .stat-card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 10px; padding: 20px;
+    }
+    .stat-num { font-size: 28px; font-weight: 800; color: var(--green-mid); }
+    .stat-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; margin-top: 4px; }
+
+    /* ── Pathway cards ────────────────────────────────── */
+    .pathway-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px; margin-bottom: 24px;
+    }
+    .pathway-card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 10px; padding: 16px 20px;
+      display: flex; align-items: center; gap: 14px;
+    }
+    .pathway-dot {
+      width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+    }
+    .pathway-info { flex: 1; }
+    .pathway-name { font-size: 13px; font-weight: 700; color: var(--text); }
+    .pathway-count { font-size: 22px; font-weight: 800; color: var(--green-mid); }
+    .pathway-pct { font-size: 11px; color: var(--muted); }
+
+    /* ── Table ────────────────────────────────────────── */
+    .section-card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 10px; padding: 20px; margin-bottom: 20px;
+    }
+    .section-card h2 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+    .section-note { font-size: 12px; color: var(--muted); margin-bottom: 16px; }
+
+    .controls { display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap; margin-bottom: 16px; }
+    .controls .form-group { margin-bottom: 0; }
+    .controls .form-group input { width: auto; }
+
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th {
+      text-align: left; padding: 8px 10px;
+      font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em;
+      color: var(--muted); border-bottom: 2px solid var(--border); white-space: nowrap;
+    }
+    td { padding: 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #fafafa; }
+
+    .badge {
+      display: inline-block; padding: 3px 8px; border-radius: 999px;
+      font-size: 11px; font-weight: 700; white-space: nowrap;
+    }
+    .badge-catalyst   { background: #f3f4f6; color: #374151; }
+    .badge-explorer   { background: #eff6ff; color: #1d4ed8; }
+    .badge-practitioner { background: #f0fdf4; color: #166534; }
+    .badge-multiplier { background: #fefce8; color: #854d0e; }
+
+    .dim-bars { display: flex; flex-direction: column; gap: 3px; min-width: 120px; }
+    .dim-bar-row { display: flex; align-items: center; gap: 6px; }
+    .dim-bar-label { font-size: 10px; color: var(--muted); width: 42px; flex-shrink: 0; }
+    .dim-bar-track { flex: 1; background: #e5e7eb; border-radius: 3px; height: 5px; }
+    .dim-bar-fill  { height: 5px; border-radius: 3px; background: var(--green-mid); }
+
+    .loading-state { text-align: center; padding: 40px; color: var(--muted); }
+    .empty-state   { text-align: center; padding: 40px; color: var(--muted); font-size: 13px; }
+
+    .pagination { display: flex; align-items: center; gap: 10px; margin-top: 16px; font-size: 13px; color: var(--muted); }
+    .pagination button { padding: 5px 12px; border: 1px solid var(--border); border-radius: 6px; background: var(--white); cursor: pointer; font-size: 12px; }
+    .pagination button:disabled { opacity: .4; cursor: not-allowed; }
+  </style>
+</head>
+<body>
+
+  <!-- ── Auth Screen ─────────────────────────────────── -->
+  <div id="auth-screen">
+    <div class="auth-card">
+      <h1>Next Step Finder Admin</h1>
+      <p>Sign in with your CoVo admin account to view results.</p>
+      <form id="auth-form">
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="email" required placeholder="admin@covomultipliers.com">
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="password" required>
+        </div>
+        <button type="submit" class="btn btn-primary" id="signin-btn" style="width:100%">Sign in</button>
+        <div class="auth-error" id="auth-error"></div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ── App ────────────────────────────────────────── -->
+  <div id="app">
+    <header>
+      <div>
+        <h1>Next Step Finder Admin</h1>
+        <div class="subtitle">Disciple Maker Next Step Finder — Results & Tracking</div>
+      </div>
+      <div class="header-right">
+        <span style="font-size:12px;opacity:.7" id="topbar-user"></span>
+        <button class="btn btn-ghost btn-sm" id="signout-btn">Sign out</button>
+      </div>
+    </header>
+
+    <div class="main">
+      <a href="/admin/" class="back-link">← Back to Admin Hub</a>
+
+      <!-- Summary stats -->
+      <div class="stats-grid" id="summary-stats">
+        <div class="stat-card"><div class="stat-num" id="stat-started">—</div><div class="stat-label">Started</div></div>
+        <div class="stat-card"><div class="stat-num" id="stat-completed">—</div><div class="stat-label">Completed</div></div>
+        <div class="stat-card"><div class="stat-num" id="stat-completion-rate">—</div><div class="stat-label">Completion Rate</div></div>
+        <div class="stat-card"><div class="stat-num" id="stat-in-progress">—</div><div class="stat-label">In Progress</div></div>
+      </div>
+
+      <!-- Pathway breakdown -->
+      <div class="pathway-grid" id="pathway-breakdown">
+        <div class="pathway-card">
+          <div class="pathway-dot" style="background:#6b7280"></div>
+          <div class="pathway-info">
+            <div class="pathway-name">The Awakening</div>
+            <div class="pathway-count" id="count-catalyst">—</div>
+            <div class="pathway-pct" id="pct-catalyst"></div>
+          </div>
+        </div>
+        <div class="pathway-card">
+          <div class="pathway-dot" style="background:#1d4ed8"></div>
+          <div class="pathway-info">
+            <div class="pathway-name">The Idealist</div>
+            <div class="pathway-count" id="count-explorer">—</div>
+            <div class="pathway-pct" id="pct-explorer"></div>
+          </div>
+        </div>
+        <div class="pathway-card">
+          <div class="pathway-dot" style="background:#166534"></div>
+          <div class="pathway-info">
+            <div class="pathway-name">The Practitioner</div>
+            <div class="pathway-count" id="count-practitioner">—</div>
+            <div class="pathway-pct" id="pct-practitioner"></div>
+          </div>
+        </div>
+        <div class="pathway-card">
+          <div class="pathway-dot" style="background:#854d0e"></div>
+          <div class="pathway-info">
+            <div class="pathway-name">The Leader</div>
+            <div class="pathway-count" id="count-multiplier">—</div>
+            <div class="pathway-pct" id="pct-multiplier"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results table -->
+      <div class="section-card">
+        <h2>Completed Results</h2>
+        <div class="section-note">All sessions where the finder was completed. Most recent first.</div>
+
+        <div class="controls">
+          <div class="form-group">
+            <label>Filter by pathway</label>
+            <select id="filter-pathway" style="padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:13px;">
+              <option value="">All pathways</option>
+              <option value="catalyst">The Awakening</option>
+              <option value="explorer">The Idealist</option>
+              <option value="practitioner">The Practitioner</option>
+              <option value="multiplier">The Leader</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Search name / email</label>
+            <input type="text" id="filter-search" placeholder="search…" style="width:180px;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:13px;">
+          </div>
+          <button class="btn btn-primary btn-sm" id="apply-filters-btn">Apply</button>
+          <button class="btn btn-ghost btn-sm" id="export-csv-btn" style="color:var(--green-mid);border-color:var(--green-mid)">Export CSV</button>
+        </div>
+
+        <div id="results-table-wrap" class="loading-state">Loading…</div>
+        <div class="pagination" id="pagination" style="display:none">
+          <button id="prev-btn" disabled>← Prev</button>
+          <span id="page-info"></span>
+          <button id="next-btn">Next →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script type="module">
+  import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+  const SUPABASE_URL      = "https://mryjrvinzbxebzvxtggi.supabase.co";
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1yeWpydmluemJ4ZWJ6dnh0Z2dpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYyNzQ3MzksImV4cCI6MjA5MTg1MDczOX0.U1JJQTBVKePsVFXr2oFRCdUZasWaZiTQg6g8QrFdRyw";
+
+  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  const PAGE_SIZE = 25;
+  let currentPage = 0;
+  let allRows = [];
+  let filteredRows = [];
+
+  const PATHWAY_LABELS = {
+    catalyst:     "The Awakening",
+    explorer:     "The Idealist",
+    practitioner: "The Practitioner",
+    multiplier:   "The Leader",
+  };
+
+  const DIM_LABELS = {
+    vision:          "Vision",
+    practice:        "Practice",
+    rhythm:          "Rhythm",
+    coachability:    "Coach",
+    everyday_mission:"Mission",
+  };
+
+  function esc(s) {
+    if (s == null) return "—";
+    return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+  }
+
+  function fmtDate(iso) {
+    if (!iso) return "—";
+    return new Date(iso).toLocaleDateString("en-US", { month:"short", day:"numeric", year:"numeric" });
+  }
+
+  function pathwayBadge(p) {
+    const label = PATHWAY_LABELS[p] || p || "Unknown";
+    return `<span class="badge badge-${p || 'catalyst'}">${esc(label)}</span>`;
+  }
+
+  function dimBars(scores) {
+    if (!scores || typeof scores !== "object") return "—";
+    return `<div class="dim-bars">` +
+      Object.entries(DIM_LABELS).map(([key, label]) => {
+        const val = scores[key] ?? 0;
+        const pct = Math.round((val / 5) * 100);
+        return `<div class="dim-bar-row">
+          <div class="dim-bar-label">${label}</div>
+          <div class="dim-bar-track"><div class="dim-bar-fill" style="width:${pct}%"></div></div>
+          <span style="font-size:10px;color:#888;width:24px;text-align:right">${val ? val.toFixed(1) : "—"}</span>
+        </div>`;
+      }).join("") +
+    `</div>`;
+  }
+
+  function applyFilters() {
+    const pathway = document.getElementById("filter-pathway").value;
+    const search  = document.getElementById("filter-search").value.toLowerCase().trim();
+    filteredRows = allRows.filter(r => {
+      if (pathway && r.pathway !== pathway) return false;
+      if (search) {
+        const name  = (r.first_name || "").toLowerCase();
+        const email = (r.email || "").toLowerCase();
+        if (!name.includes(search) && !email.includes(search)) return false;
+      }
+      return true;
+    });
+    currentPage = 0;
+    renderTable();
+  }
+
+  function renderTable() {
+    const wrap = document.getElementById("results-table-wrap");
+    const pag  = document.getElementById("pagination");
+
+    if (filteredRows.length === 0) {
+      wrap.innerHTML = '<div class="empty-state">No results found.</div>';
+      pag.style.display = "none";
+      return;
+    }
+
+    const start = currentPage * PAGE_SIZE;
+    const page  = filteredRows.slice(start, start + PAGE_SIZE);
+    const total = filteredRows.length;
+
+    const rows = page.map(r => `
+      <tr>
+        <td style="font-weight:600">${esc(r.first_name)}</td>
+        <td style="color:#555">${esc(r.email)}</td>
+        <td>${pathwayBadge(r.pathway)}</td>
+        <td style="font-size:12px;color:#555">${esc(r.bottleneck) || "—"}</td>
+        <td>${dimBars(r.dimension_scores)}</td>
+        <td style="white-space:nowrap;color:#888">${fmtDate(r.completed_at)}</td>
+      </tr>
+    `).join("");
+
+    wrap.innerHTML = `<div class="table-wrap"><table>
+      <thead><tr>
+        <th>Name</th><th>Email</th><th>Profile</th><th>Bottleneck</th><th>Dimension Scores</th><th>Completed</th>
+      </tr></thead>
+      <tbody>${rows}</tbody>
+    </table></div>`;
+
+    // Pagination
+    const totalPages = Math.ceil(total / PAGE_SIZE);
+    document.getElementById("page-info").textContent =
+      `${start + 1}–${Math.min(start + PAGE_SIZE, total)} of ${total}`;
+    document.getElementById("prev-btn").disabled = currentPage === 0;
+    document.getElementById("next-btn").disabled = currentPage >= totalPages - 1;
+    pag.style.display = totalPages > 1 ? "flex" : "none";
+  }
+
+  function renderSummary(rows) {
+    const completed  = rows.filter(r => r.status === "completed");
+    const started    = rows.length;
+    const inProgress = rows.filter(r => r.status === "in_progress").length;
+    const rate       = started > 0 ? Math.round((completed.length / started) * 100) : 0;
+
+    document.getElementById("stat-started").textContent       = started;
+    document.getElementById("stat-completed").textContent     = completed.length;
+    document.getElementById("stat-completion-rate").textContent = rate + "%";
+    document.getElementById("stat-in-progress").textContent   = inProgress;
+
+    const counts = { catalyst: 0, explorer: 0, practitioner: 0, multiplier: 0 };
+    completed.forEach(r => { if (r.pathway && counts[r.pathway] !== undefined) counts[r.pathway]++; });
+
+    Object.entries(counts).forEach(([key, count]) => {
+      const pct = completed.length > 0 ? Math.round((count / completed.length) * 100) : 0;
+      document.getElementById(`count-${key}`).textContent = count;
+      document.getElementById(`pct-${key}`).textContent   = pct + "% of completions";
+    });
+  }
+
+  async function loadData() {
+    const wrap = document.getElementById("results-table-wrap");
+    wrap.innerHTML = '<div class="loading-state">Loading…</div>';
+
+    const { data, error } = await supabase
+      .from("disciple_maker_sessions")
+      .select("first_name, email, status, pathway, bottleneck, dimension_scores, completed_at, created_at")
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      wrap.innerHTML = `<div class="empty-state" style="color:#dc2626">Error: ${esc(error.message)}</div>`;
+      return;
+    }
+
+    allRows = data || [];
+    filteredRows = allRows.filter(r => r.status === "completed");
+
+    renderSummary(allRows);
+    renderTable();
+  }
+
+  function exportCSV() {
+    const headers = ["Name","Email","Profile","Bottleneck","Vision","Practice","Rhythm","Coachability","Everyday Mission","Completed"];
+    const csvRows = [headers.join(",")];
+    filteredRows.forEach(r => {
+      const s = r.dimension_scores || {};
+      const row = [
+        r.first_name || "",
+        r.email || "",
+        PATHWAY_LABELS[r.pathway] || r.pathway || "",
+        r.bottleneck || "",
+        s.vision ?? "",
+        s.practice ?? "",
+        s.rhythm ?? "",
+        s.coachability ?? "",
+        s.everyday_mission ?? "",
+        r.completed_at ? new Date(r.completed_at).toISOString().split("T")[0] : "",
+      ].map(v => `"${String(v).replace(/"/g,'""')}"`);
+      csvRows.push(row.join(","));
+    });
+    const blob = new Blob([csvRows.join("\n")], { type: "text/csv" });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement("a");
+    a.href = url; a.download = "next-step-finder-results.csv"; a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  // ── Auth ──────────────────────────────────────────────
+  supabase.auth.onAuthStateChange((event, session) => {
+    if (session) {
+      document.getElementById("auth-screen").style.display = "none";
+      document.getElementById("app").style.display = "block";
+      document.getElementById("topbar-user").textContent = session.user.email;
+      loadData();
+    } else {
+      document.getElementById("auth-screen").style.display = "flex";
+      document.getElementById("app").style.display = "none";
+    }
+  });
+
+  document.getElementById("auth-form").addEventListener("submit", async e => {
+    e.preventDefault();
+    const btn = document.getElementById("signin-btn");
+    const err = document.getElementById("auth-error");
+    err.textContent = "";
+    btn.disabled = true; btn.textContent = "Signing in…";
+    const { error } = await supabase.auth.signInWithPassword({
+      email:    document.getElementById("email").value.trim(),
+      password: document.getElementById("password").value,
+    });
+    if (error) { err.textContent = error.message; btn.disabled = false; btn.textContent = "Sign in"; }
+  });
+
+  document.getElementById("signout-btn").addEventListener("click", async () => {
+    await supabase.auth.signOut();
+  });
+
+  document.getElementById("apply-filters-btn").addEventListener("click", applyFilters);
+  document.getElementById("export-csv-btn").addEventListener("click", exportCSV);
+  document.getElementById("prev-btn").addEventListener("click", () => { currentPage--; renderTable(); });
+  document.getElementById("next-btn").addEventListener("click", () => { currentPage++; renderTable(); });
+</script>
+</body>
+</html>

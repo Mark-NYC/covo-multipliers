@@ -869,6 +869,21 @@
       </div>
     </div>
 
+    <!-- ─── Collapsible: Next Step Finder ───────────────────────── -->
+    <div class="collapsible-section">
+      <div class="collapsible-header" id="toggle-dm">
+        <h2>Next Step Finder</h2>
+        <span class="collapsible-toggle" id="dm-toggle-label">Show ›</span>
+      </div>
+      <div class="collapsible-body" id="dm-body">
+        <div class="mini-metric-row" id="dm-summary-row" style="margin-bottom:16px"></div>
+        <div id="dm-pathway-content" class="loading-state"><span class="spinner"></span> Loading…</div>
+        <div style="margin-top:12px;font-size:12px;">
+          <a href="/admin/disciple-maker.html" target="_blank" style="color:#1b4d3e;font-weight:600;text-decoration:none;">View full results table →</a>
+        </div>
+      </div>
+    </div>
+
     <!-- ─── Collapsible: Audience Movement ───────────────────────── -->
     <div class="collapsible-section">
       <div class="collapsible-header" id="toggle-movement">
@@ -948,7 +963,7 @@ const GA4_API_URL         = "https://mryjrvinzbxebzvxtggi.supabase.co/functions/
 const YOUTUBE_API_URL     = "https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1/youtube-admin";
 const SUBSTACK_API_URL    = "https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1/substack-sync";
 
-const dash = { overview: null, cohort: null, activity: null, health: null, ga4: null, yt: null, substack: null, comparison: null, trends: null };
+const dash = { overview: null, cohort: null, activity: null, health: null, ga4: null, yt: null, substack: null, comparison: null, trends: null, dm: null };
 
 // =============================================================================
 // Auth
@@ -1144,6 +1159,14 @@ function bootApp() {
   });
 
   // Collapsibles
+  document.getElementById("toggle-dm").addEventListener("click", function() {
+    const body = document.getElementById("dm-body");
+    const lbl  = document.getElementById("dm-toggle-label");
+    const open = body.classList.toggle("open");
+    lbl.textContent = open ? "Hide ‹" : "Show ›";
+    if (open && !dash.dm) loadDiscipleMaker();
+  });
+
   document.getElementById("toggle-movement").addEventListener("click", function() {
     const body = document.getElementById("movement-body");
     const lbl  = document.getElementById("movement-toggle-label");
@@ -1956,6 +1979,59 @@ function renderAssessmentPathway(d) {
     '<th style="text-align:right">Abandoned</th><th style="text-align:right">In Progress</th>' +
     '</tr></thead><tbody>' +
     (bySourceRows || '<tr><td colspan="5" class="empty-state">No data.</td></tr>') +
+    '</tbody></table>';
+}
+
+// =============================================================================
+// Next Step Finder Overview
+// =============================================================================
+async function loadDiscipleMaker() {
+  const el = document.getElementById("dm-pathway-content");
+  if (el) el.innerHTML = '<div class="loading-state"><span class="spinner"></span> Loading…</div>';
+  try {
+    const { data } = await callApi("disciple_maker_overview", {});
+    dash.dm = data;
+    renderDiscipleMaker(data);
+  } catch(e) {
+    if (el) el.innerHTML = '<div class="empty-state" style="color:#dc2626">Error: ' + esc(e.message) + '</div>';
+  }
+}
+
+function renderDiscipleMaker(d) {
+  const el = document.getElementById("dm-pathway-content");
+  const sumEl = document.getElementById("dm-summary-row");
+  if (!d) {
+    if (el) el.innerHTML = '<div class="empty-state">No data.</div>';
+    return;
+  }
+
+  if (sumEl) {
+    sumEl.innerHTML = [
+      { label: "Started",          val: num(d.started) },
+      { label: "Completed",        val: num(d.completed) },
+      { label: "Completion Rate",  val: pct(d.completion_rate) },
+      { label: "In Progress",      val: num(d.in_progress) },
+    ].map(function(m) {
+      return '<div class="mini-metric"><div class="mini-val">' + m.val + '</div><div class="mini-label">' + m.label + '</div></div>';
+    }).join("");
+  }
+
+  const PATHWAY_LABELS = { catalyst: "The Awakening", explorer: "The Idealist", practitioner: "The Practitioner", multiplier: "The Leader" };
+  const byPathway = d.by_pathway || {};
+  const total = d.completed || 1;
+  const rows = Object.entries(byPathway).map(function([key, count]) {
+    const p = total > 0 ? Math.round((count / total) * 100) : 0;
+    return '<tr><td>' + esc(PATHWAY_LABELS[key] || key) + '</td>' +
+      '<td style="text-align:right;font-weight:700">' + num(count) + '</td>' +
+      '<td style="text-align:right;color:#888">' + p + '%</td></tr>';
+  }).join("");
+
+  if (el) el.innerHTML =
+    '<h3 style="font-size:13px;font-weight:700;margin-bottom:8px;color:#555">Profile Breakdown</h3>' +
+    '<table class="data-table" style="max-width:380px"><thead><tr>' +
+    '<th>Profile</th><th style="text-align:right">Count</th><th style="text-align:right">% of Completions</th>' +
+    '</tr></thead><tbody>' +
+    (rows || '<tr><td colspan="3" class="empty-state">No completions yet.</td></tr>') +
     '</tbody></table>';
 }
 
