@@ -188,6 +188,62 @@
       transform: translateX(2px);
     }
 
+    /* PROFILE CARDS */
+    .profiles-section {
+      margin: 60px 0 0;
+    }
+
+    .profiles-heading {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 24px;
+    }
+
+    .profiles-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .profile-card {
+      background: white;
+      border: 1px solid rgba(27, 77, 62, 0.1);
+      border-radius: 12px;
+      padding: 24px 20px;
+      text-align: center;
+    }
+
+    .profile-card-icon {
+      width: 64px;
+      height: 64px;
+      display: block;
+      margin: 0 auto 12px;
+    }
+
+    .profile-card-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1b4d3e;
+      margin-bottom: 8px;
+    }
+
+    .profile-card-desc {
+      font-size: 13px;
+      color: #555;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .profiles-cta-line {
+      font-size: 16px;
+      font-weight: 600;
+      color: #1b4d3e;
+      text-align: center;
+      margin: 0 0 0;
+    }
+
     /* COMBINED SECTION */
     .combined-section {
       background: linear-gradient(135deg, rgba(27, 77, 62, 0.03) 0%, rgba(212, 175, 55, 0.015) 100%);
@@ -378,6 +434,28 @@
 
     /* RESPONSIVE */
     @media (max-width: 600px) {
+      .profiles-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+
+      .profile-card {
+        padding: 20px 14px;
+      }
+
+      .profile-card-icon {
+        width: 52px;
+        height: 52px;
+      }
+
+      .profile-card-name {
+        font-size: 13px;
+      }
+
+      .profile-card-desc {
+        font-size: 12px;
+      }
+
       .main {
         padding: 0 20px;
       }
@@ -528,18 +606,38 @@
       <a href="intake.html" class="cta-primary">Start the Next Step Finder</a>
     </section>
 
-    <!-- COMBINED SECTION: Is this you? + You'll get + Why this works -->
-    <section class="combined-section">
-      <h2>Is this you?</h2>
-      <ul class="bullet-list">
-        <li>I know Jesus called me to make disciples.</li>
-        <li>I just don't know what to do next.</li>
-      </ul>
+    <!-- PROFILE CARDS: Is this you? -->
+    <section class="profiles-section">
+      <h2 class="profiles-heading">Sound like anyone you know?</h2>
 
-      <div class="section-divider">
-        <svg viewBox="0 0 40 2" preserveAspectRatio="none"><line x1="0" y1="1" x2="40" y2="1"/></svg>
+      <div class="profiles-grid">
+        <div class="profile-card">
+          <img src="/image/discipleicons/Awakening-Disciple.webp" alt="The Awakening" class="profile-card-icon">
+          <div class="profile-card-name">The Awakening</div>
+          <p class="profile-card-desc">You know you're supposed to be making disciples. You're just not sure what that actually looks like for someone like you.</p>
+        </div>
+        <div class="profile-card">
+          <img src="/image/discipleicons/Vision-Centered.webp" alt="The Idealist" class="profile-card-icon">
+          <div class="profile-card-name">The Idealist</div>
+          <p class="profile-card-desc">You can talk about disciple making. You believe in it. But when it comes to actually doing it this week — something stalls.</p>
+        </div>
+        <div class="profile-card">
+          <img src="/image/discipleicons/rooted-multiplier.webp" alt="The Practitioner" class="profile-card-icon">
+          <div class="profile-card-name">The Practitioner</div>
+          <p class="profile-card-desc">You're taking steps. But it doesn't feel consistent yet, and you're not sure what's missing.</p>
+        </div>
+        <div class="profile-card">
+          <img src="/image/discipleicons/multiplying-influence.webp" alt="The Sent One" class="profile-card-icon">
+          <div class="profile-card-name">The Sent One</div>
+          <p class="profile-card-desc">You're in it. You're practicing, you're seeing fruit. But you sense there's a next level you haven't found yet.</p>
+        </div>
       </div>
 
+      <p class="profiles-cta-line">Find out which one you actually are.</p>
+    </section>
+
+    <!-- COMBINED SECTION: You'll get + credibility -->
+    <section class="combined-section">
       <h2 style="font-size: 18px; margin-top: 0;">After five minutes you'll know:</h2>
       <ul class="bullet-list result">
         <li>What's quietly holding you back.</li>
