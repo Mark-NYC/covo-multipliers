@@ -504,6 +504,10 @@
         <div class="stat-label">Assessments Completed</div>
       </div>
       <div class="stat-card">
+        <div class="stat-num" id="stat-dm-completed">—</div>
+        <div class="stat-label">Next Step Finder Completions</div>
+      </div>
+      <div class="stat-card">
         <div class="stat-num" id="stat-shortlinks">—</div>
         <div class="stat-label">Shortlink Clicks (total)</div>
       </div>
@@ -559,6 +563,13 @@
         <div class="tool-name">Assessment Profiles</div>
         <div class="tool-desc">Browse completed assessment results and user profiles.</div>
         <span class="tool-tag">Session-based</span>
+      </a>
+
+      <a class="tool-card" href="/admin/disciple-maker.html" target="_blank">
+        <div class="tool-icon">🧭</div>
+        <div class="tool-name">Next Step Finder Admin</div>
+        <div class="tool-desc">Who took it, their profile (Awakening / Idealist / Practitioner / Leader), dimension scores, and CSV export.</div>
+        <span class="tool-tag">Supabase Auth</span>
       </a>
 
       <a class="tool-card" href="/shortlink-maker.html" target="_blank">
@@ -776,6 +787,7 @@
     loadAssessmentStats();
     loadShortlinkStats();
     loadUpcomingLabs();
+    loadDiscipleMakerStats();
   }
 
   async function loadLabStats(token) {
@@ -809,6 +821,16 @@
       if (!res.ok) return;
       const data = await res.json();
       document.getElementById("stat-assessments").textContent = data.scored_sessions ?? "—";
+    } catch { /* silently skip */ }
+  }
+
+  async function loadDiscipleMakerStats() {
+    try {
+      const { count, error } = await supabase
+        .from("disciple_maker_sessions")
+        .select("id", { count: "exact", head: true })
+        .eq("status", "completed");
+      if (!error) document.getElementById("stat-dm-completed").textContent = (count ?? 0).toLocaleString();
     } catch { /* silently skip */ }
   }
 
