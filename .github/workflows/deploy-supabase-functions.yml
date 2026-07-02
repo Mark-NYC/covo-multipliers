@@ -34,6 +34,7 @@ jobs:
           supabase functions deploy analytics-admin --no-verify-jwt
           supabase functions deploy ga4-admin --no-verify-jwt
           supabase functions deploy youtube-admin --no-verify-jwt
+          supabase functions deploy substack-sync --no-verify-jwt
           supabase functions deploy send-lost-to-leader-reminder --no-verify-jwt
           supabase functions deploy join-whatsapp --no-verify-jwt
           supabase functions deploy lab-calendar --no-verify-jwt
