@@ -54,3 +54,6 @@ verify_jwt = false
 
 [functions.weekly-report]
 verify_jwt = false
+
+[functions.substack-sync]
+verify_jwt = false
