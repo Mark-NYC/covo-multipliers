@@ -30,10 +30,13 @@ function json(status: number, body: unknown): Response {
   });
 }
 
-// Fetch posts from Substack publication
+// Fetch posts from Substack publication, including the reaction/comment
+// counts the list endpoint already returns. Substack's public API does not
+// expose view or click analytics anywhere (those are owner-only, behind an
+// authenticated dashboard), so those remain 0.
 async function fetchSubstackPosts(
   publicationName: string
-): Promise<Array<{ id: string; title: string; subtitle?: string; post_url: string; published_at?: string }>> {
+): Promise<Array<{ id: string; title: string; subtitle?: string; post_url: string; published_at?: string; likes: number; comments: number }>> {
   try {
     // Fetch publication feed (RSS or API endpoint)
     // Substack doesn't have an official API, so we use the undocumented /api/v1/posts endpoint
@@ -51,36 +54,12 @@ async function fetchSubstackPosts(
       subtitle: p.subtitle ? String(p.subtitle) : undefined,
       post_url: String(p.canonical_url || p.post_url || ""),
       published_at: p.post_date ? String(p.post_date) : (p.published_at ? String(p.published_at) : undefined),
+      likes: Number(p.reaction_count || 0),
+      comments: Number(p.comment_count || 0),
     }));
   } catch (error) {
     console.error("Error fetching Substack posts:", error);
     return [];
-  }
-}
-
-// Fetch detailed metrics for a specific post
-async function fetchPostMetrics(
-  publicationName: string,
-  postId: string
-): Promise<{ likes?: number; views?: number; clicks?: number; comments?: number }> {
-  try {
-    // Note: Substack doesn't expose detailed metrics via public API
-    // For now, return placeholder. In production, you'd scrape or use undocumented endpoints
-    const metricsUrl = `https://${publicationName}.substack.com/api/v1/posts/${postId}`;
-    const response = await fetch(metricsUrl);
-    if (!response.ok) {
-      return {};
-    }
-    const data = await response.json() as Record<string, unknown>;
-    return {
-      likes: Number(data.reactions || data.likes || 0),
-      views: Number(data.total_views || data.views || 0),
-      clicks: Number(data.clicks || 0),
-      comments: Number(data.comment_count || data.comments || 0),
-    };
-  } catch (error) {
-    console.error("Error fetching post metrics:", error);
-    return {};
   }
 }
 
@@ -178,15 +157,14 @@ async function syncPosts(publicationName: string): Promise<Response> {
       synced++;
 
       // Upsert today's metrics snapshot (one row per post per day)
-      const metrics = await fetchPostMetrics(publicationName, post.id);
       const today = new Date().toISOString().slice(0, 10);
       await supabase.from("substack_metrics").upsert({
         post_id: post.id,
         metric_day: today,
-        likes: metrics.likes || 0,
-        views: metrics.views || 0,
-        clicks: metrics.clicks || 0,
-        comments: metrics.comments || 0,
+        likes: post.likes,
+        views: 0,
+        clicks: 0,
+        comments: post.comments,
       }, { onConflict: "post_id,metric_day" });
     }
 
