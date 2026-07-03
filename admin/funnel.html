@@ -233,6 +233,7 @@
       <div id="trends-charts" style="display:none">
         <div class="mini-metric-row" id="trends-kpi-row"></div>
         <div style="position:relative;height:280px;margin-top:8px"><canvas id="trends-volume-chart"></canvas></div>
+        <div id="trends-articles"></div>
       </div>
       <div id="trends-empty" class="empty-state" style="display:none">No trend data for this period.</div>
     </div>
@@ -276,6 +277,7 @@
 // =============================================================================
 const ANALYTICS_API_URL = "https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1/analytics-admin";
 const GA4_API_URL        = "https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1/ga4-admin";
+const SUBSTACK_API_URL   = "https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1/substack-sync";
 
 const dash = { trends: null, contentFunnel: null };
 
@@ -332,6 +334,17 @@ async function callApi(action, params) {
 async function callGA4(action, params) {
   const secret = sessionStorage.getItem("analytics_secret");
   const res = await fetch(GA4_API_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "x-admin-secret": secret },
+    body: JSON.stringify({ action, ...params })
+  });
+  if (!res.ok) throw new Error(await res.text());
+  return res.json();
+}
+
+async function callSubstack(action, params) {
+  const secret = sessionStorage.getItem("analytics_secret");
+  const res = await fetch(SUBSTACK_API_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json", "x-admin-secret": secret },
     body: JSON.stringify({ action, ...params })
@@ -435,10 +448,14 @@ async function loadTrends() {
   emptyEl.style.display  = "none";
 
   const bucket = document.getElementById("trends-bucket").value;
-  const params = Object.assign({}, getDateParams(), { p_bucket: bucket });
+  const dateParams = getDateParams();
+  const params = Object.assign({}, dateParams, { p_bucket: bucket });
 
   try {
-    const { data } = await callApi("funnel_trends", params);
+    const [{ data }, articles] = await Promise.all([
+      callApi("funnel_trends", params),
+      loadArticles(dateParams)
+    ]);
     dash.trends = data;
     if (!data || data.length === 0) {
       loadEl.style.display = "none";
@@ -446,7 +463,8 @@ async function loadTrends() {
       return;
     }
     renderTrendsKpis(data);
-    renderTrendsCharts(data, bucket);
+    renderTrendsCharts(data, bucket, articles);
+    renderArticleList(articles);
     loadEl.style.display   = "none";
     chartsEl.style.display = "";
   } catch(e) {
@@ -454,6 +472,23 @@ async function loadTrends() {
     emptyEl.style.display = "";
     emptyEl.textContent = "Error loading trends: " + e.message;
   }
+}
+
+// Substack posts (articles + podcast episodes) published in the selected
+// range, used to overlay publish dates on the sign-up trend chart. Failure
+// here shouldn't block the trend chart itself, so errors resolve to [].
+async function loadArticles(dateParams) {
+  try {
+    const { data } = await callSubstack("list_posts", { p_start: dateParams.p_start, p_end: dateParams.p_end });
+    return data || [];
+  } catch (e) {
+    console.error("Error loading published posts:", e);
+    return [];
+  }
+}
+
+function isPodcastPost(post) {
+  return String(post.post_type || "").toLowerCase().includes("podcast");
 }
 
 function renderTrendsKpis(rows) {
@@ -467,7 +502,7 @@ function renderTrendsKpis(rows) {
     miniMetric(num(avgSignups), "Avg Sign-Ups / Bucket");
 }
 
-function renderTrendsCharts(rows, bucket) {
+function renderTrendsCharts(rows, bucket, articles) {
   const labels = rows.map(function(r) {
     var d = new Date(r.bucket + "T00:00:00");
     if (bucket === "month") {
@@ -479,13 +514,46 @@ function renderTrendsCharts(rows, bucket) {
   var contacts = rows.map(function(r) { return r.new_contacts; });
   var regs     = rows.map(function(r) { return r.active_regs; });
 
+  // Group published posts into the bucket they fall in (the latest bucket
+  // start date not after the post's publish date) so they can be plotted on
+  // the same category x-axis as the trend lines without needing a separate
+  // time scale.
+  var postsByIndex = {};
+  (articles || []).forEach(function(a) {
+    if (!a.published_at) return;
+    var day = a.published_at.slice(0, 10);
+    var idx = -1;
+    for (var i = 0; i < rows.length; i++) {
+      if (rows[i].bucket <= day) idx = i; else break;
+    }
+    if (idx === -1) return;
+    (postsByIndex[idx] = postsByIndex[idx] || []).push(a);
+  });
+  var hasMarkers = Object.keys(postsByIndex).length > 0;
+  var markerData   = labels.map(function(_, i) { return postsByIndex[i] ? 1 : null; });
+  var markerColors = labels.map(function(_, i) {
+    var posts = postsByIndex[i];
+    if (!posts) return "transparent";
+    return posts.some(isPodcastPost) ? "#8b5cf6" : "#f59e0b";
+  });
+
   var commonOptions = {
     responsive: true,
     maintainAspectRatio: false,
     interaction: { mode: "index", intersect: false },
     plugins: {
       legend: { position: "bottom", labels: { boxWidth: 12, font: { size: 11 } } },
-      tooltip: { callbacks: {} }
+      tooltip: {
+        callbacks: {
+          label: function(ctx) {
+            if (ctx.dataset.id === "published") {
+              var posts = postsByIndex[ctx.dataIndex] || [];
+              return posts.map(function(p) { return (isPodcastPost(p) ? "🎙 " : "📰 ") + p.title; });
+            }
+            return ctx.dataset.label + ": " + num(ctx.parsed.y);
+          }
+        }
+      }
     },
     scales: {
       x: {
@@ -495,44 +563,86 @@ function renderTrendsCharts(rows, bucket) {
     }
   };
 
+  var datasets = [
+    {
+      label: "New Contacts",
+      data: contacts,
+      borderColor: "#6366f1",
+      backgroundColor: "rgba(99,102,241,.08)",
+      borderWidth: 2,
+      pointRadius: 3,
+      tension: 0.3,
+      fill: true
+    },
+    {
+      label: "New Registrations (Lab Sign-Ups)",
+      data: regs,
+      borderColor: "#0ea5e9",
+      backgroundColor: "transparent",
+      borderWidth: 2,
+      pointRadius: 3,
+      tension: 0.3
+    }
+  ];
+
+  if (hasMarkers) {
+    datasets.push({
+      id: "published",
+      label: "Published (📰 article / 🎙 podcast)",
+      data: markerData,
+      yAxisID: "y1",
+      showLine: false,
+      pointStyle: "rectRot",
+      pointRadius: 7,
+      pointHoverRadius: 9,
+      backgroundColor: "#f59e0b",
+      borderColor: "#f59e0b",
+      pointBackgroundColor: markerColors,
+      pointBorderColor: markerColors
+    });
+  }
+
+  var scales = Object.assign({}, commonOptions.scales, {
+    y: {
+      beginAtZero: true,
+      grid: { color: "rgba(0,0,0,.05)" },
+      ticks: { font: { size: 11 }, precision: 0 }
+    }
+  });
+  if (hasMarkers) {
+    scales.y1 = { display: false, min: 0, max: 1, position: "right" };
+  }
+
   if (_trendsVolumeChart) { _trendsVolumeChart.destroy(); _trendsVolumeChart = null; }
   var volCtx = document.getElementById("trends-volume-chart").getContext("2d");
   _trendsVolumeChart = new Chart(volCtx, {
     type: "line",
-    data: {
-      labels: labels,
-      datasets: [
-        {
-          label: "New Contacts",
-          data: contacts,
-          borderColor: "#6366f1",
-          backgroundColor: "rgba(99,102,241,.08)",
-          borderWidth: 2,
-          pointRadius: 3,
-          tension: 0.3,
-          fill: true
-        },
-        {
-          label: "New Registrations (Lab Sign-Ups)",
-          data: regs,
-          borderColor: "#0ea5e9",
-          backgroundColor: "transparent",
-          borderWidth: 2,
-          pointRadius: 3,
-          tension: 0.3
-        }
-      ]
-    },
-    options: Object.assign({}, commonOptions, {
-      scales: Object.assign({}, commonOptions.scales, {
-        y: {
-          beginAtZero: true,
-          grid: { color: "rgba(0,0,0,.05)" },
-          ticks: { font: { size: 11 }, precision: 0 }
-        }
-      })
-    })
+    data: { labels: labels, datasets: datasets },
+    options: Object.assign({}, commonOptions, { scales: scales })
   });
+}
+
+function renderArticleList(articles) {
+  const el = document.getElementById("trends-articles");
+  if (!articles || !articles.length) { el.innerHTML = ""; return; }
+
+  const rows = articles.map(function(a) {
+    var dateStr = "—";
+    try { dateStr = new Date(a.published_at).toLocaleDateString("en-US", { month: "short", day: "numeric" }); } catch {}
+    var icon = isPodcastPost(a) ? "🎙" : "📰";
+    var titleHtml = a.post_url
+      ? '<a href="' + esc(a.post_url) + '" target="_blank" rel="noopener" style="color:#1b4d3e;text-decoration:none;font-weight:600">' + esc(a.title) + '</a>'
+      : '<span style="font-weight:600">' + esc(a.title) + '</span>';
+    return '<div style="display:flex;gap:10px;align-items:baseline;padding:5px 0;border-bottom:1px solid #f4f4f4;font-size:12px">' +
+      '<span style="color:#888;width:56px;flex-shrink:0">' + esc(dateStr) + '</span>' +
+      '<span>' + icon + ' ' + titleHtml + '</span>' +
+      '</div>';
+  }).join("");
+
+  el.innerHTML =
+    '<div style="font-size:11px;font-weight:700;color:#555;text-transform:uppercase;letter-spacing:.04em;margin:16px 0 4px">' +
+      'Published This Period (' + articles.length + ')' +
+    '</div>' + rows;
 }
 
 // =============================================================================

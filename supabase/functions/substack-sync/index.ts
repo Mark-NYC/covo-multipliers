@@ -202,6 +202,31 @@ async function syncPosts(publicationName: string): Promise<Response> {
   }
 }
 
+// list_posts — posts published within a date range, for overlaying on the
+// lab sign-up trend chart (admin/funnel.html) to visualize content → sign-up
+// correlation. Returns title/date/type/url only, no engagement metrics.
+async function listPosts(startIso?: string, endIso?: string): Promise<Response> {
+  try {
+    let query = supabase
+      .from("substack_posts")
+      .select("id, title, post_url, published_at, post_type, audience")
+      .not("published_at", "is", null)
+      .order("published_at", { ascending: true });
+
+    if (startIso) query = query.gte("published_at", startIso);
+    if (endIso) query = query.lt("published_at", endIso);
+
+    const { data, error } = await query;
+    if (error) {
+      return json(500, { error: "Query failed", details: error.message });
+    }
+    return json(200, { data });
+  } catch (error) {
+    console.error("Error in listPosts:", error);
+    return json(500, { error: "Query failed", details: String(error) });
+  }
+}
+
 async function getMetrics(publicationName?: string): Promise<Response> {
   try {
     let query = supabase
@@ -267,8 +292,8 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const body = await req.json() as { action?: string; publication_id?: string };
-    const { action, publication_id } = body;
+    const body = await req.json() as { action?: string; publication_id?: string; p_start?: string; p_end?: string };
+    const { action, publication_id, p_start, p_end } = body;
 
     if (!action) {
       return json(400, { error: "Missing action parameter" });
@@ -290,6 +315,10 @@ Deno.serve(async (req) => {
 
     if (action === "get_metrics") {
       return await getMetrics(publication_id);
+    }
+
+    if (action === "list_posts") {
+      return await listPosts(p_start, p_end);
     }
 
     return json(400, { error: "Unknown action" });
