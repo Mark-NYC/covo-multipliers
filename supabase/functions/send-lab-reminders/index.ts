@@ -70,12 +70,21 @@ interface LabEvent {
   zoom_link: string | null;
 }
 
+interface OriginAttribution {
+  first_utm_source: string | null;
+  first_utm_medium: string | null;
+  first_utm_campaign: string | null;
+}
+
 interface Recipient {
   registration_id: string;
   name: string;
   email: string;
   event: LabEvent;
+  origin: OriginAttribution;
 }
+
+const NO_ORIGIN: OriginAttribution = { first_utm_source: null, first_utm_medium: null, first_utm_campaign: null };
 
 // ---------------------------------------------------------------------------
 // Entry point
@@ -170,7 +179,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
         from: `Covo Multipliers <${fromEmail}>`,
         to: [testEmailAddr],
         subject: buildSubject(testType, event.title, event.slug),
-        html: buildEmailHtml(testType, "there", event),
+        html: buildEmailHtml(testType, "there", event, NO_ORIGIN),
       }),
     });
 
@@ -304,7 +313,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
     // Fetch eligible registrations for all due events
     const { data: rows, error: regErr } = await supabase
       .from("registrations")
-      .select("id, name, email, event_id")
+      .select("id, name, email, event_id, first_utm_source, first_utm_medium, first_utm_campaign")
       .in("event_id", dueEvents.map((e) => e.id))
       .eq("registration_status", "active")
       .not("email", "is", null)
@@ -325,6 +334,11 @@ Deno.serve(async (req: Request): Promise<Response> => {
         name: r.name ?? "Friend",
         email: r.email.trim().toLowerCase(),
         event: eventMap.get(r.event_id)!,
+        origin: {
+          first_utm_source:   r.first_utm_source ?? null,
+          first_utm_medium:   r.first_utm_medium ?? null,
+          first_utm_campaign: r.first_utm_campaign ?? null,
+        },
       }));
 
     summary[type].eligible = recipients.length;
@@ -348,7 +362,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
         from: `Covo Multipliers <${fromEmail}>`,
         to: [r.email],
         subject: buildSubject(type, r.event.title, r.event.slug),
-        html: buildEmailHtml(type, r.name, r.event),
+        html: buildEmailHtml(type, r.name, r.event, r.origin),
       }));
 
       console.log(
@@ -475,17 +489,17 @@ function buildSubject(type: ReminderType, eventTitle: string, eventSlug?: string
 // Email HTML builders
 // ---------------------------------------------------------------------------
 
-function buildEmailHtml(type: ReminderType, fullName: string, event: LabEvent): string {
+function buildEmailHtml(type: ReminderType, fullName: string, event: LabEvent, origin: OriginAttribution): string {
   switch (type) {
-    case "week":  return buildWeekEmail(fullName, event);
-    case "24h":   return build24hEmail(fullName, event);
+    case "week":  return buildWeekEmail(fullName, event, origin);
+    case "24h":   return build24hEmail(fullName, event, origin);
     case "1h":    return build1hEmail(fullName, event);
     case "10min": return build10minEmail(fullName, event);
-    case "followup": return buildFollowupEmail(fullName, event);
+    case "followup": return buildFollowupEmail(fullName, event, origin);
   }
 }
 
-function buildWeekEmail(fullName: string, event: LabEvent): string {
+function buildWeekEmail(fullName: string, event: LabEvent, origin: OriginAttribution): string {
   const firstName = firstWord(fullName);
   const dateStr = formatDate(event.event_date);
   const description = event.description?.trim() ?? "";
@@ -505,7 +519,7 @@ function buildWeekEmail(fullName: string, event: LabEvent): string {
     ${renderDetailCard(dateStr)}
     ${renderCalendarCta(event)}
 
-    ${renderWhatsAppCta("lab_reminder_email", "The lab is where we train. WhatsApp is where we practice. Join the Field Room before we meet.", "week_reminder")}
+    ${renderWhatsAppCta("lab_reminder_email", "The lab is where we train. WhatsApp is where we practice. Join the Field Room before we meet.", origin, "week_reminder")}
 
     <p style="margin:28px 0 0;font-size:15px;color:#555555;line-height:1.65;">
       Block out the time now so it's there when the day comes.
@@ -514,7 +528,7 @@ function buildWeekEmail(fullName: string, event: LabEvent): string {
   `, "What you'll walk away with");
 }
 
-function build24hEmail(fullName: string, event: LabEvent): string {
+function build24hEmail(fullName: string, event: LabEvent, origin: OriginAttribution): string {
   const firstName = firstWord(fullName);
   const dateStr = formatDate(event.event_date);
 
@@ -529,7 +543,7 @@ function build24hEmail(fullName: string, event: LabEvent): string {
     ${renderDetailCard(dateStr)}
     ${renderJoinCta(event)}
 
-    ${renderWhatsAppCta("lab_reminder_email", "The lab is where we train. WhatsApp is where we practice. Join the Field Room before we meet.", "24h_reminder")}
+    ${renderWhatsAppCta("lab_reminder_email", "The lab is where we train. WhatsApp is where we practice. Join the Field Room before we meet.", origin, "24h_reminder")}
 
     <p style="margin:28px 0 0;font-size:15px;color:#555555;line-height:1.65;">
       See you tomorrow.
@@ -578,7 +592,7 @@ function build10minEmail(fullName: string, event: LabEvent): string {
   `, "We start in 10 minutes");
 }
 
-function buildFollowupEmail(fullName: string, event: LabEvent): string {
+function buildFollowupEmail(fullName: string, event: LabEvent, origin: OriginAttribution): string {
   const firstName = firstWord(fullName);
   const variant = followupVariant(event.slug);
 
@@ -615,7 +629,7 @@ function buildFollowupEmail(fullName: string, event: LabEvent): string {
 
     ${renderFollowupCta(event)}
 
-    ${renderWhatsAppCta("post_lab_email", "Don't let the lab stay theoretical. Join the WhatsApp Field Room and keep practicing with us this week.")}
+    ${renderWhatsAppCta("post_lab_email", "Don't let the lab stay theoretical. Join the WhatsApp Field Room and keep practicing with us this week.", origin)}
 
     ${renderTransactionalFooter()}
   `, v.heading);
@@ -720,9 +734,14 @@ function renderJoinCta(event: LabEvent): string {
 
 // Secondary WhatsApp Field Room CTA — used as a soft next step below the primary action.
 // Never replaces the primary CTA; always comes after it.
-function renderWhatsAppCta(utmSource: string, copy: string, utmContent?: string): string {
-  const contentParam = utmContent ? `&utm_content=${encodeURIComponent(utmContent)}` : "";
-  const url = `https://www.covomultipliers.com/join-whatsapp?utm_source=${encodeURIComponent(utmSource)}&utm_medium=email&utm_campaign=whatsapp_field_room${contentParam}`;
+function renderWhatsAppCta(utmSource: string, copy: string, origin: OriginAttribution, utmContent?: string): string {
+  const placement: Record<string, string> = {
+    utm_source: utmSource,
+    utm_medium: "email",
+    utm_campaign: "whatsapp_field_room",
+  };
+  if (utmContent) placement.utm_content = utmContent;
+  const url = whatsAppJoinUrl(placement, origin);
   return `
     <div style="margin:20px 0 0;padding:14px 18px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;text-align:center;">
       <p style="margin:0 0 4px;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#15803d;">WhatsApp Field Room</p>
@@ -760,6 +779,20 @@ function renderTransactionalFooter(): string {
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
+
+/**
+ * Build a /join-whatsapp URL carrying both the placement UTMs (where on the
+ * site/email the link lives) and, when known, the visitor's origin_utm_*
+ * (their original acquisition channel — Substack, YouTube, podcast, ...).
+ */
+function whatsAppJoinUrl(placement: Record<string, string>, origin: OriginAttribution): string {
+  const url = new URL("https://www.covomultipliers.com/join-whatsapp");
+  for (const [k, v] of Object.entries(placement)) url.searchParams.set(k, v);
+  if (origin.first_utm_source)   url.searchParams.set("origin_utm_source", origin.first_utm_source);
+  if (origin.first_utm_medium)   url.searchParams.set("origin_utm_medium", origin.first_utm_medium);
+  if (origin.first_utm_campaign) url.searchParams.set("origin_utm_campaign", origin.first_utm_campaign);
+  return url.toString();
+}
 
 function addMs(date: Date, ms: number): Date {
   return new Date(date.getTime() + ms);

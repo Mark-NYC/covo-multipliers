@@ -1,8 +1,17 @@
 // supabase/functions/join-whatsapp/index.ts
 //
 // GET /functions/v1/join-whatsapp?utm_source=...&utm_medium=...&utm_campaign=...
+//                                 &origin_utm_source=...&origin_utm_medium=...&origin_utm_campaign=...
 //
-// 1. Read UTMs from the incoming query string
+// utm_source/utm_medium/utm_campaign/etc describe WHERE ON THE SITE the
+// "Join WhatsApp" button lived (footer, lab_page, registration_confirmation).
+// origin_utm_source/origin_utm_medium/origin_utm_campaign carry the visitor's
+// original acquisition channel (Substack, YouTube, podcast, ...) — appended
+// client-side by utm-tracking.js from first-touch attribution, or baked in
+// server-side for email links. The two sets are independent; neither
+// overwrites the other.
+//
+// 1. Read UTMs (placement + origin) from the incoming query string
 // 2. Log the click to whatsapp_link_clicks (try/catch — never blocks redirect)
 // 3. 302 redirect to WHATSAPP_INVITE_URL (set via: supabase secrets set WHATSAPP_INVITE_URL='...')
 //
@@ -34,6 +43,9 @@ Deno.serve(async (req: Request): Promise<Response> => {
       utm_campaign: p.get("utm_campaign"),
       utm_content:  p.get("utm_content"),
       utm_term:     p.get("utm_term"),
+      origin_utm_source:   p.get("origin_utm_source"),
+      origin_utm_medium:   p.get("origin_utm_medium"),
+      origin_utm_campaign: p.get("origin_utm_campaign"),
       referrer:     req.headers.get("referer") ?? null,
       user_agent:   req.headers.get("user-agent") ?? null,
       ip_address:

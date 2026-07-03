@@ -241,10 +241,28 @@ function esc(s: string): string {
   return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
 }
 
+/**
+ * Build a /join-whatsapp URL carrying both the placement UTMs (where on the
+ * site/email the link lives) and, when known, the visitor's origin_utm_*
+ * (their original acquisition channel — Substack, YouTube, podcast, ...).
+ */
+function whatsAppJoinUrl(
+  placement: Record<string, string>,
+  origin: { first_utm_source: string | null; first_utm_medium: string | null; first_utm_campaign: string | null },
+): string {
+  const url = new URL("https://www.covomultipliers.com/join-whatsapp");
+  for (const [k, v] of Object.entries(placement)) url.searchParams.set(k, v);
+  if (origin.first_utm_source)   url.searchParams.set("origin_utm_source", origin.first_utm_source);
+  if (origin.first_utm_medium)   url.searchParams.set("origin_utm_medium", origin.first_utm_medium);
+  if (origin.first_utm_campaign) url.searchParams.set("origin_utm_campaign", origin.first_utm_campaign);
+  return url.toString();
+}
+
 async function sendResultEmail(
   to: string,
   firstName: string,
   resultUrl: string,
+  originAttribution: { first_utm_source: string | null; first_utm_medium: string | null; first_utm_campaign: string | null },
 ): Promise<string | null> {
   const apiKey = Deno.env.get("RESEND_API_KEY");
   const from = Deno.env.get("RESEND_FROM_EMAIL") ?? "assessment@covomultipliers.com";
@@ -293,7 +311,10 @@ async function sendResultEmail(
             <div style="margin:0 0 20px;padding:14px 18px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;text-align:center;">
               <p style="margin:0 0 4px;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#15803d;">WhatsApp Field Room</p>
               <p style="margin:0 0 8px;font-size:13px;color:#374151;line-height:1.55;">Your results are a starting point. Join the WhatsApp Field Room to get your next disciple-making step.</p>
-              <a href="https://www.covomultipliers.com/join-whatsapp?utm_source=assessment_results_email&utm_medium=email&utm_campaign=whatsapp_field_room"
+              <a href="${esc(whatsAppJoinUrl(
+                  { utm_source: "assessment_results_email", utm_medium: "email", utm_campaign: "whatsapp_field_room" },
+                  originAttribution,
+                ))}"
                  style="font-size:13px;font-weight:600;color:#15803d;text-decoration:underline;">Join the WhatsApp Field Room →</a>
             </div>
 
@@ -391,7 +412,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
   // Load participant
   const { data: participant } = await supabase
     .from("participants")
-    .select("id, email, first_name")
+    .select("id, email, first_name, first_utm_source, first_utm_medium, first_utm_campaign")
     .eq("id", session.participant_id)
     .single();
 
@@ -480,7 +501,11 @@ Deno.serve(async (req: Request): Promise<Response> => {
   const siteOrigin = Deno.env.get("SITE_ORIGIN") ?? "https://covomultipliers.com";
   const resultUrl = `${siteOrigin}/assessment/results.html?t=${resultToken}`;
 
-  const msgId = await sendResultEmail(participant.email, participant.first_name, resultUrl);
+  const msgId = await sendResultEmail(participant.email, participant.first_name, resultUrl, {
+    first_utm_source:   participant.first_utm_source ?? null,
+    first_utm_medium:   participant.first_utm_medium ?? null,
+    first_utm_campaign: participant.first_utm_campaign ?? null,
+  });
 
   if (msgId) {
     await supabase

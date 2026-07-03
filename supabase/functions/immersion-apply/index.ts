@@ -218,6 +218,11 @@ Deno.serve(async (req: Request): Promise<Response> => {
     to: email,
     toName: name,
     immersionTitle: immersion.title,
+    originAttribution: {
+      first_utm_source:   safeStr(body.first_utm_source, 100),
+      first_utm_medium:   safeStr(body.first_utm_medium, 100),
+      first_utm_campaign: safeStr(body.first_utm_campaign, 200),
+    },
   });
 
   console.log(`[immersion-apply] Resend result: ${resendMessageId ? `sent, id=${resendMessageId}` : "FAILED — email not sent"}`);
@@ -253,10 +258,16 @@ async function sendConfirmationEmail({
   to,
   toName,
   immersionTitle,
+  originAttribution,
 }: {
   to: string;
   toName: string;
   immersionTitle: string;
+  originAttribution: {
+    first_utm_source: string | null;
+    first_utm_medium: string | null;
+    first_utm_campaign: string | null;
+  };
 }): Promise<string | null> {
   const apiKey = Deno.env.get("RESEND_API_KEY");
   const from = Deno.env.get("RESEND_FROM_EMAIL") ?? "labs@covomultipliers.com";
@@ -307,7 +318,10 @@ async function sendConfirmationEmail({
               <div style="margin:0 0 20px;padding:16px 20px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;text-align:center;">
                 <p style="margin:0 0 4px;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#15803d;">WhatsApp Field Room</p>
                 <p style="margin:0 0 10px;font-size:14px;color:#374151;line-height:1.55;">While you wait to hear back, start practicing with other disciple makers. The lab is where we train. WhatsApp is where we practice.</p>
-                <a href="https://www.covomultipliers.com/join-whatsapp?utm_source=immersion_email&utm_medium=email&utm_campaign=whatsapp_field_room"
+                <a href="${esc(whatsAppJoinUrl(
+                    { utm_source: "immersion_email", utm_medium: "email", utm_campaign: "whatsapp_field_room" },
+                    originAttribution,
+                  ))}"
                    style="font-size:14px;font-weight:600;color:#15803d;text-decoration:underline;">Join the WhatsApp Field Room →</a>
               </div>
 
@@ -398,6 +412,23 @@ function intOrNull(v: unknown): number | null {
     return isNaN(n) ? null : n;
   }
   return null;
+}
+
+/**
+ * Build a /join-whatsapp URL carrying both the placement UTMs (where on the
+ * site/email the link lives) and, when known, the visitor's origin_utm_*
+ * (their original acquisition channel — Substack, YouTube, podcast, ...).
+ */
+function whatsAppJoinUrl(
+  placement: Record<string, string>,
+  origin: { first_utm_source: string | null; first_utm_medium: string | null; first_utm_campaign: string | null },
+): string {
+  const url = new URL("https://www.covomultipliers.com/join-whatsapp");
+  for (const [k, v] of Object.entries(placement)) url.searchParams.set(k, v);
+  if (origin.first_utm_source)   url.searchParams.set("origin_utm_source", origin.first_utm_source);
+  if (origin.first_utm_medium)   url.searchParams.set("origin_utm_medium", origin.first_utm_medium);
+  if (origin.first_utm_campaign) url.searchParams.set("origin_utm_campaign", origin.first_utm_campaign);
+  return url.toString();
 }
 
 /** Escape user/DB-sourced strings before interpolating into email HTML. */

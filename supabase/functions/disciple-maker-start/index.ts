@@ -62,6 +62,19 @@ function generateToken(): string {
   return Array.from(bytes).map((b) => b.toString(16).padStart(2, "0")).join("");
 }
 
+function safeAttr(v: unknown, maxLen = 500): string | null {
+  if (typeof v !== "string") return null;
+  const t = v.trim();
+  return t.length > 0 ? t.slice(0, maxLen) : null;
+}
+
+function safeTs(v: unknown): string | null {
+  const s = safeAttr(v, 50);
+  if (!s) return null;
+  const d = new Date(s);
+  return isNaN(d.getTime()) ? null : d.toISOString();
+}
+
 Deno.serve(async (req: Request): Promise<Response> => {
   const cors = corsHeaders(req);
 
@@ -102,6 +115,8 @@ Deno.serve(async (req: Request): Promise<Response> => {
   const sessionTokenHash = await sha256hex(sessionToken);
 
   // Create session in dedicated disciple_maker_sessions table
+  // First-touch attribution is captured once at session start (this table has
+  // no upsert-by-email like participants, so there is no risk of overwriting it).
   const { data: session, error: sessionErr } = await supabase
     .from("disciple_maker_sessions")
     .insert({
@@ -110,6 +125,14 @@ Deno.serve(async (req: Request): Promise<Response> => {
       organization: cleanOrg,
       status: "in_progress",
       session_token_hash: sessionTokenHash,
+      first_utm_source:   safeAttr(body.first_utm_source, 100),
+      first_utm_medium:   safeAttr(body.first_utm_medium, 100),
+      first_utm_campaign: safeAttr(body.first_utm_campaign, 200),
+      first_utm_content:  safeAttr(body.first_utm_content, 200),
+      first_utm_term:     safeAttr(body.first_utm_term, 200),
+      first_landing_page: safeAttr(body.first_landing_page),
+      first_referrer:     safeAttr(body.first_referrer),
+      first_touch_at:     safeTs(body.first_touch_at),
     })
     .select("id")
     .single();

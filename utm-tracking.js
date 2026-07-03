@@ -114,6 +114,34 @@
     };
   }
 
+  // Append the visitor's first-touch attribution to every "Join WhatsApp" link
+  // as origin_utm_* params, so the join-whatsapp click log can tell which
+  // acquisition channel (Substack, YouTube, podcast, ...) drove the join —
+  // separate from that link's own utm_source/etc, which just tag where on the
+  // site the button lives.
+  function rewriteWhatsAppLinks() {
+    var attribution = get();
+    if (!attribution.first_utm_source) return;
+
+    var links = document.querySelectorAll('a[href*="/join-whatsapp"]');
+    for (var i = 0; i < links.length; i++) {
+      try {
+        var url = new URL(links[i].href, window.location.href);
+        if (!url.pathname.replace(/\/+$/, '').endsWith('/join-whatsapp')) continue;
+        if (attribution.first_utm_source)   url.searchParams.set('origin_utm_source',   attribution.first_utm_source);
+        if (attribution.first_utm_medium)   url.searchParams.set('origin_utm_medium',   attribution.first_utm_medium);
+        if (attribution.first_utm_campaign) url.searchParams.set('origin_utm_campaign', attribution.first_utm_campaign);
+        links[i].href = url.toString();
+      } catch (_) {}
+    }
+  }
+
   init();
   window.CovoAttribution = { get: get };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', rewriteWhatsAppLinks);
+  } else {
+    rewriteWhatsAppLinks();
+  }
 })();

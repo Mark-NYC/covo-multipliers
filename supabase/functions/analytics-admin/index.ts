@@ -373,7 +373,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
 
     const { data: rows, error } = await supabase
       .from("whatsapp_link_clicks")
-      .select("utm_source, utm_medium, utm_campaign")
+      .select("utm_source, utm_medium, utm_campaign, origin_utm_source")
       .gte("created_at", dates.p_start)
       .lt("created_at", dates.p_end);
 
@@ -382,7 +382,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
       return err(500, "Failed to load WhatsApp click data.", cors);
     }
 
-    function groupBy(field: "utm_source" | "utm_medium" | "utm_campaign") {
+    function groupBy(field: "utm_source" | "utm_medium" | "utm_campaign" | "origin_utm_source") {
       const counts: Record<string, number> = {};
       for (const row of rows ?? []) {
         const key = (row[field] as string | null) ?? "(none)";
@@ -395,9 +395,10 @@ Deno.serve(async (req: Request): Promise<Response> => {
 
     return ok({
       total: (rows ?? []).length,
-      by_source:   groupBy("utm_source"),
-      by_medium:   groupBy("utm_medium"),
-      by_campaign: groupBy("utm_campaign"),
+      by_source:        groupBy("utm_source"),
+      by_medium:        groupBy("utm_medium"),
+      by_campaign:      groupBy("utm_campaign"),
+      by_origin_source: groupBy("origin_utm_source"),
     }, cors);
   }
 

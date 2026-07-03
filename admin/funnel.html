@@ -241,7 +241,7 @@
     <div class="section-card" id="content-funnel-section">
       <h2>Content Funnel</h2>
       <div class="section-note">
-        Substack, YouTube, and podcast links you UTM-tag, traced through to site sessions and sign-ups (first-touch attribution).
+        Substack, YouTube, and podcast links you UTM-tag, traced through to site sessions, sign-ups, and WhatsApp joins (first-touch attribution).
       </div>
 
       <div id="cf-loading" class="loading-state"><span class="spinner"></span> Loading…</div>
@@ -257,8 +257,6 @@
         </div>
 
         <div id="cf-channel-rows"></div>
-
-        <div class="muted-note" id="cf-whatsapp-block" style="margin-top:16px;font-size:12px;line-height:1.5"></div>
 
         <details style="margin-top:16px">
           <summary style="font-size:12px;color:#888;cursor:pointer">Accessible table</summary>
@@ -538,13 +536,15 @@ function renderTrendsCharts(rows, bucket) {
 }
 
 // =============================================================================
-// Content Funnel — Substack / YouTube / Podcast → Site Sessions → Sign-Ups,
-// plus WhatsApp click-throughs (aggregate only — see caveat below).
+// Content Funnel — Substack / YouTube / Podcast → Site Sessions → Sign-Ups →
+// WhatsApp Joins.
 //
 // Built entirely from existing actions (traffic_sources, acquisition,
-// whatsapp_clicks) — no new backend needed. Channel attribution normalizes
-// varying utm_source strings via alias matching; extend CHANNEL_ALIASES as
-// real values are observed.
+// whatsapp_clicks) — no new backend needed beyond whatsapp_clicks now also
+// grouping by origin_utm_source (the visitor's original acquisition channel,
+// as opposed to utm_source/etc which just tag on-site button placement).
+// Channel attribution normalizes varying utm_source strings via alias
+// matching; extend CHANNEL_ALIASES as real values are observed.
 // =============================================================================
 const CHANNEL_ORDER  = ["substack", "youtube", "podcast", "other"];
 const CHANNEL_LABELS = { substack: "Substack", youtube: "YouTube", podcast: "Podcast", other: "Other / Direct" };
@@ -599,10 +599,10 @@ async function loadContentFunnel() {
       function(r) { return r.dimension; },
       function(r) { return r.active; }
     );
-    const waTotal = (waRes.data && waRes.data.total) || 0;
+    const waBuckets = bucketByChannel(waRes.data.by_origin_source, function(r) { return r.dimension; }, function(r) { return r.clicks; });
 
-    dash.contentFunnel = { sessionBuckets, signupBuckets, waTotal };
-    renderContentFunnel(sessionBuckets, signupBuckets, waTotal);
+    dash.contentFunnel = { sessionBuckets, signupBuckets, waBuckets };
+    renderContentFunnel(sessionBuckets, signupBuckets, waBuckets);
 
     document.getElementById("cf-loading").style.display = "none";
     document.getElementById("cf-content").style.display = "";
@@ -613,25 +613,21 @@ async function loadContentFunnel() {
   }
 }
 
-function renderContentFunnel(sessionBuckets, signupBuckets, waTotal) {
+function renderContentFunnel(sessionBuckets, signupBuckets, waBuckets) {
   const contentSessions = sessionBuckets.total - sessionBuckets.other;
   const contentSignups  = signupBuckets.total - signupBuckets.other;
+  const contentWhatsapp = waBuckets.total - waBuckets.other;
   const convRate = contentSessions > 0 ? Math.round(contentSignups / contentSessions * 100) : null;
 
   document.getElementById("cf-kpi-row").innerHTML =
     miniMetric(num(contentSessions), "Content Sessions") +
     miniMetric(num(contentSignups), "Content Sign-Ups") +
     miniMetric(convRate != null ? convRate + "%" : "—", "Content → Sign-Up Rate") +
-    miniMetric(num(waTotal), "WhatsApp Clicks (all sources)");
+    miniMetric(num(contentWhatsapp), "Content WhatsApp Joins");
 
   renderContextBar(sessionBuckets);
-  renderChannelFunnelRows(sessionBuckets, signupBuckets);
-  renderCFTable(sessionBuckets, signupBuckets);
-
-  document.getElementById("cf-whatsapp-block").textContent =
-    "WhatsApp click UTMs currently tag on-site button placement (homepage, footer, lab page, etc.), " +
-    "not the visitor's original acquisition channel, so they can't yet be split by content channel. " +
-    "See Full Details → WhatsApp Link Clicks for the placement breakdown.";
+  renderChannelFunnelRows(sessionBuckets, signupBuckets, waBuckets);
+  renderCFTable(sessionBuckets, signupBuckets, waBuckets);
 }
 
 function renderContextBar(sessionBuckets) {
@@ -661,7 +657,7 @@ function renderContextBar(sessionBuckets) {
     num(total - sessionBuckets.other) + " of " + num(total) + ").";
 }
 
-function renderChannelFunnelRows(sessionBuckets, signupBuckets) {
+function renderChannelFunnelRows(sessionBuckets, signupBuckets, waBuckets) {
   const el = document.getElementById("cf-channel-rows");
   const contentChannels = ["substack", "youtube", "podcast"];
   const maxSessions = Math.max.apply(null, contentChannels.map(function(ch) { return sessionBuckets[ch] || 0; }).concat([1]));
@@ -669,9 +665,12 @@ function renderChannelFunnelRows(sessionBuckets, signupBuckets) {
   el.innerHTML = contentChannels.map(function(ch) {
     const sessions = sessionBuckets[ch] || 0;
     const signups   = signupBuckets[ch] || 0;
-    const conv = sessions > 0 ? Math.round(signups / sessions * 100) : null;
+    const waJoins   = waBuckets[ch] || 0;
+    const conv   = sessions > 0 ? Math.round(signups / sessions * 100) : null;
+    const waConv = sessions > 0 && waJoins > 0 ? Math.round(waJoins / sessions * 100) : null;
     const sessPct = Math.max(sessions / maxSessions * 100, sessions > 0 ? 2 : 0);
     const signPct = Math.max(signups / maxSessions * 100, signups > 0 ? 2 : 0);
+    const waPct   = Math.max(waJoins / maxSessions * 100, waJoins > 0 ? 2 : 0);
 
     return '<div class="cf-channel-block">' +
       '<div class="funnel-stage-row">' +
@@ -686,24 +685,32 @@ function renderChannelFunnelRows(sessionBuckets, signupBuckets) {
           '<span class="funnel-bar-label">' + num(signups) + ' sign-ups</span></div></div>' +
         '<div class="funnel-bar-pct">' + (conv != null ? conv + '% conv.' : '—') + '</div>' +
       '</div>' +
+      '<div class="funnel-stage-row">' +
+        '<div class="funnel-stage-name"></div>' +
+        '<div class="funnel-bar-track"><div class="funnel-bar-fill" style="width:' + waPct + '%;background:#25D366">' +
+          '<span class="funnel-bar-label">' + num(waJoins) + ' WhatsApp joins</span></div></div>' +
+        '<div class="funnel-bar-pct">' + (waConv != null ? waConv + '% conv.' : '—') + '</div>' +
+      '</div>' +
     '</div>';
   }).join("");
 }
 
-function renderCFTable(sessionBuckets, signupBuckets) {
+function renderCFTable(sessionBuckets, signupBuckets, waBuckets) {
   const rows = CHANNEL_ORDER.map(function(ch) {
     const sessions = sessionBuckets[ch] || 0;
     const signups   = signupBuckets[ch] || 0;
+    const waJoins   = waBuckets[ch] || 0;
     const conv = sessions > 0 ? Math.round(signups / sessions * 100) + "%" : "—";
     return '<tr><td>' + esc(CHANNEL_LABELS[ch]) + '</td>' +
       '<td style="text-align:right">' + num(sessions) + '</td>' +
       '<td style="text-align:right">' + num(signups) + '</td>' +
-      '<td style="text-align:right">' + conv + '</td></tr>';
+      '<td style="text-align:right">' + conv + '</td>' +
+      '<td style="text-align:right">' + num(waJoins) + '</td></tr>';
   }).join("");
 
   document.getElementById("cf-table-content").innerHTML =
     '<table class="data-table"><thead><tr>' +
-    '<th>Channel</th><th style="text-align:right">Sessions</th><th style="text-align:right">Sign-Ups</th><th style="text-align:right">Conversion</th>' +
+    '<th>Channel</th><th style="text-align:right">Sessions</th><th style="text-align:right">Sign-Ups</th><th style="text-align:right">Conversion</th><th style="text-align:right">WhatsApp Joins</th>' +
     '</tr></thead><tbody>' + rows + '</tbody></table>';
 }
 </script>
