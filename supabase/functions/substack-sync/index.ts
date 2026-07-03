@@ -30,15 +30,30 @@ function json(status: number, body: unknown): Response {
   });
 }
 
-// Fetch posts from Substack publication, including the reaction/comment
-// counts the list endpoint already returns. Substack's public API does not
-// expose view or click analytics anywhere (those are owner-only, behind an
-// authenticated dashboard), so those remain 0.
-async function fetchSubstackPosts(
-  publicationName: string
-): Promise<Array<{ id: string; title: string; subtitle?: string; post_url: string; published_at?: string; likes: number; comments: number }>> {
+interface SubstackPost {
+  id: string;
+  title: string;
+  subtitle?: string;
+  post_url: string;
+  published_at?: string;
+  likes: number;
+  comments: number;
+  restacks: number;
+  postType?: string;
+  audience?: string;
+  tags: string[];
+}
+
+// Fetch posts from Substack publication, including every engagement field
+// the list endpoint actually returns (likes, comments, restacks) and post
+// categorization metadata (type, audience, tags).
+//
+// Substack's public API does NOT expose page views, clicks, email opens, or
+// subscriber counts anywhere — those live behind an authenticated owner
+// dashboard. Web pageviews/clicks for these posts are tracked separately via
+// the GA4 panel instead (see admin/funnel.html GA4 section).
+async function fetchSubstackPosts(publicationName: string): Promise<SubstackPost[]> {
   try {
-    // Fetch publication feed (RSS or API endpoint)
     // Substack doesn't have an official API, so we use the undocumented /api/v1/posts endpoint
     const postsUrl = `https://${publicationName}.substack.com/api/v1/posts?limit=50`;
     const response = await fetch(postsUrl);
@@ -56,6 +71,12 @@ async function fetchSubstackPosts(
       published_at: p.post_date ? String(p.post_date) : (p.published_at ? String(p.published_at) : undefined),
       likes: Number(p.reaction_count || 0),
       comments: Number(p.comment_count || 0),
+      restacks: Number(p.restacks || 0),
+      postType: p.type ? String(p.type) : undefined,
+      audience: p.audience ? String(p.audience) : undefined,
+      tags: Array.isArray(p.postTags)
+        ? (p.postTags as Array<Record<string, unknown>>).map((t) => String(t.name || "")).filter(Boolean)
+        : [],
     }));
   } catch (error) {
     console.error("Error fetching Substack posts:", error);
@@ -150,21 +171,23 @@ async function syncPosts(publicationName: string): Promise<Response> {
           subtitle: post.subtitle || null,
           post_url: post.post_url,
           published_at: post.published_at || null,
+          post_type: post.postType || null,
+          audience: post.audience || null,
+          tags: post.tags,
         });
         if (error) continue;
       }
 
       synced++;
 
-      // Upsert today's metrics snapshot (one row per post per day)
+      // Upsert today's engagement snapshot (one row per post per day)
       const today = new Date().toISOString().slice(0, 10);
       await supabase.from("substack_metrics").upsert({
         post_id: post.id,
         metric_day: today,
         likes: post.likes,
-        views: 0,
-        clicks: 0,
         comments: post.comments,
+        restacks: post.restacks,
       }, { onConflict: "post_id,metric_day" });
     }
 
@@ -189,14 +212,16 @@ async function getMetrics(publicationName?: string): Promise<Response> {
         post_id,
         metric_day,
         likes,
-        views,
-        clicks,
         comments,
+        restacks,
         substack_posts (
           id,
           title,
           post_url,
-          published_at
+          published_at,
+          post_type,
+          audience,
+          tags
         )
       `
       )
