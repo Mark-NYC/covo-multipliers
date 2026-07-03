@@ -184,6 +184,7 @@
       to { transform: rotate(360deg); }
     }
   </style>
+  <script src="/utm-tracking.js"></script>
 </head>
 <body>
 
@@ -243,11 +244,11 @@
       // Clear previous errors
       document.querySelectorAll('.error-message').forEach(el => el.classList.remove('show'));
 
-      const formData = {
+      const formData = Object.assign({
         first_name: document.getElementById('first-name').value.trim(),
         email: document.getElementById('email').value.trim(),
         consent: document.getElementById('consent').checked,
-      };
+      }, window.CovoAttribution ? window.CovoAttribution.get() : {});
 
       // Show loading
       document.getElementById('form-view').style.display = 'none';

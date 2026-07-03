@@ -139,6 +139,23 @@ function diagnoseBottleneck(scores: Record<string, number>, pathway: string): st
   return "Taking your first faithful step";
 }
 
+/**
+ * Build a /join-whatsapp URL carrying both the placement UTMs (where on the
+ * site/email the link lives) and, when known, the visitor's origin_utm_*
+ * (their original acquisition channel — Substack, YouTube, podcast, ...).
+ */
+function whatsAppJoinUrl(
+  placement: Record<string, string>,
+  origin: { first_utm_source: string | null; first_utm_medium: string | null; first_utm_campaign: string | null },
+): string {
+  const url = new URL("https://www.covomultipliers.com/join-whatsapp");
+  for (const [k, v] of Object.entries(placement)) url.searchParams.set(k, v);
+  if (origin.first_utm_source)   url.searchParams.set("origin_utm_source", origin.first_utm_source);
+  if (origin.first_utm_medium)   url.searchParams.set("origin_utm_medium", origin.first_utm_medium);
+  if (origin.first_utm_campaign) url.searchParams.set("origin_utm_campaign", origin.first_utm_campaign);
+  return url.toString();
+}
+
 async function sendResultsEmail({
   to,
   toName,
@@ -146,6 +163,7 @@ async function sendResultsEmail({
   bottleneck,
   resultsToken,
   scores,
+  originAttribution,
 }: {
   to: string;
   toName: string;
@@ -153,6 +171,7 @@ async function sendResultsEmail({
   bottleneck: string;
   resultsToken: string;
   scores: Record<string, number>;
+  originAttribution: { first_utm_source: string | null; first_utm_medium: string | null; first_utm_campaign: string | null };
 }): Promise<boolean> {
   const apiKey = Deno.env.get("RESEND_API_KEY");
   const from = Deno.env.get("RESEND_FROM_EMAIL") ?? "results@covomultipliers.com";
@@ -209,7 +228,10 @@ async function sendResultsEmail({
   }
 
   const resultsUrl = `https://www.covomultipliers.com/disciple-maker/results.html?r=${resultsToken}`;
-  const whatsappUrl = "https://www.covomultipliers.com/join-whatsapp?utm_source=disciple_maker_results_email&utm_medium=email&utm_campaign=whatsapp_field_room";
+  const whatsappUrl = whatsAppJoinUrl(
+    { utm_source: "disciple_maker_results_email", utm_medium: "email", utm_campaign: "whatsapp_field_room" },
+    originAttribution,
+  );
 
   const html = `<!DOCTYPE html>
 <html lang="en">
@@ -267,7 +289,7 @@ async function sendResultsEmail({
               <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="margin:0 0 28px;">
                 <tr>
                   <td align="center">
-                    <a href="${whatsappUrl}" style="display:inline-block;background:#25D366;color:#ffffff;padding:16px 48px;border-radius:8px;text-decoration:none;font-weight:700;font-size:16px;">
+                    <a href="${escapeHtml(whatsappUrl)}" style="display:inline-block;background:#25D366;color:#ffffff;padding:16px 48px;border-radius:8px;text-decoration:none;font-weight:700;font-size:16px;">
                       Join the WhatsApp Field Room
                     </a>
                   </td>
@@ -365,7 +387,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
   // Validate session
   const { data: session, error: sessionErr } = await supabase
     .from("disciple_maker_sessions")
-    .select("id, email, first_name, session_token_hash")
+    .select("id, email, first_name, session_token_hash, first_utm_source, first_utm_medium, first_utm_campaign")
     .eq("id", session_id)
     .single();
 
@@ -453,6 +475,11 @@ Deno.serve(async (req: Request): Promise<Response> => {
     bottleneck,
     resultsToken,
     scores,
+    originAttribution: {
+      first_utm_source:   session.first_utm_source ?? null,
+      first_utm_medium:   session.first_utm_medium ?? null,
+      first_utm_campaign: session.first_utm_campaign ?? null,
+    },
   });
 
   if (emailSent) {

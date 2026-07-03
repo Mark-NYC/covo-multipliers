@@ -627,6 +627,7 @@
             .lab-item { padding: 1.5rem; }
         }
     </style>
+    <script src="/utm-tracking.js"></script>
 </head>
 <body>
 
@@ -829,8 +830,18 @@
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script>
-        const WA_QR_URL   = 'https://www.covomultipliers.com/join-whatsapp?utm_source=whatsapp_page&utm_medium=qr&utm_campaign=whatsapp_field_room';
-        const WA_COPY_URL = 'https://www.covomultipliers.com/join-whatsapp?utm_source=whatsapp_page&utm_medium=share&utm_campaign=whatsapp_field_room';
+        function withOriginParams(url) {
+            var attribution = window.CovoAttribution ? window.CovoAttribution.get() : null;
+            if (!attribution || !attribution.first_utm_source) return url;
+            var u = new URL(url);
+            u.searchParams.set('origin_utm_source', attribution.first_utm_source);
+            if (attribution.first_utm_medium)   u.searchParams.set('origin_utm_medium', attribution.first_utm_medium);
+            if (attribution.first_utm_campaign) u.searchParams.set('origin_utm_campaign', attribution.first_utm_campaign);
+            return u.toString();
+        }
+
+        const WA_QR_URL   = withOriginParams('https://www.covomultipliers.com/join-whatsapp?utm_source=whatsapp_page&utm_medium=qr&utm_campaign=whatsapp_field_room');
+        const WA_COPY_URL = withOriginParams('https://www.covomultipliers.com/join-whatsapp?utm_source=whatsapp_page&utm_medium=share&utm_campaign=whatsapp_field_room');
 
         try {
             new QRCode(document.getElementById('qr-code'), {

@@ -132,7 +132,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
   // reality, but we only send to the provided address.
   const { data: rows, error: queryErr } = await supabase
     .from("registrations")
-    .select("id, name, email")
+    .select("id, name, email, first_utm_source, first_utm_medium, first_utm_campaign")
     .eq("event_id", event.id)
     .eq("registration_status", "active")
     .not("email", "is", null)
@@ -168,7 +168,14 @@ Deno.serve(async (req: Request): Promise<Response> => {
   // since we're not looking up a real registration for that address).
   // Production: send to every eligible registrant.
   const sendList = isTestMode
-    ? [{ id: null, name: "there", email: (test_email as string).trim().toLowerCase() }]
+    ? [{
+        id: null,
+        name: "there",
+        email: (test_email as string).trim().toLowerCase(),
+        first_utm_source: null,
+        first_utm_medium: null,
+        first_utm_campaign: null,
+      }]
     : allRecipients;
 
   const subject = reminderType === "24_hour"
@@ -185,7 +192,11 @@ Deno.serve(async (req: Request): Promise<Response> => {
       from: `Mark <${fromEmail}>`,
       to: [r.email],
       subject,
-      text: buildEmailText(reminderType, r.name, zoomLink, startTime),
+      text: buildEmailText(reminderType, r.name, zoomLink, startTime, {
+        first_utm_source: r.first_utm_source ?? null,
+        first_utm_medium: r.first_utm_medium ?? null,
+        first_utm_campaign: r.first_utm_campaign ?? null,
+      }),
     }));
 
     console.log(
@@ -285,11 +296,32 @@ Deno.serve(async (req: Request): Promise<Response> => {
 // Email content
 // ---------------------------------------------------------------------------
 
+interface OriginAttribution {
+  first_utm_source: string | null;
+  first_utm_medium: string | null;
+  first_utm_campaign: string | null;
+}
+
+/**
+ * Build a /join-whatsapp URL carrying both the placement UTMs (where on the
+ * site/email the link lives) and, when known, the visitor's origin_utm_*
+ * (their original acquisition channel — Substack, YouTube, podcast, ...).
+ */
+function whatsAppJoinUrl(placement: Record<string, string>, origin: OriginAttribution): string {
+  const url = new URL("https://www.covomultipliers.com/join-whatsapp");
+  for (const [k, v] of Object.entries(placement)) url.searchParams.set(k, v);
+  if (origin.first_utm_source)   url.searchParams.set("origin_utm_source", origin.first_utm_source);
+  if (origin.first_utm_medium)   url.searchParams.set("origin_utm_medium", origin.first_utm_medium);
+  if (origin.first_utm_campaign) url.searchParams.set("origin_utm_campaign", origin.first_utm_campaign);
+  return url.toString();
+}
+
 function buildEmailText(
   type: ReminderType,
   fullName: string,
   zoomLink: string,
   startTime: string,
+  origin: OriginAttribution,
 ): string {
   const firstName = firstWord(fullName);
 
@@ -316,7 +348,10 @@ Come ready to think about real people, not theory.
 See you tomorrow,
 Mark
 
-P.S. Not in the WhatsApp Field Room yet? Join before the lab and practice with other disciple makers: https://www.covomultipliers.com/join-whatsapp?utm_source=lab_reminder_email&utm_medium=email&utm_campaign=whatsapp_field_room&utm_content=24h_reminder`;
+P.S. Not in the WhatsApp Field Room yet? Join before the lab and practice with other disciple makers: ${whatsAppJoinUrl(
+      { utm_source: "lab_reminder_email", utm_medium: "email", utm_campaign: "whatsapp_field_room", utm_content: "24h_reminder" },
+      origin,
+    )}`;
   }
 
   return `Hey ${firstName},
