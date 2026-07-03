@@ -152,6 +152,66 @@
             color: #9ca3af;
         }
 
+        /* Step headings */
+        .step-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #5a6b65;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.35rem;
+        }
+
+        .step-heading {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #10281f;
+            margin-bottom: 1rem;
+        }
+
+        .step-heading .step-optional {
+            font-weight: 500;
+            color: #9ca3af;
+            font-size: 0.85rem;
+        }
+
+        /* UTM quick-pick chips */
+        .utm-chip-row {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 0.6rem;
+        }
+
+        .utm-chip {
+            padding: 0.35rem 0.85rem;
+            border-radius: 999px;
+            border: 1.5px solid #d1d5db;
+            background: #ffffff;
+            font-size: 0.8rem;
+            font-weight: 600;
+            font-family: inherit;
+            color: #5a6b65;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .utm-chip:hover {
+            border-color: #2c6b5d;
+            color: #1b4d3e;
+        }
+
+        .utm-chip.active {
+            background: #1b4d3e;
+            border-color: #1b4d3e;
+            color: #ffffff;
+        }
+
+        .form-label .optional-tag {
+            font-weight: 400;
+            color: #9ca3af;
+            text-transform: none;
+        }
 
         /* Result section */
         .shortlink-result {
@@ -214,9 +274,17 @@
             background: #f0f9f7;
         }
 
-        #copyBtn.copied {
+        #copyBtn.copied,
+        #utmCopyBtn.copied {
             background: #059669;
             border-color: #059669;
+            color: #ffffff;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
         }
 
         .result-info {
@@ -333,11 +401,71 @@
     <section class="shortlink-hero">
         <div class="shortlink-hero-inner">
             <h1>Shortlink Maker</h1>
-            <p>Shorten your long URLs with UTM parameters. Perfect for tracking campaigns and sharing.</p>
+            <p>Build a UTM-tagged link, then shorten it. Perfect for tracking campaigns and sharing.</p>
         </div>
     </section>
 
     <div class="shortlink-container">
+
+        <div class="step-label">Step 1</div>
+        <h2 class="step-heading">Build a UTM Link</h2>
+        <div class="shortlink-form" id="utmBuilderForm">
+            <div class="form-group">
+                <label class="form-label" for="utmBaseUrl">Base URL</label>
+                <input
+                    type="url"
+                    id="utmBaseUrl"
+                    class="form-input"
+                    placeholder="https://covomultipliers.com/vision"
+                    autocomplete="off"
+                />
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="utmSource">Source</label>
+                <input type="text" id="utmSource" class="form-input" placeholder="e.g. substack" autocomplete="off" />
+                <div class="utm-chip-row">
+                    <button type="button" class="utm-chip" data-target="utmSource" data-value="substack">Substack</button>
+                    <button type="button" class="utm-chip" data-target="utmSource" data-value="youtube">YouTube</button>
+                    <button type="button" class="utm-chip" data-target="utmSource" data-value="podcast">Podcast</button>
+                    <button type="button" class="utm-chip" data-target="utmSource" data-value="email">Email</button>
+                    <button type="button" class="utm-chip" data-target="utmSource" data-value="whatsapp">WhatsApp</button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="utmMedium">Medium</label>
+                <input type="text" id="utmMedium" class="form-input" placeholder="e.g. referral" autocomplete="off" />
+                <div class="utm-chip-row">
+                    <button type="button" class="utm-chip" data-target="utmMedium" data-value="referral">Referral</button>
+                    <button type="button" class="utm-chip" data-target="utmMedium" data-value="social">Social</button>
+                    <button type="button" class="utm-chip" data-target="utmMedium" data-value="cta">CTA</button>
+                    <button type="button" class="utm-chip" data-target="utmMedium" data-value="email">Email</button>
+                    <button type="button" class="utm-chip" data-target="utmMedium" data-value="organic">Organic</button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="utmCampaign">Campaign</label>
+                <input type="text" id="utmCampaign" class="form-input" placeholder="e.g. why-just-make-disciples-isnt-enough" autocomplete="off" />
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="utmContent"><span class="optional-tag">(optional)</span> Content</label>
+                <input type="text" id="utmContent" class="form-input" placeholder="e.g. header-link vs. footer-link" autocomplete="off" />
+            </div>
+
+            <div class="result-label">Your UTM Link</div>
+            <div class="result-content">
+                <div class="result-link-container">
+                    <a href="#" class="result-link" id="utmOutputLink" target="_blank" rel="noopener" style="color:#9ca3af">Enter a base URL above to get started</a>
+                </div>
+                <button type="button" class="btn btn-secondary" id="utmCopyBtn" disabled>Copy</button>
+            </div>
+        </div>
+
+        <div class="step-label">Step 2</div>
+        <h2 class="step-heading">Shorten It <span class="step-optional">(optional)</span></h2>
         <form class="shortlink-form" id="shortlinkForm">
             <div class="form-group">
                 <label class="form-label" for="longUrl">Long URL with UTM Parameters</label>
@@ -573,6 +701,105 @@
             document.body.appendChild(toast);
             setTimeout(() => toast.remove(), 3000);
         }
+
+        // ============================================================
+        // UTM Link Builder (Step 1) — separate from the shortener above.
+        // Builds a tagged URL live as you type/click; paste the result
+        // into the shortener below if you want a short version too.
+        // ============================================================
+        (function () {
+            const baseUrlInput  = document.getElementById('utmBaseUrl');
+            const sourceInput   = document.getElementById('utmSource');
+            const mediumInput   = document.getElementById('utmMedium');
+            const campaignInput = document.getElementById('utmCampaign');
+            const contentInput  = document.getElementById('utmContent');
+            const outputLink    = document.getElementById('utmOutputLink');
+            const utmCopyBtn    = document.getElementById('utmCopyBtn');
+
+            function buildUtmUrl() {
+                const base = baseUrlInput.value.trim();
+                if (!base) return null;
+                let url;
+                try {
+                    url = new URL(base);
+                } catch {
+                    return 'invalid';
+                }
+                const params = {
+                    utm_source: sourceInput.value.trim(),
+                    utm_medium: mediumInput.value.trim(),
+                    utm_campaign: campaignInput.value.trim(),
+                    utm_content: contentInput.value.trim(),
+                };
+                Object.keys(params).forEach((key) => {
+                    if (params[key]) url.searchParams.set(key, params[key]);
+                });
+                return url.toString();
+            }
+
+            function renderUtmOutput() {
+                const built = buildUtmUrl();
+                if (built === null) {
+                    outputLink.textContent = 'Enter a base URL above to get started';
+                    outputLink.removeAttribute('href');
+                    outputLink.style.color = '#9ca3af';
+                    utmCopyBtn.disabled = true;
+                } else if (built === 'invalid') {
+                    outputLink.textContent = 'Enter a valid URL (starting with https://)';
+                    outputLink.removeAttribute('href');
+                    outputLink.style.color = '#dc2626';
+                    utmCopyBtn.disabled = true;
+                } else {
+                    outputLink.textContent = built;
+                    outputLink.href = built;
+                    outputLink.style.color = '#1b4d3e';
+                    utmCopyBtn.disabled = false;
+                }
+            }
+
+            [baseUrlInput, sourceInput, mediumInput, campaignInput, contentInput].forEach((el) => {
+                el.addEventListener('input', renderUtmOutput);
+            });
+
+            document.querySelectorAll('.utm-chip').forEach((chip) => {
+                chip.addEventListener('click', () => {
+                    const target = document.getElementById(chip.dataset.target);
+                    target.value = chip.dataset.value;
+                    chip.parentElement.querySelectorAll('.utm-chip').forEach((c) => {
+                        c.classList.toggle('active', c === chip);
+                    });
+                    renderUtmOutput();
+                });
+            });
+
+            // Keep chip highlighting in sync if the field is hand-edited.
+            [sourceInput, mediumInput].forEach((input) => {
+                input.addEventListener('input', () => {
+                    const row = input.closest('.form-group').querySelector('.utm-chip-row');
+                    if (!row) return;
+                    row.querySelectorAll('.utm-chip').forEach((c) => {
+                        c.classList.toggle('active', c.dataset.value === input.value.trim());
+                    });
+                });
+            });
+
+            utmCopyBtn.addEventListener('click', () => {
+                const text = outputLink.textContent;
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast('Copied to clipboard!');
+                    utmCopyBtn.classList.add('copied');
+                    utmCopyBtn.textContent = '✓ Copied';
+                    setTimeout(() => {
+                        utmCopyBtn.classList.remove('copied');
+                        utmCopyBtn.textContent = 'Copy';
+                    }, 2000);
+                }).catch(() => {
+                    showToast('Could not copy — copy the link manually');
+                });
+            });
+
+            renderUtmOutput();
+        })();
     </script>
 </body>
 </html>
