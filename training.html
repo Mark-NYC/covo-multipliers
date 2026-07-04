@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DXGLXDTF9V"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-DXGLXDTF9V');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Simple tools for making disciples where life already happens. Start with the Conversation Box, practice in a live lab, and move through the pathway.">
+    <title>Training &amp; Resources — Covo Multipliers</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="canonical" href="https://covomultipliers.com/training.html">
+
+    <style>
+        /* ==============================================
+           Training page — quiet, narrow, unhurried
+           ============================================== */
+
+        .tp-header {
+            background: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .tp-header .brand {
+            font-size: 0.95rem;
+            font-weight: 900;
+            color: #10281f;
+            text-decoration: none;
+            letter-spacing: -0.01em;
+        }
+
+        .tp-header .back-link {
+            font-size: 0.875rem;
+            color: #5a6b65;
+            text-decoration: none;
+            transition: color 0.15s ease;
+        }
+
+        .tp-header .back-link:hover {
+            color: #1b4d3e;
+        }
+
+        .tp-wrap {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .tp-wrap-wide {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .tp-section {
+            padding: 4.5rem 0;
+        }
+
+        .tp-section + .tp-section {
+            border-top: 1px solid #eef1ef;
+        }
+
+        .tp-eyebrow {
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #8a968f;
+            margin: 0 0 0.9rem;
+        }
+
+        .tp-h1 {
+            font-size: clamp(2rem, 5vw, 2.75rem);
+            font-weight: 800;
+            color: #10281f;
+            letter-spacing: -0.03em;
+            line-height: 1.12;
+            margin: 0 0 1rem;
+        }
+
+        .tp-h2 {
+            font-size: clamp(1.5rem, 3vw, 1.85rem);
+            font-weight: 800;
+            color: #10281f;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+            margin: 0 0 1rem;
+        }
+
+        .tp-sub {
+            font-size: 1.2rem;
+            color: #2f4038;
+            line-height: 1.55;
+            margin: 0 0 1.5rem;
+        }
+
+        .tp-body {
+            font-size: 1.03rem;
+            color: #52645d;
+            line-height: 1.75;
+            margin: 0 0 2rem;
+        }
+
+        .tp-section-intro {
+            font-size: 1.03rem;
+            color: #52645d;
+            line-height: 1.7;
+            margin: 0 0 2.5rem;
+        }
+
+        /* Hero */
+
+        .tp-hero {
+            padding: 5.5rem 0 4rem;
+            text-align: center;
+        }
+
+        .tp-hero .tp-h1,
+        .tp-hero .tp-sub,
+        .tp-hero .tp-body {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .tp-hero-ctas {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        /* Start Here cards */
+
+        .tp-card-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 1.25rem;
+        }
+
+        .tp-card {
+            border: 1px solid #e5e9e7;
+            border-radius: 12px;
+            padding: 1.75rem;
+            box-shadow: 0 1px 3px rgba(16, 40, 31, 0.03);
+        }
+
+        .tp-card h3 {
+            font-size: 1.1rem;
+            font-weight: 750;
+            color: #10281f;
+            margin: 0 0 0.65rem;
+            letter-spacing: -0.01em;
+        }
+
+        .tp-card p {
+            font-size: 0.95rem;
+            line-height: 1.65;
+            color: #52645d;
+            margin: 0 0 0.85rem;
+        }
+
+        .tp-card .tp-card-tags {
+            font-size: 0.82rem;
+            color: #8a968f;
+            min-height: 1.2em;
+            margin: 0 0 1.1rem;
+        }
+
+        .tp-link {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #1b4d3e;
+            text-decoration: none;
+            border-bottom: 1px solid #c7d6ce;
+        }
+
+        .tp-link:hover {
+            color: #10281f;
+            border-color: #10281f;
+        }
+
+        /* Pathway */
+
+        .tp-pathway-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .tp-pathway-item {
+            display: grid;
+            grid-template-columns: 2.75rem 1fr;
+            gap: 1.25rem;
+            padding: 2.25rem 0;
+        }
+
+        .tp-pathway-item + .tp-pathway-item {
+            border-top: 1px solid #eef1ef;
+        }
+
+        .tp-pathway-num {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #c7d6ce;
+            line-height: 1.3;
+        }
+
+        .tp-pathway-item h3 {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #10281f;
+            letter-spacing: -0.01em;
+            margin: 0 0 0.6rem;
+        }
+
+        .tp-pathway-item p {
+            font-size: 0.98rem;
+            line-height: 1.7;
+            color: #52645d;
+            margin: 0 0 0.9rem;
+        }
+
+        .tp-pathway-tools {
+            font-size: 0.88rem;
+            color: #3a4f47;
+            line-height: 1.6;
+            margin: 0 0 0.9rem;
+        }
+
+        .tp-pathway-tools strong {
+            color: #10281f;
+            font-weight: 700;
+        }
+
+        /* Live Labs */
+
+        .tp-lab-list {
+            list-style: none;
+            margin: 0 0 2rem;
+            padding: 0;
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .tp-lab-list li {
+            border: 1px solid #e5e9e7;
+            border-radius: 10px;
+            padding: 1rem 1.25rem;
+        }
+
+        .tp-lab-list a {
+            display: block;
+            font-size: 0.98rem;
+            font-weight: 700;
+            color: #10281f;
+            text-decoration: none;
+        }
+
+        .tp-lab-list a:hover {
+            color: #1b4d3e;
+        }
+
+        /* Go Deeper */
+
+        .tp-deeper-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 2.5rem;
+        }
+
+        .tp-deeper-col h3 {
+            font-size: 1.02rem;
+            font-weight: 800;
+            color: #10281f;
+            margin: 0 0 0.5rem;
+        }
+
+        .tp-deeper-col p {
+            font-size: 0.9rem;
+            color: #52645d;
+            line-height: 1.6;
+            margin: 0 0 1rem;
+        }
+
+        .tp-deeper-col ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .tp-deeper-col li + li {
+            margin-top: 0.6rem;
+        }
+
+        .tp-deeper-col a {
+            font-size: 0.9rem;
+            color: #3a4f47;
+            text-decoration: none;
+            border-bottom: 1px solid #dbe4e0;
+        }
+
+        .tp-deeper-col a:hover {
+            color: #10281f;
+            border-color: #10281f;
+        }
+
+        /* Final CTA */
+
+        .tp-final {
+            text-align: center;
+            padding: 5rem 0 5.5rem;
+        }
+
+        .tp-final .tp-h2 {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .tp-final-ctas {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 800px) {
+            .tp-card-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tp-deeper-grid {
+                grid-template-columns: 1fr;
+                gap: 2.25rem;
+            }
+        }
+
+        @media (max-width: 560px) {
+            .tp-section {
+                padding: 3.25rem 0;
+            }
+
+            .tp-hero {
+                padding: 3.5rem 0 2.75rem;
+            }
+
+            .tp-pathway-item {
+                grid-template-columns: 2rem 1fr;
+                gap: 0.85rem;
+            }
+
+            .tp-hero-ctas .btn,
+            .tp-final-ctas .btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="tp-header">
+        <a class="brand" href="/">Covo Multipliers</a>
+        <a class="back-link" href="/">← Home</a>
+    </header>
+
+    <!-- 1. Hero -->
+    <section class="tp-hero">
+        <div class="tp-wrap">
+            <h1 class="tp-h1">Training &amp; Resources</h1>
+            <p class="tp-sub">Simple tools for making disciples where life already happens.</p>
+            <p class="tp-body">
+                Covo Multipliers helps everyday leaders make disciples in the middle of normal life.
+                Start with the basics, practice them in real conversations, and pass them on to someone else.
+            </p>
+            <div class="tp-hero-ctas">
+                <a class="btn btn-primary" href="/field-guide.html">Get the Field Guide</a>
+                <a class="btn btn-secondary" href="/#upcoming-labs">Join a Live Lab</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. Start Here -->
+    <section class="tp-section">
+        <div class="tp-wrap-wide">
+            <h2 class="tp-h2" style="text-align:center;">Start Here</h2>
+            <p class="tp-section-intro" style="text-align:center; max-width:560px; margin-left:auto; margin-right:auto;">
+                Three tools. Start with the first one.
+            </p>
+
+            <div class="tp-card-grid">
+                <div class="tp-card">
+                    <h3>The Conversation Box</h3>
+                    <p>Our primary entry tool. The Conversation Box helps you notice where a relationship is right now and what faithful next step to take.</p>
+                    <p class="tp-card-tags">Casual. Meaningful. Spiritual. Discovery.</p>
+                    <a class="tp-link" href="/conversation-box.html">Learn the Conversation Box →</a>
+                </div>
+
+                <div class="tp-card">
+                    <h3>From Lost to Leader</h3>
+                    <p>A simple path for helping someone move from first conversation to following Jesus and helping others do the same.</p>
+                    <p class="tp-card-tags"></p>
+                    <a class="tp-link" href="/from-lost-to-leader.html">Start the Training →</a>
+                </div>
+
+                <div class="tp-card">
+                    <h3>CFC for Leaders</h3>
+                    <p>A practical tool for creating local stewardship, filtering for faithfulness, and identifying who is actually taking responsibility.</p>
+                    <p class="tp-card-tags"></p>
+                    <a class="tp-link" href="/cfc-for-leaders.html">Learn CFC →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. The Pathway -->
+    <section class="tp-section">
+        <div class="tp-wrap">
+            <h2 class="tp-h2">The Pathway</h2>
+            <p class="tp-section-intro">One simple pathway, start to finish. Move through it in order.</p>
+
+            <ol class="tp-pathway-list">
+                <li class="tp-pathway-item">
+                    <span class="tp-pathway-num">0</span>
+                    <div>
+                        <h3>Abide</h3>
+                        <p>You cannot multiply what is not alive in you. Start with Jesus. Stay with Jesus. Listen, obey, repent, pray, and move from union with him instead of pressure.</p>
+                        <p class="tp-pathway-tools"><strong>Tools:</strong> Daily Debrief, Prayer Rhythm, Scripture + Obedience</p>
+                        <a class="tp-link" href="/abide-training.html">Abide Training</a>
+                    </div>
+                </li>
+
+                <li class="tp-pathway-item">
+                    <span class="tp-pathway-num">1</span>
+                    <div>
+                        <h3>Enter</h3>
+                        <p>Your mission field is already around you. Your workplace, neighborhood, gym, dinner table, kids’ school, and regular places. Learn to notice the conversations God is already opening.</p>
+                        <p class="tp-pathway-tools"><strong>Primary tool:</strong> Conversation Box<br><strong>Supporting tools:</strong> People / Places / Patterns, Prayer Walking, House of Peace</p>
+                        <a class="tp-link" href="/enter-training.html">Enter Training</a>
+                    </div>
+                </li>
+
+                <li class="tp-pathway-item">
+                    <span class="tp-pathway-num">2</span>
+                    <div>
+                        <h3>Gospel</h3>
+                        <p>Good news has to be spoken. Learn to share your story simply, share God’s story clearly, and ask for a response without making it weird.</p>
+                        <p class="tp-pathway-tools"><strong>Tools:</strong> 15-Second Testimony, 3 Circles, Stories of Hope</p>
+                        <a class="tp-link" href="/gospel-training.html">Gospel Training</a>
+                    </div>
+                </li>
+
+                <li class="tp-pathway-item">
+                    <span class="tp-pathway-num">3</span>
+                    <div>
+                        <h3>Disciple</h3>
+                        <p>New disciples need a path, not just encouragement. Help people hear from Scripture, obey Jesus, share with others, and bring people with them.</p>
+                        <p class="tp-pathway-tools"><strong>Tools:</strong> Three Thirds, Commands of Christ, Discovery Bible Study, “I Will” Statements</p>
+                        <a class="tp-link" href="/disciple-training.html">Disciple Training</a>
+                    </div>
+                </li>
+
+                <li class="tp-pathway-item">
+                    <span class="tp-pathway-num">4</span>
+                    <div>
+                        <h3>Gather</h3>
+                        <p>Disciples were never meant to stay isolated. Gather them into simple church around Scripture, prayer, obedience, care, worship, giving, baptism, communion, and mission.</p>
+                        <p class="tp-pathway-tools"><strong>Tools:</strong> Church Circle, One Another Practice, Baptism + Communion</p>
+                        <a class="tp-link" href="/gather-training.html">Gather Training</a>
+                    </div>
+                </li>
+
+                <li class="tp-pathway-item">
+                    <span class="tp-pathway-num">5</span>
+                    <div>
+                        <h3>Guide</h3>
+                        <p>Multiplication needs leaders who can reproduce. Train faithful people to take local responsibility for the mission.</p>
+                        <p class="tp-pathway-tools"><strong>Primary tool:</strong> CFC<br><strong>Supporting tools:</strong> MAWL, 1-3-9 Leadership Pattern, Generational Mapping, Coaching Questions</p>
+                        <a class="tp-link" href="/leader-training.html">Leader Training</a>
+                    </div>
+                </li>
+            </ol>
+        </div>
+    </section>
+
+    <!-- 4. Live Labs -->
+    <section class="tp-section">
+        <div class="tp-wrap">
+            <h2 class="tp-h2">Join a Live Lab</h2>
+            <p class="tp-section-intro">Practice one tool with a small group of everyday leaders. No fluff. No pitch. Just training you can use this week.</p>
+
+            <ul class="tp-lab-list">
+                <li><a href="/from-lost-to-leader.html">From Lost to Leader</a></li>
+                <li><a href="/rhythms-of-a-covo-multiplier.html">Rhythms of a Covo Multiplier</a></li>
+                <li><a href="/conversation-box.html">The Conversation Box</a></li>
+                <li><a href="/cfc-for-leaders.html">CFC for Leaders</a></li>
+                <li><a href="/aquila-and-priscilla-pattern.html">Aquila and Priscilla Pattern</a></li>
+            </ul>
+
+            <a class="btn btn-secondary" href="/#upcoming-labs">See Upcoming Labs</a>
+        </div>
+    </section>
+
+    <!-- 5. Go Deeper -->
+    <section class="tp-section">
+        <div class="tp-wrap-wide">
+            <h2 class="tp-h2" style="text-align:center;">Go Deeper</h2>
+
+            <div class="tp-deeper-grid">
+                <div class="tp-deeper-col">
+                    <h3>Clarity</h3>
+                    <p>Training that helps you see the bigger picture.</p>
+                    <ul>
+                        <li><a href="/the-rise-of-covo-multipliers.html">The Rise of Covo Multipliers</a></li>
+                        <li><a href="/why-priscilla-and-aquila-matter.html">Why Priscilla and Aquila Matter</a></li>
+                        <li><a href="/blog/covocational-vs-bivocational/">Bivocational vs. Covocational</a></li>
+                        <li><a href="/four-fields-five-parts.html">Four Fields / Five Parts</a></li>
+                    </ul>
+                </div>
+
+                <div class="tp-deeper-col">
+                    <h3>Character</h3>
+                    <p>Training that helps you become the kind of person who can carry this.</p>
+                    <ul>
+                        <li><a href="/abiding-with-jesus.html">Abiding with Jesus</a></li>
+                        <li><a href="/identity.html">Identity</a></li>
+                        <li><a href="/family-on-mission.html">Family on Mission</a></li>
+                        <li><a href="/persecution.html">Persecution</a></li>
+                        <li><a href="/money-and-mission.html">Money and Mission</a></li>
+                    </ul>
+                </div>
+
+                <div class="tp-deeper-col">
+                    <h3>Practice</h3>
+                    <p>Training that helps you actually do the work.</p>
+                    <ul>
+                        <li><a href="/conversation-box.html">Conversation Box</a></li>
+                        <li><a href="/3-circles.html">3 Circles</a></li>
+                        <li><a href="/three-thirds.html">Three Thirds</a></li>
+                        <li><a href="/church-circle-lab.html">Church Circle</a></li>
+                        <li><a href="/cfc-for-leaders.html">CFC</a></li>
+                        <li><a href="/mawl.html">MAWL</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. Immersions -->
+    <section class="tp-section">
+        <div class="tp-wrap" style="text-align:center;">
+            <h2 class="tp-h2">Come See It</h2>
+            <p class="tp-body" style="margin-left:auto; margin-right:auto;">
+                Covo Immersions let you step into real homes, workplaces, neighborhoods, meals, conversations, and debriefs.
+                See disciple-making in real settings and leave with a picture you can reproduce.
+            </p>
+            <a class="btn btn-secondary" href="/immersions.html">See Immersion Options</a>
+        </div>
+    </section>
+
+    <!-- 7. Final CTA -->
+    <section class="tp-final">
+        <div class="tp-wrap">
+            <h2 class="tp-h2">Start where you already are.</h2>
+            <p class="tp-body" style="margin-left:auto; margin-right:auto;">
+                You do not need to wait until your week gets less full. Start with the people, places, and conversations God has already put in front of you.
+            </p>
+            <div class="tp-final-ctas">
+                <a class="btn btn-primary" href="/field-guide.html">Get the Field Guide</a>
+                <a class="btn btn-secondary" href="/#upcoming-labs">Join a Live Lab</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <span class="footer-wordmark">Covo Multipliers</span>
+                <p class="footer-desc">Practical training for everyday leaders who want to make disciples where they live, work, and play.</p>
+            </div>
+
+            <nav class="footer-nav" aria-label="Footer navigation">
+                <a href="/">Home</a>
+                <a href="/vision.html">Start Here</a>
+                <a href="/training.html">Training</a>
+                <a href="/blog/">Blog</a>
+                <a href="/h3x.html">H3X Podcast</a>
+                <a href="/contact.html">Contact</a>
+            </nav>
+        </div>
+    </footer>
+
+</body>
+</html>
