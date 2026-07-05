@@ -724,6 +724,26 @@ If it returns a 404, the slug in `LAB_EVENTS` does not match the query string.
 
 Submit a test registration with the correct `event_slug`. Open the confirmation email. The Add to Calendar button must appear and link to the correct calendar URL.
 
+## Step 4 — Update the WordPress next-lab widget
+
+`embeds/next-lab-widget.html` is a self-contained snippet pasted into a Custom HTML block on WordPress posts. It pulls seat counts and the next lab date live from Supabase, but its CTA headline, subheadline, and destination URL come from a hardcoded `LAB_CONTENT` map inside that file — they will not appear until you add them.
+
+Add a new entry to `LAB_CONTENT` keyed by the same slug:
+
+```js
+'your-lab-slug': {
+  url: 'https://www.covomultipliers.com/your-lab-page.html',
+  headline: 'Copy this verbatim (or lightly condensed) from the page\'s .event-title hero copy.',
+  sub: 'Copy this from the page\'s .event-description — the concrete 45-minute promise.'
+},
+```
+
+Rules:
+
+- `headline` and `sub` must come from the actual hero copy already written on the lab page — do not invent new marketing copy here.
+- If a slug is missing from `LAB_CONTENT`, the widget still works (it falls back to the plain database `title`/`description`), so this step is not launch-blocking, but the CTA will read as generic instead of tailored until it's done.
+- After editing, re-paste the updated snippet into any WordPress "reusable block" or Custom HTML blocks that use it so the change goes live everywhere at once.
+
 ## Optional — Add to Calendar link on the page itself
 
 After successful registration, you may show a secondary calendar link on the page (in the success state):
@@ -848,6 +868,7 @@ Complete every item before the page goes live.
 - [ ] Seats remaining load dynamically from Supabase
 - [ ] Full-event state tested
 - [ ] Event-not-found state tested
+- [ ] Slug + tailored headline/sub added to `LAB_CONTENT` in `embeds/next-lab-widget.html`
 
 ---
 
