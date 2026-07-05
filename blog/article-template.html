@@ -124,6 +124,21 @@
            All blog articles share the same structural CSS —
            copy it verbatim and only change colors or layout
            if this article genuinely needs something different. */
+
+        /* Optional topic icon badge — see usage note in the ARTICLE HEADER
+           section below. Harmless to leave in if unused. */
+        .article-topic-icon {
+            display: block;
+            width: 56px;
+            height: 56px;
+            padding: 10px;
+            margin-bottom: 1rem;
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px solid rgba(220, 181, 90, 0.55);
+            border-radius: 50%;
+            object-fit: contain;
+            box-sizing: border-box;
+        }
     </style>
 </head>
 <body>
@@ -150,6 +165,28 @@
                 <span class="sep">›</span>
                 <span>SHORT TITLE OR TOPIC</span>
             </nav>
+
+            <!-- =====================================================
+                 OPTIONAL TOPIC ICON — only add this <img> when the post
+                 is genuinely centered on ONE specific Command of Christ /
+                 Church Circle rhythm: repent-and-believe, baptism,
+                 holy-spirit, word, love, lords-supper, pray,
+                 signs-and-wonders, give (generosity), worship,
+                 go-make-disciples, or gather. Icons live at
+                 /image/obey-tools/<name>-icon.webp (same set used in
+                 how-to-make-disciples, how-to-disciple-someone, and
+                 church-circle-lab.html).
+
+                 Most posts are about a different framework entirely
+                 (Conversation Box, Oikos, Person of Peace, the
+                 Go/Gospel/Grow/Gather/Guide rhythm, etc.) and should NOT
+                 get one of these — don't force a command icon onto a
+                 post that isn't actually about that command. Delete this
+                 whole comment block (and skip the <img>) if it doesn't apply.
+
+            <img class="article-topic-icon" src="/image/obey-tools/ICON-NAME-icon.webp" alt="RHYTHM NAME icon" loading="lazy">
+            ===================================================== -->
+
             <span class="article-tag">TOPIC TAG</span>
             <h1 class="article-h1">ARTICLE TITLE</h1>
             <div class="article-meta">
