@@ -225,6 +225,7 @@
     url.searchParams.set('utm_source', 'blog');
     url.searchParams.set('utm_medium', 'embed_widget');
     url.searchParams.set('utm_campaign', 'next_lab_widget');
+    url.searchParams.set('utm_term', slug);
     if (typeof window !== 'undefined' && window.location) {
       url.searchParams.set('utm_content', window.location.hostname + window.location.pathname);
     }
@@ -232,8 +233,9 @@
   }
 
   function renderFallback(container) {
+    var ctaUrl = buildCtaUrl('fallback_no_lab_available', FALLBACK_URL);
     container.innerHTML =
-      '<a class="covo-nl-card" href="' + escapeHtml(FALLBACK_URL) + '">' +
+      '<a class="covo-nl-card" href="' + escapeHtml(ctaUrl) + '">' +
         '<span class="covo-nl-eyebrow">Covo Multipliers</span>' +
         '<h3 class="covo-nl-title">New free labs are announced regularly</h3>' +
         '<p class="covo-nl-desc">See the current schedule and save your seat for the next live session.</p>' +
