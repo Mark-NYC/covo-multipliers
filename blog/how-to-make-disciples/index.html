@@ -441,6 +441,71 @@
             line-height: 1.6;
         }
 
+        .article-figure {
+            margin: 1.75rem 0 2rem;
+            text-align: center;
+        }
+
+        .article-figure img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #e0e7e4;
+            border-radius: 10px;
+            background: #ffffff;
+            padding: 0.75rem;
+        }
+
+        .article-figure figcaption {
+            font-size: 0.85rem;
+            color: #5a6b65;
+            margin-top: 0.75rem;
+        }
+
+        .commands-icon-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.75rem;
+            margin: 1.75rem 0 2.25rem;
+        }
+
+        .command-icon-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 0.5rem;
+            background: #f8faf9;
+            border: 1px solid #e0e7e4;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: border-color 0.15s ease, transform 0.15s ease;
+        }
+
+        .command-icon-item:hover {
+            border-color: #dcb55a;
+            transform: translateY(-2px);
+        }
+
+        .command-icon-item img {
+            width: 44px;
+            height: 44px;
+            object-fit: contain;
+        }
+
+        .command-icon-item span {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: #10281f;
+            text-align: center;
+            line-height: 1.3;
+        }
+
+        @media (max-width: 640px) {
+            .commands-icon-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
         .faq-item {
             margin-bottom: 1.5rem;
         }
@@ -798,6 +863,11 @@
 
                 <p>You don't need to invent your own outline, either. Simple tools like the 3 Circles diagram exist for exactly this — a few lines drawn on a napkin that walk someone from brokenness to the gospel to a real response. Learn one, then use it until it's second nature.</p>
 
+                <figure class="article-figure">
+                    <img src="/image/obey-tools/3-circles-gospel-tool.webp" alt="3 Circles gospel tool diagram showing design, brokenness, gospel, and restoration" loading="lazy">
+                    <figcaption>The 3 Circles gospel tool from Obey.Tools — a simple way to walk anyone through God's story.</figcaption>
+                </figure>
+
                 <p>Whatever tool you use, make sure the person actually hears it clearly — not just senses your kindness. Once they've heard it, don't leave them hanging. Give them a real chance to respond.</p>
 
                 <h2 id="step-4-respond">Step 4: Invite People to Respond to Jesus</h2>
@@ -874,6 +944,21 @@
                 <p>Not a building, a brand, or a sermon event you drive to on Sunday. A simple church is a group of baptized disciples who gather around Jesus, obey his commands, practice the habits of the church, care for one another, and go make more disciples — a people under the lordship of Jesus, practicing the way of Jesus, together.</p>
 
                 <p>You don't need a stage or a name to start one — a table, a living room, a lunch break, a dorm room, a regular walk will hold it. What makes it church isn't the room. It's whether the people in it are actually practicing what Jesus commanded, as habits and rhythms, not boxes to check once:</p>
+
+                <div class="commands-icon-grid">
+                    <a class="command-icon-item" href="https://obey.tools/repent-and-believe.html"><img src="/image/obey-tools/repent-icon.webp" alt="" loading="lazy"><span>Repent &amp; Believe</span></a>
+                    <a class="command-icon-item" href="https://obey.tools/be-baptized.html"><img src="/image/obey-tools/baptism-icon.webp" alt="" loading="lazy"><span>Be Baptized</span></a>
+                    <a class="command-icon-item" href="https://obey.tools/holy-spirit.html"><img src="/image/obey-tools/holy-spirit-icon.webp" alt="" loading="lazy"><span>Holy Spirit</span></a>
+                    <a class="command-icon-item" href="https://obey.tools/the-word-of-god.html"><img src="/image/obey-tools/word-icon.webp" alt="" loading="lazy"><span>The Word of God</span></a>
+                    <a class="command-icon-item" href="https://obey.tools/love-one-another.html"><img src="/image/obey-tools/love-icon.webp" alt="" loading="lazy"><span>Love One Another</span></a>
+                    <a class="command-icon-item" href="https://obey.tools/lords-supper.html"><img src="/image/obey-tools/lords-supper-icon.webp" alt="" loading="lazy"><span>Lord's Supper</span></a>
+                    <a class="command-icon-item" href="https://obey.tools/pray.html"><img src="/image/obey-tools/pray-icon.webp" alt="" loading="lazy"><span>Pray</span></a>
+                    <a class="command-icon-item" href="https://obey.tools/signs-and-wonders.html"><img src="/image/obey-tools/signs-and-wonders-icon.webp" alt="" loading="lazy"><span>Signs &amp; Wonders</span></a>
+                    <a class="command-icon-item" href="https://obey.tools/generosity.html"><img src="/image/obey-tools/give-icon.webp" alt="" loading="lazy"><span>Generosity</span></a>
+                    <a class="command-icon-item" href="https://obey.tools/worship.html"><img src="/image/obey-tools/worship-icon.webp" alt="" loading="lazy"><span>Worship</span></a>
+                    <a class="command-icon-item" href="https://obey.tools/go-make-disciples.html"><img src="/image/obey-tools/go-make-disciples-icon.webp" alt="" loading="lazy"><span>Go&hellip;Make Disciples</span></a>
+                    <a class="command-icon-item" href="https://obey.tools/gather.html"><img src="/image/obey-tools/gather-icon.webp" alt="" loading="lazy"><span>Gather</span></a>
+                </div>
 
                 <ol>
                     <li><strong>Repent &amp; believe</strong> (Mark 1:15) — continually turning from sin and trusting Jesus as King, not just once at the start.</li>
