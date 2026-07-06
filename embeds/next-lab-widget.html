@@ -1,0 +1,310 @@
+<!--
+  Covo Multipliers — "Next Upcoming Lab" embed widget
+  =====================================================
+
+  WHAT THIS IS
+  A self-contained HTML/CSS/JS snippet that always shows whichever lab is
+  next to open (soonest event_date that still has seats), pulled live from
+  the same Supabase `events_with_availability` view the main site uses.
+  There is nothing to update by hand when a lab fills up or a new month
+  rolls around — it just reflects the database.
+
+  HOW TO EMBED ON WORDPRESS
+  1. Edit a post/page → add a "Custom HTML" block (NOT a Paragraph/Classic
+     block — those can strip <script> tags).
+  2. Paste this entire file's contents into that block.
+  3. Publish. Repeat on any article where you want the widget to appear.
+
+  MAINTENANCE
+  If you add a brand-new lab page, add an entry for its slug to LAB_CONTENT
+  below (url + a tailored headline/sub pulled from that page's own hero
+  copy) and re-paste this snippet into your WordPress posts (or use a
+  WordPress "reusable block" / global HTML snippet so all posts update at
+  once instead of pasting into every article individually). A slug missing
+  from LAB_CONTENT still works — it just falls back to the plain lab title
+  and description from the database instead of a tailored hook.
+-->
+<div id="covo-next-lab-widget" class="covo-nl-widget">
+  <p class="covo-nl-loading">Loading the next Covo Multipliers lab&hellip;</p>
+</div>
+
+<style>
+  .covo-nl-widget {
+    all: initial;
+    box-sizing: border-box;
+    display: block;
+    max-width: 560px;
+    margin: 2rem auto;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                 Helvetica, Arial, sans-serif;
+  }
+  .covo-nl-widget *,
+  .covo-nl-widget *::before,
+  .covo-nl-widget *::after {
+    box-sizing: border-box;
+  }
+  .covo-nl-widget .covo-nl-loading {
+    font-size: 0.9rem;
+    color: #6b7280;
+    text-align: center;
+    padding: 1.5rem;
+  }
+  .covo-nl-card {
+    position: relative;
+    display: block;
+    background: #ffffff;
+    border: 1px solid #e7eeea;
+    border-radius: 18px;
+    padding: 1.75rem 1.85rem;
+    box-shadow: 0 10px 28px rgba(16, 40, 31, 0.1);
+    text-decoration: none;
+    color: inherit;
+    overflow: hidden;
+  }
+  .covo-nl-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, #10281f 0%, #1b4d3e 30%, #2c6b5d 60%, #dcb55a 100%);
+  }
+  .covo-nl-card:hover .covo-nl-cta {
+    text-decoration: underline;
+    text-underline-offset: 0.14em;
+  }
+  .covo-nl-eyebrow {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #7a5515;
+    background: rgba(220, 181, 90, 0.16);
+    border: 1px solid rgba(159, 122, 47, 0.3);
+    border-radius: 999px;
+    padding: 0.25rem 0.75rem;
+    margin: 0.4rem 0 0.9rem;
+  }
+  .covo-nl-title {
+    font-size: 1.45rem;
+    font-weight: 800;
+    line-height: 1.3;
+    color: #1a1a1a;
+    margin: 0 0 0.6rem;
+  }
+  .covo-nl-desc {
+    font-size: 0.97rem;
+    line-height: 1.6;
+    color: #333333;
+    margin: 0 0 0.9rem;
+  }
+  .covo-nl-datetime {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: #245c4a;
+    margin: 0 0 1.1rem;
+  }
+  .covo-nl-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  .covo-nl-cta {
+    display: inline-block;
+    background: #1b4d3e;
+    color: #ffffff !important;
+    font-weight: 700;
+    font-size: 0.92rem;
+    padding: 0.75rem 1.4rem;
+    border-radius: 10px;
+    text-decoration: none;
+  }
+  .covo-nl-card:hover .covo-nl-cta {
+    background: #10281f;
+  }
+  .covo-nl-seats {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    padding: 0.3rem 0.75rem;
+    border-radius: 999px;
+    background: rgba(159, 122, 47, 0.1);
+    color: #7a5515;
+    border: 1px solid rgba(159, 122, 47, 0.35);
+    white-space: nowrap;
+  }
+</style>
+
+<script>
+(function () {
+  var SUPABASE_URL = 'https://mryjrvinzbxebzvxtggi.supabase.co';
+  var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1yeWpydmluemJ4ZWJ6dnh0Z2dpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYyNzQ3MzksImV4cCI6MjA5MTg1MDczOX0.U1JJQTBVKePsVFXr2oFRCdUZasWaZiTQg6g8QrFdRyw';
+  var LAB_TIMEZONE = 'America/New_York';
+
+  // Maintenance: add every new lab's slug here (must match the `slug`
+  // column in Supabase). `headline` and `sub` should be pulled straight
+  // from that lab page's own hero copy (.event-title / .event-description)
+  // so the CTA reads like a tailored hook, not a generic announcement.
+  var LAB_CONTENT = {
+    'from-lost-to-leader-may-2026': {
+      url: 'https://www.covomultipliers.com/from-lost-to-leader.html',
+      headline: 'Trying to make disciples but never sure where it fits in your week?',
+      sub: 'In 45 minutes, get practical help building a life that makes disciples where you live, work, and play.'
+    },
+    'rhythms-of-a-covo-multiplier-jun-2026': {
+      url: 'https://www.covomultipliers.com/rhythms-of-a-covo-multiplier.html',
+      headline: 'Trying to make disciples, but don’t have a rhythm for it?',
+      sub: 'In 45 minutes, you’ll be introduced to the 5 rhythms of the 4 Fields pathway — a framework for spiritual conversations, sharing the gospel, discipling, gathering believers, and guiding emerging leaders.'
+    },
+    'aquila-and-priscilla-pattern-jul-2026': {
+      url: 'https://www.covomultipliers.com/aquila-and-priscilla-pattern.html',
+      headline: 'What if your work, home, and friendships became your disciple-making platform?',
+      sub: 'In 45 minutes, you’ll learn the Aquila and Priscilla pattern for making disciples as a team, using the life you already have.'
+    },
+    '4-questions-to-get-started-august-2026': {
+      url: 'https://www.covomultipliers.com/4-questions.html',
+      headline: 'You want to make disciples. What do you do this week?',
+      sub: 'Use four simple questions to choose one person, start one conversation, and schedule one next step.'
+    },
+    'church-circle-september-2026': {
+      url: 'https://www.covomultipliers.com/church-circle-lab.html',
+      headline: 'Most Christians have been in church for years. Few have been trained to start one.',
+      sub: 'Learn a simple biblical map for practicing church where you live, work, and play.'
+    },
+    'disciple-making-rhythm-october-2026': {
+      url: 'https://www.covomultipliers.com/disciple-making-rhythm.html',
+      headline: 'You keep meaning to make disciples. Why hasn’t it actually started?',
+      sub: 'In 45 minutes, move from good intentions to real traction — build a simple disciple-making rhythm you can keep, even when life is full.'
+    }
+  };
+  var FALLBACK_URL = 'https://www.covomultipliers.com/#upcoming-labs';
+
+  function escapeHtml(str) {
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  function formatEventDate(isoString) {
+    var d = new Date(isoString);
+    var datePart = new Intl.DateTimeFormat('en-US', {
+      timeZone: LAB_TIMEZONE,
+      weekday: 'short',
+      month: 'short',
+      day: 'numeric'
+    }).format(d);
+    var timePart = new Intl.DateTimeFormat('en-US', {
+      timeZone: LAB_TIMEZONE,
+      hour: 'numeric',
+      minute: '2-digit'
+    }).format(d);
+    return datePart + ' · ' + timePart + ' ET';
+  }
+
+  function formatMonthLabel(isoString) {
+    var monthName = new Intl.DateTimeFormat('en-US', {
+      timeZone: LAB_TIMEZONE,
+      month: 'long'
+    }).format(new Date(isoString));
+    return monthName + ' Covo Multipliers Lab';
+  }
+
+  function buildCtaUrl(slug, baseUrl) {
+    var url = new URL(baseUrl);
+    url.searchParams.set('utm_source', 'blog');
+    url.searchParams.set('utm_medium', 'embed_widget');
+    url.searchParams.set('utm_campaign', 'next_lab_widget');
+    url.searchParams.set('utm_term', slug);
+    if (typeof window !== 'undefined' && window.location) {
+      url.searchParams.set('utm_content', window.location.hostname + window.location.pathname);
+    }
+    return url.toString();
+  }
+
+  function renderFallback(container) {
+    var ctaUrl = buildCtaUrl('fallback_no_lab_available', FALLBACK_URL);
+    container.innerHTML =
+      '<a class="covo-nl-card" href="' + escapeHtml(ctaUrl) + '">' +
+        '<span class="covo-nl-eyebrow">Covo Multipliers</span>' +
+        '<h3 class="covo-nl-title">New free labs are announced regularly</h3>' +
+        '<p class="covo-nl-desc">See the current schedule and save your seat for the next live session.</p>' +
+        '<div class="covo-nl-footer">' +
+          '<span class="covo-nl-cta">See Upcoming Labs &rarr;</span>' +
+        '</div>' +
+      '</a>';
+  }
+
+  function renderLab(container, lab) {
+    var content = LAB_CONTENT[lab.slug] || {};
+    var pageUrl = content.url || FALLBACK_URL;
+    var ctaUrl = buildCtaUrl(lab.slug, pageUrl);
+    var headline = content.headline || lab.title;
+    var sub = content.sub || lab.description;
+    var seatsLabel = lab.seats_remaining === 1
+      ? '1 seat left'
+      : lab.seats_remaining + ' seats left';
+
+    container.innerHTML =
+      '<a class="covo-nl-card" href="' + escapeHtml(ctaUrl) + '">' +
+        '<span class="covo-nl-eyebrow">' + escapeHtml(formatMonthLabel(lab.event_date)) + '</span>' +
+        '<h3 class="covo-nl-title">' + escapeHtml(headline) + '</h3>' +
+        (sub ? '<p class="covo-nl-desc">' + escapeHtml(sub) + '</p>' : '') +
+        '<span class="covo-nl-datetime">' + escapeHtml(formatEventDate(lab.event_date)) + ' · 45 min · Free</span>' +
+        '<div class="covo-nl-footer">' +
+          '<span class="covo-nl-cta">Save My Seat &rarr;</span>' +
+          '<span class="covo-nl-seats">' + escapeHtml(seatsLabel) + '</span>' +
+        '</div>' +
+      '</a>';
+  }
+
+  async function loadNextLab(container) {
+    try {
+      var url = new URL(SUPABASE_URL + '/rest/v1/events_with_availability');
+      url.searchParams.set('select', 'slug,title,description,event_date,seats_remaining,has_availability');
+      url.searchParams.set('has_availability', 'eq.true');
+      url.searchParams.set('event_date', 'gte.' + new Date().toISOString());
+      url.searchParams.set('order', 'event_date.asc');
+      url.searchParams.set('limit', '1');
+
+      var res = await fetch(url, {
+        headers: {
+          apikey: SUPABASE_ANON_KEY,
+          Authorization: 'Bearer ' + SUPABASE_ANON_KEY
+        }
+      });
+
+      if (!res.ok) {
+        renderFallback(container);
+        return;
+      }
+
+      var events = await res.json();
+      if (!events || !events.length) {
+        renderFallback(container);
+        return;
+      }
+
+      renderLab(container, events[0]);
+    } catch (err) {
+      renderFallback(container);
+    }
+  }
+
+  document.querySelectorAll('.covo-nl-widget').forEach(function (container) {
+    if (container.dataset.covoNlInitialized) return;
+    container.dataset.covoNlInitialized = 'true';
+    loadNextLab(container);
+  });
+})();
+</script>
