@@ -467,11 +467,11 @@
 
     <hr class="divider">
 
-    <div class="section-label">Assessment Admin Secret <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></div>
+    <div class="section-label">Admin Secret <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></div>
     <div class="form-group">
-      <label for="assess-secret">Assessment admin secret</label>
-      <input type="password" id="assess-secret" placeholder="Enter to unlock assessment admin">
-      <p class="hint">Stored in session only. Saves you re-entering on the assessment admin page.</p>
+      <label for="assess-secret">Admin secret</label>
+      <input type="password" id="assess-secret" placeholder="Enter to unlock assessment & next step finder admin">
+      <p class="hint">Stored in session only. Saves you re-entering on the assessment and Next Step Finder admin pages.</p>
     </div>
 
     <div id="auth-error" class="auth-error"></div>
@@ -522,11 +522,11 @@
       </div>
     </div>
 
-    <!-- Assessment secret status -->
+    <!-- Admin secret status -->
     <div id="secret-banner" class="secret-banner" style="display:none;">
-      <p>⚠️ Assessment admin secret not set. Add it to access the assessment admin without re-entering it.</p>
+      <p>⚠️ Admin secret not set. Add it to access the assessment and Next Step Finder admin without re-entering it.</p>
       <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-        <input type="password" id="inline-secret" placeholder="Assessment admin secret">
+        <input type="password" id="inline-secret" placeholder="Admin secret">
         <button onclick="saveAssessSecret()">Save</button>
       </div>
     </div>
@@ -830,12 +830,17 @@
   }
 
   async function loadDiscipleMakerStats() {
+    const secret = sessionStorage.getItem("covo_admin_secret");
+    if (!secret) return;
     try {
-      const { count, error } = await supabase
-        .from("disciple_maker_sessions")
-        .select("id", { count: "exact", head: true })
-        .eq("status", "completed");
-      if (!error) document.getElementById("stat-dm-completed").textContent = (count ?? 0).toLocaleString();
+      const res = await fetch(SUPABASE_FUNCTIONS + "/disciple-maker-admin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "x-admin-secret": secret },
+        body: JSON.stringify({ action: "overview" }),
+      });
+      if (!res.ok) return;
+      const data = await res.json();
+      document.getElementById("stat-dm-completed").textContent = (data.completed_sessions ?? 0).toLocaleString();
     } catch { /* silently skip */ }
   }
 

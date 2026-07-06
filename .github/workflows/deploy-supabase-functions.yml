@@ -47,4 +47,5 @@ jobs:
           supabase functions deploy disciple-maker-resume --no-verify-jwt
           supabase functions deploy disciple-maker-cfc-followup --no-verify-jwt
           supabase functions deploy disciple-maker-cfc-diagnostic --no-verify-jwt
+          supabase functions deploy disciple-maker-admin --no-verify-jwt
           supabase functions deploy assessment-submit --no-verify-jwt

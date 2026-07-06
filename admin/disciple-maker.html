@@ -149,6 +149,22 @@
     .pagination { display: flex; align-items: center; gap: 10px; margin-top: 16px; font-size: 13px; color: var(--muted); }
     .pagination button { padding: 5px 12px; border: 1px solid var(--border); border-radius: 6px; background: var(--white); cursor: pointer; font-size: 12px; }
     .pagination button:disabled { opacity: .4; cursor: not-allowed; }
+
+    /* ── Admin secret banner ──────────────────────────── */
+    .secret-banner {
+      background: #fffbeb; border: 1px solid #fcd34d; border-radius: 8px;
+      padding: 14px 16px; margin-bottom: 20px;
+      display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap;
+    }
+    .secret-banner p { font-size: 13px; color: #92400e; }
+    .secret-banner input {
+      padding: 6px 10px; border: 1px solid #fcd34d; border-radius: 5px; font-size: 13px; background: var(--white);
+    }
+    .secret-banner button {
+      background: #d97706; color: var(--white); border: none; border-radius: 5px;
+      padding: 7px 14px; font-size: 13px; font-weight: 600; cursor: pointer;
+    }
+    .secret-banner button:hover { background: #b45309; }
   </style>
 </head>
 <body>
@@ -188,6 +204,15 @@
 
     <div class="main">
       <a href="/admin/" class="back-link">← Back to Admin Hub</a>
+
+      <!-- Admin secret status -->
+      <div id="secret-banner" class="secret-banner" style="display:none;">
+        <p>⚠️ Admin secret not set. Add it to load results.</p>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+          <input type="password" id="inline-secret" placeholder="Admin secret">
+          <button onclick="saveAdminSecret()">Save</button>
+        </div>
+      </div>
 
       <!-- Summary stats -->
       <div class="stats-grid" id="summary-stats">
@@ -272,6 +297,7 @@
 
   const SUPABASE_URL      = "https://mryjrvinzbxebzvxtggi.supabase.co";
   const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1yeWpydmluemJ4ZWJ6dnh0Z2dpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYyNzQ3MzksImV4cCI6MjA5MTg1MDczOX0.U1JJQTBVKePsVFXr2oFRCdUZasWaZiTQg6g8QrFdRyw";
+  const SUPABASE_FUNCTIONS = "https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1";
 
   const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -407,10 +433,25 @@
     const wrap = document.getElementById("results-table-wrap");
     wrap.innerHTML = '<div class="loading-state">Loading…</div>';
 
-    const { data, error } = await supabase
-      .from("disciple_maker_sessions")
-      .select("first_name, email, status, pathway, bottleneck, dimension_scores, completed_at, created_at")
-      .order("created_at", { ascending: false });
+    const secret = sessionStorage.getItem("covo_admin_secret");
+    if (!secret) {
+      wrap.innerHTML = '<div class="empty-state">Enter the admin secret above to load results.</div>';
+      return;
+    }
+
+    let data, error;
+    try {
+      const res = await fetch(`${SUPABASE_FUNCTIONS}/disciple-maker-admin`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "x-admin-secret": secret },
+        body: JSON.stringify({ action: "sessions" }),
+      });
+      const body = await res.json();
+      if (!res.ok) throw new Error(body.error || "Failed to load results.");
+      data = body.sessions;
+    } catch (err) {
+      error = err;
+    }
 
     if (error) {
       wrap.innerHTML = `<div class="empty-state" style="color:#dc2626">Error: ${esc(error.message)}</div>`;
@@ -450,12 +491,27 @@
     URL.revokeObjectURL(url);
   }
 
+  // ── Admin secret (required to load results; RLS blocks anon reads) ────
+  function updateSecretBanner() {
+    const secret = sessionStorage.getItem("covo_admin_secret");
+    document.getElementById("secret-banner").style.display = secret ? "none" : "flex";
+  }
+
+  window.saveAdminSecret = function() {
+    const val = document.getElementById("inline-secret").value.trim();
+    if (!val) return;
+    sessionStorage.setItem("covo_admin_secret", val);
+    updateSecretBanner();
+    loadData();
+  };
+
   // ── Auth ──────────────────────────────────────────────
   supabase.auth.onAuthStateChange((event, session) => {
     if (session) {
       document.getElementById("auth-screen").style.display = "none";
       document.getElementById("app").style.display = "block";
       document.getElementById("topbar-user").textContent = session.user.email;
+      updateSecretBanner();
       loadData();
     } else {
       document.getElementById("auth-screen").style.display = "flex";

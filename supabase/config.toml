@@ -37,6 +37,9 @@ verify_jwt = false
 [functions.assessment-admin]
 verify_jwt = false
 
+[functions.disciple-maker-admin]
+verify_jwt = false
+
 [functions.assessment-import-items]
 verify_jwt = false
 
