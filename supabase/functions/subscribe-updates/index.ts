@@ -23,8 +23,12 @@ const ALLOWED_ORIGINS = new Set([
   "https://covomultipliers.com",
   "https://www.covomultipliers.com",
   "https://mark-nyc.github.io",
+  // Multiplying Disciples' homepage CTA links to CoVo Labs and offers a
+  // "notify me" signup for this same function when no labs are upcoming.
+  "https://multiplyingdisciples.us",
   "http://localhost:3000",
   "http://localhost:5500",
+  "http://localhost:4321",
 ]);
 
 function corsHeaders(req: Request): Record<string, string> {
