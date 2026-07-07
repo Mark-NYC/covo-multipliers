@@ -329,74 +329,8 @@
                 Spots are limited to 25 and usually fill.
             </p>
 
-            <div class="labs-list">
-
-                <div class="lab-item" data-slug="from-lost-to-leader-may-2026">
-                    <a href="/from-lost-to-leader.html">
-                        <span class="lab-datetime">May 20</span>
-                        <h3 class="lab-title">From Lost to Leader</h3>
-                        <p class="lab-sub">A simple path to help someone follow Jesus this week.</p>
-                        <p class="lab-description">Walk through a clear next-step framework you can use immediately in your real relationships.</p>
-                        <p class="lab-meta">45 min · Live · Free</p>
-                        <span class="lab-link-text">Reserve Your Seat →</span>
-                    </a>
-                </div>
-
-                <div class="lab-item" data-slug="rhythms-of-a-covo-multiplier-jun-2026">
-                    <a href="/rhythms-of-a-covo-multiplier.html">
-                        <span class="lab-datetime">Jun 17</span>
-                        <h3 class="lab-title">The Rhythms of a Covo Multiplier</h3>
-                        <p class="lab-sub">Build a weekly rhythm that keeps mission from becoming random.</p>
-                        <p class="lab-description">Name the habits and priorities that help you stay grounded, intentional, and fruitful over time.</p>
-                        <p class="lab-meta">45 min · Live · Free</p>
-                        <span class="lab-link-text">Reserve Your Seat →</span>
-                    </a>
-                </div>
-
-                <div class="lab-item" data-slug="aquila-and-priscilla-pattern-jul-2026">
-                    <a href="/aquila-and-priscilla-pattern.html">
-                        <span class="lab-datetime">Jul 15</span>
-                        <h3 class="lab-title">The Aquila and Priscilla Pattern</h3>
-                        <p class="lab-sub">Learn how ordinary work, hospitality, and relationships became a church-planting platform.</p>
-                        <p class="lab-description">See a biblical pattern for multiplying disciples without separating ministry from normal life.</p>
-                        <p class="lab-meta">45 min · Live · Free</p>
-                        <span class="lab-link-text">Reserve Your Seat →</span>
-                    </a>
-                </div>
-
-                <div class="lab-item" data-slug="4-questions-to-get-started-august-2026">
-                    <a href="4-questions.html">
-                        <span class="lab-datetime">Aug 19</span>
-                        <h3 class="lab-title">4 Questions to Get Started Making Disciples</h3>
-                        <p class="lab-sub">Know who to reach, what to say, and how to help someone take the next step.</p>
-                        <p class="lab-description">Walk away with four simple questions you can use to start making disciples where you already live, work, and relate.</p>
-                        <p class="lab-meta">45 min · Live · Free</p>
-                        <span class="lab-link-text">Reserve Your Seat →</span>
-                    </a>
-                </div>
-
-                <div class="lab-item" data-slug="church-circle-september-2026">
-                    <a href="/church-circle-lab.html">
-                        <span class="lab-datetime">Sep 16</span>
-                        <h3 class="lab-title">The Church Circle</h3>
-                        <p class="lab-sub">A simple biblical map for practicing and multiplying church from Acts 2.</p>
-                        <p class="lab-description">Learn the Church Circle and the Two-Church Vision Cast: be in a church where you get trained, and start a church where you do what you learn.</p>
-                        <p class="lab-meta">45 min · Live · Free</p>
-                        <span class="lab-link-text">Reserve Your Seat →</span>
-                    </a>
-                </div>
-
-                <div class="lab-item" data-slug="disciple-making-rhythm-october-2026">
-                    <a href="/disciple-making-rhythm.html">
-                        <span class="lab-datetime">Oct 21</span>
-                        <h3 class="lab-title">From Intention to Disciple-Making Traction</h3>
-                        <p class="lab-sub">Stuck at "I really should"? Build a disciple-making rhythm you can actually keep — even with a full life.</p>
-                        <p class="lab-description">For people making disciples where they live, work, and play. Count the cost, get focused, and leave with a simple rhythm and people moving with you.</p>
-                        <p class="lab-meta">45 min · Live · Free</p>
-                        <span class="lab-link-text">Reserve Your Seat →</span>
-                    </a>
-                </div>
-
+            <div class="labs-list" id="labs-list" aria-live="polite">
+                <p class="labs-loading">Loading upcoming labs&hellip;</p>
             </div>
         </div>
     </section>
@@ -577,147 +511,83 @@
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1yeWpydmluemJ4ZWJ6dnh0Z2dpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYyNzQ3MzksImV4cCI6MjA5MTg1MDczOX0.U1JJQTBVKePsVFXr2oFRCdUZasWaZiTQg6g8QrFdRyw';
 
         // -----------------------------------------------------------------
-        // Upcoming labs queue
-        //
-        // Labs run monthly at 3:00 PM Eastern Time on the third Wednesday of
-        // the month. The home page shows only the next 3 upcoming labs. A lab
-        // drops off the list the moment it begins (3:00 PM ET on its date),
-        // and the next lab in the queue rotates in automatically.
-        //
-        // `start` is the lab's wall-clock start time [year, month(1-12), day,
-        // hour(24h), minute] in the LAB_TIMEZONE below. Times are resolved in
-        // America/New_York so daylight saving time is handled correctly
-        // instead of using a hardcoded EST/EDT offset.
-        //
-        // To add a future lab: add an entry here (it must also have a matching
-        // <div class="lab-item" data-slug="..."> card in the markup above).
+        // Upcoming labs — fetched live from the public-labs Edge Function,
+        // the single source of truth for lab data (see
+        // supabase/functions/public-labs). It already returns only
+        // published, not-yet-started labs, soonest first, limited to 3, so
+        // there's nothing to filter/sort/hide here — adding a new lab in
+        // Supabase is all it takes for it to show up here automatically.
         // -----------------------------------------------------------------
         const LAB_TIMEZONE = 'America/New_York';
-        const VISIBLE_LAB_COUNT = 3;
+        const LABS_FEED_URL = `${SUPABASE_URL}/functions/v1/public-labs`;
 
-        const LABS = [
-            { slug: 'from-lost-to-leader-may-2026',          start: [2026, 5, 20, 15, 0] },
-            { slug: 'rhythms-of-a-covo-multiplier-jun-2026', start: [2026, 6, 17, 15, 0] },
-            { slug: 'aquila-and-priscilla-pattern-jul-2026', start: [2026, 7, 15, 15, 0] },
-            { slug: '4-questions-to-get-started-august-2026', start: [2026, 8, 19, 15, 0] },
-            { slug: 'church-circle-september-2026',          start: [2026, 9, 16, 15, 0] },
-            { slug: 'disciple-making-rhythm-october-2026',   start: [2026, 10, 21, 15, 0] },
-        ];
-
-        // Convert a wall-clock time in an IANA timezone to a UTC Date,
-        // accounting for daylight saving time. Works without any libraries.
-        function zonedWallTimeToDate(year, month, day, hour, minute, timeZone) {
-            const utcGuess = Date.UTC(year, month - 1, day, hour, minute, 0);
-            const dtf = new Intl.DateTimeFormat('en-US', {
-                timeZone,
-                hour12: false,
-                year: 'numeric', month: 'numeric', day: 'numeric',
-                hour: 'numeric', minute: 'numeric', second: 'numeric',
-            });
-            const parts = {};
-            for (const p of dtf.formatToParts(new Date(utcGuess))) {
-                parts[p.type] = p.value;
-            }
-            let h = parseInt(parts.hour, 10);
-            if (h === 24) h = 0; // some engines report midnight as "24"
-            const asUTC = Date.UTC(
-                parseInt(parts.year, 10), parseInt(parts.month, 10) - 1, parseInt(parts.day, 10),
-                h, parseInt(parts.minute, 10), parseInt(parts.second, 10)
-            );
-            return new Date(utcGuess - (asUTC - utcGuess));
+        function escapeHtml(str) {
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
         }
 
-        // Only honor the ?now= testing override on local testing setups so
-        // public visitors can't manipulate which labs show via a shared URL.
-        function isLocalTestEnvironment() {
-            const host = window.location.hostname;
-            return (
-                window.location.protocol === 'file:' ||
-                host === '' ||
-                host === 'localhost' ||
-                host === '127.0.0.1' ||
-                host === '::1' ||
-                host === '[::1]'
-            );
+        function formatLabDate(iso) {
+            return new Intl.DateTimeFormat('en-US', {
+                timeZone: LAB_TIMEZONE,
+                month: 'short',
+                day: 'numeric',
+            }).format(new Date(iso));
         }
 
-        // Current time. On local testing only, a ?now=<ISO datetime> query
-        // param lets us simulate a different moment for testing the rotation.
-        // In production this always returns the real current time.
-        function getNow() {
-            if (isLocalTestEnvironment()) {
-                const override = new URLSearchParams(window.location.search).get('now');
-                if (override) {
-                    const simulated = new Date(override);
-                    if (!isNaN(simulated.getTime())) return simulated;
-                }
-            }
-            return new Date();
+        function renderLabs(labs) {
+            const list = document.getElementById('labs-list');
+            list.innerHTML = labs.map((lab) => {
+                const isFull = !lab.has_availability;
+                const seatsLabel = isFull
+                    ? 'Event full'
+                    : `${lab.seats_remaining} seat${lab.seats_remaining === 1 ? '' : 's'} left · fills fast`;
+                const sub = lab.hook || lab.description || '';
+                const description = lab.hook && lab.description ? lab.description : '';
+                return `
+                    <div class="lab-item">
+                        <a href="${escapeHtml(lab.url)}">
+                            <span class="lab-datetime">${formatLabDate(lab.event_date)}</span>
+                            <h3 class="lab-title">${escapeHtml(lab.title)}</h3>
+                            ${sub ? `<p class="lab-sub">${escapeHtml(sub)}</p>` : ''}
+                            ${description ? `<p class="lab-description">${escapeHtml(description)}</p>` : ''}
+                            <p class="lab-meta">45 min · Live · Free</p>
+                            <span class="lab-link-text">Reserve Your Seat →</span>
+                        </a>
+                        <span class="lab-seats${isFull ? ' is-full' : ''}">${escapeHtml(seatsLabel)}</span>
+                    </div>
+                `;
+            }).join('');
         }
 
-        // Slugs of the next VISIBLE_LAB_COUNT labs that have not yet started,
-        // sorted by their actual start datetime.
-        function getVisibleLabSlugs() {
-            const now = getNow();
-            return LABS
-                .map(lab => ({
-                    slug: lab.slug,
-                    startDate: zonedWallTimeToDate(
-                        lab.start[0], lab.start[1], lab.start[2],
-                        lab.start[3], lab.start[4], LAB_TIMEZONE
-                    ),
-                }))
-                .filter(lab => lab.startDate > now)
-                .sort((a, b) => a.startDate - b.startDate)
-                .slice(0, VISIBLE_LAB_COUNT)
-                .map(lab => lab.slug);
+        function renderLabsFallback() {
+            const list = document.getElementById('labs-list');
+            list.innerHTML = `
+                <p class="labs-empty">
+                    New labs are on the way.
+                    <a href="#lab-interest-email">Get notified when the next lab opens →</a>
+                </p>
+            `;
         }
 
-        // Show only the next 3 upcoming labs; hide the rest. Returns the
-        // visible slugs so seat availability is only fetched for those cards.
-        function renderUpcomingLabs() {
-            const visibleSlugs = getVisibleLabSlugs();
-            const visible = new Set(visibleSlugs);
-            document.querySelectorAll('.lab-item').forEach(card => {
-                card.style.display = visible.has(card.dataset.slug) ? '' : 'none';
-            });
-            return visibleSlugs;
-        }
-
-        async function loadLabSeats(slugs) {
-            if (!slugs || !slugs.length) return;
+        async function loadLabs() {
             try {
-                const url = new URL(`${SUPABASE_URL}/rest/v1/events_with_availability`);
-                url.searchParams.set('slug', `in.(${slugs.join(',')})`);
-                url.searchParams.set('select', 'slug,has_availability,seats_remaining,event_date');
-
-                const res = await fetch(url, {
-                    headers: {
-                        'apikey': SUPABASE_ANON_KEY,
-                        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-                    },
-                });
-
-                if (!res.ok) return;
-
-                const events = await res.json();
-
-                for (const event of events) {
-                    const card = document.querySelector(`.lab-item[data-slug="${event.slug}"]`);
-                    if (!card) continue;
-
-                    const isFull = !event.has_availability;
-                    const label = isFull
-                        ? 'Event full'
-                        : `${event.seats_remaining} seat${event.seats_remaining === 1 ? '' : 's'} left · fills fast`;
-
-                    const pill = document.createElement('span');
-                    pill.className = `lab-seats${isFull ? ' is-full' : ''}`;
-                    pill.textContent = label;
-                    card.appendChild(pill);
+                const url = new URL(LABS_FEED_URL);
+                url.searchParams.set('limit', '3');
+                const res = await fetch(url);
+                if (!res.ok) throw new Error('request failed');
+                const data = await res.json();
+                const labs = Array.isArray(data.labs) ? data.labs : [];
+                if (labs.length > 0) {
+                    renderLabs(labs);
+                } else {
+                    renderLabsFallback();
                 }
             } catch {
-                // fail silently
+                renderLabsFallback();
             }
         }
 
@@ -756,8 +626,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            const visibleSlugs = renderUpcomingLabs();
-            loadLabSeats(visibleSlugs);
+            loadLabs();
         });
 
         (function () {
