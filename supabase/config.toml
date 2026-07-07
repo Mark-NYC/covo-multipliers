@@ -1,3 +1,6 @@
+[functions.public-labs]
+verify_jwt = false
+
 [functions.register]
 verify_jwt = false
 

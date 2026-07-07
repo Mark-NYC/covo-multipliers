@@ -753,6 +753,20 @@ img {
     margin-bottom: 1.75rem;
 }
 
+.labs-loading,
+.labs-empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.98rem;
+}
+
+.labs-empty a {
+    color: #ffffff;
+    font-weight: 700;
+    text-decoration: underline;
+}
+
 .labs-list {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
