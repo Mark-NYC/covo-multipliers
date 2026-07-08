@@ -16,7 +16,7 @@
 --     Sun Nov 15, 2026 12:00 PM CST  -> 2026-11-15 18:00:00+00
 --   NYC — America/New_York; DST begins Sun Mar 14, 2027:
 --     Fri Mar 12, 2027  5:00 PM EST (UTC-5) -> 2027-03-12 22:00:00+00
---     Mon Mar 15, 2027 12:00 PM EDT (UTC-4) -> 2027-03-15 16:00:00+00
+--     Sun Mar 14, 2027 12:00 PM EDT (UTC-4) -> 2027-03-14 16:00:00+00
 -- =============================================================================
 
 insert into public.immersions
@@ -42,7 +42,7 @@ values
     'New York City, NY',
     'New York City, NY | Host location TBD',
     '2027-03-12 22:00:00+00',
-    '2027-03-15 16:00:00+00',
+    '2027-03-14 16:00:00+00',
     'In-person immersion',
     'Urban / Workplaces',
     24,
