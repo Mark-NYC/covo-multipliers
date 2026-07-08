@@ -13,7 +13,7 @@
 -- Times are stored in UTC:
 --   OKC — America/Chicago, CST (UTC-6) in mid-November:
 --     Thu Nov 12, 2026  5:00 PM CST  -> 2026-11-12 23:00:00+00
---     Mon Nov 16, 2026 12:00 PM CST  -> 2026-11-16 18:00:00+00
+--     Sun Nov 15, 2026 12:00 PM CST  -> 2026-11-15 18:00:00+00
 --   NYC — America/New_York; DST begins Sun Mar 14, 2027:
 --     Fri Mar 12, 2027  5:00 PM EST (UTC-5) -> 2027-03-12 22:00:00+00
 --     Mon Mar 15, 2027 12:00 PM EDT (UTC-4) -> 2027-03-15 16:00:00+00
@@ -29,7 +29,7 @@ values
     'Oklahoma City, OK',
     'Oklahoma City, OK | Host location TBD',
     '2026-11-12 23:00:00+00',
-    '2026-11-16 18:00:00+00',
+    '2026-11-15 18:00:00+00',
     'In-person immersion',
     'Workplaces',
     24,
