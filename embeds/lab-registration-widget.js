@@ -23,10 +23,18 @@
  *     CovoLabRegistration.mount(document.getElementById('my-container'), {
  *       eventSlug: 'church-circle-september-2026', // events.slug
  *       submitLabel: 'Reserve My Seat',            // optional, defaults below
+ *       consentLabel: 'Yes, email me...',          // optional, defaults below
  *       contentTag: 'home__featured-lab__form',    // optional utm_content
  *       onEvent(name, detail) { ... },              // optional analytics hook
  *     });
  *   </script>
+ *
+ * The marketing-opt-in checkbox is rendered after the submit button by
+ * design — it's a secondary, de-emphasized action that should never
+ * compete with the primary "reserve seat" conversion path. This does
+ * not affect what gets stored: the server (register/index.ts) owns the
+ * authoritative consent-disclosure text regardless of what's displayed
+ * here, so `consentLabel` only changes the visible copy, not compliance.
  *
  * Markup is unstyled-by-default (BEM-ish `covo-reg-*` classes, no
  * `all: initial` reset) so a host site can restyle it at the
@@ -127,6 +135,7 @@
     var eventSlug = opts.eventSlug;
     if (!eventSlug) throw new Error('CovoLabRegistration.mount: opts.eventSlug is required.');
     var submitLabel = opts.submitLabel || 'Reserve Your Seat →';
+    var consentLabel = opts.consentLabel || 'Yes, email me about future CoVo Multipliers labs, resources, and training. I can unsubscribe at any time.';
     var contentTag = opts.contentTag || null;
     var onEvent = opts.onEvent;
 
@@ -134,10 +143,10 @@
     container.classList.add('covo-reg');
     container.innerHTML = '<p class="covo-reg__loading">Loading registration form&hellip;</p>';
 
-    loadEvent(container, eventSlug, submitLabel, contentTag, onEvent);
+    loadEvent(container, eventSlug, submitLabel, consentLabel, contentTag, onEvent);
   }
 
-  function loadEvent(container, eventSlug, submitLabel, contentTag, onEvent) {
+  function loadEvent(container, eventSlug, submitLabel, consentLabel, contentTag, onEvent) {
     var url = new URL(SUPABASE_URL + '/rest/v1/events_with_availability');
     url.searchParams.set('slug', 'eq.' + eventSlug);
     url.searchParams.set('select', '*');
@@ -163,7 +172,7 @@
           renderFull(container);
           return;
         }
-        renderForm(container, event, submitLabel, contentTag, onEvent);
+        renderForm(container, event, submitLabel, consentLabel, contentTag, onEvent);
       })
       .catch(function (err) {
         console.error('CovoLabRegistration: failed to load event', err);
@@ -187,7 +196,7 @@
       '</div>';
   }
 
-  function renderForm(container, event, submitLabel, contentTag, onEvent) {
+  function renderForm(container, event, submitLabel, consentLabel, contentTag, onEvent) {
     var uid = 'covo-reg-' + Math.random().toString(36).slice(2, 8);
     container.innerHTML =
       '<form class="covo-reg__form" novalidate>' +
@@ -199,12 +208,12 @@
       '<label for="' + uid + '-email">Email address</label>' +
       '<input type="email" id="' + uid + '-email" name="email" autocomplete="email" placeholder="you@example.com" required />' +
       '</div>' +
-      '<div class="covo-reg__opt-in">' +
-      '<input type="checkbox" id="' + uid + '-opt-in" name="marketing_opt_in" value="true" />' +
-      '<label for="' + uid + '-opt-in">Yes, email me about future CoVo Multipliers labs, resources, and training. I can unsubscribe at any time.</label>' +
-      '</div>' +
       '<button type="submit" class="covo-reg__submit">' + esc(submitLabel) + '</button>' +
       '<div class="covo-reg__message" role="alert" aria-live="polite"></div>' +
+      '<div class="covo-reg__opt-in">' +
+      '<input type="checkbox" id="' + uid + '-opt-in" name="marketing_opt_in" value="true" />' +
+      '<label for="' + uid + '-opt-in">' + esc(consentLabel) + '</label>' +
+      '</div>' +
       '</form>';
 
     var form = container.querySelector('.covo-reg__form');
