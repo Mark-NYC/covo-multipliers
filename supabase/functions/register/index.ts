@@ -37,6 +37,10 @@ const ALLOWED_ORIGINS = new Set([
   // confirmation email — can be submitted without leaving that site.
   "https://multiplyingdisciples.us",
   "https://www.multiplyingdisciples.us",
+  // Pre-launch Vercel domain for Multiplying Disciples — remove once
+  // multiplyingdisciples.us is live and this URL is no longer used for
+  // testing the homepage registration widget.
+  "https://multiplying-disciples.vercel.app",
 ]);
 
 function corsHeaders(req: Request): Record<string, string> {
