@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DXGLXDTF9V"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-DXGLXDTF9V');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Gathering details for the Online Simple Multiplier Church: weekly Thursday meeting time in ET, CT, and PT, the Zoom link, and a one-click Google Calendar invite.">
+    <title>Gathering Details | Online Simple Multiplier Church | CoVo Multipliers</title>
+    <link rel="icon" type="image/x-icon" href="/image/favicons/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/image/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/image/favicons/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/image/favicons/apple-touch-icon.png">
+    <link rel="manifest" href="/image/favicons/site.webmanifest">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="canonical" href="https://covomultipliers.com/gathering-details.html">
+
+    <style>
+        /* ==============================================
+           Gathering Details page styles
+        ============================================== */
+
+        .site-header {
+            background: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .site-header .brand {
+            font-size: 0.95rem;
+            font-weight: 900;
+            color: #10281f;
+            text-decoration: none;
+            letter-spacing: -0.01em;
+        }
+
+        .site-header .back-link {
+            font-size: 0.875rem;
+            color: #5a6b65;
+            text-decoration: none;
+            transition: color 0.15s ease;
+        }
+
+        .site-header .back-link:hover {
+            color: #1b4d3e;
+        }
+
+        .gd-hero {
+            padding: 3.5rem 2rem 3rem;
+            background: linear-gradient(135deg,
+                #10281f 0%,
+                #1b4d3e 28%,
+                #2c6b5d 56%,
+                #9f7a2f 82%,
+                #dcb55a 100%
+            );
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .gd-hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.12;
+            background-image:
+                radial-gradient(circle at 20% 20%, rgba(255,255,255,0.12) 0.7px, transparent 0.8px),
+                radial-gradient(circle at 80% 30%, rgba(0,0,0,0.10) 0.7px, transparent 0.8px),
+                radial-gradient(circle at 40% 70%, rgba(255,255,255,0.08) 0.6px, transparent 0.7px),
+                radial-gradient(circle at 70% 80%, rgba(0,0,0,0.08) 0.6px, transparent 0.7px);
+        }
+
+        .gd-hero-inner {
+            position: relative;
+            max-width: 620px;
+            margin: 0 auto;
+        }
+
+        .gd-hero .eyebrow {
+            margin: 0 0 0.6rem;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.65);
+        }
+
+        .gd-hero h1 {
+            margin: 0 0 0.875rem;
+            font-size: clamp(1.9rem, 4.5vw, 2.6rem);
+            font-weight: 900;
+            color: #ffffff;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+        }
+
+        .gd-hero .hero-sub {
+            margin: 0;
+            font-size: 1.05rem;
+            color: rgba(255,255,255,0.82);
+            line-height: 1.6;
+        }
+
+        .gd-body {
+            background: #f7f6f2;
+            padding: 3.25rem 2rem 4rem;
+        }
+
+        .gd-inner {
+            max-width: 640px;
+            margin: 0 auto;
+        }
+
+        .gd-panel {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 2.5rem 2.5rem 2.75rem;
+            box-shadow: 0 2px 16px rgba(16,40,31,0.05);
+        }
+
+        .gd-day-pill {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            border-radius: 999px;
+            background: #eef6f1;
+            color: #1b4d3e;
+            font-size: 0.85rem;
+            font-weight: 800;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+
+        .gd-next {
+            margin: -1rem 0 1.5rem;
+            font-size: 0.9rem;
+            color: #5a6b65;
+        }
+
+        .gd-times {
+            list-style: none;
+            margin: 0 0 2rem;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.85rem;
+        }
+
+        .gd-time-card {
+            background: #f7f6f2;
+            border: 1px solid #ecebe4;
+            border-radius: 12px;
+            padding: 1.1rem 0.75rem;
+            text-align: center;
+        }
+
+        .gd-time-card .tz-label {
+            display: block;
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #9f7a2f;
+            margin-bottom: 0.4rem;
+        }
+
+        .gd-time-card .tz-time {
+            display: block;
+            font-size: 1.1rem;
+            font-weight: 900;
+            color: #10281f;
+            line-height: 1.3;
+        }
+
+        .gd-actions {
+            display: grid;
+            gap: 0.85rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .gd-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.9rem 1.5rem;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 800;
+            text-decoration: none;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .gd-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .gd-btn-zoom {
+            background: #2d8cff;
+            color: #ffffff;
+            box-shadow: 0 4px 16px rgba(45,140,255,0.28);
+        }
+
+        .gd-btn-cal {
+            background: #ffffff;
+            color: #1b4d3e;
+            border: 1.5px solid #1b4d3e;
+        }
+
+        .gd-note {
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            color: #5a6b65;
+            line-height: 1.6;
+        }
+
+        .gd-note strong {
+            color: #10281f;
+        }
+
+        .gd-back {
+            display: block;
+            text-align: center;
+            margin-top: 1.75rem;
+            font-size: 0.9rem;
+            color: #5a6b65;
+            text-decoration: none;
+        }
+
+        .gd-back:hover {
+            color: #1b4d3e;
+        }
+
+        .site-footer {
+            background: #10281f;
+            padding: 2.5rem 2rem;
+        }
+
+        .footer-inner {
+            max-width: 960px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem 3rem;
+            align-items: flex-start;
+        }
+
+        .footer-wordmark {
+            display: block;
+            font-size: 1rem;
+            font-weight: 900;
+            color: #ffffff;
+            letter-spacing: -0.01em;
+            margin-bottom: 0.4rem;
+        }
+
+        .footer-desc {
+            margin: 0;
+            font-size: 0.825rem;
+            color: rgba(255,255,255,0.55);
+            line-height: 1.55;
+            max-width: 300px;
+        }
+
+        .footer-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem 1.5rem;
+            align-items: center;
+        }
+
+        .footer-nav a {
+            font-size: 0.875rem;
+            color: rgba(255,255,255,0.65);
+            text-decoration: none;
+            transition: color 0.15s ease;
+        }
+
+        .footer-nav a:hover {
+            color: #ffffff;
+        }
+
+        @media (max-width: 540px) {
+            .gd-hero {
+                padding: 2.5rem 1.25rem 2.25rem;
+            }
+
+            .gd-body {
+                padding: 2.5rem 1.25rem 3rem;
+            }
+
+            .gd-panel {
+                padding: 1.85rem 1.5rem 2rem;
+            }
+
+            .gd-times {
+                grid-template-columns: 1fr;
+            }
+
+            .site-header {
+                padding: 0.875rem 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="site-header">
+        <a class="brand" href="/">Covo Multipliers</a>
+        <a class="back-link" href="/online-simple-multiplier-church.html">&larr; Back to Online Simple Multiplier Church</a>
+    </header>
+
+
+    <section class="gd-hero">
+        <div class="gd-hero-inner">
+            <p class="eyebrow">Online Simple Multiplier Church</p>
+            <h1>Gathering Details</h1>
+            <p class="hero-sub">
+                Everything you need to join us live: the weekly meeting time in your
+                timezone, the Zoom link, and a one-click calendar invite.
+            </p>
+        </div>
+    </section>
+
+
+    <section class="gd-body">
+        <div class="gd-inner">
+            <div class="gd-panel">
+
+                <span class="gd-day-pill">Every Thursday</span>
+                <p class="gd-next" data-next-gathering>Next gathering: Thursday</p>
+
+                <ul class="gd-times">
+                    <li class="gd-time-card">
+                        <span class="tz-label">Eastern</span>
+                        <span class="tz-time">7:00&ndash;9:00 PM ET</span>
+                    </li>
+                    <li class="gd-time-card">
+                        <span class="tz-label">Central</span>
+                        <span class="tz-time">6:00&ndash;8:00 PM CT</span>
+                    </li>
+                    <li class="gd-time-card">
+                        <span class="tz-label">Pacific</span>
+                        <span class="tz-time">4:00&ndash;6:00 PM PT</span>
+                    </li>
+                </ul>
+
+                <div class="gd-actions">
+                    <a class="gd-btn gd-btn-zoom" data-zoom-link href="https://us06web.zoom.us/j/88989274394?pwd=QK6EWGDJRrqzo4mVofbZJhe5aMZkdi.1" target="_blank" rel="noopener">
+                        Join the Zoom Gathering
+                    </a>
+                    <a class="gd-btn gd-btn-cal" data-gcal-link href="#" target="_blank" rel="noopener">
+                        Add to Google Calendar (Weekly)
+                    </a>
+                </div>
+
+                <p class="gd-note">
+                    <strong>Add to Calendar</strong> creates a recurring event every Thursday at
+                    7:00&ndash;9:00 PM ET (automatically adjusted for daylight saving time) with the
+                    Zoom link included, so you only need to add it once.
+                </p>
+
+            </div>
+
+            <a class="gd-back" href="/online-simple-multiplier-church.html">&larr; Back to Online Simple Multiplier Church</a>
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <span class="footer-wordmark">Covo Multipliers</span>
+                <p class="footer-desc">Practical training for everyday leaders who want to make disciples where they live, work, and play.</p>
+            </div>
+            <nav class="footer-nav" aria-label="Footer navigation">
+                <a href="/">Home</a>
+                <a href="/vision.html">Vision &amp; Pathway</a>
+                <a href="/blog/">Blog</a>
+                <a href="/resources.html">Resources</a>
+                <a href="/h3x.html">H3X Podcast</a>
+                <a href="/contact.html">Contact</a>
+                <a href="https://www.covomultipliers.com/join-whatsapp?utm_source=footer&utm_medium=cta&utm_campaign=whatsapp_field_room" style="color:#25D366;">Join the Field Room</a>
+            </nav>
+        </div>
+    </footer>
+
+
+    <script src="/utm-tracking.js"></script>
+
+    <script>
+        (function () {
+            var ZOOM_URL = 'https://us06web.zoom.us/j/88989274394?pwd=QK6EWGDJRrqzo4mVofbZJhe5aMZkdi.1';
+            var TIMEZONE = 'America/New_York';
+            var START_HOUR = 19; // 7:00 PM ET
+            var END_HOUR = 21;   // 9:00 PM ET
+
+            function pad(n) {
+                return String(n).padStart(2, '0');
+            }
+
+            function getEasternParts(date) {
+                var fmt = new Intl.DateTimeFormat('en-US', {
+                    timeZone: TIMEZONE,
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    hour12: false
+                });
+                var parts = {};
+                fmt.formatToParts(date).forEach(function (p) {
+                    parts[p.type] = p.value;
+                });
+                return parts;
+            }
+
+            var weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            var now = new Date();
+            var nowET = getEasternParts(now);
+            var todayIndex = weekdays.indexOf(nowET.weekday);
+            var thursdayIndex = 4;
+            var daysUntilThursday = (thursdayIndex - todayIndex + 7) % 7;
+
+            var nowHour = parseInt(nowET.hour === '24' ? '0' : nowET.hour, 10);
+            if (daysUntilThursday === 0 && nowHour >= END_HOUR) {
+                daysUntilThursday = 7;
+            }
+
+            var todayUTC = Date.UTC(parseInt(nowET.year, 10), parseInt(nowET.month, 10) - 1, parseInt(nowET.day, 10));
+            var nextThursdayUTC = new Date(todayUTC + daysUntilThursday * 86400000);
+
+            var y = nextThursdayUTC.getUTCFullYear();
+            var m = nextThursdayUTC.getUTCMonth() + 1;
+            var d = nextThursdayUTC.getUTCDate();
+
+            var dateStr = '' + y + pad(m) + pad(d);
+            var startStr = dateStr + 'T' + pad(START_HOUR) + '0000';
+            var endStr = dateStr + 'T' + pad(END_HOUR) + '0000';
+
+            var title = 'Online Simple Multiplier Church — Weekly Gathering';
+            var details = [
+                'Weekly online gathering for the Online Simple Multiplier Church.',
+                '',
+                'Join Zoom: ' + ZOOM_URL,
+                '',
+                'Times: 7:00–9:00 PM ET / 6:00–8:00 PM CT / 4:00–6:00 PM PT'
+            ].join('\n');
+
+            var calUrl = 'https://calendar.google.com/calendar/render?action=TEMPLATE'
+                + '&text=' + encodeURIComponent(title)
+                + '&dates=' + startStr + '/' + endStr
+                + '&ctz=' + encodeURIComponent(TIMEZONE)
+                + '&details=' + encodeURIComponent(details)
+                + '&location=' + encodeURIComponent(ZOOM_URL)
+                + '&recur=RRULE:FREQ=WEEKLY;BYDAY=TH';
+
+            document.querySelectorAll('[data-gcal-link]').forEach(function (a) {
+                a.href = calUrl;
+            });
+
+            var nextLabel = document.querySelector('[data-next-gathering]');
+            if (nextLabel) {
+                var displayFmt = new Intl.DateTimeFormat('en-US', {
+                    timeZone: 'UTC',
+                    month: 'long',
+                    day: 'numeric'
+                });
+                nextLabel.textContent = 'Next gathering: Thursday, ' + displayFmt.format(new Date(Date.UTC(y, m - 1, d, 12)));
+            }
+        })();
+    </script>
+
+</body>
+</html>
