@@ -31,6 +31,12 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 const ALLOWED_ORIGINS = new Set([
   "https://covomultipliers.com",
   "https://www.covomultipliers.com",
+  // Multiplying Disciples' homepage embeds the shared lab registration
+  // widget (see embeds/lab-registration-widget.js) so the same
+  // registration flow — same RPC, same capacity/dedup rules, same
+  // confirmation email — can be submitted without leaving that site.
+  "https://multiplyingdisciples.us",
+  "https://www.multiplyingdisciples.us",
 ]);
 
 function corsHeaders(req: Request): Record<string, string> {
