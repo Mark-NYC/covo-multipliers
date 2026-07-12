@@ -31,6 +31,13 @@
 //
 //   test_email by itself is invalid — it requires both test_type and event_slug.
 //
+// Force send (real send, ignores timing window):
+//   Body: { "force_send": true, "event_slug": string, "reminder_type": "week"|"24h"|"1h"|"10min"|"followup" }
+//   Sends the real reminder email to every active registrant of the given
+//   published event who has not already received that reminder type
+//   (same recipient/stamping logic as production — safe to retry).
+//   Combine with ?dry_run=true to preview recipients without sending.
+//
 // ── Reminder windows (events.event_date) ─────────────────────────────────────
 //   week (5-day) → [now+4d,   now+5d)  — stamps reminder_week_sent_at
 //   24h          → [now+23h,  now+24h) — stamps reminder_24h_sent_at
@@ -60,6 +67,14 @@ const BATCH_SIZE = 100;
 const CALENDAR_BASE = "https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1/lab-calendar";
 
 type ReminderType = "week" | "24h" | "1h" | "10min" | "followup";
+
+const REMINDER_COLUMNS: Record<ReminderType, string> = {
+  week: "reminder_week_sent_at",
+  "24h": "reminder_24h_sent_at",
+  "1h": "reminder_1h_sent_at",
+  "10min": "reminder_10min_sent_at",
+  followup: "followup_sent_at",
+};
 
 interface LabEvent {
   id: string;
@@ -119,6 +134,69 @@ Deno.serve(async (req: Request): Promise<Response> => {
   const rawTestEmail  = typeof body.test_email  === "string" ? body.test_email.trim()  : null;
   const rawTestType   = typeof body.test_type   === "string" ? body.test_type.trim()   : null;
   const rawEventSlug  = typeof body.event_slug  === "string" ? body.event_slug.trim()  : null;
+
+  // --- Force send mode: real send to real registrants, ignoring the timing window ---
+  const rawForceSend    = body.force_send === true;
+  const rawReminderType = typeof body.reminder_type === "string" ? body.reminder_type.trim() : null;
+  const isForceSend = Boolean(rawForceSend && !rawTestEmail);
+
+  if (isForceSend) {
+    if (!rawEventSlug) {
+      return jsonResp(400, { error: "event_slug is required when force_send is true." });
+    }
+    if (
+      rawReminderType !== "week" && rawReminderType !== "24h" &&
+      rawReminderType !== "1h" && rawReminderType !== "10min" && rawReminderType !== "followup"
+    ) {
+      return jsonResp(400, {
+        error: 'reminder_type must be "week", "24h", "1h", "10min", or "followup".',
+      });
+    }
+
+    const type = rawReminderType as ReminderType;
+    const column = REMINDER_COLUMNS[type];
+
+    const resendApiKey = Deno.env.get("RESEND_API_KEY");
+    const fromEmail = Deno.env.get("RESEND_FROM_EMAIL") ?? "labs@covomultipliers.com";
+
+    if (!resendApiKey && !isDryRun) {
+      return jsonResp(500, { error: "RESEND_API_KEY is not configured." });
+    }
+
+    const supabase = createClient(
+      Deno.env.get("SUPABASE_URL")!,
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
+      { auth: { persistSession: false } },
+    );
+
+    const { data: eventRow, error: eventErr } = await supabase
+      .from("events")
+      .select("id, title, slug, description, event_date, zoom_link")
+      .eq("slug", rawEventSlug!)
+      .eq("is_published", true)
+      .single();
+
+    if (eventErr || !eventRow) {
+      return jsonResp(404, {
+        error: `Published event with slug "${rawEventSlug}" not found.`,
+      });
+    }
+
+    const event = eventRow as LabEvent;
+
+    console.log(`[reminders] force send: type=${type} event="${event.title}" dry_run=${isDryRun}`);
+
+    const result = await sendReminderBatch(supabase, resendApiKey, fromEmail, type, column, [event], isDryRun);
+
+    return jsonResp(200, {
+      mode: "force_send",
+      dry_run: isDryRun,
+      event_slug: event.slug,
+      event_title: event.title,
+      reminder_type: type,
+      result,
+    });
+  }
 
   // --- Forced test mode: all three params present ---
   const isForcedTest = Boolean(rawTestEmail && rawTestType && rawEventSlug);
@@ -234,27 +312,27 @@ Deno.serve(async (req: Request): Promise<Response> => {
     week: {
       lower: addMs(now, 4 * 24 * 60 * 60 * 1000),
       upper: addMs(now, 5 * 24 * 60 * 60 * 1000),
-      column: "reminder_week_sent_at",
+      column: REMINDER_COLUMNS.week,
     },
     "24h": {
       lower: addMs(now, 23 * 60 * 60 * 1000),
       upper: addMs(now, 24 * 60 * 60 * 1000),
-      column: "reminder_24h_sent_at",
+      column: REMINDER_COLUMNS["24h"],
     },
     "1h": {
       lower: addMs(now, 10 * 60 * 1000),
       upper: addMs(now, 60 * 60 * 1000),
-      column: "reminder_1h_sent_at",
+      column: REMINDER_COLUMNS["1h"],
     },
     "10min": {
       lower: now,
       upper: addMs(now, 10 * 60 * 1000),
-      column: "reminder_10min_sent_at",
+      column: REMINDER_COLUMNS["10min"],
     },
     followup: {
       lower: addMs(now, -165 * 60 * 1000),
       upper: addMs(now, -105 * 60 * 1000),
-      column: "followup_sent_at",
+      column: REMINDER_COLUMNS.followup,
     },
   };
 
@@ -310,130 +388,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
       dueEvents.map((e) => `"${e.title}"`).join(", "),
     );
 
-    // Fetch eligible registrations for all due events
-    const { data: rows, error: regErr } = await supabase
-      .from("registrations")
-      .select("id, name, email, event_id, first_utm_source, first_utm_medium, first_utm_campaign")
-      .in("event_id", dueEvents.map((e) => e.id))
-      .eq("registration_status", "active")
-      .not("email", "is", null)
-      .is(column, null);
-
-    if (regErr) {
-      console.error(`[reminders] ${type}: registration query failed:`, JSON.stringify(regErr));
-      continue;
-    }
-
-    // Build recipient list with event lookup
-    const eventMap = new Map<string, LabEvent>(dueEvents.map((e) => [e.id, e]));
-
-    const recipients: Recipient[] = (rows ?? [])
-      .filter((r) => r.email?.trim())
-      .map((r) => ({
-        registration_id: r.id,
-        name: r.name ?? "Friend",
-        email: r.email.trim().toLowerCase(),
-        event: eventMap.get(r.event_id)!,
-        origin: {
-          first_utm_source:   r.first_utm_source ?? null,
-          first_utm_medium:   r.first_utm_medium ?? null,
-          first_utm_campaign: r.first_utm_campaign ?? null,
-        },
-      }));
-
-    summary[type].eligible = recipients.length;
-    console.log(`[reminders] ${type}: ${recipients.length} eligible recipients`);
-
-    // Dry run: report and skip
-    if (isDryRun) {
-      summary[type].would_send = recipients.map((r) => `${r.email} (${r.event.title})`);
-      continue;
-    }
-
-    const sendList: Recipient[] = recipients;
-
-    if (sendList.length === 0) continue;
-
-    // Send in batches
-    for (let i = 0; i < sendList.length; i += BATCH_SIZE) {
-      const chunk = sendList.slice(i, i + BATCH_SIZE);
-
-      const batchPayload = chunk.map((r) => ({
-        from: `Covo Multipliers <${fromEmail}>`,
-        to: [r.email],
-        subject: buildSubject(type, r.event.title, r.event.slug),
-        html: buildEmailHtml(type, r.name, r.event, r.origin),
-      }));
-
-      console.log(
-        `[reminders] ${type}: sending batch ${Math.floor(i / BATCH_SIZE) + 1}` +
-        ` (${i + 1}–${i + chunk.length} of ${sendList.length})`,
-      );
-
-      let batchResults: Array<{ id?: string } | null> = [];
-      let batchOk = false;
-
-      try {
-        const res = await fetch("https://api.resend.com/emails/batch", {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${resendApiKey}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(batchPayload),
-        });
-
-        const resBody = await res.json().catch(() => ({})) as Record<string, unknown>;
-
-        if (!res.ok) {
-          console.error(`[reminders] ${type}: Resend batch error:`, JSON.stringify(resBody));
-          summary[type].failed += chunk.length;
-          continue;
-        }
-
-        batchResults = Array.isArray(resBody.data)
-          ? (resBody.data as Array<{ id?: string } | null>)
-          : [];
-        batchOk = true;
-      } catch (err) {
-        console.error(`[reminders] ${type}: fetch to Resend threw:`, err);
-        summary[type].failed += chunk.length;
-        continue;
-      }
-
-      // Stamp rows only after Resend returns a message ID.
-      for (let j = 0; j < chunk.length; j++) {
-        const r = chunk[j];
-        const result = batchOk ? (batchResults[j] ?? null) : null;
-
-        if (!result?.id) {
-          console.error(`[reminders] ${type}: no Resend ID for ${r.email}:`, JSON.stringify(result));
-          summary[type].failed++;
-          continue;
-        }
-
-        console.log(`[reminders] ${type}: sent to ${r.email} msg_id=${result.id}`);
-
-        const originalRecipient = recipients[i + j];
-
-        const { error: updateErr } = await supabase
-          .from("registrations")
-          .update({ [column]: new Date().toISOString() })
-          .eq("id", originalRecipient.registration_id);
-
-        if (updateErr) {
-          console.error(
-            `[reminders] ${type}: update failed for registration_id=${originalRecipient.registration_id}:`,
-            JSON.stringify(updateErr),
-          );
-          summary[type].failed++;
-        } else {
-          console.log(`[reminders] ${type}: stamped registration_id=${originalRecipient.registration_id}`);
-          summary[type].sent++;
-        }
-      }
-    }
-
+    summary[type] = await sendReminderBatch(supabase, resendApiKey, fromEmail, type, column, dueEvents, isDryRun);
   }
 
   // --- Build totals ---
@@ -453,6 +408,155 @@ Deno.serve(async (req: Request): Promise<Response> => {
     total_skipped: totalSkipped,
   });
 });
+
+// ---------------------------------------------------------------------------
+// Shared send/stamp logic — used by both the windowed production loop and
+// the force-send mode.
+// ---------------------------------------------------------------------------
+
+interface ReminderResult {
+  eligible: number;
+  sent: number;
+  failed: number;
+  skipped: number;
+  would_send?: string[];
+}
+
+async function sendReminderBatch(
+  supabase: ReturnType<typeof createClient>,
+  resendApiKey: string | undefined,
+  fromEmail: string,
+  type: ReminderType,
+  column: string,
+  dueEvents: LabEvent[],
+  isDryRun: boolean,
+): Promise<ReminderResult> {
+  const result: ReminderResult = { eligible: 0, sent: 0, failed: 0, skipped: 0 };
+
+  if (dueEvents.length === 0) return result;
+
+  // Fetch eligible registrations for all due events
+  const { data: rows, error: regErr } = await supabase
+    .from("registrations")
+    .select("id, name, email, event_id, first_utm_source, first_utm_medium, first_utm_campaign")
+    .in("event_id", dueEvents.map((e) => e.id))
+    .eq("registration_status", "active")
+    .not("email", "is", null)
+    .is(column, null);
+
+  if (regErr) {
+    console.error(`[reminders] ${type}: registration query failed:`, JSON.stringify(regErr));
+    return result;
+  }
+
+  // Build recipient list with event lookup
+  const eventMap = new Map<string, LabEvent>(dueEvents.map((e) => [e.id, e]));
+
+  const recipients: Recipient[] = (rows ?? [])
+    .filter((r) => r.email?.trim())
+    .map((r) => ({
+      registration_id: r.id,
+      name: r.name ?? "Friend",
+      email: r.email.trim().toLowerCase(),
+      event: eventMap.get(r.event_id)!,
+      origin: {
+        first_utm_source:   r.first_utm_source ?? null,
+        first_utm_medium:   r.first_utm_medium ?? null,
+        first_utm_campaign: r.first_utm_campaign ?? null,
+      },
+    }));
+
+  result.eligible = recipients.length;
+  console.log(`[reminders] ${type}: ${recipients.length} eligible recipients`);
+
+  // Dry run: report and skip
+  if (isDryRun) {
+    result.would_send = recipients.map((r) => `${r.email} (${r.event.title})`);
+    return result;
+  }
+
+  if (recipients.length === 0) return result;
+
+  // Send in batches
+  for (let i = 0; i < recipients.length; i += BATCH_SIZE) {
+    const chunk = recipients.slice(i, i + BATCH_SIZE);
+
+    const batchPayload = chunk.map((r) => ({
+      from: `Covo Multipliers <${fromEmail}>`,
+      to: [r.email],
+      subject: buildSubject(type, r.event.title, r.event.slug),
+      html: buildEmailHtml(type, r.name, r.event, r.origin),
+    }));
+
+    console.log(
+      `[reminders] ${type}: sending batch ${Math.floor(i / BATCH_SIZE) + 1}` +
+      ` (${i + 1}–${i + chunk.length} of ${recipients.length})`,
+    );
+
+    let batchResults: Array<{ id?: string } | null> = [];
+    let batchOk = false;
+
+    try {
+      const res = await fetch("https://api.resend.com/emails/batch", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${resendApiKey}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(batchPayload),
+      });
+
+      const resBody = await res.json().catch(() => ({})) as Record<string, unknown>;
+
+      if (!res.ok) {
+        console.error(`[reminders] ${type}: Resend batch error:`, JSON.stringify(resBody));
+        result.failed += chunk.length;
+        continue;
+      }
+
+      batchResults = Array.isArray(resBody.data)
+        ? (resBody.data as Array<{ id?: string } | null>)
+        : [];
+      batchOk = true;
+    } catch (err) {
+      console.error(`[reminders] ${type}: fetch to Resend threw:`, err);
+      result.failed += chunk.length;
+      continue;
+    }
+
+    // Stamp rows only after Resend returns a message ID.
+    for (let j = 0; j < chunk.length; j++) {
+      const r = chunk[j];
+      const sendRes = batchOk ? (batchResults[j] ?? null) : null;
+
+      if (!sendRes?.id) {
+        console.error(`[reminders] ${type}: no Resend ID for ${r.email}:`, JSON.stringify(sendRes));
+        result.failed++;
+        continue;
+      }
+
+      console.log(`[reminders] ${type}: sent to ${r.email} msg_id=${sendRes.id}`);
+
+      const { error: updateErr } = await supabase
+        .from("registrations")
+        .update({ [column]: new Date().toISOString() })
+        .eq("id", r.registration_id);
+
+      if (updateErr) {
+        console.error(
+          `[reminders] ${type}: update failed for registration_id=${r.registration_id}:`,
+          JSON.stringify(updateErr),
+        );
+        result.failed++;
+      } else {
+        console.log(`[reminders] ${type}: stamped registration_id=${r.registration_id}`);
+        result.sent++;
+      }
+    }
+  }
+
+  return result;
+}
 
 // ---------------------------------------------------------------------------
 // Email subjects
