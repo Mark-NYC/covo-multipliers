@@ -108,7 +108,7 @@ A new table `registration_security_events` must exist.
 - **Option A — Supabase SQL Editor (dashboard):**
   1. Supabase Dashboard → **SQL Editor** → **New query**.
   2. Paste the contents of
-     `supabase/migrations/20270705000000_registration_security_events.sql`.
+     `supabase/migrations/20260721000000_registration_security_events.sql`.
   3. Click **Run**. It is idempotent and safe to re-run.
 
 - **Option B — CLI (if you use it):** `supabase db push`.

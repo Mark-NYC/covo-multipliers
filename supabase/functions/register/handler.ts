@@ -254,7 +254,8 @@ export function createHandler(deps: RegisterDeps) {
         ipHash, emailHash: null, eventId: eventIdForLog,
         outcome: "honeypot_filled",
       });
-      return json(200, { success: true, message: SUCCESS_MESSAGE }, cors);
+      // Same shape as the real success response so the bot can't distinguish it.
+      return json(200, { success: true, message: SUCCESS_MESSAGE, seats_remaining: null }, cors);
     }
 
     // -- 2. Origin: reject clearly-unauthorized browser origins (secondary). --
@@ -444,6 +445,11 @@ export function buildRealDeps(): RegisterDeps {
   );
 
   const hashSalt = Deno.env.get("IP_HASH_SALT");
+  if (!hashSalt) {
+    console.warn(
+      "[register] IP_HASH_SALT is not set — audit-log hashes use a known development salt. Set IP_HASH_SALT for production.",
+    );
+  }
   const adminEmails = (Deno.env.get("ADMIN_NOTIFY_EMAILS") ?? "")
     .split(",").map((e) => e.trim()).filter((e) => e.length > 0);
 

@@ -1,5 +1,5 @@
 -- =============================================================================
--- Migration 20270705000000: Registration security / spam-audit events
+-- Migration 20260721000000: Registration security / spam-audit events
 -- =============================================================================
 --
 -- Creates a lightweight audit table that serves two purposes for the lab
