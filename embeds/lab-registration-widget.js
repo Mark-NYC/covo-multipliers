@@ -56,7 +56,7 @@
   // SECRET key lives only on the server (register Edge Function). The committed
   // default is Cloudflare's "always passes" TEST key; replace with your
   // production site key at go-live (must match the server's TURNSTILE_SECRET_KEY).
-  var TURNSTILE_SITE_KEY = '1x00000000000000000000AA';
+  var TURNSTILE_SITE_KEY = '0x4AAAAAAD6wlX7Wg73UGvGH';
   var TURNSTILE_API_URL = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
 
   // This widget is embedded cross-origin (e.g. on multiplyingdisciples.us), so
