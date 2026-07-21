@@ -1019,7 +1019,12 @@
                             >
                         </div>
 
-                        <div class="form-opt-in">
+                        <!-- Honeypot: hidden off-screen (not display:none), never shown to real users. A populated value is treated as a bot server-side. -->
+<div class="form-field" aria-hidden="true" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">
+<label for="field-company-website">Company website</label>
+<input autocomplete="off" id="field-company-website" name="company_website" tabindex="-1" type="text"/>
+</div>
+<div class="form-opt-in">
                             <input
                                 type="checkbox"
                                 id="field-marketing-opt-in"
@@ -1031,6 +1036,7 @@
                             </label>
                         </div>
 
+                        <div class="cf-turnstile-holder" id="turnstile-holder" style="margin:0 0 1rem;"></div>
                         <button class="btn btn-primary" style="width:100%;" type="submit" id="submit-btn">
                             Register
                         </button>
@@ -1212,7 +1218,9 @@
     </footer>
 
 
-    <script src="/utm-tracking.js"></script>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<script src="/covo-turnstile.js"></script>
+<script src="/utm-tracking.js"></script>
     <script>
         // ============================================================
         // CONFIG
@@ -1227,6 +1235,9 @@
 
         // Current event id — set once the event loads
         let eventId = null;
+
+        // Cloudflare Turnstile controller — created on DOMContentLoaded.
+        let covoTs = null;
 
 
         // -------------------------------------------------------
@@ -1324,6 +1335,15 @@
                 // Attach form handler
                 document.getElementById('registration-form')
                     .addEventListener('submit', handleSubmit);
+            // Render the Cloudflare Turnstile widget (managed; usually solves
+            // with no interaction so it stays low-friction for real users).
+            if (window.CovoTurnstile) {
+                covoTs = window.CovoTurnstile.create(
+                    document.getElementById('turnstile-holder'),
+                    { action: 'lab_register' }
+                );
+            }
+
             }
         }
 
@@ -1363,6 +1383,8 @@
                         name,
                         email,
                         marketing_opt_in: marketingOptIn,
+                        turnstile_token: covoTs ? covoTs.token() : '',
+                        company_website: document.getElementById('field-company-website').value,
                     }, window.CovoAttribution ? window.CovoAttribution.get() : {})),
                 });
 
@@ -1370,12 +1392,14 @@
 
                 if (!res.ok) {
                     setSubmitting(false);
+                    if (covoTs) covoTs.reset();
                     showError(data.error ?? 'Registration failed. Please try again.');
                     return;
                 }
             } catch (err) {
                 console.error('Registration request failed:', err);
                 setSubmitting(false);
+                if (covoTs) covoTs.reset();
                 showError('Something went wrong. Please check your connection and try again.');
                 return;
             }
