@@ -32,7 +32,7 @@
   // Cloudflare test site key ("always passes"). Replace for production.
   // A page may override this before this script loads by setting
   // window.COVO_TURNSTILE_SITE_KEY.
-  var SITE_KEY = global.COVO_TURNSTILE_SITE_KEY || '1x00000000000000000000AA';
+  var SITE_KEY = global.COVO_TURNSTILE_SITE_KEY || '0x4AAAAAAD6wlX7Wg73UGvGH';
 
   // Runs cb once the Turnstile API is available. The api.js script is loaded
   // async, so it may not be ready when a form wires itself up.
