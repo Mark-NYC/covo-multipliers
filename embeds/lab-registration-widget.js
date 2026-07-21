@@ -52,6 +52,69 @@
   var CALENDAR_FUNCTION_URL = SUPABASE_URL + '/functions/v1/lab-calendar';
   var LAB_TIMEZONE = 'America/New_York';
 
+  // Public Cloudflare Turnstile site key — safe to expose in browser code. The
+  // SECRET key lives only on the server (register Edge Function). The committed
+  // default is Cloudflare's "always passes" TEST key; replace with your
+  // production site key at go-live (must match the server's TURNSTILE_SECRET_KEY).
+  var TURNSTILE_SITE_KEY = '1x00000000000000000000AA';
+  var TURNSTILE_API_URL = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
+
+  // This widget is embedded cross-origin (e.g. on multiplyingdisciples.us), so
+  // the host page will not have loaded the Turnstile API. Inject it once and
+  // invoke cb when window.turnstile is ready.
+  function ensureTurnstile(cb) {
+    if (global.turnstile && typeof global.turnstile.render === 'function') { cb(); return; }
+    if (!document.querySelector('script[data-covo-turnstile]')) {
+      var sc = document.createElement('script');
+      sc.src = TURNSTILE_API_URL;
+      sc.async = true;
+      sc.defer = true;
+      sc.setAttribute('data-covo-turnstile', '1');
+      document.head.appendChild(sc);
+    }
+    var tries = 0;
+    var iv = setInterval(function () {
+      if (global.turnstile && typeof global.turnstile.render === 'function') {
+        clearInterval(iv); cb();
+      } else if (++tries > 150) { clearInterval(iv); } // ~15s
+    }, 100);
+  }
+
+  // Renders a managed Turnstile widget and returns a token()/reset() controller.
+  function mountTurnstile(holderEl, action) {
+    var widgetId = null;
+    var lastToken = '';
+    ensureTurnstile(function () {
+      if (!holderEl) return;
+      try {
+        widgetId = global.turnstile.render(holderEl, {
+          sitekey: TURNSTILE_SITE_KEY,
+          action: action || 'lab_register',
+          theme: 'auto',
+          callback: function (t) { lastToken = t || ''; },
+          'error-callback': function () { lastToken = ''; },
+          'expired-callback': function () { lastToken = ''; }
+        });
+      } catch (err) {
+        if (global.console) console.error('CovoLabRegistration: Turnstile render failed', err);
+      }
+    });
+    return {
+      token: function () {
+        if (widgetId != null && global.turnstile) {
+          try { return global.turnstile.getResponse(widgetId) || lastToken || ''; } catch (e) {}
+        }
+        return lastToken || '';
+      },
+      reset: function () {
+        lastToken = '';
+        if (widgetId != null && global.turnstile) {
+          try { global.turnstile.reset(widgetId); } catch (e) {}
+        }
+      }
+    };
+  }
+
   var STYLE_ID = 'covo-reg-widget-styles';
   var STYLE_CSS =
     '.covo-reg{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}' +
@@ -208,6 +271,12 @@
       '<label for="' + uid + '-email">Email address</label>' +
       '<input type="email" id="' + uid + '-email" name="email" autocomplete="email" placeholder="you@example.com" required />' +
       '</div>' +
+      // Honeypot: hidden off-screen (not display:none), never shown to real users.
+      '<div aria-hidden="true" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">' +
+      '<label for="' + uid + '-company-website">Company website</label>' +
+      '<input type="text" id="' + uid + '-company-website" name="company_website" tabindex="-1" autocomplete="off" />' +
+      '</div>' +
+      '<div class="covo-reg__turnstile" id="' + uid + '-turnstile" style="margin:0 0 1rem;"></div>' +
       '<button type="submit" class="covo-reg__submit">' + esc(submitLabel) + '</button>' +
       '<div class="covo-reg__message" role="alert" aria-live="polite"></div>' +
       '<div class="covo-reg__opt-in">' +
@@ -220,8 +289,12 @@
     var nameInput = container.querySelector('#' + uid + '-name');
     var emailInput = container.querySelector('#' + uid + '-email');
     var optInInput = container.querySelector('#' + uid + '-opt-in');
+    var honeypotInput = container.querySelector('#' + uid + '-company-website');
     var submitBtn = container.querySelector('.covo-reg__submit');
     var messageEl = container.querySelector('.covo-reg__message');
+
+    // Render the Turnstile widget (managed; usually solves without interaction).
+    var covoTs = mountTurnstile(container.querySelector('#' + uid + '-turnstile'), 'lab_register');
 
     function showError(msg) {
       messageEl.className = 'covo-reg__message is-error';
@@ -276,6 +349,8 @@
           name: name,
           email: email,
           marketing_opt_in: optInInput.checked,
+          turnstile_token: covoTs ? covoTs.token() : '',
+          company_website: honeypotInput ? honeypotInput.value : '',
         },
         attribution,
         contentTag ? { utm_content: attribution.utm_content || contentTag } : {}
@@ -294,6 +369,7 @@
         .then(function (result) {
           if (!result.ok) {
             setSubmitting(false);
+            if (covoTs) covoTs.reset();
             var errMsg = (result.data && result.data.error) || 'Registration failed. Please try again.';
             showError(errMsg);
             fire(onEvent, 'registration_failed', { slug: event.slug, error: errMsg });
@@ -305,6 +381,7 @@
         .catch(function (err) {
           console.error('CovoLabRegistration: registration request failed', err);
           setSubmitting(false);
+          if (covoTs) covoTs.reset();
           var errMsg = 'Something went wrong. Please check your connection and try again.';
           showError(errMsg);
           fire(onEvent, 'registration_failed', { slug: event.slug, error: errMsg });
