@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DXGLXDTF9V"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-DXGLXDTF9V');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Privacy Policy for Covo Multipliers — how we collect, use, disclose, and safeguard your personal information.">
+    <title>Privacy Policy — Covo Multipliers</title>
+    <link rel="icon" type="image/x-icon" href="/image/favicons/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/image/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/image/favicons/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/image/favicons/apple-touch-icon.png">
+    <link rel="manifest" href="/image/favicons/site.webmanifest">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="canonical" href="https://covomultipliers.com/privacy.html">
+
+    <style>
+        /* ==============================================
+           Privacy page styles
+        ============================================== */
+
+        /* -----------------------------------------------
+           1. SITE HEADER
+        ----------------------------------------------- */
+
+        .site-header {
+            background: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .site-header .brand {
+            font-size: 0.95rem;
+            font-weight: 900;
+            color: #10281f;
+            text-decoration: none;
+            letter-spacing: -0.01em;
+        }
+
+        .site-header .back-link {
+            font-size: 0.875rem;
+            color: #5a6b65;
+            text-decoration: none;
+            transition: color 0.15s ease;
+        }
+
+        .site-header .back-link:hover {
+            color: #1b4d3e;
+        }
+
+
+        /* -----------------------------------------------
+           2. HERO
+        ----------------------------------------------- */
+
+        .legal-hero {
+            padding: 3.5rem 2rem 3rem;
+            background: linear-gradient(135deg,
+                #10281f 0%,
+                #1b4d3e 28%,
+                #2c6b5d 56%,
+                #9f7a2f 82%,
+                #dcb55a 100%
+            );
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .legal-hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.12;
+            background-image:
+                radial-gradient(circle at 20% 20%, rgba(255,255,255,0.12) 0.7px, transparent 0.8px),
+                radial-gradient(circle at 80% 30%, rgba(0,0,0,0.10) 0.7px, transparent 0.8px),
+                radial-gradient(circle at 40% 70%, rgba(255,255,255,0.08) 0.6px, transparent 0.7px),
+                radial-gradient(circle at 70% 80%, rgba(0,0,0,0.08) 0.6px, transparent 0.7px);
+        }
+
+        .legal-hero-inner {
+            position: relative;
+            max-width: 640px;
+            margin: 0 auto;
+        }
+
+        .legal-hero .eyebrow {
+            margin: 0 0 0.6rem;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.65);
+        }
+
+        .legal-hero h1 {
+            margin: 0 0 0.875rem;
+            font-size: clamp(1.9rem, 4.5vw, 2.6rem);
+            font-weight: 900;
+            color: #ffffff;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+        }
+
+        .legal-hero .hero-sub {
+            margin: 0;
+            font-size: 0.95rem;
+            color: rgba(255,255,255,0.78);
+            line-height: 1.6;
+        }
+
+
+        /* -----------------------------------------------
+           3. CONTENT
+        ----------------------------------------------- */
+
+        .legal-section {
+            background: #f7f6f2;
+            padding: 3.5rem 2rem 4.5rem;
+        }
+
+        .legal-inner {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        .legal-card {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 2.75rem 2.5rem;
+            box-shadow: 0 2px 16px rgba(16,40,31,0.06);
+        }
+
+        .legal-intro {
+            margin: 0 0 2rem;
+            font-size: 0.95rem;
+            color: #3f4f49;
+            line-height: 1.7;
+        }
+
+        .legal-card h2 {
+            margin: 2.25rem 0 0.75rem;
+            font-size: 1.15rem;
+            font-weight: 900;
+            color: #10281f;
+            letter-spacing: -0.01em;
+        }
+
+        .legal-card h2:first-of-type {
+            margin-top: 0;
+        }
+
+        .legal-card p {
+            margin: 0 0 1rem;
+            font-size: 0.925rem;
+            color: #3f4f49;
+            line-height: 1.7;
+        }
+
+        .legal-card ul {
+            margin: 0 0 1rem;
+            padding-left: 1.25rem;
+        }
+
+        .legal-card li {
+            margin: 0 0 0.4rem;
+            font-size: 0.925rem;
+            color: #3f4f49;
+            line-height: 1.6;
+        }
+
+        .legal-card a {
+            color: #1b4d3e;
+            font-weight: 600;
+            text-decoration: underline;
+            text-underline-offset: 2px;
+        }
+
+        .legal-card a:hover {
+            color: #10281f;
+        }
+
+        .legal-meta {
+            margin: 0 0 2rem;
+            font-size: 0.8rem;
+            color: #8a978f;
+        }
+
+
+        /* -----------------------------------------------
+           4. FOOTER
+        ----------------------------------------------- */
+
+        .site-footer {
+            background: #10281f;
+            padding: 2.5rem 2rem;
+        }
+
+        .footer-inner {
+            max-width: 960px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem 3rem;
+            align-items: flex-start;
+        }
+
+        .footer-wordmark {
+            display: block;
+            font-size: 1rem;
+            font-weight: 900;
+            color: #ffffff;
+            letter-spacing: -0.01em;
+            margin-bottom: 0.4rem;
+        }
+
+        .footer-desc {
+            margin: 0;
+            font-size: 0.825rem;
+            color: rgba(255,255,255,0.55);
+            line-height: 1.55;
+            max-width: 300px;
+        }
+
+        .footer-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem 1.5rem;
+            align-items: center;
+        }
+
+        .footer-nav a {
+            font-size: 0.875rem;
+            color: rgba(255,255,255,0.65);
+            text-decoration: none;
+            transition: color 0.15s ease;
+        }
+
+        .footer-nav a:hover {
+            color: #ffffff;
+        }
+
+
+        /* -----------------------------------------------
+           5. RESPONSIVE
+        ----------------------------------------------- */
+
+        @media (max-width: 540px) {
+            .legal-hero {
+                padding: 2.5rem 1.25rem 2.25rem;
+            }
+
+            .legal-section {
+                padding: 2.5rem 1.25rem 3.5rem;
+            }
+
+            .legal-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .site-header {
+                padding: 0.875rem 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="site-header">
+        <a class="brand" href="/">Covo Multipliers</a>
+        <a class="back-link" href="/">← Back to home</a>
+    </header>
+
+
+    <section class="legal-hero">
+        <div class="legal-hero-inner">
+            <p class="eyebrow">Legal</p>
+            <h1>Privacy Policy</h1>
+            <p class="hero-sub">
+                How we collect, use, disclose, and safeguard your personal
+                information when you visit Covo Multipliers.
+            </p>
+        </div>
+    </section>
+
+
+    <section class="legal-section">
+        <div class="legal-inner">
+            <div class="legal-card">
+
+                <p class="legal-meta">Last updated: July 22, 2026</p>
+
+                <p class="legal-intro">
+                    Welcome to Covo Multipliers ("us," "we," or "our"). This Privacy
+                    Policy explains how we collect, use, disclose, and safeguard your
+                    personal information when you visit our website
+                    <a href="https://covomultipliers.com">covomultipliers.com</a> or use
+                    our services. Please read this Privacy Policy carefully. By accessing
+                    or using our website, you acknowledge that you have read, understood,
+                    and agree to be bound by all the terms of this Privacy Policy.
+                </p>
+
+                <h2>1. Information We Collect</h2>
+                <p>We may collect the following types of personal information from you:</p>
+                <ul>
+                    <li>Names, email addresses, phone numbers, and demographic information</li>
+                    <li>Responses you provide through assessments, forms, and registrations</li>
+                </ul>
+                <p>
+                    We collect this information through contact forms, event and lab
+                    registrations, assessments, and newsletter sign-ups.
+                </p>
+
+                <h2>2. Use of Collected Information</h2>
+                <p>We collect personal information for the following purposes:</p>
+                <ul>
+                    <li>Providing training, coaching, and resources</li>
+                    <li>Responding to your questions and requests</li>
+                    <li>Sending newsletters and updates</li>
+                    <li>Improving our website and services</li>
+                </ul>
+
+                <h2>3. Cookies and Tracking Technologies</h2>
+                <p>
+                    We use cookies on our website to enhance the user experience and
+                    collect information. Cookies are small files stored on a user's device.
+                    You have the option to disable cookies through your browser settings,
+                    although this may affect your ability to access certain features of our
+                    website.
+                </p>
+
+                <h2>4. Data Retention</h2>
+                <p>
+                    We retain the personal information we collect until a user unsubscribes
+                    from our services or until we determine that they are no longer
+                    interested. Upon unsubscribing, we will promptly delete the user's
+                    information from our records.
+                </p>
+
+                <h2>5. Data Protection and Security</h2>
+                <p>
+                    We prioritize the protection of your personal information. We implement
+                    industry-standard security measures, including encryption, firewalls,
+                    and secure server connections, to safeguard your data.
+                </p>
+
+                <h2>6. Third-Party Sharing</h2>
+                <p>
+                    We share user information with Google Analytics, a third-party
+                    analytics service, to analyze website traffic and improve our services.
+                    Please note that Google Analytics may have its own privacy policy, and
+                    we encourage you to review it.
+                </p>
+
+                <h2>7. User Rights</h2>
+                <p>
+                    You have the right to opt out of our communications and request access,
+                    update, or deletion of your personal information. You can exercise these
+                    rights by unsubscribing from our email list or contacting us at
+                    <a href="mailto:h3xpodcast@gmail.com">h3xpodcast@gmail.com</a>.
+                </p>
+
+                <h2>8. Children's Privacy</h2>
+                <p>
+                    Our website is not directed toward children under the age of 13, and we
+                    do not knowingly collect personal information from children. If you
+                    believe we have inadvertently collected information from a child, please
+                    contact us immediately.
+                </p>
+
+                <h2>9. Updates to the Privacy Policy</h2>
+                <p>
+                    We may update this Privacy Policy from time to time. The most current
+                    version will be posted on our website, and it is your responsibility to
+                    review it periodically. Your continued use of our website signifies your
+                    acceptance of any updates or changes.
+                </p>
+
+                <h2>10. Website Security and Cloudflare Turnstile</h2>
+                <p>
+                    To help keep our forms and website safe, we use Cloudflare Turnstile, a
+                    security service provided by Cloudflare, Inc. Turnstile allows us to tell
+                    genuine visitors apart from automated traffic so we can protect our site
+                    from spam, bots, and abuse — and it does this quietly in the background,
+                    without asking you to solve traditional puzzle-style CAPTCHAs.
+                </p>
+                <p>
+                    When Turnstile runs, it may process a limited amount of technical
+                    information about your visit, such as your IP address, characteristics of
+                    your browser and device, general behavioral and security signals, and
+                    related technical metadata. Cloudflare uses this information only to
+                    distinguish human visitors from automated bots. This processing is
+                    carried out solely for the purposes of website security and fraud
+                    prevention. It is not used to identify you personally, to build
+                    advertising profiles, or to track you across other websites.
+                </p>
+                <p>
+                    Because this protection is powered by Cloudflare, information processed
+                    through Turnstile is also handled in accordance with Cloudflare's privacy
+                    terms. You can learn more in the
+                    <a href="https://www.cloudflare.com/turnstile-privacy-policy/">Cloudflare Turnstile Privacy Addendum</a>
+                    and the
+                    <a href="https://www.cloudflare.com/privacypolicy/">Cloudflare Privacy Policy</a>.
+                </p>
+
+                <h2>Contact Us</h2>
+                <p>
+                    If you have any questions or concerns about this Privacy Policy, please
+                    contact us at
+                    <a href="mailto:h3xpodcast@gmail.com">h3xpodcast@gmail.com</a>.
+                </p>
+
+            </div>
+        </div>
+    </section>
+
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <span class="footer-wordmark">Covo Multipliers</span>
+                <p class="footer-desc">Practical training for everyday leaders who want to make disciples where they live, work, and play.</p>
+            </div>
+            <nav class="footer-nav" aria-label="Footer navigation">
+                <a href="/">Home</a>
+                <a href="/vision.html">Vision &amp; Pathway</a>
+                <a href="/blog/">Blog</a>
+                <a href="/resources.html">Resources</a>
+                <a href="/h3x.html">H3X Podcast</a>
+                <a href="/contact.html">Contact</a>
+                <a href="/privacy.html">Privacy</a>
+            </nav>
+        </div>
+    </footer>
+
+    <script src="/utm-tracking.js"></script>
+
+</body>
+</html>
