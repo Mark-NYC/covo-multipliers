@@ -516,9 +516,9 @@ Build the page in this order unless there is a strong reason to change it:
 10. FAQ
 11. Social proof strip
 12. Final high-stakes CTA
-13. Footer
+13. Footer — must include a link to the Privacy Policy page (`/privacy.html`)
 
-Keep the page focused. Do not add unrelated ministries, navigation menus, articles, or multiple competing calls to action.
+Keep the page focused. Do not add unrelated ministries, navigation menus, articles, or multiple competing calls to action. The footer's Privacy Policy link is a required utility link, not a navigation menu, and should remain even when the footer is otherwise minimal — the lab pages use Cloudflare Turnstile, and the Privacy Policy is where that use is disclosed.
 
 ---
 
