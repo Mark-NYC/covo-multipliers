@@ -1,4 +1,16 @@
 {
+  "redirects": [
+    {
+      "source": "/blog/how-to-make-disciples",
+      "destination": "/blog/how-to-make-disciples-at-work/",
+      "statusCode": 301
+    },
+    {
+      "source": "/blog/how-to-make-disciples/",
+      "destination": "/blog/how-to-make-disciples-at-work/",
+      "statusCode": 301
+    }
+  ],
   "rewrites": [
     { "source": "/admin", "destination": "/admin/index.html" },
     { "source": "/4-questions", "destination": "/4-questions.html" },
