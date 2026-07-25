@@ -9,11 +9,17 @@
       "source": "/blog/how-to-make-disciples/",
       "destination": "/blog/how-to-make-disciples-at-work/",
       "statusCode": 301
+    },
+    {
+      "source": "/immersions.html",
+      "destination": "/immersions",
+      "statusCode": 301
     }
   ],
   "rewrites": [
     { "source": "/admin", "destination": "/admin/index.html" },
     { "source": "/4-questions", "destination": "/4-questions.html" },
+    { "source": "/immersions", "destination": "/immersions.html" },
     {
       "source": "/join-whatsapp",
       "destination": "https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1/join-whatsapp"
