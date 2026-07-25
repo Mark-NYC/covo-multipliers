@@ -2268,7 +2268,7 @@
         var form    = document.getElementById('immersion-apply-form');
         var success = document.getElementById('modal-success');
         var errorEl = document.getElementById('form-error');
-        var submitBtn = form ? form.querySelector('.btn-submit') : null;
+        var submitBtn = form ? form.querySelector('button[type="submit"]') : null;
 
         if (hidden)  hidden.value = id;
         if (heading) heading.textContent = isWaitlist
@@ -2359,7 +2359,7 @@
           e.preventDefault();
 
           var form      = e.target;
-          var submitBtn = form.querySelector('.btn-submit');
+          var submitBtn = form.querySelector('button[type="submit"]');
           var errorEl   = document.getElementById('form-error');
           var successEl = document.getElementById('modal-success');
 
