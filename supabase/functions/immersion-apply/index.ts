@@ -204,6 +204,15 @@ Deno.serve(async (req: Request): Promise<Response> => {
 
   if (insertErr || !application) {
     console.error("[immersion-apply] insert error:", JSON.stringify(insertErr));
+    // Duplicate application: this email already applied to this immersion
+    // (unique constraint on immersion_id + email). Return a clear, friendly
+    // message rather than a generic failure.
+    if ((insertErr as { code?: string } | null)?.code === "23505") {
+      return json(409, {
+        error:
+          "It looks like you've already applied for this immersion with this email. We have your application — just reply to your confirmation email if you need to update anything.",
+      }, cors);
+    }
     return json(500, {
       error: "Could not save your application. Please try again.",
     }, cors);
