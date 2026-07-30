@@ -1,0 +1,96 @@
+name: Cache H3X Podcast Feed
+
+# Fetches the full H3X RSS feed from anchor.fm and commits it to the repo
+# as static files (h3x-feed.xml + h3x-feed.json). This gives the h3x.html
+# page an instant, always-available copy of the whole ~257-episode archive
+# instead of depending on every visitor's browser reaching anchor.fm, and
+# gives tooling an offline, version-controlled catalog to work from.
+#
+# New episodes drop Tuesday mornings, so we refresh Tuesday afternoon UTC.
+on:
+  schedule:
+    - cron: '0 14 * * 2' # Tuesdays 14:00 UTC
+  workflow_dispatch: # Allow manual trigger
+
+# NOTE: scheduled runs and the "Run workflow" button only work once this
+# file lives on the default branch (main). Merge it there to activate.
+
+permissions:
+  contents: write
+
+concurrency:
+  group: cache-h3x-feed
+  cancel-in-progress: false
+
+jobs:
+  cache-feed:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Fetch H3X RSS feed
+        run: |
+          set -euo pipefail
+          FEED_URL="https://anchor.fm/s/111b03cec/podcast/rss"
+          UA="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0 Safari/537.36"
+          ok=0
+          for attempt in 1 2 3 4 5; do
+            if curl -fsSL --max-time 90 -A "$UA" "$FEED_URL" -o h3x-feed.xml; then
+              ok=1; break
+            fi
+            echo "attempt $attempt failed; backing off..."
+            sleep $((attempt * 5))
+          done
+          if [ "$ok" -ne 1 ]; then
+            echo "::error::Could not fetch the H3X feed from anchor.fm after 5 attempts."
+            exit 1
+          fi
+          # Sanity-check: a real feed has <item> elements.
+          items=$(grep -c '<item>' h3x-feed.xml || true)
+          if [ "${items:-0}" -lt 1 ]; then
+            echo "::error::Fetched file has no <item> elements — not a valid feed."
+            exit 1
+          fi
+          echo "Fetched $items episodes." | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Convert feed to JSON
+        run: |
+          python3 - <<'PY'
+          import json
+          import xml.etree.ElementTree as ET
+
+          root = ET.parse('h3x-feed.xml').getroot()
+
+          def text(el, tag):
+              child = el.find(tag)
+              return (child.text or '').strip() if child is not None and child.text else ''
+
+          items = []
+          for it in root.iter('item'):
+              items.append({
+                  'title': text(it, 'title'),
+                  'pubDate': text(it, 'pubDate'),
+                  'link': text(it, 'link'),
+                  'guid': text(it, 'guid'),
+                  'description': text(it, 'description'),
+              })
+
+          with open('h3x-feed.json', 'w', encoding='utf-8') as f:
+              json.dump({'count': len(items), 'items': items}, f,
+                        ensure_ascii=False, indent=2)
+          print(f'Wrote h3x-feed.json with {len(items)} items.')
+          PY
+
+      - name: Commit if the feed changed
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add h3x-feed.xml h3x-feed.json
+          if git diff --cached --quiet; then
+            echo "No feed changes to commit."
+            exit 0
+          fi
+          git commit -m "chore: refresh cached H3X feed"
+          git push

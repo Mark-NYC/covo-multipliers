@@ -1396,6 +1396,11 @@
   <script>
     (function () {
       var FEED_URL = 'https://anchor.fm/s/111b03cec/podcast/rss';
+      // Repo-cached copy of the feed, refreshed weekly by the
+      // "Cache H3X Podcast Feed" GitHub Action. Tried first so the page
+      // loads instantly and doesn't depend on the visitor's browser
+      // reaching anchor.fm; falls back to the live feed if it's absent.
+      var CACHED_URL = '/h3x-feed.json';
       var MAX_EPISODES = 6;
       var SUMMARY_MAX_CHARS = 140;
 
@@ -1467,6 +1472,26 @@
         grid.innerHTML = '<p class="episodes-status">' + messageHtml + '</p>';
       }
 
+      function fetchCached() {
+        return fetch(CACHED_URL, { cache: 'no-cache' })
+          .then(function (res) {
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            return res.json();
+          })
+          .then(function (data) {
+            var items = (data && data.items) || [];
+            if (!items.length) throw new Error('cached feed empty');
+            return items.map(function (item) {
+              return {
+                title: item.title,
+                link: item.link,
+                pubDate: item.pubDate,
+                description: item.description || ''
+              };
+            });
+          });
+      }
+
       function fetchDirect() {
         return fetch(FEED_URL)
           .then(function (res) {
@@ -1513,7 +1538,10 @@
       }
 
       function loadFeed() {
-        fetchDirect()
+        fetchCached()
+          .then(renderEpisodes)
+          .catch(function () {
+          fetchDirect()
           .then(renderEpisodes)
           .catch(function () {
             fetchViaRss2Json()
@@ -1525,6 +1553,7 @@
                   'or <a href="https://podcasts.apple.com/us/podcast/h3x/id1562206185" target="_blank" rel="noopener">Apple Podcasts</a>.'
                 );
               });
+          });
           });
       }
 
