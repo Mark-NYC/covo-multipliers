@@ -2,6 +2,9 @@
   "name": "covo-multipliers",
   "version": "1.0.0",
   "private": true,
+  "scripts": {
+    "build": "node scripts/generate-turnstile-config.js"
+  },
   "dependencies": {
     "openai": "^6.0.0",
     "@supabase/supabase-js": "^2.43.0"
