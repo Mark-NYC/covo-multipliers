@@ -52,11 +52,18 @@
   var CALENDAR_FUNCTION_URL = SUPABASE_URL + '/functions/v1/lab-calendar';
   var LAB_TIMEZONE = 'America/New_York';
 
-  // Public Cloudflare Turnstile site key — safe to expose in browser code. The
-  // SECRET key lives only on the server (register Edge Function). The committed
-  // default is Cloudflare's "always passes" TEST key; replace with your
-  // production site key at go-live (must match the server's TURNSTILE_SECRET_KEY).
-  var TURNSTILE_SITE_KEY = '0x4AAAAAAD6wlX7Wg73UGvGH';
+  // Public Cloudflare Turnstile site key. This file contains NO hardcoded key.
+  // At build time scripts/generate-turnstile-config.js replaces the placeholder
+  // below with the PUBLIC_TURNSTILE_SITE_KEY Vercel env var. Because this widget
+  // is loaded cross-origin (the host page's window has no COVO_TURNSTILE_SITE_KEY),
+  // build-time injection is how the key travels with the embed. When the embed
+  // happens to run on a covomultipliers.com page (which loads turnstile-config.js),
+  // that global is used as a fallback. The SECRET key lives only on the server.
+  var TURNSTILE_SITE_KEY = '__COVO_TURNSTILE_SITE_KEY__';
+  if (TURNSTILE_SITE_KEY.charAt(0) === '_') {
+    // Placeholder was not replaced (raw source loaded without a build).
+    TURNSTILE_SITE_KEY = (global.COVO_TURNSTILE_SITE_KEY || '').trim();
+  }
   var TURNSTILE_API_URL = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
 
   // This widget is embedded cross-origin (e.g. on multiplyingdisciples.us), so
@@ -84,8 +91,11 @@
   function mountTurnstile(holderEl, action) {
     var widgetId = null;
     var lastToken = '';
+    if (!TURNSTILE_SITE_KEY && global.console) {
+      console.error('CovoLabRegistration: no Turnstile site key available (build injection did not run).');
+    }
     ensureTurnstile(function () {
-      if (!holderEl) return;
+      if (!holderEl || !TURNSTILE_SITE_KEY) return;
       try {
         widgetId = global.turnstile.render(holderEl, {
           sitekey: TURNSTILE_SITE_KEY,
