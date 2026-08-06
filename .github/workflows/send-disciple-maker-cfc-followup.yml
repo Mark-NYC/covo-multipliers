@@ -1,6 +1,11 @@
-name: Send Disciple Maker CFC Follow-up Emails
+name: Send Disciple Maker Day-1 Nudge Emails
 
 # Run daily at 8 AM UTC (3 AM ET / 12 AM PT)
+#
+# V2: points at disciple-maker-v2-followup, which only nudges V2 sessions
+# (recognition_outcome IS NOT NULL) and skips legacy V1 rows. The old
+# disciple-maker-cfc-followup endpoint stays deployed for rollback but is no
+# longer triggered by this schedule.
 on:
   schedule:
     - cron: '0 8 * * *'
@@ -10,7 +15,7 @@ jobs:
   send-followup:
     runs-on: ubuntu-latest
     steps:
-      - name: Send CFC Follow-up Emails
+      - name: Send day-1 obedience nudge emails
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
@@ -18,8 +23,8 @@ jobs:
           curl -X POST \
             -H "Content-Type: application/json" \
             -H "x-admin-secret: ${{ secrets.REMINDER_ADMIN_SECRET }}" \
-            "${{ secrets.SUPABASE_URL }}/functions/v1/disciple-maker-cfc-followup"
+            "${{ secrets.SUPABASE_URL }}/functions/v1/disciple-maker-v2-followup"
 
       - name: Log Result
         if: always()
-        run: echo "CFC Follow-up Email Job Completed"
+        run: echo "Day-1 nudge email job completed"
