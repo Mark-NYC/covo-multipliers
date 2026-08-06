@@ -11,7 +11,7 @@
     </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Disciple Maker Next Step Finder</title>
+  <title>Disciple Maker Next Step</title>
     <link rel="icon" type="image/x-icon" href="/image/favicons/favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="/image/favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/image/favicons/favicon-16x16.png">
@@ -21,598 +21,111 @@
   <script src="config.js"></script>
   <script src="questions.js"></script>
   <style>
-    /* BOLD PAGE BACKGROUND TRANSFORMATION */
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      transition: background 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-      background: #fafafa;
-    }
+    body { background: #fafaf8; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #1a1a1a; }
 
-    body.progress-0-25 { background: #fafafa; }
-    body.progress-25-50 { background: linear-gradient(135deg, #fefaf0 0%, #fef5e7 100%); }
-    body.progress-50-75 { background: linear-gradient(135deg, #fff8e1 0%, #fffce8 100%); }
-    body.progress-75-100 { background: linear-gradient(135deg, #fffadb 0%, #fff9d6 100%); box-shadow: inset 0 0 40px rgba(212, 175, 55, 0.15); }
-
+    /* Header + slim progress */
     .dm-header {
-      background: #1b4d3e;
-      color: white;
-      padding: 16px 20px;
-      text-align: center;
-      border-bottom: 1px solid #164033;
-      transition: all 0.6s ease;
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(250,250,248,0.95); backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(27,77,62,0.08);
     }
-
-    body.progress-75-100 .dm-header {
-      background: linear-gradient(90deg, #1b4d3e 0%, #2d6a4f 50%, #d4af37 100%);
-      box-shadow: 0 4px 20px rgba(212, 175, 55, 0.3);
+    .dm-header-inner {
+      max-width: 600px; margin: 0 auto; padding: 12px 24px;
+      display: flex; align-items: center; justify-content: space-between;
     }
+    .dm-header-brand { font-size: 13px; font-weight: 700; letter-spacing: 0.4px; color: #1b4d3e; text-decoration: none; }
+    .dm-header-progress { font-size: 12px; font-weight: 600; color: #5a6b65; }
+    .progress-track { height: 3px; background: #e7eeea; }
+    .progress-fill { height: 3px; width: 0%; background: linear-gradient(90deg, #1b4d3e, #2d6a4f); transition: width 0.35s ease; }
 
-    .dm-header-brand {
-      font-size: 14px;
-      font-weight: 600;
-      text-decoration: none;
-      color: white;
-      opacity: 0.9;
+    .dm-main { max-width: 600px; margin: 0 auto; padding: 40px 24px 64px; }
+
+    .q-eyebrow {
+      font-size: 12px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase;
+      color: #9f7a2f; margin-bottom: 12px;
     }
-
-    .dm-header-progress {
-      font-size: 13px;
-      opacity: 0.9;
-      font-weight: 600;
+    .q-text {
+      font-size: clamp(21px, 5vw, 26px); font-weight: 800; line-height: 1.28;
+      letter-spacing: -0.01em; color: #10281f; margin: 0 0 28px;
     }
+    .q-sub { font-size: 15px; line-height: 1.6; color: #52645d; margin: -16px 0 28px; }
 
-    .dm-main {
-      max-width: 640px;
-      margin: 0 auto;
-      padding: 32px 20px;
+    .options { display: flex; flex-direction: column; gap: 12px; }
+    .option {
+      display: block; width: 100%; text-align: left;
+      background: #ffffff; border: 1.5px solid #dbe8e2; border-radius: 14px;
+      padding: 17px 20px; font-size: 16px; line-height: 1.45; font-family: inherit; color: #1a1a1a;
+      cursor: pointer; transition: border-color 0.15s ease, background 0.15s ease, transform 0.1s ease;
     }
+    .option:hover { border-color: #1b4d3e; background: #f6faf8; }
+    .option:focus-visible { outline: 3px solid #dcb55a; outline-offset: 2px; }
+    .option.selected { border-color: #1b4d3e; background: #eef5f1; box-shadow: inset 0 0 0 1px #1b4d3e; }
 
-    /* PROGRESS CONTAINER WITH STREAK INDICATOR */
-    .progress-container {
-      margin-bottom: 32px;
-      position: relative;
+    .q-note {
+      width: 100%; min-height: 96px; padding: 14px 16px; font-family: inherit; font-size: 16px;
+      color: #1a1a1a; border: 1.5px solid #dbe8e2; border-radius: 14px; resize: vertical; box-sizing: border-box;
     }
+    .q-note:focus { outline: none; border-color: #1b4d3e; box-shadow: 0 0 0 3px rgba(27,77,62,0.1); }
 
-    .streak-indicator {
-      position: absolute;
-      right: 0;
-      top: -24px;
-      font-size: 12px;
-      font-weight: 700;
-      color: #d4af37;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      opacity: 0;
-      animation: slideInStreak 0.4s ease forwards;
+    .nav-row { display: flex; align-items: center; justify-content: space-between; margin-top: 32px; }
+    .btn-back {
+      background: none; border: none; font-family: inherit; font-size: 15px; font-weight: 600;
+      color: #5f746c; cursor: pointer; padding: 8px 4px;
     }
-
-    .streak-indicator.show {
-      animation: slideInStreak 0.4s ease forwards;
-    }
-
-    @keyframes slideInStreak {
-      from { opacity: 0; transform: translateX(20px); }
-      to { opacity: 1; transform: translateX(0); }
-    }
-
-    .progress-label {
-      font-size: 14px;
-      font-weight: 700;
-      color: #555;
-      margin-bottom: 12px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .progress-percent {
-      background: #f0f0f0;
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 13px;
-      font-weight: 700;
-      transition: all 0.3s ease;
-    }
-
-    body.progress-75-100 .progress-percent {
-      background: #d4af37;
-      color: #1a1a1a;
-      box-shadow: 0 0 12px rgba(212, 175, 55, 0.4);
-      animation: percentPulse 0.8s ease infinite;
-    }
-
-    @keyframes percentPulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.08); }
-    }
-
-    .progress-bar {
-      background: #e5e7eb;
-      height: 8px;
-      border-radius: 6px;
-      overflow: hidden;
-      transition: all 0.4s ease;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-      position: relative;
-    }
-
-    body.progress-75-100 .progress-bar {
-      height: 12px;
-      box-shadow: 0 0 20px rgba(212, 175, 55, 0.4), inset 0 0 6px rgba(212, 175, 55, 0.2);
-    }
-
-    .progress-fill {
-      height: 100%;
-      border-radius: 6px;
-      transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-      background: linear-gradient(90deg, #1b4d3e, #52b788);
-      position: relative;
-      overflow: hidden;
-    }
-
-    /* PROGRESS FILL ANIMATION - SURGE EFFECT */
-    .progress-fill::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      right: 0;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-      animation: progressShine 1.5s ease infinite;
-    }
-
-    @keyframes progressShine {
-      0% { transform: translateX(-100%); }
-      100% { transform: translateX(100%); }
-    }
-
-    /* COLOR TRANSITIONS */
-    body.progress-0-25 .progress-fill { background: linear-gradient(90deg, #1b4d3e, #2d6a4f); }
-    body.progress-25-50 .progress-fill { background: linear-gradient(90deg, #2d6a4f, #40916c); }
-    body.progress-50-75 .progress-fill { background: linear-gradient(90deg, #40916c, #74c69d); }
-    body.progress-75-100 .progress-fill {
-      background: linear-gradient(90deg, #95d5b2, #d4af37);
-      animation: progressGlow 1.2s ease-in-out infinite;
-    }
-
-    @keyframes progressGlow {
-      0%, 100% { box-shadow: 0 0 8px rgba(212, 175, 55, 0.6); }
-      50% { box-shadow: 0 0 16px rgba(212, 175, 55, 0.8); }
-    }
-
-    .coaching-message {
-      background: #f0f9f7;
-      border-left: 4px solid #1b4d3e;
-      padding: 18px;
-      margin: 20px 0;
-      border-radius: 8px;
-      font-size: 15px;
-      line-height: 1.6;
-      color: #1b4d3e;
-      animation: slideInBounce 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-      display: none;
-      font-weight: 600;
-    }
-
-    body.progress-75-100 .coaching-message {
-      background: linear-gradient(135deg, #fffae1 0%, #fffce8 100%);
-      border-left-color: #d4af37;
-      color: #d4af37;
-      box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
-    }
-
-    .coaching-message.show {
-      display: block;
-    }
-
-    .coaching-message svg {
-      width: 18px;
-      height: 18px;
-      margin-right: 6px;
-      display: inline-block;
-      vertical-align: middle;
-    }
-
-    @keyframes slideInBounce {
-      0% {
-        opacity: 0;
-        transform: translateY(-16px);
-      }
-      60% {
-        opacity: 1;
-        transform: translateY(4px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .question-card {
-      background: white;
-      border-radius: 14px;
-      padding: 36px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-      margin-bottom: 28px;
-      animation: slideUpQuestion 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-      border: 2px solid transparent;
-      transition: all 0.3s ease;
-    }
-
-    body.progress-75-100 .question-card {
-      border-color: rgba(212, 175, 55, 0.3);
-      box-shadow: 0 4px 16px rgba(212, 175, 55, 0.15);
-      animation: slideUpQuestion 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55), cardBounce 0.8s ease;
-    }
-
-    @keyframes slideUpQuestion {
-      from {
-        opacity: 0;
-        transform: translateY(16px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes cardBounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-4px); }
-    }
-
-    .question-dimension {
-      font-size: 11px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 1.2px;
-      color: #d4af37;
-      margin-bottom: 12px;
-      animation: fadeIn 0.4s ease 0.1s forwards;
-      opacity: 0;
-    }
-
-    .question-text {
-      font-size: 20px;
-      font-weight: 700;
-      line-height: 1.4;
-      color: #1a1a1a;
-      margin-bottom: 28px;
-      animation: fadeIn 0.4s ease 0.2s forwards;
-      opacity: 0;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    .response-options {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .response-button {
-      background: white;
-      border: 2px solid #e5e7eb;
-      border-radius: 8px;
-      padding: 12px 16px;
-      text-align: left;
-      cursor: pointer;
-      transition: all 0.25s ease;
-      font-size: 14px;
-      font-weight: 500;
-      color: #555;
-      position: relative;
-      overflow: hidden;
-      animation: fadeIn 0.3s ease forwards;
-      opacity: 0;
-    }
-
-    .response-button:nth-child(1) { animation-delay: 0.05s; }
-    .response-button:nth-child(2) { animation-delay: 0.1s; }
-    .response-button:nth-child(3) { animation-delay: 0.15s; }
-    .response-button:nth-child(4) { animation-delay: 0.2s; }
-    .response-button:nth-child(5) { animation-delay: 0.25s; }
-
-    .response-button:hover {
-      border-color: #1b4d3e;
-      background: #f0fdf9;
-    }
-
-    body.progress-75-100 .response-button:hover {
-      border-color: #d4af37;
-      background: #fffae1;
-    }
-
-    .response-button.selected {
-      border-color: #1b4d3e;
-      background: #e8f5f2;
-      color: #1b4d3e;
-      font-weight: 700;
-    }
-
-    body.progress-75-100 .response-button.selected {
-      border-color: #d4af37;
-      background: #fffadb;
-      color: #d4af37;
-    }
-
-    .response-button .response-value {
-      font-size: 12px;
-      opacity: 0.6;
-      margin-top: 6px;
-    }
-
-    .nav-buttons {
-      display: flex;
-      gap: 16px;
-      justify-content: space-between;
-      margin-bottom: 28px;
-    }
-
-    .btn-secondary {
-      background: transparent;
-      border: 2px solid #ddd;
-      color: #555;
-      padding: 14px 28px;
-      border-radius: 8px;
-      font-weight: 700;
-      font-size: 14px;
-      cursor: pointer;
-      transition: all 0.25s ease;
-      position: relative;
-    }
-
-    .btn-secondary:hover:not(:disabled) {
-      border-color: #1b4d3e;
-      color: #1b4d3e;
-      background: #f8fdf8;
-    }
-
-    .btn-secondary:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-    }
-
-    /* PRIMARY BUTTON */
+    .btn-back:hover { color: #1b4d3e; }
+    .btn-back:disabled { opacity: 0; pointer-events: none; }
     .btn-primary {
-      background: linear-gradient(135deg, #d4af37 0%, #e5c158 100%);
-      color: #1a1a1a;
-      padding: 16px 32px;
-      border: none;
-      border-radius: 10px;
-      font-weight: 800;
-      font-size: 15px;
-      cursor: pointer;
-      transition: all 0.25s ease;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
+      background: #1b4d3e; color: #fff; border: none; border-radius: 10px;
+      padding: 13px 26px; font-size: 15px; font-weight: 700; font-family: inherit; cursor: pointer;
+      transition: background 0.2s ease, transform 0.15s ease;
     }
+    .btn-primary:hover:not(:disabled) { background: #10281f; transform: translateY(-1px); }
+    .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
 
-    .btn-primary svg {
-      width: 18px;
-      height: 18px;
-      flex-shrink: 0;
+    .save-row { margin-top: 28px; display: flex; align-items: center; justify-content: space-between; }
+    .save-indicator { font-size: 12px; color: #8a9a93; }
+    .save-exit { background: none; border: none; font-family: inherit; font-size: 13px; font-weight: 600; color: #5f746c; cursor: pointer; text-decoration: underline; text-underline-offset: 2px; }
+    .save-exit:hover { color: #1b4d3e; }
+
+    .loading-state { text-align: center; padding: 64px 20px; }
+    .spinner { width: 38px; height: 38px; border: 3px solid #e7eeea; border-top-color: #1b4d3e; border-radius: 50%; animation: spin 0.7s linear infinite; margin: 0 auto 16px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-state p { color: #52645d; font-size: 15px; }
+
+    .fade { animation: fade 0.28s ease-out; }
+    @keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    @media (max-width: 480px) {
+      .dm-main { padding: 32px 20px 56px; }
     }
-
-    .btn-primary:hover:not(:disabled) {
-      box-shadow: 0 6px 16px rgba(212, 175, 55, 0.3);
-    }
-
-    .btn-primary:active:not(:disabled) {
-      transform: scale(0.98);
-    }
-
-    body.progress-75-100 .btn-primary {
-      padding: 18px 40px;
-      font-size: 16px;
-      box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
-    }
-
-    .btn-primary:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    /* SAVE INDICATOR */
-    .save-indicator {
-      font-size: 13px;
-      color: #888;
-      text-align: center;
-      margin-bottom: 20px;
-      transition: all 0.3s ease;
-      min-height: 20px;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-    }
-
-    .save-indicator svg {
-      width: 16px;
-      height: 16px;
-      flex-shrink: 0;
-    }
-
-    .save-indicator.saving {
-      color: #1b4d3e;
-      animation: savePulse 0.8s ease;
-    }
-
-    body.progress-75-100 .save-indicator.saving {
-      color: #d4af37;
-    }
-
-    .save-indicator.celebration {
-      color: #d4af37;
-      font-size: 14px;
-      animation: celebrationPulse 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    }
-
-    @keyframes savePulse {
-      0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.15); opacity: 1; }
-    }
-
-    @keyframes celebrationPulse {
-      0% { transform: scale(0.5) rotateZ(-10deg); opacity: 0; }
-      50% { transform: scale(1.15); }
-      100% { transform: scale(1) rotateZ(0deg); opacity: 1; }
-    }
-
-    .loading-state {
-      display: none;
-      text-align: center;
-      padding: 40px 20px;
-    }
-
-    .loading-spinner {
-      width: 50px;
-      height: 50px;
-      border: 4px solid #f0f0f0;
-      border-top-color: #1b4d3e;
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin: 0 auto 20px;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    .error-state {
-      display: none;
-    }
-
-    .error-state-icon {
-      font-size: 48px;
-      margin-bottom: 12px;
-    }
-
-    .error-state h2 {
-      color: #1a1a1a;
-      margin: 0 0 8px;
-    }
-
-    .error-state p {
-      color: #555;
-      margin: 0 0 16px;
-    }
-
-    /* CONFETTI PARTICLES */
-    .confetti {
-      position: fixed;
-      pointer-events: none;
-      font-size: 24px;
-      z-index: 999;
-    }
-
-    @keyframes fall {
-      0% {
-        opacity: 1;
-        transform: translateY(0) rotateZ(0deg);
-      }
-      100% {
-        opacity: 0;
-        transform: translateY(300px) rotateZ(720deg);
-      }
-    }
-
-    /* MILESTONE CELEBRATION EMOJI */
-    .milestone-emoji {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      pointer-events: none;
-      font-size: 120px;
-      z-index: 1000;
-      animation: milestoneFloat 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
-    }
-
-    @keyframes milestoneFloat {
-      0% {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(0);
-      }
-      50% {
-        opacity: 1;
-      }
-      100% {
-        opacity: 0;
-        transform: translate(-50%, -300%) scale(1.2);
-      }
+    @media (prefers-reduced-motion: reduce) {
+      .fade, .progress-fill { animation: none; transition: none; }
     }
   </style>
+  <script src="/utm-tracking.js"></script>
 </head>
 <body>
 
   <header class="dm-header">
-    <a class="dm-header-brand" href="/">Covo Multipliers</a>
-    <div class="dm-header-progress" id="header-progress">Loading…</div>
+    <div class="dm-header-inner">
+      <a class="dm-header-brand" href="/">CoVo Multipliers</a>
+      <span class="dm-header-progress" id="header-progress">Loading…</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
   </header>
 
   <main class="dm-main">
 
-    <div id="loading-view" class="loading-state" style="display:block;">
-      <div class="loading-spinner"></div>
-      <p style="font-size: 16px; font-weight: 600; color: #1a1a1a;">Loading your assessment…</p>
-    </div>
-
-    <div id="error-view" style="display:none;">
-      <div class="error-state-icon">⚠️</div>
-      <h2>Something went wrong</h2>
-      <p id="error-msg">Could not load your assessment. Please try again.</p>
-      <button class="btn-primary" onclick="location.reload()">Try Again</button>
-    </div>
-
-    <div id="assessment-view" style="display:none;">
-      <div class="progress-container">
-        <div class="streak-indicator" id="streak-indicator"></div>
-        <div class="progress-label">
-          <span id="progress-text">Question 1 of 20</span>
-          <span class="progress-percent" id="progress-percent">0%</span>
-        </div>
-        <div class="progress-bar">
-          <div class="progress-fill" id="progress-fill" style="width:0%"></div>
-        </div>
-      </div>
-
-      <div class="coaching-message" id="coaching-message"></div>
-
-      <div class="question-card">
-        <div class="question-dimension" id="current-dimension"></div>
-        <h1 class="question-text" id="current-question"></h1>
-        <div class="response-options" id="response-options"></div>
-      </div>
-
-      <div class="nav-buttons">
-        <button class="btn-secondary" id="prev-btn" onclick="previousQuestion()" disabled>← Previous</button>
-        <button class="btn-primary" id="next-btn" onclick="nextQuestion()" disabled>Next →</button>
-      </div>
-
-      <div class="save-indicator" id="save-indicator">
-        Your progress is saved automatically.
-      </div>
-
-      <div style="text-align:center;margin-top:32px;">
-        <button class="btn-secondary" onclick="saveAndExit()">Save & Exit</button>
-      </div>
-    </div>
+    <div id="step-view"></div>
 
     <div id="submitting-view" class="loading-state" style="display:none;">
-      <div class="loading-spinner"></div>
-      <p>Submitting your assessment…</p>
+      <div class="spinner"></div>
+      <p>Finding your next step…</p>
+    </div>
+
+    <div id="error-view" class="loading-state" style="display:none;">
+      <p id="error-msg" style="color:#b91c1c;">Something went wrong.</p>
+      <button class="btn-primary" style="margin-top:16px;" onclick="location.reload()">Try again</button>
     </div>
 
   </main>
@@ -620,316 +133,232 @@
   <script>
     const SUPABASE_FUNCTIONS = window.DISCIPLE_MAKER_CONFIG.SUPABASE_FUNCTIONS;
 
-    let sessionId = null;
-    let resumeToken = null;
-    let allQuestions = [];
-    let currentIndex = 0;
-    let responses = {};
-    let saveTimer = null;
-    let answersInRow = 0;
-    let isAutoAdvancing = false;
-
-    // SVG ICONS
-    const icons = {
-      target: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="12" r="5"></circle><circle cx="12" cy="12" r="9"></circle></svg>',
-      fire: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>',
-      lightning: '<svg viewBox="0 0 24 24" fill="currentColor"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>',
-      flag: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.36 6l.4 2H18V4H6.77L7.13 6M5 21h14v-7H8.95l-.4-2H5v9z"/></svg>',
-      save: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>',
-      check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>',
-      sparkle: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>',
-      rocket: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.49 5.48c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm-3.6 13.9L8 19v4h8v-4l-1.89-3.62c-1.6 1.41-3.8 2.25-6.21 2.25-2.41 0-4.61-.84-6.21-2.25zM12 5.5c2.49 0 4.74.88 6.53 2.35 1.26 1.04 2.3 2.37 2.99 3.84.33.64.52 1.36.52 2.11 0 .55-.08 1.08-.24 1.59-.32 1.03-1.02 1.94-1.96 2.56-.19.13-.39.26-.59.37l-2.95 2.95c-.37.37-.88.58-1.41.58h-.01c-.53 0-1.04-.21-1.41-.58L9.46 13.4c-.2-.11-.4-.24-.59-.37-.94-.62-1.64-1.53-1.96-2.56-.16-.51-.24-1.04-.24-1.59 0-.75.19-1.47.52-2.11.69-1.47 1.73-2.8 2.99-3.84C7.26 6.38 9.51 5.5 12 5.5z"/></svg>',
-      muscle: '<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="15" cy="6" r="2"/><path d="M17 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor" stroke-width="2" fill="none"/><path d="M7 11h4V6h-4v5zm6-1v3" stroke="currentColor" stroke-width="2"/></svg>',
-      star: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>'
-    };
-
-    const milestoneMessages = {
-      5: [
-        { text: "Great start! ", icon: "rocket" },
-        { text: "You're rolling! ", icon: "target" },
-        { text: "Perfect pace! ", icon: "muscle" }
-      ],
-      10: [
-        { text: "Halfway! You're crushing it! ", icon: "fire" },
-        { text: "50% done—amazing! ", icon: "lightning" },
-        { text: "Momentum building! ", icon: "star" }
-      ],
-      15: [
-        { text: "Final stretch! ", icon: "sparkle" },
-        { text: "Almost there! So close! ", icon: "flag" },
-        { text: "The finish line is near! ", icon: "target" }
-      ],
-      18: [
-        { text: "One more! You got this! ", icon: "rocket" },
-        { text: "Final question incoming! ", icon: "fire" },
-        { text: "Here we go! The moment is coming! ", icon: "lightning" }
-      ]
-    };
-
-    function getCoachingMessage(questionNumber) {
-      const milestone = Object.keys(milestoneMessages).find(m => m == questionNumber);
-      if (milestone) {
-        const options = milestoneMessages[milestone];
-        return options[Math.floor(Math.random() * options.length)];
-      }
-      return null;
-    }
-
-    function renderCoachingMessage(msg) {
-      if (!msg) return '';
-      const iconSvg = icons[msg.icon] || '';
-      return iconSvg + msg.text;
-    }
-
-    function triggerConfetti() {
-      for (let i = 0; i < 12; i++) {
-        const confetti = document.createElement('div');
-        confetti.className = 'confetti';
-        confetti.textContent = ['🎉', '🎯', '✨', '⭐', '🚀'][Math.floor(Math.random() * 5)];
-        confetti.style.left = Math.random() * 100 + '%';
-        confetti.style.top = '-20px';
-        confetti.style.animation = `fall ${1.5 + Math.random() * 0.5}s ease-in forwards`;
-        document.body.appendChild(confetti);
-        setTimeout(() => confetti.remove(), 2500);
-      }
-    }
-
-    function triggerMilestoneEmoji(emoji) {
-      const el = document.createElement('div');
-      el.className = 'milestone-emoji';
-      el.textContent = emoji;
-      document.body.appendChild(el);
-      setTimeout(() => el.remove(), 1500);
-    }
-
-    function getCredentials() {
+    // --- session credentials (supports ?s=&t= resume links) ---------------
+    (function getCredentials() {
       const params = new URLSearchParams(window.location.search);
-      const urlSession = params.get('s');
-      const urlToken = params.get('t');
-
-      if (urlSession && urlToken) {
-        sessionStorage.setItem('dm_session_id', urlSession);
-        sessionStorage.setItem('dm_session_token', urlToken);
+      const s = params.get('s'), t = params.get('t');
+      if (s && t) {
+        sessionStorage.setItem('dm_session_id', s);
+        sessionStorage.setItem('dm_session_token', t);
         history.replaceState({}, '', window.location.pathname);
       }
+    })();
 
-      sessionId = sessionStorage.getItem('dm_session_id');
-      resumeToken = sessionStorage.getItem('dm_session_token');
-    }
-
-    getCredentials();
-
-    if (!sessionId || !resumeToken) {
+    const sessionId = sessionStorage.getItem('dm_session_id');
+    const sessionToken = sessionStorage.getItem('dm_session_token');
+    if (!sessionId || !sessionToken) {
       window.location.replace('/disciple-maker/intake.html');
     }
 
-    function loadQuestions() {
-      allQuestions = ASSESSMENT_QUESTIONS.getAllQuestions();
-      displayQuestion();
-      updateProgress();
+    // --- state ------------------------------------------------------------
+    let answers = {};
+    let chosenOutcome = null;
+    let note = '';
+    let stepIndex = 0;
+
+    try {
+      const saved = sessionStorage.getItem('dm_answers');
+      if (saved) answers = JSON.parse(saved) || {};
+    } catch (_) { answers = {}; }
+
+    function track(event, detail) {
+      try { gtag('event', event, Object.assign({ tool: 'disciple_maker_next_step' }, detail || {})); } catch (_) {}
+      // Best-effort server persistence for the admin funnel (non-blocking).
+      try {
+        fetch(`${SUPABASE_FUNCTIONS}/disciple-maker-event`, {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          keepalive: true,
+          body: JSON.stringify({ session_id: sessionId, event, detail: detail || null }),
+        }).catch(() => {});
+      } catch (_) {}
     }
 
-    function showView(viewName) {
-      document.getElementById('loading-view').style.display = viewName === 'loading' ? 'block' : 'none';
-      document.getElementById('assessment-view').style.display = viewName === 'assessment' ? 'block' : 'none';
-      document.getElementById('error-view').style.display = viewName === 'error' ? 'block' : 'none';
-      document.getElementById('submitting-view').style.display = viewName === 'submitting' ? 'block' : 'none';
+    // Steps = active questions (respecting branching) + confirm + note.
+    function steps() {
+      const qs = NEXT_STEP.activeQuestions(answers);
+      return [
+        ...qs.map(q => ({ kind: 'question', q })),
+        { kind: 'confirm' },
+        { kind: 'note' },
+      ];
     }
 
-    function displayQuestion() {
-      if (currentIndex < 0 || currentIndex >= allQuestions.length) return;
-
-      const q = allQuestions[currentIndex];
-      const dim = ASSESSMENT_QUESTIONS.getDimensionById(q.dimension);
-
-      document.getElementById('current-dimension').textContent = dim.name;
-      document.getElementById('current-question').textContent = q.text;
-
-      const optionsContainer = document.getElementById('response-options');
-      optionsContainer.innerHTML = '';
-
-      ASSESSMENT_QUESTIONS.scale.forEach(option => {
-        const button = document.createElement('button');
-        button.className = 'response-button';
-        button.type = 'button';
-
-        const currentResponse = responses[q.id];
-        if (currentResponse === option.value) {
-          button.classList.add('selected');
-        }
-
-        button.innerHTML = `<div>${option.label}</div>`;
-
-        button.onclick = () => selectResponse(q.id, option.value);
-        optionsContainer.appendChild(button);
-      });
-
-      updateNavButtons();
-      updateProgress();
-    }
-
-    function selectResponse(qId, value) {
-      if (isAutoAdvancing) return;
-
-      responses[qId] = value;
-      answersInRow++;
-      displayQuestion();
-      scheduleAutoSave();
-
-      // Milestone celebrations at certain answer counts
-      if (answersInRow === 5) triggerMilestoneEmoji('✨');
-      if (answersInRow === 10) triggerMilestoneEmoji('⚡');
-      if (answersInRow === 15) triggerMilestoneEmoji('🎯');
-      if (answersInRow === 20) triggerMilestoneEmoji('🏁');
-
-      // Auto-advance to next question after a brief delay (not on final question)
-      if (currentIndex < allQuestions.length - 1) {
-        isAutoAdvancing = true;
-        setTimeout(() => {
-          currentIndex++;
-          displayQuestion();
-          isAutoAdvancing = false;
-        }, 600);
-      } else {
-        // On final question, just update UI
-        updateNavButtons();
-      }
-    }
-
-    function updateNavButtons() {
-      document.getElementById('prev-btn').disabled = currentIndex === 0;
-
-      const currentQuestion = allQuestions[currentIndex];
-      const currentAnswered = responses[currentQuestion.id] !== undefined;
-      const allAnswered = allQuestions.every(q => responses[q.id] !== undefined);
-
-      if (currentIndex === allQuestions.length - 1) {
-        document.getElementById('next-btn').innerHTML = icons.sparkle + ' Submit Assessment';
-        document.getElementById('next-btn').onclick = submitAssessment;
-        document.getElementById('next-btn').disabled = !allAnswered;
-      } else {
-        document.getElementById('next-btn').textContent = 'Next →';
-        document.getElementById('next-btn').onclick = nextQuestion;
-        document.getElementById('next-btn').disabled = !currentAnswered;
-      }
-    }
+    function totalSteps() { return steps().length; }
 
     function updateProgress() {
-      const total = allQuestions.length;
-      const percent = Math.round((currentIndex + 1) / total * 100);
-      const questionNumber = currentIndex + 1;
-
-      document.getElementById('progress-text').textContent = `Question ${questionNumber} of ${total}`;
-      document.getElementById('progress-percent').textContent = `${percent}%`;
-      document.getElementById('progress-fill').style.width = percent + '%';
-      document.getElementById('header-progress').textContent = `${percent}% complete`;
-
-      // Update color scheme based on progress
-      document.body.classList.remove('progress-0-25', 'progress-25-50', 'progress-50-75', 'progress-75-100');
-      if (percent <= 25) {
-        document.body.classList.add('progress-0-25');
-      } else if (percent <= 50) {
-        document.body.classList.add('progress-25-50');
-      } else if (percent <= 75) {
-        document.body.classList.add('progress-50-75');
-      } else {
-        document.body.classList.add('progress-75-100');
-      }
-
-      // Streak indicator
-      const streakEl = document.getElementById('streak-indicator');
-      if (questionNumber % 5 === 0) {
-        streakEl.innerHTML = `<span>🔥 ${questionNumber}</span>`;
-        streakEl.classList.add('show');
-        setTimeout(() => { streakEl.classList.remove('show'); }, 2000);
-      }
-
-      // Coaching messages with SVG icons
-      const coachingMsg = getCoachingMessage(questionNumber);
-      const coachingEl = document.getElementById('coaching-message');
-      if (coachingMsg) {
-        coachingEl.innerHTML = renderCoachingMessage(coachingMsg);
-        coachingEl.classList.add('show');
-      } else {
-        coachingEl.classList.remove('show');
-      }
+      const total = totalSteps();
+      const pct = Math.min(100, Math.round((stepIndex) / total * 100));
+      document.getElementById('progress-fill').style.width = pct + '%';
+      document.getElementById('header-progress').textContent = `Step ${Math.min(stepIndex + 1, total)} of ${total}`;
     }
 
-    function nextQuestion() {
-      if (currentIndex < allQuestions.length - 1) {
-        currentIndex++;
-        displayQuestion();
-      }
+    function saveProgress() {
+      sessionStorage.setItem('dm_answers', JSON.stringify(answers));
+      const el = document.getElementById('save-indicator');
+      if (el) { el.textContent = 'Saved'; setTimeout(() => { if (el) el.textContent = 'Your progress is saved automatically'; }, 1200); }
     }
 
-    function previousQuestion() {
-      if (currentIndex > 0) {
-        currentIndex--;
-        displayQuestion();
-      }
+    function render() {
+      const all = steps();
+      if (stepIndex >= all.length) stepIndex = all.length - 1;
+      if (stepIndex < 0) stepIndex = 0;
+      const step = all[stepIndex];
+      const view = document.getElementById('step-view');
+
+      if (step.kind === 'question') return renderQuestion(view, step.q);
+      if (step.kind === 'confirm') return renderConfirm(view);
+      if (step.kind === 'note') return renderNote(view);
     }
 
-    function scheduleAutoSave() {
-      clearTimeout(saveTimer);
-      const saveIndicator = document.getElementById('save-indicator');
-      saveIndicator.innerHTML = icons.save + ' Saving…';
-      saveIndicator.classList.add('saving');
-
-      saveTimer = setTimeout(() => {
-        saveIndicator.classList.remove('saving');
-        saveIndicator.classList.add('celebration');
-        saveIndicator.innerHTML = icons.check + ' Saved!';
-        setTimeout(() => {
-          saveIndicator.classList.remove('celebration');
-          saveIndicator.textContent = 'Your progress is saved automatically.';
-        }, 1500);
-      }, 500);
+    function optionButton(label, selected, onClick) {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'option' + (selected ? ' selected' : '');
+      b.textContent = label;
+      b.onclick = onClick;
+      return b;
     }
 
-    function saveAndExit() {
-      sessionStorage.setItem('dm_session_id', sessionId);
-      sessionStorage.setItem('dm_resume_token', resumeToken);
-      sessionStorage.setItem('dm_responses', JSON.stringify(responses));
-      sessionStorage.setItem('dm_current_index', currentIndex.toString());
-      window.location.replace('/disciple-maker/index.html');
+    function shell(view, inner) {
+      view.className = 'fade';
+      view.innerHTML = inner;
     }
 
-    async function submitAssessment() {
-      triggerConfetti();
-      triggerMilestoneEmoji('🎉');
-      showView('submitting');
+    function renderQuestion(view, q) {
+      shell(view, `
+        <div class="q-eyebrow">${q.eyebrow}</div>
+        <h1 class="q-text">${q.text}</h1>
+        <div class="options" id="options"></div>
+        ${navAndSave()}
+      `);
+      const opts = view.querySelector('#options');
+      q.options.forEach(o => {
+        const btn = optionButton(o.label, answers[q.id] === o.value, () => {
+          answers[q.id] = o.value;
+          opts.querySelectorAll('.option').forEach(x => x.classList.remove('selected'));
+          btn.classList.add('selected');
+          // Branching may add/remove later steps; drop a now-invalid q7 answer.
+          if (!NEXT_STEP.activeQuestions(answers).some(x => x.id === 'q7_stalled')) delete answers.q7_stalled;
+          saveProgress();
+          track('question_answered', { question_id: q.id, value: o.value });
+          advance();
+        });
+        opts.appendChild(btn);
+      });
+      wireNav();
+      updateProgress();
+    }
 
+    function renderConfirm(view) {
+      const candidates = NEXT_STEP.candidateOutcomes(answers);
+      shell(view, `
+        <div class="q-eyebrow">One last check</div>
+        <h1 class="q-text">Which of these sounds more like where you actually are?</h1>
+        <p class="q-sub">There's no wrong answer. Pick the one that feels most honest — it shapes the next step you'll get.</p>
+        <div class="options" id="options"></div>
+        ${navAndSave()}
+      `);
+      const opts = view.querySelector('#options');
+      candidates.forEach(key => {
+        const o = NEXT_STEP.outcomes[key];
+        const btn = optionButton('“' + o.statement + '”', chosenOutcome === key, () => {
+          chosenOutcome = key;
+          opts.querySelectorAll('.option').forEach(x => x.classList.remove('selected'));
+          btn.classList.add('selected');
+          track('recognition_confirmed', { outcome: key });
+          advance();
+        });
+        opts.appendChild(btn);
+      });
+      wireNav();
+      updateProgress();
+    }
+
+    function renderNote(view) {
+      shell(view, `
+        <div class="q-eyebrow">Optional</div>
+        <h1 class="q-text">In one sentence — what do you think is actually getting in the way?</h1>
+        <p class="q-sub">Totally optional. It just helps you name it (and you can skip straight to your next step).</p>
+        <textarea class="q-note" id="note" placeholder="e.g., I keep learning but never actually start…">${note ? note.replace(/</g,'&lt;') : ''}</textarea>
+        <div class="nav-row">
+          <button class="btn-back" id="back-btn">← Back</button>
+          <button class="btn-primary" id="finish-btn">See my next step →</button>
+        </div>
+        ${saveRow()}
+      `);
+      view.querySelector('#note').addEventListener('input', e => { note = e.target.value; });
+      view.querySelector('#back-btn').onclick = goBack;
+      view.querySelector('#finish-btn').onclick = submit;
+      wireSaveExit();
+      updateProgress();
+    }
+
+    function navAndSave() {
+      return `
+        <div class="nav-row">
+          <button class="btn-back" id="back-btn" ${stepIndex === 0 ? 'disabled' : ''}>← Back</button>
+          <span></span>
+        </div>
+        ${saveRow()}
+      `;
+    }
+    function saveRow() {
+      return `
+        <div class="save-row">
+          <span class="save-indicator" id="save-indicator">Your progress is saved automatically</span>
+          <button class="save-exit" id="save-exit">Save &amp; exit</button>
+        </div>
+      `;
+    }
+    function wireNav() {
+      const back = document.getElementById('back-btn');
+      if (back) back.onclick = goBack;
+      wireSaveExit();
+    }
+    function wireSaveExit() {
+      const ex = document.getElementById('save-exit');
+      if (ex) ex.onclick = () => { saveProgress(); window.location.replace('/disciple-maker/'); };
+    }
+
+    function advance() {
+      // brief, calm delay so the selection is visible — no confetti.
+      setTimeout(() => { stepIndex++; render(); window.scrollTo({ top: 0, behavior: 'smooth' }); }, 220);
+    }
+    function goBack() { if (stepIndex > 0) { stepIndex--; render(); window.scrollTo({ top: 0, behavior: 'smooth' }); } }
+
+    async function submit() {
+      showSubmitting(true);
+      track('completed', { outcome: chosenOutcome });
       try {
-        const response = await fetch(
-          `${SUPABASE_FUNCTIONS}/disciple-maker-submit`,
-          {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              session_id: sessionId,
-              session_token: resumeToken,
-              responses: responses
-            })
-          }
-        );
-
-        const data = await response.json();
-
-        if (!response.ok) {
-          throw new Error(data.error || 'Failed to submit assessment');
-        }
-
+        const res = await fetch(`${SUPABASE_FUNCTIONS}/disciple-maker-submit`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            session_id: sessionId,
+            session_token: sessionToken,
+            answers,
+            recognition_outcome: chosenOutcome,
+            note: (note || '').slice(0, 500),
+          }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Failed to save.');
+        sessionStorage.removeItem('dm_answers');
         window.location.replace(`/disciple-maker/results.html?r=${data.results_token}`);
-      } catch (error) {
-        console.error('Error:', error);
-        showView('error');
-        document.getElementById('error-msg').textContent = error.message;
+      } catch (err) {
+        showSubmitting(false);
+        document.getElementById('error-view').style.display = 'block';
+        document.getElementById('step-view').style.display = 'none';
+        document.getElementById('error-msg').textContent = err.message;
       }
     }
 
-    showView('loading');
-    loadQuestions();
-    showView('assessment');
+    function showSubmitting(on) {
+      document.getElementById('submitting-view').style.display = on ? 'block' : 'none';
+      document.getElementById('step-view').style.display = on ? 'none' : 'block';
+    }
+
+    render();
   </script>
 
 </body>

@@ -11,7 +11,7 @@
     </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Your Results — Disciple Maker Checkup</title>
+  <title>Your Next Step — Disciple Maker</title>
     <link rel="icon" type="image/x-icon" href="/image/favicons/favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="/image/favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/image/favicons/favicon-16x16.png">
@@ -19,1210 +19,301 @@
     <link rel="manifest" href="/image/favicons/site.webmanifest">
   <link rel="stylesheet" href="/styles.css">
   <script src="config.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
-  <meta name="robots" content="noindex, nofollow">
   <style>
-    body {
-      background: #fafafa;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    }
-
-    .dm-header {
-      background: #1b4d3e;
-      color: white;
-      padding: 16px 20px;
-      text-align: center;
-      border-bottom: 1px solid #164033;
-    }
-
-    .dm-header-brand {
-      font-size: 14px;
-      font-weight: 600;
-      text-decoration: none;
-      color: white;
-      opacity: 0.9;
-    }
-
-    .dm-main {
-      max-width: 720px;
-      margin: 0 auto;
-      padding: 32px 20px;
-    }
-
-    .results-hero {
-      text-align: center;
-      margin-bottom: 40px;
-      animation: fadeIn 0.5s ease;
-    }
-
-    .results-eyebrow {
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      color: #888;
-      margin: 0 0 12px;
-    }
-
-    .results-title {
-      font-size: 32px;
-      font-weight: 800;
-      line-height: 1.2;
-      color: #1a1a1a;
-      margin: 0 0 12px;
-    }
-
-    .results-subtitle {
-      font-size: 16px;
-      line-height: 1.6;
-      color: #555;
-      margin: 0;
-    }
-
-    .dm-card {
-      background: white;
-      border-radius: 12px;
-      padding: 28px;
-      margin-bottom: 24px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-      opacity: 0;
-      animation: slideUp 0.6s ease forwards;
-    }
-
-    .dm-card:nth-child(2) { animation-delay: 0.1s; }
-    .dm-card:nth-child(3) { animation-delay: 0.2s; }
-    .dm-card:nth-child(4) { animation-delay: 0.3s; }
-    .dm-card:nth-child(5) { animation-delay: 0.4s; }
-    .dm-card:nth-child(6) { animation-delay: 0.5s; }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    @keyframes slideUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .dm-h2 {
-      font-size: 20px;
-      font-weight: 700;
-      color: #1a1a1a;
-      margin: 0 0 16px;
-    }
-
-    .dm-body {
-      font-size: 15px;
-      line-height: 1.7;
-      color: #555;
-      margin: 0 0 16px;
-    }
-
-    .dm-body:last-child {
-      margin-bottom: 0;
-    }
-
-    .radar-container {
-      position: relative;
-      width: 100%;
-      max-width: 400px;
-      margin: 0 auto 24px;
-      aspect-ratio: 1;
-    }
-
-    .observation-item {
-      display: flex;
-      gap: 16px;
-      padding: 16px;
-      background: #f9fafb;
-      border-left: 3px solid #1b4d3e;
-      margin-bottom: 12px;
-      border-radius: 4px;
-      font-size: 15px;
-      line-height: 1.6;
-      color: #333;
-    }
-
-    .observation-item:last-child {
-      margin-bottom: 0;
-    }
-
-    .observation-icon {
-      flex-shrink: 0;
-      width: 24px;
-      height: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .observation-text {
-      flex: 1;
-    }
-
-    .dimension-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 16px;
-      padding-bottom: 16px;
-      border-bottom: 1px solid #f0f0f0;
-    }
-
-    .dimension-row:last-child {
-      border-bottom: none;
-      margin-bottom: 0;
-      padding-bottom: 0;
-    }
-
-    .dimension-name {
-      font-weight: 600;
-      color: #1a1a1a;
-      font-size: 15px;
-    }
-
-    .dimension-bar {
-      flex: 1;
-      height: 8px;
-      background: #e5e7eb;
-      border-radius: 4px;
-      margin: 0 16px;
-      overflow: hidden;
-    }
-
-    .dimension-fill {
-      height: 100%;
-      background: linear-gradient(90deg, #1b4d3e, #52b788);
-      border-radius: 4px;
-    }
-
-    .dimension-score {
-      font-weight: 600;
-      color: #1b4d3e;
-      font-size: 14px;
-      min-width: 30px;
-      text-align: right;
-    }
-
-    .growth-edge-box {
-      background: #fef3c7;
-      border: 1px solid #fde68a;
-      border-radius: 8px;
-      padding: 20px;
-      margin: 24px 0;
-    }
-
-    .growth-edge-item {
-      font-size: 15px;
-      line-height: 1.6;
-      color: #b45309;
-      margin-bottom: 12px;
-    }
-
-    .growth-edge-item:last-child {
-      margin-bottom: 0;
-    }
-
-    .next-rep-container {
-      background: #f9fafb;
-      border-radius: 8px;
-      padding: 24px;
-      margin: 24px 0;
-    }
-
-    .next-rep-title {
-      font-weight: 700;
-      color: #1a1a1a;
-      font-size: 16px;
-      margin-bottom: 12px;
-    }
-
-    .next-rep-description {
-      font-size: 15px;
-      line-height: 1.7;
-      color: #555;
-      margin-bottom: 12px;
-    }
-
-    .next-rep-why {
-      background: white;
-      padding: 12px 16px;
-      border-radius: 6px;
-      border-left: 3px solid #d4af37;
-      margin-bottom: 12px;
-      font-size: 14px;
-      color: #666;
-    }
-
-    .next-rep-why strong {
-      color: #1a1a1a;
-      display: block;
-      margin-bottom: 4px;
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .next-rep-time {
-      font-size: 13px;
-      color: #888;
-      font-style: italic;
-    }
-
-    .cta-section {
-      margin-top: 32px;
-    }
-
-    .btn-gold {
-      display: inline-block;
-      background: #d4af37;
-      color: #1a1a1a;
-      padding: 14px 40px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 16px;
-      border: none;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    .btn-gold:hover {
-      background: #c9a227;
-    }
-
-    .loading-state {
-      display: none;
-    }
-
-    .loading-container {
-      text-align: center;
-      padding: 60px 20px;
-    }
-
-    .loading-spinner {
-      width: 40px;
-      height: 40px;
-      border: 3px solid #f0f0f0;
-      border-top-color: #1b4d3e;
-      border-radius: 50%;
-      animation: spin 0.6s linear infinite;
-      margin: 0 auto 24px;
-    }
-
-    .loading-checklist {
-      text-align: left;
-      display: inline-block;
-      margin-top: 20px;
-    }
-
-    .loading-check-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 12px;
-      font-size: 14px;
-      color: #555;
-    }
-
-    .loading-check-item.done {
-      color: #166534;
-      font-weight: 600;
-    }
-
-    .loading-check-icon {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      border: 2px solid #ddd;
-      font-size: 12px;
-    }
-
-    .loading-check-item.done .loading-check-icon {
-      background: #166534;
-      border-color: #166534;
-      color: white;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    .error-state {
-      display: none;
-    }
-
-    .error-state-icon {
-      font-size: 48px;
-      margin-bottom: 12px;
-    }
-
-    .error-state h2 {
-      color: #1a1a1a;
-      margin: 0 0 8px;
-    }
-
-    .error-state p {
-      color: #555;
-      margin: 0 0 16px;
-    }
-
-    .about-box {
-      background: #f0f9f7;
-      border: 1px solid #c6f6d5;
-      border-radius: 8px;
-      padding: 20px;
-      margin: 24px 0;
-      font-size: 14px;
-      line-height: 1.6;
-      color: #22543d;
-    }
-
-    .breakthrough-box {
-      padding: 32px;
-      border-radius: 12px;
-      margin: 24px 0;
-      margin-bottom: 0;
-      color: white;
-    }
-
-    .breakthrough-heading {
-      font-size: 18px;
-      font-weight: 800;
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .breakthrough-icon {
-      font-size: 28px;
-    }
-
-    .breakthrough-description {
-      font-size: 16px;
-      line-height: 1.7;
-      margin-bottom: 0;
-      opacity: 0.95;
-    }
-
-    .breakthrough-seeing {
-      background: linear-gradient(135deg, #1b4d3e 0%, #2d6b56 100%);
-    }
-
-    .breakthrough-practice {
-      background: linear-gradient(135deg, #d4af37 0%, #c9a227 100%);
-      color: #1a1a1a;
-    }
-
-    .breakthrough-people {
-      background: linear-gradient(135deg, #1b4d3e 0%, #164033 100%);
-    }
-
-    .breakthrough-rhythms {
-      background: linear-gradient(135deg, #2d6b56 0%, #1b4d3e 100%);
-    }
-
-    .breakthrough-together {
-      background: linear-gradient(135deg, #d4af37 0%, #e5c158 100%);
-      color: #1a1a1a;
-    }
-
-    .profile-header {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .profile-archetype {
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      color: #1b4d3e;
-      margin-bottom: 8px;
-    }
-
-    .profile-title {
-      font-size: 24px;
-      font-weight: 800;
-      color: #1a1a1a;
-      margin-bottom: 12px;
-    }
-
-    .profile-description {
-      font-size: 15px;
-      line-height: 1.7;
-      color: #555;
-      margin-bottom: 0;
-    }
-
+    body { background: #fafaf8; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #1a1a1a; }
+    .dm-header { position: sticky; top: 0; z-index: 50; background: rgba(250,250,248,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(27,77,62,0.08); }
+    .dm-header-inner { max-width: 620px; margin: 0 auto; padding: 12px 24px; }
+    .dm-header-brand { font-size: 13px; font-weight: 700; letter-spacing: 0.4px; color: #1b4d3e; text-decoration: none; }
+
+    .dm-main { max-width: 620px; margin: 0 auto; padding: 40px 24px 72px; }
+
+    .loading-state { text-align: center; padding: 72px 20px; }
+    .spinner { width: 38px; height: 38px; border: 3px solid #e7eeea; border-top-color: #1b4d3e; border-radius: 50%; animation: spin 0.7s linear infinite; margin: 0 auto 16px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-state p { color: #52645d; font-size: 15px; }
+
+    .eyebrow { font-size: 12px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #9f7a2f; margin-bottom: 14px; }
+
+    /* [1] recognition headline */
+    .headline { font-size: clamp(26px, 6.5vw, 36px); font-weight: 900; line-height: 1.12; letter-spacing: -0.02em; color: #10281f; margin: 0 0 20px; }
+    /* [2] body */
+    .body-copy { font-size: 17px; line-height: 1.7; color: #33413b; margin: 0 0 22px; }
+    /* [3] what this is not */
+    .not-this { background: #f3f7f5; border: 1px solid #e2eae6; border-radius: 14px; padding: 18px 20px; font-size: 15.5px; line-height: 1.65; color: #3a4f47; margin: 0 0 34px; }
+    .not-this strong { color: #1b4d3e; }
+
+    .rule { border: none; border-top: 1px solid #e3ebe7; margin: 34px 0; }
+
+    /* [4] this week */
+    .step-eyebrow { font-size: 12px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #1b4d3e; margin-bottom: 10px; }
+    .step-text { font-size: 20px; font-weight: 750; line-height: 1.4; color: #10281f; margin: 0 0 10px; }
+    .step-why { font-size: 14.5px; line-height: 1.6; color: #62726b; margin: 0 0 8px; }
+    .step-accept { display: inline-flex; align-items: center; gap: 9px; margin-top: 6px; background: none; border: none; font-family: inherit; font-size: 14px; font-weight: 700; color: #1b4d3e; cursor: pointer; padding: 6px 0; }
+    .step-check { width: 20px; height: 20px; border: 2px solid #1b4d3e; border-radius: 6px; display: inline-flex; align-items: center; justify-content: center; color: #fff; font-size: 12px; }
+    .step-accept.on .step-check { background: #1b4d3e; }
+
+    /* [5] human loop */
+    .human { background: #ffffff; border: 1px solid #e2eae6; border-radius: 16px; padding: 22px; box-shadow: 0 8px 24px rgba(16,40,31,0.05); margin: 34px 0; }
+    .human h3 { font-size: 17px; font-weight: 800; color: #10281f; margin: 0 0 6px; }
+    .human p { font-size: 14.5px; line-height: 1.6; color: #52645d; margin: 0 0 14px; }
+    .human-name { width: 100%; padding: 12px 14px; border: 1.5px solid #c5d5cd; border-radius: 10px; font-size: 15px; font-family: inherit; box-sizing: border-box; }
+    .human-name:focus { outline: none; border-color: #1b4d3e; box-shadow: 0 0 0 3px rgba(27,77,62,0.1); }
+    .human-msg { width: 100%; min-height: 108px; margin-top: 12px; padding: 12px 14px; border: 1.5px solid #dbe8e2; border-radius: 10px; font-size: 14.5px; line-height: 1.55; font-family: inherit; color: #33413b; resize: vertical; box-sizing: border-box; background: #f9fbfa; }
+    .human-msg:focus { outline: none; border-color: #1b4d3e; box-shadow: 0 0 0 3px rgba(27,77,62,0.1); background:#fff; }
+    .share-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+    .share-btn { flex: 1; min-width: 130px; text-align: center; padding: 12px 14px; border-radius: 10px; font-size: 14px; font-weight: 700; font-family: inherit; text-decoration: none; cursor: pointer; border: 1.5px solid #1b4d3e; color: #1b4d3e; background: #fff; transition: background 0.2s ease, color 0.2s ease; }
+    .share-btn:hover { background: #1b4d3e; color: #fff; }
+    .share-btn.wa { border-color: #1fa855; color: #128c3e; }
+    .share-btn.wa:hover { background: #25D366; color: #fff; border-color:#25D366; }
+
+    /* [6] CTAs */
+    .cta-primary { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; background: #1b4d3e; color: #fff; padding: 17px 28px; border-radius: 12px; text-decoration: none; font-weight: 800; font-size: 16.5px; box-shadow: 0 8px 20px rgba(27,77,62,0.18); transition: background 0.2s ease, transform 0.15s ease; box-sizing: border-box; }
+    .cta-primary:hover { background: #10281f; transform: translateY(-1px); }
+    .cta-primary::after { content: '→'; }
+    .cta-secondary { display: block; text-align: center; margin-top: 16px; font-size: 14.5px; font-weight: 700; color: #5f746c; text-decoration: none; }
+    .cta-secondary:hover { color: #1b4d3e; text-decoration: underline; text-underline-offset: 2px; }
+    .cta-sub { text-align:center; font-size: 13px; color: #8a9a93; margin-top: 20px; }
+    .cta-sub a { color: #5f746c; }
+
+    .support { margin-top: 44px; padding-top: 28px; border-top: 1px solid #e3ebe7; }
+    .support h4 { font-size: 13px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: #9f7a2f; margin: 0 0 10px; }
+    .support p { font-size: 14.5px; line-height: 1.7; color: #52645d; margin: 0 0 12px; }
+
+    .toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%) translateY(20px); background: #10281f; color: #fff; padding: 12px 20px; border-radius: 999px; font-size: 14px; font-weight: 600; opacity: 0; pointer-events: none; transition: opacity 0.25s ease, transform 0.25s ease; z-index: 200; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    .fade { animation: fade 0.4s ease-out; }
+    @keyframes fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    @media (prefers-reduced-motion: reduce) { .fade, .cta-primary, .spinner { animation: none; transition: none; } }
+
+    @media (max-width: 480px) { .dm-main { padding: 32px 20px 64px; } .share-btn { min-width: 0; } }
   </style>
 </head>
 <body>
 
   <header class="dm-header">
-    <a class="dm-header-brand" href="/">Covo Multipliers</a>
+    <div class="dm-header-inner"><a class="dm-header-brand" href="/">CoVo Multipliers</a></div>
   </header>
 
   <main class="dm-main">
+    <div id="loading-view" class="loading-state"><div class="spinner"></div><p>Loading your next step…</p></div>
 
-    <div id="loading-view" class="loading-state" style="display:block;">
-      <div class="dm-card">
-        <div class="loading-container">
-          <div class="loading-spinner"></div>
-          <p style="font-size: 16px; font-weight: 600; color: #1a1a1a; margin-bottom: 24px;">Building your Disciple Maker Snapshot…</p>
-          <div class="loading-checklist">
-            <div class="loading-check-item" id="check-1">
-              <div class="loading-check-icon">✓</div>
-              <span>Looking for strengths</span>
-            </div>
-            <div class="loading-check-item" id="check-2">
-              <div class="loading-check-icon"></div>
-              <span>Identifying growth edges</span>
-            </div>
-            <div class="loading-check-item" id="check-3">
-              <div class="loading-check-icon"></div>
-              <span>Finding your next rep</span>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div id="error-view" class="loading-state" style="display:none;">
+      <h2 style="color:#10281f;margin-bottom:8px;">We couldn't find those results</h2>
+      <p>This link may have expired or been mistyped.</p>
+      <p style="margin-top:12px;"><a href="/disciple-maker/" style="color:#1b4d3e;font-weight:700;text-decoration:none;">Start the Next Step Finder →</a></p>
     </div>
 
-    <div id="error-view" class="dm-card error-state">
-      <div class="error-state-icon">⚠️</div>
-      <h2>Results not found</h2>
-      <p>This link may be invalid or expired. Please check the email we sent you.</p>
-      <a href="/" style="color: #1b4d3e; font-weight: 600; text-decoration: none;">Return Home</a>
-    </div>
-
-    <div id="results-view" style="display:none;">
-
-      <div class="results-hero">
-        <p class="results-eyebrow">Your Next Steps</p>
-        <p class="results-subtitle" id="result-greeting"></p>
-      </div>
-
-      <div id="profile-card" class="dm-card" style="display:none;"></div>
-
-      <div class="dm-card">
-        <h2 class="dm-h2">Where You Are Right Now</h2>
-        <p class="dm-body">
-          This snapshot shows your current state across five key dimensions of disciple-making practice.
-        </p>
-        <div class="radar-container">
-          <canvas id="radarChart"></canvas>
-        </div>
-      </div>
-
-      <div id="breakthrough-card" style="display:none;"></div>
-
-      <div class="dm-card">
-        <h2 class="dm-h2">What We're Seeing</h2>
-        <p class="dm-body">
-          Observations based on your responses:
-        </p>
-        <div id="observations-section"></div>
-      </div>
-
-      <div class="dm-card">
-        <h2 class="dm-h2">Your Biggest Growth Edge</h2>
-        <p class="dm-body">
-          Where you have the most opportunity to move forward:
-        </p>
-        <div id="growth-edge-section"></div>
-      </div>
-
-      <div class="dm-card">
-        <h2 class="dm-h2">Your Next Step</h2>
-        <div id="next-rep-section"></div>
-      </div>
-
-      <div class="about-box">
-        <strong>This snapshot is simply a starting point for your next conversation and your next step.</strong> Growth doesn't happen through assessments. It happens shoulder-to-shoulder with other people learning to follow Jesus.
-      </div>
-
-      <div class="cta-section" id="cta-section"></div>
-
-    </div>
-
+    <div id="result-view" style="display:none;"></div>
   </main>
+
+  <div class="toast" id="toast"></div>
 
   <script>
     const SUPABASE_FUNCTIONS = window.DISCIPLE_MAKER_CONFIG.SUPABASE_FUNCTIONS;
-    let radarChart = null;
 
-    // SVG icon generator for observations
-    function getObservationIcon(observation) {
-      if (observation.includes('vision')) {
-        // Lightbulb for vision
-        return `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1b4d3e" stroke-width="2">
-          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z"/>
-        </svg>`;
-      } else if (observation.includes('taking concrete steps') || observation.includes('practice')) {
-        // Hands/action icon
-        return `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1b4d3e" stroke-width="2">
-          <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
-          <polyline points="10 17 14 13 10 9"/>
-        </svg>`;
-      } else if (observation.includes('willing to learn') || observation.includes('coachability')) {
-        // People/growth icon
-        return `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1b4d3e" stroke-width="2">
-          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-          <circle cx="9" cy="7" r="4"/>
-          <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-          <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-        </svg>`;
-      } else if (observation.includes('know where') || observation.includes('mission')) {
-        // Target/compass icon
-        return `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1b4d3e" stroke-width="2">
-          <circle cx="12" cy="12" r="10"/>
-          <circle cx="12" cy="12" r="6"/>
-          <circle cx="12" cy="12" r="2"/>
-        </svg>`;
-      } else if (observation.includes('eager')) {
-        // Spark/enthusiasm icon
-        return `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1b4d3e" stroke-width="2">
-          <circle cx="12" cy="12" r="1"/>
-          <path d="M12 1v6m8-2l-4.24 4.24M23 12h-6m-2 8l4.24-4.24M12 23v-6m-8-2l4.24 4.24M1 12h6m2-8l-4.24 4.24"/>
-        </svg>`;
-      }
-      // Default icon
-      return `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1b4d3e" stroke-width="2">
-        <polyline points="20 6 9 17 4 12"/>
-      </svg>`;
-    }
+    // Per-outcome copy. Keyed to the outcome ids in questions.js.
+    const COPY = {
+      learning_not_practicing: {
+        headline: "You've learned more than you've practiced.",
+        body: "Your answers suggest you understand disciple making and genuinely want to act — but it hasn't become something you actually do yet. That's not a commitment problem. It usually just means you need real reps.",
+        notThis: "This isn't another framework to learn, and it doesn't mean you're behind. <strong>More information won't move you now — one real rep will.</strong>",
+        step: "Pick one person and one simple tool, and use it once before Sunday.",
+        why: "Doing it badly still counts. The goal this week is a rep, not a result.",
+        cta: { label: "Practice With Other Disciple Makers", href: "/?utm_source=dm_results&utm_medium=cta&utm_campaign=apprenticeship#labs" },
+        tool: { label: "Or grab one simple tool to use first", href: "https://obey.tools" },
+      },
+      intending_not_acting: {
+        headline: "The intention is real. It just hasn't hit your calendar.",
+        body: "You believe in this and there are people around you — but disciple making is still living in the “someday / whenever” part of your week. Good intentions don't reproduce. Scheduled practice does.",
+        notThis: "This isn't about wanting it more or feeling guilty. <strong>You don't need more desire — you need a time and a person on the calendar.</strong>",
+        step: "Put one 30-minute disciple-making block on your calendar this week, and tell someone it's there.",
+        why: "Naming the time and telling one person is what turns intention into a rep.",
+        cta: { label: "Practice With Other Disciple Makers", href: "/?utm_source=dm_results&utm_medium=cta&utm_campaign=apprenticeship#labs" },
+        tool: { label: "Or grab one simple tool to use first", href: "https://obey.tools" },
+      },
+      no_relational_field: {
+        headline: "There's no one nearby yet to practice with.",
+        body: "Before tools or techniques, disciple making needs people who aren't yet following Jesus in your everyday life. Right now that field is thin — and that's the most fixable thing on the list.",
+        notThis: "This isn't a courage problem or a skills problem. <strong>You'd share if someone were there. The gap is proximity, not willingness.</strong>",
+        step: "Name five people you already see each week who aren't yet following Jesus, and share the list with a practitioner.",
+        why: "You can't practice on people you haven't named. This is where everything else starts.",
+        cta: { label: "Learn the How Alongside Practitioners", href: "/?utm_source=dm_results&utm_medium=cta&utm_campaign=apprenticeship#labs" },
+        tool: { label: "Or try a tool for everyday conversations", href: "https://obey.tools" },
+      },
+      started_but_stalled: {
+        headline: "You started, hit a wall, and quietly slowed down.",
+        body: "You've actually tried this — and then it got awkward, or hard, or unclear, and momentum faded. That's not failure. It's the exact point where almost everyone needs a practitioner, not another resource.",
+        notThis: "This isn't a sign you're not cut out for it. <strong>Nearly every fruitful disciple maker stalled here — the ones who kept going had someone beside them.</strong>",
+        step: "Tell one practitioner exactly where you got stuck, and ask them to help you take the next rep.",
+        why: "Naming the wall to a real person is how you get past it — you don't have to solve it alone.",
+        cta: { label: "Stop Trying to Figure This Out Alone", href: "/?utm_source=dm_results&utm_medium=cta&utm_campaign=apprenticeship#labs" },
+        tool: { label: "Or revisit a simple tool to lower the friction", href: "https://obey.tools" },
+      },
+      practicing_alone: {
+        headline: "You're doing the work — mostly by yourself.",
+        body: "You're actually practicing, following up, and staying at it. The thing most likely to multiply your impact now isn't more effort — it's feedback and people moving in the same direction.",
+        notThis: "This isn't a knock on your faithfulness. <strong>You don't need to try harder — you need a room of practitioners and one coach's eyes on your reps.</strong>",
+        step: "Bring one real situation you're facing to a room of practitioners this week, and ask for one piece of coaching.",
+        why: "Solo practice plateaus. One outside perspective on a live situation is worth ten more solo attempts.",
+        cta: { label: "Join the Next Multiplying Lab", href: "/?utm_source=dm_results&utm_medium=cta&utm_campaign=apprenticeship#labs" },
+        tool: { label: "Or browse tools to sharpen a specific rep", href: "https://obey.tools" },
+      },
+      reproducing_widen: {
+        headline: "This is becoming a lifestyle. The next step isn't more input.",
+        body: "You're practicing consistently, following up, and you've got someone helping you. Honestly, you may not mainly need us. Your next step is to widen — to help someone else start, and to keep sharpening with other practitioners.",
+        notThis: "This isn't a finish line, and it isn't a sales pitch. <strong>You're past needing more content — your growth now comes from reproducing what you already do.</strong>",
+        step: "Invite one person you're discipling to try leading the next step while you watch and coach.",
+        why: "You multiply by handing off, not holding on. Let someone do it — badly is fine — while you're there.",
+        cta: { label: "Come Practice — and Help Others", href: "/immersions?utm_source=dm_results&utm_medium=cta&utm_campaign=apprenticeship" },
+        tool: { label: "Or share a tool with the person you're coaching", href: "https://obey.tools" },
+      },
+    };
 
-    // SVG icon generator for breakthrough areas
-    function getBreakthroughIcon(breakthroughType) {
-      const color = breakthroughType === 'practice' || breakthroughType === 'together' ? '#1a1a1a' : 'white';
+    let OUTCOME = null, FIRST_NAME = 'friend';
 
-      if (breakthroughType === 'seeing') {
-        // Minimalist eye icon
-        return `<svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="${color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M14 7C8 7 2.5 14 2.5 14s5.5 7 11.5 7 11.5-7 11.5-7-5.5-7-11.5-7Z"/>
-          <circle cx="14" cy="14" r="3"/>
-        </svg>`;
-      } else if (breakthroughType === 'practice') {
-        // Minimalist target/action icon
-        return `<svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="${color}" stroke-width="1.5" stroke-linecap="round">
-          <circle cx="14" cy="14" r="11"/>
-          <circle cx="14" cy="14" r="7"/>
-          <circle cx="14" cy="14" r="3"/>
-        </svg>`;
-      } else if (breakthroughType === 'people') {
-        // Minimalist people/connection icon
-        return `<svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="${color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="9" cy="9" r="3"/>
-          <circle cx="19" cy="9" r="3"/>
-          <path d="M7 14c-1 0-2 1-2 2v3c0 1 1 2 2 2h4v-7Z"/>
-          <path d="M21 14c1 0 2 1 2 2v3c0 1-1 2-2 2h-4v-7Z"/>
-          <path d="M9 14v5c0 1 1 2 2 2h6c1 0 2-1 2-2v-5"/>
-        </svg>`;
-      } else if (breakthroughType === 'rhythms') {
-        // Minimalist rhythm/wave icon
-        return `<svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="${color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M4 14h2c1.5-3 2.5-4 4-4s2.5 1 4 4h2c1-2.5 2-3.5 3-3.5s2 1 3 3.5h2"/>
-          <line x1="4" y1="14" x2="24" y2="14"/>
-        </svg>`;
-      } else if (breakthroughType === 'together') {
-        // Minimalist collaboration/learning icon
-        return `<svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="${color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="10" cy="10" r="4"/>
-          <circle cx="18" cy="10" r="4"/>
-          <path d="M8 16h4c0-1.5 1-2.5 2-2.5s2 1 2 2.5h4"/>
-          <path d="M8 16v2c0 1 1 2 2 2h8c1 0 2-1 2-2v-2"/>
-        </svg>`;
-      }
-      return '';
-    }
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get('r');
 
-    // PRACTICE-FIRST RECOMMENDATION ENGINE
-    // Conservative, beginner-focused, only make claims we can support
-
-    function analyzeScores(scores) {
-      // Weight the dimensions appropriately
-      // Practice, Rhythm, Mission are primary drivers
-      // Coachability, Vision are secondary
-
-      const practice = scores.practice || 0;
-      const rhythm = scores.rhythm || 0;
-      const mission = scores.everyday_mission || 0;
-      const coachability = scores.coachability || 0;
-      const vision = scores.vision || 0;
-
-      // CFC Framework (Commitment, Focus, Consistency)
-      const commitment = (vision + mission) / 2;  // Do you have a clear mission?
-      const focus = (practice + coachability) / 2; // Are you actively pursuing & refining?
-      const consistency = rhythm;                  // Are you faithful week-to-week?
-
-      return {
-        practice,
-        rhythm,
-        mission,
-        coachability,
-        vision,
-        // CFC scores
-        commitment,
-        focus,
-        consistency,
-        practiceAvg: (practice + rhythm + mission) / 3,
-        allScores: scores
-      };
-    }
-
-    function generateObservations(analysis) {
-      const obs = [];
-
-      const { practice, rhythm, mission, coachability, vision } = analysis;
-
-      // Only claim things we can actually see in the data
-      // Avoid speculation
-
-      if (vision >= 3.5) {
-        obs.push("You have a genuine vision for disciple making.");
-      }
-
-      if (practice >= 3 || (practice >= 2.5 && mission >= 2.5)) {
-        obs.push("You're taking concrete steps to live out your faith.");
-      } else if (vision >= 3 && practice < 2.5) {
-        obs.push("You're eager but haven't yet moved from inspiration to practice.");
-      }
-
-      if (coachability >= 3.5) {
-        obs.push("You're willing to learn and grow with others.");
-      }
-
-      if (mission >= 3) {
-        obs.push("You know where God has placed you.");
-      }
-
-      // Limit to 3 observations
-      return obs.slice(0, 3);
-    }
-
-    function generateGrowthEdge(analysis) {
-      const { practice, rhythm, mission, coachability, vision, practiceAvg } = analysis;
-
-      // Identify the biggest gap between vision and practice
-      const visionPracticGap = vision - practice;
-
-      if (practice < 2 && vision >= 3) {
-        return "Moving from inspiration to practice.";
-      }
-
-      if (practice >= 2.5 && rhythm < 2.5) {
-        return "Building a simple weekly rhythm.";
-      }
-
-      if (practice >= 2.5 && mission < 2.5) {
-        return "Identifying and spending time with people where you live, work, and play.";
-      }
-
-      if (coachability < 2.5) {
-        return "Becoming more open to learning and feedback.";
-      }
-
-      if (practiceAvg < 2.5) {
-        return "Taking your first steps of faithful obedience.";
-      }
-
-      if (practiceAvg >= 3 && practiceAvg < 4) {
-        return "Deepening consistency in one simple practice.";
-      }
-
-      return "Continuing to grow through faithful obedience.";
-    }
-
-    function generateProfile(analysis, pathway) {
-      // Pathway-driven profiles — backend scoring determines pathway, UI renders it.
-      // This keeps the results page and email in sync (both driven by the same pathway).
-      const pathwayProfiles = {
-        catalyst: {
-          archetype: "The Awakening",
-          icon: "/image/discipleicons/Awakening-Disciple.webp",
-          description: "You're at the beginning of your disciple-making journey — and that's exactly the right place to start. Every faithful practitioner started here. Your next step is simple and specific."
-        },
-        explorer: {
-          archetype: "The Idealist",
-          icon: "/image/discipleicons/Vision-Centered.webp",
-          description: "You see what's possible and have real clarity about the mission. Your next move is translating that clarity into action. The gap between knowing and doing is where real transformation happens — and that's your frontier."
-        },
-        practitioner: {
-          archetype: "The Practitioner",
-          icon: "/image/discipleicons/rooted-multiplier.webp",
-          description: "You're taking real steps — conversations, practices, showing up. The next move is building the weekly rhythms that make this sustainable, so that what you're doing becomes visible enough that others want to join you."
-        },
-        multiplier: {
-          archetype: "The Leader",
-          icon: "/image/discipleicons/multiplying-influence.webp",
-          description: "You've built consistent habits and you're practicing in the open. Your next level is staying faithful long enough — and visible enough — that the people around you start to do it with you. Multiplication begins when your rhythm becomes contagious."
-        }
-      };
-
-      if (pathway && pathwayProfiles[pathway]) {
-        return pathwayProfiles[pathway];
-      }
-
-      // Fallback: if pathway is missing, use average score
-      const { vision, practice, rhythm, mission, coachability } = analysis;
-      const avgScore = (vision + practice + rhythm + mission + coachability) / 5;
-      return avgScore < 2.5 ? pathwayProfiles.catalyst : pathwayProfiles.explorer;
-    }
-
-    function generateNextRep(analysis) {
-      const { practice, rhythm, mission, coachability, practiceAvg } = analysis;
-
-      // CONSERVATIVE: Default to beginner practices unless we have clear evidence otherwise
-
-      if (practice < 2) {
-        return {
-          title: "Make an Oikos Map",
-          description: "Identify five people where you live, work, or play who don't yet follow Jesus. Write down their names.",
-          why: "Jesus usually started with existing relationships. This is step one.",
-          time: "10 minutes"
-        };
-      }
-
-      if (practice >= 2 && mission < 2.5) {
-        return {
-          title: "Identify Your Mission Field",
-          description: "Think about the people you already know—coworkers, neighbors, friends. Who among them would you most like to see follow Jesus?",
-          why: "Disciple making happens where you already are, not somewhere new.",
-          time: "15 minutes"
-        };
-      }
-
-      if (practice >= 2.5 && rhythm < 2.5) {
-        return {
-          title: "Set Your Follow & Fish Goal",
-          description: "Identify one person you'll pray for and one simple practice you'll do this week (pray, talk, read Scripture together, etc.).",
-          why: "Consistency matters more than intensity. Build one simple rhythm first.",
-          time: "20 minutes"
-        };
-      }
-
-      if (practice >= 2.5 && rhythm >= 2.5 && mission >= 2.5 && practiceAvg >= 3.5) {
-        return {
-          title: "Invest in One Faithful Person",
-          description: "Identify someone in your life who's also following Jesus. How could you encourage them to take their next step?",
-          why: "Once you're practicing consistently, multiplication often happens naturally. Help someone else take a step.",
-          time: "Ongoing relationship"
-        };
-      }
-
-      if (coachability < 2.5) {
-        return {
-          title: "Join the WhatsApp Community",
-          description: "Learn alongside others who are also figuring this out. Watch how they practice. Ask questions.",
-          why: "Growth happens in community. You don't have to have all the answers.",
-          time: "30 min/week"
-        };
-      }
-
-      // Default beginner practice
-      return {
-        title: "Pray by Name for Five People",
-        description: "Each day this week, spend a few minutes praying for five people who don't yet follow Jesus.",
-        why: "Prayer is where disciple making begins. It orients your heart toward the people around you.",
-        time: "5 minutes/day"
-      };
-    }
-
-    function generateBreakthrough(analysis) {
-      const { practice, rhythm, mission, coachability, vision } = analysis;
-
-      // Identify the lowest dimension as the breakthrough point
-      const scores = {
-        vision: vision,
-        practice: practice,
-        rhythm: rhythm,
-        mission: mission,
-        coachability: coachability
-      };
-
-      const lowest = Object.entries(scores).reduce((prev, curr) =>
-        curr[1] < prev[1] ? curr : prev
-      );
-
-      // Map to breakthrough area based on lowest dimension
-      if (lowest[0] === 'vision' || vision < 2.5) {
-        return {
-          title: "Seeing",
-          iconType: "seeing",
-          description: "Your next breakthrough is noticing the mission field already in front of you.",
-          detail: "The new hire. The mom two houses down. The friend who calls at 10pm. God keeps setting people right in front of you. Your breakthrough isn't finding a mission field—it's seeing the one that's been there all along.",
-          actionTitle: "This Week:",
-          action: "Write down five people in your regular orbit who don't yet follow Jesus. Put names to the blurry intention. That's your starting point.",
-          className: "breakthrough-seeing"
-        };
-      }
-
-      if (lowest[0] === 'practice' || practice < 2.5) {
-        return {
-          title: "Practice",
-          iconType: "practice",
-          description: "Your next breakthrough moves you from inspiration to action.",
-          detail: "Reading feels like obeying. An article lights up the same wiring obedience does, except it asks nothing of you and risks nothing of yours. You already know more than you're living. What changes that isn't another insight—it's one small act of obedience you could start this week.",
-          actionTitle: "This Week:",
-          action: "Do one thing. One spiritual conversation you start. One time you pray out loud with someone. One chapter you open with a friend. Move from knowing to doing.",
-          className: "breakthrough-practice"
-        };
-      }
-
-      if (lowest[0] === 'mission' || mission < 2.5) {
-        return {
-          title: "The People Already Around You",
-          iconType: "people",
-          description: "Your next breakthrough puts names on blurry intentions.",
-          detail: "Most of us walk around with a vague intention to 'reach people' that never actually touches anyone. You eat lunch with the coworker. You're at soccer every Saturday with the same parents. The people you keep begging God to send are already there.",
-          actionTitle: "This Week:",
-          action: "Pick one person from your ordinary week. Learn their name if you don't know it. Ask a real question. Blurry intentions don't change anybody. A name on a list might.",
-          className: "breakthrough-people"
-        };
-      }
-
-      if (lowest[0] === 'rhythm' || rhythm < 2.5) {
-        return {
-          title: "Rhythms",
-          iconType: "rhythms",
-          description: "Your next breakthrough builds patterns you don't have to keep relighting.",
-          detail: "Conference lights a fire. You're a new person for a week. Then life rolls in, the fire goes out, and you're waiting for the next spark. The fix usually isn't a bigger fire—it's a smaller one you don't have to keep relighting every time life gets busy.",
-          actionTitle: "This Week:",
-          action: "What's one small rhythm you could practice this week? 15 minutes with a friend? Prayer before work? Don't ask for the perfect rhythm. Ask for one you could actually keep.",
-          className: "breakthrough-rhythms"
-        };
-      }
-
-      if (lowest[0] === 'coachability' || coachability < 2.5) {
-        return {
-          title: "Learning Together",
-          iconType: "together",
-          description: "Your next breakthrough is finding one person to keep you honest.",
-          detail: "Nobody really learns this on their own. You need someone who'll ask you flat out, 'So what happened this week?' Not to grade you. To keep you honest, and to be there when the first few clumsy tries make you want to quit—because they will. Feeling like a beginner is the toll for starting.",
-          actionTitle: "This Week:",
-          action: "Find one person who believes in what you're trying to do. Invite them to ask you the hard questions. Tell them, 'I want to try something. I'll probably feel like an idiot. Will you keep me honest?'",
-          className: "breakthrough-together"
-        };
-      }
-
-      // Default
-      return {
-        title: "Keep Growing",
-        iconType: "seeing",
-        description: "You're on the path. Keep taking the next right step.",
-        detail: "Your breakthrough probably isn't waiting behind five new habits. It's waiting behind one honest step in a direction God's already pointing you.",
-        actionTitle: "This Week:",
-        action: "Take that step. The coworker's still there. The neighbor's still there. This time, you know what to do about it.",
-        className: "breakthrough-seeing"
-      };
-    }
-
-    function showView(viewName) {
-      document.getElementById('loading-view').style.display = viewName === 'loading' ? 'block' : 'none';
-      document.getElementById('results-view').style.display = viewName === 'results' ? 'block' : 'none';
-      document.getElementById('error-view').style.display = viewName === 'error' ? 'block' : 'none';
-    }
-
-    async function loadResults() {
-      const params = new URLSearchParams(window.location.search);
-      const resultsToken = params.get('r');
-
-      if (!resultsToken) {
-        showView('error');
-        return;
-      }
-
-      let checkCount = 0;
-      const checkInterval = setInterval(() => {
-        checkCount++;
-        if (checkCount <= 3) {
-          document.getElementById(`check-${checkCount}`).classList.add('done');
-        }
-        if (checkCount >= 3) clearInterval(checkInterval);
-      }, 600);
-
+    function track(event, detail) {
+      try { gtag('event', event, Object.assign({ tool: 'disciple_maker_next_step', outcome: OUTCOME }, detail || {})); } catch (_) {}
       try {
-        const response = await fetch(
-          `${SUPABASE_FUNCTIONS}/disciple-maker-results?token=${resultsToken}`
-        );
-
-        const data = await response.json();
-        if (!response.ok) throw new Error('Failed to load results');
-
-        setTimeout(() => {
-          renderResults(data);
-        }, 1800);
-      } catch (error) {
-        console.error('Error:', error);
-        showView('error');
-      }
+        fetch(`${SUPABASE_FUNCTIONS}/disciple-maker-event`, {
+          method: 'POST', headers: { 'Content-Type': 'application/json' }, keepalive: true,
+          body: JSON.stringify({ results_token: token, event, detail: detail || null }),
+        }).catch(() => {});
+      } catch (_) {}
     }
 
-    function renderResults(data) {
-      const firstName = data.first_name || 'Friend';
-      const scores = data.dimension_scores || {};
-
-      // Analyze scores using new conservative engine
-      const pathway = data.pathway || null;
-      const analysis = analyzeScores(scores);
-      const profile = generateProfile(analysis, pathway);
-      const observations = generateObservations(analysis);
-      const growthEdge = generateGrowthEdge(analysis);
-      const nextRep = generateNextRep(analysis);
-      const breakthrough = generateBreakthrough(analysis);
-
-      // Render greeting
-      document.getElementById('result-greeting').textContent = `Hello, ${firstName}.`;
-
-      // Render profile archetype
-      const profileHtml = `
-        <div class="profile-header">
-          <img src="${profile.icon}" alt="${profile.archetype}" style="width: 60px; height: 60px; margin: 0 auto 12px; display: block;">
-          <div class="profile-archetype">${profile.archetype}</div>
-          <p class="profile-description">${profile.description}</p>
-        </div>
-      `;
-      document.getElementById('profile-card').innerHTML = profileHtml;
-      document.getElementById('profile-card').style.display = 'block';
-
-      // Render radar chart
-      renderRadarChart(scores);
-
-      // Render breakthrough area
-      const breakthroughIcon = getBreakthroughIcon(breakthrough.iconType);
-      const breakthroughHtml = `
-        <div class="breakthrough-box ${breakthrough.className}">
-          <div class="breakthrough-heading">
-            <span class="breakthrough-icon">${breakthroughIcon}</span>
-            <span>${breakthrough.title}</span>
-          </div>
-          <div class="breakthrough-description">${breakthrough.description}</div>
-          <p style="margin-bottom: 0; line-height: 1.7;">${breakthrough.detail}</p>
-        </div>
-      `;
-      document.getElementById('breakthrough-card').innerHTML = breakthroughHtml;
-      document.getElementById('breakthrough-card').style.display = 'block';
-
-      // Render observations with icons
-      const observationsHtml = observations
-        .map(obs => `
-          <div class="observation-item">
-            <div class="observation-icon">${getObservationIcon(obs)}</div>
-            <div class="observation-text">${obs}</div>
-          </div>
-        `)
-        .join('');
-      document.getElementById('observations-section').innerHTML = observationsHtml;
-
-      // Render growth edge
-      document.getElementById('growth-edge-section').innerHTML =
-        `<div class="growth-edge-box"><div class="growth-edge-item">• ${growthEdge}</div></div>`;
-
-      // Render next rep with oikos map if applicable
-      let oikosMapHtml = '';
-      if (nextRep.title === 'Make an Oikos Map') {
-        oikosMapHtml = `
-          <div style="width: 100%; max-width: 420px; margin: 0 auto 20px; border-radius: 8px;">
-            <svg viewBox="0 0 580 480" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: auto; display: block;">
-              <defs>
-                <style>
-                  @import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap');
-                </style>
-                <filter id="pen3" x="-15%" y="-15%" width="130%" height="130%">
-                  <feTurbulence type="fractalNoise" baseFrequency="0.6" numOctaves="3" stitchTiles="stitch" result="noise"/>
-                  <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.0" xChannelSelector="R" yChannelSelector="G"/>
-                </filter>
-              </defs>
-              <!-- spokes: center→Passion (top), center→Place (bottom-right), center→Profession (bottom-left) -->
-              <line x1="300" y1="237" x2="300" y2="178" stroke="#111" stroke-width="2.8" stroke-linecap="round"/>
-              <line x1="361" y1="287" x2="358" y2="328" stroke="#111" stroke-width="2.8" stroke-linecap="round"/>
-              <line x1="239" y1="287" x2="242" y2="328" stroke="#111" stroke-width="2.8" stroke-linecap="round"/>
-              <!-- branches: Passion→Bob, Passion→Jim -->
-              <line x1="267" y1="118" x2="233" y2="89" stroke="#111" stroke-width="2.2" stroke-linecap="round"/>
-              <line x1="333" y1="118" x2="367" y2="89" stroke="#111" stroke-width="2.2" stroke-linecap="round"/>
-              <!-- branches: Place→Sam, Place→Mary -->
-              <line x1="462" y1="322" x2="489" y2="313" stroke="#111" stroke-width="2.2" stroke-linecap="round"/>
-              <line x1="444" y1="368" x2="431" y2="431" stroke="#111" stroke-width="2.2" stroke-linecap="round"/>
-              <!-- branches: Profession→James, Profession→Mark -->
-              <line x1="138" y1="322" x2="111" y2="313" stroke="#111" stroke-width="2.2" stroke-linecap="round"/>
-              <line x1="156" y1="368" x2="169" y2="431" stroke="#111" stroke-width="2.2" stroke-linecap="round"/>
-              <!-- name nodes -->
-              <ellipse cx="208" cy="68" rx="44" ry="26" fill="white" stroke="#111" stroke-width="2.8" filter="url(#pen3)"/>
-              <text x="208" y="76" font-family="'Amatic SC',cursive" font-weight="700" font-size="26" fill="#111" stroke="#111" stroke-width="1.2" paint-order="stroke" text-anchor="middle">Bob</text>
-              <ellipse cx="392" cy="68" rx="44" ry="26" fill="white" stroke="#111" stroke-width="2.8" filter="url(#pen3)"/>
-              <text x="392" y="76" font-family="'Amatic SC',cursive" font-weight="700" font-size="26" fill="#111" stroke="#111" stroke-width="1.2" paint-order="stroke" text-anchor="middle">Jim</text>
-              <ellipse cx="526" cy="299" rx="44" ry="26" fill="white" stroke="#111" stroke-width="2.8" filter="url(#pen3)"/>
-              <text x="526" y="307" font-family="'Amatic SC',cursive" font-weight="700" font-size="26" fill="#111" stroke="#111" stroke-width="1.2" paint-order="stroke" text-anchor="middle">Sam</text>
-              <ellipse cx="454" cy="453" rx="44" ry="26" fill="white" stroke="#111" stroke-width="2.8" filter="url(#pen3)"/>
-              <text x="454" y="461" font-family="'Amatic SC',cursive" font-weight="700" font-size="26" fill="#111" stroke="#111" stroke-width="1.2" paint-order="stroke" text-anchor="middle">Mary</text>
-              <ellipse cx="74" cy="299" rx="44" ry="26" fill="white" stroke="#111" stroke-width="2.8" filter="url(#pen3)"/>
-              <text x="74" y="307" font-family="'Amatic SC',cursive" font-weight="700" font-size="26" fill="#111" stroke="#111" stroke-width="1.2" paint-order="stroke" text-anchor="middle">James</text>
-              <ellipse cx="146" cy="453" rx="44" ry="26" fill="white" stroke="#111" stroke-width="2.8" filter="url(#pen3)"/>
-              <text x="146" y="461" font-family="'Amatic SC',cursive" font-weight="700" font-size="26" fill="#111" stroke="#111" stroke-width="1.2" paint-order="stroke" text-anchor="middle">Mark</text>
-              <!-- arm nodes -->
-              <ellipse cx="300" cy="145" rx="58" ry="33" fill="white" stroke="#111" stroke-width="3.2" filter="url(#pen3)"/>
-              <ellipse cx="300" cy="145" rx="58" ry="33" fill="none" stroke="#111" stroke-width="1.0" opacity="0.25" filter="url(#pen3)"/>
-              <text x="300" y="153" font-family="'Amatic SC',cursive" font-weight="700" font-size="30" fill="#111" stroke="#111" stroke-width="1.4" paint-order="stroke" text-anchor="middle">Passion</text>
-              <ellipse cx="413" cy="340" rx="58" ry="33" fill="white" stroke="#111" stroke-width="3.2" filter="url(#pen3)"/>
-              <ellipse cx="413" cy="340" rx="58" ry="33" fill="none" stroke="#111" stroke-width="1.0" opacity="0.25" filter="url(#pen3)"/>
-              <text x="413" y="348" font-family="'Amatic SC',cursive" font-weight="700" font-size="30" fill="#111" stroke="#111" stroke-width="1.4" paint-order="stroke" text-anchor="middle">Place</text>
-              <ellipse cx="187" cy="340" rx="64" ry="33" fill="white" stroke="#111" stroke-width="3.2" filter="url(#pen3)"/>
-              <ellipse cx="187" cy="340" rx="64" ry="33" fill="none" stroke="#111" stroke-width="1.0" opacity="0.25" filter="url(#pen3)"/>
-              <text x="187" y="348" font-family="'Amatic SC',cursive" font-weight="700" font-size="28" fill="#111" stroke="#111" stroke-width="1.4" paint-order="stroke" text-anchor="middle">Profession</text>
-              <!-- center node -->
-              <ellipse cx="300" cy="275" rx="64" ry="38" fill="white" stroke="#111" stroke-width="4.0" filter="url(#pen3)"/>
-              <ellipse cx="300" cy="275" rx="64" ry="38" fill="none" stroke="#111" stroke-width="1.2" opacity="0.25" filter="url(#pen3)"/>
-              <text x="300" y="283" font-family="'Amatic SC',cursive" font-weight="700" font-size="36" fill="#111" stroke="#111" stroke-width="1.6" paint-order="stroke" text-anchor="middle">Name</text>
-            </svg>
-          </div>
-        `;
-      }
-      const nextRepHtml = `
-        ${oikosMapHtml}
-        <div class="next-rep-container">
-          <div class="next-rep-title">${nextRep.title}</div>
-          <div class="next-rep-description">${nextRep.description}</div>
-          <div class="next-rep-why">
-            <strong>Why?</strong>
-            ${nextRep.why}
-          </div>
-          <div class="next-rep-time">Estimated time: ${nextRep.time}</div>
-        </div>
-      `;
-      document.getElementById('next-rep-section').innerHTML = nextRepHtml;
-
-
-      // Render CTA with WhatsApp Field Room section
-      const ctaHtml = `
-        <div style="background:#f0fdf4;border:1.5px solid #bbf7d0;text-align:center;border-radius:12px;padding:28px;">
-          <p style="font-size:12px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:#15803d;margin:0 0 12px;">WhatsApp Field Room</p>
-          <h2 style="font-size:20px;font-weight:700;color:#15803d;margin:0 0 12px;">Your Place of Practice</h2>
-          <p style="font-size:15px;line-height:1.7;color:#555;margin:0 0 20px;">Growth doesn't happen through assessments. It happens alongside people who are practicing. Join the field room for weekly prompts, Follow & Fish goals, lab invites, and real practitioners moving in the same direction.</p>
-          <a href="/whatsapp.html?utm_source=dm_results&utm_medium=cta&utm_campaign=whatsapp_field_room" style="display:inline-block;padding:12px 32px;background:#25D366;color:#ffffff;font-size:15px;font-weight:700;text-decoration:none;border-radius:8px;transition:background 0.2s;" onmouseover="this.style.background='#1fa85a'" onmouseout="this.style.background='#25D366'">Join the WhatsApp Field Room</a>
-        </div>
-      `;
-      document.getElementById('cta-section').innerHTML = ctaHtml;
-
-      showView('results');
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg; t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2200);
     }
 
-    function renderRadarChart(scores) {
-      const ctx = document.getElementById('radarChart').getContext('2d');
+    function esc(s) { return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
-      const dimensionLabels = [
-        "Vision",
-        "Practice",
-        "Rhythm",
-        "Coachability",
-        "Everyday Mission"
-      ];
+    const RECOG_PHRASE = {
+      learning_not_practicing: "I've learned more than I've actually practiced",
+      intending_not_acting: "I keep meaning to but it never makes it into my week",
+      no_relational_field: "I need to get around people who aren't following Jesus yet",
+      started_but_stalled: "I started, hit a wall, and slowed down",
+      practicing_alone: "I've been doing this mostly on my own",
+      reproducing_widen: "I want to help someone else start doing this",
+    };
+    function defaultMessage(name) {
+      const who = name ? name : 'friend';
+      return `Hey ${who}, I just worked through a disciple-making next-step tool. It helped me see that ${RECOG_PHRASE[OUTCOME]}. I want to take one real step this week — would you be willing to ask me about it?`;
+    }
 
-      const dimensionKeys = [
-        "vision",
-        "practice",
-        "rhythm",
-        "coachability",
-        "everyday_mission"
-      ];
+    function isIOS() { return /iPad|iPhone|iPod/.test(navigator.userAgent || ''); }
+    function smsHref(body) {
+      const enc = encodeURIComponent(body);
+      return isIOS() ? `sms:&body=${enc}` : `sms:?body=${enc}`;
+    }
+    function waHref(body) { return `https://wa.me/?text=${encodeURIComponent(body)}`; }
 
-      const data = dimensionKeys.map(k => scores[k] || 0);
+    function render() {
+      const c = COPY[OUTCOME] || COPY.learning_not_practicing;
+      const view = document.getElementById('result-view');
+      view.className = 'fade';
+      view.innerHTML = `
+        <div class="eyebrow">Your next step, ${esc(FIRST_NAME)}</div>
+        <h1 class="headline">${c.headline}</h1>
+        <p class="body-copy">${c.body}</p>
+        <div class="not-this">${c.notThis}</div>
 
-      if (radarChart) radarChart.destroy();
+        <hr class="rule">
 
-      radarChart = new Chart(ctx, {
-        type: 'radar',
-        data: {
-          labels: dimensionLabels,
-          datasets: [{
-            label: 'Your Journey',
-            data: data,
-            borderColor: '#1b4d3e',
-            backgroundColor: 'rgba(27, 77, 62, 0.15)',
-            borderWidth: 2,
-            pointBackgroundColor: '#1b4d3e',
-            pointBorderColor: '#fff',
-            pointBorderWidth: 2,
-            pointRadius: 5,
-            pointHoverRadius: 6
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: true,
-          scales: {
-            r: {
-              beginAtZero: true,
-              max: 5,
-              ticks: {
-                stepSize: 1,
-                color: '#999',
-                font: { size: 11 }
-              },
-              grid: { color: 'rgba(0,0,0,0.05)' },
-              pointLabels: {
-                font: { size: 12, weight: '600' },
-                color: '#333'
-              }
-            }
-          },
-          plugins: {
-            legend: { display: false }
-          }
-        }
+        <div class="step-eyebrow">This week</div>
+        <p class="step-text">${c.step}</p>
+        <p class="step-why">${c.why}</p>
+        <button class="step-accept" id="step-accept"><span class="step-check" id="step-check">✓</span> <span id="step-accept-label">I'm committing to this</span></button>
+
+        <div class="human">
+          <h3>Who will know you committed to this?</h3>
+          <p>Real change happens out loud. Name one person and send them a quick note — you can edit it.</p>
+          <input class="human-name" id="human-name" type="text" placeholder="A coach, practitioner, or trusted friend" autocomplete="off">
+          <textarea class="human-msg" id="human-msg">${esc(defaultMessage(''))}</textarea>
+          <div class="share-row">
+            <a class="share-btn" id="btn-sms" href="#">Send a text</a>
+            <a class="share-btn wa" id="btn-wa" href="#" target="_blank" rel="noopener">WhatsApp</a>
+            <button class="share-btn" id="btn-share" type="button">Share…</button>
+          </div>
+        </div>
+
+        <a class="cta-primary" id="cta-primary" href="${c.cta.href}">${c.cta.label}</a>
+        <a class="cta-secondary" id="cta-tool" href="${c.tool.href}" target="_blank" rel="noopener">${c.tool.label}</a>
+        <p class="cta-sub">We sent your next step to your email too. <a href="/disciple-maker/">Start over</a></p>
+
+        <div class="support">
+          <h4>What "practice with practitioners" actually means</h4>
+          <p>CoVo Labs are short, live gatherings where ordinary disciple makers bring real situations, practice one simple tool, and get coached by people who are actually doing it. You don't come to listen — you come to take a rep.</p>
+          <p>Technology and tools don't disciple you. People do. This tool just helps you see your next step and take it alongside others.</p>
+        </div>
+      `;
+
+      const nameEl = view.querySelector('#human-name');
+      const msgEl = view.querySelector('#human-msg');
+      let userEditedMsg = false;
+      msgEl.addEventListener('input', () => { userEditedMsg = true; });
+      nameEl.addEventListener('input', () => {
+        if (!userEditedMsg) msgEl.value = defaultMessage(nameEl.value.trim());
       });
-    }
-
-    function renderDimensionSummary(scores) {
-      const dimensionNames = {
-        vision: "Vision",
-        practice: "Practice",
-        rhythm: "Rhythm",
-        coachability: "Coachability",
-        everyday_mission: "Everyday Mission"
-      };
-
-      const dimensionKeys = [
-        "vision",
-        "practice",
-        "rhythm",
-        "coachability",
-        "everyday_mission"
-      ];
-
-      let html = '<div style="margin-top: 24px;">';
-
-      dimensionKeys.forEach(key => {
-        const score = scores[key] || 0;
-        const width = (score / 5) * 100;
-
-        html += `
-          <div class="dimension-row">
-            <div class="dimension-name">${dimensionNames[key]}</div>
-            <div class="dimension-bar">
-              <div class="dimension-fill" style="width: ${width}%"></div>
-            </div>
-            <div class="dimension-score">${score.toFixed(1)}</div>
-          </div>
-        `;
+      let namedFired = false;
+      nameEl.addEventListener('change', () => {
+        if (nameEl.value.trim() && !namedFired) { namedFired = true; track('human_named', {}); }
       });
 
-      html += '</div>';
-      document.getElementById('dimension-summary').innerHTML = html;
+      function currentBody() { return msgEl.value || defaultMessage(nameEl.value.trim()); }
+      view.querySelector('#btn-sms').addEventListener('click', (e) => {
+        e.currentTarget.href = smsHref(currentBody());
+        track('share_opened', { channel: 'sms' });
+      });
+      view.querySelector('#btn-wa').addEventListener('click', (e) => {
+        e.currentTarget.href = waHref(currentBody());
+        track('share_opened', { channel: 'whatsapp' });
+      });
+      view.querySelector('#btn-share').addEventListener('click', async () => {
+        const body = currentBody();
+        track('share_opened', { channel: 'native' });
+        if (navigator.share) { try { await navigator.share({ text: body }); } catch (_) {} }
+        else { try { await navigator.clipboard.writeText(body); showToast('Copied — paste it to anyone'); } catch (_) { showToast('Select and copy the message above'); } }
+      });
+
+      const accept = view.querySelector('#step-accept');
+      const acceptLabel = view.querySelector('#step-accept-label');
+      accept.addEventListener('click', () => {
+        accept.classList.toggle('on');
+        const on = accept.classList.contains('on');
+        acceptLabel.textContent = on ? "I've committed to this" : "I'm committing to this";
+        if (on) track('step_accepted', {});
+      });
+
+      view.querySelector('#cta-primary').addEventListener('click', () => track('cta_clicked', { target: 'lab' }));
+      view.querySelector('#cta-tool').addEventListener('click', () => track('cta_clicked', { target: 'obey_tools' }));
     }
 
-    showView('loading');
-    loadResults();
+    async function load() {
+      if (!token) return showError();
+      try {
+        const res = await fetch(`${SUPABASE_FUNCTIONS}/disciple-maker-results?token=${encodeURIComponent(token)}`);
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'not found');
+        OUTCOME = COPY[data.recognition_outcome] ? data.recognition_outcome : 'learning_not_practicing';
+        FIRST_NAME = data.first_name || 'friend';
+        document.getElementById('loading-view').style.display = 'none';
+        document.getElementById('result-view').style.display = 'block';
+        render();
+        track('results_viewed', {});
+      } catch (_) { showError(); }
+    }
+    function showError() {
+      document.getElementById('loading-view').style.display = 'none';
+      document.getElementById('error-view').style.display = 'block';
+    }
+
+    load();
   </script>
 
 </body>

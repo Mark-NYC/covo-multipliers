@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Next Step Finder Admin — CoVo Multipliers</title>
+  <title>Next Step Admin — CoVo Multipliers</title>
     <link rel="icon" type="image/x-icon" href="/image/favicons/favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="/image/favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/image/favicons/favicon-16x16.png">
@@ -12,36 +12,14 @@
   <meta name="robots" content="noindex, nofollow">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --green-dark: #10281f;
-      --green-mid:  #1b4d3e;
-      --green-light: #2d6a56;
-      --green-pale: #e8f0ed;
-      --border: #e5e7eb;
-      --text: #1a1a1a;
-      --muted: #5a6b65;
-      --bg: #f4f4f5;
-      --white: #ffffff;
+      --green-dark: #10281f; --green-mid: #1b4d3e; --green-light: #2d6a56; --green-pale: #e8f0ed;
+      --border: #e5e7eb; --text: #1a1a1a; --muted: #5a6b65; --bg: #f4f4f5; --white: #ffffff;
     }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 14px; background: var(--bg); color: var(--text); min-height: 100vh; }
 
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      font-size: 14px;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-    }
-
-    /* ── Auth ─────────────────────────────────────────── */
-    #auth-screen {
-      display: flex; align-items: center; justify-content: center;
-      min-height: 100vh; padding: 24px;
-    }
-    .auth-card {
-      background: var(--white); border: 1px solid var(--border);
-      border-radius: 12px; padding: 40px; width: 100%; max-width: 400px;
-    }
+    #auth-screen { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 24px; }
+    .auth-card { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 40px; width: 100%; max-width: 400px; }
     .auth-card h1 { font-size: 20px; font-weight: 700; margin-bottom: 8px; color: var(--green-dark); }
     .auth-card p  { color: var(--muted); margin-bottom: 24px; font-size: 13px; }
     .auth-error   { color: #dc2626; font-size: 13px; margin-top: 8px; }
@@ -49,103 +27,52 @@
     .form-group label { display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); margin-bottom: 4px; }
     .form-group input { width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px; font-size: 13px; }
 
-    /* ── App ──────────────────────────────────────────── */
     #app { display: none; }
-
-    header {
-      background: linear-gradient(135deg, #10281f 0%, #1b4d3e 55%, #9f7a2f 100%);
-      padding: 14px 24px;
-      display: flex; align-items: center; justify-content: space-between;
-      color: #fff; position: sticky; top: 0; z-index: 100;
-    }
+    header { background: linear-gradient(135deg, #10281f 0%, #1b4d3e 55%, #9f7a2f 100%); padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; color: #fff; position: sticky; top: 0; z-index: 100; }
     header h1 { font-size: 15px; font-weight: 700; }
     header .subtitle { font-size: 11px; opacity: .65; margin-top: 2px; }
     .header-right { display: flex; align-items: center; gap: 12px; }
-    .btn {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 7px 14px; border-radius: 6px; font-size: 13px;
-      font-weight: 600; cursor: pointer; border: none; transition: opacity .15s;
-    }
+    .btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; border: none; transition: opacity .15s; }
     .btn-ghost { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,.4); }
     .btn-primary { background: var(--green-mid); color: #fff; }
     .btn-sm { padding: 5px 10px; font-size: 12px; }
-
     .main { padding: 24px; max-width: 1200px; margin: 0 auto; }
-
     .back-link { font-size: 12px; color: var(--muted); text-decoration: none; margin-bottom: 20px; display: inline-block; }
     .back-link:hover { color: var(--green-mid); }
 
-    /* ── Summary stats ────────────────────────────────── */
-    .stats-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 14px; margin-bottom: 24px;
-    }
-    .stat-card {
-      background: var(--white); border: 1px solid var(--border);
-      border-radius: 10px; padding: 20px;
-    }
-    .stat-num { font-size: 28px; font-weight: 800; color: var(--green-mid); }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; margin-bottom: 12px; }
+    .stat-card { background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; }
+    .stat-num { font-size: 26px; font-weight: 800; color: var(--green-mid); }
     .stat-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; margin-top: 4px; }
 
-    /* ── Pathway cards ────────────────────────────────── */
-    .pathway-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 12px; margin-bottom: 24px;
-    }
-    .pathway-card {
-      background: var(--white); border: 1px solid var(--border);
-      border-radius: 10px; padding: 16px 20px;
-      display: flex; align-items: center; gap: 14px;
-    }
-    .pathway-dot {
-      width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
-    }
-    .pathway-info { flex: 1; }
-    .pathway-name { font-size: 13px; font-weight: 700; color: var(--text); }
-    .pathway-count { font-size: 22px; font-weight: 800; color: var(--green-mid); }
-    .pathway-pct { font-size: 11px; color: var(--muted); }
+    .group-title { font-size: 11px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin: 24px 0 10px; }
 
-    /* ── Table ────────────────────────────────────────── */
-    .section-card {
-      background: var(--white); border: 1px solid var(--border);
-      border-radius: 10px; padding: 20px; margin-bottom: 20px;
-    }
+    .outcome-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 8px; }
+    .outcome-card { background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; display: flex; align-items: center; gap: 14px; }
+    .outcome-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .outcome-info { flex: 1; }
+    .outcome-name { font-size: 12.5px; font-weight: 700; color: var(--text); }
+    .outcome-count { font-size: 22px; font-weight: 800; color: var(--green-mid); }
+    .outcome-pct { font-size: 11px; color: var(--muted); }
+
+    .section-card { background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 20px; }
     .section-card h2 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
     .section-note { font-size: 12px; color: var(--muted); margin-bottom: 16px; }
-
     .controls { display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap; margin-bottom: 16px; }
     .controls .form-group { margin-bottom: 0; }
-    .controls .form-group input { width: auto; }
 
     .table-wrap { overflow-x: auto; }
     table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    th {
-      text-align: left; padding: 8px 10px;
-      font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em;
-      color: var(--muted); border-bottom: 2px solid var(--border); white-space: nowrap;
-    }
+    th { text-align: left; padding: 8px 10px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); border-bottom: 2px solid var(--border); white-space: nowrap; }
     td { padding: 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
     tr:last-child td { border-bottom: none; }
     tr:hover td { background: #fafafa; }
-
-    .badge {
-      display: inline-block; padding: 3px 8px; border-radius: 999px;
-      font-size: 11px; font-weight: 700; white-space: nowrap;
-    }
-    .badge-catalyst   { background: #f3f4f6; color: #374151; }
-    .badge-explorer   { background: #eff6ff; color: #1d4ed8; }
-    .badge-practitioner { background: #f0fdf4; color: #166534; }
-    .badge-multiplier { background: #fefce8; color: #854d0e; }
-
-    .dim-bars { display: flex; flex-direction: column; gap: 3px; min-width: 120px; }
-    .dim-bar-row { display: flex; align-items: center; gap: 6px; }
-    .dim-bar-label { font-size: 10px; color: var(--muted); width: 42px; flex-shrink: 0; }
-    .dim-bar-track { flex: 1; background: #e5e7eb; border-radius: 3px; height: 5px; }
-    .dim-bar-fill  { height: 5px; border-radius: 3px; background: var(--green-mid); }
-
+    .badge { display: inline-block; padding: 3px 8px; border-radius: 999px; font-size: 11px; font-weight: 700; white-space: nowrap; color:#fff; }
+    .yn { font-size: 13px; }
+    .yn.y { color: #166534; font-weight: 700; }
+    .yn.n { color: #cbd5d0; }
     .loading-state { text-align: center; padding: 40px; color: var(--muted); }
     .empty-state   { text-align: center; padding: 40px; color: var(--muted); font-size: 13px; }
-
     .pagination { display: flex; align-items: center; gap: 10px; margin-top: 16px; font-size: 13px; color: var(--muted); }
     .pagination button { padding: 5px 12px; border: 1px solid var(--border); border-radius: 6px; background: var(--white); cursor: pointer; font-size: 12px; }
     .pagination button:disabled { opacity: .4; cursor: not-allowed; }
@@ -153,32 +80,24 @@
 </head>
 <body>
 
-  <!-- ── Auth Screen ─────────────────────────────────── -->
   <div id="auth-screen">
     <div class="auth-card">
-      <h1>Next Step Finder Admin</h1>
+      <h1>Next Step Admin</h1>
       <p>Sign in with your CoVo admin account to view results.</p>
       <form id="auth-form">
-        <div class="form-group">
-          <label>Email</label>
-          <input type="email" id="email" required placeholder="admin@covomultipliers.com">
-        </div>
-        <div class="form-group">
-          <label>Password</label>
-          <input type="password" id="password" required>
-        </div>
+        <div class="form-group"><label>Email</label><input type="email" id="email" required placeholder="admin@covomultipliers.com"></div>
+        <div class="form-group"><label>Password</label><input type="password" id="password" required></div>
         <button type="submit" class="btn btn-primary" id="signin-btn" style="width:100%">Sign in</button>
         <div class="auth-error" id="auth-error"></div>
       </form>
     </div>
   </div>
 
-  <!-- ── App ────────────────────────────────────────── -->
   <div id="app">
     <header>
       <div>
-        <h1>Next Step Finder Admin</h1>
-        <div class="subtitle">Disciple Maker Next Step Finder — Results & Tracking</div>
+        <h1>Next Step Admin</h1>
+        <div class="subtitle">Disciple Maker Next Step — recognitions &amp; engagement</div>
       </div>
       <div class="header-right">
         <span style="font-size:12px;opacity:.7" id="topbar-user"></span>
@@ -189,64 +108,33 @@
     <div class="main">
       <a href="/admin/" class="back-link">← Back to Admin Hub</a>
 
-      <!-- Summary stats -->
-      <div class="stats-grid" id="summary-stats">
+      <div class="group-title">Funnel</div>
+      <div class="stats-grid">
         <div class="stat-card"><div class="stat-num" id="stat-started">—</div><div class="stat-label">Started</div></div>
         <div class="stat-card"><div class="stat-num" id="stat-completed">—</div><div class="stat-label">Completed</div></div>
         <div class="stat-card"><div class="stat-num" id="stat-completion-rate">—</div><div class="stat-label">Completion Rate</div></div>
-        <div class="stat-card"><div class="stat-num" id="stat-in-progress">—</div><div class="stat-label">In Progress</div></div>
+        <div class="stat-card"><div class="stat-num" id="stat-in-progress">—</div><div class="stat-label">Abandoned</div></div>
       </div>
 
-      <!-- Pathway breakdown -->
-      <div class="pathway-grid" id="pathway-breakdown">
-        <div class="pathway-card">
-          <div class="pathway-dot" style="background:#6b7280"></div>
-          <div class="pathway-info">
-            <div class="pathway-name">The Awakening</div>
-            <div class="pathway-count" id="count-catalyst">—</div>
-            <div class="pathway-pct" id="pct-catalyst"></div>
-          </div>
-        </div>
-        <div class="pathway-card">
-          <div class="pathway-dot" style="background:#1d4ed8"></div>
-          <div class="pathway-info">
-            <div class="pathway-name">The Idealist</div>
-            <div class="pathway-count" id="count-explorer">—</div>
-            <div class="pathway-pct" id="pct-explorer"></div>
-          </div>
-        </div>
-        <div class="pathway-card">
-          <div class="pathway-dot" style="background:#166534"></div>
-          <div class="pathway-info">
-            <div class="pathway-name">The Practitioner</div>
-            <div class="pathway-count" id="count-practitioner">—</div>
-            <div class="pathway-pct" id="pct-practitioner"></div>
-          </div>
-        </div>
-        <div class="pathway-card">
-          <div class="pathway-dot" style="background:#854d0e"></div>
-          <div class="pathway-info">
-            <div class="pathway-name">The Leader</div>
-            <div class="pathway-count" id="count-multiplier">—</div>
-            <div class="pathway-pct" id="pct-multiplier"></div>
-          </div>
-        </div>
+      <div class="group-title">Engagement (of completions)</div>
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-num" id="stat-step">—</div><div class="stat-label">Accepted their step</div></div>
+        <div class="stat-card"><div class="stat-num" id="stat-human">—</div><div class="stat-label">Named a human</div></div>
+        <div class="stat-card"><div class="stat-num" id="stat-share">—</div><div class="stat-label">Opened a message</div></div>
+        <div class="stat-card"><div class="stat-num" id="stat-cta">—</div><div class="stat-label">Clicked CoVo CTA</div></div>
       </div>
 
-      <!-- Results table -->
+      <div class="group-title">Recognition breakdown</div>
+      <div class="outcome-grid" id="outcome-breakdown"></div>
+
       <div class="section-card">
-        <h2>Completed Results</h2>
-        <div class="section-note">All sessions where the finder was completed. Most recent first.</div>
-
+        <h2>Completed results</h2>
+        <div class="section-note">Every completed session, most recent first. No scores — just the recognition and what they did next.</div>
         <div class="controls">
           <div class="form-group">
-            <label>Filter by pathway</label>
-            <select id="filter-pathway" style="padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:13px;">
-              <option value="">All pathways</option>
-              <option value="catalyst">The Awakening</option>
-              <option value="explorer">The Idealist</option>
-              <option value="practitioner">The Practitioner</option>
-              <option value="multiplier">The Leader</option>
+            <label>Filter by recognition</label>
+            <select id="filter-outcome" style="padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:13px;">
+              <option value="">All recognitions</option>
             </select>
           </div>
           <div class="form-group">
@@ -256,7 +144,6 @@
           <button class="btn btn-primary btn-sm" id="apply-filters-btn">Apply</button>
           <button class="btn btn-ghost btn-sm" id="export-csv-btn" style="color:var(--green-mid);border-color:var(--green-mid)">Export CSV</button>
         </div>
-
         <div id="results-table-wrap" class="loading-state">Loading…</div>
         <div class="pagination" id="pagination" style="display:none">
           <button id="prev-btn" disabled>← Prev</button>
@@ -269,217 +156,157 @@
 
 <script type="module">
   import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
-
   const SUPABASE_URL      = "https://mryjrvinzbxebzvxtggi.supabase.co";
   const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1yeWpydmluemJ4ZWJ6dnh0Z2dpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYyNzQ3MzksImV4cCI6MjA5MTg1MDczOX0.U1JJQTBVKePsVFXr2oFRCdUZasWaZiTQg6g8QrFdRyw";
-
   const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
   const PAGE_SIZE = 25;
-  let currentPage = 0;
-  let allRows = [];
-  let filteredRows = [];
+  let currentPage = 0, allRows = [], filteredRows = [];
 
-  const PATHWAY_LABELS = {
-    catalyst:     "The Awakening",
-    explorer:     "The Idealist",
-    practitioner: "The Practitioner",
-    multiplier:   "The Leader",
+  const OUTCOMES = {
+    learning_not_practicing: { label: "Learning, not practicing", color: "#1d4ed8" },
+    intending_not_acting:    { label: "Intending, not acting",    color: "#7c3aed" },
+    no_relational_field:     { label: "No relational field",      color: "#b45309" },
+    started_but_stalled:     { label: "Started but stalled",      color: "#b91c1c" },
+    practicing_alone:        { label: "Practicing alone",         color: "#166534" },
+    reproducing_widen:       { label: "Reproducing — widen",      color: "#0f766e" },
   };
 
-  const DIM_LABELS = {
-    vision:          "Vision",
-    practice:        "Practice",
-    rhythm:          "Rhythm",
-    coachability:    "Coach",
-    everyday_mission:"Mission",
-  };
+  // Populate filter + breakdown scaffolding
+  const filterSel = document.getElementById("filter-outcome");
+  const breakdown = document.getElementById("outcome-breakdown");
+  Object.entries(OUTCOMES).forEach(([key, o]) => {
+    const opt = document.createElement("option"); opt.value = key; opt.textContent = o.label; filterSel.appendChild(opt);
+    const card = document.createElement("div"); card.className = "outcome-card";
+    card.innerHTML = `<div class="outcome-dot" style="background:${o.color}"></div>
+      <div class="outcome-info"><div class="outcome-name">${o.label}</div>
+      <div class="outcome-count" id="count-${key}">—</div><div class="outcome-pct" id="pct-${key}"></div></div>`;
+    breakdown.appendChild(card);
+  });
 
-  function esc(s) {
-    if (s == null) return "—";
-    return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
-  }
+  function esc(s){ if(s==null) return "—"; return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+  function fmtDate(iso){ if(!iso) return "—"; return new Date(iso).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"}); }
+  function outcomeBadge(k){ const o=OUTCOMES[k]; if(!o) return `<span class="badge" style="background:#6b7280">${esc(k)||"—"}</span>`; return `<span class="badge" style="background:${o.color}">${esc(o.label)}</span>`; }
+  function yn(v){ return v ? `<span class="yn y">✓</span>` : `<span class="yn n">–</span>`; }
+  function pct(n,d){ return d>0 ? Math.round(n/d*100)+"%" : "—"; }
 
-  function fmtDate(iso) {
-    if (!iso) return "—";
-    return new Date(iso).toLocaleDateString("en-US", { month:"short", day:"numeric", year:"numeric" });
-  }
-
-  function pathwayBadge(p) {
-    const label = PATHWAY_LABELS[p] || p || "Unknown";
-    return `<span class="badge badge-${p || 'catalyst'}">${esc(label)}</span>`;
-  }
-
-  function dimBars(scores) {
-    if (!scores || typeof scores !== "object") return "—";
-    return `<div class="dim-bars">` +
-      Object.entries(DIM_LABELS).map(([key, label]) => {
-        const val = scores[key] ?? 0;
-        const pct = Math.round((val / 5) * 100);
-        return `<div class="dim-bar-row">
-          <div class="dim-bar-label">${label}</div>
-          <div class="dim-bar-track"><div class="dim-bar-fill" style="width:${pct}%"></div></div>
-          <span style="font-size:10px;color:#888;width:24px;text-align:right">${val ? val.toFixed(1) : "—"}</span>
-        </div>`;
-      }).join("") +
-    `</div>`;
-  }
-
-  function applyFilters() {
-    const pathway = document.getElementById("filter-pathway").value;
-    const search  = document.getElementById("filter-search").value.toLowerCase().trim();
+  function applyFilters(){
+    const outcome = filterSel.value;
+    const search = document.getElementById("filter-search").value.toLowerCase().trim();
     filteredRows = allRows.filter(r => {
-      if (pathway && r.pathway !== pathway) return false;
+      if (r.status !== "completed") return false;
+      if (outcome && r.recognition_outcome !== outcome) return false;
       if (search) {
-        const name  = (r.first_name || "").toLowerCase();
-        const email = (r.email || "").toLowerCase();
-        if (!name.includes(search) && !email.includes(search)) return false;
+        const n=(r.first_name||"").toLowerCase(), e=(r.email||"").toLowerCase();
+        if (!n.includes(search) && !e.includes(search)) return false;
       }
       return true;
     });
-    currentPage = 0;
-    renderTable();
+    currentPage = 0; renderTable();
   }
 
-  function renderTable() {
+  function renderTable(){
     const wrap = document.getElementById("results-table-wrap");
-    const pag  = document.getElementById("pagination");
-
-    if (filteredRows.length === 0) {
-      wrap.innerHTML = '<div class="empty-state">No results found.</div>';
-      pag.style.display = "none";
-      return;
-    }
-
-    const start = currentPage * PAGE_SIZE;
-    const page  = filteredRows.slice(start, start + PAGE_SIZE);
-    const total = filteredRows.length;
-
+    const pag = document.getElementById("pagination");
+    if (filteredRows.length === 0){ wrap.innerHTML='<div class="empty-state">No results found.</div>'; pag.style.display="none"; return; }
+    const start = currentPage*PAGE_SIZE, page = filteredRows.slice(start,start+PAGE_SIZE), total = filteredRows.length;
     const rows = page.map(r => `
       <tr>
         <td style="font-weight:600">${esc(r.first_name)}</td>
         <td style="color:#555">${esc(r.email)}</td>
-        <td>${pathwayBadge(r.pathway)}</td>
-        <td style="font-size:12px;color:#555">${esc(r.bottleneck) || "—"}</td>
-        <td>${dimBars(r.dimension_scores)}</td>
+        <td>${outcomeBadge(r.recognition_outcome)}</td>
+        <td style="text-align:center">${yn(r.step_accepted)}</td>
+        <td style="text-align:center">${yn(r.human_connection_used)}</td>
+        <td style="text-align:center">${yn(r.covo_cta_clicked)}</td>
         <td style="white-space:nowrap;color:#888">${fmtDate(r.completed_at)}</td>
-      </tr>
-    `).join("");
-
+      </tr>`).join("");
     wrap.innerHTML = `<div class="table-wrap"><table>
-      <thead><tr>
-        <th>Name</th><th>Email</th><th>Profile</th><th>Bottleneck</th><th>Dimension Scores</th><th>Completed</th>
-      </tr></thead>
-      <tbody>${rows}</tbody>
-    </table></div>`;
-
-    // Pagination
-    const totalPages = Math.ceil(total / PAGE_SIZE);
-    document.getElementById("page-info").textContent =
-      `${start + 1}–${Math.min(start + PAGE_SIZE, total)} of ${total}`;
-    document.getElementById("prev-btn").disabled = currentPage === 0;
-    document.getElementById("next-btn").disabled = currentPage >= totalPages - 1;
-    pag.style.display = totalPages > 1 ? "flex" : "none";
+      <thead><tr><th>Name</th><th>Email</th><th>Recognition</th><th style="text-align:center">Step</th><th style="text-align:center">Human</th><th style="text-align:center">CTA</th><th>Completed</th></tr></thead>
+      <tbody>${rows}</tbody></table></div>`;
+    const totalPages = Math.ceil(total/PAGE_SIZE);
+    document.getElementById("page-info").textContent = `${start+1}–${Math.min(start+PAGE_SIZE,total)} of ${total}`;
+    document.getElementById("prev-btn").disabled = currentPage===0;
+    document.getElementById("next-btn").disabled = currentPage>=totalPages-1;
+    pag.style.display = totalPages>1 ? "flex":"none";
   }
 
-  function renderSummary(rows) {
-    const completed  = rows.filter(r => r.status === "completed");
-    const started    = rows.length;
-    const inProgress = rows.filter(r => r.status === "in_progress").length;
-    const rate       = started > 0 ? Math.round((completed.length / started) * 100) : 0;
+  function renderSummary(rows){
+    const completed = rows.filter(r=>r.status==="completed");
+    const started = rows.length;
+    const abandoned = rows.filter(r=>r.status==="in_progress").length;
+    document.getElementById("stat-started").textContent = started;
+    document.getElementById("stat-completed").textContent = completed.length;
+    document.getElementById("stat-completion-rate").textContent = pct(completed.length, started);
+    document.getElementById("stat-in-progress").textContent = abandoned;
 
-    document.getElementById("stat-started").textContent       = started;
-    document.getElementById("stat-completed").textContent     = completed.length;
-    document.getElementById("stat-completion-rate").textContent = rate + "%";
-    document.getElementById("stat-in-progress").textContent   = inProgress;
+    const c = completed.length;
+    document.getElementById("stat-step").textContent  = pct(completed.filter(r=>r.step_accepted).length, c);
+    document.getElementById("stat-human").textContent = pct(completed.filter(r=>r.human_connection_used).length, c);
+    document.getElementById("stat-share").textContent = pct(completed.filter(r=>r.share_action_used).length, c);
+    document.getElementById("stat-cta").textContent   = pct(completed.filter(r=>r.covo_cta_clicked).length, c);
 
-    const counts = { catalyst: 0, explorer: 0, practitioner: 0, multiplier: 0 };
-    completed.forEach(r => { if (r.pathway && counts[r.pathway] !== undefined) counts[r.pathway]++; });
-
-    Object.entries(counts).forEach(([key, count]) => {
-      const pct = completed.length > 0 ? Math.round((count / completed.length) * 100) : 0;
-      document.getElementById(`count-${key}`).textContent = count;
-      document.getElementById(`pct-${key}`).textContent   = pct + "% of completions";
+    Object.keys(OUTCOMES).forEach(key => {
+      const n = completed.filter(r=>r.recognition_outcome===key).length;
+      document.getElementById(`count-${key}`).textContent = n;
+      document.getElementById(`pct-${key}`).textContent = c>0 ? Math.round(n/c*100)+"% of completions" : "";
     });
   }
 
-  async function loadData() {
+  async function loadData(){
     const wrap = document.getElementById("results-table-wrap");
     wrap.innerHTML = '<div class="loading-state">Loading…</div>';
-
     const { data, error } = await supabase
       .from("disciple_maker_sessions")
-      .select("first_name, email, status, pathway, bottleneck, dimension_scores, completed_at, created_at")
+      .select("first_name, email, status, recognition_outcome, note, step_accepted, human_connection_used, share_action_used, covo_cta_clicked, completed_at, created_at")
       .order("created_at", { ascending: false });
-
-    if (error) {
-      wrap.innerHTML = `<div class="empty-state" style="color:#dc2626">Error: ${esc(error.message)}</div>`;
-      return;
-    }
-
+    if (error){ wrap.innerHTML = `<div class="empty-state" style="color:#dc2626">Error: ${esc(error.message)}</div>`; return; }
     allRows = data || [];
-    filteredRows = allRows.filter(r => r.status === "completed");
-
     renderSummary(allRows);
-    renderTable();
+    applyFilters();
   }
 
-  function exportCSV() {
-    const headers = ["Name","Email","Profile","Bottleneck","Vision","Practice","Rhythm","Coachability","Everyday Mission","Completed"];
+  function exportCSV(){
+    const headers = ["Name","Email","Recognition","Step accepted","Named human","Opened message","Clicked CTA","Note","Completed"];
     const csvRows = [headers.join(",")];
     filteredRows.forEach(r => {
-      const s = r.dimension_scores || {};
       const row = [
-        r.first_name || "",
-        r.email || "",
-        PATHWAY_LABELS[r.pathway] || r.pathway || "",
-        r.bottleneck || "",
-        s.vision ?? "",
-        s.practice ?? "",
-        s.rhythm ?? "",
-        s.coachability ?? "",
-        s.everyday_mission ?? "",
+        r.first_name||"", r.email||"",
+        (OUTCOMES[r.recognition_outcome]?.label)||r.recognition_outcome||"",
+        r.step_accepted?"yes":"no", r.human_connection_used?"yes":"no",
+        r.share_action_used?"yes":"no", r.covo_cta_clicked?"yes":"no",
+        r.note||"",
         r.completed_at ? new Date(r.completed_at).toISOString().split("T")[0] : "",
       ].map(v => `"${String(v).replace(/"/g,'""')}"`);
       csvRows.push(row.join(","));
     });
-    const blob = new Blob([csvRows.join("\n")], { type: "text/csv" });
-    const url  = URL.createObjectURL(blob);
-    const a    = document.createElement("a");
-    a.href = url; a.download = "next-step-finder-results.csv"; a.click();
-    URL.revokeObjectURL(url);
+    const blob = new Blob([csvRows.join("\n")], { type:"text/csv" });
+    const url = URL.createObjectURL(blob); const a = document.createElement("a");
+    a.href=url; a.download="disciple-maker-next-step.csv"; a.click(); URL.revokeObjectURL(url);
   }
 
-  // ── Auth ──────────────────────────────────────────────
   supabase.auth.onAuthStateChange((event, session) => {
-    if (session) {
-      document.getElementById("auth-screen").style.display = "none";
-      document.getElementById("app").style.display = "block";
+    if (session){
+      document.getElementById("auth-screen").style.display="none";
+      document.getElementById("app").style.display="block";
       document.getElementById("topbar-user").textContent = session.user.email;
       loadData();
     } else {
-      document.getElementById("auth-screen").style.display = "flex";
-      document.getElementById("app").style.display = "none";
+      document.getElementById("auth-screen").style.display="flex";
+      document.getElementById("app").style.display="none";
     }
   });
 
   document.getElementById("auth-form").addEventListener("submit", async e => {
     e.preventDefault();
-    const btn = document.getElementById("signin-btn");
-    const err = document.getElementById("auth-error");
-    err.textContent = "";
-    btn.disabled = true; btn.textContent = "Signing in…";
+    const btn=document.getElementById("signin-btn"), err=document.getElementById("auth-error");
+    err.textContent=""; btn.disabled=true; btn.textContent="Signing in…";
     const { error } = await supabase.auth.signInWithPassword({
-      email:    document.getElementById("email").value.trim(),
+      email: document.getElementById("email").value.trim(),
       password: document.getElementById("password").value,
     });
-    if (error) { err.textContent = error.message; btn.disabled = false; btn.textContent = "Sign in"; }
+    if (error){ err.textContent=error.message; btn.disabled=false; btn.textContent="Sign in"; }
   });
-
-  document.getElementById("signout-btn").addEventListener("click", async () => {
-    await supabase.auth.signOut();
-  });
-
+  document.getElementById("signout-btn").addEventListener("click", async () => { await supabase.auth.signOut(); });
   document.getElementById("apply-filters-btn").addEventListener("click", applyFilters);
   document.getElementById("export-csv-btn").addEventListener("click", exportCSV);
   document.getElementById("prev-btn").addEventListener("click", () => { currentPage--; renderTable(); });

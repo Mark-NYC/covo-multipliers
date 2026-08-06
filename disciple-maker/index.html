@@ -10,8 +10,8 @@
     </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Find your next step in disciple making. In 5 minutes, find the one thing quietly keeping you stuck.">
-  <title>Disciple Maker Next Step Finder</title>
+  <meta name="description" content="Find why disciple making hasn't yet become your lifestyle — and the next kind of help you actually need. A few honest questions, one next step.">
+  <title>Disciple Maker Next Step</title>
     <link rel="icon" type="image/x-icon" href="/image/favicons/favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="/image/favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/image/favicons/favicon-16x16.png">
@@ -19,655 +19,125 @@
     <link rel="manifest" href="/image/favicons/site.webmanifest">
   <link rel="stylesheet" href="/styles.css">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    body { background: #fafaf8; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #1a1a1a; line-height: 1.6; }
 
-    html {
-      scroll-behavior: smooth;
-    }
+    .header { position: sticky; top: 0; z-index: 50; background: rgba(250,250,248,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(27,77,62,0.06); padding: 12px 0; }
+    .header-inner { max-width: 680px; margin: 0 auto; padding: 0 24px; }
+    .header-brand { font-size: 13px; font-weight: 700; letter-spacing: 0.5px; color: #1b4d3e; text-decoration: none; }
 
-    body {
-      background: #fafaf8;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      color: #1a1a1a;
-      line-height: 1.6;
-      font-size: 16px;
-    }
+    .main { max-width: 680px; margin: 0 auto; padding: 0 24px; }
 
-    /* HEADER */
-    .header {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      background: rgba(250, 250, 248, 0.95);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(27, 77, 62, 0.06);
-      padding: 12px 0;
-    }
+    h1 { font-size: clamp(30px, 8vw, 46px); font-weight: 900; line-height: 1.08; letter-spacing: -0.03em; color: #10281f; margin-bottom: 14px; }
+    .hero { padding: 52px 0 8px; animation: fadeIn 0.5s ease-out; }
+    .hero-image { text-align: center; margin-bottom: 40px; }
+    .hero-image img { width: 58%; max-width: 340px; height: auto; display: inline-block; }
+    .hero-sub { font-size: 17px; line-height: 1.6; color: #445; margin-bottom: 26px; max-width: 520px; }
+    .hero-sub strong { color: #10281f; }
 
-    .header-inner {
-      max-width: 680px;
-      margin: 0 auto;
-      padding: 0 24px;
-    }
+    .trust-chips { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 28px; }
+    .chip { background: #fff; border: 1px solid #dcb55a; border-radius: 20px; padding: 8px 15px; font-size: 12px; font-weight: 700; color: #1b4d3e; }
 
-    .header-brand {
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      color: #1b4d3e;
-      text-decoration: none;
-    }
+    .cta-primary { display: block; width: 100%; text-align: center; background: #1b4d3e; color: #fff; padding: 16px 32px; border-radius: 12px; text-decoration: none; font-weight: 800; font-size: 16px; box-shadow: 0 8px 20px rgba(27,77,62,0.16); transition: background 0.2s ease, transform 0.15s ease; margin-bottom: 12px; }
+    .cta-primary:hover { background: #10281f; transform: translateY(-1px); }
+    .resume-link { text-align: center; font-size: 13px; color: #7a8a83; }
+    .resume-link a { color: #1b4d3e; text-decoration: none; font-weight: 600; }
+    .resume-link a:hover { color: #9f7a2f; }
 
-    /* MAIN */
-    .main {
-      max-width: 680px;
-      margin: 0 auto;
-      padding: 0 24px;
-    }
+    .section { margin: 56px 0 0; }
+    .section-eyebrow { font-size: 12px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #9f7a2f; margin-bottom: 12px; }
+    .section h2 { font-size: 22px; font-weight: 850; color: #10281f; letter-spacing: -0.01em; margin-bottom: 18px; }
 
-    /* TYPOGRAPHY */
-    h1 {
-      font-size: clamp(32px, 9vw, 48px);
-      font-weight: 800;
-      line-height: 1.1;
-      letter-spacing: -0.5px;
-      color: #1a1a1a;
-      margin-bottom: 12px;
-    }
+    .recognize { list-style: none; display: flex; flex-direction: column; gap: 12px; margin: 0; padding: 0; }
+    .recognize li { background: #fff; border: 1px solid #e2eae6; border-radius: 14px; padding: 16px 18px; font-size: 15.5px; line-height: 1.55; color: #33413b; }
+    .recognize li strong { color: #10281f; font-weight: 750; }
+    .recognize-note { font-size: 15px; color: #52645d; margin-top: 16px; }
 
-    h2 {
-      font-size: 24px;
-      font-weight: 700;
-      line-height: 1.2;
-      color: #1a1a1a;
-      margin-bottom: 20px;
-    }
+    .know { background: linear-gradient(135deg, rgba(27,77,62,0.035) 0%, rgba(212,175,55,0.02) 100%); border: 1px solid rgba(27,77,62,0.08); border-radius: 16px; padding: 30px 26px; margin: 44px 0 0; }
+    .know h2 { font-size: 19px; margin-bottom: 16px; }
+    .know ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+    .know li { position: relative; padding-left: 26px; font-size: 15.5px; line-height: 1.6; color: #33413b; }
+    .know li::before { content: '✓'; position: absolute; left: 0; top: 0; color: #9f7a2f; font-weight: 800; }
+    .know .closing { margin-top: 22px; padding-top: 18px; border-top: 1px solid rgba(27,77,62,0.08); font-size: 14.5px; font-style: italic; color: #52645d; }
 
-    p {
-      color: #555;
-      line-height: 1.7;
-      margin-bottom: 16px;
-    }
+    .reassure { background: #1b4d3e; color: #fff; margin: 56px -24px 0; padding: 52px 24px; }
+    .reassure-inner { max-width: 680px; margin: 0 auto; }
+    .reassure h2 { color: #fff; font-size: 21px; margin-bottom: 14px; }
+    .reassure p { color: rgba(255,255,255,0.9); font-size: 15.5px; margin-bottom: 12px; }
+    .reassure p.fine { color: rgba(255,255,255,0.65); font-size: 13px; font-style: italic; margin-top: 18px; }
 
-    p.large {
-      font-size: 17px;
-      color: #333;
-      font-weight: 400;
-    }
+    .foot-cta { text-align: center; padding: 48px 0 64px; }
 
-    /* HERO */
-    .hero {
-      padding: 60px 0 40px;
-      animation: fadeIn 0.5s ease-out;
-    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-    .hero h1 {
-      background: linear-gradient(135deg, #1b4d3e 0%, #1b4d3e 60%, #d4af37 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 16px;
-    }
-
-    .hero-subheading {
-      font-size: 16px;
-      line-height: 1.6;
-      color: #555;
-      margin-bottom: 32px;
-      max-width: 500px;
-    }
-
-    /* TRUST CHIPS */
-    .trust-chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 28px;
-      animation: slideUp 0.5s ease-out 0.1s both;
-    }
-
-    .chip {
-      background: white;
-      border: 1px solid #d4af37;
-      border-radius: 20px;
-      padding: 9px 16px;
-      font-size: 12px;
-      font-weight: 600;
-      color: #1b4d3e;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.2s ease;
-    }
-
-    .chip:hover {
-      background: rgba(212, 175, 55, 0.06);
-      transform: translateY(-1px);
-    }
-
-    .chip-dot {
-      width: 3px;
-      height: 3px;
-      background: #d4af37;
-      border-radius: 50%;
-    }
-
-    /* CTA */
-    .cta-primary {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      background: linear-gradient(135deg, #1b4d3e, #0d3d2f);
-      color: white;
-      padding: 16px 40px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 16px;
-      border: none;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 12px rgba(27, 77, 62, 0.15);
-      animation: slideUp 0.5s ease-out 0.15s both;
-      width: 100%;
-      text-align: center;
-      margin-bottom: 12px;
-    }
-
-    .cta-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(27, 77, 62, 0.2);
-    }
-
-    .cta-primary::after {
-      content: '→';
-      transition: transform 0.2s ease;
-    }
-
-    .cta-primary:hover::after {
-      transform: translateX(2px);
-    }
-
-    /* PROFILE CARDS */
-    .profiles-section {
-      margin: 60px 0 0;
-    }
-
-    .profiles-heading {
-      font-size: 20px;
-      font-weight: 700;
-      color: #1a1a1a;
-      margin-bottom: 24px;
-    }
-
-    .profiles-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-bottom: 28px;
-    }
-
-    .profile-card {
-      background: white;
-      border: 1px solid rgba(27, 77, 62, 0.1);
-      border-radius: 12px;
-      padding: 24px 20px;
-      text-align: center;
-    }
-
-    .profile-card-icon {
-      width: 64px;
-      height: 64px;
-      display: block;
-      margin: 0 auto 12px;
-    }
-
-    .profile-card-name {
-      font-size: 14px;
-      font-weight: 700;
-      color: #1b4d3e;
-      margin-bottom: 8px;
-    }
-
-    .profile-card-desc {
-      font-size: 13px;
-      color: #555;
-      line-height: 1.6;
-      margin: 0;
-    }
-
-    .profiles-cta-line {
-      font-size: 16px;
-      font-weight: 600;
-      color: #1b4d3e;
-      text-align: center;
-      margin: 0 0 0;
-    }
-
-    /* COMBINED SECTION */
-    .combined-section {
-      background: linear-gradient(135deg, rgba(27, 77, 62, 0.03) 0%, rgba(212, 175, 55, 0.015) 100%);
-      border: 1px solid rgba(27, 77, 62, 0.06);
-      border-radius: 12px;
-      padding: 40px 32px;
-      margin: 60px 0 40px;
-      animation: fadeIn 0.5s ease-out 0.2s both;
-    }
-
-    .combined-section h2 {
-      font-size: 20px;
-      margin-bottom: 20px;
-      color: #1a1a1a;
-    }
-
-    .bullet-list {
-      list-style: none;
-      margin: 24px 0;
-    }
-
-    .bullet-list li {
-      font-size: 15px;
-      line-height: 1.7;
-      color: #333;
-      margin-bottom: 12px;
-      padding-left: 24px;
-      position: relative;
-    }
-
-    .bullet-list li:last-child {
-      margin-bottom: 0;
-    }
-
-    .bullet-list li::before {
-      content: '';
-      position: absolute;
-      left: 6px;
-      top: 8px;
-      width: 6px;
-      height: 6px;
-      background: #1b4d3e;
-      border-radius: 50%;
-    }
-
-    .bullet-list.result li::before {
-      content: '✓';
-      width: auto;
-      height: auto;
-      background: none;
-      color: #d4af37;
-      font-weight: 700;
-      left: 0;
-      top: 0;
-    }
-
-    .section-divider {
-      margin: 8px 0 24px;
-    }
-
-    .section-divider svg {
-      width: 40px;
-      height: 2px;
-      stroke: #d4af37;
-      opacity: 0.3;
-    }
-
-    .section-closing {
-      font-size: 15px;
-      color: #444;
-      margin-top: 24px;
-      padding-top: 24px;
-      border-top: 1px solid rgba(27, 77, 62, 0.08);
-      font-style: italic;
-    }
-
-    /* HERO IMAGE */
-    .hero-image {
-      margin-bottom: 48px;
-      border-radius: 12px;
-      overflow: visible;
-      animation: fadeIn 0.5s ease-out;
-      text-align: center;
-    }
-
-    .hero-image img {
-      width: 60%;
-      max-width: 380px;
-      height: auto;
-      display: inline-block;
-    }
-
-    /* REASSURANCE SECTION */
-    .reassurance-wrapper {
-      background: #1b4d3e;
-      color: white;
-      margin: 60px -24px 0;
-      padding: 60px 24px;
-      animation: fadeIn 0.5s ease-out 0.3s both;
-    }
-
-    .reassurance {
-      max-width: 680px;
-      margin: 0 auto;
-    }
-
-    .reassurance h2 {
-      margin-bottom: 16px;
-      font-size: 22px;
-      color: white;
-    }
-
-    .reassurance p {
-      font-size: 15px;
-      margin-bottom: 12px;
-      color: rgba(255, 255, 255, 0.9);
-    }
-
-    .reassurance p:last-child {
-      margin-bottom: 0;
-      color: rgba(255, 255, 255, 0.7);
-      font-size: 13px;
-      font-style: italic;
-      margin-top: 20px;
-    }
-
-    /* SECONDARY CTA */
-    .cta-secondary {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      background: linear-gradient(135deg, #1b4d3e, #0d3d2f);
-      color: white;
-      padding: 16px 40px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 16px;
-      border: none;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 12px rgba(27, 77, 62, 0.15);
-      width: 100%;
-      text-align: center;
-      margin-top: 40px;
-    }
-
-    .cta-secondary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(27, 77, 62, 0.2);
-    }
-
-    /* RESUME LINK */
-    .resume-link {
-      text-align: center;
-      margin-top: 16px;
-      font-size: 13px;
-    }
-
-    .resume-link a {
-      color: #1b4d3e;
-      text-decoration: none;
-      font-weight: 600;
-      transition: color 0.2s;
-    }
-
-    .resume-link a:hover {
-      color: #d4af37;
-    }
-
-    /* ANIMATIONS */
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    @keyframes slideUp {
-      from {
-        opacity: 0;
-        transform: translateY(12px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* RESPONSIVE */
     @media (max-width: 600px) {
-      .profiles-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 12px;
-      }
-
-      .profile-card {
-        padding: 20px 14px;
-      }
-
-      .profile-card-icon {
-        width: 52px;
-        height: 52px;
-      }
-
-      .profile-card-name {
-        font-size: 13px;
-      }
-
-      .profile-card-desc {
-        font-size: 12px;
-      }
-
-      .main {
-        padding: 0 20px;
-      }
-
-      .hero-image {
-        margin-left: -20px;
-        margin-right: -20px;
-        margin-bottom: 40px;
-        border-radius: 0;
-      }
-
-      h1 {
-        font-size: 28px;
-        margin-bottom: 12px;
-      }
-
-      h2 {
-        font-size: 20px;
-      }
-
-      .hero {
-        padding: 48px 0 32px;
-      }
-
-      .reassurance-wrapper {
-        margin: 48px -20px 0;
-        padding: 40px 20px;
-      }
-
-      .hero-subheading {
-        font-size: 15px;
-        margin-bottom: 24px;
-      }
-
-      .trust-chips {
-        margin-bottom: 24px;
-        gap: 8px;
-      }
-
-      .chip {
-        font-size: 11px;
-        padding: 8px 12px;
-      }
-
-      .cta-primary {
-        padding: 14px 32px;
-        font-size: 15px;
-        margin-bottom: 10px;
-      }
-
-      .combined-section {
-        padding: 32px 24px;
-        margin: 48px 0 32px;
-      }
-
-      .combined-section h2 {
-        font-size: 18px;
-      }
-
-      .bullet-list li {
-        font-size: 14px;
-        padding-left: 22px;
-      }
-
-      .reassurance {
-        padding: 48px 0;
-      }
-
-      .reassurance h2 {
-        font-size: 20px;
-      }
-
-      .reassurance p {
-        font-size: 14px;
-      }
-
-      .cta-secondary {
-        padding: 14px 32px;
-        font-size: 15px;
-        margin-top: 32px;
-      }
-    }
-
-    @media (max-width: 380px) {
-      .main {
-        padding: 0 16px;
-      }
-
-      .hero-image {
-        margin-left: -16px;
-        margin-right: -16px;
-      }
-
-      h1 {
-        font-size: 24px;
-      }
-
-      .hero {
-        padding: 40px 0 28px;
-      }
-
-      .trust-chips {
-        margin-bottom: 20px;
-      }
-
-      .combined-section {
-        padding: 28px 20px;
-      }
-
-      .reassurance-wrapper {
-        margin: 40px -16px 0;
-        padding: 32px 16px;
-      }
-
-      .bullet-list li {
-        font-size: 13px;
-        margin-bottom: 10px;
-      }
+      .main { padding: 0 20px; }
+      .hero { padding: 40px 0 4px; }
+      .hero-image { margin: 0 -20px 32px; }
+      .hero-image img { width: 62%; }
+      .reassure { margin: 44px -20px 0; padding: 40px 20px; }
     }
   </style>
 </head>
 <body>
 
   <header class="header">
-    <div class="header-inner">
-      <a class="header-brand" href="/">CoVo Multipliers</a>
-    </div>
+    <div class="header-inner"><a class="header-brand" href="/">CoVo Multipliers</a></div>
   </header>
 
   <main class="main">
 
-    <!-- HERO: Visible in 1 screen on mobile -->
     <section class="hero">
-      <!-- HERO IMAGE -->
       <div class="hero-image">
-        <img src="/image/f46ecb2e-df7b-4c56-a0bf-fbe87a796c21_1254x1254.webp" alt="A disciple maker facing five branching paths">
+        <img src="/image/f46ecb2e-df7b-4c56-a0bf-fbe87a796c21_1254x1254.webp" alt="A disciple maker facing branching paths">
       </div>
-
-      <h1>Find your next step<br>in disciple making.</h1>
-      <p class="hero-subheading">Find the one thing quietly keeping you stuck.</p>
+      <h1>Why hasn't disciple making become your lifestyle yet?</h1>
+      <p class="hero-sub">You probably already know it matters. <strong>The gap is rarely more information — it's that practice hasn't become a rhythm.</strong> Answer a few honest questions and find the one next kind of help you actually need.</p>
 
       <div class="trust-chips">
-        <div class="chip"><span class="chip-dot"></span> 5 Min</div>
-        <div class="chip"><span class="chip-dot"></span> Free</div>
-        <div class="chip"><span class="chip-dot"></span> Personal</div>
+        <span class="chip">3 minutes</span>
+        <span class="chip">Free</span>
+        <span class="chip">No score, no label</span>
       </div>
 
-      <a href="intake.html" class="cta-primary">Start the Next Step Finder</a>
+      <a href="intake.html" class="cta-primary" onclick="try{gtag('event','landing_cta_clicked',{tool:'disciple_maker_next_step',position:'hero'})}catch(e){}">Find my next step</a>
+      <div class="resume-link">Already started? <a href="resume.html">Resume where you left off</a></div>
     </section>
 
-    <!-- PROFILE CARDS: Is this you? -->
-    <section class="profiles-section">
-      <h2 class="profiles-heading">Sound like anyone you know?</h2>
-
-      <div class="profiles-grid">
-        <div class="profile-card">
-          <img src="/image/discipleicons/Awakening-Disciple.webp" alt="The Awakening" class="profile-card-icon">
-          <div class="profile-card-name">The Awakening</div>
-          <p class="profile-card-desc">You know you're supposed to be making disciples. You're just not sure what that actually looks like for someone like you.</p>
-        </div>
-        <div class="profile-card">
-          <img src="/image/discipleicons/Vision-Centered.webp" alt="The Idealist" class="profile-card-icon">
-          <div class="profile-card-name">The Idealist</div>
-          <p class="profile-card-desc">You can talk about disciple making. You believe in it. But when it comes to actually doing it this week — something stalls.</p>
-        </div>
-        <div class="profile-card">
-          <img src="/image/discipleicons/rooted-multiplier.webp" alt="The Practitioner" class="profile-card-icon">
-          <div class="profile-card-name">The Practitioner</div>
-          <p class="profile-card-desc">You're showing up and doing the work. But you're mostly doing it alone, and you're not sure if anything is actually taking root.</p>
-        </div>
-        <div class="profile-card">
-          <img src="/image/discipleicons/multiplying-influence.webp" alt="The Leader" class="profile-card-icon">
-          <div class="profile-card-name">The Leader</div>
-          <p class="profile-card-desc">You've built real rhythms and you're practicing consistently. Now you're watching to see who around you starts to do the same.</p>
-        </div>
-      </div>
-
-      <p class="profiles-cta-line">Find out which one you actually are.</p>
-    </section>
-
-    <!-- COMBINED SECTION: You'll get + credibility -->
-    <section class="combined-section">
-      <h2 style="font-size: 18px; margin-top: 0;">After five minutes you'll know:</h2>
-      <ul class="bullet-list result">
-        <li>What's quietly holding you back.</li>
-        <li>What to practice next.</li>
-        <li>One simple action for this week.</li>
+    <section class="section">
+      <div class="section-eyebrow">Does any of this sound familiar?</div>
+      <h2>You're not stuck because you don't care.</h2>
+      <ul class="recognize">
+        <li>You've <strong>read the articles and heard the podcasts</strong> — but learning has quietly started to feel like progress.</li>
+        <li>You <strong>fully intend to</strong>, and somehow it never makes it into the actual week.</li>
+        <li>You <strong>learned a tool</strong> in a training and have never used it with a real person.</li>
+        <li>You <strong>tried once</strong>, it got awkward or hard, and you slowed down.</li>
+        <li>You're <strong>doing it alone</strong>, with no practitioner nearby who's actually doing it too.</li>
       </ul>
-
-      <p class="section-closing">Built from years of coaching people like you to actually make disciples.</p>
+      <p class="recognize-note">These aren't character flaws. They're the ordinary places disciple making stalls — and each one has a different next step.</p>
     </section>
 
-    <!-- REASSURANCE SECTION: For people who scroll -->
-    <div class="reassurance-wrapper">
-      <section class="reassurance">
-        <h2>Why this matters</h2>
-        <p>Most Christians don't need more information. They need one next step.</p>
-        <p>That's why we built this.</p>
-        <p>This isn't another quiz. The Next Step Finder is designed to get you unstuck and practicing.</p>
-      </section>
+    <section class="know">
+      <h2>In about three minutes you'll see:</h2>
+      <ul>
+        <li>Why disciple making hasn't become a lifestyle for you yet — named honestly.</li>
+        <li>The one thing to actually do this week.</li>
+        <li>The next kind of help that fits where you really are.</li>
+      </ul>
+      <p class="closing">Built from years of coaching ordinary people to actually make disciples — not to score them.</p>
+    </section>
+
+    <div class="reassure">
+      <div class="reassure-inner">
+        <h2>This isn't another quiz.</h2>
+        <p>There's no score, no personality type, and no label at the end.</p>
+        <p>It's a short, honest look at why practice hasn't taken root yet — and an invitation to learn the <em>how</em> alongside people who are already doing it.</p>
+        <p class="fine">Tools and technology don't make disciples. People do. This just helps you take the next step with them.</p>
+      </div>
     </div>
 
-    <!-- SECONDARY CTA -->
-    <a href="intake.html" class="cta-secondary">Start the Next Step Finder</a>
-
-    <div class="resume-link">
-      Already started? <a href="resume.html">Resume your Next Step Finder</a>
+    <div class="foot-cta">
+      <a href="intake.html" class="cta-primary" onclick="try{gtag('event','landing_cta_clicked',{tool:'disciple_maker_next_step',position:'footer'})}catch(e){}">Find my next step</a>
+      <div class="resume-link">Already started? <a href="resume.html">Resume where you left off</a></div>
     </div>
 
   </main>
