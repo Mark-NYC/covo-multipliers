@@ -178,7 +178,7 @@
     function track(event, detail) {
       try { gtag('event', event, Object.assign({ tool: 'disciple_maker_next_step', outcome: OUTCOME }, detail || {})); } catch (_) {}
       try {
-        fetch(`${SUPABASE_FUNCTIONS}/disciple-maker-event`, {
+        fetch(`${SUPABASE_FUNCTIONS}/disciple-maker-v2-event`, {
           method: 'POST', headers: { 'Content-Type': 'application/json' }, keepalive: true,
           body: JSON.stringify({ results_token: token, event, detail: detail || null }),
         }).catch(() => {});
@@ -297,11 +297,13 @@
     async function load() {
       if (!token) return showError();
       try {
-        const res = await fetch(`${SUPABASE_FUNCTIONS}/disciple-maker-results?token=${encodeURIComponent(token)}`);
+        const res = await fetch(`${SUPABASE_FUNCTIONS}/disciple-maker-v2-results?token=${encodeURIComponent(token)}`);
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || 'not found');
-        OUTCOME = COPY[data.recognition_outcome] ? data.recognition_outcome : 'learning_not_practicing';
         FIRST_NAME = data.first_name || 'friend';
+        // Legacy V1 result link (pre-launch): don't invent a recognition — invite a fresh run.
+        if (data.legacy || !COPY[data.recognition_outcome]) return showLegacy();
+        OUTCOME = data.recognition_outcome;
         document.getElementById('loading-view').style.display = 'none';
         document.getElementById('result-view').style.display = 'block';
         render();
@@ -311,6 +313,18 @@
     function showError() {
       document.getElementById('loading-view').style.display = 'none';
       document.getElementById('error-view').style.display = 'block';
+    }
+    function showLegacy() {
+      document.getElementById('loading-view').style.display = 'none';
+      const view = document.getElementById('result-view');
+      view.style.display = 'block';
+      view.className = 'fade';
+      view.innerHTML = `
+        <div class="eyebrow">Welcome back, ${esc(FIRST_NAME)}</div>
+        <h1 class="headline">We've made this simpler.</h1>
+        <p class="body-copy">The Disciple Maker Next Step has been rebuilt around one thing: your actual next step. It only takes about three minutes, and it ends with one concrete thing to do this week.</p>
+        <a class="cta-primary" href="/disciple-maker/">Find my next step</a>
+        <p class="cta-sub" style="margin-top:18px;">It's shorter than last time — and there's no score to read.</p>`;
     }
 
     load();

@@ -34,8 +34,12 @@ line, **one** 7-day step (one person · one action · one time), a human-loop mo
 ## Flow
 
 `index.html` → `intake.html` (name/email/consent → `disciple-maker-start`) →
-`take.html` (the flow) → `disciple-maker-submit` → `results.html?r=<token>`.
-A day-1 email nudge (`disciple-maker-cfc-followup`) asks "did you take your step?"
+`take.html` (the flow) → `disciple-maker-v2-submit` → `results.html?r=<token>`.
+A day-1 email nudge (`disciple-maker-v2-followup`) asks "did you take your step?"
+
+> **Rollout note:** V2 ships as **new, versioned endpoints** (`-v2-*`); the V1
+> functions are left untouched for an additive, reversible launch. See `RELEASE.md`
+> for the safety proof, sequence, and rollback.
 
 ## Files
 
@@ -49,12 +53,15 @@ A day-1 email nudge (`disciple-maker-cfc-followup`) asks "did you take your step
 
 ## Edge functions
 
-- `disciple-maker-start` — create session, capture attribution, mint token *(unchanged)*
-- `disciple-maker-submit` — store answers + confirmed outcome, mint results token, email
-- `disciple-maker-results` — return first name + recognition outcome + step
-- `disciple-maker-event` — best-effort funnel telemetry → `disciple_maker_events`
-- `disciple-maker-resume` — resume by email *(unchanged)*
-- `disciple-maker-cfc-followup` — day-1 "did you take your step?" nudge (V2 rows only)
+- `disciple-maker-start` — create session, capture attribution, mint token *(shared, unchanged)*
+- `disciple-maker-resume` — resume by email *(shared, unchanged)*
+- `disciple-maker-v2-submit` — store answers + confirmed outcome, mint results token, email
+- `disciple-maker-v2-results` — return first name + recognition outcome + step (or `legacy:true`)
+- `disciple-maker-v2-event` — best-effort funnel telemetry → `disciple_maker_events`
+- `disciple-maker-v2-followup` — day-1 "did you take your step?" nudge (V2 rows only)
+
+V1 `disciple-maker-submit`/`-results`/`-cfc-followup`/`-cfc-diagnostic` remain deployed
+and untouched during launch (rollback safety); retire them in a later cleanup PR.
 
 ## Data
 
@@ -72,12 +79,14 @@ GA4 custom events *(tool: `disciple_maker_next_step`)* + server persistence:
 `started`, `question_answered`, `recognition_confirmed`, `completed`,
 `results_viewed`, `step_accepted`, `human_named`, `share_opened`, `cta_clicked`.
 
-## Removed in V2
+## Replaced in V2 (not deleted at launch)
 
-Radar chart + Chart.js · 20 agreement-scale questions + 5 dimensions · averaged
-scoring · pathway labels (public cards, email "identity", admin grid) ·
-lowest-dimension bottleneck logic · the duplicate `cfc-profile.html` +
-`disciple-maker-cfc-diagnostic` result surface.
+The V2 frontend supersedes the radar chart + Chart.js, the 20 agreement-scale
+questions / 5 dimensions / averaged scoring, and the lowest-dimension bottleneck
+logic. The four landing cards return as **non-selectable marketing archetypes**
+(recognition only — not scored, not routed, not shown after the assessment). The
+V1 result surfaces (`cfc-profile.html`, `disciple-maker-cfc-diagnostic`) are kept
+dormant for rollback and removed in a later cleanup PR.
 
 ## Not touched
 

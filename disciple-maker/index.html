@@ -47,10 +47,14 @@
     .section-eyebrow { font-size: 12px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #9f7a2f; margin-bottom: 12px; }
     .section h2 { font-size: 22px; font-weight: 850; color: #10281f; letter-spacing: -0.01em; margin-bottom: 18px; }
 
-    .recognize { list-style: none; display: flex; flex-direction: column; gap: 12px; margin: 0; padding: 0; }
-    .recognize li { background: #fff; border: 1px solid #e2eae6; border-radius: 14px; padding: 16px 18px; font-size: 15.5px; line-height: 1.55; color: #33413b; }
-    .recognize li strong { color: #10281f; font-weight: 750; }
-    .recognize-note { font-size: 15px; color: #52645d; margin-top: 16px; }
+    /* Marketing archetypes — recognition only. Not selectable, not scored, not shown after the assessment. */
+    .archetype-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 4px; }
+    .archetype-card { background: #fff; border: 1px solid rgba(27,77,62,0.1); border-radius: 12px; padding: 22px 18px; text-align: center; }
+    .archetype-icon { width: 64px; height: 64px; display: block; margin: 0 auto 12px; }
+    .archetype-name { font-size: 14px; font-weight: 700; color: #1b4d3e; margin-bottom: 8px; }
+    .archetype-desc { font-size: 13px; color: #555; line-height: 1.6; margin: 0; }
+    .recognize-note { font-size: 16px; font-weight: 600; color: #1b4d3e; text-align: center; margin-top: 22px; }
+    @media (max-width: 600px) { .archetype-card { padding: 18px 14px; } .archetype-icon { width: 52px; height: 52px; } .archetype-name { font-size: 13px; } .archetype-desc { font-size: 12px; } }
 
     .know { background: linear-gradient(135deg, rgba(27,77,62,0.035) 0%, rgba(212,175,55,0.02) 100%); border: 1px solid rgba(27,77,62,0.08); border-radius: 16px; padding: 30px 26px; margin: 44px 0 0; }
     .know h2 { font-size: 19px; margin-bottom: 16px; }
@@ -104,16 +108,33 @@
     </section>
 
     <section class="section">
-      <div class="section-eyebrow">Does any of this sound familiar?</div>
+      <div class="section-eyebrow">Which sounds most like you right now?</div>
       <h2>You're not stuck because you don't care.</h2>
-      <ul class="recognize">
-        <li>You've <strong>read the articles and heard the podcasts</strong> — but learning has quietly started to feel like progress.</li>
-        <li>You <strong>fully intend to</strong>, and somehow it never makes it into the actual week.</li>
-        <li>You <strong>learned a tool</strong> in a training and have never used it with a real person.</li>
-        <li>You <strong>tried once</strong>, it got awkward or hard, and you slowed down.</li>
-        <li>You're <strong>doing it alone</strong>, with no practitioner nearby who's actually doing it too.</li>
-      </ul>
-      <p class="recognize-note">These aren't character flaws. They're the ordinary places disciple making stalls — and each one has a different next step.</p>
+
+      <div class="archetype-grid" aria-hidden="false">
+        <div class="archetype-card">
+          <img src="/image/discipleicons/Awakening-Disciple.webp" alt="" class="archetype-icon">
+          <div class="archetype-name">The Awakening</div>
+          <p class="archetype-desc">You know you're supposed to be making disciples. You're just not sure what that actually looks like for someone like you.</p>
+        </div>
+        <div class="archetype-card">
+          <img src="/image/discipleicons/Vision-Centered.webp" alt="" class="archetype-icon">
+          <div class="archetype-name">The Idealist</div>
+          <p class="archetype-desc">You can talk about disciple making. You believe in it. But when it comes to actually doing it this week — something stalls.</p>
+        </div>
+        <div class="archetype-card">
+          <img src="/image/discipleicons/rooted-multiplier.webp" alt="" class="archetype-icon">
+          <div class="archetype-name">The Practitioner</div>
+          <p class="archetype-desc">You're showing up and doing the work. But you're mostly doing it alone, and you're not sure if anything is actually taking root.</p>
+        </div>
+        <div class="archetype-card">
+          <img src="/image/discipleicons/multiplying-influence.webp" alt="" class="archetype-icon">
+          <div class="archetype-name">The Leader</div>
+          <p class="archetype-desc">You've built real rhythms and you're practicing consistently. Now you're watching to see who around you starts to do the same.</p>
+        </div>
+      </div>
+
+      <p class="recognize-note">Find out what's keeping you from your next step.</p>
     </section>
 
     <section class="know">

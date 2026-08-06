@@ -1,5 +1,5 @@
-// supabase/functions/disciple-maker-event/index.ts
-//
+// supabase/functions/disciple-maker-v2-event/index.ts
+// POST /functions/v1/disciple-maker-v2-event
 // POST /functions/v1/disciple-maker-event
 // Body: { session_id?: string, results_token?: string, event: string, detail?: any }
 //

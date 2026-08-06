@@ -165,7 +165,7 @@
       try { gtag('event', event, Object.assign({ tool: 'disciple_maker_next_step' }, detail || {})); } catch (_) {}
       // Best-effort server persistence for the admin funnel (non-blocking).
       try {
-        fetch(`${SUPABASE_FUNCTIONS}/disciple-maker-event`, {
+        fetch(`${SUPABASE_FUNCTIONS}/disciple-maker-v2-event`, {
           method: 'POST', headers: { 'Content-Type': 'application/json' },
           keepalive: true,
           body: JSON.stringify({ session_id: sessionId, event, detail: detail || null }),
@@ -330,7 +330,7 @@
       showSubmitting(true);
       track('completed', { outcome: chosenOutcome });
       try {
-        const res = await fetch(`${SUPABASE_FUNCTIONS}/disciple-maker-submit`, {
+        const res = await fetch(`${SUPABASE_FUNCTIONS}/disciple-maker-v2-submit`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
