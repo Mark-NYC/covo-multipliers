@@ -10,6 +10,10 @@
 -- =============================================================================
 
 alter table public.disciple_maker_sessions
+  -- diagnostic_answers was introduced by 20260629130000; re-declared here with
+  -- IF NOT EXISTS so this migration is self-healing on databases that never
+  -- received that earlier migration (as happened in production).
+  add column if not exists diagnostic_answers     jsonb,
   add column if not exists recognition_outcome    text,     -- e.g. 'learning_not_practicing'
   add column if not exists barrier_summary         text,    -- short human sentence
   add column if not exists seven_day_step          text,    -- the prescribed action
