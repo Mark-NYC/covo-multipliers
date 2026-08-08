@@ -54,7 +54,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
   const tokenHash = await sha256hex(token);
   const { data: session, error } = await supabase
     .from("disciple_maker_sessions")
-    .select("id, first_name, status, recognition_outcome, barrier_summary, seven_day_step, note")
+    .select("id, first_name, status, recognition_outcome, barrier_summary, seven_day_step, note, diagnostic_answers")
     .eq("results_token_hash", tokenHash)
     .single();
 
@@ -72,5 +72,8 @@ Deno.serve(async (req: Request): Promise<Response> => {
     barrier_summary: session.barrier_summary,
     seven_day_step: session.seven_day_step,
     note: session.note ?? null,
+    // Behavioral answers, so the results page can ground evidence in what the
+    // user actually said. Additive: existing consumers ignore this field.
+    diagnostic_answers: session.diagnostic_answers ?? {},
   }, cors);
 });

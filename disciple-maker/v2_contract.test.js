@@ -167,4 +167,36 @@ test("deploy workflow deploys the 4 v2 functions", () => {
     assert(yml.includes("disciple-maker-" + f), "missing deploy for " + f));
 });
 
+// ── 11. Prescription layer: symbol + evidence + message per outcome ─────────
+test("results.html defines a symbol for all 6 outcomes", () => {
+  const html = read("disciple-maker/results.html");
+  const block = html.slice(html.indexOf("const SYMBOLS"), html.indexOf("function gcalUrl"));
+  OUTCOME_KEYS.forEach((k) => assert(new RegExp(`\\b${k}:\\s*svg\\(`).test(block), "missing symbol " + k));
+});
+test("results.html has answer-backed evidence + result-specific message per outcome", () => {
+  const html = read("disciple-maker/results.html");
+  OUTCOME_KEYS.forEach((k) => {
+    const seg = html.slice(html.indexOf(k + ": {", html.indexOf("const COPY")));
+    assert(/evidence:\s*\(a\)\s*=>/.test(seg.slice(0, 900)), "missing evidence fn for " + k);
+    assert(/build:\s*\(n\)\s*=>/.test(seg.slice(0, 1600)), "missing message build for " + k);
+  });
+});
+test("evidence degrades gracefully (answers may be absent)", () => {
+  const html = read("disciple-maker/results.html");
+  assert(/ANSWERS = \(data\.diagnostic_answers && typeof data\.diagnostic_answers === 'object'\) \? data\.diagnostic_answers : \{\}/.test(html),
+    "results must guard missing diagnostic_answers");
+});
+
+// ── 12. Backend additive changes ────────────────────────────────────────────
+test("v2-results returns diagnostic_answers", () => {
+  const ts = read("supabase/functions/disciple-maker-v2-results/index.ts");
+  assert(/\.select\([^)]*diagnostic_answers/.test(ts), "must select diagnostic_answers");
+  assert(/diagnostic_answers:\s*session\.diagnostic_answers/.test(ts), "must return diagnostic_answers");
+});
+test("v2-event allows the 3 new prescription events", () => {
+  const ts = read("supabase/functions/disciple-maker-v2-event/index.ts");
+  ["prescription_opened", "calendar_added", "tool_opened"].forEach((e) =>
+    assert(ts.includes(`"${e}"`), "missing allowed event " + e));
+});
+
 console.log(`\n${passed} checks passed`);
