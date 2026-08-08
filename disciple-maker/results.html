@@ -80,9 +80,10 @@
     .lab-btn:hover { transform: translateY(-1px); background: #f3efe2; }
 
     /* tertiary actions — quiet, spaced, only real functions */
-    .tail { display: flex; flex-direction: column; align-items: center; gap: 1rem; padding: 2.5rem 0 4rem; }
+    .tail { display: flex; flex-direction: column; align-items: center; gap: 1.5rem; padding: 2.5rem 0 4rem; }
     .tail a { font-size: 13.5px; font-weight: 600; color: #6d7d76; text-decoration: none; }
     .tail a:hover { color: #1b4d3e; text-decoration: underline; text-underline-offset: 2px; }
+    .tail a.tail-quiet { font-size: 12px; font-weight: 500; color: #9aa8a2; }
 
     .toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%) translateY(20px); background: #10281f; color: #fff; padding: 12px 20px; border-radius: 999px; font-size: 14px; font-weight: 600; opacity: 0; pointer-events: none; transition: opacity 0.25s ease, transform 0.25s ease; z-index: 200; }
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
@@ -211,7 +212,7 @@
         <section class="move">
           <div class="move-eyebrow">This week</div>
           <p class="move-step">${c.step}</p>
-          <button class="commit" id="commit"><span class="commit-box" id="commit-box">✓</span> <span id="commit-label">I'm committing to this</span></button>
+          <button class="commit" id="commit"><span class="commit-box" id="commit-box">✓</span> <span id="commit-label">I'll do this this week</span></button>
         </section>
 
         <section class="account" id="account">
@@ -231,14 +232,14 @@
           <div class="lab-inner">
             <h2 class="lab-title">Take your next rep with other disciple makers.</h2>
             <p class="lab-when" id="lab-when"></p>
-            <p class="lab-desc">Bring one real situation, practice one simple tool, and leave with a rep.</p>
+            <p class="lab-desc">Bring one real situation. Practice one simple tool with other practitioners. Leave ready to use it this week.</p>
             <a class="lab-btn" id="lab-btn" href="${LABS_FALLBACK}">Save my spot</a>
           </div>
         </section>
 
         <nav class="tail">
-          <a id="tool-link" href="https://obey.tools" target="_blank" rel="noopener">Prefer to start with a simple tool?</a>
-          <a href="/disciple-maker/">Start over</a>
+          <a id="tool-link" href="https://obey.tools" target="_blank" rel="noopener">Start with a simple disciple-making tool</a>
+          <a class="tail-quiet" href="/disciple-maker/">Start over</a>
         </nav>
       `;
 
@@ -250,12 +251,9 @@
 
     function wireCommit(view) {
       const btn = view.querySelector('#commit');
-      const label = view.querySelector('#commit-label');
       btn.addEventListener('click', () => {
         btn.classList.toggle('on');
-        const on = btn.classList.contains('on');
-        label.textContent = on ? "I've committed to this" : "I'm committing to this";
-        if (on) track('step_accepted', {});
+        if (btn.classList.contains('on')) track('step_accepted', {});
       });
     }
 
