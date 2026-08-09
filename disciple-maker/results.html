@@ -33,44 +33,53 @@
     @keyframes spin { to { transform: rotate(360deg); } }
     .loading-state p { color: #52645d; font-size: 15px; }
 
-    /* [1] VERDICT — unboxed, the focal point */
+    /* SEAL — the closed state of the prescription surface (same tonal treatment as .move) */
+    .seal { margin-top: 3rem; background: #f2f6f4; border: 1px solid #e4ece8; border-radius: 16px; padding: 2.5rem 1.5rem; text-align: center; }
+    .seal .symbol { color: #1b4d3e; width: 76px; height: 76px; display: block; margin: 0 auto 1.25rem; }
+    .seal-text { font-size: 1.05rem; font-weight: 600; color: #3a4f47; margin: 0 0 1.4rem; }
+    .seal-btn { display: inline-block; background: #1b4d3e; color: #fff; padding: 14px 30px; border-radius: 10px; border: none; font-family: inherit; font-size: 16px; font-weight: 800; cursor: pointer; transition: background 0.2s ease, transform 0.15s ease; }
+    .seal-btn:hover { background: #10281f; transform: translateY(-1px); }
+
+    /* VERDICT — unboxed, the focal point (unchanged) */
     .verdict { padding: 3rem 0 0; }
-    .headline {
-      font-size: clamp(1.7rem, 5.4vw, 2.6rem);
-      font-weight: 800; line-height: 1.14; letter-spacing: -0.02em;
-      color: #10281f; margin: 0 0 1.1rem;
-    }
+    .symbol-sm { color: #1b4d3e; width: 38px; height: 38px; display: block; margin: 0 0 1.1rem; }
+    .headline { font-size: clamp(1.7rem, 5.4vw, 2.6rem); font-weight: 800; line-height: 1.14; letter-spacing: -0.02em; color: #10281f; margin: 0 0 1.1rem; }
     .evidence { font-size: 1.075rem; line-height: 1.62; color: #3a4f47; margin: 0 0 0.7rem; }
     .future   { font-size: 1.075rem; line-height: 1.62; color: #1b4d3e; margin: 0; font-weight: 550; }
 
-    /* single restrained entrance for the whole verdict group */
     .enter { opacity: 0; transform: translateY(6px); animation: enter 260ms ease-out forwards; }
     @keyframes enter { to { opacity: 1; transform: translateY(0); } }
+    .fade-out { opacity: 0 !important; transition: opacity 200ms ease; }
 
-    /* [2] 7-DAY MOVE — the one elevated surface (tonal fill + subtle border, no shadow, no stripe) */
+    /* PRESCRIPTION move (unchanged treatment) */
     .move { margin-top: 2.75rem; background: #f2f6f4; border: 1px solid #e4ece8; border-radius: 16px; padding: 1.6rem 1.5rem; }
     .move-eyebrow { font-size: 12px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #1b4d3e; margin-bottom: 0.7rem; }
     .move-step { font-size: 1.3rem; font-weight: 700; line-height: 1.4; color: #10281f; margin: 0 0 1.1rem; }
+    .move-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 18px; }
     .commit { display: inline-flex; align-items: center; gap: 10px; background: none; border: none; font-family: inherit; font-size: 15px; font-weight: 650; color: #1b4d3e; cursor: pointer; padding: 4px 0; }
     .commit-box { width: 21px; height: 21px; border: 2px solid #1b4d3e; border-radius: 6px; display: inline-flex; align-items: center; justify-content: center; color: #fff; font-size: 12px; flex-shrink: 0; }
     .commit.on .commit-box { background: #1b4d3e; }
+    .cal-btn { display: inline-flex; align-items: center; gap: 7px; font-size: 14px; font-weight: 700; font-family: inherit; color: #1b4d3e; text-decoration: none; border: 1.5px solid #cdd9d3; border-radius: 10px; padding: 8px 14px; background: #fff; cursor: pointer; }
+    .cal-btn:hover { border-color: #1b4d3e; }
+    .tool-link { display: inline-block; margin-top: 1.15rem; font-size: 14.5px; font-weight: 700; color: #1b4d3e; text-decoration: none; }
+    .tool-link:hover { text-decoration: underline; text-underline-offset: 2px; }
 
-    /* [3] ACCOUNTABILITY — collapsed to one action; inline reveal (no card) */
+    /* ACCOUNTABILITY — collapsed, inline reveal (unchanged) */
     .account { margin-top: 2rem; }
-    .tell-btn { display: inline-flex; align-items: center; gap: 8px; background: none; border: none; font-family: inherit; font-size: 15px; font-weight: 700; color: #1b4d3e; cursor: pointer; padding: 4px 0; }
+    .tell-btn { display: inline-flex; align-items: center; gap: 8px; background: none; border: none; font-family: inherit; font-size: 15px; font-weight: 700; color: #1b4d3e; cursor: pointer; padding: 4px 0; text-align: left; }
     .tell-btn .chev { transition: transform 0.2s ease; }
     .account.open .tell-btn .chev { transform: rotate(180deg); }
     .account-panel { display: none; margin-top: 1rem; }
     .account.open .account-panel { display: block; }
     .account-name { width: 100%; padding: 12px 14px; border: 1.5px solid #c5d5cd; border-radius: 10px; font-size: 15px; font-family: inherit; box-sizing: border-box; }
     .account-name:focus { outline: none; border-color: #1b4d3e; box-shadow: 0 0 0 3px rgba(27,77,62,0.1); }
-    .account-msg { width: 100%; min-height: 104px; margin-top: 10px; padding: 12px 14px; border: 1.5px solid #dbe8e2; border-radius: 10px; font-size: 14.5px; line-height: 1.55; font-family: inherit; color: #33413b; resize: vertical; box-sizing: border-box; background: #fff; }
+    .account-msg { width: 100%; min-height: 118px; margin-top: 10px; padding: 12px 14px; border: 1.5px solid #dbe8e2; border-radius: 10px; font-size: 14.5px; line-height: 1.55; font-family: inherit; color: #33413b; resize: vertical; box-sizing: border-box; background: #fff; }
     .account-msg:focus { outline: none; border-color: #1b4d3e; box-shadow: 0 0 0 3px rgba(27,77,62,0.1); }
     .share-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
     .share-btn { flex: 1; min-width: 120px; text-align: center; padding: 11px 12px; border-radius: 10px; font-size: 14px; font-weight: 700; font-family: inherit; text-decoration: none; cursor: pointer; border: 1.5px solid #cdd9d3; color: #33413b; background: #fff; transition: border-color 0.2s ease, color 0.2s ease; }
     .share-btn:hover { border-color: #1b4d3e; color: #1b4d3e; }
 
-    /* [4] LAB — one distinct section, existing deep-green treatment, full-bleed */
+    /* LAB — full-bleed deep-green (unchanged treatment) */
     .lab { margin: 3.25rem 0 0; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); background: #10281f; padding: 3.25rem 24px; }
     .lab-inner { max-width: 620px; margin: 0 auto; }
     .lab-title { font-size: 1.5rem; font-weight: 800; line-height: 1.25; color: #ffffff; margin: 0 0 0.7rem; letter-spacing: -0.01em; }
@@ -79,7 +88,6 @@
     .lab-btn { display: inline-block; background: #ffffff; color: #10281f; padding: 15px 34px; border-radius: 10px; text-decoration: none; font-weight: 800; font-size: 16px; transition: transform 0.15s ease, background 0.2s ease; }
     .lab-btn:hover { transform: translateY(-1px); background: #f3efe2; }
 
-    /* tertiary actions — quiet, spaced, only real functions */
     .tail { display: flex; flex-direction: column; align-items: center; gap: 1.5rem; padding: 2.5rem 0 4rem; }
     .tail a { font-size: 13.5px; font-weight: 600; color: #6d7d76; text-decoration: none; }
     .tail a:hover { color: #1b4d3e; text-decoration: underline; text-underline-offset: 2px; }
@@ -88,9 +96,10 @@
     .toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%) translateY(20px); background: #10281f; color: #fff; padding: 12px 20px; border-radius: 999px; font-size: 14px; font-weight: 600; opacity: 0; pointer-events: none; transition: opacity 0.25s ease, transform 0.25s ease; z-index: 200; }
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-    @media (prefers-reduced-motion: reduce) { .enter, .spinner { animation: none; opacity: 1; transform: none; } }
+    @media (prefers-reduced-motion: reduce) { .enter, .spinner, .fade-out { animation: none; opacity: 1; transform: none; transition: none; } }
     @media (max-width: 480px) {
       .verdict { padding-top: 2.25rem; }
+      .seal { padding: 2.25rem 20px; }
       .lab { padding: 2.75rem 20px; }
       .share-btn { min-width: 0; }
     }
@@ -120,51 +129,144 @@
     const SUPABASE_FUNCTIONS = window.DISCIPLE_MAKER_CONFIG.SUPABASE_FUNCTIONS;
     const LABS_FALLBACK = "https://www.covomultipliers.com/#upcoming-labs";
 
-    // Per-recognition copy. Verdict = headline + one evidence sentence + one
-    // future-state sentence (recognition-specific; NOT per-answer — the results
-    // API does not expose the user's answers, so we do not fake personalization).
+    // One visual language: single-stroke line symbols, brand green via currentColor.
+    function svg(inner) {
+      return `<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${inner}</svg>`;
+    }
+    const SYMBOLS = {
+      // learning: lines of text (a page) with an arrow moving beyond it
+      learning_not_practicing: svg('<path d="M8 34h18"/><path d="M8 28h18"/><path d="M8 22h11"/><path d="M31 22l9-9"/><path d="M33 13h7v7"/>'),
+      // intending: a calendar with one protected block filled
+      intending_not_acting: svg('<rect x="8" y="11" width="32" height="29" rx="3"/><path d="M8 19h32"/><path d="M16 7v6M32 7v6"/><rect x="21" y="25" width="9" height="8" rx="1.5" fill="currentColor" stroke="none"/>'),
+      // no field: five people, one circled
+      no_relational_field: svg('<circle cx="13" cy="17" r="3"/><circle cx="35" cy="17" r="3"/><circle cx="14" cy="35" r="3"/><circle cx="34" cy="35" r="3"/><circle cx="24" cy="24" r="3.2"/><circle cx="24" cy="24" r="8.5"/>'),
+      // stalled: a path meets a wall, a second line guides it over
+      started_but_stalled: svg('<path d="M6 32h13"/><path d="M24 15v19"/><path d="M17 32c0-9 14-9 14 0"/><path d="M31 32h11"/>'),
+      // alone: two figures walking alongside
+      practicing_alone: svg('<circle cx="18" cy="15" r="4"/><path d="M18 21v11"/><circle cx="31" cy="15" r="4"/><path d="M31 21v11"/><path d="M12 38l4-6M37 38l-4-6"/>'),
+      // reproducing: one node branching into several
+      reproducing_widen: svg('<circle cx="24" cy="9" r="3"/><path d="M24 12l-9 8M24 12l9 8"/><circle cx="13" cy="23" r="3"/><circle cx="35" cy="23" r="3"/><path d="M13 26l-4 8M13 26l4 8M35 26l-4 8M35 26l4 8"/><circle cx="8" cy="38" r="2.4"/><circle cx="18" cy="38" r="2.4"/><circle cx="30" cy="38" r="2.4"/><circle cx="40" cy="38" r="2.4"/>'),
+    };
+
+    function gcalUrl(title, details) {
+      const u = new URL("https://calendar.google.com/calendar/render");
+      u.searchParams.set("action", "TEMPLATE");
+      u.searchParams.set("text", title);
+      u.searchParams.set("details", details);
+      return u.toString();
+    }
+
+    // Per-recognition prescription. evidence(a) reads the user's actual answers
+    // and degrades to a neutral, recognition-true fallback when they're absent.
     const COPY = {
       learning_not_practicing: {
         headline: "You've learned more than you've practiced.",
-        evidence: "You understand disciple making and want to act — it just hasn't become something you actually do yet.",
+        evidence: (a) => a.q3_tool === "learned_not_used"
+          ? "You've learned tools but haven't used one with a real person yet."
+          : a.q5_consume === "learning_more"
+          ? "By your own read, you're taking in more than you're practicing."
+          : "You understand disciple making, but it hasn't become something you actually do yet.",
         future: "The gap closes the first time you do it with one real person.",
         step: "Pick one person and one simple tool, and use it once before Sunday.",
+        tool: { label: "Open the Conversation Box", href: "https://obey.tools/conversation-box.html" },
+        cal: null,
+        msg: {
+          label: "Tell someone I'm doing this",
+          placeholder: "A coach, practitioner, or trusted friend",
+          build: (n) => `Hey ${n||'friend'}, I want to actually use one disciple-making tool with someone this week instead of just reading about it. Would you check in and ask if I did it?`,
+        },
       },
       intending_not_acting: {
         headline: "The intention is real. It just hasn't hit your calendar.",
-        evidence: "There are people around you, but disciple making still lives in the “someday” part of your week.",
+        evidence: (a) => (["several","one_two"].includes(a.q2_field) && a.q6_rhythm === "whenever")
+          ? "You can name people around you, but disciple making has no set time in your week yet."
+          : a.q6_rhythm === "whenever"
+          ? "Right now disciple making happens whenever it happens — there's no set time for it."
+          : "You mean to, but it keeps slipping out of your actual week.",
         future: "It becomes real the week it gets a time and a name.",
         step: "Put one 30-minute disciple-making block on your calendar this week, and tell someone it's there.",
+        tool: { label: "Open the Conversation Box", href: "https://obey.tools/conversation-box.html" },
+        cal: { title: "Disciple-making block", details: "Reach out to one person and start a spiritual conversation. Keep it to 30 minutes." },
+        msg: {
+          label: "Tell someone the time I picked",
+          placeholder: "A coach, practitioner, or trusted friend",
+          build: (n) => `Hey ${n||'friend'}, I'm putting a 30-minute disciple-making block on my calendar this week. Would you ask me how it went?`,
+        },
       },
       no_relational_field: {
         headline: "There's no one nearby yet to practice with.",
-        evidence: "Before tools or techniques, this needs people in your everyday life who aren't yet following Jesus.",
+        evidence: (a) => a.q2_field === "around_christians"
+          ? "Right now most of your week is spent around people who already follow Jesus."
+          : a.q2_field === "not_really"
+          ? "You couldn't yet name people nearby who aren't following Jesus."
+          : "The people who aren't yet following Jesus aren't really in your everyday week yet.",
         future: "Everything else gets easier once there's one name to start with.",
         step: "Name five people you already see each week who aren't yet following Jesus, and share the list with a practitioner.",
+        tool: { label: "Open the Field Plan", href: "/find-your-field" },
+        cal: null,
+        msg: {
+          label: "Ask a practitioner to look at my list",
+          placeholder: "A practitioner who's doing this",
+          build: (n) => `Hey ${n||'friend'}, I'm making a list of five people in my life who aren't following Jesus yet. Could I run the list by you and get your read?`,
+        },
       },
       started_but_stalled: {
         headline: "You started, hit a wall, and quietly slowed down.",
-        evidence: "You've actually tried — then it got hard or unclear, and the momentum faded.",
+        evidence: (a) => (["yes","little"].includes(a.q7_stalled) && ["alone","informal"].includes(a.q8_practitioner))
+          ? "You've tried and hit a wall — and you've been carrying it without a practitioner beside you."
+          : a.q4_followup === "didnt_know"
+          ? "You had someone open, and then weren't sure what to do next."
+          : "You've tried, hit a wall, and the momentum quietly faded.",
         future: "The wall moves the moment one practitioner is in it with you.",
         step: "Tell one practitioner exactly where you got stuck, and ask them to help you take the next rep.",
+        tool: null, // the practitioner IS the tool — no padding content page
+        cal: null,
+        msg: {
+          label: "Ask a practitioner to help",
+          placeholder: "A practitioner who's doing this",
+          build: (n) => `Hey ${n||'friend'}, I started making disciples and hit a wall. Could you help me figure out the next step — maybe show me how you'd do it?`,
+        },
       },
       practicing_alone: {
         headline: "You're doing the work — mostly by yourself.",
-        evidence: "You're practicing and following up; what's missing is feedback and people going the same direction.",
+        evidence: (a) => (["this_week","this_month"].includes(a.q1_recency) && a.q8_practitioner === "alone")
+          ? "You've moved a conversation toward Jesus recently — but you're doing it without another practitioner beside you."
+          : a.q8_practitioner === "alone"
+          ? "You're practicing and following up, but you're doing it on your own."
+          : "You're doing the work, but mostly without feedback from someone further along.",
         future: "One outside look at a real situation is worth ten more solo attempts.",
         step: "Bring one real situation to a room of practitioners this week, and ask for one piece of coaching.",
+        tool: null, // the Lab / a practitioner is the completion
+        cal: null,
+        msg: {
+          label: "Ask a practitioner to coach a rep",
+          placeholder: "A practitioner who's doing this",
+          build: (n) => `Hey ${n||'friend'}, I've been doing this mostly on my own. Could you watch me try one real thing this week and give me one piece of coaching?`,
+        },
       },
       reproducing_widen: {
         headline: "This is becoming a lifestyle. The next step isn't more input.",
-        evidence: "You're practicing consistently and someone's helping you — you're past needing more content.",
+        evidence: (a) => (a.q8_practitioner === "yes" && a.q6_rhythm === "consistently")
+          ? "You're practicing consistently and someone's already helping you — you're past needing more content."
+          : a.q4_followup === "kept_meeting"
+          ? "You're following up and staying with people — you're past needing more content."
+          : "You're practicing consistently — you're past needing more content.",
         future: "Your growth now comes from helping one person start.",
         step: "Invite one person you're discipling to try leading the next step while you watch and coach.",
+        tool: { label: "Open the 4 Questions", href: "/4-questions" },
+        cal: null,
+        msg: {
+          label: "Invite them to lead",
+          placeholder: "The person you're discipling",
+          build: (n) => `Hey ${n||'friend'}, I think you're ready to lead our next step yourself. Want to try it this week while I'm there to help?`,
+        },
       },
     };
 
-    let OUTCOME = null, FIRST_NAME = 'friend';
+    let OUTCOME = null, FIRST_NAME = 'friend', ANSWERS = {};
     const params = new URLSearchParams(window.location.search);
     const token = params.get('r');
+    const openedKey = 'dm_open_' + (token || '');
 
     function track(event, detail) {
       try { gtag('event', event, Object.assign({ tool: 'disciple_maker_next_step', outcome: OUTCOME }, detail || {})); } catch (_) {}
@@ -182,44 +284,64 @@
       setTimeout(() => t.classList.remove('show'), 2200);
     }
     function esc(s) { return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-
-    const RECOG_PHRASE = {
-      learning_not_practicing: "I've learned more than I've actually practiced",
-      intending_not_acting: "I keep meaning to but it never makes it into my week",
-      no_relational_field: "I need to get around people who aren't following Jesus yet",
-      started_but_stalled: "I started, hit a wall, and slowed down",
-      practicing_alone: "I've been doing this mostly on my own",
-      reproducing_widen: "I want to help someone else start doing this",
-    };
-    function defaultMessage(name) {
-      const who = name ? name : 'friend';
-      return `Hey ${who}, I just worked through a disciple-making next-step tool. It helped me see that ${RECOG_PHRASE[OUTCOME]}. I want to take one real step this week — would you be willing to ask me about it?`;
-    }
     function isIOS() { return /iPad|iPhone|iPod/.test(navigator.userAgent || ''); }
     function smsHref(body) { const enc = encodeURIComponent(body); return isIOS() ? `sms:&body=${enc}` : `sms:?body=${enc}`; }
     function waHref(body) { return `https://wa.me/?text=${encodeURIComponent(body)}`; }
 
-    function render() {
+    // ---- SEAL (closed) ----
+    function renderSeal() {
+      const view = document.getElementById('result-view');
+      document.getElementById('loading-view').style.display = 'none';
+      view.style.display = 'block';
+      view.innerHTML = `
+        <section class="seal enter" id="seal">
+          <span class="symbol">${SYMBOLS[OUTCOME] || ''}</span>
+          <p class="seal-text">Your next move is ready.</p>
+          <button class="seal-btn" id="open-btn">Open my prescription</button>
+        </section>`;
+      view.querySelector('#open-btn').addEventListener('click', () => {
+        try { sessionStorage.setItem(openedKey, '1'); } catch (_) {}
+        track('prescription_opened', {});
+        const seal = view.querySelector('#seal');
+        seal.classList.add('fade-out');
+        setTimeout(() => renderResult(), 200);
+      });
+    }
+
+    // ---- RESULT (open) ----
+    function renderResult() {
       const c = COPY[OUTCOME] || COPY.learning_not_practicing;
       const view = document.getElementById('result-view');
+      view.style.display = 'block';
+      const calBtn = c.cal
+        ? `<a class="cal-btn" id="cal-btn" target="_blank" rel="noopener" href="${gcalUrl(c.cal.title, c.cal.details)}">＋ Add to calendar</a>`
+        : '';
+      const toolLink = c.tool
+        ? `<a class="tool-link" id="tool-link" href="${c.tool.href}" target="_blank" rel="noopener">${c.tool.label} →</a>`
+        : '';
       view.innerHTML = `
         <section class="verdict enter">
+          <span class="symbol-sm">${SYMBOLS[OUTCOME] || ''}</span>
           <h1 class="headline">${c.headline}</h1>
-          <p class="evidence">${c.evidence}</p>
+          <p class="evidence">${esc(c.evidence(ANSWERS))}</p>
           <p class="future">${c.future}</p>
         </section>
 
         <section class="move">
           <div class="move-eyebrow">This week</div>
           <p class="move-step">${c.step}</p>
-          <button class="commit" id="commit"><span class="commit-box" id="commit-box">✓</span> <span id="commit-label">I'll do this this week</span></button>
+          <div class="move-actions">
+            <button class="commit" id="commit"><span class="commit-box">✓</span> <span>I'll do this this week</span></button>
+            ${calBtn}
+          </div>
+          ${toolLink}
         </section>
 
         <section class="account" id="account">
-          <button class="tell-btn" id="tell-btn">Tell someone I'm doing this <span class="chev">⌄</span></button>
+          <button class="tell-btn" id="tell-btn">${c.msg.label} <span class="chev">⌄</span></button>
           <div class="account-panel">
-            <input class="account-name" id="account-name" type="text" placeholder="A coach, practitioner, or trusted friend" autocomplete="off">
-            <textarea class="account-msg" id="account-msg">${esc(defaultMessage(''))}</textarea>
+            <input class="account-name" id="account-name" type="text" placeholder="${c.msg.placeholder}" autocomplete="off">
+            <textarea class="account-msg" id="account-msg">${esc(c.msg.build(''))}</textarea>
             <div class="share-row">
               <a class="share-btn" id="btn-sms" href="#">Send a text</a>
               <a class="share-btn" id="btn-wa" href="#" target="_blank" rel="noopener">WhatsApp</a>
@@ -230,34 +352,27 @@
 
         <section class="lab">
           <div class="lab-inner">
-            <h2 class="lab-title">Take your next rep with other disciple makers.</h2>
+            <h2 class="lab-title">Bring your prescription to the Lab.</h2>
             <p class="lab-when" id="lab-when"></p>
-            <p class="lab-desc">Bring one real situation. Practice one simple tool with other practitioners. Leave ready to use it this week.</p>
+            <p class="lab-desc">Practice your next move with someone who's already done it.</p>
             <a class="lab-btn" id="lab-btn" href="${LABS_FALLBACK}">Save my spot</a>
           </div>
         </section>
 
-        <nav class="tail">
-          <a id="tool-link" href="https://obey.tools" target="_blank" rel="noopener">Start with a simple disciple-making tool</a>
-          <a class="tail-quiet" href="/disciple-maker/">Start over</a>
-        </nav>
+        <nav class="tail"><a class="tail-quiet" href="/disciple-maker/">Start over</a></nav>
       `;
 
-      wireCommit(view);
-      wireAccountability(view);
-      view.querySelector('#tool-link').addEventListener('click', () => track('cta_clicked', { target: 'obey_tools' }));
+      view.querySelector('#commit').addEventListener('click', (e) => {
+        const btn = e.currentTarget; btn.classList.toggle('on');
+        if (btn.classList.contains('on')) track('step_accepted', {});
+      });
+      if (c.cal) view.querySelector('#cal-btn').addEventListener('click', () => track('calendar_added', {}));
+      if (c.tool) view.querySelector('#tool-link').addEventListener('click', () => track('tool_opened', {}));
+      wireAccountability(view, c);
       loadNextLab(view);
     }
 
-    function wireCommit(view) {
-      const btn = view.querySelector('#commit');
-      btn.addEventListener('click', () => {
-        btn.classList.toggle('on');
-        if (btn.classList.contains('on')) track('step_accepted', {});
-      });
-    }
-
-    function wireAccountability(view) {
+    function wireAccountability(view, c) {
       const account = view.querySelector('#account');
       const nameEl = view.querySelector('#account-name');
       const msgEl = view.querySelector('#account-msg');
@@ -265,11 +380,11 @@
 
       let userEdited = false;
       msgEl.addEventListener('input', () => { userEdited = true; });
-      nameEl.addEventListener('input', () => { if (!userEdited) msgEl.value = defaultMessage(nameEl.value.trim()); });
+      nameEl.addEventListener('input', () => { if (!userEdited) msgEl.value = c.msg.build(nameEl.value.trim()); });
       let namedFired = false;
       nameEl.addEventListener('change', () => { if (nameEl.value.trim() && !namedFired) { namedFired = true; track('human_named', {}); } });
 
-      const currentBody = () => msgEl.value || defaultMessage(nameEl.value.trim());
+      const currentBody = () => msgEl.value || c.msg.build(nameEl.value.trim());
       view.querySelector('#btn-sms').addEventListener('click', (e) => { e.currentTarget.href = smsHref(currentBody()); track('share_opened', { channel: 'sms' }); });
       view.querySelector('#btn-wa').addEventListener('click', (e) => { e.currentTarget.href = waHref(currentBody()); track('share_opened', { channel: 'whatsapp' }); });
       view.querySelector('#btn-share').addEventListener('click', async () => {
@@ -280,7 +395,7 @@
       });
     }
 
-    // Canonical Lab source: public-labs feed (soonest first). No hardcoded date.
+    // Canonical Lab source. Carries recognition into the handoff via existing UTM capture.
     function loadNextLab(view) {
       const whenEl = view.querySelector('#lab-when');
       const btnEl = view.querySelector('#lab-btn');
@@ -295,7 +410,10 @@
           const date = d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', timeZone: 'America/New_York' });
           const time = d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZone: 'America/New_York' });
           whenEl.textContent = `${date} · ${time} ET`;
-          if (lab.url) btnEl.href = lab.url;
+          if (lab.url) {
+            try { const u = new URL(lab.url); if (OUTCOME) u.searchParams.set('utm_content', 'dm_' + OUTCOME); btnEl.href = u.toString(); }
+            catch (_) { btnEl.href = lab.url; }
+          }
         })
         .catch(() => { /* keep fallback: no date, button → /#upcoming-labs */ });
     }
@@ -309,10 +427,10 @@
         FIRST_NAME = data.first_name || 'friend';
         if (data.legacy || !COPY[data.recognition_outcome]) return showLegacy();
         OUTCOME = data.recognition_outcome;
-        document.getElementById('loading-view').style.display = 'none';
-        document.getElementById('result-view').style.display = 'block';
-        render();
+        ANSWERS = (data.diagnostic_answers && typeof data.diagnostic_answers === 'object') ? data.diagnostic_answers : {};
         track('results_viewed', {});
+        let opened = false; try { opened = sessionStorage.getItem(openedKey) === '1'; } catch (_) {}
+        if (opened) renderResult(); else renderSeal();
       } catch (_) { showError(); }
     }
     function showError() {
