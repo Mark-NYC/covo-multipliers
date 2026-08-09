@@ -23,83 +23,100 @@
     html, body { overflow-x: hidden; }
     body { background: #fafaf8; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #1a1a1a; }
     .dm-header { position: sticky; top: 0; z-index: 50; background: rgba(250,250,248,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(27,77,62,0.08); }
-    .dm-header-inner { max-width: 620px; margin: 0 auto; padding: 12px 24px; }
+    .dm-header-inner { max-width: 960px; margin: 0 auto; padding: 12px 24px; }
     .dm-header-brand { font-size: 13px; font-weight: 700; letter-spacing: 0.4px; color: #1b4d3e; text-decoration: none; }
 
-    .dm-main { max-width: 620px; margin: 0 auto; padding: 0 24px; }
+    .dm-main { max-width: 960px; margin: 0 auto; padding: 0 24px; }
 
     .loading-state { text-align: center; padding: 72px 20px; }
     .spinner { width: 38px; height: 38px; border: 3px solid #e7eeea; border-top-color: #1b4d3e; border-radius: 50%; animation: spin 0.7s linear infinite; margin: 0 auto 16px; }
     @keyframes spin { to { transform: rotate(360deg); } }
     .loading-state p { color: #52645d; font-size: 15px; }
 
-    /* SEAL — the closed state of the prescription surface (same tonal treatment as .move) */
-    .seal { margin-top: 3rem; background: #f2f6f4; border: 1px solid #e4ece8; border-radius: 16px; padding: 2.5rem 1.5rem; text-align: center; }
-    .seal .symbol { color: #1b4d3e; width: 76px; height: 76px; display: block; margin: 0 auto 1.25rem; }
-    .seal-text { font-size: 1.05rem; font-weight: 600; color: #3a4f47; margin: 0 0 1.4rem; }
-    .seal-btn { display: inline-block; background: #1b4d3e; color: #fff; padding: 14px 30px; border-radius: 10px; border: none; font-family: inherit; font-size: 16px; font-weight: 800; cursor: pointer; transition: background 0.2s ease, transform 0.15s ease; }
-    .seal-btn:hover { background: #10281f; transform: translateY(-1px); }
+    /* ── ACT 1: editorial diagnosis (visible) ───────────────────────────── */
+    .act1 {
+      display: grid;
+      grid-template-columns: 34% 1fr;
+      grid-template-areas: "diagram head" "diagram rest";
+      column-gap: 3rem; align-items: start;
+      padding: 3.25rem 0 0;
+    }
+    .diagram { grid-area: diagram; }
+    .diagram svg { width: 100%; max-width: 240px; height: auto; display: block; }
+    .d-head { grid-area: head; }
+    .d-rest { grid-area: rest; margin-top: 1.1rem; max-width: 480px; }
 
-    /* VERDICT — unboxed, the focal point (unchanged) */
-    .verdict { padding: 3rem 0 0; }
-    .symbol-sm { color: #1b4d3e; width: 38px; height: 38px; display: block; margin: 0 0 1.1rem; }
-    .headline { font-size: clamp(1.7rem, 5.4vw, 2.6rem); font-weight: 800; line-height: 1.14; letter-spacing: -0.02em; color: #10281f; margin: 0 0 1.1rem; }
-    .evidence { font-size: 1.075rem; line-height: 1.62; color: #3a4f47; margin: 0 0 0.7rem; }
-    .future   { font-size: 1.075rem; line-height: 1.62; color: #1b4d3e; margin: 0; font-weight: 550; }
+    .eyebrow { font-size: 13px; font-weight: 600; color: #7a8a83; margin: 0 0 0.9rem; }
+    .blocker { font-size: clamp(1.9rem, 3.4vw, 2.8rem); font-weight: 800; line-height: 1.12; letter-spacing: -0.02em; color: #10281f; margin: 0; }
+    .evidence { font-size: 1.075rem; line-height: 1.62; color: #33413b; margin: 0 0 0.9rem; }
+    .reason   { font-size: 1.075rem; line-height: 1.62; color: #33413b; margin: 0 0 0.9rem; }
+    .stakes   { font-size: 1rem; line-height: 1.6; color: #52645d; margin: 0 0 0.9rem; }
+    .hope     { font-size: 1.075rem; line-height: 1.55; color: #1b4d3e; font-weight: 600; margin: 0; }
 
-    .enter { opacity: 0; transform: translateY(6px); animation: enter 260ms ease-out forwards; }
-    @keyframes enter { to { opacity: 1; transform: translateY(0); } }
-    .fade-out { opacity: 0 !important; transition: opacity 200ms ease; }
+    .reveal-wrap { max-width: 480px; margin-left: calc(34% + 3rem); padding: 2rem 0 0; }
+    .reveal-btn { display: inline-block; background: #1b4d3e; color: #fff; padding: 15px 32px; border-radius: 10px; border: none; font-family: inherit; font-size: 16px; font-weight: 800; cursor: pointer; transition: background 0.2s ease, transform 0.15s ease; }
+    .reveal-btn:hover { background: #10281f; transform: translateY(-1px); }
 
-    /* PRESCRIPTION move (unchanged treatment) */
-    .move { margin-top: 2.75rem; background: #f2f6f4; border: 1px solid #e4ece8; border-radius: 16px; padding: 1.6rem 1.5rem; }
-    .move-eyebrow { font-size: 12px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #1b4d3e; margin-bottom: 0.7rem; }
-    .move-step { font-size: 1.3rem; font-weight: 700; line-height: 1.4; color: #10281f; margin: 0 0 1.1rem; }
-    .move-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 18px; }
-    .commit { display: inline-flex; align-items: center; gap: 10px; background: none; border: none; font-family: inherit; font-size: 15px; font-weight: 650; color: #1b4d3e; cursor: pointer; padding: 4px 0; }
-    .commit-box { width: 21px; height: 21px; border: 2px solid #1b4d3e; border-radius: 6px; display: inline-flex; align-items: center; justify-content: center; color: #fff; font-size: 12px; flex-shrink: 0; }
-    .commit.on .commit-box { background: #1b4d3e; }
-    .cal-btn { display: inline-flex; align-items: center; gap: 7px; font-size: 14px; font-weight: 700; font-family: inherit; color: #1b4d3e; text-decoration: none; border: 1.5px solid #cdd9d3; border-radius: 10px; padding: 8px 14px; background: #fff; cursor: pointer; }
-    .cal-btn:hover { border-color: #1b4d3e; }
-    .tool-link { display: inline-block; margin-top: 1.15rem; font-size: 14.5px; font-weight: 700; color: #1b4d3e; text-decoration: none; }
-    .tool-link:hover { text-decoration: underline; text-underline-offset: 2px; }
+    /* ── ACT 2: prescription (gated; unfolds beneath, one transition) ───── */
+    .rx-wrap { max-width: 640px; margin-left: calc(34% + 3rem); }
+    #rx[hidden] { display: none; }
+    .rx-enter { opacity: 0; transform: translateY(8px); animation: rxin 280ms ease-out forwards; }
+    @keyframes rxin { to { opacity: 1; transform: translateY(0); } }
 
-    /* ACCOUNTABILITY — collapsed, inline reveal (unchanged) */
-    .account { margin-top: 2rem; }
-    .tell-btn { display: inline-flex; align-items: center; gap: 8px; background: none; border: none; font-family: inherit; font-size: 15px; font-weight: 700; color: #1b4d3e; cursor: pointer; padding: 4px 0; text-align: left; }
+    .rx { background: #f2f6f4; border: 1px solid #e4ece8; border-radius: 16px; padding: 1.7rem 1.6rem; margin-top: 1.75rem; }
+    .rx-eyebrow { font-size: 12px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #1b4d3e; margin-bottom: 0.7rem; }
+    .rx-move { font-size: 1.3rem; font-weight: 700; line-height: 1.4; color: #10281f; margin: 0 0 0.8rem; }
+    .rx-why { font-size: 0.98rem; line-height: 1.6; color: #52645d; margin: 0 0 0.5rem; }
+    .rx-future { font-size: 0.98rem; line-height: 1.6; color: #1b4d3e; font-weight: 600; margin: 0 0 1.3rem; }
+
+    /* action controls */
+    .act-label { font-size: 13px; font-weight: 700; color: #33413b; margin: 0 0 0.5rem; }
+    .act-input { width: 100%; padding: 12px 14px; border: 1.5px solid #c5d5cd; border-radius: 10px; font-size: 15px; font-family: inherit; box-sizing: border-box; }
+    .act-input:focus { outline: none; border-color: #1b4d3e; box-shadow: 0 0 0 3px rgba(27,77,62,0.1); }
+    .act-msg { width: 100%; min-height: 110px; margin-top: 10px; padding: 12px 14px; border: 1.5px solid #dbe8e2; border-radius: 10px; font-size: 14.5px; line-height: 1.55; font-family: inherit; color: #33413b; resize: vertical; box-sizing: border-box; background: #fff; }
+    .act-msg:focus { outline: none; border-color: #1b4d3e; box-shadow: 0 0 0 3px rgba(27,77,62,0.1); }
+    .act-primary { display: inline-block; margin-top: 12px; background: #1b4d3e; color: #fff; padding: 13px 24px; border-radius: 10px; border: none; font-family: inherit; font-size: 15px; font-weight: 750; cursor: pointer; text-decoration: none; }
+    .act-primary:hover { background: #10281f; }
+    .share-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+    .share-btn { flex: 1; min-width: 120px; text-align: center; padding: 11px 12px; border-radius: 10px; font-size: 14px; font-weight: 700; font-family: inherit; text-decoration: none; cursor: pointer; border: 1.5px solid #cdd9d3; color: #33413b; background: #fff; }
+    .share-btn:hover { border-color: #1b4d3e; color: #1b4d3e; }
+    .share-primary { border-color: #1b4d3e; background: #1b4d3e; color: #fff; }
+    .share-primary:hover { background: #10281f; color: #fff; }
+
+    /* collapsed secondary accountability */
+    .account { margin-top: 1.5rem; }
+    .tell-btn { display: inline-flex; align-items: center; gap: 8px; background: none; border: none; font-family: inherit; font-size: 14.5px; font-weight: 700; color: #1b4d3e; cursor: pointer; padding: 4px 0; }
     .tell-btn .chev { transition: transform 0.2s ease; }
     .account.open .tell-btn .chev { transform: rotate(180deg); }
-    .account-panel { display: none; margin-top: 1rem; }
+    .account-panel { display: none; margin-top: 0.9rem; }
     .account.open .account-panel { display: block; }
-    .account-name { width: 100%; padding: 12px 14px; border: 1.5px solid #c5d5cd; border-radius: 10px; font-size: 15px; font-family: inherit; box-sizing: border-box; }
-    .account-name:focus { outline: none; border-color: #1b4d3e; box-shadow: 0 0 0 3px rgba(27,77,62,0.1); }
-    .account-msg { width: 100%; min-height: 118px; margin-top: 10px; padding: 12px 14px; border: 1.5px solid #dbe8e2; border-radius: 10px; font-size: 14.5px; line-height: 1.55; font-family: inherit; color: #33413b; resize: vertical; box-sizing: border-box; background: #fff; }
-    .account-msg:focus { outline: none; border-color: #1b4d3e; box-shadow: 0 0 0 3px rgba(27,77,62,0.1); }
-    .share-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
-    .share-btn { flex: 1; min-width: 120px; text-align: center; padding: 11px 12px; border-radius: 10px; font-size: 14px; font-weight: 700; font-family: inherit; text-decoration: none; cursor: pointer; border: 1.5px solid #cdd9d3; color: #33413b; background: #fff; transition: border-color 0.2s ease, color 0.2s ease; }
-    .share-btn:hover { border-color: #1b4d3e; color: #1b4d3e; }
 
-    /* LAB — full-bleed deep-green (unchanged treatment) */
-    .lab { margin: 3.25rem 0 0; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); background: #10281f; padding: 3.25rem 24px; }
-    .lab-inner { max-width: 620px; margin: 0 auto; }
-    .lab-title { font-size: 1.5rem; font-weight: 800; line-height: 1.25; color: #ffffff; margin: 0 0 0.7rem; letter-spacing: -0.01em; }
-    .lab-when { font-size: 1rem; font-weight: 700; color: #dcb55a; margin: 0 0 0.75rem; min-height: 1.2em; }
-    .lab-desc { font-size: 0.98rem; line-height: 1.6; color: rgba(255,255,255,0.82); margin: 0 0 1.5rem; }
-    .lab-btn { display: inline-block; background: #ffffff; color: #10281f; padding: 15px 34px; border-radius: 10px; text-decoration: none; font-weight: 800; font-size: 16px; transition: transform 0.15s ease, background 0.2s ease; }
-    .lab-btn:hover { transform: translateY(-1px); background: #f3efe2; }
+    /* ── LAB (full-bleed, truthful from feed) ───────────────────────────── */
+    .lab { margin: 2.5rem 0 0; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); background: #10281f; padding: 3rem 24px; }
+    .lab-inner { max-width: 640px; margin: 0 auto; }
+    .lab-title { font-size: 1.45rem; font-weight: 800; line-height: 1.25; color: #fff; margin: 0 0 0.6rem; letter-spacing: -0.01em; }
+    .lab-when { font-size: 1rem; font-weight: 700; color: #dcb55a; margin: 0 0 0.7rem; min-height: 1.2em; }
+    .lab-desc { font-size: 0.98rem; line-height: 1.6; color: rgba(255,255,255,0.82); margin: 0 0 1.4rem; }
+    .lab-btn { display: inline-block; background: #fff; color: #10281f; padding: 14px 32px; border-radius: 10px; text-decoration: none; font-weight: 800; font-size: 16px; }
+    .lab-btn:hover { background: #f3efe2; }
 
-    .tail { display: flex; flex-direction: column; align-items: center; gap: 1.5rem; padding: 2.5rem 0 4rem; }
-    .tail a { font-size: 13.5px; font-weight: 600; color: #6d7d76; text-decoration: none; }
+    .tail { display: flex; justify-content: center; padding: 2.25rem 0 4rem; }
+    .tail a { font-size: 12.5px; font-weight: 500; color: #9aa8a2; text-decoration: none; }
     .tail a:hover { color: #1b4d3e; text-decoration: underline; text-underline-offset: 2px; }
-    .tail a.tail-quiet { font-size: 12px; font-weight: 500; color: #9aa8a2; }
 
     .toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%) translateY(20px); background: #10281f; color: #fff; padding: 12px 20px; border-radius: 999px; font-size: 14px; font-weight: 600; opacity: 0; pointer-events: none; transition: opacity 0.25s ease, transform 0.25s ease; z-index: 200; }
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-    @media (prefers-reduced-motion: reduce) { .enter, .spinner, .fade-out { animation: none; opacity: 1; transform: none; transition: none; } }
-    @media (max-width: 480px) {
-      .verdict { padding-top: 2.25rem; }
-      .seal { padding: 2.25rem 20px; }
+    @media (prefers-reduced-motion: reduce) { .rx-enter, .spinner { animation: none; opacity: 1; transform: none; } }
+
+    /* ── Mobile: headline first, diagram second, CTA in natural flow ────── */
+    @media (max-width: 760px) {
+      .dm-main { max-width: 620px; }
+      .act1 { grid-template-columns: 1fr; grid-template-areas: "head" "diagram" "rest"; column-gap: 0; padding-top: 2.25rem; }
+      .diagram { margin: 0.6rem 0 0.3rem; }
+      .diagram svg { max-width: 180px; }
+      .d-rest { margin-top: 1.1rem; max-width: none; }
+      .reveal-wrap, .rx-wrap { margin-left: 0; max-width: none; }
       .lab { padding: 2.75rem 20px; }
       .share-btn { min-width: 0; }
     }
@@ -129,23 +146,57 @@
     const SUPABASE_FUNCTIONS = window.DISCIPLE_MAKER_CONFIG.SUPABASE_FUNCTIONS;
     const LABS_FALLBACK = "https://www.covomultipliers.com/#upcoming-labs";
 
-    // One visual language: single-stroke line symbols, brand green via currentColor.
-    function svg(inner) {
-      return `<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${inner}</svg>`;
-    }
-    const SYMBOLS = {
-      // learning: lines of text (a page) with an arrow moving beyond it
-      learning_not_practicing: svg('<path d="M8 34h18"/><path d="M8 28h18"/><path d="M8 22h11"/><path d="M31 22l9-9"/><path d="M33 13h7v7"/>'),
-      // intending: a calendar with one protected block filled
-      intending_not_acting: svg('<rect x="8" y="11" width="32" height="29" rx="3"/><path d="M8 19h32"/><path d="M16 7v6M32 7v6"/><rect x="21" y="25" width="9" height="8" rx="1.5" fill="currentColor" stroke="none"/>'),
-      // no field: five people, one circled
-      no_relational_field: svg('<circle cx="13" cy="17" r="3"/><circle cx="35" cy="17" r="3"/><circle cx="14" cy="35" r="3"/><circle cx="34" cy="35" r="3"/><circle cx="24" cy="24" r="3.2"/><circle cx="24" cy="24" r="8.5"/>'),
-      // stalled: a path meets a wall, a second line guides it over
-      started_but_stalled: svg('<path d="M6 32h13"/><path d="M24 15v19"/><path d="M17 32c0-9 14-9 14 0"/><path d="M31 32h11"/>'),
-      // alone: two figures walking alongside
-      practicing_alone: svg('<circle cx="18" cy="15" r="4"/><path d="M18 21v11"/><circle cx="31" cy="15" r="4"/><path d="M31 21v11"/><path d="M12 38l4-6M37 38l-4-6"/>'),
-      // reproducing: one node branching into several
-      reproducing_widen: svg('<circle cx="24" cy="9" r="3"/><path d="M24 12l-9 8M24 12l9 8"/><circle cx="13" cy="23" r="3"/><circle cx="35" cy="23" r="3"/><path d="M13 26l-4 8M13 26l4 8M35 26l-4 8M35 26l4 8"/><circle cx="8" cy="38" r="2.4"/><circle cx="18" cy="38" r="2.4"/><circle cx="30" cy="38" r="2.4"/><circle cx="40" cy="38" r="2.4"/>'),
+    // Conceptual diagrams — each shows the operating problem. One line language;
+    // the broken/empty part is dashed gold so the eye lands on the barrier.
+    const G = '#1b4d3e', GOLD = '#9f7a2f';
+    function dia(inner){ return `<svg viewBox="0 0 120 84" fill="none" aria-hidden="true">${inner}</svg>`; }
+    const DIAGRAMS = {
+      // knowledge disconnected from action
+      learning_not_practicing: dia(`
+        <g stroke="${G}" stroke-width="2" stroke-linecap="round">
+          <path d="M16 32h22"/><path d="M16 42h22"/><path d="M16 52h14"/>
+          <circle cx="98" cy="42" r="11"/><circle cx="98" cy="42" r="3"/>
+        </g>
+        <path d="M44 42h12" stroke="${GOLD}" stroke-width="2" stroke-linecap="round"/>
+        <path d="M66 42h13" stroke="${GOLD}" stroke-width="2" stroke-dasharray="1 5" stroke-linecap="round"/>`),
+      // intention without scheduled space
+      intending_not_acting: dia(`
+        <g stroke="${G}" stroke-width="2">
+          <rect x="12" y="50" width="12" height="12" rx="2"/><rect x="28" y="50" width="12" height="12" rx="2"/>
+          <rect x="44" y="50" width="12" height="12" rx="2"/><rect x="60" y="50" width="12" height="12" rx="2"/>
+          <rect x="76" y="50" width="12" height="12" rx="2"/><rect x="92" y="50" width="12" height="12" rx="2"/>
+        </g>
+        <path d="M66 22v14" stroke="${GOLD}" stroke-width="2" stroke-dasharray="1 5" stroke-linecap="round"/>
+        <path d="M61 32l5 6 5-6" stroke="${GOLD}" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`),
+      // no identified relational field
+      no_relational_field: dia(`
+        <g stroke="${G}" stroke-width="2" stroke-linecap="round" fill="none">
+          <circle cx="60" cy="34" r="7"/><path d="M60 41v16"/><path d="M50 50h20"/>
+        </g>
+        <circle cx="60" cy="44" r="32" stroke="${GOLD}" stroke-width="2" stroke-dasharray="2 6" fill="none"/>`),
+      // action meeting a stalled barrier
+      started_but_stalled: dia(`
+        <g stroke="${G}" stroke-width="2" stroke-linecap="round" fill="none">
+          <path d="M14 42h46"/><path d="M53 34l8 8-8 8"/><path d="M70 20v44"/>
+        </g>
+        <path d="M76 42h30" stroke="${GOLD}" stroke-width="2" stroke-dasharray="1 5" stroke-linecap="round"/>`),
+      // practice without feedback (closed loop, missing input)
+      practicing_alone: dia(`
+        <g stroke="${G}" stroke-width="2" stroke-linecap="round" fill="none">
+          <circle cx="52" cy="42" r="4"/>
+          <path d="M52 20a22 22 0 1 0 16 7"/>
+          <path d="M64 22l4 5 -6 2"/>
+        </g>
+        <path d="M108 42h-22" stroke="${GOLD}" stroke-width="2" stroke-dasharray="1 5" stroke-linecap="round"/>`),
+      // one leader retaining instead of releasing
+      reproducing_widen: dia(`
+        <g stroke="${G}" stroke-width="2" fill="none"><circle cx="52" cy="42" r="6"/></g>
+        <g stroke="${GOLD}" stroke-width="2" stroke-dasharray="1 5" stroke-linecap="round" fill="none">
+          <path d="M58 38l20 -10"/><path d="M58 46l20 10"/><path d="M46 46l-16 12"/>
+        </g>
+        <g stroke="${G}" stroke-width="1.5" fill="none" opacity="0.35">
+          <circle cx="90" cy="24" r="4"/><circle cx="90" cy="62" r="4"/><circle cx="22" cy="64" r="4"/>
+        </g>`),
     };
 
     function gcalUrl(title, details) {
@@ -156,114 +207,117 @@
       return u.toString();
     }
 
-    // Per-recognition prescription. evidence(a) reads the user's actual answers
-    // and degrades to a neutral, recognition-true fallback when they're absent.
+    // Per-recognition content. evidence(a) is answer-backed with a safe fallback.
+    // action.kind: 'tool' (tool IS the action), 'calendar', 'message' (practitioner/disciple).
     const COPY = {
       learning_not_practicing: {
-        headline: "You've learned more than you've practiced.",
+        blocker: "You've learned more than you've practiced.",
         evidence: (a) => a.q3_tool === "learned_not_used"
-          ? "You've learned tools but haven't used one with a real person yet."
+          ? "You've picked up tools but haven't used one with a real person yet."
           : a.q5_consume === "learning_more"
           ? "By your own read, you're taking in more than you're practicing."
-          : "You understand disciple making, but it hasn't become something you actually do yet.",
-        future: "The gap closes the first time you do it with one real person.",
-        step: "Pick one person and one simple tool, and use it once before Sunday.",
-        tool: { label: "Open the Conversation Box", href: "https://obey.tools/conversation-box.html" },
-        cal: null,
-        msg: {
-          label: "Tell someone I'm doing this",
-          placeholder: "A coach, practitioner, or trusted friend",
-          build: (n) => `Hey ${n||'friend'}, I want to actually use one disciple-making tool with someone this week instead of just reading about it. Would you check in and ask if I did it?`,
-        },
+          : "You understand disciple making, but it hasn't become something you do yet.",
+        reason: "Learning feels like progress, so the first real attempt keeps getting postponed.",
+        stakes: "Left alone, this becomes a posture: always preparing, never sent. A year of good input can pass with no one closer to Jesus because of you.",
+        hope: "One real attempt breaks the spell — and it's smaller than you think.",
+        move: "Pick one person and use the Conversation Box with them once before Sunday.",
+        why: "You don't need more content; you need a rep. A simple tool removes the “I won't know what to say” fear so the first attempt actually happens.",
+        future: "You stop studying disciple-making and start doing it — with one real person.",
+        action: { kind: "tool", label: "Who will you try this with this week?", placeholder: "One name",
+                  btn: "Open the Conversation Box", href: "https://obey.tools/conversation-box.html" },
+        account: { label: "Tell someone I'm doing this", placeholder: "A coach or trusted friend",
+                   build: (n) => `Hey ${n||'friend'}, I want to actually use one disciple-making tool with someone this week instead of just reading about it. Would you check in and ask if I did it?` },
       },
       intending_not_acting: {
-        headline: "The intention is real. It just hasn't hit your calendar.",
+        blocker: "The intention is real. It just hasn't hit your week.",
         evidence: (a) => (["several","one_two"].includes(a.q2_field) && a.q6_rhythm === "whenever")
-          ? "You can name people around you, but disciple making has no set time in your week yet."
+          ? "You can name people around you, but disciple making has no set time."
           : a.q6_rhythm === "whenever"
-          ? "Right now disciple making happens whenever it happens — there's no set time for it."
+          ? "Disciple making happens whenever it happens — there's no set time for it."
           : "You mean to, but it keeps slipping out of your actual week.",
-        future: "It becomes real the week it gets a time and a name.",
-        step: "Put one 30-minute disciple-making block on your calendar this week, and tell someone it's there.",
-        tool: { label: "Open the Conversation Box", href: "https://obey.tools/conversation-box.html" },
-        cal: { title: "Disciple-making block", details: "Reach out to one person and start a spiritual conversation. Keep it to 30 minutes." },
-        msg: {
-          label: "Tell someone the time I picked",
-          placeholder: "A coach, practitioner, or trusted friend",
-          build: (n) => `Hey ${n||'friend'}, I'm putting a 30-minute disciple-making block on my calendar this week. Would you ask me how it went?`,
-        },
+        reason: "Anything without a time loses to everything that has one.",
+        stakes: "Good intentions don't reproduce. A year from now the desire is still there, the calendar still full, and nothing has actually changed.",
+        hope: "The week it gets a time and a name, it becomes real.",
+        move: "Put one 30-minute disciple-making block on your calendar this week and tell one person.",
+        why: "Scheduling is the exact missing step. A named time plus one witness turns intention into an appointment you'll actually keep.",
+        future: "Disciple making stops being someday and becomes a standing part of your week.",
+        action: { kind: "calendar", btn: "Add the 30-min block to my calendar",
+                  title: "Disciple-making block", details: "Reach out to one person and start a spiritual conversation. Keep it to 30 minutes." },
+        account: { label: "Tell someone the time I picked", placeholder: "A coach or trusted friend",
+                   build: (n) => `Hey ${n||'friend'}, I've blocked 30 minutes this week for disciple making. Would you ask me how it went?` },
       },
       no_relational_field: {
-        headline: "There's no one nearby yet to practice with.",
+        blocker: "There's no one near you yet to disciple.",
         evidence: (a) => a.q2_field === "around_christians"
-          ? "Right now most of your week is spent around people who already follow Jesus."
+          ? "Most of your week is spent around people who already follow Jesus."
           : a.q2_field === "not_really"
           ? "You couldn't yet name people nearby who aren't following Jesus."
-          : "The people who aren't yet following Jesus aren't really in your everyday week yet.",
-        future: "Everything else gets easier once there's one name to start with.",
-        step: "Name five people you already see each week who aren't yet following Jesus, and share the list with a practitioner.",
-        tool: { label: "Open the Field Plan", href: "/find-your-field" },
-        cal: null,
-        msg: {
-          label: "Ask a practitioner to look at my list",
-          placeholder: "A practitioner who's doing this",
-          build: (n) => `Hey ${n||'friend'}, I'm making a list of five people in my life who aren't following Jesus yet. Could I run the list by you and get your read?`,
-        },
+          : "The people who aren't yet following Jesus aren't really in your week yet.",
+        reason: "You can't practice on people who aren't in your life — and they aren't yet.",
+        stakes: "Without a field, every tool and training stays theoretical. You could spend years ready to make disciples with no one to make them among.",
+        hope: "It starts with one name — and you know more people than you think.",
+        move: "Name the first person who isn't following Jesus that you'll see this week.",
+        why: "Naming one real person turns an abstract gap into a specific step, and gives a practitioner something concrete to help you with.",
+        future: "You go from no field to one name — the seed everything else grows from.",
+        action: { kind: "tool", label: "Who's the first person who comes to mind?", placeholder: "One name",
+                  btn: "Open the Field Plan", href: "/find-your-field" },
+        account: { label: "Ask a practitioner to look at my list", placeholder: "A practitioner who's doing this",
+                   build: (n) => `Hey ${n||'friend'}, I'm listing the people in my life who aren't following Jesus yet. Could I run the list by you and get your read?` },
       },
       started_but_stalled: {
-        headline: "You started, hit a wall, and quietly slowed down.",
+        blocker: "You started, hit a wall, and slowed down.",
         evidence: (a) => (["yes","little"].includes(a.q7_stalled) && ["alone","informal"].includes(a.q8_practitioner))
-          ? "You've tried and hit a wall — and you've been carrying it without a practitioner beside you."
+          ? "You've tried — and you've been carrying the wall without a practitioner."
           : a.q4_followup === "didnt_know"
           ? "You had someone open, and then weren't sure what to do next."
           : "You've tried, hit a wall, and the momentum quietly faded.",
-        future: "The wall moves the moment one practitioner is in it with you.",
-        step: "Tell one practitioner exactly where you got stuck, and ask them to help you take the next rep.",
-        tool: null, // the practitioner IS the tool — no padding content page
-        cal: null,
-        msg: {
-          label: "Ask a practitioner to help",
-          placeholder: "A practitioner who's doing this",
-          build: (n) => `Hey ${n||'friend'}, I started making disciples and hit a wall. Could you help me figure out the next step — maybe show me how you'd do it?`,
-        },
+        reason: "Walls you hit alone rarely move; you conclude it's you, and quietly stop.",
+        stakes: "Most people who stall here never restart. Not from lack of desire — from lack of one person who's been through the same wall.",
+        hope: "The wall moves the moment someone who's crossed it stands with you.",
+        move: "Text one practitioner today, name exactly where you got stuck, and ask for the next rep.",
+        why: "The barrier isn't skill or will; it's isolation. A practitioner who's been there turns a dead end into a next step.",
+        future: "You stop restarting alone and start moving with someone who's done it.",
+        action: { kind: "message", label: "Which practitioner will you text?", placeholder: "A practitioner who's doing this",
+                  build: (n) => `Hey ${n||'friend'}, I started making disciples and hit a wall. Could you help me figure out the next step — maybe show me how you'd do it?` },
+        account: null,
       },
       practicing_alone: {
-        headline: "You're doing the work — mostly by yourself.",
+        blocker: "You're doing the work — mostly by yourself.",
         evidence: (a) => (["this_week","this_month"].includes(a.q1_recency) && a.q8_practitioner === "alone")
-          ? "You've moved a conversation toward Jesus recently — but you're doing it without another practitioner beside you."
+          ? "You've engaged someone spiritually recently, but without a practitioner beside you."
           : a.q8_practitioner === "alone"
           ? "You're practicing and following up, but you're doing it on your own."
           : "You're doing the work, but mostly without feedback from someone further along.",
-        future: "One outside look at a real situation is worth ten more solo attempts.",
-        step: "Bring one real situation to a room of practitioners this week, and ask for one piece of coaching.",
-        tool: null, // the Lab / a practitioner is the completion
-        cal: null,
-        msg: {
-          label: "Ask a practitioner to coach a rep",
-          placeholder: "A practitioner who's doing this",
-          build: (n) => `Hey ${n||'friend'}, I've been doing this mostly on my own. Could you watch me try one real thing this week and give me one piece of coaching?`,
-        },
+        reason: "Solo practice plateaus; without outside eyes you repeat the same blind spots.",
+        stakes: "Alone, you'll cap at your own ceiling — faithful but stuck, with no one to reproduce what you're learning or catch what you can't see.",
+        hope: "One outside look at a real situation is worth ten more solo attempts.",
+        move: "Send one practitioner a real situation this week and ask for one piece of coaching.",
+        why: "You don't need more effort; you need feedback. One coached rep breaks a plateau faster than months practicing the same way alone.",
+        future: "You stop guessing alone and start sharpening with someone further down the road.",
+        action: { kind: "message", label: "Which practitioner will you ask?", placeholder: "A practitioner who's doing this",
+                  build: (n) => `Hey ${n||'friend'}, I've been doing this mostly on my own. Could I send you one real situation this week and get one piece of coaching?` },
+        account: null,
       },
       reproducing_widen: {
-        headline: "This is becoming a lifestyle. The next step isn't more input.",
+        blocker: "You're carrying it — but not yet handing it off.",
         evidence: (a) => (a.q8_practitioner === "yes" && a.q6_rhythm === "consistently")
-          ? "You're practicing consistently and someone's already helping you — you're past needing more content."
+          ? "You're practicing consistently and someone's helping you — you're past needing more content."
           : a.q4_followup === "kept_meeting"
           ? "You're following up and staying with people — you're past needing more content."
           : "You're practicing consistently — you're past needing more content.",
-        future: "Your growth now comes from helping one person start.",
-        step: "Invite one person you're discipling to try leading the next step while you watch and coach.",
-        tool: { label: "Open the 4 Questions", href: "/4-questions" },
-        cal: null,
-        msg: {
-          label: "Invite them to lead",
-          placeholder: "The person you're discipling",
-          build: (n) => `Hey ${n||'friend'}, I think you're ready to lead our next step yourself. Want to try it this week while I'm there to help?`,
-        },
+        reason: "It's easier to keep doing it yourself than to let someone else lead and fumble.",
+        stakes: "If you hold on, it stops at you. Addition, not multiplication — one faithful worker instead of a generation of them.",
+        hope: "Multiplication starts the moment one person leads while you watch.",
+        move: "Name one person you're discipling and invite them to lead the next rep while you coach.",
+        why: "Your growth now comes from release, not input. Handing off one real rep is how disciples become disciple-makers.",
+        future: "You move from doing the work to multiplying people who do it.",
+        action: { kind: "message", label: "Who will lead the next rep?", placeholder: "The person you're discipling",
+                  build: (n) => `Hey ${n||'friend'}, I think you're ready to lead our next step. Want to try it this week while I'm there to help?` },
+        account: null,
       },
     };
 
-    let OUTCOME = null, FIRST_NAME = 'friend', ANSWERS = {};
+    let OUTCOME = null, ANSWERS = {};
     const params = new URLSearchParams(window.location.search);
     const token = params.get('r');
     const openedKey = 'dm_open_' + (token || '');
@@ -277,145 +331,174 @@
         }).catch(() => {});
       } catch (_) {}
     }
+    function showToast(m){ const t=document.getElementById('toast'); t.textContent=m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2200); }
+    function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+    function isIOS(){ return /iPad|iPhone|iPod/.test(navigator.userAgent||''); }
+    function smsHref(b){ const e=encodeURIComponent(b); return isIOS()?`sms:&body=${e}`:`sms:?body=${e}`; }
+    function waHref(b){ return `https://wa.me/?text=${encodeURIComponent(b)}`; }
 
-    function showToast(msg) {
-      const t = document.getElementById('toast');
-      t.textContent = msg; t.classList.add('show');
-      setTimeout(() => t.classList.remove('show'), 2200);
+    function actionHtml(c) {
+      const a = c.action;
+      if (a.kind === 'calendar') {
+        return `<a class="act-primary" id="act-cal" target="_blank" rel="noopener" href="${gcalUrl(a.title, a.details)}">${a.btn}</a>`;
+      }
+      if (a.kind === 'tool') {
+        return `
+          <p class="act-label">${a.label}</p>
+          <input class="act-input" id="act-name" type="text" placeholder="${a.placeholder}" autocomplete="off">
+          <a class="act-primary" id="act-tool" target="_blank" rel="noopener" href="${a.href}">${a.btn}</a>`;
+      }
+      // message (practitioner / disciple) — the human loop IS the primary action
+      return `
+        <p class="act-label">${a.label}</p>
+        <input class="act-input" id="act-name" type="text" placeholder="${a.placeholder}" autocomplete="off">
+        <textarea class="act-msg" id="act-msg">${esc(a.build(''))}</textarea>
+        <div class="share-row">
+          <a class="share-btn share-primary" id="btn-sms" href="#">Send a text</a>
+          <a class="share-btn" id="btn-wa" href="#" target="_blank" rel="noopener">WhatsApp</a>
+          <button class="share-btn" id="btn-share" type="button">Share…</button>
+        </div>`;
     }
-    function esc(s) { return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-    function isIOS() { return /iPad|iPhone|iPod/.test(navigator.userAgent || ''); }
-    function smsHref(body) { const enc = encodeURIComponent(body); return isIOS() ? `sms:&body=${enc}` : `sms:?body=${enc}`; }
-    function waHref(body) { return `https://wa.me/?text=${encodeURIComponent(body)}`; }
 
-    // ---- SEAL (closed) ----
-    function renderSeal() {
-      const view = document.getElementById('result-view');
-      document.getElementById('loading-view').style.display = 'none';
-      view.style.display = 'block';
-      view.innerHTML = `
-        <section class="seal enter" id="seal">
-          <span class="symbol">${SYMBOLS[OUTCOME] || ''}</span>
-          <p class="seal-text">Your next move is ready.</p>
-          <button class="seal-btn" id="open-btn">Open my prescription</button>
-        </section>`;
-      view.querySelector('#open-btn').addEventListener('click', () => {
-        try { sessionStorage.setItem(openedKey, '1'); } catch (_) {}
-        track('prescription_opened', {});
-        const seal = view.querySelector('#seal');
-        seal.classList.add('fade-out');
-        setTimeout(() => renderResult(), 200);
+    function wireAction(view, c) {
+      const a = c.action;
+      if (a.kind === 'calendar') {
+        view.querySelector('#act-cal').addEventListener('click', () => track('immediate_action_initiated', { type: 'calendar' }));
+        return;
+      }
+      if (a.kind === 'tool') {
+        view.querySelector('#act-tool').addEventListener('click', () => track('immediate_action_initiated', { type: 'tool', href: a.href }));
+        return;
+      }
+      // message
+      const nameEl = view.querySelector('#act-name'), msgEl = view.querySelector('#act-msg');
+      let edited = false;
+      msgEl.addEventListener('input', () => { edited = true; });
+      nameEl.addEventListener('input', () => { if (!edited) msgEl.value = a.build(nameEl.value.trim()); });
+      const body = () => msgEl.value || a.build(nameEl.value.trim());
+      view.querySelector('#btn-sms').addEventListener('click', (e) => { e.currentTarget.href = smsHref(body()); track('immediate_action_initiated', { type: 'message', channel: 'sms' }); track('share_opened', { channel: 'sms' }); });
+      view.querySelector('#btn-wa').addEventListener('click', (e) => { e.currentTarget.href = waHref(body()); track('immediate_action_initiated', { type: 'message', channel: 'whatsapp' }); track('share_opened', { channel: 'whatsapp' }); });
+      view.querySelector('#btn-share').addEventListener('click', async () => {
+        const b = body(); track('immediate_action_initiated', { type: 'message', channel: 'native' }); track('share_opened', { channel: 'native' });
+        if (navigator.share) { try { await navigator.share({ text: b }); } catch (_) {} }
+        else { try { await navigator.clipboard.writeText(b); showToast('Copied — paste it to anyone'); } catch (_) { showToast('Select and copy the message above'); } }
       });
     }
 
-    // ---- RESULT (open) ----
-    function renderResult() {
+    function accountHtml(c) {
+      if (!c.account) return '';
+      return `
+        <section class="account" id="account">
+          <button class="tell-btn" id="tell-btn">${c.account.label} <span class="chev">⌄</span></button>
+          <div class="account-panel">
+            <input class="act-input" id="acct-name" type="text" placeholder="${c.account.placeholder}" autocomplete="off">
+            <textarea class="act-msg" id="acct-msg">${esc(c.account.build(''))}</textarea>
+            <div class="share-row">
+              <a class="share-btn" id="acct-sms" href="#">Send a text</a>
+              <a class="share-btn" id="acct-wa" href="#" target="_blank" rel="noopener">WhatsApp</a>
+            </div>
+          </div>
+        </section>`;
+    }
+    function wireAccount(view, c) {
+      if (!c.account) return;
+      const account = view.querySelector('#account'), nameEl = view.querySelector('#acct-name'), msgEl = view.querySelector('#acct-msg');
+      let firedOpen = false;
+      view.querySelector('#tell-btn').addEventListener('click', () => { account.classList.toggle('open'); if (account.classList.contains('open') && !firedOpen) { firedOpen = true; track('accountability_opened', {}); } });
+      let edited = false;
+      msgEl.addEventListener('input', () => { edited = true; });
+      nameEl.addEventListener('input', () => { if (!edited) msgEl.value = c.account.build(nameEl.value.trim()); });
+      const body = () => msgEl.value || c.account.build(nameEl.value.trim());
+      view.querySelector('#acct-sms').addEventListener('click', (e) => { e.currentTarget.href = smsHref(body()); track('share_opened', { channel: 'sms' }); });
+      view.querySelector('#acct-wa').addEventListener('click', (e) => { e.currentTarget.href = waHref(body()); track('share_opened', { channel: 'whatsapp' }); });
+    }
+
+    function render() {
       const c = COPY[OUTCOME] || COPY.learning_not_practicing;
       const view = document.getElementById('result-view');
       view.style.display = 'block';
-      const calBtn = c.cal
-        ? `<a class="cal-btn" id="cal-btn" target="_blank" rel="noopener" href="${gcalUrl(c.cal.title, c.cal.details)}">＋ Add to calendar</a>`
-        : '';
-      const toolLink = c.tool
-        ? `<a class="tool-link" id="tool-link" href="${c.tool.href}" target="_blank" rel="noopener">${c.tool.label} →</a>`
-        : '';
       view.innerHTML = `
-        <section class="verdict enter">
-          <span class="symbol-sm">${SYMBOLS[OUTCOME] || ''}</span>
-          <h1 class="headline">${c.headline}</h1>
-          <p class="evidence">${esc(c.evidence(ANSWERS))}</p>
-          <p class="future">${c.future}</p>
-        </section>
-
-        <section class="move">
-          <div class="move-eyebrow">This week</div>
-          <p class="move-step">${c.step}</p>
-          <div class="move-actions">
-            <button class="commit" id="commit"><span class="commit-box">✓</span> <span>I'll do this this week</span></button>
-            ${calBtn}
+        <div class="act1">
+          <div class="diagram">${DIAGRAMS[OUTCOME] || ''}</div>
+          <div class="d-head">
+            <p class="eyebrow">Based on what you shared</p>
+            <h1 class="blocker">${c.blocker}</h1>
           </div>
-          ${toolLink}
-        </section>
+          <div class="d-rest">
+            <p class="evidence">${esc(c.evidence(ANSWERS))}</p>
+            <p class="reason">${c.reason}</p>
+            <p class="stakes">${c.stakes}</p>
+            <p class="hope">${c.hope}</p>
+          </div>
+        </div>
 
-        <section class="account" id="account">
-          <button class="tell-btn" id="tell-btn">${c.msg.label} <span class="chev">⌄</span></button>
-          <div class="account-panel">
-            <input class="account-name" id="account-name" type="text" placeholder="${c.msg.placeholder}" autocomplete="off">
-            <textarea class="account-msg" id="account-msg">${esc(c.msg.build(''))}</textarea>
-            <div class="share-row">
-              <a class="share-btn" id="btn-sms" href="#">Send a text</a>
-              <a class="share-btn" id="btn-wa" href="#" target="_blank" rel="noopener">WhatsApp</a>
-              <button class="share-btn" id="btn-share" type="button">Share…</button>
+        <div class="reveal-wrap" id="reveal-wrap">
+          <button class="reveal-btn" id="reveal-btn">Open my 7-day prescription</button>
+        </div>
+
+        <div class="rx-wrap"><div id="rx" hidden>
+          <section class="rx">
+            <div class="rx-eyebrow">Your 7-day move</div>
+            <p class="rx-move">${c.move}</p>
+            <p class="rx-why">${c.why}</p>
+            <p class="rx-future">${c.future}</p>
+            ${actionHtml(c)}
+            ${accountHtml(c)}
+          </section>
+
+          <section class="lab">
+            <div class="lab-inner">
+              <h2 class="lab-title">Keep going with other disciple makers.</h2>
+              <p class="lab-when" id="lab-when"></p>
+              <p class="lab-desc" id="lab-desc">A live, practical session with people doing this.</p>
+              <a class="lab-btn" id="lab-btn" href="${LABS_FALLBACK}">Save my spot</a>
             </div>
-          </div>
-        </section>
+          </section>
 
-        <section class="lab">
-          <div class="lab-inner">
-            <h2 class="lab-title">Bring your prescription to the Lab.</h2>
-            <p class="lab-when" id="lab-when"></p>
-            <p class="lab-desc">Practice your next move with someone who's already done it.</p>
-            <a class="lab-btn" id="lab-btn" href="${LABS_FALLBACK}">Save my spot</a>
-          </div>
-        </section>
-
-        <nav class="tail"><a class="tail-quiet" href="/disciple-maker/">Start over</a></nav>
+          <nav class="tail"><a href="/disciple-maker/">Start over</a></nav>
+        </div></div>
       `;
 
-      view.querySelector('#commit').addEventListener('click', (e) => {
-        const btn = e.currentTarget; btn.classList.toggle('on');
-        if (btn.classList.contains('on')) track('step_accepted', {});
+      const rx = view.querySelector('#rx');
+      const revealWrap = view.querySelector('#reveal-wrap');
+      function openRx(animate) {
+        revealWrap.style.display = 'none';
+        rx.hidden = false;
+        if (animate) rx.querySelector('.rx').classList.add('rx-enter');
+        wireAction(view, c);
+        wireAccount(view, c);
+        loadNextLab(view);
+      }
+      view.querySelector('#reveal-btn').addEventListener('click', () => {
+        try { sessionStorage.setItem(openedKey, '1'); } catch (_) {}
+        track('prescription_opened', {});
+        openRx(true);
       });
-      if (c.cal) view.querySelector('#cal-btn').addEventListener('click', () => track('calendar_added', {}));
-      if (c.tool) view.querySelector('#tool-link').addEventListener('click', () => track('tool_opened', {}));
-      wireAccountability(view, c);
-      loadNextLab(view);
+      let opened = false; try { opened = sessionStorage.getItem(openedKey) === '1'; } catch (_) {}
+      if (opened) openRx(false);
     }
 
-    function wireAccountability(view, c) {
-      const account = view.querySelector('#account');
-      const nameEl = view.querySelector('#account-name');
-      const msgEl = view.querySelector('#account-msg');
-      view.querySelector('#tell-btn').addEventListener('click', () => account.classList.toggle('open'));
-
-      let userEdited = false;
-      msgEl.addEventListener('input', () => { userEdited = true; });
-      nameEl.addEventListener('input', () => { if (!userEdited) msgEl.value = c.msg.build(nameEl.value.trim()); });
-      let namedFired = false;
-      nameEl.addEventListener('change', () => { if (nameEl.value.trim() && !namedFired) { namedFired = true; track('human_named', {}); } });
-
-      const currentBody = () => msgEl.value || c.msg.build(nameEl.value.trim());
-      view.querySelector('#btn-sms').addEventListener('click', (e) => { e.currentTarget.href = smsHref(currentBody()); track('share_opened', { channel: 'sms' }); });
-      view.querySelector('#btn-wa').addEventListener('click', (e) => { e.currentTarget.href = waHref(currentBody()); track('share_opened', { channel: 'whatsapp' }); });
-      view.querySelector('#btn-share').addEventListener('click', async () => {
-        const body = currentBody();
-        track('share_opened', { channel: 'native' });
-        if (navigator.share) { try { await navigator.share({ text: body }); } catch (_) {} }
-        else { try { await navigator.clipboard.writeText(body); showToast('Copied — paste it to anyone'); } catch (_) { showToast('Select and copy the message above'); } }
-      });
-    }
-
-    // Canonical Lab source. Carries recognition into the handoff via existing UTM capture.
+    // Canonical Lab source. Honest: uses the event's own title + hook; no bespoke-coaching claim.
     function loadNextLab(view) {
-      const whenEl = view.querySelector('#lab-when');
-      const btnEl = view.querySelector('#lab-btn');
+      const whenEl = view.querySelector('#lab-when'), descEl = view.querySelector('#lab-desc'), btnEl = view.querySelector('#lab-btn');
       btnEl.addEventListener('click', () => track('cta_clicked', { target: 'lab' }));
       fetch(`${SUPABASE_FUNCTIONS}/public-labs?limit=1`)
         .then((r) => r.ok ? r.json() : Promise.reject())
         .then((data) => {
           const lab = (data && data.labs && data.labs[0]) || null;
           if (!lab || !lab.event_date) return;
-          const d = new Date(lab.event_date);
-          if (isNaN(d.getTime())) return;
+          const d = new Date(lab.event_date); if (isNaN(d.getTime())) return;
           const date = d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', timeZone: 'America/New_York' });
           const time = d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZone: 'America/New_York' });
-          whenEl.textContent = `${date} · ${time} ET`;
+          const title = lab.title ? `${lab.title} · ` : '';
+          whenEl.textContent = `${title}${date} · ${time} ET`;
+          if (lab.hook) descEl.textContent = lab.hook;
           if (lab.url) {
             try { const u = new URL(lab.url); if (OUTCOME) u.searchParams.set('utm_content', 'dm_' + OUTCOME); btnEl.href = u.toString(); }
             catch (_) { btnEl.href = lab.url; }
           }
         })
-        .catch(() => { /* keep fallback: no date, button → /#upcoming-labs */ });
+        .catch(() => {});
     }
 
     async function load() {
@@ -424,13 +507,12 @@
         const res = await fetch(`${SUPABASE_FUNCTIONS}/disciple-maker-v2-results?token=${encodeURIComponent(token)}`);
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || 'not found');
-        FIRST_NAME = data.first_name || 'friend';
         if (data.legacy || !COPY[data.recognition_outcome]) return showLegacy();
         OUTCOME = data.recognition_outcome;
         ANSWERS = (data.diagnostic_answers && typeof data.diagnostic_answers === 'object') ? data.diagnostic_answers : {};
+        document.getElementById('loading-view').style.display = 'none';
+        render();
         track('results_viewed', {});
-        let opened = false; try { opened = sessionStorage.getItem(openedKey) === '1'; } catch (_) {}
-        if (opened) renderResult(); else renderSeal();
       } catch (_) { showError(); }
     }
     function showError() {
@@ -442,13 +524,11 @@
       const view = document.getElementById('result-view');
       view.style.display = 'block';
       view.innerHTML = `
-        <section class="verdict enter">
-          <h1 class="headline">We've made this simpler.</h1>
-          <p class="evidence">The Disciple Maker Next Step has been rebuilt around one thing: your actual next step. It takes about three minutes and ends with one concrete move for this week.</p>
-        </section>
-        <section class="move" style="text-align:left;">
-          <a class="lab-btn" style="background:#1b4d3e;color:#fff;" href="/disciple-maker/">Find my next step</a>
-        </section>`;
+        <div class="act1" style="grid-template-columns:1fr;grid-template-areas:'head' 'rest';">
+          <div class="d-head"><p class="eyebrow">Welcome back</p><h1 class="blocker">We've made this simpler.</h1></div>
+          <div class="d-rest"><p class="evidence">The Disciple Maker Next Step has been rebuilt around one thing: your actual next step. It takes about three minutes and ends with one concrete move for this week.</p>
+          <a class="act-primary" href="/disciple-maker/">Find my next step</a></div>
+        </div>`;
     }
 
     load();

@@ -167,19 +167,39 @@ test("deploy workflow deploys the 4 v2 functions", () => {
     assert(yml.includes("disciple-maker-" + f), "missing deploy for " + f));
 });
 
-// ── 11. Prescription layer: symbol + evidence + message per outcome ─────────
-test("results.html defines a symbol for all 6 outcomes", () => {
+// ── 11. Two-act prescription: diagram + Act1 diagnosis + Act2 per outcome ────
+test("results.html defines a conceptual diagram for all 6 outcomes", () => {
   const html = read("disciple-maker/results.html");
-  const block = html.slice(html.indexOf("const SYMBOLS"), html.indexOf("function gcalUrl"));
-  OUTCOME_KEYS.forEach((k) => assert(new RegExp(`\\b${k}:\\s*svg\\(`).test(block), "missing symbol " + k));
+  const block = html.slice(html.indexOf("const DIAGRAMS"), html.indexOf("function gcalUrl"));
+  OUTCOME_KEYS.forEach((k) => assert(new RegExp(`\\b${k}:\\s*dia\\(`).test(block), "missing diagram " + k));
 });
-test("results.html has answer-backed evidence + result-specific message per outcome", () => {
+test("each outcome has answer-backed evidence + Act1 diagnosis fields + Act2 move", () => {
   const html = read("disciple-maker/results.html");
   OUTCOME_KEYS.forEach((k) => {
-    const seg = html.slice(html.indexOf(k + ": {", html.indexOf("const COPY")));
-    assert(/evidence:\s*\(a\)\s*=>/.test(seg.slice(0, 900)), "missing evidence fn for " + k);
-    assert(/build:\s*\(n\)\s*=>/.test(seg.slice(0, 1600)), "missing message build for " + k);
+    const seg = html.slice(html.indexOf(k + ": {", html.indexOf("const COPY")), html.length).slice(0, 2600);
+    assert(/evidence:\s*\(a\)\s*=>/.test(seg), "missing evidence fn for " + k);
+    ["blocker:", "reason:", "stakes:", "hope:", "move:", "why:", "future:", "action:"].forEach((f) =>
+      assert(seg.includes(f), `missing ${f} for ${k}`));
   });
+});
+test("reveal CTA is the fixed launch copy", () => {
+  assert(read("disciple-maker/results.html").includes("Open my 7-day prescription"));
+});
+test("Act 1 diagnosis is visible (not gated) and only the prescription is withheld", () => {
+  const html = read("disciple-maker/results.html");
+  assert(/class="act1"/.test(html), "Act 1 must render");
+  assert(/<div id="rx" hidden>/.test(html), "prescription (Act 2) must start hidden");
+  assert(/class="blocker"/.test(html) && /class="stakes"/.test(html) && /class="hope"/.test(html), "diagnosis fields must be in Act 1");
+});
+test("Lab uses the canonical feed title + hook (no hardcoded second source)", () => {
+  const html = read("disciple-maker/results.html");
+  assert(/public-labs\?limit=1/.test(html), "must read public-labs feed");
+  assert(/lab\.title/.test(html) && /lab\.hook/.test(html), "must use the event's own title + hook");
+});
+test("v2-event allows the two-act baseline events", () => {
+  const ts = read("supabase/functions/disciple-maker-v2-event/index.ts");
+  ["immediate_action_initiated", "accountability_opened"].forEach((e) =>
+    assert(ts.includes(`"${e}"`), "missing allowed event " + e));
 });
 test("evidence degrades gracefully (answers may be absent)", () => {
   const html = read("disciple-maker/results.html");
