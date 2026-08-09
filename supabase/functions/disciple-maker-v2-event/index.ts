@@ -20,6 +20,8 @@ const ALLOWED_EVENTS = new Set([
   "results_viewed", "step_accepted", "human_named", "share_opened", "cta_clicked",
   // V2 prescription flow
   "prescription_opened", "calendar_added", "tool_opened",
+  // Two-act baseline instrumentation
+  "immediate_action_initiated", "accountability_opened",
 ]);
 
 // event -> boolean column flipped on the session row
