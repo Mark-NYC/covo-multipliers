@@ -66,6 +66,16 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 const BATCH_SIZE = 100;
 const CALENDAR_BASE = "https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1/lab-calendar";
 
+// Optional per-event prep instructions, keyed by event slug. When a lab needs
+// attendees to block extra time or bring materials, add a note here and it is
+// surfaced as a "Come prepared" callout in the pre-lab reminder emails
+// (week / 24h / 1h). Events with no entry render no callout — this keeps the
+// event's public marketing `description` clean and leaves other labs unchanged.
+const EVENT_PREP_NOTES: Record<string, string> = {
+  "4-questions-to-get-started-august-2026":
+    "Heads up — this lab runs a little longer than usual, closer to an hour. Come ready to take part: bring a piece of paper, your Bible, and a pen or pencil.",
+};
+
 type ReminderType = "week" | "24h" | "1h" | "10min" | "followup";
 
 const REMINDER_COLUMNS: Record<ReminderType, string> = {
@@ -620,6 +630,7 @@ function buildWeekEmail(fullName: string, event: LabEvent, origin: OriginAttribu
       <p style="margin:0;font-size:15px;color:#2d2d2d;line-height:1.7;">${esc(description).replace(/\n/g, "<br />")}</p>
     </div>` : ""}
 
+    ${renderPrepNote(event)}
     ${renderDetailCard(dateStr)}
     ${renderCalendarCta(event)}
 
@@ -644,6 +655,7 @@ function build24hEmail(fullName: string, event: LabEvent, origin: OriginAttribut
       live are the ones who walk away with a real next step.
     </p>
 
+    ${renderPrepNote(event)}
     ${renderDetailCard(dateStr)}
     ${renderJoinCta(event)}
 
@@ -668,6 +680,7 @@ function build1hEmail(fullName: string, event: LabEvent): string {
       you'll leave with something you can use today.
     </p>
 
+    ${renderPrepNote(event)}
     ${renderDetailCard(dateStr)}
     ${renderJoinCta(event)}
 
@@ -781,6 +794,19 @@ function wrapEmail(body: string, headerTitle: string): string {
   </table>
 </body>
 </html>`;
+}
+
+// Event-specific "Come prepared" callout, sourced from EVENT_PREP_NOTES.
+// Returns empty string when the event has no prep note, so it can be dropped
+// into any pre-lab email unconditionally.
+function renderPrepNote(event: LabEvent): string {
+  const note = EVENT_PREP_NOTES[event.slug];
+  if (!note) return "";
+  return `
+    <div style="margin:0 0 24px;padding:16px 20px;background:#fbf7ec;border:1px solid #e6d9b3;border-left:4px solid #9f7a2f;border-radius:0 8px 8px 0;">
+      <p style="margin:0 0 6px;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#8a6a28;">Come prepared</p>
+      <p style="margin:0;font-size:15px;color:#2d2d2d;line-height:1.65;">${esc(note)}</p>
+    </div>`;
 }
 
 function renderDetailCard(dateStr: string): string {
