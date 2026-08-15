@@ -807,11 +807,11 @@
          STEP 2 · Next lab — fetched live from the public-labs Edge
          Function, the single source of truth for lab data (see
          supabase/functions/public-labs and the homepage #upcoming-labs
-         consumer). We request limit=1 and render the first future,
-         published lab it returns. Because the feed already excludes labs
-         that have already started, a viewer at the end of the current lab
-         sees the *following* lab. No lab titles/dates/URLs/slugs are
-         hardcoded here — adding a lab in Supabase updates this section
+         consumer). We render exactly one lab: the soonest upcoming lab in a
+         month LATER than the current month. Attendees on this month's lab
+         therefore see next month's lab (e.g. in August they see September),
+         not the session they just attended. No lab titles/dates/URLs/slugs
+         are hardcoded here — adding a lab in Supabase updates this section
          automatically.
     ---------------------------------------------------------------- -->
     <script>
@@ -953,17 +953,44 @@
                 `;
             }
 
+            // The calendar month of a date, in Eastern time, as a single
+            // comparable index (handles year boundaries: Dec -> Jan).
+            function monthIndexET(date) {
+                const parts = new Intl.DateTimeFormat('en-US', {
+                    timeZone: LAB_TIMEZONE,
+                    year: 'numeric',
+                    month: 'numeric',
+                }).formatToParts(date);
+                const year  = Number(parts.find((p) => p.type === 'year').value);
+                const month = Number(parts.find((p) => p.type === 'month').value);
+                return year * 12 + (month - 1);
+            }
+
             async function loadNextLab() {
                 if (!mount) return;
                 try {
                     const url = new URL(LABS_FEED_URL);
-                    url.searchParams.set('limit', '1');
+                    // Pull a few upcoming labs so we can skip the current
+                    // month's lab (the one attendees are on right now) and land
+                    // on the *following* month's lab. We still render exactly
+                    // one lab — we're only choosing which.
+                    url.searchParams.set('limit', '4');
                     const res = await fetch(url);
                     if (!res.ok) throw new Error('request failed');
                     const data = await res.json();
                     const labs = Array.isArray(data.labs) ? data.labs : [];
-                    if (labs.length > 0) {
-                        renderCard(labs[0]);
+                    // The feed is future-only and sorted soonest-first. Show
+                    // the first lab in a month later than the current one, so
+                    // someone finishing this month's lab sees next month's lab
+                    // (e.g. in August they see the September lab) rather than
+                    // the session they just attended. If no later-month lab is
+                    // scheduled yet, fall through to the "being scheduled" state.
+                    const thisMonth = monthIndexET(new Date());
+                    const nextLab = labs.find(
+                        (lab) => monthIndexET(new Date(lab.event_date)) > thisMonth
+                    );
+                    if (nextLab) {
+                        renderCard(nextLab);
                     } else {
                         renderFallback();
                     }
