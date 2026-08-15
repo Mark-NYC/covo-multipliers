@@ -12,8 +12,8 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Join the Covo Multipliers WhatsApp community. Stay connected after the lab with prompts, next steps, prayer requests, and real-time updates.">
-    <title>Join the WhatsApp — Covo Multipliers</title>
+    <meta name="description" content="You took one step at the lab today. Join the Covo Multipliers WhatsApp Field Room and reserve your seat for the next live 45-minute lab.">
+    <title>Your Next Steps — Covo Multipliers</title>
     <link rel="icon" type="image/x-icon" href="/image/favicons/favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="/image/favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/image/favicons/favicon-16x16.png">
@@ -113,11 +113,11 @@
 
         .hero-eyebrow {
             display: inline-block;
-            font-size: 0.7rem;
-            font-weight: 700;
-            letter-spacing: 0.12em;
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.14em;
             text-transform: uppercase;
-            color: rgba(255,255,255,0.6);
+            color: rgba(220,181,90,0.95);
             margin-bottom: 1rem;
         }
 
@@ -354,6 +354,239 @@
 
 
         /* -----------------------------------------------
+           STEP 2 · NEXT LAB
+        ----------------------------------------------- */
+
+        .next-lab-section {
+            background: #10281f;
+            padding: 4.5rem 1.5rem 5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .next-lab-section::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background:
+                radial-gradient(ellipse at 12% 8%, rgba(220,181,90,0.10) 0%, transparent 55%),
+                radial-gradient(ellipse at 88% 96%, rgba(255,255,255,0.04) 0%, transparent 55%);
+        }
+
+        .next-lab-inner {
+            position: relative;
+            max-width: 780px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .next-lab-step {
+            display: inline-block;
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: #dcb55a;
+            margin-bottom: 1rem;
+        }
+
+        .next-lab-headline {
+            font-size: clamp(1.95rem, 5vw, 2.7rem);
+            font-weight: 900;
+            color: #ffffff;
+            line-height: 1.12;
+            letter-spacing: -0.025em;
+            margin-bottom: 0.9rem;
+        }
+
+        .next-lab-support {
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: rgba(255,255,255,0.78);
+            max-width: 560px;
+            margin: 0 auto 2.6rem;
+        }
+
+        /* Reserve vertical space so the loading → card swap doesn't jump. */
+        .next-lab-mount {
+            min-height: 360px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .next-lab-loading {
+            font-size: 0.95rem;
+            color: rgba(255,255,255,0.6);
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        .next-lab-card {
+            text-align: left;
+            background: #fffdf8;
+            border: 1px solid rgba(220,181,90,0.3);
+            border-radius: 22px;
+            overflow: hidden;
+            box-shadow: 0 26px 60px rgba(0,0,0,0.38);
+            display: grid;
+            grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+        }
+
+        .next-lab-media {
+            position: relative;
+            background: #0b1d16;
+            /* Fixed ratio on mobile; stretches to card height on desktop. */
+        }
+
+        .next-lab-media img {
+            width: 100%;
+            height: 100%;
+            min-height: 260px;
+            object-fit: cover;
+            object-position: 50% 42%;
+            display: block;
+        }
+
+        .next-lab-body {
+            padding: 2.25rem 2.25rem 2.4rem;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .next-lab-datetime {
+            font-size: 0.9rem;
+            font-weight: 800;
+            letter-spacing: 0.01em;
+            color: #1b4d3e;
+            margin-bottom: 0.7rem;
+        }
+
+        .next-lab-title {
+            font-size: clamp(1.4rem, 2.4vw, 1.75rem);
+            font-weight: 900;
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+            color: #10281f;
+            margin-bottom: 0.7rem;
+        }
+
+        .next-lab-hook {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #3f4a45;
+            margin-bottom: 1.15rem;
+        }
+
+        .next-lab-meta {
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: #5a6b65;
+            margin-bottom: 1rem;
+        }
+
+        .next-lab-seats {
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 0.02em;
+            padding: 0.35rem 0.9rem;
+            border-radius: 999px;
+            background: rgba(220,181,90,0.16);
+            color: #7a5515;
+            border: 1px solid rgba(159,122,47,0.4);
+            margin-bottom: 1.5rem;
+        }
+
+        .next-lab-seats.is-full {
+            background: #f3f4f6;
+            color: #6b7280;
+            border-color: #e5e7eb;
+        }
+
+        .next-lab-cta {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2.25rem;
+            background: #1b4d3e;
+            color: #ffffff;
+            font-size: 1.05rem;
+            font-weight: 800;
+            font-family: inherit;
+            text-decoration: none;
+            border-radius: 999px;
+            letter-spacing: 0.01em;
+            box-shadow: 0 8px 24px rgba(16,40,31,0.28);
+            transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+        }
+
+        .next-lab-cta:hover {
+            background: #10281f;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(16,40,31,0.35);
+        }
+
+        .next-lab-cta:active { transform: translateY(0); }
+
+        .next-lab-cta:focus-visible {
+            outline: 3px solid #dcb55a;
+            outline-offset: 3px;
+        }
+
+        .next-lab-microcopy {
+            margin-top: 0.9rem;
+            font-size: 0.82rem;
+            color: #6b7a73;
+        }
+
+        /* Fallback (no lab / fetch error) */
+        .next-lab-fallback {
+            text-align: center;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(220,181,90,0.28);
+            border-radius: 22px;
+            padding: 2.75rem 2rem 3rem;
+        }
+
+        .next-lab-fallback-title {
+            font-size: clamp(1.4rem, 3.5vw, 1.85rem);
+            font-weight: 900;
+            color: #ffffff;
+            letter-spacing: -0.01em;
+            margin-bottom: 0.7rem;
+        }
+
+        .next-lab-fallback-copy {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: rgba(255,255,255,0.75);
+            max-width: 440px;
+            margin: 0 auto 1.75rem;
+        }
+
+        .next-lab-fallback .btn-whatsapp {
+            font-size: 1rem;
+            padding: 0.9rem 1.9rem;
+        }
+
+        @media (max-width: 720px) {
+            .next-lab-section { padding: 3.25rem 1.25rem 3.75rem; }
+            .next-lab-card { grid-template-columns: 1fr; }
+            .next-lab-media img {
+                min-height: 0;
+                aspect-ratio: 16 / 10;
+            }
+            .next-lab-body { padding: 1.7rem 1.5rem 1.9rem; }
+            .next-lab-cta { width: 100%; }
+        }
+
+
+        /* -----------------------------------------------
            HELP CARD
         ----------------------------------------------- */
 
@@ -449,188 +682,6 @@
             .section-stack { padding: 2rem 1rem 3rem; }
             .card { padding: 1.5rem 1.25rem; }
         }
-
-
-        /* -----------------------------------------------
-           LABS SECTION
-        ----------------------------------------------- */
-
-        .labs-section {
-            padding: 4rem 2rem;
-            background: linear-gradient(135deg,
-                #10281f 0%,
-                #1b4d3e 28%,
-                #2c6b5d 56%,
-                #9f7a2f 82%,
-                #dcb55a 100%
-            );
-            position: relative;
-            overflow: hidden;
-        }
-
-        .labs-section::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-            opacity: 0.12;
-            background-image:
-                radial-gradient(circle at 20% 20%, rgba(255,255,255,0.12) 0.7px, transparent 0.8px),
-                radial-gradient(circle at 80% 30%, rgba(0,0,0,0.10) 0.7px, transparent 0.8px),
-                radial-gradient(circle at 40% 70%, rgba(255,255,255,0.08) 0.6px, transparent 0.7px),
-                radial-gradient(circle at 70% 80%, rgba(0,0,0,0.08) 0.6px, transparent 0.7px);
-            background-size: 120px 120px, 140px 140px, 100px 100px, 160px 160px;
-            mix-blend-mode: soft-light;
-        }
-
-        .labs-container {
-            max-width: 800px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 2;
-        }
-
-        .labs-title {
-            font-size: clamp(1.9rem, 3.5vw, 2.6rem);
-            font-weight: 900;
-            text-align: center;
-            margin-bottom: 0.75rem;
-            color: #ffffff;
-        }
-
-        .labs-explainer {
-            max-width: 560px;
-            margin: 0 auto 1.75rem;
-            font-size: 0.98rem;
-            line-height: 1.6;
-            color: rgba(255, 255, 255, 0.88);
-            text-align: center;
-        }
-
-        .labs-urgency {
-            font-size: 0.85rem;
-            text-align: center;
-            color: rgba(255, 255, 255, 0.75);
-            margin-top: -0.75rem;
-            margin-bottom: 1.75rem;
-        }
-
-        .labs-list {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 1.5rem;
-        }
-
-        .lab-item {
-            position: relative;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
-            transition: transform 0.25s ease, box-shadow 0.25s ease;
-        }
-
-        .lab-item:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 18px 45px rgba(16, 40, 31, 0.22);
-        }
-
-        .lab-item a {
-            text-decoration: none;
-            color: inherit;
-            display: block;
-            height: 100%;
-        }
-
-        .lab-datetime {
-            display: inline-block;
-            font-size: 0.9rem;
-            font-weight: 700;
-            letter-spacing: 0.04em;
-            text-transform: uppercase;
-            color: #245c4a;
-            margin-bottom: 0.9rem;
-        }
-
-        .lab-title {
-            font-size: 1.35rem;
-            font-weight: 700;
-            line-height: 1.3;
-            color: #1a1a1a;
-            margin-bottom: 0.9rem;
-            padding-right: 2rem;
-        }
-
-        .lab-sub {
-            font-size: 0.98rem;
-            font-weight: 750;
-            line-height: 1.45;
-            color: #10281f;
-            margin: -0.35rem 0 0.9rem;
-        }
-
-        .lab-description {
-            font-size: 1rem;
-            line-height: 1.65;
-            color: #333333;
-            margin: 0;
-        }
-
-        .lab-meta {
-            font-size: 0.82rem;
-            font-weight: 750;
-            color: #5a6b65;
-            margin-top: 1rem;
-            letter-spacing: 0.02em;
-        }
-
-        .lab-link-text {
-            display: inline-block;
-            margin-top: 1.15rem;
-            font-size: 0.92rem;
-            font-weight: 700;
-            color: #1b4d3e;
-        }
-
-        .lab-item:hover .lab-link-text {
-            text-decoration: underline;
-            text-underline-offset: 0.14em;
-        }
-
-        @keyframes seat-glow {
-            0%, 100% { box-shadow: 0 0 6px rgba(220, 181, 90, 0.35); }
-            50% { box-shadow: 0 0 14px rgba(220, 181, 90, 0.65); }
-        }
-
-        .lab-seats {
-            position: absolute;
-            top: 1.1rem;
-            right: 1.1rem;
-            display: inline-block;
-            font-size: 0.72rem;
-            font-weight: 700;
-            letter-spacing: 0.04em;
-            padding: 0.25rem 0.8rem;
-            border-radius: 999px;
-            background: rgba(159, 122, 47, 0.1);
-            color: #7a5515;
-            border: 1px solid rgba(159, 122, 47, 0.35);
-            animation: seat-glow 2.4s ease-in-out infinite;
-        }
-
-        .lab-seats.is-full {
-            background: #f3f4f6;
-            color: #9ca3af;
-            border-color: #e5e7eb;
-            animation: none;
-            box-shadow: none;
-        }
-
-        @media (max-width: 640px) {
-            .labs-section { padding: 3rem 1.25rem; }
-            .labs-list { grid-template-columns: 1fr; }
-            .lab-item { padding: 1.5rem; }
-        }
     </style>
     <script src="/utm-tracking.js"></script>
 </head>
@@ -642,15 +693,15 @@
     </header>
 
 
-    <!-- HERO -->
+    <!-- HERO · STEP 1 -->
     <section class="hero">
         <div class="hero-inner">
-            <span class="hero-eyebrow">Covo Multipliers Community</span>
+            <span class="hero-eyebrow">Step 1 · Join the Field Room</span>
 
             <h1>Keep going as a Covo Multiplier</h1>
 
             <p class="hero-sub">
-                You don't have to do this alone. Join the WhatsApp, keep practicing, and take the next step with other everyday leaders learning to make disciples where they live, work, and play.
+                You don't have to do this alone. Join the WhatsApp Field Room, keep practicing, and take the next step with other everyday leaders learning to make disciples where they live, work, and play.
             </p>
 
             <div class="hero-cta-row">
@@ -667,7 +718,7 @@
                     Join WhatsApp Now
                 </a>
 
-                <a class="btn-labs" href="#upcoming-labs">See Upcoming Labs</a>
+                <a class="btn-labs" href="#next-lab">Reserve the Next Lab</a>
             </div>
 
             <p class="hero-microcopy">Opens the WhatsApp app or web — your choice.</p>
@@ -699,48 +750,23 @@
             </div>
         </div>
 
-
     </div>
 
 
-    <!-- UPCOMING LABS -->
-    <section class="labs-section" id="upcoming-labs">
-        <div class="labs-container">
+    <!-- STEP 2 · NEXT LAB (dynamic — pulled from the public-labs feed) -->
+    <section class="next-lab-section" id="next-lab">
+        <div class="next-lab-inner">
 
-            <h2 class="labs-title">Keep practicing</h2>
+            <span class="next-lab-step">Step 2 · Reserve Your Next Lab</span>
 
-            <p class="labs-explainer">
-                A 45-minute lab can give you clarity. Repeated practice builds leaders. Join the next Covo Multipliers lab and keep working the pathway with other leaders who want to see disciples, leaders, and churches multiply.
+            <h2 class="next-lab-headline">Put the next lab on your calendar.</h2>
+
+            <p class="next-lab-support">
+                You took one step today. Join us for the next 45-minute lab and keep building a path you can practice and pass on.
             </p>
 
-            <p class="labs-urgency">
-                Spots are limited to 25 and usually fill.
-            </p>
-
-            <div class="labs-list">
-
-                                <div class="lab-item" data-slug="aquila-and-priscilla-pattern-jul-2026">
-                    <a href="/aquila-and-priscilla-pattern.html">
-                        <span class="lab-datetime">Jul 15</span>
-                        <h3 class="lab-title">The Aquila and Priscilla Pattern</h3>
-                        <p class="lab-sub">Learn how ordinary work, hospitality, and relationships became a church-planting platform.</p>
-                        <p class="lab-description">See a biblical pattern for multiplying disciples without separating ministry from normal life.</p>
-                        <p class="lab-meta">45 min · Live · Free</p>
-                        <span class="lab-link-text">Reserve Your Seat →</span>
-                    </a>
-                </div>
-
-                <div class="lab-item" data-slug="4-questions-aug-2026">
-                    <a href="/4-questions.html">
-                        <span class="lab-datetime">Aug 20</span>
-                        <h3 class="lab-title">4 Questions to Get Started Making Disciples</h3>
-                        <p class="lab-sub">Know who to reach, what to say, and how to help someone take the next step.</p>
-                        <p class="lab-description">Walk away with four simple questions you can use to start making disciples where you already live, work, and relate.</p>
-                        <p class="lab-meta">45 min · Live · Free</p>
-                        <span class="lab-link-text">Reserve Your Seat →</span>
-                    </a>
-                </div>
-
+            <div class="next-lab-mount" id="next-lab-mount" aria-live="polite">
+                <p class="next-lab-loading">Loading the next lab&hellip;</p>
             </div>
         </div>
     </section>
@@ -777,59 +803,179 @@
     </footer>
 
 
+    <!-- ---------------------------------------------------------------
+         STEP 2 · Next lab — fetched live from the public-labs Edge
+         Function, the single source of truth for lab data (see
+         supabase/functions/public-labs and the homepage #upcoming-labs
+         consumer). We request limit=1 and render the first future,
+         published lab it returns. Because the feed already excludes labs
+         that have already started, a viewer at the end of the current lab
+         sees the *following* lab. No lab titles/dates/URLs/slugs are
+         hardcoded here — adding a lab in Supabase updates this section
+         automatically.
+    ---------------------------------------------------------------- -->
     <script>
-        const SUPABASE_URL      = 'https://mryjrvinzbxebzvxtggi.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1yeWpydmluemJ4ZWJ6dnh0Z2dpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYyNzQ3MzksImV4cCI6MjA5MTg1MDczOX0.U1JJQTBVKePsVFXr2oFRCdUZasWaZiTQg6g8QrFdRyw';
+        (function () {
+            const SUPABASE_URL  = 'https://mryjrvinzbxebzvxtggi.supabase.co';
+            const LABS_FEED_URL = `${SUPABASE_URL}/functions/v1/public-labs`;
+            const LAB_TIMEZONE  = 'America/New_York';
 
-        const LAB_SLUGS = [
-            '4-questions-aug-2026',
-            'aquila-and-priscilla-pattern-jul-2026',
-        ];
+            // The lab data feed carries no image field, so this section uses
+            // one strong, real Covo photo that vision-casts the *value* of
+            // the next lab: everyday leaders gathered together learning to
+            // make disciples. Same image the Church Circle lab page uses.
+            const NEXT_LAB_IMAGE = '/image/fabiolahouse.jpg';
+            const NEXT_LAB_IMAGE_ALT =
+                'Everyday leaders gathered in a living room, learning together to make disciples';
 
-        async function loadLabSeats() {
-            try {
-                const url = new URL(`${SUPABASE_URL}/rest/v1/events_with_availability`);
-                url.searchParams.set('slug', `in.(${LAB_SLUGS.join(',')})`);
-                url.searchParams.set('select', 'slug,has_availability,seats_remaining,event_date');
+            const mount = document.getElementById('next-lab-mount');
 
-                const res = await fetch(url, {
-                    headers: {
-                        'apikey': SUPABASE_ANON_KEY,
-                        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-                    },
-                });
-
-                if (!res.ok) return;
-
-                const now = new Date();
-                const events = await res.json();
-
-                for (const event of events) {
-                    const card = document.querySelector(`.lab-item[data-slug="${event.slug}"]`);
-                    if (!card) continue;
-
-                    if (event.event_date && new Date(event.event_date) < now) {
-                        card.style.display = 'none';
-                        continue;
-                    }
-
-                    const isFull = !event.has_availability;
-                    const label = isFull
-                        ? 'Event full'
-                        : `${event.seats_remaining} seat${event.seats_remaining === 1 ? '' : 's'} left · fills fast`;
-
-                    const pill = document.createElement('span');
-                    pill.className = `lab-seats${isFull ? ' is-full' : ''}`;
-                    pill.textContent = label;
-                    card.appendChild(pill);
-                }
-            } catch {
-                // fail silently
+            function escapeHtml(str) {
+                return String(str)
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#39;');
             }
-        }
 
-        document.addEventListener('DOMContentLoaded', loadLabSeats);
+            // Full date + time in Eastern, e.g. "Wednesday, September 16 · 3:00 PM ET"
+            function formatEventDate(iso) {
+                const d = new Date(iso);
+                const datePart = new Intl.DateTimeFormat('en-US', {
+                    timeZone: LAB_TIMEZONE,
+                    weekday: 'long',
+                    month: 'long',
+                    day: 'numeric',
+                }).format(d);
+                const timePart = new Intl.DateTimeFormat('en-US', {
+                    timeZone: LAB_TIMEZONE,
+                    hour: 'numeric',
+                    minute: '2-digit',
+                }).format(d);
+                return `${datePart} · ${timePart} ET`;
+            }
+
+            // First-touch origin attribution, matching the join-whatsapp
+            // convention in utm-tracking.js (origin_utm_* on WhatsApp links).
+            function applyOrigin(rawUrl) {
+                try {
+                    const attribution = window.CovoAttribution ? window.CovoAttribution.get() : null;
+                    if (!attribution || !attribution.first_utm_source) return rawUrl;
+                    const u = new URL(rawUrl);
+                    u.searchParams.set('origin_utm_source', attribution.first_utm_source);
+                    if (attribution.first_utm_medium)   u.searchParams.set('origin_utm_medium', attribution.first_utm_medium);
+                    if (attribution.first_utm_campaign) u.searchParams.set('origin_utm_campaign', attribution.first_utm_campaign);
+                    return u.toString();
+                } catch (_) {
+                    return rawUrl;
+                }
+            }
+
+            // Post-lab attribution on the registration CTA — standard site
+            // UTM convention (see embeds/next-lab-widget.html), with the
+            // event slug carried in utm_term.
+            function buildCtaUrl(lab) {
+                let url;
+                try {
+                    url = new URL(lab.url);
+                } catch (_) {
+                    url = new URL('https://www.covomultipliers.com/#upcoming-labs');
+                }
+                url.searchParams.set('utm_source', 'whatsapp_page');
+                url.searchParams.set('utm_medium', 'next_lab');
+                url.searchParams.set('utm_campaign', 'post_lab');
+                if (lab.slug) url.searchParams.set('utm_term', lab.slug);
+                return url.toString();
+            }
+
+            function renderCard(lab) {
+                const isFull     = !lab.has_availability;
+                const seatsLabel = isFull
+                    ? 'This lab is full'
+                    : `${lab.seats_remaining} seat${lab.seats_remaining === 1 ? '' : 's'} left · fills fast`;
+                const ctaLabel = isFull ? 'See Lab Details' : 'Reserve My Seat';
+                const ctaUrl   = buildCtaUrl(lab);
+                const hook     = lab.hook || lab.description || '';
+
+                mount.innerHTML = `
+                    <div class="next-lab-card">
+                        <div class="next-lab-media">
+                            <img src="${NEXT_LAB_IMAGE}" width="1200" height="900"
+                                 alt="${escapeHtml(NEXT_LAB_IMAGE_ALT)}" loading="lazy" decoding="async">
+                        </div>
+                        <div class="next-lab-body">
+                            <span class="next-lab-datetime">${escapeHtml(formatEventDate(lab.event_date))}</span>
+                            <h3 class="next-lab-title">${escapeHtml(lab.title)}</h3>
+                            ${hook ? `<p class="next-lab-hook">${escapeHtml(hook)}</p>` : ''}
+                            <p class="next-lab-meta">45 minutes · Live · Free · Max 25</p>
+                            <span class="next-lab-seats${isFull ? ' is-full' : ''}">${escapeHtml(seatsLabel)}</span>
+                            <a class="next-lab-cta" id="next-lab-cta"
+                               href="${escapeHtml(ctaUrl)}"
+                               data-lab-slug="${escapeHtml(lab.slug || '')}">${ctaLabel}</a>
+                            <p class="next-lab-microcopy">No pitch. One framework. One next step you can use that week.</p>
+                        </div>
+                    </div>
+                `;
+
+                const cta = document.getElementById('next-lab-cta');
+                if (cta) {
+                    cta.addEventListener('click', function () {
+                        try {
+                            gtag('event', 'next_lab_cta_clicked', {
+                                lab_slug: lab.slug || '',
+                                event_full: isFull,
+                                source_page: 'whatsapp_next_steps',
+                            });
+                        } catch (_) {}
+                    });
+                }
+            }
+
+            // Shared by the "no future lab" and "fetch failed" states.
+            function renderFallback() {
+                const waUrl = applyOrigin(
+                    'https://www.covomultipliers.com/join-whatsapp?utm_source=whatsapp_page&utm_medium=next_lab_fallback&utm_campaign=whatsapp_field_room'
+                );
+                mount.innerHTML = `
+                    <div class="next-lab-fallback">
+                        <h3 class="next-lab-fallback-title">The next lab is being scheduled.</h3>
+                        <p class="next-lab-fallback-copy">
+                            Join the WhatsApp Field Room and you'll be the first to know the moment the next lab opens.
+                        </p>
+                        <a class="btn-whatsapp" href="${escapeHtml(waUrl)}" target="_blank" rel="noopener noreferrer">
+                            <svg class="whatsapp-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                            </svg>
+                            Join the WhatsApp Field Room
+                        </a>
+                    </div>
+                `;
+            }
+
+            async function loadNextLab() {
+                if (!mount) return;
+                try {
+                    const url = new URL(LABS_FEED_URL);
+                    url.searchParams.set('limit', '1');
+                    const res = await fetch(url);
+                    if (!res.ok) throw new Error('request failed');
+                    const data = await res.json();
+                    const labs = Array.isArray(data.labs) ? data.labs : [];
+                    if (labs.length > 0) {
+                        renderCard(labs[0]);
+                    } else {
+                        renderFallback();
+                    }
+                } catch (_) {
+                    renderFallback();
+                }
+            }
+
+            document.addEventListener('DOMContentLoaded', loadNextLab);
+        })();
     </script>
+
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
             integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSQX0FslNhTDadL4O5SAGapGt4FodqL8My0mA=="
