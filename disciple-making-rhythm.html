@@ -862,6 +862,37 @@
            8. SUBMIT BUTTON
         ----------------------------------------------- */
 
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 0.95rem 1.5rem;
+            border: 2px solid #1b4d3e;
+            border-radius: 10px;
+            background: #1b4d3e;
+            color: #ffffff;
+            font: inherit;
+            font-size: 1rem;
+            font-weight: 800;
+            letter-spacing: 0.01em;
+            cursor: pointer;
+            transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+        }
+
+        .btn-submit:hover:not(:disabled) {
+            background: #10281f;
+            border-color: #10281f;
+            transform: translateY(-1px);
+        }
+
+        .btn-submit:focus-visible {
+            outline: 3px solid #dcb55a;
+            outline-offset: 3px;
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+        }
 
 
         /* -----------------------------------------------
