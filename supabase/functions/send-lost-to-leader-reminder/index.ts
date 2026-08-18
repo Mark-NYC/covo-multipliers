@@ -348,7 +348,7 @@ Come ready to think about real people, not theory.
 See you tomorrow,
 Mark
 
-P.S. Not in the WhatsApp Field Room yet? Join before the lab and practice with other disciple makers: ${whatsAppJoinUrl(
+P.S. Not in the WhatsApp Field Room yet? Apply before the lab and practice with other disciple makers: ${whatsAppJoinUrl(
       { utm_source: "lab_reminder_email", utm_medium: "email", utm_campaign: "whatsapp_field_room", utm_content: "24h_reminder" },
       origin,
     )}`;

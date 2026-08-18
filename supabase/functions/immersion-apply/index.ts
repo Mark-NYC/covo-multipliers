@@ -331,7 +331,7 @@ async function sendConfirmationEmail({
                     { utm_source: "immersion_email", utm_medium: "email", utm_campaign: "whatsapp_field_room" },
                     originAttribution,
                   ))}"
-                   style="font-size:14px;font-weight:600;color:#15803d;text-decoration:underline;">Join the WhatsApp Field Room →</a>
+                   style="font-size:14px;font-weight:600;color:#15803d;text-decoration:underline;">Apply to Join the Field Room →</a>
               </div>
 
               <!-- Signature -->
