@@ -282,7 +282,7 @@ async function sendResultsEmail({
               </table>
 
               <p style="margin:0 0 20px;font-size:15px;color:#444444;line-height:1.7;">
-                Growth doesn't happen alone. Join the WhatsApp community where we practice together, celebrate stories, and take the next step together.
+                Growth doesn't happen alone. Apply to join the WhatsApp community where we practice together, celebrate stories, and take the next step together.
               </p>
 
               <!-- WhatsApp CTA (Prominent Button) -->
@@ -290,7 +290,7 @@ async function sendResultsEmail({
                 <tr>
                   <td align="center">
                     <a href="${escapeHtml(whatsappUrl)}" style="display:inline-block;background:#25D366;color:#ffffff;padding:16px 48px;border-radius:8px;text-decoration:none;font-weight:700;font-size:16px;">
-                      Join the WhatsApp Field Room
+                      Apply to Join the Field Room
                     </a>
                   </td>
                 </tr>

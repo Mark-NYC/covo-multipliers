@@ -401,8 +401,8 @@
       '<p>A confirmation email is on its way to <strong>' + esc(email) + '</strong>.</p>' +
       '<div class="covo-reg__whatsapp">' +
       '<p>WhatsApp Field Room</p>' +
-      '<p style="font-size:0.9rem;color:#374151;margin-bottom:0.75rem;">Don’t just attend the lab. Practice with us afterward. Join the field room for weekly practice prompts and next steps.</p>' +
-      '<a href="https://www.covomultipliers.com/join-whatsapp?utm_source=registration_confirmation&utm_medium=cta&utm_campaign=whatsapp_field_room" target="_blank" rel="noopener">Join the WhatsApp Field Room</a>' +
+      '<p style="font-size:0.9rem;color:#374151;margin-bottom:0.75rem;">Don’t just attend the lab. Practice with us afterward. Apply to join the field room for weekly practice prompts and next steps.</p>' +
+      '<a href="https://www.covomultipliers.com/join-whatsapp?utm_source=registration_confirmation&utm_medium=cta&utm_campaign=whatsapp_field_room" target="_blank" rel="noopener">Apply to Join the Field Room</a>' +
       '</div>' +
       '</div>';
     if (typeof container.scrollIntoView === 'function') {

@@ -310,12 +310,12 @@ async function sendResultEmail(
             <!-- WhatsApp Field Room secondary CTA -->
             <div style="margin:0 0 20px;padding:14px 18px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;text-align:center;">
               <p style="margin:0 0 4px;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#15803d;">WhatsApp Field Room</p>
-              <p style="margin:0 0 8px;font-size:13px;color:#374151;line-height:1.55;">Your results are a starting point. Join the WhatsApp Field Room to get your next disciple-making step.</p>
+              <p style="margin:0 0 8px;font-size:13px;color:#374151;line-height:1.55;">Your results are a starting point. Apply to Join the Field Room to get your next disciple-making step.</p>
               <a href="${esc(whatsAppJoinUrl(
                   { utm_source: "assessment_results_email", utm_medium: "email", utm_campaign: "whatsapp_field_room" },
                   originAttribution,
                 ))}"
-                 style="font-size:13px;font-weight:600;color:#15803d;text-decoration:underline;">Join the WhatsApp Field Room →</a>
+                 style="font-size:13px;font-weight:600;color:#15803d;text-decoration:underline;">Apply to Join the Field Room →</a>
             </div>
 
             <hr style="border:none;border-top:1px solid #e5e7eb;margin:28px 0;"/>

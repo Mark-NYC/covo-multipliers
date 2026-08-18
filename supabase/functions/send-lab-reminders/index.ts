@@ -634,7 +634,7 @@ function buildWeekEmail(fullName: string, event: LabEvent, origin: OriginAttribu
     ${renderDetailCard(dateStr)}
     ${renderCalendarCta(event)}
 
-    ${renderWhatsAppCta("lab_reminder_email", "The lab is where we train. WhatsApp is where we practice. Join the Field Room before we meet.", origin, "week_reminder")}
+    ${renderWhatsAppCta("lab_reminder_email", "The lab is where we train. WhatsApp is where we practice. Apply to Join the Field Room before we meet.", origin, "week_reminder")}
 
     <p style="margin:28px 0 0;font-size:15px;color:#555555;line-height:1.65;">
       Block out the time now so it's there when the day comes.
@@ -659,7 +659,7 @@ function build24hEmail(fullName: string, event: LabEvent, origin: OriginAttribut
     ${renderDetailCard(dateStr)}
     ${renderJoinCta(event)}
 
-    ${renderWhatsAppCta("lab_reminder_email", "The lab is where we train. WhatsApp is where we practice. Join the Field Room before we meet.", origin, "24h_reminder")}
+    ${renderWhatsAppCta("lab_reminder_email", "The lab is where we train. WhatsApp is where we practice. Apply to Join the Field Room before we meet.", origin, "24h_reminder")}
 
     <p style="margin:28px 0 0;font-size:15px;color:#555555;line-height:1.65;">
       See you tomorrow.
@@ -728,7 +728,7 @@ function buildFollowupEmail(fullName: string, event: LabEvent, origin: OriginAtt
     },
     {
       heading: "You need more than information",
-      body: `Most people don't get stuck because they lack content. They get stuck because they're trying to practice alone. Join the community and keep practicing with others who are learning the same things.`,
+      body: `Most people don't get stuck because they lack content. They get stuck because they're trying to practice alone. Apply to join the community and keep practicing with others who are learning the same things.`,
     },
     {
       heading: "What's your follow/fish goal?",
@@ -746,7 +746,7 @@ function buildFollowupEmail(fullName: string, event: LabEvent, origin: OriginAtt
 
     ${renderFollowupCta(event)}
 
-    ${renderWhatsAppCta("post_lab_email", "Don't let the lab stay theoretical. Join the WhatsApp Field Room and keep practicing with us this week.", origin)}
+    ${renderWhatsAppCta("post_lab_email", "Don't let the lab stay theoretical. Apply to Join the Field Room and keep practicing with us this week.", origin)}
 
     ${renderTransactionalFooter()}
   `, v.heading);
@@ -876,7 +876,7 @@ function renderWhatsAppCta(utmSource: string, copy: string, origin: OriginAttrib
     <div style="margin:20px 0 0;padding:14px 18px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;text-align:center;">
       <p style="margin:0 0 4px;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#15803d;">WhatsApp Field Room</p>
       <p style="margin:0 0 8px;font-size:13px;color:#374151;line-height:1.55;">${esc(copy)}</p>
-      <a href="${esc(url)}" style="font-size:13px;font-weight:600;color:#15803d;text-decoration:underline;">Join the WhatsApp Field Room →</a>
+      <a href="${esc(url)}" style="font-size:13px;font-weight:600;color:#15803d;text-decoration:underline;">Apply to Join the Field Room →</a>
     </div>`;
 }
 
@@ -884,7 +884,7 @@ function renderWhatsAppCta(utmSource: string, copy: string, origin: OriginAttrib
 // to practice in community. One button, no competing links.
 function renderFollowupCta(event: LabEvent): string {
   const nextStepUrl = `https://www.covomultipliers.com/lab-next-step.html?utm_source=email&utm_medium=postlab&utm_campaign=${encodeURIComponent(event.slug)}`;
-  return renderPrimaryButton(nextStepUrl, "Join the community of practice");
+  return renderPrimaryButton(nextStepUrl, "Apply to Join the Community of Practice");
 }
 
 function renderTransactionalFooter(): string {

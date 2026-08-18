@@ -133,7 +133,7 @@ async function sendCfcFollowupEmail({
               </p>
 
               <p style="margin:0 0 28px;font-size:15px;color:#444444;line-height:1.7;">
-                <strong>Growth doesn't happen through assessments. It happens alongside people who are practicing.</strong> Join the field room for weekly prompts, Follow &amp; Fish goals, lab invites, and real practitioners moving in the same direction.
+                <strong>Growth doesn't happen through assessments. It happens alongside people who are practicing.</strong> Apply to join the field room for weekly prompts, Follow &amp; Fish goals, lab invites, and real practitioners moving in the same direction.
               </p>
 
               <!-- WhatsApp CTA -->
@@ -141,7 +141,7 @@ async function sendCfcFollowupEmail({
                 <tr>
                   <td align="center">
                     <a href="${whatsappUrl}" style="display:inline-block;background:#25D366;color:#ffffff;padding:16px 48px;border-radius:8px;text-decoration:none;font-weight:700;font-size:16px;">
-                      Join the WhatsApp Field Room
+                      Apply to Join the Field Room
                     </a>
                   </td>
                 </tr>
