@@ -12,10 +12,10 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Every Covo Multipliers lab in one place. Browse upcoming free live labs and reserve your seat, or revisit past labs and their resources.">
+    <meta name="description" content="Covo Multipliers lab planner — an at-a-glance view of upcoming and past labs with dates, times, and quick links for leaders.">
     <!-- Unlisted: reachable by direct link only. Keep out of search + sitemap. -->
     <meta name="robots" content="noindex, nofollow">
-    <title>Labs — Covo Multipliers</title>
+    <title>Lab Planner — Covo Multipliers</title>
     <link rel="icon" type="image/x-icon" href="/image/favicons/favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="/image/favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/image/favicons/favicon-16x16.png">
@@ -26,14 +26,29 @@
 
     <style>
         /* ==============================================
-           Labs listing page
+           Lab Planner — an at-a-glance reference view
+           for leaders: dates, times, seats, quick links.
         ============================================== */
 
-        /* 1. Site header ------------------------------------------------ */
+        :root {
+            --ink: #12211b;
+            --ink-soft: #47554f;
+            --ink-faint: #7a8781;
+            --green: #1b4d3e;
+            --green-deep: #10281f;
+            --line: #e7ece9;
+            --line-soft: #eef1ef;
+            --paper: #f7f6f2;
+            --gold: #7a5515;
+        }
+
+        body { background: var(--paper); }
+
+        /* 1. Header ----------------------------------------------------- */
         .site-header {
             background: #ffffff;
             border-bottom: 1px solid #e5e7eb;
-            padding: 1rem 2rem;
+            padding: 0.9rem 2rem;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -41,371 +56,303 @@
         .site-header .brand {
             font-size: 0.95rem;
             font-weight: 900;
-            color: #10281f;
+            color: var(--green-deep);
             text-decoration: none;
             letter-spacing: -0.01em;
         }
         .site-header .back-link {
-            font-size: 0.875rem;
-            color: #5a6b65;
+            font-size: 0.85rem;
+            color: var(--ink-faint);
             text-decoration: none;
-            transition: color 0.15s ease;
         }
-        .site-header .back-link:hover {
-            color: #1b4d3e;
-        }
+        .site-header .back-link:hover { color: var(--green); }
 
-        /* 2. Hero ------------------------------------------------------- */
-        .labs-hero {
-            padding: 3.5rem 2rem 3rem;
-            background: linear-gradient(135deg,
-                #10281f 0%,
-                #1b4d3e 28%,
-                #2c6b5d 56%,
-                #9f7a2f 82%,
-                #dcb55a 100%
-            );
-            position: relative;
-            overflow: hidden;
-            text-align: center;
-        }
-        .labs-hero::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-            opacity: 0.12;
-            background-image:
-                radial-gradient(circle at 20% 20%, rgba(255,255,255,0.12) 0.7px, transparent 0.8px),
-                radial-gradient(circle at 80% 30%, rgba(0,0,0,0.10) 0.7px, transparent 0.8px),
-                radial-gradient(circle at 40% 70%, rgba(255,255,255,0.08) 0.6px, transparent 0.7px),
-                radial-gradient(circle at 70% 80%, rgba(0,0,0,0.08) 0.6px, transparent 0.7px);
-            background-size: 120px 120px, 140px 140px, 100px 100px, 160px 160px;
-            mix-blend-mode: soft-light;
-        }
-        .labs-hero-inner {
-            position: relative;
-            max-width: 620px;
+        /* 2. Page head -------------------------------------------------- */
+        .planner {
+            max-width: 1080px;
             margin: 0 auto;
-            z-index: 2;
+            padding: 2.25rem 1.5rem 4rem;
         }
-        .labs-hero .eyebrow {
-            margin: 0 0 0.6rem;
-            font-size: 0.72rem;
-            font-weight: 700;
-            letter-spacing: 0.12em;
+        .planner-head {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 0.75rem 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .planner-head .eyebrow {
+            margin: 0 0 0.3rem;
+            font-size: 0.68rem;
+            font-weight: 800;
+            letter-spacing: 0.14em;
             text-transform: uppercase;
-            color: rgba(255,255,255,0.7);
+            color: var(--green);
         }
-        .labs-hero h1 {
-            margin: 0 0 0.9rem;
-            font-size: clamp(1.9rem, 4.5vw, 2.7rem);
-            font-weight: 900;
-            color: #ffffff;
-            line-height: 1.14;
-            letter-spacing: -0.02em;
-        }
-        .labs-hero .hero-sub {
+        .planner-head h1 {
             margin: 0;
-            font-size: 1.02rem;
-            color: rgba(255,255,255,0.82);
-            line-height: 1.6;
+            font-size: clamp(1.6rem, 3.2vw, 2.1rem);
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            color: var(--green-deep);
         }
-        .labs-hero .hero-microcopy {
-            margin: 1.1rem 0 0;
-            font-size: 0.82rem;
+        .planner-head .sub {
+            margin: 0.35rem 0 0;
+            font-size: 0.92rem;
+            color: var(--ink-soft);
+            line-height: 1.5;
+            max-width: 46ch;
+        }
+        .tz-note {
+            font-size: 0.78rem;
             font-weight: 700;
-            letter-spacing: 0.02em;
-            color: rgba(255,255,255,0.68);
+            color: var(--ink-faint);
+            white-space: nowrap;
         }
 
-        /* 3. Tabs ------------------------------------------------------- */
-        .labs-page-body {
-            background: #f7f6f2;
-            padding: 2.5rem 2rem 4.5rem;
+        /* 3. Toolbar: tabs + search ------------------------------------- */
+        .planner-toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem 1rem;
+            margin-bottom: 1rem;
         }
-        .labs-page-inner {
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-        .labs-tabs {
+        .planner-tabs {
             display: inline-flex;
-            gap: 0.35rem;
-            padding: 0.35rem;
-            margin: 0 auto 2.25rem;
+            gap: 0.3rem;
+            padding: 0.3rem;
             background: #ffffff;
-            border: 1px solid #e3e8e5;
+            border: 1px solid var(--line);
             border-radius: 999px;
-            box-shadow: 0 2px 10px rgba(16,40,31,0.05);
+            box-shadow: 0 1px 6px rgba(16,40,31,0.05);
         }
-        .labs-tabs-wrap {
-            text-align: center;
-        }
-        .labs-tab {
+        .planner-tab {
             appearance: none;
             border: none;
             background: transparent;
             cursor: pointer;
             font-family: inherit;
-            font-size: 0.92rem;
+            font-size: 0.88rem;
             font-weight: 800;
-            letter-spacing: -0.01em;
-            color: #5a6b65;
-            padding: 0.6rem 1.4rem;
+            color: var(--ink-faint);
+            padding: 0.5rem 1.15rem;
             border-radius: 999px;
-            transition: background 0.18s ease, color 0.18s ease;
+            transition: background 0.16s ease, color 0.16s ease;
         }
-        .labs-tab:hover {
-            color: #1b4d3e;
-        }
-        .labs-tab.is-active {
-            background: #1b4d3e;
-            color: #ffffff;
-        }
-        .labs-tab .labs-tab-count {
-            font-size: 0.78rem;
-            opacity: 0.7;
-            margin-left: 0.3rem;
-        }
+        .planner-tab:hover { color: var(--green); }
+        .planner-tab.is-active { background: var(--green); color: #fff; }
+        .planner-tab .cnt { font-size: 0.76rem; opacity: 0.72; margin-left: 0.28rem; }
 
-        /* 4. Cards grid ------------------------------------------------- */
-        .labs-grid {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 1.5rem;
-        }
-
-        .labs-state {
-            grid-column: 1 / -1;
-            text-align: center;
-            color: #5a6b65;
-            font-size: 0.98rem;
-            padding: 2.5rem 0;
-        }
-        .labs-state a {
-            color: #1b4d3e;
-            font-weight: 700;
-        }
-
-        .lab-card {
+        .planner-search {
             position: relative;
-            display: flex;
-            flex-direction: column;
+            flex: 0 1 260px;
+        }
+        .planner-search input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 0.55rem 0.85rem 0.55rem 2.1rem;
+            font-family: inherit;
+            font-size: 0.9rem;
+            color: var(--ink);
             background: #ffffff;
-            border: 1px solid #e7ece9;
-            border-radius: 18px;
-            padding: 1.75rem 1.6rem;
-            box-shadow: 0 8px 24px rgba(16,40,31,0.07);
-            transition: transform 0.22s ease, box-shadow 0.22s ease;
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            outline: none;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
         }
-        .lab-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 16px 38px rgba(16,40,31,0.14);
+        .planner-search input:focus {
+            border-color: var(--green);
+            box-shadow: 0 0 0 3px rgba(27,77,62,0.1);
         }
-
-        .lab-card-date {
-            display: inline-block;
-            font-size: 0.82rem;
-            font-weight: 800;
-            letter-spacing: 0.04em;
-            text-transform: uppercase;
-            color: #245c4a;
-            margin-bottom: 0.75rem;
-        }
-        .lab-card-title {
-            font-size: 1.25rem;
-            font-weight: 800;
-            line-height: 1.28;
-            color: #12211b;
-            margin: 0 0 0.65rem;
-            padding-right: 3.5rem;
-        }
-        .lab-card-hook {
-            font-size: 0.95rem;
-            line-height: 1.55;
-            color: #47554f;
-            margin: 0 0 1rem;
-        }
-        .lab-card-meta {
-            font-size: 0.78rem;
-            font-weight: 750;
-            letter-spacing: 0.02em;
-            color: #7a8781;
-            margin: 0 0 1.15rem;
-        }
-
-        /* Seats badge (upcoming only) */
-        .lab-card-seats {
+        .planner-search svg {
             position: absolute;
-            top: 1.15rem;
-            right: 1.15rem;
-            font-size: 0.68rem;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 15px;
+            height: 15px;
+            color: var(--ink-faint);
+            pointer-events: none;
+        }
+
+        /* 4. Rows ------------------------------------------------------- */
+        .lab-rows {
+            background: #ffffff;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 4px 18px rgba(16,40,31,0.05);
+        }
+
+        .lab-row {
+            display: grid;
+            grid-template-columns: 170px minmax(0, 1fr) auto auto;
+            align-items: center;
+            gap: 1.25rem;
+            padding: 1rem 1.25rem;
+            border-top: 1px solid var(--line-soft);
+        }
+        .lab-row:first-child { border-top: none; }
+        .lab-row:hover { background: #fafcfb; }
+        .lab-row.is-full { opacity: 0.72; }
+
+        /* When */
+        .lab-when { line-height: 1.3; }
+        .lab-when-date {
+            display: block;
+            font-size: 0.9rem;
             font-weight: 800;
-            letter-spacing: 0.03em;
+            color: var(--green);
+            letter-spacing: 0.01em;
+        }
+        .lab-when-time {
+            display: block;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--ink-faint);
+            margin-top: 0.1rem;
+        }
+
+        /* Main */
+        .lab-name {
+            margin: 0;
+            font-size: 1.02rem;
+            font-weight: 800;
+            line-height: 1.3;
+            color: var(--ink);
+        }
+        .lab-hook {
+            margin: 0.2rem 0 0;
+            font-size: 0.85rem;
+            line-height: 1.45;
+            color: var(--ink-soft);
+        }
+
+        /* Status */
+        .lab-status { justify-self: end; }
+        /* NB: styles.css also defines .lab-seats (absolute-positioned, for
+           the homepage cards). Reset position/animation so ours flows in
+           the row grid instead of pinning to the corner. */
+        .lab-seats {
+            position: static;
+            animation: none;
+            display: inline-block;
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.02em;
             padding: 0.24rem 0.7rem;
             border-radius: 999px;
             background: rgba(159,122,47,0.1);
             color: #7a5515;
-            border: 1px solid rgba(159,122,47,0.35);
+            border: 1px solid rgba(159,122,47,0.32);
+            white-space: nowrap;
         }
-        .lab-card-seats.is-full {
+        .lab-seats.is-full {
             background: #f3f4f6;
             color: #9ca3af;
             border-color: #e5e7eb;
         }
-        .lab-card-badge {
-            position: absolute;
-            top: 1.15rem;
-            right: 1.15rem;
+        .lab-tag {
+            display: inline-block;
             font-size: 0.68rem;
             font-weight: 800;
-            letter-spacing: 0.04em;
+            letter-spacing: 0.05em;
             text-transform: uppercase;
-            padding: 0.24rem 0.7rem;
+            padding: 0.24rem 0.65rem;
             border-radius: 999px;
             background: #eef2f0;
             color: #6b7a73;
             border: 1px solid #e0e6e2;
         }
 
-        /* Actions row — primary link + optional slides link.
-           Built as a footer so cards without slides look complete and
-           cards with a deck simply gain a second link. */
-        .lab-card-actions {
-            margin-top: auto;
+        /* Links + copy */
+        .lab-links {
             display: flex;
-            flex-wrap: wrap;
             align-items: center;
-            gap: 0.4rem 1.1rem;
-            padding-top: 0.4rem;
-            border-top: 1px solid #eef1ef;
+            gap: 0.4rem;
+            justify-self: end;
         }
-        .lab-card-link {
+        .lab-linkgroup {
+            display: inline-flex;
+            align-items: stretch;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            overflow: hidden;
+            background: #fff;
+        }
+        .lab-linkbtn {
             display: inline-flex;
             align-items: center;
             gap: 0.3rem;
-            font-size: 0.9rem;
+            font-size: 0.82rem;
             font-weight: 800;
             text-decoration: none;
-            color: #1b4d3e;
-            padding-top: 0.9rem;
-            transition: color 0.15s ease;
+            color: var(--green);
+            padding: 0.4rem 0.65rem;
+            white-space: nowrap;
+            transition: background 0.14s ease;
         }
-        .lab-card-link:hover {
-            color: #10281f;
-            text-decoration: underline;
-            text-underline-offset: 0.14em;
-        }
-        .lab-card-link.is-slides {
-            color: #7a5515;
-        }
-        .lab-card-link.is-slides:hover {
-            color: #5c3f0f;
-        }
-        .lab-card-link .arrow {
-            transition: transform 0.15s ease;
-        }
-        .lab-card-link:hover .arrow {
-            transform: translateX(2px);
-        }
-        .lab-card-link svg {
-            width: 15px;
-            height: 15px;
-            flex: 0 0 auto;
-        }
+        .lab-linkbtn:hover { background: #f0f5f3; }
+        .lab-linkbtn.is-slides { color: var(--gold); }
+        .lab-linkbtn.is-slides:hover { background: #faf4e8; }
+        .lab-linkbtn svg { width: 13px; height: 13px; flex: 0 0 auto; }
 
-        /* 5. Bottom CTA ------------------------------------------------- */
-        .labs-cta {
-            max-width: 620px;
-            margin: 3.25rem auto 0;
-            text-align: center;
-            background: #ffffff;
-            border: 1px solid #e7ece9;
-            border-radius: 18px;
-            padding: 2.25rem 2rem;
-            box-shadow: 0 8px 24px rgba(16,40,31,0.06);
-        }
-        .labs-cta h2 {
-            margin: 0 0 0.5rem;
-            font-size: clamp(1.35rem, 2.6vw, 1.75rem);
-            font-weight: 900;
-            color: #10281f;
-            letter-spacing: -0.02em;
-        }
-        .labs-cta p {
-            margin: 0 0 1.35rem;
-            font-size: 0.98rem;
-            color: #52645d;
-            line-height: 1.6;
-        }
-
-        /* 6. Footer ----------------------------------------------------- */
-        .site-footer {
-            background: #10281f;
-            padding: 2.5rem 2rem;
-        }
-        .footer-inner {
-            max-width: 960px;
-            margin: 0 auto;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1.5rem 3rem;
-            align-items: flex-start;
-        }
-        .footer-wordmark {
-            display: block;
-            font-size: 1rem;
-            font-weight: 900;
-            color: #ffffff;
-            letter-spacing: -0.01em;
-            margin-bottom: 0.4rem;
-        }
-        .footer-desc {
-            margin: 0;
-            font-size: 0.825rem;
-            color: rgba(255,255,255,0.55);
-            line-height: 1.55;
-            max-width: 300px;
-        }
-        .footer-nav {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem 1.5rem;
+        .lab-copybtn {
+            appearance: none;
+            border: none;
+            border-left: 1px solid var(--line);
+            background: #fff;
+            cursor: pointer;
+            padding: 0 0.5rem;
+            color: var(--ink-faint);
+            display: inline-flex;
             align-items: center;
+            transition: background 0.14s ease, color 0.14s ease;
         }
-        .footer-nav a {
-            font-size: 0.875rem;
-            color: rgba(255,255,255,0.65);
-            text-decoration: none;
-            transition: color 0.15s ease;
-        }
-        .footer-nav a:hover {
-            color: #ffffff;
-        }
+        .lab-copybtn:hover { background: #f0f5f3; color: var(--green); }
+        .lab-copybtn.is-copied { color: #1b7a4b; background: #eafaf1; }
+        .lab-copybtn svg { width: 14px; height: 14px; }
 
-        /* 7. Responsive ------------------------------------------------- */
-        @media (max-width: 900px) {
-            .labs-grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
+        /* States */
+        .lab-state {
+            padding: 2.5rem 1.25rem;
+            text-align: center;
+            color: var(--ink-faint);
+            font-size: 0.95rem;
+        }
+        .lab-state a { color: var(--green); font-weight: 700; }
+
+        /* 5. Footer note ----------------------------------------------- */
+        .planner-foot {
+            margin-top: 1.1rem;
+            font-size: 0.78rem;
+            color: var(--ink-faint);
+            text-align: center;
+            line-height: 1.5;
+        }
+        .planner-foot a { color: var(--green); font-weight: 700; text-decoration: none; }
+        .planner-foot a:hover { text-decoration: underline; }
+
+        /* 6. Responsive ------------------------------------------------- */
+        @media (max-width: 760px) {
+            .lab-row {
+                grid-template-columns: 1fr;
+                gap: 0.6rem;
+                padding: 1.05rem 1.1rem;
             }
+            .lab-when { order: 1; }
+            .lab-when-date, .lab-when-time { display: inline; }
+            .lab-when-time::before { content: " · "; }
+            .lab-main { order: 2; }
+            .lab-status { order: 3; justify-self: start; }
+            .lab-links { order: 4; justify-self: start; flex-wrap: wrap; }
         }
         @media (max-width: 600px) {
-            .labs-hero {
-                padding: 2.75rem 1.25rem 2.5rem;
-            }
-            .labs-page-body {
-                padding: 2rem 1.25rem 3.5rem;
-            }
-            .labs-grid {
-                grid-template-columns: 1fr;
-            }
-            .site-header {
-                padding: 0.875rem 1.25rem;
-            }
-            .labs-tab {
-                padding: 0.55rem 1.05rem;
-                font-size: 0.88rem;
-            }
+            .site-header { padding: 0.8rem 1.1rem; }
+            .planner { padding: 1.75rem 1rem 3rem; }
+            .planner-search { flex: 1 1 100%; }
         }
     </style>
 </head>
@@ -416,194 +363,168 @@
         <a class="back-link" href="/">← Back to home</a>
     </header>
 
-    <section class="labs-hero">
-        <div class="labs-hero-inner">
-            <p class="eyebrow">Covo Multipliers Labs</p>
-            <h1>Every lab in one place.</h1>
-            <p class="hero-sub">
-                A lab is a free 45-minute live session with a small group.
-                You leave with one simple framework, one next step, and language
-                you can pass on. Browse what&rsquo;s coming up, or revisit a past lab.
-            </p>
-            <p class="hero-microcopy">45 min · Live · Free · Max 25 · No pitch</p>
+    <main class="planner">
+
+        <div class="planner-head">
+            <div>
+                <p class="eyebrow">Leader Planner</p>
+                <h1>Lab Schedule</h1>
+                <p class="sub">Every lab at a glance — dates, times, seats, and quick links. Grab a landing page or slide-deck link in one click.</p>
+            </div>
+            <span class="tz-note">All times shown in ET</span>
         </div>
-    </section>
 
-    <main class="labs-page-body">
-        <div class="labs-page-inner">
-
-            <div class="labs-tabs-wrap">
-                <div class="labs-tabs" role="tablist" aria-label="Filter labs">
-                    <button
-                        class="labs-tab is-active"
-                        id="tab-upcoming"
-                        role="tab"
-                        type="button"
-                        aria-selected="true"
-                        aria-controls="panel-labs"
-                        data-scope="upcoming"
-                    >
-                        Upcoming<span class="labs-tab-count" id="count-upcoming"></span>
-                    </button>
-                    <button
-                        class="labs-tab"
-                        id="tab-past"
-                        role="tab"
-                        type="button"
-                        aria-selected="false"
-                        aria-controls="panel-labs"
-                        data-scope="past"
-                    >
-                        Past<span class="labs-tab-count" id="count-past"></span>
-                    </button>
-                </div>
+        <div class="planner-toolbar">
+            <div class="planner-tabs" role="tablist" aria-label="Filter labs">
+                <button class="planner-tab is-active" role="tab" type="button" aria-selected="true" data-scope="upcoming">
+                    Upcoming<span class="cnt" id="cnt-upcoming"></span>
+                </button>
+                <button class="planner-tab" role="tab" type="button" aria-selected="false" data-scope="past">
+                    Past<span class="cnt" id="cnt-past"></span>
+                </button>
             </div>
 
-            <div class="labs-grid" id="panel-labs" role="tabpanel" aria-live="polite">
-                <p class="labs-state">Loading labs&hellip;</p>
+            <div class="planner-search">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <input type="search" id="lab-search" placeholder="Filter by lab name…" autocomplete="off" aria-label="Filter labs by name">
             </div>
-
-            <div class="labs-cta">
-                <h2>Can&rsquo;t make these dates?</h2>
-                <p>Get future Covo labs, practical tools, and live training opportunities straight to your inbox.</p>
-                <a class="btn btn-primary" href="/#lab-interest-email">Get Lab Updates</a>
-            </div>
-
         </div>
+
+        <div class="lab-rows" id="lab-rows" aria-live="polite">
+            <p class="lab-state">Loading labs&hellip;</p>
+        </div>
+
+        <p class="planner-foot" id="lab-foot"></p>
+
     </main>
-
-    <footer class="site-footer">
-        <div class="footer-inner">
-            <div class="footer-brand">
-                <span class="footer-wordmark">Covo Multipliers</span>
-                <p class="footer-desc">Practical training for everyday leaders who want to make disciples where they live, work, and play.</p>
-            </div>
-            <nav class="footer-nav" aria-label="Footer navigation">
-                <a href="/">Home</a>
-                <a href="/vision.html">Vision &amp; Pathway</a>
-                <a href="/blog/">Blog</a>
-                <a href="/h3x.html">H3X Podcast</a>
-                <a href="/contact.html">Contact</a>
-                <a href="/privacy.html">Privacy</a>
-            </nav>
-        </div>
-    </footer>
 
     <script src="/utm-tracking.js"></script>
     <script>
         // -----------------------------------------------------------------
-        // Labs are fetched live from the public-labs Edge Function — the
-        // single source of truth for lab data (see
-        // supabase/functions/public-labs). Adding a lab, its landing page,
-        // or a slide-deck link in Supabase is all it takes for it to appear
-        // here automatically; nothing on this page is hardcoded.
+        // Planning view for leaders. Labs are fetched live from the
+        // public-labs Edge Function — the single source of truth for lab
+        // data (see supabase/functions/public-labs). Adding a lab, its
+        // landing page, or a slide-deck link in Supabase surfaces it here
+        // automatically; nothing on this page is hardcoded.
         // -----------------------------------------------------------------
         const SUPABASE_URL = 'https://mryjrvinzbxebzvxtggi.supabase.co';
         const LABS_FEED_URL = `${SUPABASE_URL}/functions/v1/public-labs`;
         const LAB_TIMEZONE = 'America/New_York';
         const PAGE_LIMIT = 100;
 
-        const panel = document.getElementById('panel-labs');
-        const tabs = Array.from(document.querySelectorAll('.labs-tab'));
+        const rowsEl = document.getElementById('lab-rows');
+        const footEl = document.getElementById('lab-foot');
+        const searchEl = document.getElementById('lab-search');
+        const tabs = Array.from(document.querySelectorAll('.planner-tab'));
 
-        // Cache of fetched scopes so switching tabs is instant after the
-        // first load. Values: undefined = not fetched, null = fetch failed,
-        // array = loaded labs.
+        // undefined = not fetched, null = failed, array = loaded.
         const cache = { upcoming: undefined, past: undefined };
         let activeScope = 'upcoming';
+        let filterText = '';
 
         function escapeHtml(str) {
             return String(str)
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/"/g, '&quot;')
-                .replace(/'/g, '&#39;');
+                .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+        }
+        function escapeAttr(str) { return escapeHtml(str); }
+
+        const dateFmt = new Intl.DateTimeFormat('en-US', {
+            timeZone: LAB_TIMEZONE, weekday: 'short', month: 'short', day: 'numeric', year: 'numeric',
+        });
+        const timeFmt = new Intl.DateTimeFormat('en-US', {
+            timeZone: LAB_TIMEZONE, hour: 'numeric', minute: '2-digit', timeZoneName: 'short',
+        });
+        function fmtDate(iso) { return dateFmt.format(new Date(iso)); }
+        function fmtTime(iso) { return timeFmt.format(new Date(iso)); }
+
+        const ARROW = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7"></path><path d="M8 7h9v9"></path></svg>';
+        const COPY = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V5a2 2 0 0 1 2-2h10"></path></svg>';
+        const CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+
+        function linkGroup(href, label, cls, copyLabel) {
+            return `
+                <span class="lab-linkgroup">
+                    <a class="lab-linkbtn ${cls}" href="${escapeAttr(href)}"${cls === 'is-slides' ? ' target="_blank" rel="noopener"' : ''}>
+                        <span>${label}</span>${ARROW}
+                    </a>
+                    <button class="lab-copybtn" type="button" data-copy="${escapeAttr(href)}" aria-label="Copy ${copyLabel} link" title="Copy ${copyLabel} link">${COPY}</button>
+                </span>`;
         }
 
-        function formatLabDate(iso) {
-            return new Intl.DateTimeFormat('en-US', {
-                timeZone: LAB_TIMEZONE,
-                month: 'short',
-                day: 'numeric',
-                year: 'numeric',
-            }).format(new Date(iso));
-        }
-
-        const ARROW_SVG = '<svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>';
-        const SLIDES_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="1.5"></rect><line x1="12" y1="17" x2="12" y2="21"></line><line x1="8" y1="21" x2="16" y2="21"></line></svg>';
-
-        function labCard(lab, scope) {
+        function labRow(lab, scope) {
             const isPast = scope === 'past';
             const hook = lab.hook || lab.description || '';
 
-            // Corner badge: seats for upcoming, a simple "Past" tag otherwise.
-            let corner = '';
-            if (!isPast) {
-                const isFull = !lab.has_availability;
-                const seatsLabel = isFull
-                    ? 'Full'
-                    : `${lab.seats_remaining} seat${lab.seats_remaining === 1 ? '' : 's'} left`;
-                corner = `<span class="lab-card-seats${isFull ? ' is-full' : ''}">${escapeHtml(seatsLabel)}</span>`;
+            let status;
+            if (isPast) {
+                status = '<span class="lab-tag">Past</span>';
             } else {
-                corner = '<span class="lab-card-badge">Past</span>';
+                const isFull = !lab.has_availability;
+                status = isFull
+                    ? '<span class="lab-seats is-full">Full</span>'
+                    : `<span class="lab-seats">${lab.seats_remaining} seat${lab.seats_remaining === 1 ? '' : 's'} left</span>`;
             }
 
-            // Primary link — reserve a seat for upcoming labs, or revisit the
-            // landing page for past ones. Slides link is rendered only when a
-            // deck exists, so the layout already accounts for it.
-            const primaryLabel = isPast ? 'View lab page' : 'Reserve your seat';
-            const primaryLink = `
-                <a class="lab-card-link" href="${escapeHtml(lab.url)}">
-                    <span>${primaryLabel}</span>${ARROW_SVG}
-                </a>`;
-            const slidesLink = lab.slides_url
-                ? `<a class="lab-card-link is-slides" href="${escapeHtml(lab.slides_url)}" target="_blank" rel="noopener">
-                        ${SLIDES_SVG}<span>Slides</span>
-                    </a>`
-                : '';
+            const pageLink = linkGroup(lab.url, 'Page', '', 'landing page');
+            const slidesLink = lab.slides_url ? linkGroup(lab.slides_url, 'Slides', 'is-slides', 'slides') : '';
+            const isFullRow = !isPast && !lab.has_availability;
 
             return `
-                <article class="lab-card">
-                    ${corner}
-                    <span class="lab-card-date">${escapeHtml(formatLabDate(lab.event_date))}</span>
-                    <h3 class="lab-card-title">${escapeHtml(lab.title)}</h3>
-                    ${hook ? `<p class="lab-card-hook">${escapeHtml(hook)}</p>` : ''}
-                    <p class="lab-card-meta">45 min · Live · Free</p>
-                    <div class="lab-card-actions">
-                        ${primaryLink}
-                        ${slidesLink}
+                <article class="lab-row${isFullRow ? ' is-full' : ''}" data-name="${escapeAttr(String(lab.title).toLowerCase())}">
+                    <div class="lab-when">
+                        <span class="lab-when-date">${escapeHtml(fmtDate(lab.event_date))}</span>
+                        <span class="lab-when-time">${escapeHtml(fmtTime(lab.event_date))}</span>
                     </div>
-                </article>
-            `;
+                    <div class="lab-main">
+                        <h3 class="lab-name">${escapeHtml(lab.title)}</h3>
+                        ${hook ? `<p class="lab-hook">${escapeHtml(hook)}</p>` : ''}
+                    </div>
+                    <div class="lab-status">${status}</div>
+                    <div class="lab-links">${pageLink}${slidesLink}</div>
+                </article>`;
         }
 
-        function renderScope(scope) {
+        function render() {
+            const scope = activeScope;
             const labs = cache[scope];
 
-            if (labs === undefined) {
-                panel.innerHTML = '<p class="labs-state">Loading labs&hellip;</p>';
-                return;
-            }
-
-            if (labs === null) {
-                panel.innerHTML = '<p class="labs-state">We couldn&rsquo;t load labs just now. Please refresh to try again.</p>';
-                return;
-            }
-
+            if (labs === undefined) { rowsEl.innerHTML = '<p class="lab-state">Loading labs&hellip;</p>'; footEl.textContent = ''; return; }
+            if (labs === null) { rowsEl.innerHTML = '<p class="lab-state">Couldn&rsquo;t load labs. Please refresh to try again.</p>'; footEl.textContent = ''; return; }
             if (labs.length === 0) {
-                panel.innerHTML = scope === 'past'
-                    ? '<p class="labs-state">Past labs will show up here as they wrap.</p>'
-                    : '<p class="labs-state">New labs are on the way. <a href="/#lab-interest-email">Get notified when the next lab opens →</a></p>';
+                rowsEl.innerHTML = scope === 'past'
+                    ? '<p class="lab-state">Past labs will appear here as they wrap.</p>'
+                    : '<p class="lab-state">No upcoming labs are scheduled yet.</p>';
+                footEl.textContent = '';
                 return;
             }
 
-            panel.innerHTML = labs.map((lab) => labCard(lab, scope)).join('');
+            rowsEl.innerHTML = labs.map((lab) => labRow(lab, scope)).join('');
+            applyFilter();
+        }
+
+        function applyFilter() {
+            const q = filterText.trim().toLowerCase();
+            const rows = Array.from(rowsEl.querySelectorAll('.lab-row'));
+            let shown = 0;
+            rows.forEach((row) => {
+                const match = !q || row.dataset.name.includes(q);
+                row.style.display = match ? '' : 'none';
+                if (match) shown++;
+            });
+            const total = rows.length;
+            if (q && shown === 0) {
+                footEl.innerHTML = 'No labs match &ldquo;' + escapeHtml(filterText.trim()) + '&rdquo;.';
+            } else if (q) {
+                footEl.textContent = `Showing ${shown} of ${total} lab${total === 1 ? '' : 's'}.`;
+            } else {
+                footEl.textContent = `${total} lab${total === 1 ? '' : 's'}.`;
+            }
         }
 
         function updateCount(scope) {
             const labs = cache[scope];
-            const el = document.getElementById(`count-${scope}`);
+            const el = document.getElementById(`cnt-${scope}`);
             if (el) el.textContent = Array.isArray(labs) && labs.length ? ` (${labs.length})` : '';
         }
 
@@ -617,33 +538,52 @@
                 if (!res.ok) throw new Error('request failed');
                 const data = await res.json();
                 cache[scope] = Array.isArray(data.labs) ? data.labs : [];
-            } catch {
-                cache[scope] = null;
-            }
+            } catch { cache[scope] = null; }
             updateCount(scope);
-            if (activeScope === scope) renderScope(scope);
+            if (activeScope === scope) render();
         }
 
         function activateTab(scope) {
             activeScope = scope;
-            tabs.forEach((tab) => {
-                const isActive = tab.dataset.scope === scope;
-                tab.classList.toggle('is-active', isActive);
-                tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+            tabs.forEach((t) => {
+                const on = t.dataset.scope === scope;
+                t.classList.toggle('is-active', on);
+                t.setAttribute('aria-selected', on ? 'true' : 'false');
             });
-            renderScope(scope);
+            render();
             loadScope(scope);
         }
 
-        tabs.forEach((tab) => {
-            tab.addEventListener('click', () => activateTab(tab.dataset.scope));
+        tabs.forEach((t) => t.addEventListener('click', () => activateTab(t.dataset.scope)));
+
+        searchEl.addEventListener('input', () => {
+            filterText = searchEl.value;
+            if (Array.isArray(cache[activeScope]) && cache[activeScope].length) applyFilter();
+        });
+
+        // Copy-to-clipboard (event delegation so it survives re-renders).
+        rowsEl.addEventListener('click', async (e) => {
+            const btn = e.target.closest('.lab-copybtn');
+            if (!btn) return;
+            const text = btn.dataset.copy;
+            try {
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    await navigator.clipboard.writeText(text);
+                } else {
+                    const ta = document.createElement('textarea');
+                    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+                    document.body.appendChild(ta); ta.select();
+                    document.execCommand('copy'); document.body.removeChild(ta);
+                }
+                btn.classList.add('is-copied');
+                btn.innerHTML = CHECK;
+                setTimeout(() => { btn.classList.remove('is-copied'); btn.innerHTML = COPY; }, 1400);
+            } catch { /* clipboard blocked — ignore */ }
         });
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Load the visible tab first, then warm the other in the
-            // background so switching is instant.
             activateTab('upcoming');
-            loadScope('past');
+            loadScope('past'); // warm the other tab
         });
     </script>
 
