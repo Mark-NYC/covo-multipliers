@@ -664,6 +664,55 @@
             color: #3f321c;
         }
 
+        /* Compact problem signals — one short line each */
+        .signal-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.7rem;
+            margin-top: 1.5rem;
+        }
+
+        .signal-card {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            padding: 0.95rem 1.1rem;
+            background: #fffaf2;
+            border: 1px solid #f1e4c9;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #3f321c;
+            line-height: 1.35;
+        }
+
+        .signal-card::before {
+            content: "";
+            flex-shrink: 0;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #c99a3a;
+        }
+
+        .problem-highlight {
+            margin: 1.4rem 0 0;
+            padding: 1rem 1.25rem;
+            border-radius: 10px;
+            background: #eef7f3;
+            border-left: 4px solid #1b4d3e;
+            color: #10281f;
+            font-weight: 700;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        /* Centered in-section action button */
+        .section-cta {
+            margin-top: 1.75rem;
+            text-align: center;
+        }
+
         /* FAQ block */
         .format-note {
             margin-top: 2.75rem;
@@ -1152,6 +1201,7 @@
             .registration-card     { padding: 1.75rem 1.5rem; }
             .bottom-cta            { padding: 3.5rem 1.25rem; }
             .planter-grid          { grid-template-columns: 1fr; }
+            .signal-grid           { grid-template-columns: 1fr; }
             .pain-grid             { grid-template-columns: 1fr; }
             .stakes-list           { grid-template-columns: 1fr; }
             .stakes-section        { padding: 1.6rem 1.3rem; }
@@ -1183,12 +1233,8 @@
 <div class="hero-copy">
 <span class="event-label">November Covo Multipliers Lab</span>
 <p class="event-title">You're putting in the work. So where is the blockage?</p>
-<p class="event-description">In 45 minutes, use the Muddy Boots Church Planter Assessment to identify the area most likely limiting your disciple-making — and choose a practical next step without adding another ministry program.</p>
-<div aria-label="What you will leave with" class="hero-results">
-<span class="hero-result">A four-part snapshot of where you're strong and thin</span>
-<span class="hero-result">One targeted next step you can take this week</span>
-</div>
-<p class="hero-proof">Free 45-minute live lab · November 18 · 3:00–3:45pm ET · Zoom</p>
+<p class="event-description">Use the Muddy Boots Assessment to identify what is holding back your disciple-making and choose one step to take this week.</p>
+<p class="hero-proof">Live · Practical · Free · 45 minutes</p>
 <!-- Populated by JS: seat pill + formatted date -->
 <div class="event-meta" hidden="" id="hero-event-meta"></div>
 <!-- Shown while fetching; hidden by renderEvent() on success -->
@@ -1246,64 +1292,25 @@
 <section class="event-body">
 <div class="event-body-inner">
 
-<!-- Problem -->
+<!-- SECTION 2: PROBLEM -->
 <div>
-<p class="eyebrow">The real problem</p>
-<h2 class="content-h2">The Problem May Not Be Your Commitment.</h2>
-<p class="content-p" style="margin-top: 1.25rem;">You care about making disciples and seeing churches multiply. You may already know the tools, attend trainings, pray, share the gospel, and invest in people. But when one part of the planter stays underdeveloped, the whole work can stall. Without a clear diagnosis, it is easy to answer every slowdown with more content, more activity, or more effort.</p>
-<div aria-label="The stuck pattern" class="pain-grid">
-<div class="pain-card">
-<span class="pain-number">1</span>
-<strong>Vision doesn't become practice</strong>
-<p>You know the vision and the tools, but they keep struggling to turn into consistent field practice.</p>
+<p class="eyebrow">Why this lab</p>
+<h2 class="content-h2">You May Not Need More Training.</h2>
+<p class="content-p" style="margin-top: 1.25rem;">You may know the tools, pray faithfully, and care deeply about multiplication. But when one part of the planter is weak, the whole work can stall. This lab helps you find that part.</p>
+<div aria-label="The stuck pattern" class="signal-grid">
+<div class="signal-card">Vision without practice</div>
+<div class="signal-card">Activity without clarity</div>
+<div class="signal-card">Effort without traction</div>
+<div class="signal-card">A blockage you can't name</div>
 </div>
-<div class="pain-card">
-<span class="pain-number">2</span>
-<strong>You add instead of address</strong>
-<p>More training, more meetings, more activity — without strengthening the area that is actually weak.</p>
-</div>
-<div class="pain-card">
-<span class="pain-number">3</span>
-<strong>You're uneven, not unfaithful</strong>
-<p>Strong in evangelism, strategy, prayer, or leadership — but uneven across the whole work.</p>
-</div>
-<div class="pain-card">
-<span class="pain-number">4</span>
-<strong>You can't name the blockage</strong>
-<p>You feel stalled but can't tell whether it's in your thinking, inner life, practice, or presence in the harvest.</p>
-</div>
-</div>
-<p class="content-p" style="margin-top: 1.5rem;">The root issue is usually not effort. It's that you lack a simple, whole-person diagnostic — so you cannot address what you have not clearly named.</p>
+<p class="problem-highlight">If you can't name the blockage, you'll keep working around it.</p>
 </div>
 
-<!-- Cost of inaction / stakes -->
-<div class="stakes-section">
-<div class="stakes-inner">
-<p class="eyebrow">If nothing changes</p>
-<h2 class="content-h2">If You Can't Name the Blockage, You'll Keep Working Around It.</h2>
-<p class="stakes-intro">Next month can look a lot like this month — the same effort, the same uncertainty, the same weak area quietly limiting everything else.</p>
-<div class="stakes-list">
-<div class="stake-item">You keep learning and trying new things while the same gap holds you back.</div>
-<div class="stake-item">Activity stays high, but traction stays low.</div>
-<div class="stake-item">You question your calling when the issue is really one unnamed area.</div>
-<div class="stake-item">Good intentions never turn into a repeatable practice.</div>
-</div>
-<p class="stakes-pivot">You don't need to question your calling or simply try harder. <strong>You need an honest snapshot, a clear area to strengthen, and one repeatable step that puts it into practice.</strong></p>
-</div>
-</div>
-
-<!-- Credibility (no invented testimonial or numbers) -->
+<!-- SECTION 3: THE ASSESSMENT -->
 <div class="content-section">
-<p class="eyebrow">Why this lab exists</p>
-<h2 class="content-h2">Built From Practice, Not Theory</h2>
-<p class="content-p" style="margin-top: 1rem;">The Muddy Boots Church Planter Assessment comes out of ordinary, covocational disciple-making — the work of following Jesus and helping others follow him in the middle of real jobs, families, and relationships. It's the same honest, four-part check the facilitators run on their own practice. You'll use it on yours.</p>
-</div>
-
-<!-- The named mechanism: Muddy Boots four-part framework -->
-<div class="content-section">
-<p class="eyebrow">The mechanism</p>
-<h2 class="content-h2">The Muddy Boots Church Planter Assessment</h2>
-<p class="content-p" style="margin-top: 1rem;">Effective disciple-making involves more than knowing the right tools. This assessment helps you look honestly at four connected parts of your life and practice, so you can see what needs attention next.</p>
+<p class="eyebrow">The assessment</p>
+<h2 class="content-h2">Check the Whole Planter.</h2>
+<p class="content-p" style="margin-top: 1rem;">Use four connected areas to see where you are strong and what needs attention next.</p>
 <div class="planter-grid">
 <div class="planter-card">
 <span class="planter-icon" aria-hidden="true">
@@ -1311,7 +1318,7 @@
 </span>
 <span class="planter-label">Part One</span>
 <span class="planter-title">Head</span>
-<p class="planter-body">Assess whether generational disciple-making vision, biblical grounding, and the ability to learn and adjust are guiding your actions.</p>
+<p class="planter-body">Vision, biblical grounding, and the ability to learn and adjust.</p>
 </div>
 <div class="planter-card">
 <span class="planter-icon" aria-hidden="true">
@@ -1319,7 +1326,7 @@
 </span>
 <span class="planter-label">Part Two</span>
 <span class="planter-title">Heart</span>
-<p class="planter-body">Examine whether love for Jesus, dependence on the Spirit, prayer, and perseverance are sustaining the work.</p>
+<p class="planter-body">Love for Jesus, Spirit-led prayer, and perseverance.</p>
 </div>
 <div class="planter-card">
 <span class="planter-icon" aria-hidden="true">
@@ -1327,7 +1334,7 @@
 </span>
 <span class="planter-label">Part Three</span>
 <span class="planter-title">Hands</span>
-<p class="planter-body">Look honestly at whether you are practicing reproducing methods and developing other disciple-making leaders.</p>
+<p class="planter-body">Reproducing practice and developing other disciple-makers.</p>
 </div>
 <div class="planter-card">
 <span class="planter-icon" aria-hidden="true">
@@ -1335,117 +1342,62 @@
 </span>
 <span class="planter-label">Part Four</span>
 <span class="planter-title">Harvester</span>
-<p class="planter-body">Evaluate whether your boots are actually muddy — through evangelism in your own backyard, church in everyday spaces, and labor alongside other harvesters.</p>
+<p class="planter-body">Sharing locally, gathering church, and laboring with others.</p>
 </div>
 </div>
 <div class="assessment-note">
 <span class="grade-pill" aria-hidden="true">A–F</span>
-<p><strong>About the grades:</strong> During the live lab you'll give yourself a quick A-to-F snapshot in each area. This is a private, honest snapshot — not a judgment of your worth, faithfulness, or calling. The goal is clarity and a faithful next step, not a perfect score.</p>
+<p>This is a private snapshot, not a score of your worth, faithfulness, or calling.</p>
 </div>
-<div class="mid-cta">
-<p class="mid-cta-copy"><strong>In 45 minutes, you'll know what to work on next.</strong> Enough clarity to take one real step this week.</p>
+</div>
+
+<!-- SECTION 4: OUTCOMES -->
+<div class="content-section">
+<p class="eyebrow">What you'll leave with</p>
+<h2 class="content-h2">Know What to Work On Next.</h2>
+<ul class="takeaway-list">
+<li>
+<span aria-hidden="true" class="take-check">✓</span>
+<span>Your Head, Heart, Hands, and Harvester snapshot.</span>
+</li>
+<li>
+<span aria-hidden="true" class="take-check">✓</span>
+<span>The primary blockage that needs your attention.</span>
+</li>
+<li>
+<span aria-hidden="true" class="take-check">✓</span>
+<span>One practical action to take within seven days.</span>
+</li>
+</ul>
+<div class="section-cta">
 <button class="mid-cta-btn" data-scroll-to-form="" type="button">Save My Seat →</button>
 </div>
 </div>
 
-<!-- Outcomes -->
-<div class="content-section">
-<p class="eyebrow">What you'll walk away with</p>
-<h2 class="content-h2">Leave Knowing What to Work On Next.</h2>
-<ul class="takeaway-list">
-<li>
-<span aria-hidden="true" class="take-check">✓</span>
-<span>A completed four-part snapshot of your current strengths and weakest area.</span>
-</li>
-<li>
-<span aria-hidden="true" class="take-check">✓</span>
-<span>A clearer diagnosis of what may be limiting your disciple-making.</span>
-</li>
-<li>
-<span aria-hidden="true" class="take-check">✓</span>
-<span>Language for telling a knowledge gap apart from a heart, practice, or harvest gap.</span>
-</li>
-<li>
-<span aria-hidden="true" class="take-check">✓</span>
-<span>A targeted next step connected to the area that needs attention.</span>
-</li>
-<li>
-<span aria-hidden="true" class="take-check">✓</span>
-<span>A person you can share your assessment with for prayer, feedback, and accountability.</span>
-</li>
-</ul>
-<div class="outcome-callout">
-<strong>Your one-week action:</strong> Choose one action connected to your primary growth area, complete it within seven days, and share the result with a trusted co-laborer or coach.
-</div>
-</div>
-
-<!-- Audience fit -->
-<div class="content-section">
-<p class="eyebrow">Is this for you?</p>
-<h2 class="content-h2">You Don't Need to Be a Professional Church Planter.</h2>
-<p class="content-p" style="margin-top: 1rem;">This lab is for ordinary believers trying to make disciples through everyday life. You can use the assessment whether you are just beginning, already gathering people, or helping others take their next steps. You do not need another title, program, or pile of training. You need an honest picture of where you are and a clear action you can take next.</p>
-<ul class="takeaway-list">
-<li>
-<span aria-hidden="true" class="take-check">✓</span>
-<span>Covocational believers actively making disciples but feeling stalled, uneven, or unsure what to strengthen next.</span>
-</li>
-<li>
-<span aria-hidden="true" class="take-check">✓</span>
-<span>Disciple-makers moving toward simple, reproducing churches who want a clear diagnosis.</span>
-</li>
-<li>
-<span aria-hidden="true" class="take-check">✓</span>
-<span>Leaders and coaches who need a simple diagnostic for the people they are developing.</span>
-</li>
-</ul>
-<p class="content-p" style="margin-top: 1.5rem;">You don't need a ministry title or a full-time role to become a church planter. You can become a grounded, muddy boots practitioner in the ordinary place where God has already planted you.</p>
-</div>
-
-<!-- FAQ -->
+<!-- SECTION 5: FAQ -->
 <div class="format-note">
-<strong>Common questions</strong>
+<strong>Common Questions</strong>
 <ul class="faq-list">
 <li class="faq-item">
 <button aria-expanded="false" class="faq-btn">
 <span>I'm not a pastor or church planter. Is this for me?</span>
 <span aria-hidden="true" class="faq-icon">+</span>
 </button>
-<div class="faq-answer" hidden="">Yes. This lab is built for ordinary believers making disciples through work, home, and existing relationships — not just full-time or titled leaders.</div>
+<div class="faq-answer" hidden="">Yes. This lab is for ordinary believers making disciples through work, home, and existing relationships. You do not need a title or full-time ministry role.</div>
 </li>
 <li class="faq-item">
 <button aria-expanded="false" class="faq-btn">
-<span>I'm too new to assess myself. Will this still help?</span>
+<span>I'm new to disciple-making. Will this still help?</span>
 <span aria-hidden="true" class="faq-icon">+</span>
 </button>
-<div class="faq-answer" hidden="">You do not need years of experience. The assessment helps you see what to begin practicing now, wherever you're starting from.</div>
+<div class="faq-answer" hidden="">Yes. The assessment will help you see what to begin practicing without assuming you already have years of experience.</div>
 </li>
 <li class="faq-item">
 <button aria-expanded="false" class="faq-btn">
-<span>I've already taken a lot of training. Is this more content?</span>
+<span>How does the assessment work?</span>
 <span aria-hidden="true" class="faq-icon">+</span>
 </button>
-<div class="faq-answer" hidden="">No. This is not another content-heavy training. It helps you identify which part of what you already know needs to become practice.</div>
-</li>
-<li class="faq-item">
-<button aria-expanded="false" class="faq-btn">
-<span>I don't want to be graded. What are the A-to-F grades for?</span>
-<span aria-hidden="true" class="faq-icon">+</span>
-</button>
-<div class="faq-answer" hidden="">The grades are a private diagnostic, not a judgment of your worth, faithfulness, or calling. The goal is clarity and a faithful next step, not a perfect score.</div>
-</li>
-<li class="faq-item">
-<button aria-expanded="false" class="faq-btn">
-<span>What does it cost, and is it live?</span>
-<span aria-hidden="true" class="faq-icon">+</span>
-</button>
-<div class="faq-answer" hidden="">It's free. This is a live 45-minute lab on Zoom — you'll do the assessment during the session. [CONFIRM SEAT LIMIT before adding scarcity language.]</div>
-</li>
-<li class="faq-item">
-<button aria-expanded="false" class="faq-btn">
-<span>Who leads it?</span>
-<span aria-hidden="true" class="faq-icon">+</span>
-</button>
-<div class="faq-answer" hidden="">[NEEDS FACILITATOR NAMES AND ONE-SENTENCE CREDIBILITY — covocational disciple-makers who practice this in ordinary jobs, families, and relationships.]</div>
+<div class="faq-answer" hidden="">During the live lab, you'll privately assess your Head, Heart, Hands, and Harvester practice. The grades are diagnostic, not a judgment. You'll use the result to choose one next step.</div>
 </li>
 </ul>
 </div>
@@ -1453,23 +1405,12 @@
 </div>
 </section>
 <!-- ================================================
-         SOCIAL PROOF
-    ================================================ -->
-<div class="social-proof">
-<div class="social-proof-inner">
-<div class="social-proof-icon">
-<img alt="Substack" height="34" src="image/Substack.png" width="34"/>
-</div>
-<p class="social-proof-text"><strong>Built from practice.</strong> A simple, honest, whole-person check used by covocational practitioners to make disciples inside real jobs, families, and relationships — where you already live, work, and relate.</p>
-</div>
-</div>
-<!-- ================================================
-         BOTTOM CTA
+         SECTION 6: FINAL CTA
     ================================================ -->
 <section class="bottom-cta">
 <div class="bottom-cta-inner">
-<h2 class="bottom-cta-headline">Stop Guessing. Find Your Next Faithful Step.</h2>
-<p class="bottom-cta-body">Bring an honest picture of where you are. In 45 minutes, you'll assess the whole planter, identify the area that needs attention, and leave with something concrete to practice this week.</p>
+<h2 class="bottom-cta-headline">Find the Blockage. Take the Next Step.</h2>
+<p class="bottom-cta-body">In 45 minutes, you'll identify what needs attention and choose something concrete to practice this week.</p>
 <button class="btn btn-primary" id="cta-scroll-btn">Save My Seat →</button>
 <!-- Seat count is filled live from Supabase; the "—" is a pre-load placeholder, not an invented number. -->
 <p class="bottom-cta-date">Wednesday, November 18, 2026 · 3:00–3:45pm ET · Zoom · Free · <span data-seats-remaining>—</span> seats</p>
