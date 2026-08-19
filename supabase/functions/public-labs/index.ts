@@ -1,15 +1,23 @@
 // supabase/functions/public-labs/index.ts
 //
-// Public "single source of truth" feed for upcoming Covo Multipliers labs.
+// Public "single source of truth" feed for Covo Multipliers labs.
 //
-//   GET /functions/v1/public-labs?limit=3
+//   GET /functions/v1/public-labs?limit=3               (upcoming, default)
+//   GET /functions/v1/public-labs?scope=past&limit=50    (past, newest first)
+//   GET /functions/v1/public-labs?scope=all&limit=100     (past + upcoming)
 //
-// Returns published labs that have not started yet, soonest first, each
-// with a ready-to-use `url` (its own landing page, or the /#upcoming-labs
-// anchor if that lab has no landing_path yet). Consumers should never
-// hardcode lab titles/dates/URLs — fetch this instead. Known consumers:
-// Covo's own homepage (#upcoming-labs), and Multiplying Disciples' homepage
-// lab CTA + blog "Next Live Lab" cards.
+// Returns published labs, each with a ready-to-use `url` (its own landing
+// page, or the /#upcoming-labs anchor if that lab has no landing_path yet)
+// and an optional `slides_url` (its slide deck, when one exists). Consumers
+// should never hardcode lab titles/dates/URLs — fetch this instead. Known
+// consumers: Covo's own homepage (#upcoming-labs, default upcoming scope),
+// the /labs listing page (upcoming + past tabs), and Multiplying Disciples'
+// homepage lab CTA + blog "Next Live Lab" cards.
+//
+// scope:
+//   "upcoming" (default) — event_date >= now, soonest first
+//   "past"               — event_date <  now, most recent first
+//   "all"                — every published lab, soonest first
 //
 // Read-only, unauthenticated, public, no PII — the same exposure level as
 // the events_with_availability REST view this wraps (already publicly
@@ -21,7 +29,9 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 const SITE_ORIGIN = "https://www.covomultipliers.com";
 const FALLBACK_URL = `${SITE_ORIGIN}/#upcoming-labs`;
 const DEFAULT_LIMIT = 3;
-const MAX_LIMIT = 10;
+const MAX_LIMIT = 100;
+
+type Scope = "upcoming" | "past" | "all";
 
 const CORS_HEADERS: Record<string, string> = {
   "Access-Control-Allow-Origin": "*",
@@ -49,6 +59,7 @@ interface EventRow {
   seats_remaining: number;
   has_availability: boolean;
   landing_path: string | null;
+  slides_url: string | null;
 }
 
 Deno.serve(async (req: Request): Promise<Response> => {
@@ -61,6 +72,11 @@ Deno.serve(async (req: Request): Promise<Response> => {
   }
 
   const url = new URL(req.url);
+
+  const scopeParam = (url.searchParams.get("scope") ?? "upcoming").toLowerCase();
+  const scope: Scope =
+    scopeParam === "past" || scopeParam === "all" ? scopeParam : "upcoming";
+
   const limitParam = Number.parseInt(url.searchParams.get("limit") ?? "", 10);
   const limit = Number.isFinite(limitParam) && limitParam > 0
     ? Math.min(limitParam, MAX_LIMIT)
@@ -79,15 +95,26 @@ Deno.serve(async (req: Request): Promise<Response> => {
 
   const nowIso = new Date().toISOString();
 
-  // events_with_availability already restricts to is_published = true;
-  // the event_date filter here is what makes this "upcoming" rather than
-  // "all published". Past labs are never returned, by construction.
-  const { data, error } = await supabase
+  // events_with_availability already restricts to is_published = true; the
+  // event_date filter + ordering below is what makes a query "upcoming",
+  // "past", or "all". Past labs surface only when explicitly requested, so
+  // the default (upcoming) behavior every existing consumer relies on is
+  // unchanged.
+  let query = supabase
     .from("events_with_availability")
-    .select("slug,title,hook,description,event_date,seats_remaining,has_availability,landing_path")
-    .gte("event_date", nowIso)
-    .order("event_date", { ascending: true })
-    .limit(limit);
+    .select(
+      "slug,title,hook,description,event_date,seats_remaining,has_availability,landing_path,slides_url",
+    );
+
+  if (scope === "upcoming") {
+    query = query.gte("event_date", nowIso).order("event_date", { ascending: true });
+  } else if (scope === "past") {
+    query = query.lt("event_date", nowIso).order("event_date", { ascending: false });
+  } else {
+    query = query.order("event_date", { ascending: true });
+  }
+
+  const { data, error } = await query.limit(limit);
 
   if (error) {
     console.error("public-labs query error", JSON.stringify(error));
@@ -103,6 +130,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
     seats_remaining: row.seats_remaining,
     has_availability: row.has_availability,
     url: row.landing_path ? `${SITE_ORIGIN}${row.landing_path}` : FALLBACK_URL,
+    slides_url: row.slides_url,
   }));
 
   // Fresh enough that a new lab or a seat count change shows up within a
@@ -110,7 +138,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
   // every single view.
   return json(
     200,
-    { labs, generated_at: nowIso },
+    { labs, scope, generated_at: nowIso },
     { "Cache-Control": "public, max-age=60, stale-while-revalidate=300" },
   );
 });

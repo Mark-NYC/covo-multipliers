@@ -35,6 +35,12 @@
 
     <!-- Lab pages -->
     <url>
+        <loc>https://covomultipliers.com/labs</loc>
+        <lastmod>2026-08-19</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://covomultipliers.com/from-lost-to-leader.html</loc>
         <lastmod>2026-04-17</lastmod>
         <changefreq>monthly</changefreq>

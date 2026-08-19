@@ -19,6 +19,7 @@
   "rewrites": [
     { "source": "/admin", "destination": "/admin/index.html" },
     { "source": "/4-questions", "destination": "/4-questions.html" },
+    { "source": "/labs", "destination": "/labs.html" },
     { "source": "/immersions", "destination": "/immersions.html" },
     {
       "source": "/join-whatsapp",
