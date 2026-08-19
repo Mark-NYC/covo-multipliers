@@ -100,21 +100,35 @@ Deno.serve(async (req: Request): Promise<Response> => {
   // "past", or "all". Past labs surface only when explicitly requested, so
   // the default (upcoming) behavior every existing consumer relies on is
   // unchanged.
-  let query = supabase
-    .from("events_with_availability")
-    .select(
-      "slug,title,hook,description,event_date,seats_remaining,has_availability,landing_path,slides_url",
-    );
+  //
+  // slides_url is exposed by a migration that may not be applied yet when
+  // this function first deploys. To avoid a hard 500 (and an empty labs
+  // page) in that window, we select it optimistically and fall back to the
+  // same query without it if the column is missing.
+  const BASE_COLUMNS =
+    "slug,title,hook,description,event_date,seats_remaining,has_availability,landing_path";
 
-  if (scope === "upcoming") {
-    query = query.gte("event_date", nowIso).order("event_date", { ascending: true });
-  } else if (scope === "past") {
-    query = query.lt("event_date", nowIso).order("event_date", { ascending: false });
-  } else {
-    query = query.order("event_date", { ascending: true });
+  function buildQuery(columns: string) {
+    let q = supabase.from("events_with_availability").select(columns);
+    if (scope === "upcoming") {
+      q = q.gte("event_date", nowIso).order("event_date", { ascending: true });
+    } else if (scope === "past") {
+      q = q.lt("event_date", nowIso).order("event_date", { ascending: false });
+    } else {
+      q = q.order("event_date", { ascending: true });
+    }
+    return q.limit(limit);
   }
 
-  const { data, error } = await query.limit(limit);
+  let hasSlides = true;
+  let { data, error } = await buildQuery(`${BASE_COLUMNS},slides_url`);
+
+  // 42703 = undefined_column. If slides_url isn't in the view yet, retry
+  // without it so labs still render (slides links simply won't appear).
+  if (error && (error.code === "42703" || /slides_url/.test(error.message ?? ""))) {
+    hasSlides = false;
+    ({ data, error } = await buildQuery(BASE_COLUMNS));
+  }
 
   if (error) {
     console.error("public-labs query error", JSON.stringify(error));
@@ -130,7 +144,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
     seats_remaining: row.seats_remaining,
     has_availability: row.has_availability,
     url: row.landing_path ? `${SITE_ORIGIN}${row.landing_path}` : FALLBACK_URL,
-    slides_url: row.slides_url,
+    slides_url: hasSlides ? row.slides_url : null,
   }));
 
   // Fresh enough that a new lab or a seat count change shows up within a
