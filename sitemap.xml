@@ -35,10 +35,28 @@
 
     <!-- Lab pages -->
     <url>
-        <loc>https://covomultipliers.com/labs</loc>
+        <loc>https://covomultipliers.com/from-lost-to-leader-2027.html</loc>
         <lastmod>2026-08-19</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://covomultipliers.com/rhythms-of-a-covo-multiplier-2027.html</loc>
+        <lastmod>2026-08-19</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://covomultipliers.com/aquila-and-priscilla-pattern-2027.html</loc>
+        <lastmod>2026-08-19</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://covomultipliers.com/4-questions-2027.html</loc>
+        <lastmod>2026-08-19</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
     </url>
     <url>
         <loc>https://covomultipliers.com/from-lost-to-leader.html</loc>
