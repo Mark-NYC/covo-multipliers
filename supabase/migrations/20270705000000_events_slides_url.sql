@@ -22,7 +22,18 @@ comment on column public.events.slides_url is
 -- calculation from 20260618000000_fix_availability_view_rls.sql, same
 -- hook/landing_path exposure from 20270704000000_labs_public_feed.sql) to
 -- also expose the new slides_url column.
-create or replace view public.events_with_availability as
+--
+-- We DROP + CREATE rather than CREATE OR REPLACE: Postgres only lets
+-- CREATE OR REPLACE VIEW append new columns at the end, and the live
+-- view's column order differs from the list below, so a replace fails
+-- with "cannot change name of view column ... 42P16". Dropping first
+-- sidesteps the ordering constraint entirely. Nothing in the database
+-- depends on this view (it's consumed only by app code / the REST API),
+-- so a plain (non-CASCADE) drop is safe; the grants it drops are
+-- restored explicitly below.
+drop view if exists public.events_with_availability;
+
+create view public.events_with_availability as
 select
   e.id,
   e.slug,
@@ -43,3 +54,8 @@ select
   ) > 0   as has_availability
 from public.events e
 where e.is_published = true;
+
+-- Restore read access. anon/authenticated read the view over the REST API
+-- (its WHERE is_published = true keeps it to public rows); service_role is
+-- what the public-labs Edge Function uses.
+grant select on public.events_with_availability to anon, authenticated, service_role;
