@@ -93,6 +93,68 @@ const LAB_EVENTS: Record<string, LabEvent> = {
     calendarDescription:
       "Online. Zoom link will be sent before the lab.\n\nUse the Muddy Boots Church Planter Assessment to examine your Head, Heart, Hands, and Harvester practice. You'll identify what may be limiting your disciple-making and choose a practical next step you can take within seven days.",
   },
+
+  // ── 2027 spring/summer series (repeat of the 2026 May–August labs) ────────
+  "from-lost-to-leader-2027": {
+    slug: "from-lost-to-leader-2027",
+    dbSlug: "from-lost-to-leader-may-2027",
+    title: "From Lost to Leader",
+    date: "2027-05-19",
+    startTime: "15:00",
+    endTime: "15:45",
+    timezone: "America/New_York",
+    location: "Online",
+    url: "https://www.covomultipliers.com/from-lost-to-leader-2027.html",
+    description:
+      "You want your life to matter for the Kingdom, not just your church attendance.\n\nGet practical help for building a life that makes disciples where you live, work, and play.",
+    calendarDescription:
+      "Online. Zoom link will be sent before the lab.\n\nYou want your life to matter for the Kingdom, not just your church attendance. Get practical help for building a life that makes disciples where you live, work, and play.",
+  },
+  "rhythms-of-a-covo-multiplier-2027": {
+    slug: "rhythms-of-a-covo-multiplier-2027",
+    dbSlug: "rhythms-of-a-covo-multiplier-jun-2027",
+    title: "Rhythms of a Covo Multiplier",
+    date: "2027-06-16",
+    startTime: "15:00",
+    endTime: "15:45",
+    timezone: "America/New_York",
+    location: "Online",
+    url: "https://www.covomultipliers.com/rhythms-of-a-covo-multiplier-2027.html",
+    description:
+      "Get introduced to the 5 rhythms of the 4 Fields pathway.\n\nA framework for where to go, how to start spiritual conversations, share the gospel, disciple, gather believers, and guide emerging leaders.",
+    calendarDescription:
+      "Online. Zoom link will be sent before the lab.\n\nGet introduced to the 5 rhythms of the 4 Fields pathway — a framework for where to go, how to start spiritual conversations, share the gospel, disciple, gather believers, and guide emerging leaders.",
+  },
+  "aquila-priscilla-pattern-2027": {
+    slug: "aquila-priscilla-pattern-2027",
+    dbSlug: "aquila-and-priscilla-pattern-jul-2027",
+    title: "The Aquila and Priscilla Pattern",
+    date: "2027-07-21",
+    startTime: "15:00",
+    endTime: "15:45",
+    timezone: "America/New_York",
+    location: "Online",
+    url: "https://www.covomultipliers.com/aquila-and-priscilla-pattern-2027.html",
+    description:
+      "Learn how ordinary work, hospitality, and relationships became a church-planting platform.\n\nSee a biblical pattern for multiplying disciples without separating ministry from normal life.",
+    calendarDescription:
+      "Online. Zoom link will be sent before the lab.\n\nLearn how ordinary work, hospitality, and relationships became a church-planting platform.\n\nSee a biblical pattern for multiplying disciples without separating ministry from normal life.",
+  },
+  "four-questions-2027": {
+    slug: "four-questions-2027",
+    dbSlug: "4-questions-to-get-started-august-2027",
+    title: "4 Questions to Get Started Making Disciples",
+    date: "2027-08-18",
+    startTime: "15:00",
+    endTime: "15:45",
+    timezone: "America/New_York",
+    location: "Online",
+    url: "https://www.covomultipliers.com/4-questions-2027.html",
+    description:
+      "Know who to reach, what to say, and how to help someone take the next step.\n\nWalk away with four simple questions you can use to start making disciples where you already live, work, and relate.",
+    calendarDescription:
+      "Online. Zoom link will be sent before the lab.\n\nKnow who to reach, what to say, and how to help someone take the next step.\n\nWalk away with four simple questions you can use to start making disciples where you already live, work, and relate.",
+  },
 };
 
 // Aliases: map Supabase events.slug values to the same entry as their lab-calendar key.
@@ -103,6 +165,11 @@ LAB_EVENTS["church-circle-september-2026"] = LAB_EVENTS["church-circle-lab"];
 LAB_EVENTS["disciple-making-rhythm-october-2026"] = LAB_EVENTS["disciple-making-rhythm"];
 // TODO: confirm the dbSlug matches Supabase events.slug before relying on this alias.
 LAB_EVENTS["whats-blocking-your-disciple-making-november-2026"] = LAB_EVENTS["whats-blocking-your-disciple-making"];
+// 2027 spring/summer series aliases.
+LAB_EVENTS["from-lost-to-leader-may-2027"] = LAB_EVENTS["from-lost-to-leader-2027"];
+LAB_EVENTS["rhythms-of-a-covo-multiplier-jun-2027"] = LAB_EVENTS["rhythms-of-a-covo-multiplier-2027"];
+LAB_EVENTS["aquila-and-priscilla-pattern-jul-2027"] = LAB_EVENTS["aquila-priscilla-pattern-2027"];
+LAB_EVENTS["4-questions-to-get-started-august-2027"] = LAB_EVENTS["four-questions-2027"];
 
 function getLabEvent(slug: string): LabEvent | null {
   return LAB_EVENTS[slug] ?? null;
