@@ -635,6 +635,7 @@
                 <button class="tab-button" onclick="switchTab('content')">Content That Drives Signups</button>
                 <button class="tab-button" onclick="switchTab('affinity')">Topic Affinity</button>
                 <button class="tab-button" onclick="switchTab('person')">Person Summary</button>
+                <button class="tab-button" onclick="switchTab('slides')">Slide Decks</button>
             </div>
             <div class="tab-content-wrapper">
                 <!-- Registrants Tab -->
@@ -838,6 +839,27 @@
                             </tr>
                         </thead>
                         <tbody id="person-body-tab"></tbody>
+                    </table>
+                </div>
+
+                <!-- Slide Decks Tab -->
+                <div id="tab-slides" class="tab-content">
+                    <div style="padding: 16px 20px; border-bottom: 1px solid #e5e7eb; color: #555; font-size: 13px; line-height: 1.5;">
+                        Set each lab&rsquo;s slide-deck link. It appears as a <strong>&ldquo;Slides&rdquo;</strong> button on the
+                        <a href="/labs" target="_blank" rel="noopener" style="color:#1b4d3e; font-weight:600;">/labs planner</a>.
+                        Paste an <code>https://</code> link (Google Slides, Drive, PDF, etc.) and Save. Leave blank and Save to remove it.
+                    </div>
+                    <div id="slides-loading" class="loading">Loading labs...</div>
+                    <table id="slides-table" style="display: none;">
+                        <thead>
+                            <tr>
+                                <th>Lab</th>
+                                <th>Event Date</th>
+                                <th style="min-width: 320px;">Slide Deck Link</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="slides-body"></tbody>
                     </table>
                 </div>
             </div>
@@ -1191,7 +1213,110 @@
         }
 
         await loadDashboardData(token);
+        loadSlidesEditor(token);
     }
+
+    // ---- Slide-deck editor -------------------------------------------------
+    // Reads/writes each lab's slides_url via the lab-slides-admin function
+    // (service-role write, allowlist-gated). Renders an editable row per lab.
+    function escapeHtml(str) {
+        return String(str)
+            .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+    }
+
+    function fmtLabDate(iso) {
+        try {
+            return new Intl.DateTimeFormat("en-US", {
+                timeZone: "America/New_York", month: "short", day: "numeric", year: "numeric",
+            }).format(new Date(iso));
+        } catch { return iso || ""; }
+    }
+
+    async function loadSlidesEditor(token) {
+        const loading = document.getElementById("slides-loading");
+        const table = document.getElementById("slides-table");
+        const body = document.getElementById("slides-body");
+        try {
+            const res = await fetch(`${SUPABASE_URL}/functions/v1/lab-slides-admin`, {
+                method: "GET",
+                headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" },
+            });
+            if (!res.ok) throw new Error(`${res.status}: ${await res.text()}`);
+            const data = await res.json();
+            const labs = Array.isArray(data.labs) ? data.labs : [];
+
+            body.innerHTML = "";
+            if (labs.length === 0) {
+                body.innerHTML = `<tr><td colspan="4" style="color:#999;text-align:center;padding:20px;">No published labs found.</td></tr>`;
+            } else {
+                labs.forEach((lab) => {
+                    const tr = document.createElement("tr");
+                    tr.dataset.id = lab.id;
+                    const title = lab.title || lab.slug || "";
+                    tr.innerHTML = `
+                        <td style="font-weight:600;color:#10281f;">${escapeHtml(title)}</td>
+                        <td style="color:#666;white-space:nowrap;">${escapeHtml(fmtLabDate(lab.event_date))}</td>
+                        <td>
+                            <input type="url" class="slides-input"
+                                value="${escapeHtml(lab.slides_url || "")}"
+                                placeholder="https://…"
+                                style="width:100%;box-sizing:border-box;padding:7px 10px;border:1px solid #cdd6d1;border-radius:6px;font-size:13px;">
+                        </td>
+                        <td style="white-space:nowrap;">
+                            <button type="button" class="slides-save-btn"
+                                style="padding:7px 14px;background:#1b4d3e;color:#fff;border:none;border-radius:6px;font-weight:600;font-size:13px;cursor:pointer;">Save</button>
+                            <span class="slides-msg" style="margin-left:8px;font-size:12px;"></span>
+                        </td>`;
+                    body.appendChild(tr);
+                });
+            }
+            loading.style.display = "none";
+            table.style.display = "table";
+        } catch (err) {
+            loading.textContent = `Failed to load labs — ${err.message}`;
+        }
+    }
+
+    async function saveSlides(row, token) {
+        const id = row.dataset.id;
+        const input = row.querySelector(".slides-input");
+        const btn = row.querySelector(".slides-save-btn");
+        const msg = row.querySelector(".slides-msg");
+        btn.disabled = true;
+        const prevLabel = btn.textContent;
+        btn.textContent = "Saving…";
+        msg.textContent = "";
+        try {
+            const res = await fetch(`${SUPABASE_URL}/functions/v1/lab-slides-admin`, {
+                method: "POST",
+                headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" },
+                body: JSON.stringify({ id, slides_url: input.value.trim() }),
+            });
+            const data = await res.json().catch(() => ({}));
+            if (!res.ok) throw new Error(data.error || `${res.status}`);
+            // Reflect the normalized value the server stored (null -> empty).
+            input.value = (data.lab && data.lab.slides_url) || "";
+            msg.style.color = "#1b7a4b";
+            msg.textContent = "Saved ✓";
+        } catch (err) {
+            msg.style.color = "#b91c1c";
+            msg.textContent = err.message || "Failed";
+        } finally {
+            btn.disabled = false;
+            btn.textContent = prevLabel;
+            setTimeout(() => { msg.textContent = ""; }, 2500);
+        }
+    }
+
+    // Delegate save clicks (rows are rendered dynamically).
+    document.getElementById("slides-body").addEventListener("click", (e) => {
+        const btn = e.target.closest(".slides-save-btn");
+        if (!btn) return;
+        const token = currentSession?.access_token;
+        if (!token) return;
+        saveSlides(btn.closest("tr"), token);
+    });
 
     async function loadDashboardData(token) {
         try {
