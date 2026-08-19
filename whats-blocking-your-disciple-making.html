@@ -1497,12 +1497,10 @@
         const SUPABASE_ANON_KEY     = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1yeWpydmluemJ4ZWJ6dnh0Z2dpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYyNzQ3MzksImV4cCI6MjA5MTg1MDczOX0.U1JJQTBVKePsVFXr2oFRCdUZasWaZiTQg6g8QrFdRyw';
         const REGISTER_FUNCTION_URL = 'https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1/register';
         // EVENT_SLUG loads the event row from Supabase. This is the DB slug
-        // (events.slug), which on other labs looks like
-        // "church-circle-september-2026" — NOT the same as the LAB_SLUG used in
-        // the POST body / calendar ("whats-blocking-your-disciple-making").
-        // TODO: replace with the real Supabase events.slug once the event row
-        // exists. Until then the page will show the "Event not found" state.
-        const EVENT_SLUG            = 'REPLACE_WITH_SUPABASE_DB_SLUG';
+        // (events.slug) — NOT the same as the LAB_SLUG used in the POST body /
+        // calendar ("whats-blocking-your-disciple-making"). It must match the
+        // slug used in the event-insert SQL and the dbSlug in lab-calendar.
+        const EVENT_SLUG            = 'whats-blocking-your-disciple-making-november-2026';
         // ============================================================
 
 
