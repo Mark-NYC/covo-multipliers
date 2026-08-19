@@ -1,4 +1,8 @@
 User-agent: *
 Allow: /
 
+# Unlisted pages — reachable by direct link, kept out of search.
+Disallow: /labs
+Disallow: /labs.html
+
 Sitemap: https://covomultipliers.com/sitemap.xml
