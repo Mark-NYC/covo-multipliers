@@ -75,6 +75,24 @@ const LAB_EVENTS: Record<string, LabEvent> = {
     calendarDescription:
       "Online. Zoom link will be sent before the lab.\n\nMove from good intentions to real traction in making disciples where you live, work, and play. Build a simple, repeatable rhythm using CFC — commitment, focus, and consistency — and count the cost to actually start.",
   },
+  "whats-blocking-your-disciple-making": {
+    slug: "whats-blocking-your-disciple-making",
+    // TODO: confirm this matches the real Supabase events.slug for the November
+    // event (used only by send-lab-reminders for the Zoom-link lookup and the
+    // alias below; the Add to Calendar button uses the LAB_SLUG key above).
+    dbSlug: "whats-blocking-your-disciple-making-november-2026",
+    title: "What's Holding Back Your Disciple-Making?",
+    date: "2026-11-18",
+    startTime: "15:00",
+    endTime: "15:45",
+    timezone: "America/New_York",
+    location: "Online",
+    url: "https://www.covomultipliers.com/whats-blocking-your-disciple-making.html",
+    description:
+      "Use the Muddy Boots Church Planter Assessment to identify what is limiting your disciple-making and choose a practical next step.\n\nAssess four parts of a muddy boots church planter — Head, Heart, Hands, and Harvester — and leave with one next step you can take within seven days.",
+    calendarDescription:
+      "Online. Zoom link will be sent before the lab.\n\nUse the Muddy Boots Church Planter Assessment to examine your Head, Heart, Hands, and Harvester practice. You'll identify what may be limiting your disciple-making and choose a practical next step you can take within seven days.",
+  },
 };
 
 // Aliases: map Supabase events.slug values to the same entry as their lab-calendar key.
@@ -83,6 +101,8 @@ LAB_EVENTS["aquila-and-priscilla-pattern-jul-2026"] = LAB_EVENTS["aquila-priscil
 LAB_EVENTS["4-questions-to-get-started-august-2026"] = LAB_EVENTS["four-questions"];
 LAB_EVENTS["church-circle-september-2026"] = LAB_EVENTS["church-circle-lab"];
 LAB_EVENTS["disciple-making-rhythm-october-2026"] = LAB_EVENTS["disciple-making-rhythm"];
+// TODO: confirm the dbSlug matches Supabase events.slug before relying on this alias.
+LAB_EVENTS["whats-blocking-your-disciple-making-november-2026"] = LAB_EVENTS["whats-blocking-your-disciple-making"];
 
 function getLabEvent(slug: string): LabEvent | null {
   return LAB_EVENTS[slug] ?? null;
