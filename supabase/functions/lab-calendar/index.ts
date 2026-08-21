@@ -206,6 +206,23 @@ const LAB_EVENTS: Record<string, LabEvent> = {
     calendarDescription:
       "Online. Zoom link will be sent before the lab.\n\nLearn a simple method for internalizing Stories of Hope. You'll practice retelling two short stories of Jesus and choose the people or situations where you will share them.",
   },
+
+  // ── March 2027 ────────────────────────────────────────────────────────────
+  "margin-is-your-superpower": {
+    slug: "margin-is-your-superpower",
+    dbSlug: "margin-is-your-superpower-march-2027",
+    title: "Margin Is Your Superpower",
+    date: "2027-03-17",
+    startTime: "15:00",
+    endTime: "15:45",
+    timezone: "America/New_York",
+    location: "Online",
+    url: "https://www.covomultipliers.com/margin-is-your-superpower.html",
+    description:
+      "Audit where your time and attention are going, identify what is stealing your margin, and choose one practical way to reclaim it.",
+    calendarDescription:
+      "Online. Zoom link will be sent before the lab.\n\nAudit where your time and attention are going, identify what is stealing your margin, and choose one practical change to create more room for family, mission, and the unexpected.",
+  },
 };
 
 // Aliases: map Supabase events.slug values to the same entry as their lab-calendar key.
@@ -227,6 +244,8 @@ LAB_EVENTS["start-spiritual-conversations-december-2026"] = LAB_EVENTS["start-sp
 LAB_EVENTS["find-your-field-january-2027"] = LAB_EVENTS["find-your-field"];
 // February 2027 alias.
 LAB_EVENTS["always-have-a-story-ready-february-2027"] = LAB_EVENTS["always-have-a-story-ready"];
+// March 2027 alias.
+LAB_EVENTS["margin-is-your-superpower-march-2027"] = LAB_EVENTS["margin-is-your-superpower"];
 
 function getLabEvent(slug: string): LabEvent | null {
   return LAB_EVENTS[slug] ?? null;
