@@ -189,6 +189,23 @@ const LAB_EVENTS: Record<string, LabEvent> = {
     calendarDescription:
       "Online. Zoom link will be sent before the lab.\n\nDiscover where God has already placed you to make disciples. See the harvest fields already in your life — passions, people, places, and profession — choose one field, and leave with a concrete next step to enter it.",
   },
+
+  // ── February 2027 ─────────────────────────────────────────────────────────
+  "always-have-a-story-ready": {
+    slug: "always-have-a-story-ready",
+    dbSlug: "always-have-a-story-ready-february-2027",
+    title: "Always Have a Story of Hope Ready",
+    date: "2027-02-17",
+    startTime: "15:00",
+    endTime: "15:45",
+    timezone: "America/New_York",
+    location: "Online",
+    url: "https://www.covomultipliers.com/always-have-a-story-ready.html",
+    description:
+      "Learn a simple method for internalizing two short stories of Jesus so you can share them naturally when spiritual conversations open.",
+    calendarDescription:
+      "Online. Zoom link will be sent before the lab.\n\nLearn a simple method for internalizing Stories of Hope. You'll practice retelling two short stories of Jesus and choose the people or situations where you will share them.",
+  },
 };
 
 // Aliases: map Supabase events.slug values to the same entry as their lab-calendar key.
@@ -208,6 +225,8 @@ LAB_EVENTS["4-questions-to-get-started-august-2027"] = LAB_EVENTS["four-question
 LAB_EVENTS["start-spiritual-conversations-december-2026"] = LAB_EVENTS["start-spiritual-conversations"];
 // January 2027 alias.
 LAB_EVENTS["find-your-field-january-2027"] = LAB_EVENTS["find-your-field"];
+// February 2027 alias.
+LAB_EVENTS["always-have-a-story-ready-february-2027"] = LAB_EVENTS["always-have-a-story-ready"];
 
 function getLabEvent(slug: string): LabEvent | null {
   return LAB_EVENTS[slug] ?? null;
