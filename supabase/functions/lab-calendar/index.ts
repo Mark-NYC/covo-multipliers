@@ -172,6 +172,23 @@ const LAB_EVENTS: Record<string, LabEvent> = {
     calendarDescription:
       "Online. Zoom link will be sent before the lab.\n\nLearn how to start natural conversations with the people around you and let them grow into real gospel conversations that lead to open Bible discovery. Walk away with the Conversation Box tool and practical soft-skill conversation starters you can keep in your tool belt.",
   },
+
+  // ── January 2027 ──────────────────────────────────────────────────────────
+  "find-your-field": {
+    slug: "find-your-field",
+    dbSlug: "find-your-field-january-2027",
+    title: "Find Your Field",
+    date: "2027-01-20",
+    startTime: "15:00",
+    endTime: "15:45",
+    timezone: "America/New_York",
+    location: "Online",
+    url: "https://www.covomultipliers.com/find-your-field-lab.html",
+    description:
+      "Discover where God has already placed you to make disciples.\n\nSee the harvest fields already in your life — passions, people, places, and profession — choose one field, and leave with a concrete next step to enter it.",
+    calendarDescription:
+      "Online. Zoom link will be sent before the lab.\n\nDiscover where God has already placed you to make disciples. See the harvest fields already in your life — passions, people, places, and profession — choose one field, and leave with a concrete next step to enter it.",
+  },
 };
 
 // Aliases: map Supabase events.slug values to the same entry as their lab-calendar key.
@@ -189,6 +206,8 @@ LAB_EVENTS["aquila-and-priscilla-pattern-jul-2027"] = LAB_EVENTS["aquila-priscil
 LAB_EVENTS["4-questions-to-get-started-august-2027"] = LAB_EVENTS["four-questions-2027"];
 // December 2026 alias.
 LAB_EVENTS["start-spiritual-conversations-december-2026"] = LAB_EVENTS["start-spiritual-conversations"];
+// January 2027 alias.
+LAB_EVENTS["find-your-field-january-2027"] = LAB_EVENTS["find-your-field"];
 
 function getLabEvent(slug: string): LabEvent | null {
   return LAB_EVENTS[slug] ?? null;
