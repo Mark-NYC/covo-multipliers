@@ -155,6 +155,23 @@ const LAB_EVENTS: Record<string, LabEvent> = {
     calendarDescription:
       "Online. Zoom link will be sent before the lab.\n\nKnow who to reach, what to say, and how to help someone take the next step.\n\nWalk away with four simple questions you can use to start making disciples where you already live, work, and relate.",
   },
+
+  // ── December 2026 ─────────────────────────────────────────────────────────
+  "start-spiritual-conversations": {
+    slug: "start-spiritual-conversations",
+    dbSlug: "start-spiritual-conversations-december-2026",
+    title: "Start Spiritual Conversations Naturally",
+    date: "2026-12-16",
+    startTime: "15:00",
+    endTime: "15:45",
+    timezone: "America/New_York",
+    location: "Online",
+    url: "https://www.covomultipliers.com/start-spiritual-conversations-naturally.html",
+    description:
+      "Learn how to start natural conversations with the people around you and let them grow into real gospel conversations that lead to open Bible discovery.\n\nWalk away with the Conversation Box tool and practical soft-skill conversation starters you can keep in your tool belt.",
+    calendarDescription:
+      "Online. Zoom link will be sent before the lab.\n\nLearn how to start natural conversations with the people around you and let them grow into real gospel conversations that lead to open Bible discovery. Walk away with the Conversation Box tool and practical soft-skill conversation starters you can keep in your tool belt.",
+  },
 };
 
 // Aliases: map Supabase events.slug values to the same entry as their lab-calendar key.
@@ -170,6 +187,8 @@ LAB_EVENTS["from-lost-to-leader-may-2027"] = LAB_EVENTS["from-lost-to-leader-202
 LAB_EVENTS["rhythms-of-a-covo-multiplier-jun-2027"] = LAB_EVENTS["rhythms-of-a-covo-multiplier-2027"];
 LAB_EVENTS["aquila-and-priscilla-pattern-jul-2027"] = LAB_EVENTS["aquila-priscilla-pattern-2027"];
 LAB_EVENTS["4-questions-to-get-started-august-2027"] = LAB_EVENTS["four-questions-2027"];
+// December 2026 alias.
+LAB_EVENTS["start-spiritual-conversations-december-2026"] = LAB_EVENTS["start-spiritual-conversations"];
 
 function getLabEvent(slug: string): LabEvent | null {
   return LAB_EVENTS[slug] ?? null;
