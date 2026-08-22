@@ -223,6 +223,23 @@ const LAB_EVENTS: Record<string, LabEvent> = {
     calendarDescription:
       "Online. Zoom link will be sent before the lab.\n\nAudit where your time and attention are going, identify what is stealing your margin, and choose one practical change to create more room for family, mission, and the unexpected.",
   },
+
+  // ── April 2027 ────────────────────────────────────────────────────────────
+  "build-a-week-that-makes-disciples": {
+    slug: "build-a-week-that-makes-disciples",
+    dbSlug: "build-a-week-that-makes-disciples-april-2027",
+    title: "Build a Week That Makes Disciples",
+    date: "2027-04-21",
+    startTime: "15:00",
+    endTime: "15:45",
+    timezone: "America/New_York",
+    location: "Online",
+    url: "https://www.covomultipliers.com/build-a-week-that-makes-disciples.html",
+    description:
+      "Use the 3-2-1 Rhythm to build a starting weekly baseline for disciple-making and prepare to cast that vision to someone you are discipling.",
+    calendarDescription:
+      "Online. Zoom link will be sent before the lab.\n\nUse the 3-2-1 Disciple-Making Rhythm to build a starting weekly baseline for following, fishing, multiplying community, and accountability. You'll also prepare to cast that vision to someone you are discipling.",
+  },
 };
 
 // Aliases: map Supabase events.slug values to the same entry as their lab-calendar key.
@@ -246,6 +263,8 @@ LAB_EVENTS["find-your-field-january-2027"] = LAB_EVENTS["find-your-field"];
 LAB_EVENTS["always-have-a-story-ready-february-2027"] = LAB_EVENTS["always-have-a-story-ready"];
 // March 2027 alias.
 LAB_EVENTS["margin-is-your-superpower-march-2027"] = LAB_EVENTS["margin-is-your-superpower"];
+// April 2027 alias.
+LAB_EVENTS["build-a-week-that-makes-disciples-april-2027"] = LAB_EVENTS["build-a-week-that-makes-disciples"];
 
 function getLabEvent(slug: string): LabEvent | null {
   return LAB_EVENTS[slug] ?? null;
