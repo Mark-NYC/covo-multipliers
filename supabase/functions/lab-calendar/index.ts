@@ -236,9 +236,9 @@ const LAB_EVENTS: Record<string, LabEvent> = {
     location: "Online",
     url: "https://www.covomultipliers.com/build-a-week-that-makes-disciples.html",
     description:
-      "Use the 3-2-1 Rhythm to build a starting weekly baseline for disciple-making and prepare to cast that vision to someone you are discipling.",
+      "Build a concrete starting rhythm for disciple-making and prepare to cast that vision to someone you are discipling.",
     calendarDescription:
-      "Online. Zoom link will be sent before the lab.\n\nUse the 3-2-1 Disciple-Making Rhythm to build a starting weekly baseline for following, fishing, multiplying community, and accountability. You'll also prepare to cast that vision to someone you are discipling.",
+      "Online. Zoom link will be sent before the lab.\n\nCount the initial cost of consistent disciple-making, build a starting weekly rhythm, and prepare to cast that vision to someone you are discipling.",
   },
 };
 
