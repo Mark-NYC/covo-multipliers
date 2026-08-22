@@ -12,8 +12,8 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Register for an upcoming Covo Multipliers Lab.">
-    <title>Lab Registration — Covo Multipliers</title>
+    <meta name="description" content="From Lost to Leader: one clear, repeatable path to take a person from far from God all the way to a multiplying leader who can do it — and train someone else to do it too.">
+    <title>From Lost to Leader — Covo Multipliers</title>
     <link rel="icon" type="image/x-icon" href="/image/favicons/favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="/image/favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/image/favicons/favicon-16x16.png">
@@ -877,8 +877,216 @@
 
 
         /* -----------------------------------------------
+           15b. THE MAP — pathway section (centerpiece)
+        ----------------------------------------------- */
+
+        .pathway-section {
+            background: #ffffff;
+            padding: 4rem 2rem 3.5rem;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .pathway-inner {
+            max-width: 1140px;
+            margin: 0 auto;
+        }
+
+        .pathway-title {
+            font-size: clamp(1.6rem, 3.5vw, 2.25rem);
+            font-weight: 900;
+            color: #10281f;
+            line-height: 1.18;
+            letter-spacing: -0.02em;
+            text-align: center;
+            margin: 0.4rem 0 0.9rem;
+        }
+
+        .pathway-lede {
+            max-width: 680px;
+            margin: 0 auto 2.75rem;
+            text-align: center;
+            font-size: 1.02rem;
+            line-height: 1.7;
+            color: #444444;
+        }
+
+        .pathway {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0.75rem;
+            counter-reset: none;
+        }
+
+        .pathway-stage {
+            position: relative;
+            background: #f8faf9;
+            border: 1px solid #e2eae6;
+            border-top: 4px solid #2c6b5d;
+            border-radius: 12px;
+            padding: 1.4rem 1.15rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Connecting arrow between stages (desktop) */
+        .pathway-stage:not(:last-child)::after {
+            content: "→";
+            position: absolute;
+            right: -0.62rem;
+            top: 1.55rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #9f7a2f;
+            z-index: 3;
+            line-height: 1;
+        }
+
+        /* Gradient intensifies stage by stage toward the goal */
+        .pathway-stage:nth-child(1) { border-top-color: #4a8a7a; }
+        .pathway-stage:nth-child(2) { border-top-color: #2c6b5d; }
+        .pathway-stage:nth-child(3) { border-top-color: #1b4d3e; }
+        .pathway-stage:nth-child(4) { border-top-color: #9f7a2f; }
+
+        .pathway-stage.is-goal {
+            background: #10281f;
+            border-color: #10281f;
+            border-top-color: #dcb55a;
+        }
+
+        .stage-num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #ffffff;
+            border: 1.5px solid #d6e2dd;
+            font-size: 0.9rem;
+            font-weight: 900;
+            color: #1b4d3e;
+            margin-bottom: 0.85rem;
+        }
+
+        .is-goal .stage-num {
+            background: #dcb55a;
+            border-color: #dcb55a;
+            color: #10281f;
+        }
+
+        .stage-name {
+            font-size: 1.02rem;
+            font-weight: 800;
+            color: #10281f;
+            line-height: 1.25;
+            margin: 0 0 0.5rem;
+        }
+
+        .is-goal .stage-name { color: #ffffff; }
+
+        .stage-desc {
+            font-size: 0.875rem;
+            line-height: 1.55;
+            color: #4b5d56;
+            margin: 0 0 0.9rem;
+            flex-grow: 1;
+        }
+
+        .is-goal .stage-desc { color: rgba(255,255,255,0.82); }
+
+        .stage-move {
+            font-size: 0.82rem;
+            line-height: 1.5;
+            color: #2a2a2a;
+            margin: 0;
+            padding-top: 0.85rem;
+            border-top: 1px solid #e2eae6;
+        }
+
+        .stage-move strong {
+            display: block;
+            font-size: 0.66rem;
+            font-weight: 800;
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+            color: #9f7a2f;
+            margin-bottom: 0.25rem;
+        }
+
+        .is-goal .stage-move { color: rgba(255,255,255,0.9); border-top-color: rgba(255,255,255,0.18); }
+        .is-goal .stage-move strong { color: #dcb55a; }
+
+        .pathway-loop {
+            max-width: 720px;
+            margin: 2.25rem auto 0;
+            text-align: center;
+            font-size: 0.95rem;
+            line-height: 1.65;
+            color: #245c4a;
+            font-weight: 600;
+        }
+
+
+        /* -----------------------------------------------
+           15c. REPRODUCTION BAND — the differentiator
+        ----------------------------------------------- */
+
+        .reproduce-band {
+            background: linear-gradient(135deg,
+                #10281f 0%,
+                #1b4d3e 45%,
+                #2c6b5d 80%,
+                #9f7a2f 100%
+            );
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .reproduce-inner {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        .reproduce-inner h2 {
+            font-size: clamp(1.5rem, 3.2vw, 2.1rem);
+            font-weight: 900;
+            color: #ffffff;
+            line-height: 1.22;
+            letter-spacing: -0.02em;
+            margin: 0.4rem 0 1.25rem;
+        }
+
+        .reproduce-inner p {
+            font-size: 1.05rem;
+            line-height: 1.75;
+            color: rgba(255, 255, 255, 0.85);
+            margin: 0;
+        }
+
+
+        /* -----------------------------------------------
            16. RESPONSIVE
         ----------------------------------------------- */
+
+        @media (max-width: 860px) {
+            /* Map: stack stages vertically, swap horizontal arrow for a down arrow */
+            .pathway {
+                grid-template-columns: 1fr;
+                gap: 1.4rem;
+            }
+            .pathway-stage:not(:last-child)::after {
+                content: "↓";
+                right: auto;
+                left: 50%;
+                top: auto;
+                bottom: -1.05rem;
+                transform: translateX(-50%);
+            }
+            .stage-desc { flex-grow: 0; }
+        }
 
         @media (max-width: 860px) {
             .event-hero-inner {
@@ -944,11 +1152,11 @@
         <div class="event-hero-inner">
 
             <div class="hero-copy">
-                <p class="event-title">Trying to make disciples but never sure where it fits in your week?</p>
+                <p class="event-title">Know exactly what to do to take someone from far from God to a leader who can do the same.</p>
                 <div class="event-description hero-desc-block">
-                    <p>You&#8217;ve got a job. Responsibilities. A calendar that keeps blowing up. You want your life to matter for the Kingdom, not just your church attendance.</p>
-                    <br><p>In <b>45 minutes</b> you&#8217;ll get practical help for building a life that makes disciples where you live, work, and play.</p>
-                    <br><p><b>🔴LIVE. Practical. Free.</b></p>
+                    <p>You&#8217;ve helped people meet Jesus &mdash; but what comes next? For most of us, disciple making dead-ends. Nobody you&#8217;ve poured into is pouring into anyone else.</p>
+                    <br><p>In <b>45 minutes</b> you&#8217;ll get one clear, repeatable map for moving a real person out of the harvest all the way to leader &mdash; simple enough that they can hand it to the next person.</p>
+                    <br><p><b>🔴 LIVE. Practical. Free.</b></p>
                 </div>
 
                 <!-- Shown while fetching; hidden by renderEvent() on success -->
@@ -1057,6 +1265,65 @@
 
 
     <!-- ================================================
+         THE MAP — the reproducible pathway (centerpiece)
+    ================================================ -->
+    <section class="pathway-section">
+        <div class="pathway-inner">
+            <p class="eyebrow" style="text-align:center;">The map you&rsquo;ll walk away with</p>
+            <h2 class="pathway-title">One path. Five stages. Simple enough to give away.</h2>
+            <p class="pathway-lede">Most training leaves you with language and good intentions but no idea what to actually <em>do</em> next with a specific person. This lab gives you a named path &mdash; so you always know what stage someone is on, what the next move is, and how to hand the whole thing off once they&rsquo;re ready to lead.</p>
+
+            <ol class="pathway">
+                <li class="pathway-stage">
+                    <span class="stage-num">1</span>
+                    <h3 class="stage-name">Far From God</h3>
+                    <p class="stage-desc">In the harvest. No relationship with Jesus yet &mdash; but already in your everyday life, on your radar.</p>
+                    <p class="stage-move"><strong>Next move</strong>Start a spiritual conversation that feels natural, not forced.</p>
+                </li>
+                <li class="pathway-stage">
+                    <span class="stage-num">2</span>
+                    <h3 class="stage-name">Curious</h3>
+                    <p class="stage-desc">Something has opened. They&rsquo;re asking real questions and willing to explore who Jesus is.</p>
+                    <p class="stage-move"><strong>Next move</strong>Explore Jesus together &mdash; one story at a time, in their world.</p>
+                </li>
+                <li class="pathway-stage">
+                    <span class="stage-num">3</span>
+                    <h3 class="stage-name">New Follower</h3>
+                    <p class="stage-desc">They&rsquo;ve decided to follow Jesus. New life, lots of questions, hungry for what&rsquo;s next.</p>
+                    <p class="stage-move"><strong>Next move</strong>Give them a simple, repeatable rhythm of following and obeying Jesus.</p>
+                </li>
+                <li class="pathway-stage">
+                    <span class="stage-num">4</span>
+                    <h3 class="stage-name">Disciple-Maker</h3>
+                    <p class="stage-desc">Growing &mdash; and now discipling someone else, not just being discipled themselves.</p>
+                    <p class="stage-move"><strong>Next move</strong>Show them how to walk their person through these same stages.</p>
+                </li>
+                <li class="pathway-stage is-goal">
+                    <span class="stage-num">5</span>
+                    <h3 class="stage-name">Multiplying Leader</h3>
+                    <p class="stage-desc">They train disciple-makers who train others. The path reproduces without you in the room.</p>
+                    <p class="stage-move"><strong>Next move</strong>Hand them the map and coach from the side.</p>
+                </li>
+            </ol>
+
+            <p class="pathway-loop">&#8635; When stage 5 produces a new stage-4 disciple-maker, the loop closes &mdash; and starts again with someone new. That&rsquo;s multiplication, not addition.</p>
+        </div>
+    </section>
+
+
+    <!-- ================================================
+         REPRODUCTION BAND — why this lab is different
+    ================================================ -->
+    <section class="reproduce-band">
+        <div class="reproduce-inner">
+            <p class="eyebrow" style="color:#dcb55a;">Why this lab is different</p>
+            <h2>You won&rsquo;t just learn to disciple someone. You&rsquo;ll learn to make yourself unnecessary.</h2>
+            <p>Plenty of people can teach you to lead one person to Jesus. Almost no one hands you a path simple enough that the person <em>you</em> disciple can turn around and walk the next person down it &mdash; without you. That&rsquo;s the difference between adding and multiplying. It&rsquo;s the whole point of this lab.</p>
+        </div>
+    </section>
+
+
+    <!-- ================================================
          SUPPORTING CONTENT — takeaways, struggle quotes, FAQ
     ================================================ -->
     <section class="event-body">
@@ -1065,38 +1332,38 @@
             <div class="content-col">
 
                 <div>
-                    <p class="eyebrow">What you&rsquo;ll walk away with</p>
+                    <p class="eyebrow">Clarity, not inspiration that fades by Friday</p>
                     <h2 class="content-h2">What you&rsquo;ll walk away with</h2>
                     <ul class="takeaway-list">
                         <li>
                             <span class="take-check" aria-hidden="true">&#10003;</span>
-                            <span>Clarity about what matters.</span>
+                            <span>The full path, named and in order &mdash; so you always know what stage a person is on.</span>
                         </li>
                         <li>
                             <span class="take-check" aria-hidden="true">&#10003;</span>
-                            <span>A rhythm you can repeat.</span>
+                            <span>The one question that tells you a person&rsquo;s next step.</span>
                         </li>
                         <li>
                             <span class="take-check" aria-hidden="true">&#10003;</span>
-                            <span>One step to take immediately.</span>
+                            <span>The specific next move for every stage, from first conversation to leadership.</span>
                         </li>
                         <li>
                             <span class="take-check" aria-hidden="true">&#10003;</span>
-                            <span>Not inspiration that fades by Friday.</span>
+                            <span>A version simple enough to hand off &mdash; so it multiplies instead of stopping with you.</span>
                         </li>
                     </ul>
                 </div>
 
                 <div class="who-section">
                     <p class="eyebrow">If any of this hits, you&rsquo;re in the right place.</p>
-                    <h3 class="content-h3">You&rsquo;re not crazy for feeling this</h3>
+                    <h3 class="content-h3">You&rsquo;re not stuck because you don&rsquo;t care</h3>
                     <div class="quote-grid">
-                        <div class="quote-card">&ldquo;I start the week strong and lose it by Thursday.&rdquo;</div>
-                        <div class="quote-card">&ldquo;I feel like I&rsquo;m the only one trying to live this way.&rdquo;</div>
-                        <div class="quote-card">&ldquo;I want consistency but life keeps winning.&rdquo;</div>
-                        <div class="quote-card">&ldquo;I don&rsquo;t know what deserves my attention anymore.&rdquo;</div>
+                        <div class="quote-card">&ldquo;I&rsquo;ve led people to Christ but have no idea what comes next.&rdquo;</div>
+                        <div class="quote-card">&ldquo;Everyone I disciple stalls out &mdash; nobody goes on to disciple anyone else.&rdquo;</div>
+                        <div class="quote-card">&ldquo;It all depends on me. Nothing reproduces without me in the room.&rdquo;</div>
+                        <div class="quote-card">&ldquo;I&rsquo;ve got tools and language, but not an actual path for a real person.&rdquo;</div>
                     </div>
-                    <p class="content-p">Good news. You don&rsquo;t need more guilt. You need a repeatable way to live.</p>
+                    <p class="content-p">Good news. You don&rsquo;t need more passion or better tools. You need one clear path you can follow &mdash; and give away.</p>
                 </div>
 
                 <div class="format-note">
@@ -1113,11 +1380,20 @@
                         </li>
                         <li class="faq-item">
                             <button class="faq-btn" aria-expanded="false">
-                                <span>Who fits here?</span>
+                                <span>Do I need to be a &ldquo;leader&rdquo; already?</span>
                                 <span class="faq-icon" aria-hidden="true">+</span>
                             </button>
                             <div class="faq-answer" hidden>
-                                These labs are built for marketplace multipliers, sentrepreneurs, and tent making leaders balancing work and mission who feel scattered and want to multiply disciples without burning out.
+                                No. Wherever you are on the path, you&rsquo;ll leave seeing the whole map and knowing your own next step &mdash; and the next step for the person you&rsquo;re walking with.
+                            </div>
+                        </li>
+                        <li class="faq-item">
+                            <button class="faq-btn" aria-expanded="false">
+                                <span>What if the people I&rsquo;m reaching aren&rsquo;t Christians yet?</span>
+                                <span class="faq-icon" aria-hidden="true">+</span>
+                            </button>
+                            <div class="faq-answer" hidden>
+                                Perfect &mdash; that&rsquo;s stage one. The map starts in the harvest, with people far from God, and gives you the next move to help someone take a first step toward Jesus.
                             </div>
                         </li>
                         <li class="faq-item">
@@ -1127,15 +1403,6 @@
                             </button>
                             <div class="faq-answer" hidden>
                                 No preparation is required. Some labs offer optional prep reading, but you&rsquo;ll get full value even if you just show up ready to engage.
-                            </div>
-                        </li>
-                        <li class="faq-item">
-                            <button class="faq-btn" aria-expanded="false">
-                                <span>How is this different from a typical webinar?</span>
-                                <span class="faq-icon" aria-hidden="true">+</span>
-                            </button>
-                            <div class="faq-answer" hidden>
-                                These are not passive webinars. Each 45-minute lab is interactive, practical, and focused on giving you one breakthrough framework you can immediately apply in your context.
                             </div>
                         </li>
                         <li class="faq-item">
@@ -1196,10 +1463,10 @@
     src="image/Covo Multipliers Winging It.webp"
     alt="Working Christians often feel split between everyday life and ministry"
 >
-            <h2 class="bottom-cta-headline">You can keep winging it. But that won&rsquo;t move anything forward.</h2>
+            <h2 class="bottom-cta-headline">You can keep discipling one person at a time. But it&rsquo;ll always stop with you.</h2>
             <div class="bottom-cta-body">
-                <p>If you do not join, next month probably looks a lot like this month. You stay busy, keep hoping things will become more fruitful, and still feel unsure where disciple making actually fits in your real week.</p>
-                <p>This lab will not fix everything in 45 minutes. But it can help you stop drifting and take one clear step with a repeatable plan.</p>
+                <p>Without a reproducible path, every person you invest in is a dead-end &mdash; the work ends the day you run out of time, energy, or reach.</p>
+                <p>This lab won&rsquo;t fix everything in 45 minutes. But it will give you one clear map you can follow with a real person this week &mdash; and hand off when they&rsquo;re ready to lead.</p>
             </div>
             <button class="btn btn-primary" id="cta-scroll-btn">Reserve My Seat</button>
             <p style="margin-top:1.25rem;font-size:0.85rem;color:rgba(255,255,255,0.55);">or</p>
