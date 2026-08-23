@@ -13,7 +13,7 @@
   gtag('js', new Date());
   gtag('config', 'G-DXGLXDTF9V');
 </script>
-<meta content="A free 45-minute live lab. Learn the Church Circle — a simple biblical map from Acts 2 for practicing church where you live, work, and play — and the Two-Church Vision Cast." name="description"/>
+<meta content="A free 45-minute live lab. Learn a simple biblical way to help disciples move from following Jesus personally to practicing church together, where you already live, work, and play." name="description"/>
 <title>The Church Circle — Covo Multipliers</title>
     <link rel="icon" type="image/x-icon" href="/image/favicons/favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="/image/favicons/favicon-32x32.png">
@@ -173,6 +173,48 @@
             color: rgba(255, 255, 255, 0.88);
             max-width: 640px;
             margin-bottom: 1.25rem;
+        }
+
+        /* Static event line — the readable date/time under the subheadline */
+        .event-line {
+            font-size: 1rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.92);
+            letter-spacing: 0.01em;
+            margin: 0 0 1.25rem;
+        }
+
+        /* The static event line above is the source-of-truth display for
+           humans; the dynamic date injected into #hero-event-meta is hidden
+           so the same date is not shown twice. The seat pill still renders,
+           and event_date still drives the countdown. */
+        #hero-event-meta .event-date {
+            display: none;
+        }
+
+        /* Guardrail — short, visually distinct reassurance block */
+        .guardrail-note {
+            margin-top: 2.75rem;
+            padding: 1.6rem 1.75rem;
+            background: #eef7f3;
+            border: 1px solid #cfe6dc;
+            border-left: 4px solid #1b4d3e;
+            border-radius: 0 12px 12px 0;
+        }
+
+        .guardrail-note h2 {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #10281f;
+            line-height: 1.3;
+            margin: 0 0 0.5rem;
+        }
+
+        .guardrail-note p {
+            margin: 0;
+            font-size: 0.95rem;
+            line-height: 1.65;
+            color: #29443a;
         }
 
         .hero-proof {
@@ -1228,15 +1270,11 @@
 <section class="event-hero">
 <div class="event-hero-inner">
 <div class="hero-copy">
-<span class="event-label">September Covo Multipliers Lab</span>
-<p class="event-title">Most Christians have been in church for years. Few have been trained to start one.</p>
-<p class="event-description">Learn a simple biblical map for practicing church where you live, work, and play.</p>
-<div aria-label="What you will leave with" class="hero-results">
-<span class="hero-result">A biblical map for church from Acts 2</span>
-<span class="hero-result">A practical vision for practicing church in everyday life</span>
-</div>
-<p class="hero-proof">Free 45-minute live lab · September 16 · 3:00–3:45pm ET · Zoom</p>
-<!-- Populated by JS: formatted date + seat pill -->
+<span class="event-label">Free 45-Minute Live Lab</span>
+<p class="event-title">You Know How to Attend Church. Could You Help Start One?</p>
+<p class="event-description">Learn a simple biblical way to help disciples move from following Jesus personally to practicing church together.</p>
+<p class="event-line">Wednesday, September 16 · 3:00–3:45 PM ET · Free</p>
+<!-- Populated by JS: seat pill (dynamic date is hidden via CSS) -->
 <div class="event-meta" hidden="" id="hero-event-meta"></div>
 <!-- Shown while fetching; hidden by renderEvent() on success -->
 <p class="hero-status" id="hero-loading">Loading event…</p>
@@ -1253,8 +1291,8 @@
 <!-- Registration card — always visible; JS enables submit once event loads -->
 <div class="form-col">
 <div class="registration-card" id="registration-card">
-<h2>Reserve Your Seat</h2>
-<p class="form-intro">The Church Circle · September 16 · 3:00–3:45pm ET · Zoom · Free</p>
+<h2>Reserve My Free Seat</h2>
+<p class="form-intro">Wednesday, September 16 · 3:00–3:45 PM ET · Free</p>
 <form id="registration-form" novalidate="">
 <div class="form-field">
 <label for="field-name">Full name</label>
@@ -1277,14 +1315,14 @@
 </div>
 <div class="cf-turnstile-holder" id="turnstile-holder" style="margin:0 0 1rem;"></div>
 <button class="btn-submit" id="submit-btn" type="submit">
-                            Reserve Your Seat →
+                            Reserve My Free Seat →
                         </button>
 <div aria-live="polite" class="form-message" id="form-message" role="alert"></div>
 </form>
 </div>
 <div class="form-social-proof">
 <img alt="Covo Multipliers community" loading="lazy" src="image/social-proof-covo-multipliers-transparent.webp"/>
-<p class="form-social-proof-caption">Taught by practitioners helping ordinary believers start simple churches in everyday places.</p>
+<p class="form-social-proof-caption">Led by Mark and Dave, practitioners helping ordinary believers make disciples and start simple churches in everyday life.</p>
 </div>
 </div>
 </div>
@@ -1295,110 +1333,58 @@
 <section class="event-body">
 <div class="event-body-inner">
 
-<!-- Problem -->
+<!-- PROBLEM -->
 <div>
-<img alt="When does 'I' become 'We'? Following Jesus starts personally — one disciple praying, reading Scripture, loving, and going. Church happens when disciples begin living those rhythms together in a gathered group. My rhythms become our rhythms." loading="lazy" src="image/i-become-we-infographic.webp" style="display:block; width:100%; height:auto;"/>
-<p class="content-p" style="margin-top: 1.25rem;">Most Christians attend church, listen to sermons, join groups, and work through discipleship content. But most have never gathered people around Scripture, prayer, obedience, and mission in a way that looks like church.</p>
-<div aria-label="The stuck pattern" class="pain-grid">
-<div class="pain-card">
-<span class="pain-number">1</span>
-<strong>You know more than you practice</strong>
-<p>Sermons, books, podcasts, and trainings pile up. But no one has shown you how to gather people and obey Jesus together.</p>
-</div>
-<div class="pain-card">
-<span class="pain-number">2</span>
-<strong>You assume church needs permission</strong>
-<p>A building. A title. A budget. A professional. So you wait.</p>
-</div>
-<div class="pain-card">
-<span class="pain-number">3</span>
-<strong>You feel the gap</strong>
-<p>You believe in making disciples, but you do not have a simple way to practice church with people around you.</p>
-</div>
-</div>
-<p class="content-p" style="margin-top: 1.5rem;">To practice church means gathering people around Scripture, prayer, obedience, love, the Lord's Supper, generosity, worship, and mission.</p>
-<img alt="A simple church gathering in a living room" class="lab-photo" loading="lazy" src="image/fabiolahouse.jpg"/>
+<p class="eyebrow">The problem</p>
+<h2 class="content-h2">When Does "I" Become "We"?</h2>
+<p class="content-p" style="margin-top: 1rem;">Following Jesus starts personally. Church takes shape when disciples begin practicing the life of Jesus together.</p>
+<p class="content-p">Most believers have never been shown how.</p>
+<img alt="When does 'I' become 'We'? Following Jesus starts personally with one disciple praying, reading Scripture, loving, and going. Church happens when disciples begin living those rhythms together." class="lab-photo" loading="lazy" src="image/i-become-we-infographic.webp"/>
 </div>
 
-<!-- The Church Circle -->
+<!-- PLAN -->
 <div class="content-section">
-<p class="eyebrow">The Church Circle</p>
-<h2 class="content-h2">A Simple Map from Acts 2</h2>
-<p class="content-p" style="margin-top: 1rem;">The Church Circle is a simple map from Acts 2. It helps you see what the first church practiced, then ask what it would look like to practice those same things where you already live, work, and play.</p>
-<img alt="The Church Circle — a simple map from Acts 2" class="circle-diagram" loading="lazy" src="image/churchcircle.png"/>
-<div class="circle-grid">
-<div class="circle-item"><img src="image/obey-tools/repent-icon.webp" alt="" loading="lazy">Repent and believe</div>
-<div class="circle-item"><img src="image/obey-tools/baptism-icon.webp" alt="" loading="lazy">Be baptized</div>
-<div class="circle-item"><img src="image/obey-tools/holy-spirit-icon.webp" alt="" loading="lazy">Receive and obey the Holy Spirit</div>
-<div class="circle-item"><img src="image/obey-tools/word-icon.webp" alt="" loading="lazy">Abide in the Word of God</div>
-<div class="circle-item"><img src="image/obey-tools/love-icon.webp" alt="" loading="lazy">Love one another</div>
-<div class="circle-item"><img src="image/obey-tools/lords-supper-icon.webp" alt="" loading="lazy">Practice the Lord's Supper</div>
-<div class="circle-item"><img src="image/obey-tools/pray-icon.webp" alt="" loading="lazy">Pray</div>
-<div class="circle-item"><img src="image/obey-tools/signs-and-wonders-icon.webp" alt="" loading="lazy">Expect signs and wonders</div>
-<div class="circle-item"><img src="image/obey-tools/give-icon.webp" alt="" loading="lazy">Practice generosity</div>
-<div class="circle-item"><img src="image/obey-tools/worship-icon.webp" alt="" loading="lazy">Worship</div>
-<div class="circle-item"><img src="image/obey-tools/go-make-disciples-icon.webp" alt="" loading="lazy">Go make disciples</div>
-<div class="circle-item"><img src="image/obey-tools/gather-icon.webp" alt="" loading="lazy">Gather as church</div>
+<p class="eyebrow">The plan</p>
+<h2 class="content-h2">A Simple Way Forward</h2>
+<div class="thirds-grid">
+<div class="third-card">
+<span class="third-label">Step 1</span>
+<span class="third-title">See Church Clearly</span>
+<p class="third-body">Discover a simple biblical picture from Acts 2.</p>
+</div>
+<div class="third-card">
+<span class="third-label">Step 2</span>
+<span class="third-title">Practice It Together</span>
+<p class="third-body">See how personal rhythms become shared church life.</p>
+</div>
+<div class="third-card">
+<span class="third-label">Step 3</span>
+<span class="third-title">Take Your Next Step</span>
+<p class="third-body">Know how to begin with the people around you.</p>
 </div>
 </div>
-
-<!-- Two-Church Vision Cast -->
-<div class="content-section">
-<p class="eyebrow">The Two-Church Vision Cast</p>
-<h2 class="content-h2">Be in a Church Where You Get Trained. Start a Church Where You Do What You Learn.</h2>
-<p class="content-p" style="margin-top: 1.25rem;">Learn in a disciple making church model and immediately practice what you learn with people around you.</p>
-<p class="content-p">A healthy church trains disciples to obey Jesus. Those disciples can then gather others into simple expressions of church where they live, work, and play. That is multiplication. That is obedience.</p>
 <div class="mid-cta">
-<p class="mid-cta-copy"><strong>In 45 minutes, you will have a map and a vision.</strong> Enough to know what to do next.</p>
-<button class="mid-cta-btn" data-scroll-to-form="" type="button">Reserve Your Seat →</button>
+<p class="mid-cta-copy"><strong>Leave with a map, a vision, and a clear next step.</strong></p>
+<button class="mid-cta-btn" data-scroll-to-form="" type="button">Reserve My Free Seat →</button>
 </div>
 </div>
 
-<!-- Who can do this -->
+<!-- AUDIENCE -->
 <div class="content-section">
-<p class="eyebrow">Who can do this</p>
-<h2 class="content-h2">Any Ordinary Disciple of Jesus</h2>
-<p class="content-p" style="margin-top: 1rem;">Any follower of Jesus can begin gathering people around Scripture, prayer, obedience, love, the Lord's Supper, generosity, worship, and mission. You do not need a building, a budget, a stage, a title, or a professional ministry role. You need to be trained and willing to obey.</p>
-</div>
-
+<p class="eyebrow">Who it's for</p>
+<h2 class="content-h2">Any Ordinary Disciple Can Begin</h2>
+<p class="content-p" style="margin-top: 1rem;">You do not need a building, budget, stage, or ministry title.</p>
+<p class="content-p">You need training, accountability, and a willingness to obey Jesus with others.</p>
 <figure class="zoom-frame">
-<img alt="A live Lab cohort on Zoom" loading="lazy" src="image/covozoomfinal.webp"/>
-<figcaption>A live lab in session — real practitioners, real conversations.</figcaption>
+<img alt="A live Covo Multipliers lab in session on Zoom" loading="lazy" src="image/covozoomfinal.webp"/>
+<figcaption>A live lab in session with real practitioners and real conversations.</figcaption>
 </figure>
-
-<!-- Who should not -->
-<div class="content-section">
-<p class="eyebrow">A word of honesty</p>
-<h2 class="content-h2">This Is Not for Everyone</h2>
-<p class="content-p" style="margin-top: 1rem;">This is not about disconnecting from the body of Christ or doing your own thing. It is not about appointing yourself as an elder or pretending maturity does not matter. It is about being trained, staying accountable, and learning to gather people in simple obedience to Jesus.</p>
 </div>
 
-<!-- What you'll learn -->
-<div class="content-section">
-<p class="eyebrow">What you'll learn</p>
-<h2 class="content-h2">Five Things in 45 Minutes</h2>
-<ul class="takeaway-list">
-<li>
-<span aria-hidden="true" class="take-check">✓</span>
-<span>How to see church from Acts 2, not just from tradition</span>
-</li>
-<li>
-<span aria-hidden="true" class="take-check">✓</span>
-<span>How the Church Circle helps ordinary disciples practice church simply</span>
-</li>
-<li>
-<span aria-hidden="true" class="take-check">✓</span>
-<span>Why you need to be in a church where you get trained</span>
-</li>
-<li>
-<span aria-hidden="true" class="take-check">✓</span>
-<span>How to start a church where you do what you learn</span>
-</li>
-<li>
-<span aria-hidden="true" class="take-check">✓</span>
-<span>Who can do this, who should not, and how to keep it biblical and accountable</span>
-</li>
-</ul>
+<!-- GUARDRAIL -->
+<div class="guardrail-note">
+<h2>This Is Not About Leaving Your Church</h2>
+<p>It is about being trained, staying accountable, and learning to help disciples practice church together.</p>
 </div>
 
 <!-- FAQ -->
@@ -1410,28 +1396,28 @@
 <span>Is this anti-church?</span>
 <span aria-hidden="true" class="faq-icon">+</span>
 </button>
-<div class="faq-answer" hidden="">No. The vision is for a community of practice as church. You learn in a reproducible model of church where you get trained. You start a church where you do what you learn. Both matter.</div>
+<div class="faq-answer" hidden="">No. It is about learning in church and practicing what you learn with others.</div>
 </li>
 <li class="faq-item">
 <button aria-expanded="false" class="faq-btn">
 <span>Do I need experience leading a group?</span>
 <span aria-hidden="true" class="faq-icon">+</span>
 </button>
-<div class="faq-answer" hidden="">No. The Church Circle is for ordinary disciples. If you can read Scripture and pray with people, you can use it.</div>
+<div class="faq-answer" hidden="">No. The lab is built for ordinary disciples.</div>
 </li>
 <li class="faq-item">
 <button aria-expanded="false" class="faq-btn">
 <span>What does it cost?</span>
 <span aria-hidden="true" class="faq-icon">+</span>
 </button>
-<div class="faq-answer" hidden="">Nothing. The lab is free and limited to 25 seats.</div>
+<div class="faq-answer" hidden="">Nothing. The lab is free.</div>
 </li>
 <li class="faq-item">
 <button aria-expanded="false" class="faq-btn">
 <span>Who leads it?</span>
 <span aria-hidden="true" class="faq-icon">+</span>
 </button>
-<div class="faq-answer" hidden="">Dave and Mark, covocational disciple-makers who practice this in ordinary jobs, families, and relationships.</div>
+<div class="faq-answer" hidden="">Mark and Dave, covocational disciple-makers practicing this in ordinary jobs, families, and relationships.</div>
 </li>
 </ul>
 </div>
@@ -1439,27 +1425,14 @@
 </div>
 </section>
 <!-- ================================================
-         SOCIAL PROOF
-    ================================================ -->
-<div class="social-proof">
-<div class="social-proof-inner">
-<div class="social-proof-icon">
-<img alt="Substack" height="34" src="image/Substack.png" width="34"/>
-</div>
-<p class="social-proof-text"><strong>Built from practice.</strong> Dave and Mark help ordinary believers make disciples inside real jobs, families, and relationships — where you already live, work, and relate.</p>
-</div>
-</div>
-<!-- ================================================
-         BOTTOM CTA
+         FINAL CTA
     ================================================ -->
 <section class="bottom-cta">
 <div class="bottom-cta-inner">
-<h2 class="bottom-cta-headline">Learn How to Practice Church Where You Live, Work, and Play.</h2>
-<p class="bottom-cta-body">In 45 minutes, you will have a simple biblical picture of church and a practical vision for gathering people around it — without waiting for a building, a budget, or a title.</p>
-<button class="btn btn-primary" id="cta-scroll-btn">Reserve Your Seat →</button>
-<p style="margin-top:1.25rem;font-size:0.85rem;color:rgba(255,255,255,0.5);">or</p>
-<a href="https://www.covomultipliers.com/join-whatsapp?utm_source=lab_page&utm_medium=cta&utm_campaign=whatsapp_field_room" style="font-size:0.9rem;color:rgba(255,255,255,0.7);text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.3);">Start practicing with us in WhatsApp →</a>
-<p class="bottom-cta-date">Wednesday, September 16, 2026 · 3:00–3:45pm ET · Zoom · Free · <span data-seats-remaining>25</span> seats</p>
+<h2 class="bottom-cta-headline">Practice Church Where You Live, Work, and Play</h2>
+<p class="bottom-cta-body">See it clearly. Start simply.</p>
+<button class="btn btn-primary" id="cta-scroll-btn">Reserve My Free Seat →</button>
+<p class="bottom-cta-date">Wednesday, September 16 · 3:00–3:45 PM ET · Free</p>
 </div>
 </section>
 <!-- ================================================
@@ -1598,7 +1571,7 @@
             if (isFull) {
                 // Replace form card with full-event message
                 document.getElementById('registration-card').innerHTML = `
-                    <h2>Reserve Your Seat</h2>
+                    <h2>Reserve My Free Seat</h2>
                     <div class="full-notice">
                         <p>This event is full. Check back for future labs with open seats.</p>
                         <a class="btn btn-secondary" href="/#upcoming-labs">← See all upcoming labs</a>
@@ -1726,7 +1699,7 @@
 
             btn.textContent = active
                 ? 'Registering…'
-                : 'Reserve Your Seat →';
+                : 'Reserve My Free Seat →';
         }
 
         function showError(msg) {
