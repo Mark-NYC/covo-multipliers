@@ -13,8 +13,8 @@
   gtag('js', new Date());
   gtag('config', 'G-DXGLXDTF9V');
 </script>
-<meta content="A free 45-minute live lab. Move from good intentions to real disciple-making traction. Build a simple rhythm using CFC — commitment, focus, and consistency — and leave with a plan and people moving with you." name="description"/>
-<title>From Intention to Disciple-Making Traction — Covo Multipliers</title>
+<meta content="A free 45-minute live lab. Build a simple weekly disciple-making rhythm that fits your real life, and leave knowing who to focus on, what to do next, and how to start this week." name="description"/>
+<title>Build a Disciple-Making Rhythm — Covo Multipliers</title>
     <link rel="icon" type="image/x-icon" href="/image/favicons/favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="/image/favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/image/favicons/favicon-16x16.png">
@@ -173,6 +173,23 @@
             color: rgba(255, 255, 255, 0.88);
             max-width: 640px;
             margin-bottom: 1.25rem;
+        }
+
+        /* Static event line — the readable date/time under the subheadline */
+        .event-line {
+            font-size: 1rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.92);
+            letter-spacing: 0.01em;
+            margin: 0 0 1.25rem;
+        }
+
+        /* The static event line above is the source-of-truth display for
+           humans; the dynamic date injected into #hero-event-meta is hidden
+           so the same date is not shown twice. The seat pill still renders,
+           and event_date still drives the countdown. */
+        #hero-event-meta .event-date {
+            display: none;
         }
 
         .hero-proof {
@@ -1189,16 +1206,11 @@
 <section class="event-hero">
 <div class="event-hero-inner">
 <div class="hero-copy">
-<span class="event-label">October Covo Multipliers Lab</span>
-<p class="event-title">You Keep Meaning to Make Disciples. Why Hasn't It Actually Started?</p>
-<p class="event-description">In 45 minutes, move from good intentions to real traction — build a simple disciple-making rhythm you can keep where you already live, work, and play, even when life is full.</p>
-<div aria-label="What you will leave with" class="hero-results">
-<span class="hero-result">A simple disciple-making rhythm</span>
-<span class="hero-result">A plan you can start this week</span>
-<span class="hero-result">People moving with you</span>
-</div>
-<p class="hero-proof">Free 45-minute live lab · October 21 · 3:00–3:45pm ET · Zoom</p>
-<!-- Populated by JS: formatted date + seat pill -->
+<span class="event-label">Free 45-Minute Live Lab</span>
+<p class="event-title">You Keep Meaning to Make Disciples. Why Hasn't It Started?</p>
+<p class="event-description">Build a simple weekly rhythm that fits your real life. Leave knowing who to focus on, what to do next, and how to start this week.</p>
+<p class="event-line">Wednesday, October 21 · 3:00–3:45 PM ET · Free</p>
+<!-- Populated by JS: seat pill (dynamic date is hidden via CSS) -->
 <div class="event-meta" hidden="" id="hero-event-meta"></div>
 <!-- Shown while fetching; hidden by renderEvent() on success -->
 <p class="hero-status" id="hero-loading">Loading event…</p>
@@ -1215,8 +1227,8 @@
 <!-- Registration card — always visible; JS enables submit once event loads -->
 <div class="form-col">
 <div class="registration-card" id="registration-card">
-<h2>Reserve Your Seat</h2>
-<p class="form-intro">From Intention to Disciple-Making Traction · October 21 · 3:00–3:45pm ET · Zoom · Free</p>
+<h2>Reserve My Free Seat</h2>
+<p class="form-intro">Wednesday, October 21 · 3:00–3:45 PM ET · Free</p>
 <form id="registration-form" novalidate="">
 <div class="form-field">
 <label for="field-name">Full name</label>
@@ -1239,14 +1251,14 @@
 </div>
 <div class="cf-turnstile-holder" id="turnstile-holder" style="margin:0 0 1rem;"></div>
 <button class="btn-submit" id="submit-btn" type="submit">
-                            Reserve Your Seat →
+                            Reserve My Free Seat →
                         </button>
 <div aria-live="polite" class="form-message" id="form-message" role="alert"></div>
 </form>
 </div>
 <div class="form-social-proof">
 <img alt="Covo Multipliers community" loading="lazy" src="image/social-proof-covo-multipliers-transparent.webp"/>
-<p class="form-social-proof-caption">Taught by practitioners helping ordinary believers make disciples where they already live, work, and play.</p>
+<p class="form-social-proof-caption">Led by Mark and Dave, practitioners helping ordinary believers make disciples where they live, work, and play.</p>
 </div>
 </div>
 </div>
@@ -1257,112 +1269,53 @@
 <section class="event-body">
 <div class="event-body-inner">
 
-<!-- Problem -->
+<!-- PROBLEM -->
 <div>
-<img alt="Good intentions don't become disciple-making. Three things get in the way: (1) unfocused — spread thin across too many people; (2) not knowing the next step; (3) being alone in it. But focus plus a rhythm of conversations, Scripture, gathering, and going equals disciple-making traction. Turn good intentions into a rhythm you can keep." loading="lazy" src="image/good-intentions-infographic.webp" style="display:block; width:100%; height:auto;"/>
-<p class="content-p" style="margin-top: 1.25rem;">A lot of us genuinely want to make disciples in our normal week. But the calendar fills, the next step stays fuzzy, and we quietly carry it alone — so we stay at "I should," month after month. The problem isn't your desire or your character. It's that intention was never turned into a focused, repeatable rhythm with people moving alongside you.</p>
-<div aria-label="The stuck pattern" class="pain-grid">
-<div class="pain-card">
-<span class="pain-number">1</span>
-<strong>You feel unfocused</strong>
-<p>You care about a lot of people, so you spread thin and never give anyone your real attention.</p>
-</div>
-<div class="pain-card">
-<span class="pain-number">2</span>
-<strong>You don't know the next step</strong>
-<p>You're not sure what rhythm to start with, so the week passes and nothing actually begins.</p>
-</div>
-<div class="pain-card">
-<span class="pain-number">3</span>
-<strong>You feel alone in it</strong>
-<p>No one is doing this with you, so it's easy to stall, drift, and quietly give up.</p>
-</div>
-</div>
+<p class="eyebrow">The problem</p>
+<h2 class="content-h2">Good Intentions Need a Plan</h2>
+<p class="content-p" style="margin-top: 1rem;">Full schedules. Unclear next steps. Trying to do it alone.</p>
+<p class="content-p">Without a simple rhythm, next month will look like this one.</p>
+<img alt="Good intentions become disciple-making when focus meets a simple rhythm of conversations, Scripture, gathering, and going." class="lab-photo" loading="lazy" src="image/good-intentions-infographic.webp"/>
 </div>
 
-<!-- Cost of inaction -->
-<div class="stakes-section">
-<div class="stakes-inner">
-<p class="eyebrow">If nothing changes</p>
-<h2 class="content-h2">Next Month Will Look a Lot Like This One</h2>
-<p class="stakes-intro">Without a clear rhythm, good intentions quietly repeat. Here is what tends to continue when nothing changes.</p>
-<div class="stakes-list">
-<div class="stake-item">You stay busy but unfocused, with no one you're actually pursuing.</div>
-<div class="stake-item">You keep waiting for a clearer moment that never quite comes.</div>
-<div class="stake-item">You keep doing this on your own, so it stays fragile and easy to drop.</div>
-</div>
-<p class="stakes-pivot"><strong>You don't need more information on your own. You need a clear rhythm — and people moving with you.</strong> This lab won't fix everything in 45 minutes. It will help you stop drifting, count the cost honestly, and commit to one rhythm you can actually keep.</p>
-</div>
-</div>
-
-<!-- The tool: CFC -->
+<!-- PLAN -->
 <div class="content-section">
-<p class="eyebrow">The tool</p>
-<h2 class="content-h2">A Rhythm Built on CFC</h2>
-<p class="content-p" style="margin-top: 1rem;">A disciple-making rhythm only sticks when three things are in place. We call it <strong>CFC — commitment, focus, and consistency</strong>. Get these clear, and "someday" becomes a real, repeatable practice in your actual week.</p>
+<p class="eyebrow">The plan</p>
+<h2 class="content-h2">Build Your Rhythm in 45 Minutes</h2>
 <div class="thirds-grid">
 <div class="third-card">
-<span class="third-label">C</span>
-<span class="third-title">Commitment</span>
-<p class="third-body">Decide who and what you're committing to, and count the cost up front so you actually follow through.</p>
+<span class="third-label">Step 1</span>
+<span class="third-title">Name Your People</span>
+<p class="third-body">Choose who you will focus on.</p>
 </div>
 <div class="third-card">
-<span class="third-label">F</span>
-<span class="third-title">Focus</span>
-<p class="third-body">Narrow from "everyone" to a few real people and one clear next step you can give your attention to.</p>
+<span class="third-label">Step 2</span>
+<span class="third-title">Choose Your Rhythm</span>
+<p class="third-body">Build a plan that fits your actual week.</p>
 </div>
 <div class="third-card">
-<span class="third-label">C</span>
-<span class="third-title">Consistency</span>
-<p class="third-body">Choose a repeatable cadence you can sustain when the week gets full — not a burst you can't keep.</p>
+<span class="third-label">Step 3</span>
+<span class="third-title">Take the First Step</span>
+<p class="third-body">Decide what you will do in the next seven days.</p>
 </div>
 </div>
-<div class="outcome-callout"><strong>The 3-2-1 Rhythm.</strong> We'll turn CFC into a simple 3-2-1 weekly pattern — a cadence that makes disciple-making something you actually do, not just intend.</div>
 <div class="mid-cta">
-<p class="mid-cta-copy"><strong>In 45 minutes, you'll leave with your CFC plan.</strong> Enough to know exactly what to start this week.</p>
-<button class="mid-cta-btn" data-scroll-to-form="" type="button">Reserve Your Seat →</button>
+<p class="mid-cta-copy"><strong>Built around commitment, focus, and consistency.</strong> You'll leave with a written plan, not another good intention.</p>
+<button class="mid-cta-btn" data-scroll-to-form="" type="button">Reserve My Free Seat →</button>
 </div>
 </div>
 
-<!-- What you'll walk away with -->
+<!-- AUDIENCE -->
 <div class="content-section">
-<p class="eyebrow">What you'll walk away with</p>
-<h2 class="content-h2">You'll Leave With a Rhythm You Can Keep</h2>
-<ul class="takeaway-list">
-<li>
-<span aria-hidden="true" class="take-check">✓</span>
-<span>A simple, written disciple-making rhythm built on CFC — commitment, focus, consistency</span>
-</li>
-<li>
-<span aria-hidden="true" class="take-check">✓</span>
-<span>A short list of the specific people you're focusing on</span>
-</li>
-<li>
-<span aria-hidden="true" class="take-check">✓</span>
-<span>A 3-2-1 weekly cadence you can start this week</span>
-</li>
-<li>
-<span aria-hidden="true" class="take-check">✓</span>
-<span>An honest count of what it will cost to get real traction</span>
-</li>
-<li>
-<span aria-hidden="true" class="take-check">✓</span>
-<span>One next step you can take in the next 7 days — and a sense of who's moving with you</span>
-</li>
-</ul>
-</div>
-
-<!-- Who this is for -->
-<div class="content-section">
-<p class="eyebrow">Is this for you?</p>
-<h2 class="content-h2">Who This Lab Is For</h2>
-<p class="content-p" style="margin-top: 1rem;">This lab is for people serious about making disciples where they live, work, and play — especially those who have tried before but keep stalling at intention. It's for covocational leaders with full weeks who need focus, not more inspiration. And it's for anyone who feels unfocused, unsure of the next step, or like they're doing this alone.</p>
-</div>
-
+<p class="eyebrow">Who it's for</p>
+<h2 class="content-h2">Built for Real Life</h2>
+<p class="content-p" style="margin-top: 1rem;">For ordinary believers and ministry leaders who are ready to stop stalling and start practicing.</p>
+<p class="content-p">No ministry title or prior experience needed.</p>
 <figure class="zoom-frame">
 <img alt="A live Covo Multipliers lab in session on Zoom" loading="lazy" src="image/covozoomfinal.webp"/>
-<figcaption>A live lab in session — real practitioners, real conversations.</figcaption>
+<figcaption>A live CoVo lab with practitioners across North America.</figcaption>
 </figure>
+</div>
 
 <!-- FAQ -->
 <div class="format-note">
@@ -1373,35 +1326,35 @@
 <span>What is CFC?</span>
 <span aria-hidden="true" class="faq-icon">+</span>
 </button>
-<div class="faq-answer" hidden="">CFC stands for commitment, focus, and consistency — the three things that turn good intentions into a disciple-making rhythm you actually keep. We'll walk through all three and help you build yours in the lab.</div>
+<div class="faq-answer" hidden="">Commitment, focus, and consistency. Three parts of a disciple-making rhythm you can keep.</div>
 </li>
 <li class="faq-item">
 <button aria-expanded="false" class="faq-btn">
 <span>Do I need experience or a ministry title?</span>
 <span aria-hidden="true" class="faq-icon">+</span>
 </button>
-<div class="faq-answer" hidden="">No. This is for ordinary believers making disciples where they live, work, and play. If you can commit to a few people and a simple weekly rhythm, you can do this.</div>
+<div class="faq-answer" hidden="">No. This lab is built for ordinary believers and ministry leaders alike.</div>
 </li>
 <li class="faq-item">
 <button aria-expanded="false" class="faq-btn">
 <span>Is it live?</span>
 <span aria-hidden="true" class="faq-icon">+</span>
 </button>
-<div class="faq-answer" hidden="">Yes. It's a live 45-minute lab on Zoom, kept to a small group, so you can ask real questions about your real situation.</div>
+<div class="faq-answer" hidden="">Yes. This is a participatory working session, not a prerecorded webinar.</div>
 </li>
 <li class="faq-item">
 <button aria-expanded="false" class="faq-btn">
 <span>What does it cost?</span>
 <span aria-hidden="true" class="faq-icon">+</span>
 </button>
-<div class="faq-answer" hidden="">Nothing. The lab is free and limited to 25 seats. The cost we'll help you count is the time and focus it takes to actually start.</div>
+<div class="faq-answer" hidden="">Nothing. The lab is free.</div>
 </li>
 <li class="faq-item">
 <button aria-expanded="false" class="faq-btn">
 <span>Who leads it?</span>
 <span aria-hidden="true" class="faq-icon">+</span>
 </button>
-<div class="faq-answer" hidden="">Dave and Mark, covocational disciple-makers who practice this in ordinary jobs, families, and relationships.</div>
+<div class="faq-answer" hidden="">Mark and Dave, two practitioners actively helping ordinary believers make and multiply disciples.</div>
 </li>
 </ul>
 </div>
@@ -1409,27 +1362,14 @@
 </div>
 </section>
 <!-- ================================================
-         SOCIAL PROOF
-    ================================================ -->
-<div class="social-proof">
-<div class="social-proof-inner">
-<div class="social-proof-icon">
-<img alt="Substack" height="34" src="image/Substack.png" width="34"/>
-</div>
-<p class="social-proof-text"><strong>Built from practice.</strong> Dave and Mark help ordinary believers make disciples inside real jobs, families, and relationships — where you already live, work, and relate.</p>
-</div>
-</div>
-<!-- ================================================
-         BOTTOM CTA
+         FINAL CTA
     ================================================ -->
 <section class="bottom-cta">
 <div class="bottom-cta-inner">
-<h2 class="bottom-cta-headline">Stop Stalling at Good Intentions.</h2>
-<p class="bottom-cta-body">Join the October lab and leave with a disciple-making rhythm you can actually keep — and people moving with you. One focused, repeatable next step, built in 45 minutes.</p>
-<button class="btn btn-primary" id="cta-scroll-btn">Reserve Your Seat →</button>
-<p style="margin-top:1.25rem;font-size:0.85rem;color:rgba(255,255,255,0.5);">or</p>
-<a href="https://www.covomultipliers.com/join-whatsapp?utm_source=lab_page&utm_medium=cta&utm_campaign=whatsapp_field_room" style="font-size:0.9rem;color:rgba(255,255,255,0.7);text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.3);">Start practicing with us in WhatsApp →</a>
-<p class="bottom-cta-date">Wednesday, October 21, 2026 · 3:00–3:45pm ET · Zoom · Free · <span data-seats-remaining>25</span> seats</p>
+<h2 class="bottom-cta-headline">Stop Meaning To. Start Making Disciples.</h2>
+<p class="bottom-cta-body">Leave with a rhythm you can begin this week.</p>
+<button class="btn btn-primary" id="cta-scroll-btn">Reserve My Free Seat →</button>
+<p class="bottom-cta-date">Wednesday, October 21 · 3:00–3:45 PM ET · Free</p>
 </div>
 </section>
 <!-- ================================================
@@ -1568,7 +1508,7 @@
             if (isFull) {
                 // Replace form card with full-event message
                 document.getElementById('registration-card').innerHTML = `
-                    <h2>Reserve Your Seat</h2>
+                    <h2>Reserve My Free Seat</h2>
                     <div class="full-notice">
                         <p>This event is full. Check back for future labs with open seats.</p>
                         <a class="btn btn-secondary" href="/#upcoming-labs">← See all upcoming labs</a>
@@ -1696,7 +1636,7 @@
 
             btn.textContent = active
                 ? 'Registering…'
-                : 'Reserve Your Seat →';
+                : 'Reserve My Free Seat →';
         }
 
         function showError(msg) {
