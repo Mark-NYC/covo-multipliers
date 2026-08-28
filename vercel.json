@@ -1,4 +1,6 @@
 {
+  "buildCommand": "npm run build",
+  "outputDirectory": ".",
   "redirects": [
     {
       "source": "/blog/how-to-make-disciples",

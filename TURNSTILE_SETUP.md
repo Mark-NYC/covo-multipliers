@@ -53,28 +53,35 @@ required.
 
 ---
 
-## 2. Put the Site Key in the frontend
+## 2. Put the Site Key in the frontend (Vercel environment variable)
 
-The public site key lives in **one** place: `covo-turnstile.js` (and, if you use
-the cross-origin embed, `embeds/lab-registration-widget.js`).
+**The site key is no longer hardcoded in source.** It is injected at build time
+from a Vercel environment variable, so production, preview, and localhost can
+each use a different key and rotating a key is an env-var change — never a code
+edit.
 
-1. Open `covo-turnstile.js`.
-2. Replace the committed test key on this line:
-   ```js
-   var SITE_KEY = global.COVO_TURNSTILE_SITE_KEY || '1x00000000000000000000AA';
-   ```
-   with your real site key, e.g.:
-   ```js
-   var SITE_KEY = global.COVO_TURNSTILE_SITE_KEY || '0x4AAAAAAA...yourkey';
-   ```
-3. If you use the embed on another site, do the same in
-   `embeds/lab-registration-widget.js`:
-   ```js
-   var TURNSTILE_SITE_KEY = '1x00000000000000000000AA';
-   ```
+Set the variable in the **Vercel Dashboard** → your project → **Settings** →
+**Environment Variables**:
 
-This is committed to the repo and deployed by Vercel (see step 5). The site key
-is **public** — it is safe to commit and ship in browser code.
+| Name | Value | Environments |
+|---|---|---|
+| `PUBLIC_TURNSTILE_SITE_KEY` | *your production Turnstile **site** key* | **Production** |
+| `PUBLIC_TURNSTILE_SITE_KEY` | *(optional)* a preview/test site key | **Preview** |
+
+- The **site** key is public and safe. Do **not** put the **secret** key here —
+  that goes only in Supabase (step 3).
+- On each deploy, Vercel runs `npm run build`, which executes
+  `scripts/generate-turnstile-config.js`. That script writes the key into
+  `turnstile-config.js` (loaded by every lab page) and injects it into the
+  cross-origin embed (`embeds/lab-registration-widget.js`).
+- If the variable is unset, the build falls back to Cloudflare's **test** key so
+  previews still work — it does not silently ship an unprotected production
+  build once the secret is set (a test-key token is rejected by a real secret).
+- **Localhost:** the committed `turnstile-config.js` ships the test key, so pages
+  work with no setup. To test a specific key locally, run
+  `PUBLIC_TURNSTILE_SITE_KEY=<key> npm run build`.
+
+You do **not** edit `covo-turnstile.js` or the embed source to set the key.
 
 ---
 
@@ -122,16 +129,22 @@ A new table `registration_security_events` must exist.
     when changes under `supabase/functions/**` land on `main`.
   - Or deploy manually: Supabase Dashboard → **Edge Functions** → `register` →
     **Deploy** (or `supabase functions deploy register --no-verify-jwt`).
-- **Frontend (must be redeployed):** The lab HTML pages and
-  `covo-turnstile.js` changed.
-  - Vercel auto-deploys on push to the production branch. Or Vercel Dashboard →
-    project → **Deployments** → **Redeploy**.
+- **Frontend (must be redeployed):** The lab HTML pages, `covo-turnstile.js`,
+  the embed, and the new build step changed.
+  - Vercel auto-deploys on push to the production branch (running `npm run build`
+    to inject `PUBLIC_TURNSTILE_SITE_KEY`). Or Vercel Dashboard → project →
+    **Deployments** → **Redeploy**.
+  - ⚠️ The project now has a **Build Command** (`npm run build`) and **Output
+    Directory** (`.`) via `vercel.json`. If these are also set in the Vercel
+    dashboard (Settings → Build & Development), make sure they match or are left
+    empty so `vercel.json` wins.
 
 **Recommended order to avoid any gap:**
 1. Run the migration (step 4).
 2. Deploy the Edge Function **without** `TURNSTILE_SECRET_KEY` yet — honeypot +
    validation + rate limiting go live; the site keeps working.
-3. Deploy the frontend with the real **site key**.
+3. Set `PUBLIC_TURNSTILE_SITE_KEY` in Vercel and deploy the frontend (the build
+   injects the real **site key**).
 4. Add `TURNSTILE_SECRET_KEY` (and `IP_HASH_SALT`) in Supabase and redeploy the
    `register` function. Turnstile enforcement is now on.
 
@@ -164,10 +177,13 @@ A new table `registration_security_events` must exist.
   Enforcement stops immediately; the honeypot, validation, and rate limiting
   remain active and registrations keep working.
 - **Full revert:** Redeploy the previous `register` function version (Supabase
-  keeps prior deployments) and revert the frontend commit in Vercel
-  (Deployments → previous deployment → **Promote to Production**). The
-  `registration_security_events` table can be left in place harmlessly, or
-  dropped if desired.
+  keeps prior deployments) and revert the frontend by promoting the previous
+  Vercel deployment (Deployments → previous deployment → **Promote to
+  Production**). The `registration_security_events` table can be left in place
+  harmlessly, or dropped if desired.
+- **Rotate the site key:** change `PUBLIC_TURNSTILE_SITE_KEY` in the Vercel
+  dashboard and redeploy — no code change. Rotate the matching secret in
+  Supabase at the same time.
 
 ---
 
@@ -175,7 +191,7 @@ A new table `registration_security_events` must exist.
 
 | Where | Name | Purpose | Required |
 |---|---|---|---|
-| Frontend (`covo-turnstile.js`) | `SITE_KEY` constant | Public Turnstile site key | Yes (for enforcement) |
+| **Vercel env var** (Settings → Environment Variables) | `PUBLIC_TURNSTILE_SITE_KEY` | Public Turnstile **site** key; injected into the frontend at build | Yes (for enforcement) |
 | Supabase Edge Function secret | `TURNSTILE_SECRET_KEY` | Server-side Turnstile verification; enables enforcement | Yes (production) |
 | Supabase Edge Function secret | `IP_HASH_SALT` | Salts IP/email hashes in the audit log | Recommended |
 | Supabase Edge Function secret | `TURNSTILE_DEV_BYPASS` | `"true"` to skip Turnstile locally without a secret | Dev only — never in prod |

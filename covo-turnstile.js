@@ -19,20 +19,30 @@
  *   // On submit:  var token = ts.token();   // pass as `turnstile_token`
  *   // On failure: ts.reset();               // refresh the widget for a retry
  *
- * GO-LIVE: replace SITE_KEY below with your production site key from the
- * Cloudflare dashboard (Turnstile → your widget → Site Key). The committed
- * default is Cloudflare's official "always passes" TEST key so local/dev and
- * the automated tests work without protecting production by accident. The
- * client site key and the server's TURNSTILE_SECRET_KEY must be switched to
- * real values together — a real secret rejects test-key tokens.
+ * SITE KEY: this file contains NO hardcoded key. The public site key is
+ * provided by `window.COVO_TURNSTILE_SITE_KEY`, which is set by
+ * `turnstile-config.js` — a file generated at build time from the
+ * PUBLIC_TURNSTILE_SITE_KEY Vercel environment variable (see
+ * scripts/generate-turnstile-config.js). Rotating the key is an env-var change,
+ * never a source edit. The SECRET key lives only in Supabase Edge Function
+ * secrets and never appears in browser code.
+ *
+ * Load order on a page:
+ *   <script src="/turnstile-config.js"></script>   <!-- sets the global -->
+ *   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+ *   <script src="/covo-turnstile.js"></script>
  */
 (function (global) {
   'use strict';
 
-  // Cloudflare test site key ("always passes"). Replace for production.
-  // A page may override this before this script loads by setting
-  // window.COVO_TURNSTILE_SITE_KEY.
-  var SITE_KEY = global.COVO_TURNSTILE_SITE_KEY || '0x4AAAAAAD6wlX7Wg73UGvGH';
+  // Public site key comes exclusively from the global set by turnstile-config.js.
+  var SITE_KEY = (global.COVO_TURNSTILE_SITE_KEY || '').trim();
+  if (!SITE_KEY && global.console) {
+    console.error(
+      'CovoTurnstile: window.COVO_TURNSTILE_SITE_KEY is not set. Ensure /turnstile-config.js ' +
+      'is loaded before covo-turnstile.js (it is generated at build from PUBLIC_TURNSTILE_SITE_KEY).'
+    );
+  }
 
   // Runs cb once the Turnstile API is available. The api.js script is loaded
   // async, so it may not be ready when a form wires itself up.
@@ -61,7 +71,7 @@
     var lastToken = '';
 
     ready(function () {
-      if (!el) return;
+      if (!el || !SITE_KEY) return;
       try {
         widgetId = global.turnstile.render(el, {
           sitekey: SITE_KEY,
