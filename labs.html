@@ -624,24 +624,24 @@
             if (el) el.textContent = Array.isArray(labs) && labs.length ? ` (${labs.length})` : '';
         }
 
-        function buildFeedUrl(scope) {
+        // The password rides as a normal query param (not a custom header) so
+        // the cross-origin GET stays a "simple" request with no CORS preflight.
+        // The function verifies it against its LABS_PASSWORD secret and only
+        // then returns join links; it is never embedded in this page's source.
+        function buildFeedUrl(scope, pw) {
             const url = new URL(LABS_FEED_URL);
             url.searchParams.set('scope', scope);
             url.searchParams.set('limit', String(PAGE_LIMIT));
             url.searchParams.set('include_zoom', '1'); // leader planner shows Join Zoom links
+            const key = pw !== undefined ? pw : labsPassword;
+            if (key) url.searchParams.set('zoom_key', key);
             return url;
-        }
-        // The password is sent server-side on every zoom-bearing request; the
-        // function verifies it against its LABS_PASSWORD secret and only then
-        // returns join links. It is never embedded in this page's source.
-        function feedHeaders() {
-            return labsPassword ? { 'x-labs-password': labsPassword } : {};
         }
 
         async function loadScope(scope) {
             if (cache[scope] !== undefined) return;
             try {
-                const res = await fetch(buildFeedUrl(scope), { headers: feedHeaders() });
+                const res = await fetch(buildFeedUrl(scope));
                 if (res.status === 401) { lock('Session expired. Enter the password again.'); return; }
                 if (!res.ok) throw new Error('request failed');
                 const data = await res.json();
@@ -731,7 +731,7 @@
             gateError.textContent = '';
             let res;
             try {
-                res = await fetch(buildFeedUrl('upcoming'), { headers: { 'x-labs-password': candidate } });
+                res = await fetch(buildFeedUrl('upcoming', candidate));
             } catch {
                 gateButton.disabled = false;
                 gateError.textContent = 'Network error. Try again.';

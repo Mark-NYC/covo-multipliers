@@ -22,12 +22,15 @@
 //   events table with the service role so zoom_link is NOT added to the
 //   anon-readable events_with_availability view.
 //
-//   This branch REQUIRES a password: the request must send the leader
-//   password in the `x-labs-password` header, matched server-side against
-//   the LABS_PASSWORD secret. Wrong/missing password -> 401 and no links.
-//   The password is never shipped in any page's source; only this function
-//   (via its secret) can authorize a zoom-bearing response. The /labs
-//   leader planner is the only intended caller.
+//   This branch REQUIRES a password: the request sends the leader password
+//   as the `zoom_key` query param (or the `x-labs-password` header), matched
+//   server-side against the LABS_PASSWORD secret. Wrong/missing password ->
+//   401 and no links. The query param is used by the browser because it
+//   keeps the request "simple" (no CORS preflight); the header is accepted
+//   too for non-browser callers. The password is never shipped in any
+//   page's source; only this function (via its secret) can authorize a
+//   zoom-bearing response. The /labs leader planner is the only intended
+//   caller.
 //
 // scope:
 //   "upcoming" (default) — event_date >= now, soonest first
@@ -121,7 +124,10 @@ Deno.serve(async (req: Request): Promise<Response> => {
       console.error("public-labs LABS_PASSWORD secret not configured");
       return json(500, { error: "Configuration error." });
     }
-    const provided = req.headers.get("x-labs-password") ?? "";
+    // Query param first (browser uses it to avoid a CORS preflight); header
+    // accepted as a fallback for non-browser callers.
+    const provided = url.searchParams.get("zoom_key") ??
+      req.headers.get("x-labs-password") ?? "";
     if (!timingSafeEqual(provided, expected)) {
       return json(401, { error: "Unauthorized." });
     }
