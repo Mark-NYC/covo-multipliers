@@ -624,14 +624,25 @@
             if (el) el.textContent = Array.isArray(labs) && labs.length ? ` (${labs.length})` : '';
         }
 
+        function buildFeedUrl(scope) {
+            const url = new URL(LABS_FEED_URL);
+            url.searchParams.set('scope', scope);
+            url.searchParams.set('limit', String(PAGE_LIMIT));
+            url.searchParams.set('include_zoom', '1'); // leader planner shows Join Zoom links
+            return url;
+        }
+        // The password is sent server-side on every zoom-bearing request; the
+        // function verifies it against its LABS_PASSWORD secret and only then
+        // returns join links. It is never embedded in this page's source.
+        function feedHeaders() {
+            return labsPassword ? { 'x-labs-password': labsPassword } : {};
+        }
+
         async function loadScope(scope) {
             if (cache[scope] !== undefined) return;
             try {
-                const url = new URL(LABS_FEED_URL);
-                url.searchParams.set('scope', scope);
-                url.searchParams.set('limit', String(PAGE_LIMIT));
-                url.searchParams.set('include_zoom', '1'); // leader planner shows Join Zoom links
-                const res = await fetch(url);
+                const res = await fetch(buildFeedUrl(scope), { headers: feedHeaders() });
+                if (res.status === 401) { lock('Session expired. Enter the password again.'); return; }
                 if (!res.ok) throw new Error('request failed');
                 const data = await res.json();
                 cache[scope] = Array.isArray(data.labs) ? data.labs : [];
@@ -684,43 +695,83 @@
         }
 
         // -----------------------------------------------------------------
-        // Password gate. This is a client-side speed bump, not real
-        // security: the password lives in this page's source and the labs
-        // feed is still reachable directly. It keeps casual visitors out and
-        // signals the page is leader-only. Anything that must be truly
-        // private needs server-side auth. Unlock persists for the browser
-        // session so leaders aren't re-prompted on every navigation.
+        // Password gate — server-enforced. The password is NOT in this
+        // page's source. On submit we send the candidate password to the
+        // labs feed; the Edge Function verifies it against its LABS_PASSWORD
+        // secret and returns 401 if wrong. Only a verified password unlocks
+        // the planner and yields Zoom links. The verified password is kept
+        // in sessionStorage so leaders aren't re-prompted while navigating,
+        // and is replayed on each feed request; clearing it (or a server-
+        // side password change) re-locks the page on the next request.
         // -----------------------------------------------------------------
-        const LABS_PASSWORD = 'Matthew28!';
-        const GATE_KEY = 'covo-labs-unlocked';
+        const GATE_KEY = 'covo-labs-pw';
 
         const gateEl = document.getElementById('gate');
         const gateForm = document.getElementById('gate-form');
         const gateInput = document.getElementById('gate-input');
         const gateError = document.getElementById('gate-error');
+        const gateButton = gateForm.querySelector('button');
 
-        function isUnlocked() {
-            try { return sessionStorage.getItem(GATE_KEY) === '1'; } catch { return false; }
+        let labsPassword = null;
+        try { labsPassword = sessionStorage.getItem(GATE_KEY); } catch { /* private mode */ }
+
+        function lock(msg) {
+            labsPassword = null;
+            try { sessionStorage.removeItem(GATE_KEY); } catch { /* ignore */ }
+            cache.upcoming = undefined;
+            cache.past = undefined;
+            gateEl.hidden = false;
+            gateInput.value = '';
+            gateError.textContent = msg || '';
+            gateInput.focus();
         }
-        function unlock() {
-            try { sessionStorage.setItem(GATE_KEY, '1'); } catch { /* private mode — gate just re-prompts */ }
+
+        async function verifyAndUnlock(candidate) {
+            gateButton.disabled = true;
+            gateError.textContent = '';
+            let res;
+            try {
+                res = await fetch(buildFeedUrl('upcoming'), { headers: { 'x-labs-password': candidate } });
+            } catch {
+                gateButton.disabled = false;
+                gateError.textContent = 'Network error. Try again.';
+                return;
+            }
+            gateButton.disabled = false;
+            if (res.status === 401) {
+                gateError.textContent = 'Incorrect password. Try again.';
+                gateInput.select();
+                return;
+            }
+            if (!res.ok) {
+                gateError.textContent = 'Something went wrong. Try again.';
+                return;
+            }
+            // Verified. Persist, seed the upcoming cache from this response
+            // (avoids a duplicate fetch), reveal the planner.
+            labsPassword = candidate;
+            try { sessionStorage.setItem(GATE_KEY, candidate); } catch { /* private mode */ }
+            try {
+                const data = await res.json();
+                cache.upcoming = Array.isArray(data.labs) ? data.labs : [];
+            } catch { cache.upcoming = undefined; }
+            updateCount('upcoming');
+            gateError.textContent = '';
             gateEl.hidden = true;
             initPlanner();
         }
 
         gateForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            if (gateInput.value === LABS_PASSWORD) {
-                gateError.textContent = '';
-                unlock();
-            } else {
-                gateError.textContent = 'Incorrect password. Try again.';
-                gateInput.select();
-            }
+            const candidate = gateInput.value;
+            if (!candidate) { gateError.textContent = 'Enter the password.'; return; }
+            verifyAndUnlock(candidate);
         });
 
         document.addEventListener('DOMContentLoaded', () => {
-            if (isUnlocked()) {
+            if (labsPassword) {
+                // Stored password: init immediately. loadScope replays it and
+                // re-locks via lock() if the server now rejects it (401).
                 initPlanner();
             } else {
                 gateEl.hidden = false;

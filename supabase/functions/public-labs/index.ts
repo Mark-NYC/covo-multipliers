@@ -15,14 +15,19 @@
 // the /labs listing page (upcoming + past tabs), and Multiplying Disciples'
 // homepage lab CTA + blog "Next Live Lab" cards.
 //
-// include_zoom:
+// include_zoom (password-gated):
 //   Off by default, so the shared feed (homepages, other embeds) never
 //   carries Zoom join links. When "1"/"true", each lab also gets a
-//   `zoom_link` (may be null if none is set yet). Read straight from the
-//   events table with the service role, so zoom_link is NOT added to the
-//   anon-readable events_with_availability view. Only the /labs leader
-//   planner opts in. Note: this makes join links reachable by anyone who
-//   calls with the flag — an intentional, leader-facing exposure.
+//   `zoom_link` (may be null if none is set yet), read straight from the
+//   events table with the service role so zoom_link is NOT added to the
+//   anon-readable events_with_availability view.
+//
+//   This branch REQUIRES a password: the request must send the leader
+//   password in the `x-labs-password` header, matched server-side against
+//   the LABS_PASSWORD secret. Wrong/missing password -> 401 and no links.
+//   The password is never shipped in any page's source; only this function
+//   (via its secret) can authorize a zoom-bearing response. The /labs
+//   leader planner is the only intended caller.
 //
 // scope:
 //   "upcoming" (default) — event_date >= now, soonest first
@@ -46,8 +51,21 @@ type Scope = "upcoming" | "past" | "all";
 const CORS_HEADERS: Record<string, string> = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, OPTIONS",
-  "Access-Control-Allow-Headers": "content-type",
+  "Access-Control-Allow-Headers": "content-type, x-labs-password",
 };
+
+// Constant-time string comparison so a wrong password can't be narrowed
+// down by timing the response. Length is compared first (unavoidable leak),
+// then every byte, without early-out.
+function timingSafeEqual(a: string, b: string): boolean {
+  const enc = new TextEncoder();
+  const ba = enc.encode(a);
+  const bb = enc.encode(b);
+  if (ba.length !== bb.length) return false;
+  let diff = 0;
+  for (let i = 0; i < ba.length; i++) diff |= ba[i] ^ bb[i];
+  return diff === 0;
+}
 
 function json(
   status: number,
@@ -94,6 +112,20 @@ Deno.serve(async (req: Request): Promise<Response> => {
 
   const includeZoomParam = (url.searchParams.get("include_zoom") ?? "").toLowerCase();
   const includeZoom = includeZoomParam === "1" || includeZoomParam === "true";
+
+  // Password gate for zoom links. Only enforced on the include_zoom branch;
+  // the default public feed stays open and unchanged.
+  if (includeZoom) {
+    const expected = Deno.env.get("LABS_PASSWORD");
+    if (!expected) {
+      console.error("public-labs LABS_PASSWORD secret not configured");
+      return json(500, { error: "Configuration error." });
+    }
+    const provided = req.headers.get("x-labs-password") ?? "";
+    if (!timingSafeEqual(provided, expected)) {
+      return json(401, { error: "Unauthorized." });
+    }
+  }
 
   const supabaseUrl = Deno.env.get("SUPABASE_URL");
   const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
