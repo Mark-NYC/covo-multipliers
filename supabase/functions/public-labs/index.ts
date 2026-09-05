@@ -5,6 +5,7 @@
 //   GET /functions/v1/public-labs?limit=3               (upcoming, default)
 //   GET /functions/v1/public-labs?scope=past&limit=50    (past, newest first)
 //   GET /functions/v1/public-labs?scope=all&limit=100     (past + upcoming)
+//   GET /functions/v1/public-labs?include_zoom=1          (adds zoom_link)
 //
 // Returns published labs, each with a ready-to-use `url` (its own landing
 // page, or the /#upcoming-labs anchor if that lab has no landing_path yet)
@@ -13,6 +14,20 @@
 // consumers: Covo's own homepage (#upcoming-labs, default upcoming scope),
 // the /labs listing page (upcoming + past tabs), and Multiplying Disciples'
 // homepage lab CTA + blog "Next Live Lab" cards.
+//
+// include_zoom (password-gated):
+//   Off by default, so the shared feed (homepages, other embeds) never
+//   carries Zoom join links. When "1"/"true", each lab also gets a
+//   `zoom_link` (may be null if none is set yet), read straight from the
+//   events table with the service role so zoom_link is NOT added to the
+//   anon-readable events_with_availability view.
+//
+//   This branch REQUIRES a password: the request must send the leader
+//   password in the `x-labs-password` header, matched server-side against
+//   the LABS_PASSWORD secret. Wrong/missing password -> 401 and no links.
+//   The password is never shipped in any page's source; only this function
+//   (via its secret) can authorize a zoom-bearing response. The /labs
+//   leader planner is the only intended caller.
 //
 // scope:
 //   "upcoming" (default) — event_date >= now, soonest first
@@ -36,8 +51,21 @@ type Scope = "upcoming" | "past" | "all";
 const CORS_HEADERS: Record<string, string> = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, OPTIONS",
-  "Access-Control-Allow-Headers": "content-type",
+  "Access-Control-Allow-Headers": "content-type, x-labs-password",
 };
+
+// Constant-time string comparison so a wrong password can't be narrowed
+// down by timing the response. Length is compared first (unavoidable leak),
+// then every byte, without early-out.
+function timingSafeEqual(a: string, b: string): boolean {
+  const enc = new TextEncoder();
+  const ba = enc.encode(a);
+  const bb = enc.encode(b);
+  if (ba.length !== bb.length) return false;
+  let diff = 0;
+  for (let i = 0; i < ba.length; i++) diff |= ba[i] ^ bb[i];
+  return diff === 0;
+}
 
 function json(
   status: number,
@@ -81,6 +109,23 @@ Deno.serve(async (req: Request): Promise<Response> => {
   const limit = Number.isFinite(limitParam) && limitParam > 0
     ? Math.min(limitParam, MAX_LIMIT)
     : DEFAULT_LIMIT;
+
+  const includeZoomParam = (url.searchParams.get("include_zoom") ?? "").toLowerCase();
+  const includeZoom = includeZoomParam === "1" || includeZoomParam === "true";
+
+  // Password gate for zoom links. Only enforced on the include_zoom branch;
+  // the default public feed stays open and unchanged.
+  if (includeZoom) {
+    const expected = Deno.env.get("LABS_PASSWORD");
+    if (!expected) {
+      console.error("public-labs LABS_PASSWORD secret not configured");
+      return json(500, { error: "Configuration error." });
+    }
+    const provided = req.headers.get("x-labs-password") ?? "";
+    if (!timingSafeEqual(provided, expected)) {
+      return json(401, { error: "Unauthorized." });
+    }
+  }
 
   const supabaseUrl = Deno.env.get("SUPABASE_URL");
   const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
@@ -135,7 +180,31 @@ Deno.serve(async (req: Request): Promise<Response> => {
     return json(500, { error: "Failed to load labs." });
   }
 
-  const labs = ((data ?? []) as EventRow[]).map((row) => ({
+  const rows = (data ?? []) as EventRow[];
+
+  // Zoom join links are read straight from the events table (service role
+  // bypasses RLS) only when explicitly requested, so they never enter the
+  // anon-readable events_with_availability view or the default feed the
+  // homepages consume. Keyed by slug to merge back onto the rows below.
+  let zoomBySlug: Map<string, string | null> = new Map();
+  if (includeZoom && rows.length > 0) {
+    const slugs = rows.map((r) => r.slug);
+    const { data: zoomData, error: zoomError } = await supabase
+      .from("events")
+      .select("slug,zoom_link")
+      .in("slug", slugs);
+    if (zoomError) {
+      console.error("public-labs zoom query error", JSON.stringify(zoomError));
+      return json(500, { error: "Failed to load labs." });
+    }
+    zoomBySlug = new Map(
+      ((zoomData ?? []) as { slug: string; zoom_link: string | null }[]).map(
+        (r) => [r.slug, r.zoom_link],
+      ),
+    );
+  }
+
+  const labs = rows.map((row) => ({
     slug: row.slug,
     title: row.title,
     hook: row.hook,
@@ -145,14 +214,18 @@ Deno.serve(async (req: Request): Promise<Response> => {
     has_availability: row.has_availability,
     url: row.landing_path ? `${SITE_ORIGIN}${row.landing_path}` : FALLBACK_URL,
     slides_url: hasSlides ? row.slides_url : null,
+    ...(includeZoom ? { zoom_link: zoomBySlug.get(row.slug) ?? null } : {}),
   }));
 
   // Fresh enough that a new lab or a seat count change shows up within a
   // minute or two, cheap enough that a busy page doesn't hit the DB on
   // every single view.
-  return json(
-    200,
-    { labs, scope, generated_at: nowIso },
-    { "Cache-Control": "public, max-age=60, stale-while-revalidate=300" },
-  );
+  // Default feed is safe to cache in shared CDNs; a zoom-bearing response is
+  // kept out of shared caches (private) so join links aren't held by an
+  // intermediary, while still allowing a short per-browser cache.
+  const cacheControl = includeZoom
+    ? "private, max-age=60"
+    : "public, max-age=60, stale-while-revalidate=300";
+
+  return json(200, { labs, scope, generated_at: nowIso }, { "Cache-Control": cacheControl });
 });

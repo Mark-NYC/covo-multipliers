@@ -297,6 +297,8 @@
         .lab-linkbtn:hover { background: #f0f5f3; }
         .lab-linkbtn.is-slides { color: var(--gold); }
         .lab-linkbtn.is-slides:hover { background: #faf4e8; }
+        .lab-linkbtn.is-zoom { color: #2563eb; }
+        .lab-linkbtn.is-zoom:hover { background: #eef2ff; }
         .lab-linkbtn svg { width: 13px; height: 13px; flex: 0 0 auto; }
 
         .lab-copybtn {
@@ -335,6 +337,82 @@
         .planner-foot a { color: var(--green); font-weight: 700; text-decoration: none; }
         .planner-foot a:hover { text-decoration: underline; }
 
+        /* 5b. Password gate --------------------------------------------- */
+        .gate {
+            position: fixed;
+            inset: 0;
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            background: var(--paper);
+        }
+        .gate-card {
+            width: 100%;
+            max-width: 360px;
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            box-shadow: 0 8px 30px rgba(16,40,31,0.08);
+            padding: 1.75rem 1.5rem;
+            text-align: center;
+        }
+        .gate-card .eyebrow {
+            margin: 0 0 0.4rem;
+            font-size: 0.66rem;
+            font-weight: 800;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--green);
+        }
+        .gate-card h1 {
+            margin: 0 0 1.1rem;
+            font-size: 1.25rem;
+            font-weight: 900;
+            letter-spacing: -0.01em;
+            color: var(--green-deep);
+        }
+        .gate-form { display: flex; flex-direction: column; gap: 0.6rem; }
+        .gate-form input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 0.6rem 0.85rem;
+            font-family: inherit;
+            font-size: 0.95rem;
+            color: var(--ink);
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            outline: none;
+        }
+        .gate-form input:focus {
+            border-color: var(--green);
+            box-shadow: 0 0 0 3px rgba(27,77,62,0.1);
+        }
+        .gate-form button {
+            appearance: none;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 800;
+            color: #fff;
+            background: var(--green);
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            transition: background 0.15s ease;
+        }
+        .gate-form button:hover { background: var(--green-deep); }
+        .gate-error {
+            min-height: 1.1rem;
+            margin: 0.2rem 0 0;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #b91c1c;
+        }
+        .gate-error:empty { visibility: hidden; }
+
         /* 6. Responsive ------------------------------------------------- */
         @media (max-width: 760px) {
             .lab-row {
@@ -357,6 +435,18 @@
     </style>
 </head>
 <body>
+
+    <div class="gate" id="gate" hidden>
+        <div class="gate-card">
+            <p class="eyebrow">Leader Planner</p>
+            <h1>Enter password</h1>
+            <form class="gate-form" id="gate-form">
+                <input type="password" id="gate-input" placeholder="Password" autocomplete="current-password" aria-label="Page password" autofocus>
+                <button type="submit">Unlock</button>
+                <p class="gate-error" id="gate-error" role="alert"></p>
+            </form>
+        </div>
+    </div>
 
     <header class="site-header">
         <a class="brand" href="/">Covo Multipliers</a>
@@ -443,9 +533,10 @@
         const CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>';
 
         function linkGroup(href, label, cls, copyLabel) {
+            const external = cls === 'is-slides' || cls === 'is-zoom';
             return `
                 <span class="lab-linkgroup">
-                    <a class="lab-linkbtn ${cls}" href="${escapeAttr(href)}"${cls === 'is-slides' ? ' target="_blank" rel="noopener"' : ''}>
+                    <a class="lab-linkbtn ${cls}" href="${escapeAttr(href)}"${external ? ' target="_blank" rel="noopener"' : ''}>
                         <span>${label}</span>${ARROW}
                     </a>
                     <button class="lab-copybtn" type="button" data-copy="${escapeAttr(href)}" aria-label="Copy ${copyLabel} link" title="Copy ${copyLabel} link">${COPY}</button>
@@ -467,6 +558,11 @@
             }
 
             const pageLink = linkGroup(lab.url, 'Page', '', 'landing page');
+            // Zoom join links only matter for upcoming labs and only appear
+            // when the feed was asked for them (include_zoom).
+            const zoomLink = (!isPast && lab.zoom_link)
+                ? linkGroup(lab.zoom_link, 'Join Zoom', 'is-zoom', 'Zoom')
+                : '';
             const slidesLink = lab.slides_url ? linkGroup(lab.slides_url, 'Slides', 'is-slides', 'slides') : '';
             const isFullRow = !isPast && !lab.has_availability;
 
@@ -481,7 +577,7 @@
                         ${hook ? `<p class="lab-hook">${escapeHtml(hook)}</p>` : ''}
                     </div>
                     <div class="lab-status">${status}</div>
-                    <div class="lab-links">${pageLink}${slidesLink}</div>
+                    <div class="lab-links">${pageLink}${zoomLink}${slidesLink}</div>
                 </article>`;
         }
 
@@ -528,13 +624,25 @@
             if (el) el.textContent = Array.isArray(labs) && labs.length ? ` (${labs.length})` : '';
         }
 
+        function buildFeedUrl(scope) {
+            const url = new URL(LABS_FEED_URL);
+            url.searchParams.set('scope', scope);
+            url.searchParams.set('limit', String(PAGE_LIMIT));
+            url.searchParams.set('include_zoom', '1'); // leader planner shows Join Zoom links
+            return url;
+        }
+        // The password is sent server-side on every zoom-bearing request; the
+        // function verifies it against its LABS_PASSWORD secret and only then
+        // returns join links. It is never embedded in this page's source.
+        function feedHeaders() {
+            return labsPassword ? { 'x-labs-password': labsPassword } : {};
+        }
+
         async function loadScope(scope) {
             if (cache[scope] !== undefined) return;
             try {
-                const url = new URL(LABS_FEED_URL);
-                url.searchParams.set('scope', scope);
-                url.searchParams.set('limit', String(PAGE_LIMIT));
-                const res = await fetch(url);
+                const res = await fetch(buildFeedUrl(scope), { headers: feedHeaders() });
+                if (res.status === 401) { lock('Session expired. Enter the password again.'); return; }
                 if (!res.ok) throw new Error('request failed');
                 const data = await res.json();
                 cache[scope] = Array.isArray(data.labs) ? data.labs : [];
@@ -581,9 +689,94 @@
             } catch { /* clipboard blocked — ignore */ }
         });
 
-        document.addEventListener('DOMContentLoaded', () => {
+        function initPlanner() {
             activateTab('upcoming');
             loadScope('past'); // warm the other tab
+        }
+
+        // -----------------------------------------------------------------
+        // Password gate — server-enforced. The password is NOT in this
+        // page's source. On submit we send the candidate password to the
+        // labs feed; the Edge Function verifies it against its LABS_PASSWORD
+        // secret and returns 401 if wrong. Only a verified password unlocks
+        // the planner and yields Zoom links. The verified password is kept
+        // in sessionStorage so leaders aren't re-prompted while navigating,
+        // and is replayed on each feed request; clearing it (or a server-
+        // side password change) re-locks the page on the next request.
+        // -----------------------------------------------------------------
+        const GATE_KEY = 'covo-labs-pw';
+
+        const gateEl = document.getElementById('gate');
+        const gateForm = document.getElementById('gate-form');
+        const gateInput = document.getElementById('gate-input');
+        const gateError = document.getElementById('gate-error');
+        const gateButton = gateForm.querySelector('button');
+
+        let labsPassword = null;
+        try { labsPassword = sessionStorage.getItem(GATE_KEY); } catch { /* private mode */ }
+
+        function lock(msg) {
+            labsPassword = null;
+            try { sessionStorage.removeItem(GATE_KEY); } catch { /* ignore */ }
+            cache.upcoming = undefined;
+            cache.past = undefined;
+            gateEl.hidden = false;
+            gateInput.value = '';
+            gateError.textContent = msg || '';
+            gateInput.focus();
+        }
+
+        async function verifyAndUnlock(candidate) {
+            gateButton.disabled = true;
+            gateError.textContent = '';
+            let res;
+            try {
+                res = await fetch(buildFeedUrl('upcoming'), { headers: { 'x-labs-password': candidate } });
+            } catch {
+                gateButton.disabled = false;
+                gateError.textContent = 'Network error. Try again.';
+                return;
+            }
+            gateButton.disabled = false;
+            if (res.status === 401) {
+                gateError.textContent = 'Incorrect password. Try again.';
+                gateInput.select();
+                return;
+            }
+            if (!res.ok) {
+                gateError.textContent = 'Something went wrong. Try again.';
+                return;
+            }
+            // Verified. Persist, seed the upcoming cache from this response
+            // (avoids a duplicate fetch), reveal the planner.
+            labsPassword = candidate;
+            try { sessionStorage.setItem(GATE_KEY, candidate); } catch { /* private mode */ }
+            try {
+                const data = await res.json();
+                cache.upcoming = Array.isArray(data.labs) ? data.labs : [];
+            } catch { cache.upcoming = undefined; }
+            updateCount('upcoming');
+            gateError.textContent = '';
+            gateEl.hidden = true;
+            initPlanner();
+        }
+
+        gateForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const candidate = gateInput.value;
+            if (!candidate) { gateError.textContent = 'Enter the password.'; return; }
+            verifyAndUnlock(candidate);
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (labsPassword) {
+                // Stored password: init immediately. loadScope replays it and
+                // re-locks via lock() if the server now rejects it (401).
+                initPlanner();
+            } else {
+                gateEl.hidden = false;
+                gateInput.focus();
+            }
         });
     </script>
 
