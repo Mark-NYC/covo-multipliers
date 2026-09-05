@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta
+    name="description"
+    content="H3X helps covocational leaders make disciples where they already live, work, and play. Weekly field-tested conversations. Head. Heart. Hands."
+  />
+  <title>H3X Podcast — Covo Multipliers</title>
+
+  <link rel="icon" type="image/x-icon" href="/image/favicons/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/image/favicons/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/image/favicons/favicon-16x16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/image/favicons/apple-touch-icon.png" />
+
+  <style>
+    /* =========================================================
+       H3X — visual mockup
+       Premium comes from proportion, type, and space — not decoration.
+       Palette: black · white · warm off-white · H3X burnt orange
+       ========================================================= */
+
+    :root {
+      --ink: #111111;
+      --ink-soft: #3f3f3f;
+      --muted: #6b6660;
+      --paper: #ffffff;
+      --warm: #f6f2ec;
+      --line: #e7e1d7;
+      --orange: #bd5a22;
+      --orange-deep: #a54c1a;
+
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+              Helvetica, Arial, sans-serif;
+
+      --measure: 40rem;      /* controlled reading width  */
+      --frame: 68rem;        /* overall composition width  */
+      --gutter: clamp(1.5rem, 5vw, 4rem);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: var(--font);
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    img { max-width: 100%; display: block; }
+
+    a { color: inherit; }
+
+    :focus-visible {
+      outline: 2px solid var(--orange);
+      outline-offset: 3px;
+      border-radius: 2px;
+    }
+
+    .wrap {
+      max-width: var(--frame);
+      margin: 0 auto;
+      padding-left: var(--gutter);
+      padding-right: var(--gutter);
+    }
+
+    /* ---------- Header ---------- */
+    .site-header {
+      padding: 1.4rem 0;
+    }
+
+    .site-header .wrap {
+      display: flex;
+      align-items: center;
+    }
+
+    .brand {
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      text-decoration: none;
+      color: var(--ink);
+    }
+
+    /* ---------- Hero ---------- */
+    .hero {
+      background: var(--warm);
+      padding: clamp(3.5rem, 9vw, 7.5rem) 0 clamp(3.5rem, 9vw, 7rem);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 26rem) minmax(0, 1fr);
+      gap: clamp(2.5rem, 6vw, 5.5rem);
+      align-items: center;
+    }
+
+    .hero-art {
+      width: 100%;
+      max-width: 26rem;
+      aspect-ratio: 1 / 1;
+      border-radius: 18px;
+      overflow: hidden;
+      background: #1a1a1a;
+      /* the one subtle shadow on the page */
+      box-shadow: 0 30px 60px -24px rgba(40, 24, 12, 0.45);
+    }
+
+    .hero-art img { width: 100%; height: 100%; object-fit: cover; }
+
+    .hero-art-fallback {
+      width: 100%;
+      height: 100%;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+      background: var(--warm);
+      color: var(--ink);
+    }
+
+    .hero-art-fallback img { width: 62%; height: auto; }
+
+    .hero-art-fallback span {
+      font-size: 2.2rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .hero-title {
+      font-size: clamp(4rem, 13vw, 7.5rem);
+      font-weight: 700;
+      line-height: 0.92;
+      letter-spacing: -0.045em;
+      margin: 0 0 1.4rem;
+    }
+
+    .hero-lede {
+      font-size: clamp(1.4rem, 3.2vw, 2.05rem);
+      font-weight: 600;
+      line-height: 1.18;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin: 0 0 1.25rem;
+      max-width: 22ch;
+    }
+
+    .hero-sub {
+      font-size: 1.125rem;
+      line-height: 1.6;
+      color: var(--ink-soft);
+      margin: 0 0 2.25rem;
+      max-width: 42ch;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      background: var(--orange);
+      color: #ffffff;
+      font-size: 1.02rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      text-decoration: none;
+      padding: 0.95rem 1.9rem;
+      border-radius: 12px;
+      transition: background 0.2s ease;
+    }
+
+    .btn-primary:hover { background: var(--orange-deep); }
+
+    .hero-platforms {
+      margin: 1.75rem 0 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.6rem;
+      align-items: center;
+    }
+
+    .platform-link {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--ink-soft);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .platform-link:hover { color: var(--orange); }
+
+    .hero-hosted {
+      margin: 2.25rem 0 0;
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    /* ---------- Section scaffolding ---------- */
+    .section {
+      padding: clamp(4rem, 10vw, 7.5rem) 0;
+    }
+
+    .section--warm { background: var(--warm); }
+
+    .section-head {
+      font-size: clamp(2.1rem, 5.5vw, 3.25rem);
+      font-weight: 700;
+      line-height: 1.02;
+      letter-spacing: -0.035em;
+      margin: 0 0 clamp(2.5rem, 5vw, 3.5rem);
+    }
+
+    /* ---------- Start here ---------- */
+    .rows { max-width: 52rem; }
+
+    .row {
+      display: grid;
+      grid-template-columns: 3.25rem 1fr 1.5rem;
+      align-items: baseline;
+      gap: clamp(1rem, 3vw, 2rem);
+      padding: 1.9rem 0;
+      border-top: 1px solid var(--line);
+      text-decoration: none;
+      color: var(--ink);
+    }
+
+    .rows .row:last-child { border-bottom: 1px solid var(--line); }
+
+    .row-num {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--orange);
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+
+    .row-title {
+      font-size: clamp(1.25rem, 2.6vw, 1.6rem);
+      font-weight: 600;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      margin: 0 0 0.5rem;
+      transition: color 0.2s ease;
+    }
+
+    .row:hover .row-title,
+    .row:focus-visible .row-title { color: var(--orange); }
+
+    .row-desc {
+      font-size: 1.05rem;
+      line-height: 1.5;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .row-arrow {
+      font-size: 1.35rem;
+      color: var(--orange);
+      align-self: center;
+      line-height: 1;
+      transform: translateY(0);
+    }
+
+    /* ---------- Latest episodes ---------- */
+    .episodes { max-width: 52rem; }
+
+    .episode {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: baseline;
+      gap: clamp(1rem, 3vw, 2rem);
+      padding: 1.9rem 0;
+      border-top: 1px solid var(--line);
+      text-decoration: none;
+      color: var(--ink);
+    }
+
+    .episodes .episode:last-of-type { border-bottom: 1px solid var(--line); }
+
+    .episode-date {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 0 0 0.55rem;
+    }
+
+    .episode-title {
+      font-size: clamp(1.2rem, 2.4vw, 1.5rem);
+      font-weight: 600;
+      line-height: 1.22;
+      letter-spacing: -0.02em;
+      margin: 0 0 0.55rem;
+      transition: color 0.2s ease;
+    }
+
+    .episode:hover .episode-title,
+    .episode:focus-visible .episode-title { color: var(--orange); }
+
+    .episode-desc {
+      font-size: 1.02rem;
+      line-height: 1.5;
+      color: var(--muted);
+      margin: 0;
+      max-width: 46ch;
+    }
+
+    .episode-play {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.98rem;
+      font-weight: 600;
+      color: var(--orange);
+      white-space: nowrap;
+      align-self: center;
+    }
+
+    .episodes-status {
+      padding: 1.5rem 0;
+      font-size: 1.05rem;
+      color: var(--muted);
+    }
+
+    .episodes-status a { color: var(--orange); font-weight: 600; }
+
+    /* ---------- Final CTA ---------- */
+    .cta { background: var(--ink); color: #ffffff; }
+
+    .cta .wrap {
+      max-width: 46rem;
+      padding-top: clamp(4.5rem, 11vw, 8rem);
+      padding-bottom: clamp(4.5rem, 11vw, 8rem);
+    }
+
+    .cta-head {
+      font-size: clamp(2.1rem, 5.5vw, 3.25rem);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.035em;
+      margin: 0 0 1.25rem;
+    }
+
+    .cta-body {
+      font-size: 1.2rem;
+      line-height: 1.55;
+      color: rgba(255, 255, 255, 0.72);
+      margin: 0 0 2.5rem;
+      max-width: 44ch;
+    }
+
+    /* ---------- Footer ---------- */
+    .site-footer {
+      padding: 3rem 0 3.5rem;
+      border-top: 1px solid var(--line);
+    }
+
+    .footer-brand {
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin: 0 0 0.35rem;
+    }
+
+    .footer-tag {
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    /* ---------- Responsive: intentional, not merely stacked ---------- */
+    @media (max-width: 800px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: clamp(2.25rem, 8vw, 3rem);
+        justify-items: start;
+      }
+
+      .hero-art { max-width: 15rem; }
+
+      .row {
+        grid-template-columns: 2.25rem 1fr;
+        grid-template-areas:
+          "num  title"
+          ".    desc"
+          ".    arrow";
+        row-gap: 0.55rem;
+      }
+
+      .row-num { grid-area: num; }
+      .row > div:nth-child(2) { grid-area: title; }
+      .row-arrow { grid-area: arrow; align-self: start; justify-self: start; }
+
+      .episode {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+      }
+
+      .episode-play { align-self: start; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      * { transition: none !important; }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="/">Covo Multipliers</a>
+    </div>
+  </header>
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-art">
+        <img
+          src="https://d3t3ozftmdmh3i.cloudfront.net/staging/podcast_uploaded_nologo/45817299/9c11b35c36717c47.jpg"
+          alt="H3X podcast cover art"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+        />
+        <div class="hero-art-fallback" aria-hidden="true">
+          <img src="image/h3x podcast logo header.webp" alt="" />
+          <span>H3X</span>
+        </div>
+      </div>
+
+      <div class="hero-copy">
+        <h1 class="hero-title">H3X</h1>
+        <p class="hero-lede">Make disciples where you already live, work, and play.</p>
+        <p class="hero-sub">
+          Weekly field-tested conversations for covocational leaders. Head. Heart. Hands.
+        </p>
+
+        <a
+          class="btn-primary"
+          id="play-latest"
+          href="https://open.spotify.com/show/2NNDtnQaRLeqRU2N3LVayR"
+          target="_blank"
+          rel="noopener"
+        >Play the latest episode</a>
+
+        <div class="hero-platforms">
+          <a class="platform-link" href="https://podcasts.apple.com/us/podcast/h3x/id1562206185" target="_blank" rel="noopener">Apple Podcasts</a>
+          <a class="platform-link" href="https://open.spotify.com/show/2NNDtnQaRLeqRU2N3LVayR" target="_blank" rel="noopener">Spotify</a>
+          <a class="platform-link" href="https://www.youtube.com/playlist?list=PL1YoQQDZVDO68yuhJzvcu11DQxF3H_y4O" target="_blank" rel="noopener">YouTube</a>
+        </div>
+
+        <p class="hero-hosted">Hosted by Mark Goering and Dave Miller. New Tuesdays.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ START HERE ============ -->
+  <section class="section">
+    <div class="wrap">
+      <h2 class="section-head">Start here</h2>
+
+      <div class="rows">
+        <a class="row" href="https://open.spotify.com/episode/6apjtnX4URNrbCy8B0l6Mk" target="_blank" rel="noopener">
+          <span class="row-num">1</span>
+          <div>
+            <p class="row-title">How to Actually Have Spiritual Conversations</p>
+            <p class="row-desc">Move from small talk to real gospel conversations without forcing it.</p>
+          </div>
+          <span class="row-arrow" aria-hidden="true">→</span>
+        </a>
+
+        <a class="row" href="https://open.spotify.com/episode/6J4sgxTS7LXX6Wpn02w2er" target="_blank" rel="noopener">
+          <span class="row-num">2</span>
+          <div>
+            <p class="row-title">You Don’t Have a Vision Problem. You Have a Habit Problem.</p>
+            <p class="row-desc">Why daily rhythms, not abstract ideas, drive multiplication.</p>
+          </div>
+          <span class="row-arrow" aria-hidden="true">→</span>
+        </a>
+
+        <a class="row" href="https://open.spotify.com/episode/1XLYxDbz5Zb2PV3WEeP3Nq" target="_blank" rel="noopener">
+          <span class="row-num">3</span>
+          <div>
+            <p class="row-title">Margin Is Your Superpower</p>
+            <p class="row-desc">How covocational leaders stay focused, free, and in the game long-term.</p>
+          </div>
+          <span class="row-arrow" aria-hidden="true">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LATEST EPISODES ============ -->
+  <section class="section section--warm">
+    <div class="wrap">
+      <h2 class="section-head">Latest episodes</h2>
+
+      <div class="episodes" id="latest-episodes" aria-live="polite">
+        <p class="episodes-status" id="episodes-status">Loading latest episodes…</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FINAL CTA ============ -->
+  <section class="cta">
+    <div class="wrap">
+      <h2 class="cta-head">Don’t let this stay in your earbuds.</h2>
+      <p class="cta-body">
+        Join a free Lab and practice what you’re learning with other covocational leaders.
+      </p>
+      <a class="btn-primary" href="/#upcoming-labs">Join a Lab</a>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="site-footer">
+    <div class="wrap">
+      <p class="footer-brand">Covo Multipliers</p>
+      <p class="footer-tag">Live. Work. Play. Multiply.</p>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      // Repo-cached feed first (instant, no dependency on the visitor
+      // reaching anchor.fm), then the live feed, then rss2json — the same
+      // resilient chain the production H3X page uses.
+      var FEED_URL = 'https://anchor.fm/s/111b03cec/podcast/rss';
+      var CACHED_URL = '/h3x-feed.json';
+      var SHOW_URL = 'https://open.spotify.com/show/2NNDtnQaRLeqRU2N3LVayR';
+      var APPLE_URL = 'https://podcasts.apple.com/us/podcast/h3x/id1562206185';
+      var MAX_EPISODES = 6;
+      var SUMMARY_MAX_CHARS = 120;
+
+      var list = document.getElementById('latest-episodes');
+      var playLatest = document.getElementById('play-latest');
+      if (!list) return;
+
+      function stripHtml(html) {
+        if (!html) return '';
+        var tmp = document.createElement('div');
+        tmp.innerHTML = html;
+        var text = tmp.textContent || tmp.innerText || '';
+        return text.replace(/\s+/g, ' ').trim();
+      }
+
+      function truncate(text, max) {
+        if (!text || text.length <= max) return text;
+        var slice = text.slice(0, max);
+        var lastSpace = slice.lastIndexOf(' ');
+        if (lastSpace > max * 0.6) slice = slice.slice(0, lastSpace);
+        return slice.replace(/[.,;:!?-]+$/, '') + '…';
+      }
+
+      function formatDate(dateStr) {
+        var d = new Date(dateStr);
+        if (isNaN(d.getTime())) return '';
+        return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+      }
+
+      function escapeHtml(str) {
+        if (!str) return '';
+        return str
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      function renderEpisodes(episodes) {
+        if (!episodes || episodes.length === 0) {
+          showStatus(
+            'No episodes found right now. ' +
+            '<a href="' + SHOW_URL + '" target="_blank" rel="noopener">Listen on Spotify</a>.'
+          );
+          return;
+        }
+
+        // Point the hero's primary action at the newest episode.
+        var newest = episodes[0];
+        if (playLatest && newest && newest.link) {
+          playLatest.setAttribute('href', newest.link);
+          playLatest.setAttribute(
+            'aria-label',
+            'Play the latest episode: ' + (newest.title || 'H3X')
+          );
+        }
+
+        var html = episodes.slice(0, MAX_EPISODES).map(function (ep) {
+          var date = formatDate(ep.pubDate);
+          var summary = truncate(stripHtml(ep.description), SUMMARY_MAX_CHARS);
+
+          return (
+            '<a class="episode" href="' + escapeHtml(ep.link || '#') + '" target="_blank" rel="noopener">' +
+              '<div>' +
+                (date ? '<span class="episode-date">' + escapeHtml(date) + '</span>' : '') +
+                '<p class="episode-title">' + escapeHtml(ep.title || 'Untitled episode') + '</p>' +
+                (summary ? '<p class="episode-desc">' + escapeHtml(summary) + '</p>' : '') +
+              '</div>' +
+              '<span class="episode-play">Play <span aria-hidden="true">→</span></span>' +
+            '</a>'
+          );
+        }).join('');
+
+        list.innerHTML = html;
+      }
+
+      function showStatus(messageHtml) {
+        list.innerHTML = '<p class="episodes-status">' + messageHtml + '</p>';
+      }
+
+      function fetchCached() {
+        return fetch(CACHED_URL, { cache: 'no-cache' })
+          .then(function (res) {
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            return res.json();
+          })
+          .then(function (data) {
+            var items = (data && data.items) || [];
+            if (!items.length) throw new Error('cached feed empty');
+            return items.map(function (item) {
+              return {
+                title: item.title,
+                link: item.link,
+                pubDate: item.pubDate,
+                description: item.description || ''
+              };
+            });
+          });
+      }
+
+      function fetchDirect() {
+        return fetch(FEED_URL)
+          .then(function (res) {
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            return res.text();
+          })
+          .then(function (xmlText) {
+            var doc = new DOMParser().parseFromString(xmlText, 'application/xml');
+            var items = Array.prototype.slice.call(doc.querySelectorAll('item'));
+            return items.map(function (item) {
+              return {
+                title: (item.querySelector('title') || {}).textContent || '',
+                link: (item.querySelector('link') || {}).textContent || '',
+                pubDate: (item.querySelector('pubDate') || {}).textContent || '',
+                description: (item.querySelector('description') || {}).textContent || ''
+              };
+            });
+          });
+      }
+
+      function fetchViaRss2Json() {
+        var url = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(FEED_URL);
+        return fetch(url)
+          .then(function (res) {
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            return res.json();
+          })
+          .then(function (data) {
+            if (data.status !== 'ok' || !data.items) {
+              throw new Error('rss2json returned no items');
+            }
+            return data.items.map(function (item) {
+              return {
+                title: item.title,
+                link: item.link,
+                pubDate: item.pubDate,
+                description: item.description || item.content || ''
+              };
+            });
+          });
+      }
+
+      function loadFeed() {
+        fetchCached()
+          .then(renderEpisodes)
+          .catch(function () {
+            fetchDirect()
+              .then(renderEpisodes)
+              .catch(function () {
+                fetchViaRss2Json()
+                  .then(renderEpisodes)
+                  .catch(function () {
+                    showStatus(
+                      'Couldn’t load the latest episodes right now. ' +
+                      '<a href="' + SHOW_URL + '" target="_blank" rel="noopener">Listen on Spotify</a> ' +
+                      'or <a href="' + APPLE_URL + '" target="_blank" rel="noopener">Apple Podcasts</a>.'
+                    );
+                  });
+              });
+          });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', loadFeed);
+      } else {
+        loadFeed();
+      }
+    })();
+  </script>
+</body>
+</html>
