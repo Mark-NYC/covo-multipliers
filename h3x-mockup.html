@@ -382,10 +382,11 @@
       .hero-grid {
         grid-template-columns: 1fr;
         gap: clamp(2.25rem, 8vw, 3rem);
-        justify-items: start;
+        justify-items: stretch;
       }
 
-      .hero-art { max-width: 15rem; }
+      /* Fill the content width, with the page gutter as margins on each side. */
+      .hero-art { max-width: 100%; }
 
       .row {
         grid-template-columns: 2.25rem 1fr;
@@ -427,8 +428,8 @@
     <div class="wrap hero-grid">
       <div class="hero-art">
         <img
-          src="https://d3t3ozftmdmh3i.cloudfront.net/staging/podcast_uploaded_nologo/45817299/9c11b35c36717c47.jpg"
-          alt="H3X podcast cover art"
+          src="image/h3x-hosts.jpg"
+          alt="Mark in New York City and Dave in Oklahoma City, the hosts of H3X"
           onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
         />
         <div class="hero-art-fallback" aria-hidden="true">
