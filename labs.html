@@ -348,6 +348,10 @@
             padding: 1.5rem;
             background: var(--paper);
         }
+        /* The `.gate` display:flex above overrides the browser's default
+           [hidden]{display:none}, so hide it explicitly — otherwise the
+           overlay never disappears when we set the hidden attribute. */
+        .gate[hidden] { display: none !important; }
         .gate-card {
             width: 100%;
             max-width: 360px;
