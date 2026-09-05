@@ -297,6 +297,8 @@
         .lab-linkbtn:hover { background: #f0f5f3; }
         .lab-linkbtn.is-slides { color: var(--gold); }
         .lab-linkbtn.is-slides:hover { background: #faf4e8; }
+        .lab-linkbtn.is-zoom { color: #2563eb; }
+        .lab-linkbtn.is-zoom:hover { background: #eef2ff; }
         .lab-linkbtn svg { width: 13px; height: 13px; flex: 0 0 auto; }
 
         .lab-copybtn {
@@ -335,6 +337,82 @@
         .planner-foot a { color: var(--green); font-weight: 700; text-decoration: none; }
         .planner-foot a:hover { text-decoration: underline; }
 
+        /* 5b. Password gate --------------------------------------------- */
+        .gate {
+            position: fixed;
+            inset: 0;
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            background: var(--paper);
+        }
+        .gate-card {
+            width: 100%;
+            max-width: 360px;
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            box-shadow: 0 8px 30px rgba(16,40,31,0.08);
+            padding: 1.75rem 1.5rem;
+            text-align: center;
+        }
+        .gate-card .eyebrow {
+            margin: 0 0 0.4rem;
+            font-size: 0.66rem;
+            font-weight: 800;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--green);
+        }
+        .gate-card h1 {
+            margin: 0 0 1.1rem;
+            font-size: 1.25rem;
+            font-weight: 900;
+            letter-spacing: -0.01em;
+            color: var(--green-deep);
+        }
+        .gate-form { display: flex; flex-direction: column; gap: 0.6rem; }
+        .gate-form input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 0.6rem 0.85rem;
+            font-family: inherit;
+            font-size: 0.95rem;
+            color: var(--ink);
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            outline: none;
+        }
+        .gate-form input:focus {
+            border-color: var(--green);
+            box-shadow: 0 0 0 3px rgba(27,77,62,0.1);
+        }
+        .gate-form button {
+            appearance: none;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 800;
+            color: #fff;
+            background: var(--green);
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            transition: background 0.15s ease;
+        }
+        .gate-form button:hover { background: var(--green-deep); }
+        .gate-error {
+            min-height: 1.1rem;
+            margin: 0.2rem 0 0;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #b91c1c;
+        }
+        .gate-error:empty { visibility: hidden; }
+
         /* 6. Responsive ------------------------------------------------- */
         @media (max-width: 760px) {
             .lab-row {
@@ -357,6 +435,18 @@
     </style>
 </head>
 <body>
+
+    <div class="gate" id="gate" hidden>
+        <div class="gate-card">
+            <p class="eyebrow">Leader Planner</p>
+            <h1>Enter password</h1>
+            <form class="gate-form" id="gate-form">
+                <input type="password" id="gate-input" placeholder="Password" autocomplete="current-password" aria-label="Page password" autofocus>
+                <button type="submit">Unlock</button>
+                <p class="gate-error" id="gate-error" role="alert"></p>
+            </form>
+        </div>
+    </div>
 
     <header class="site-header">
         <a class="brand" href="/">Covo Multipliers</a>
@@ -443,9 +533,10 @@
         const CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>';
 
         function linkGroup(href, label, cls, copyLabel) {
+            const external = cls === 'is-slides' || cls === 'is-zoom';
             return `
                 <span class="lab-linkgroup">
-                    <a class="lab-linkbtn ${cls}" href="${escapeAttr(href)}"${cls === 'is-slides' ? ' target="_blank" rel="noopener"' : ''}>
+                    <a class="lab-linkbtn ${cls}" href="${escapeAttr(href)}"${external ? ' target="_blank" rel="noopener"' : ''}>
                         <span>${label}</span>${ARROW}
                     </a>
                     <button class="lab-copybtn" type="button" data-copy="${escapeAttr(href)}" aria-label="Copy ${copyLabel} link" title="Copy ${copyLabel} link">${COPY}</button>
@@ -467,6 +558,11 @@
             }
 
             const pageLink = linkGroup(lab.url, 'Page', '', 'landing page');
+            // Zoom join links only matter for upcoming labs and only appear
+            // when the feed was asked for them (include_zoom).
+            const zoomLink = (!isPast && lab.zoom_link)
+                ? linkGroup(lab.zoom_link, 'Join Zoom', 'is-zoom', 'Zoom')
+                : '';
             const slidesLink = lab.slides_url ? linkGroup(lab.slides_url, 'Slides', 'is-slides', 'slides') : '';
             const isFullRow = !isPast && !lab.has_availability;
 
@@ -481,7 +577,7 @@
                         ${hook ? `<p class="lab-hook">${escapeHtml(hook)}</p>` : ''}
                     </div>
                     <div class="lab-status">${status}</div>
-                    <div class="lab-links">${pageLink}${slidesLink}</div>
+                    <div class="lab-links">${pageLink}${zoomLink}${slidesLink}</div>
                 </article>`;
         }
 
@@ -534,6 +630,7 @@
                 const url = new URL(LABS_FEED_URL);
                 url.searchParams.set('scope', scope);
                 url.searchParams.set('limit', String(PAGE_LIMIT));
+                url.searchParams.set('include_zoom', '1'); // leader planner shows Join Zoom links
                 const res = await fetch(url);
                 if (!res.ok) throw new Error('request failed');
                 const data = await res.json();
@@ -581,9 +678,54 @@
             } catch { /* clipboard blocked — ignore */ }
         });
 
-        document.addEventListener('DOMContentLoaded', () => {
+        function initPlanner() {
             activateTab('upcoming');
             loadScope('past'); // warm the other tab
+        }
+
+        // -----------------------------------------------------------------
+        // Password gate. This is a client-side speed bump, not real
+        // security: the password lives in this page's source and the labs
+        // feed is still reachable directly. It keeps casual visitors out and
+        // signals the page is leader-only. Anything that must be truly
+        // private needs server-side auth. Unlock persists for the browser
+        // session so leaders aren't re-prompted on every navigation.
+        // -----------------------------------------------------------------
+        const LABS_PASSWORD = 'Matthew28!';
+        const GATE_KEY = 'covo-labs-unlocked';
+
+        const gateEl = document.getElementById('gate');
+        const gateForm = document.getElementById('gate-form');
+        const gateInput = document.getElementById('gate-input');
+        const gateError = document.getElementById('gate-error');
+
+        function isUnlocked() {
+            try { return sessionStorage.getItem(GATE_KEY) === '1'; } catch { return false; }
+        }
+        function unlock() {
+            try { sessionStorage.setItem(GATE_KEY, '1'); } catch { /* private mode — gate just re-prompts */ }
+            gateEl.hidden = true;
+            initPlanner();
+        }
+
+        gateForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (gateInput.value === LABS_PASSWORD) {
+                gateError.textContent = '';
+                unlock();
+            } else {
+                gateError.textContent = 'Incorrect password. Try again.';
+                gateInput.select();
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (isUnlocked()) {
+                initPlanner();
+            } else {
+                gateEl.hidden = false;
+                gateInput.focus();
+            }
         });
     </script>
 
