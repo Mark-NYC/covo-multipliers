@@ -10,6 +10,11 @@
       "source": "/blog/how-to-make-disciples/",
       "destination": "/blog/how-to-make-disciples-at-work/",
       "statusCode": 301
+    },
+    {
+      "source": "/whatsapp.html",
+      "destination": "/whatsapp",
+      "statusCode": 301
     }
   ],
   "rewrites": [
@@ -19,5 +24,22 @@
       "destination": "https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1/join-whatsapp"
     },
     { "source": "/s/:code", "destination": "/api/s/:code" }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "Strict-Transport-Security", "value": "max-age=63072000; includeSubDomains; preload" },
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=(), interest-cohort=()" }
+      ]
+    },
+    {
+      "source": "/((?!embeds/).*)",
+      "headers": [
+        { "key": "X-Frame-Options", "value": "SAMEORIGIN" }
+      ]
+    }
   ]
 }

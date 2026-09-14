@@ -5,4 +5,11 @@ Allow: /
 Disallow: /labs
 Disallow: /labs.html
 
+# Admin dashboards and internal tools — not for indexing.
+Disallow: /admin
+Disallow: /admin/
+Disallow: /lab-admin
+Disallow: /assessment/admin
+Disallow: /blog/article-template
+
 Sitemap: https://covomultipliers.com/sitemap.xml

@@ -6,14 +6,32 @@
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
+      gtag('consent', 'default', {
+        'ad_storage': 'denied',
+        'ad_user_data': 'denied',
+        'ad_personalization': 'denied',
+        'analytics_storage': 'denied',
+        'wait_for_update': 500
+      });
       gtag('js', new Date());
 
       gtag('config', 'G-DXGLXDTF9V');
     </script>
+<script src="/covo-consent.js" defer></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Simple tools for making disciples where life already happens. Start with the Conversation Box, practice in a live lab, and move through the pathway.">
     <title>Training &amp; Resources — Covo Multipliers</title>
+    <meta property="og:site_name" content="Covo Multipliers">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Training &amp; Resources — Covo Multipliers">
+    <meta property="og:description" content="Simple tools for making disciples where life already happens. Start with the Conversation Box, practice in a live lab, and move through the pathway.">
+    <meta property="og:url" content="https://covomultipliers.com/training">
+    <meta property="og:image" content="https://covomultipliers.com/image/covozoomfinal.webp">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Training &amp; Resources — Covo Multipliers">
+    <meta name="twitter:description" content="Simple tools for making disciples where life already happens. Start with the Conversation Box, practice in a live lab, and move through the pathway.">
+    <meta name="twitter:image" content="https://covomultipliers.com/image/covozoomfinal.webp">
     <link rel="icon" type="image/x-icon" href="/image/favicons/favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="/image/favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/image/favicons/favicon-16x16.png">
@@ -203,6 +221,22 @@
             color: #10281f;
             border-color: #10281f;
         }
+
+        /* Roadmap items not yet published */
+        .tp-soon {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #8a978f;
+            border-bottom: 1px dashed #c7d6ce;
+            cursor: default;
+        }
+        .tp-soon::after {
+            content: " · coming soon";
+            font-weight: 500;
+            font-size: 0.8em;
+            color: #a9b4ac;
+        }
+        li > .tp-soon { border-bottom: none; }
 
         /* Pathway */
 
@@ -399,7 +433,7 @@
                 Start with the basics, practice them in real conversations, and pass them on to someone else.
             </p>
             <div class="tp-hero-ctas">
-                <a class="btn btn-primary" href="/field-guide">Get the Field Guide</a>
+                <a class="btn btn-primary" href="/updates">Get the Field Guide</a>
                 <a class="btn btn-secondary" href="/#upcoming-labs">Join a Live Lab</a>
             </div>
         </div>
@@ -419,7 +453,7 @@
                     <h3>The Conversation Box</h3>
                     <p>Our primary entry tool. The Conversation Box helps you notice where a relationship is right now and what faithful next step to take.</p>
                     <p class="tp-card-tags">Casual. Meaningful. Spiritual. Discovery.</p>
-                    <a class="tp-link" href="/conversation-box">Learn the Conversation Box →</a>
+                    <a class="tp-link" href="/start-spiritual-conversations-naturally">Learn the Conversation Box →</a>
                 </div>
 
                 <div class="tp-card">
@@ -433,7 +467,7 @@
                     <h3>CFC for Leaders</h3>
                     <p>A practical tool for creating local stewardship, filtering for faithfulness, and identifying who is actually taking responsibility.</p>
                     <p class="tp-card-tags"></p>
-                    <a class="tp-link" href="/cfc-for-leaders">Learn CFC →</a>
+                    <span class="tp-soon">Learn CFC</span>
                 </div>
             </div>
         </div>
@@ -452,7 +486,7 @@
                         <h3>Abide</h3>
                         <p>You cannot multiply what is not alive in you. Start with Jesus. Stay with Jesus. Listen, obey, repent, pray, and move from union with him instead of pressure.</p>
                         <p class="tp-pathway-tools"><strong>Tools:</strong> Daily Debrief, Prayer Rhythm, Scripture + Obedience</p>
-                        <a class="tp-link" href="/abide-training">Abide Training</a>
+                        <span class="tp-soon">Abide Training</span>
                     </div>
                 </li>
 
@@ -462,7 +496,7 @@
                         <h3>Enter</h3>
                         <p>Your mission field is already around you. Your workplace, neighborhood, gym, dinner table, kids’ school, and regular places. Learn to notice the conversations God is already opening.</p>
                         <p class="tp-pathway-tools"><strong>Primary tool:</strong> Conversation Box<br><strong>Supporting tools:</strong> People / Places / Patterns, Prayer Walking, House of Peace</p>
-                        <a class="tp-link" href="/enter-training">Enter Training</a>
+                        <span class="tp-soon">Enter Training</span>
                     </div>
                 </li>
 
@@ -472,7 +506,7 @@
                         <h3>Gospel</h3>
                         <p>Good news has to be spoken. Learn to share your story simply, share God’s story clearly, and ask for a response without making it weird.</p>
                         <p class="tp-pathway-tools"><strong>Tools:</strong> 15-Second Testimony, 3 Circles, Stories of Hope</p>
-                        <a class="tp-link" href="/gospel-training">Gospel Training</a>
+                        <span class="tp-soon">Gospel Training</span>
                     </div>
                 </li>
 
@@ -482,7 +516,7 @@
                         <h3>Disciple</h3>
                         <p>New disciples need a path, not just encouragement. Help people hear from Scripture, obey Jesus, share with others, and bring people with them.</p>
                         <p class="tp-pathway-tools"><strong>Tools:</strong> Three Thirds, Commands of Christ, Discovery Bible Study, “I Will” Statements</p>
-                        <a class="tp-link" href="/disciple-training">Disciple Training</a>
+                        <span class="tp-soon">Disciple Training</span>
                     </div>
                 </li>
 
@@ -492,7 +526,7 @@
                         <h3>Gather</h3>
                         <p>Disciples were never meant to stay isolated. Gather them into simple church around Scripture, prayer, obedience, care, worship, giving, baptism, communion, and mission.</p>
                         <p class="tp-pathway-tools"><strong>Tools:</strong> Church Circle, One Another Practice, Baptism + Communion</p>
-                        <a class="tp-link" href="/gather-training">Gather Training</a>
+                        <span class="tp-soon">Gather Training</span>
                     </div>
                 </li>
 
@@ -502,7 +536,7 @@
                         <h3>Guide</h3>
                         <p>Multiplication needs leaders who can reproduce. Train faithful people to take local responsibility for the mission.</p>
                         <p class="tp-pathway-tools"><strong>Primary tool:</strong> CFC<br><strong>Supporting tools:</strong> MAWL, 1-3-9 Leadership Pattern, Generational Mapping, Coaching Questions</p>
-                        <a class="tp-link" href="/leader-training">Leader Training</a>
+                        <span class="tp-soon">Leader Training</span>
                     </div>
                 </li>
             </ol>
@@ -518,8 +552,8 @@
             <ul class="tp-lab-list">
                 <li><a href="/from-lost-to-leader">From Lost to Leader</a></li>
                 <li><a href="/rhythms-of-a-covo-multiplier">Rhythms of a Covo Multiplier</a></li>
-                <li><a href="/conversation-box">The Conversation Box</a></li>
-                <li><a href="/cfc-for-leaders">CFC for Leaders</a></li>
+                <li><a href="/start-spiritual-conversations-naturally">The Conversation Box</a></li>
+                <li><span class="tp-soon">CFC for Leaders</span></li>
                 <li><a href="/aquila-and-priscilla-pattern">Aquila and Priscilla Pattern</a></li>
             </ul>
 
@@ -537,10 +571,10 @@
                     <h3>Clarity</h3>
                     <p>Training that helps you see the bigger picture.</p>
                     <ul>
-                        <li><a href="/the-rise-of-covo-multipliers">The Rise of Covo Multipliers</a></li>
-                        <li><a href="/why-priscilla-and-aquila-matter">Why Priscilla and Aquila Matter</a></li>
+                        <li><a href="/vision">The Rise of Covo Multipliers</a></li>
+                        <li><a href="/aquila-and-priscilla-pattern">Why Priscilla and Aquila Matter</a></li>
                         <li><a href="/blog/covocational-vs-bivocational/">Bivocational vs. Covocational</a></li>
-                        <li><a href="/four-fields-five-parts">Four Fields / Five Parts</a></li>
+                        <li><a href="/vision">Four Fields / Five Parts</a></li>
                     </ul>
                 </div>
 
@@ -548,11 +582,11 @@
                     <h3>Character</h3>
                     <p>Training that helps you become the kind of person who can carry this.</p>
                     <ul>
-                        <li><a href="/abiding-with-jesus">Abiding with Jesus</a></li>
-                        <li><a href="/identity">Identity</a></li>
-                        <li><a href="/family-on-mission">Family on Mission</a></li>
-                        <li><a href="/persecution">Persecution</a></li>
-                        <li><a href="/money-and-mission">Money and Mission</a></li>
+                        <li><span class="tp-soon">Abiding with Jesus</span></li>
+                        <li><span class="tp-soon">Identity</span></li>
+                        <li><span class="tp-soon">Family on Mission</span></li>
+                        <li><span class="tp-soon">Persecution</span></li>
+                        <li><span class="tp-soon">Money and Mission</span></li>
                     </ul>
                 </div>
 
@@ -560,12 +594,12 @@
                     <h3>Practice</h3>
                     <p>Training that helps you actually do the work.</p>
                     <ul>
-                        <li><a href="/conversation-box">Conversation Box</a></li>
-                        <li><a href="/3-circles">3 Circles</a></li>
-                        <li><a href="/three-thirds">Three Thirds</a></li>
+                        <li><a href="/start-spiritual-conversations-naturally">Conversation Box</a></li>
+                        <li><a href="/blog/how-to-share-the-gospel/">3 Circles</a></li>
+                        <li><a href="/blog/how-to-disciple-someone/">Three Thirds</a></li>
                         <li><a href="/church-circle-lab">Church Circle</a></li>
-                        <li><a href="/cfc-for-leaders">CFC</a></li>
-                        <li><a href="/mawl">MAWL</a></li>
+                        <li><span class="tp-soon">CFC</span></li>
+                        <li><span class="tp-soon">MAWL</span></li>
                     </ul>
                 </div>
             </div>
@@ -592,7 +626,7 @@
                 You do not need to wait until your week gets less full. Start with the people, places, and conversations God has already put in front of you.
             </p>
             <div class="tp-final-ctas">
-                <a class="btn btn-primary" href="/field-guide">Get the Field Guide</a>
+                <a class="btn btn-primary" href="/updates">Get the Field Guide</a>
                 <a class="btn btn-secondary" href="/#upcoming-labs">Join a Live Lab</a>
             </div>
         </div>

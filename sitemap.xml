@@ -4,19 +4,19 @@
     <!-- Core pages -->
     <url>
         <loc>https://covomultipliers.com/</loc>
-        <lastmod>2026-04-17</lastmod>
+        <lastmod>2026-09-14</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
     </url>
     <url>
         <loc>https://covomultipliers.com/vision</loc>
-        <lastmod>2026-04-17</lastmod>
+        <lastmod>2026-09-14</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://covomultipliers.com/training</loc>
-        <lastmod>2026-07-04</lastmod>
+        <lastmod>2026-09-14</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -27,8 +27,38 @@
         <priority>0.5</priority>
     </url>
     <url>
+        <loc>https://covomultipliers.com/contact</loc>
+        <lastmod>2026-09-14</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://covomultipliers.com/privacy</loc>
+        <lastmod>2026-09-14</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.3</priority>
+    </url>
+    <url>
+        <loc>https://covomultipliers.com/immersions</loc>
+        <lastmod>2026-09-14</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://covomultipliers.com/h3x</loc>
+        <lastmod>2026-09-14</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
         <loc>https://covomultipliers.com/online-simple-multiplier-church</loc>
         <lastmod>2026-06-23</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://covomultipliers.com/lab-next-step</loc>
+        <lastmod>2026-09-14</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
     </url>
@@ -59,38 +89,44 @@
         <priority>0.6</priority>
     </url>
     <url>
+        <loc>https://covomultipliers.com/find-your-field</loc>
+        <lastmod>2026-09-14</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
         <loc>https://covomultipliers.com/start-spiritual-conversations-naturally</loc>
         <lastmod>2026-08-21</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
+        <loc>https://covomultipliers.com/church-circle-lab</loc>
+        <lastmod>2026-09-14</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://covomultipliers.com/whats-blocking-your-disciple-making</loc>
+        <lastmod>2026-09-14</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://covomultipliers.com/4-questions</loc>
+        <lastmod>2026-09-14</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://covomultipliers.com/six-week-plan</loc>
+        <lastmod>2026-09-14</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
         <loc>https://covomultipliers.com/from-lost-to-leader-2027</loc>
         <lastmod>2026-08-19</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
-    </url>
-    <url>
-        <loc>https://covomultipliers.com/rhythms-of-a-covo-multiplier-2027</loc>
-        <lastmod>2026-08-19</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
-    </url>
-    <url>
-        <loc>https://covomultipliers.com/aquila-and-priscilla-pattern-2027</loc>
-        <lastmod>2026-08-19</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
-    </url>
-    <url>
-        <loc>https://covomultipliers.com/4-questions-2027</loc>
-        <lastmod>2026-08-19</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
-    </url>
-    <url>
-        <loc>https://covomultipliers.com/from-lost-to-leader</loc>
-        <lastmod>2026-04-17</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
     </url>

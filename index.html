@@ -1,19 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
+    <!-- Google tag (gtag.js) — Consent Mode v2 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-DXGLXDTF9V"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
+      gtag('consent', 'default', {
+        'ad_storage': 'denied',
+        'ad_user_data': 'denied',
+        'ad_personalization': 'denied',
+        'analytics_storage': 'denied',
+        'wait_for_update': 500
+      });
       gtag('js', new Date());
-
       gtag('config', 'G-DXGLXDTF9V');
     </script>
+    <script src="/covo-consent.js" defer></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Covo Multipliers helps everyday leaders make disciples without quitting their job through practical labs, tools, and pathways.">
     <title>Covo Multipliers</title>
+    <meta property="og:site_name" content="Covo Multipliers">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Covo Multipliers">
+    <meta property="og:description" content="Covo Multipliers helps everyday leaders make disciples without quitting their job through practical labs, tools, and pathways.">
+    <meta property="og:url" content="https://covomultipliers.com/">
+    <meta property="og:image" content="https://covomultipliers.com/image/covozoomfinal.webp">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Covo Multipliers">
+    <meta name="twitter:description" content="Covo Multipliers helps everyday leaders make disciples without quitting their job through practical labs, tools, and pathways.">
+    <meta name="twitter:image" content="https://covomultipliers.com/image/covozoomfinal.webp">
     <link rel="icon" type="image/x-icon" href="/image/favicons/favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="/image/favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/image/favicons/favicon-16x16.png">
@@ -354,6 +371,16 @@
                 required
             >
 
+            <input
+                type="text"
+                id="lab-interest-website"
+                name="website"
+                tabindex="-1"
+                autocomplete="off"
+                aria-hidden="true"
+                style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;"
+            >
+
             <label class="lab-interest-consent">
                 <input
                     type="checkbox"
@@ -656,6 +683,7 @@
 
                 const email = emailInput.value.trim().toLowerCase();
                 const consent = consentInput.checked;
+                const website = (document.getElementById('lab-interest-website') || {}).value || '';
 
                 if (!isValidEmail(email)) {
                     show(
@@ -687,6 +715,7 @@
                             },
                             body: JSON.stringify(Object.assign({
                                 email,
+                                website,
                             }, window.CovoAttribution ? window.CovoAttribution.get() : {})),
                         }
                     );
