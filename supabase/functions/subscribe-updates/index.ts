@@ -89,6 +89,12 @@ Deno.serve(async (req: Request): Promise<Response> => {
     return json(400, { error: "Request body must be valid JSON." }, cors);
   }
 
+  // Honeypot: bots fill the hidden "website" field. Humans never see it.
+  // Pretend success so the bot moves on, but store nothing.
+  if (typeof body.website === "string" && body.website.trim().length > 0) {
+    return json(200, { success: true }, cors);
+  }
+
   const emailStr = typeof body.email === "string"
     ? body.email.trim().toLowerCase()
     : "";

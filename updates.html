@@ -15,6 +15,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Get occasional emails about future Covo Multipliers labs, practical disciple-making tools, and live training opportunities.">
     <title>Covo Updates — Covo Multipliers</title>
+    <link rel="canonical" href="https://covomultipliers.com/updates">
+    <meta property="og:site_name" content="Covo Multipliers">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Covo Updates — Covo Multipliers">
+    <meta property="og:description" content="Get occasional emails about future Covo Multipliers labs, practical disciple-making tools, and live training opportunities.">
+    <meta property="og:url" content="https://covomultipliers.com/updates">
+    <meta property="og:image" content="https://covomultipliers.com/image/covozoomfinal.webp">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Covo Updates — Covo Multipliers">
+    <meta name="twitter:description" content="Get occasional emails about future Covo Multipliers labs, practical disciple-making tools, and live training opportunities.">
+    <meta name="twitter:image" content="https://covomultipliers.com/image/covozoomfinal.webp">
     <link rel="icon" type="image/x-icon" href="/image/favicons/favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="/image/favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/image/favicons/favicon-16x16.png">
@@ -365,6 +376,16 @@
                         >
                     </div>
 
+                    <input
+                        type="text"
+                        id="website"
+                        name="website"
+                        tabindex="-1"
+                        autocomplete="off"
+                        aria-hidden="true"
+                        style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;"
+                    >
+
                     <div class="consent">
                         <input
                             type="checkbox"
@@ -425,6 +446,7 @@
             const fullName = document.getElementById('full-name').value.trim();
             const email = document.getElementById('email').value.trim();
             const consent = document.getElementById('consent').checked;
+            const website = (document.getElementById('website') || {}).value || '';
 
             if (!isValidEmail(email)) {
                 showError('Please enter a valid email address.');
@@ -449,6 +471,7 @@
                     body: JSON.stringify(Object.assign({
                         email,
                         full_name: fullName,
+                        website,
                     }, window.CovoAttribution ? window.CovoAttribution.get() : {})),
                 });
 
