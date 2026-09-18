@@ -10,6 +10,9 @@ verify_jwt = false
 [functions.immersion-apply]
 verify_jwt = false
 
+[functions.immersion-applications-sync]
+verify_jwt = false
+
 [functions.contact]
 verify_jwt = false
 

@@ -27,6 +27,7 @@ jobs:
           supabase functions deploy public-labs --no-verify-jwt
           supabase functions deploy register --no-verify-jwt
           supabase functions deploy immersion-apply --no-verify-jwt
+          supabase functions deploy immersion-applications-sync --no-verify-jwt
           supabase functions deploy contact --no-verify-jwt
           supabase functions deploy assessment-start --no-verify-jwt
           supabase functions deploy whatsapp-request --no-verify-jwt
