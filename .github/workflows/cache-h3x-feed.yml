@@ -6,10 +6,18 @@ name: Cache H3X Podcast Feed
 # instead of depending on every visitor's browser reaching anchor.fm, and
 # gives tooling an offline, version-controlled catalog to work from.
 #
-# New episodes drop Tuesday mornings, so we refresh Tuesday afternoon UTC.
+# It also resolves each episode's Apple Podcasts / Spotify / YouTube link
+# into h3x-links.json (scripts/h3x_links.py) so every episode on the page
+# gets per-platform buttons. New episodes drop Tuesday mornings, but Apple
+# and YouTube can lag by hours, so this runs daily; it only commits when
+# something changed.
+#
+# Optional repo secrets SPOTIFY_CLIENT_ID / SPOTIFY_CLIENT_SECRET (a free
+# Spotify developer app) let it link the full Spotify back catalog; without
+# them it only sees Spotify's most recent episodes.
 on:
   schedule:
-    - cron: '0 14 * * 2' # Tuesdays 14:00 UTC
+    - cron: '0 14 * * *' # daily 14:00 UTC
   workflow_dispatch: # Allow manual trigger
 
 # NOTE: scheduled runs and the "Run workflow" button only work once this
@@ -82,12 +90,20 @@ jobs:
           print(f'Wrote h3x-feed.json with {len(items)} items.')
           PY
 
+      - name: Resolve per-platform episode links
+        env:
+          SPOTIFY_CLIENT_ID: ${{ secrets.SPOTIFY_CLIENT_ID }}
+          SPOTIFY_CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
+        run: |
+          pip install --quiet --disable-pip-version-check yt-dlp || echo "yt-dlp unavailable; using YouTube RSS"
+          python3 scripts/h3x_links.py 2>&1 | tee -a "$GITHUB_STEP_SUMMARY"
+
       - name: Commit if the feed changed
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add h3x-feed.xml h3x-feed.json
+          git add h3x-feed.xml h3x-feed.json h3x-links.json
           if git diff --cached --quiet; then
             echo "No feed changes to commit."
             exit 0
