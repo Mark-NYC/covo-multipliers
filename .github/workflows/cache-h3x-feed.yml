@@ -6,10 +6,10 @@ name: Cache H3X Podcast Feed
 # instead of depending on every visitor's browser reaching anchor.fm, and
 # gives tooling an offline, version-controlled catalog to work from.
 #
-# It also resolves each episode's Apple Podcasts / Spotify / YouTube link
+# It also resolves each episode's Apple Podcasts / Spotify link
 # into h3x-links.json (scripts/h3x_links.py) so every episode on the page
-# gets per-platform buttons. New episodes drop Tuesday mornings, but Apple
-# and YouTube can lag by hours, so this runs daily; it only commits when
+# can offer an exact link per platform. New episodes drop Tuesday mornings,
+# but Apple can lag by hours, so this runs daily; it only commits when
 # something changed.
 #
 # Optional repo secrets SPOTIFY_CLIENT_ID / SPOTIFY_CLIENT_SECRET (a free
@@ -95,7 +95,6 @@ jobs:
           SPOTIFY_CLIENT_ID: ${{ secrets.SPOTIFY_CLIENT_ID }}
           SPOTIFY_CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
         run: |
-          pip install --quiet --disable-pip-version-check yt-dlp || echo "yt-dlp unavailable; using YouTube RSS"
           python3 scripts/h3x_links.py 2>&1 | tee -a "$GITHUB_STEP_SUMMARY"
 
       - name: Commit if the feed changed

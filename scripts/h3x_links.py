@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Resolve per-episode Apple Podcasts / Spotify / YouTube links for H3X.
+"""Resolve per-episode Apple Podcasts / Spotify links for H3X.
 
 Reads h3x-feed.json (written by the cache-h3x-feed workflow) and updates
-h3x-links.json, a map of RSS guid -> {title, apple, spotify, youtube}.
+h3x-links.json, a map of RSS guid -> {title, apple, spotify}.
 
 The file is additive: a link, once found, is never removed or overwritten,
 so older episodes stay linked after they fall out of a platform's "recent"
@@ -13,10 +13,8 @@ Sources (each is optional; a failure only skips that platform this run):
   Apple    iTunes Lookup API, matched by RSS guid, then title.
   Spotify  Web API if SPOTIFY_CLIENT_ID / SPOTIFY_CLIENT_SECRET are set
            (full archive), else the public show embed page (recent only).
-  YouTube  yt-dlp flat playlist listing if installed (full playlist),
-           else the playlist RSS feed (latest 15).
 
-Stdlib only; yt-dlp is used when present.
+Stdlib only.
 """
 import base64
 import difflib
@@ -24,24 +22,19 @@ import html
 import json
 import os
 import re
-import shutil
-import subprocess
 import sys
-import urllib.parse
 import urllib.request
-import xml.etree.ElementTree as ET
 
 FEED_JSON = 'h3x-feed.json'
 LINKS_JSON = 'h3x-links.json'
 
 APPLE_SHOW_ID = '1562206185'
 SPOTIFY_SHOW_ID = '2NNDtnQaRLeqRU2N3LVayR'
-YOUTUBE_PLAYLIST_ID = 'PL1YoQQDZVDO68yuhJzvcu11DQxF3H_y4O'
 
 UA = ('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 '
       '(KHTML, like Gecko) Chrome/125.0 Safari/537.36')
 MATCH_THRESHOLD = 0.86
-PLATFORMS = ('apple', 'spotify', 'youtube')
+PLATFORMS = ('apple', 'spotify')
 
 
 def log(msg):
@@ -166,34 +159,6 @@ def spotify_embed_episodes():
     return out
 
 
-def youtube_ytdlp_episodes():
-    exe = shutil.which('yt-dlp')
-    if not exe:
-        raise RuntimeError('yt-dlp not installed')
-    res = subprocess.run(
-        [exe, '--flat-playlist', '-J', '--no-warnings',
-         'https://www.youtube.com/playlist?list=' + YOUTUBE_PLAYLIST_ID],
-        capture_output=True, text=True, timeout=300)
-    if res.returncode != 0:
-        raise RuntimeError(res.stderr.strip()[-300:])
-    data = json.loads(res.stdout)
-    return [(e.get('title') or '', 'https://www.youtube.com/watch?v=' + e['id'])
-            for e in data.get('entries') or [] if e and e.get('id')]
-
-
-def youtube_rss_episodes():
-    xml = http_get('https://www.youtube.com/feeds/videos.xml?playlist_id=' + YOUTUBE_PLAYLIST_ID)
-    ns = {'a': 'http://www.w3.org/2005/Atom', 'yt': 'http://www.youtube.com/xml/schemas/2015'}
-    root = ET.fromstring(xml)
-    out = []
-    for entry in root.findall('a:entry', ns):
-        vid = entry.findtext('yt:videoId', default='', namespaces=ns)
-        title = entry.findtext('a:title', default='', namespaces=ns)
-        if vid:
-            out.append((title, 'https://www.youtube.com/watch?v=' + vid))
-    return out
-
-
 def first_working(*fns):
     for fn in fns:
         try:
@@ -255,11 +220,6 @@ def main():
             spotify_api.__name__ = 'spotify_api_episodes'
             sources.insert(0, spotify_api)
         log('  linked %d' % match_by_title(episodes, first_working(*sources), 'spotify', links))
-
-    if missing('youtube'):
-        log('YouTube:')
-        cands = first_working(youtube_ytdlp_episodes, youtube_rss_episodes)
-        log('  linked %d' % match_by_title(episodes, cands, 'youtube', links))
 
     # Newest first, matching the feed order; keep entries for episodes that
     # have left the feed rather than dropping links we already resolved.
