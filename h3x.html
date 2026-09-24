@@ -351,12 +351,42 @@
       max-width: 46ch;
     }
 
-    /* ---------- Per-episode platform buttons ---------- */
-    .listen {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
+    .episode-play,
+    .row-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      font: inherit;
+      font-size: 0.98rem;
+      font-weight: 600;
+      color: var(--orange);
+      background: none;
+      border: 0;
+      padding: 0;
+      white-space: nowrap;
+      align-self: center;
+      text-decoration: none;
+      cursor: pointer;
     }
+
+    .episode-play:hover,
+    .row-cta:hover { color: var(--orange-deep); }
+
+    .play-dot {
+      display: inline-grid;
+      place-items: center;
+      width: 2.1rem;
+      height: 2.1rem;
+      border-radius: 50%;
+      background: var(--orange);
+      color: #ffffff;
+      transition: background 0.2s ease;
+    }
+
+    .episode-play:hover .play-dot,
+    .row-cta:hover .play-dot { background: var(--orange-deep); }
+
+    .play-dot svg { width: 0.8rem; height: 0.8rem; margin-left: 2px; }
 
     .listen-label {
       display: block;
@@ -368,33 +398,72 @@
       margin: 0 0 0.6rem;
     }
 
-    .plat {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.45rem;
-      padding: 0.5rem 0.9rem 0.5rem 0.65rem;
-      border: 1px solid var(--line);
-      border-radius: 999px;
+    /* ---------- Platform picker (popup) ---------- */
+    .picker {
+      width: min(26rem, calc(100vw - 2rem));
+      padding: 1.75rem;
+      border: 0;
+      border-radius: 18px;
       background: var(--paper);
       color: var(--ink);
-      font-size: 0.9rem;
-      font-weight: 600;
+      box-shadow: 0 30px 60px -20px rgba(40, 24, 12, 0.45);
+    }
+
+    .picker::backdrop { background: rgba(17, 17, 17, 0.55); }
+
+    .picker[open] { animation: picker-in 0.18s ease-out; }
+
+    @keyframes picker-in {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: none; }
+    }
+
+    .picker-close {
+      position: absolute;
+      top: 0.9rem;
+      right: 0.9rem;
+      width: 2.25rem;
+      height: 2.25rem;
+      border: 0;
+      border-radius: 50%;
+      background: var(--warm);
+      color: var(--ink);
+      font-size: 1.35rem;
       line-height: 1;
+      cursor: pointer;
+    }
+
+    .picker-close:hover { background: var(--line); }
+
+    .picker-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      line-height: 1.3;
+      letter-spacing: -0.015em;
+      margin: 0 2.5rem 1.4rem 0;
+    }
+
+    .picker-options { display: grid; gap: 0.65rem; }
+
+    .picker-opt {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      padding: 0.95rem 1.1rem;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      color: var(--ink);
+      font-size: 1.05rem;
+      font-weight: 600;
       text-decoration: none;
-      white-space: nowrap;
-      transition: border-color 0.2s ease, transform 0.2s ease;
+      transition: border-color 0.2s ease, background 0.2s ease;
     }
 
-    .plat:hover { border-color: var(--ink); transform: translateY(-1px); }
+    .picker-opt:hover { border-color: var(--ink); background: var(--warm); }
 
-    .plat svg { width: 1.2rem; height: 1.2rem; flex: none; }
+    .picker-opt svg { width: 1.75rem; height: 1.75rem; flex: none; }
 
-    .listen--lg .plat {
-      padding: 0.8rem 1.25rem 0.8rem 0.95rem;
-      font-size: 1rem;
-    }
-
-    .listen--lg .plat svg { width: 1.45rem; height: 1.45rem; }
+    .picker-opt .arrow { margin-left: auto; color: var(--muted); }
 
     .hero-platforms .platform-link {
       display: inline-flex;
@@ -518,7 +587,7 @@
 
       .row {
         grid-template-columns: 2.25rem 1fr;
-        row-gap: 1rem;
+        row-gap: 0.75rem;
       }
 
       .row-num { grid-area: num; }
@@ -533,21 +602,19 @@
       .row {
         grid-template-areas:
           "num  content"
-          "cta  cta";
+          ".    cta";
       }
 
-      .listen { gap: 0.4rem; flex-wrap: nowrap; }
+      .episode-play { align-self: start; }
 
-      .plat,
-      .listen--lg .plat {
-        padding: 0.55rem 0.8rem 0.55rem 0.6rem;
-        font-size: 0.88rem;
-        gap: 0.4rem;
+      /* Bottom sheet on phones. */
+      .picker {
+        width: 100%;
+        max-width: 100%;
+        margin: auto 0 0;
+        border-radius: 18px 18px 0 0;
+        padding-bottom: calc(1.75rem + env(safe-area-inset-bottom));
       }
-
-      .listen--lg .plat svg { width: 1.2rem; height: 1.2rem; }
-
-      .plat-long { display: none; }
 
       .hero-platforms { gap: 1.1rem; }
     }
@@ -576,6 +643,9 @@
     </symbol>
     <symbol id="i-spotify" viewBox="0 0 24 24">
       <path fill="#1DB954" d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z" />
+    </symbol>
+    <symbol id="i-play" viewBox="0 0 12 14">
+      <path fill="currentColor" d="M0 1.2v11.6a1 1 0 0 0 1.5.86l9.9-5.8a1 1 0 0 0 0-1.72L1.5.34A1 1 0 0 0 0 1.2z" />
     </symbol>
     <symbol id="i-youtube" viewBox="0 0 24 24">
       <path fill="#FF0000" d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814z" />
@@ -613,11 +683,14 @@
         <div class="hero-latest">
           <span class="hero-latest-label">Latest episode</span>
           <p class="hero-latest-title" id="latest-title">The Practices That Make Us the Church Jesus Had in Mind</p>
-          <div class="listen listen--lg" id="latest-listen" role="group" aria-label="Listen to the latest episode">
-            <a class="plat" href="https://podcasts.apple.com/us/podcast/h3x/id1562206185" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-apple" /></svg>Apple<span class="plat-long"> Podcasts</span></a>
-            <a class="plat" href="https://open.spotify.com/show/2NNDtnQaRLeqRU2N3LVayR" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-spotify" /></svg>Spotify</a>
-            <a class="plat" href="https://www.youtube.com/playlist?list=PL1YoQQDZVDO68yuhJzvcu11DQxF3H_y4O" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-youtube" /></svg>YouTube</a>
-          </div>
+          <a
+            class="btn-primary"
+            id="play-latest"
+            href="https://open.spotify.com/show/2NNDtnQaRLeqRU2N3LVayR"
+            target="_blank"
+            rel="noopener"
+            data-play
+          >Play episode</a>
         </div>
 
         <div class="hero-platforms">
@@ -638,49 +711,31 @@
       <h2 class="section-head">Start here</h2>
 
       <div class="rows">
-        <div class="row" data-title="How to Actually Have Spiritual Conversations">
+        <div class="row">
           <span class="row-num">1</span>
           <div>
             <p class="row-title">How to Actually Have Spiritual Conversations</p>
             <p class="row-desc">Move from small talk to real gospel conversations without forcing it.</p>
           </div>
-          <div class="row-cta">
-            <div class="listen" role="group" aria-label="Listen to How to Actually Have Spiritual Conversations">
-              <a class="plat" href="https://podcasts.apple.com/us/podcast/h3x/id1562206185" target="_blank" rel="noopener" data-plat="apple"><svg aria-hidden="true"><use href="#i-apple" /></svg>Apple</a>
-              <a class="plat" href="https://open.spotify.com/episode/6apjtnX4URNrbCy8B0l6Mk" target="_blank" rel="noopener" data-plat="spotify"><svg aria-hidden="true"><use href="#i-spotify" /></svg>Spotify</a>
-              <a class="plat" href="https://www.youtube.com/playlist?list=PL1YoQQDZVDO68yuhJzvcu11DQxF3H_y4O" target="_blank" rel="noopener" data-plat="youtube"><svg aria-hidden="true"><use href="#i-youtube" /></svg>YouTube</a>
-            </div>
-          </div>
+          <a class="row-cta" href="https://open.spotify.com/episode/6apjtnX4URNrbCy8B0l6Mk" target="_blank" rel="noopener" data-play data-title="How to Actually Have Spiritual Conversations"><span class="play-dot" aria-hidden="true"><svg><use href="#i-play" /></svg></span>Play</a>
         </div>
 
-        <div class="row" data-title="You Don’t Have a Vision Problem. You Have a Habit Problem.">
+        <div class="row">
           <span class="row-num">2</span>
           <div>
             <p class="row-title">You Don’t Have a Vision Problem. You Have a Habit Problem.</p>
             <p class="row-desc">Why daily rhythms, not abstract ideas, drive multiplication.</p>
           </div>
-          <div class="row-cta">
-            <div class="listen" role="group" aria-label="Listen to You Don’t Have a Vision Problem. You Have a Habit Problem.">
-              <a class="plat" href="https://podcasts.apple.com/us/podcast/h3x/id1562206185" target="_blank" rel="noopener" data-plat="apple"><svg aria-hidden="true"><use href="#i-apple" /></svg>Apple</a>
-              <a class="plat" href="https://open.spotify.com/episode/6J4sgxTS7LXX6Wpn02w2er" target="_blank" rel="noopener" data-plat="spotify"><svg aria-hidden="true"><use href="#i-spotify" /></svg>Spotify</a>
-              <a class="plat" href="https://www.youtube.com/playlist?list=PL1YoQQDZVDO68yuhJzvcu11DQxF3H_y4O" target="_blank" rel="noopener" data-plat="youtube"><svg aria-hidden="true"><use href="#i-youtube" /></svg>YouTube</a>
-            </div>
-          </div>
+          <a class="row-cta" href="https://open.spotify.com/episode/6J4sgxTS7LXX6Wpn02w2er" target="_blank" rel="noopener" data-play data-title="You Don’t Have a Vision Problem. You Have a Habit Problem."><span class="play-dot" aria-hidden="true"><svg><use href="#i-play" /></svg></span>Play</a>
         </div>
 
-        <div class="row" data-title="Margin Is Your Superpower">
+        <div class="row">
           <span class="row-num">3</span>
           <div>
             <p class="row-title">Margin Is Your Superpower</p>
             <p class="row-desc">How covocational leaders stay focused, free, and in the game long-term.</p>
           </div>
-          <div class="row-cta">
-            <div class="listen" role="group" aria-label="Listen to Margin Is Your Superpower">
-              <a class="plat" href="https://podcasts.apple.com/us/podcast/h3x/id1562206185" target="_blank" rel="noopener" data-plat="apple"><svg aria-hidden="true"><use href="#i-apple" /></svg>Apple</a>
-              <a class="plat" href="https://open.spotify.com/episode/1XLYxDbz5Zb2PV3WEeP3Nq" target="_blank" rel="noopener" data-plat="spotify"><svg aria-hidden="true"><use href="#i-spotify" /></svg>Spotify</a>
-              <a class="plat" href="https://www.youtube.com/playlist?list=PL1YoQQDZVDO68yuhJzvcu11DQxF3H_y4O" target="_blank" rel="noopener" data-plat="youtube"><svg aria-hidden="true"><use href="#i-youtube" /></svg>YouTube</a>
-            </div>
-          </div>
+          <a class="row-cta" href="https://open.spotify.com/episode/1XLYxDbz5Zb2PV3WEeP3Nq" target="_blank" rel="noopener" data-play data-title="Margin Is Your Superpower"><span class="play-dot" aria-hidden="true"><svg><use href="#i-play" /></svg></span>Play</a>
         </div>
       </div>
     </div>
@@ -721,26 +776,44 @@
     </div>
   </footer>
 
+  <dialog class="picker" id="picker" aria-labelledby="picker-title">
+    <button type="button" class="picker-close" id="picker-close" aria-label="Close">×</button>
+    <span class="listen-label">Listen on</span>
+    <p class="picker-title" id="picker-title">H3X</p>
+    <div class="picker-options">
+      <a class="picker-opt" id="picker-apple" href="https://podcasts.apple.com/us/podcast/h3x/id1562206185" target="_blank" rel="noopener" data-plat="apple">
+        <svg aria-hidden="true"><use href="#i-apple" /></svg>Apple Podcasts<span class="arrow" aria-hidden="true">→</span>
+      </a>
+      <a class="picker-opt" id="picker-spotify" href="https://open.spotify.com/show/2NNDtnQaRLeqRU2N3LVayR" target="_blank" rel="noopener" data-plat="spotify">
+        <svg aria-hidden="true"><use href="#i-spotify" /></svg>Spotify<span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </div>
+  </dialog>
+
   <script>
     (function () {
       // Episodes: repo-cached feed first (instant, no dependency on the
       // visitor reaching anchor.fm), then the live feed, then rss2json.
-      // Platform links: /h3x-links.json (guid -> apple/spotify/youtube),
-      // refreshed daily by .github/workflows/cache-h3x-feed.yml. Anything
-      // not resolved yet falls back to the show page / a YouTube search, so
-      // a brand-new episode still gets all three buttons on day one.
+      // Every Play button opens a picker (Apple Podcasts / Spotify) for that
+      // episode. Links come from /h3x-links.json (guid -> apple/spotify),
+      // refreshed daily by .github/workflows/cache-h3x-feed.yml; anything
+      // not resolved yet falls back to the Apple show page and the feed's
+      // Spotify episode page, so a brand-new episode works on day one.
       var FEED_URL = 'https://anchor.fm/s/111b03cec/podcast/rss';
       var CACHED_URL = '/h3x-feed.json';
       var LINKS_URL = '/h3x-links.json';
       var SHOW_URL = 'https://open.spotify.com/show/2NNDtnQaRLeqRU2N3LVayR';
       var APPLE_URL = 'https://podcasts.apple.com/us/podcast/h3x/id1562206185';
-      var YOUTUBE_SEARCH = 'https://www.youtube.com/results?search_query=';
       var PAGE_SIZE = 6;
       var SUMMARY_MAX_CHARS = 140;
 
       var list = document.getElementById('latest-episodes');
       var search = document.getElementById('episodes-search');
-      var latestListen = document.getElementById('latest-listen');
+      var playLatest = document.getElementById('play-latest');
+      var picker = document.getElementById('picker');
+      var pickerTitle = document.getElementById('picker-title');
+      var pickerApple = document.getElementById('picker-apple');
+      var pickerSpotify = document.getElementById('picker-spotify');
       var latestTitle = document.getElementById('latest-title');
       if (!list) return;
 
@@ -789,48 +862,85 @@
         var found = linksByGuid[ep.guid] || linksByTitle[normTitle(ep.title)] || {};
         return {
           apple: found.apple || APPLE_URL,
-          spotify: found.spotify || ep.link || SHOW_URL,
-          youtube: found.youtube || (YOUTUBE_SEARCH + encodeURIComponent('H3X ' + (ep.title || '')))
+          spotify: found.spotify || ep.link || SHOW_URL
         };
       }
 
-      function listenHtml(ep, large) {
-        var l = platformLinks(ep);
-        var name = escapeHtml(ep.title || 'this episode');
-        var names = { apple: 'Apple Podcasts', spotify: 'Spotify', youtube: 'YouTube' };
-        function btn(plat, label, href) {
-          return '<a class="plat" href="' + escapeHtml(href) + '" target="_blank" rel="noopener" data-plat="' + plat + '"' +
-                 ' aria-label="' + names[plat] + ': ' + name + '">' +
-                 '<svg aria-hidden="true"><use href="#i-' + plat + '" /></svg>' + label + '</a>';
+      function findByTitle(title) {
+        var key = normTitle(title);
+        for (var i = 0; i < allEpisodes.length; i++) {
+          var t = normTitle(allEpisodes[i].title);
+          if (t === key || t.indexOf(key) === 0 || key.indexOf(t) === 0) return allEpisodes[i];
         }
-        return btn('apple', large ? 'Apple<span class="plat-long"> Podcasts</span>' : 'Apple', l.apple) +
-               btn('spotify', 'Spotify', l.spotify) +
-               btn('youtube', 'YouTube', l.youtube);
+        return null;
       }
 
-      function track(e) {
-        var a = e.target.closest && e.target.closest('a.plat');
-        if (!a || typeof window.gtag !== 'function') return;
-        window.gtag('event', 'podcast_platform_click', {
-          platform: a.getAttribute('data-plat') || '',
-          link_url: a.href
+      // Resolve which episode a Play trigger belongs to.
+      function episodeFor(el) {
+        if (el.hasAttribute('data-idx')) return allEpisodes[+el.getAttribute('data-idx')];
+        if (el.id === 'play-latest') return allEpisodes[0];
+        if (el.hasAttribute('data-title')) return findByTitle(el.getAttribute('data-title'));
+        return null;
+      }
+
+      function openPicker(ep, fallbackTitle, fallbackHref) {
+        var l = ep ? platformLinks(ep) : { apple: APPLE_URL, spotify: fallbackHref || SHOW_URL };
+        pickerTitle.textContent = (ep && ep.title) || fallbackTitle || 'H3X';
+        pickerApple.href = l.apple;
+        pickerSpotify.href = l.spotify;
+        picker.showModal();
+        pickerSpotify.focus();
+      }
+
+      var supportsDialog = picker && typeof picker.showModal === 'function';
+
+      document.addEventListener('click', function (e) {
+        if (!e.target.closest) return;
+
+        // A Play button: open the picker (no <dialog> support -> plain link).
+        var trigger = e.target.closest('[data-play]');
+        if (trigger && supportsDialog) {
+          e.preventDefault();
+          openPicker(episodeFor(trigger), trigger.getAttribute('data-title'), trigger.href);
+          return;
+        }
+
+        // A platform choice: log it, let the link open, close the picker.
+        var opt = e.target.closest('.picker-opt');
+        if (opt) {
+          if (typeof window.gtag === 'function') {
+            window.gtag('event', 'podcast_platform_click', {
+              platform: opt.getAttribute('data-plat') || '',
+              episode_title: pickerTitle.textContent,
+              link_url: opt.href
+            });
+          }
+          setTimeout(function () { picker.close(); }, 0);
+        }
+      });
+
+      if (supportsDialog) {
+        document.getElementById('picker-close').addEventListener('click', function () { picker.close(); });
+        // Click on the backdrop closes it.
+        picker.addEventListener('click', function (e) {
+          if (e.target === picker) picker.close();
         });
       }
-      document.addEventListener('click', track);
 
-      function episodeHtml(ep) {
+      function episodeHtml(ep, idx) {
         var date = formatDate(ep.pubDate);
         var summary = truncate(stripHtml(ep.description), SUMMARY_MAX_CHARS);
+        var title = ep.title || 'Untitled episode';
         return (
           '<article class="episode">' +
             '<div>' +
               (date ? '<span class="episode-date">' + escapeHtml(date) + '</span>' : '') +
-              '<h3 class="episode-title">' + escapeHtml(ep.title || 'Untitled episode') + '</h3>' +
+              '<h3 class="episode-title">' + escapeHtml(title) + '</h3>' +
               (summary ? '<p class="episode-desc">' + escapeHtml(summary) + '</p>' : '') +
             '</div>' +
-            '<div class="listen" role="group" aria-label="Listen to ' + escapeHtml(ep.title || 'this episode') + '">' +
-              listenHtml(ep, false) +
-            '</div>' +
+            '<a class="episode-play" href="' + escapeHtml(platformLinks(ep).spotify) + '" target="_blank" rel="noopener"' +
+              ' data-play data-idx="' + idx + '" aria-label="Play ' + escapeHtml(title) + '">' +
+              '<span class="play-dot" aria-hidden="true"><svg><use href="#i-play" /></svg></span>Play</a>' +
           '</article>'
         );
       }
@@ -851,7 +961,9 @@
           showStatus('No episodes match that. Try another word.');
           return;
         }
-        var html = eps.slice(0, visible).map(episodeHtml).join('');
+        var html = eps.slice(0, visible).map(function (ep) {
+          return episodeHtml(ep, allEpisodes.indexOf(ep));
+        }).join('');
         var remaining = eps.length - visible;
         if (remaining > 0) {
           html += '<button type="button" class="episodes-more" id="episodes-more">' +
@@ -876,21 +988,6 @@
         });
       }
 
-      // Upgrade the static "Start here" buttons with per-episode links.
-      function upgradeStartHere() {
-        var rows = document.querySelectorAll('.row[data-title]');
-        Array.prototype.forEach.call(rows, function (row) {
-          var key = normTitle(row.getAttribute('data-title'));
-          var match = null;
-          for (var i = 0; i < allEpisodes.length; i++) {
-            var t = normTitle(allEpisodes[i].title);
-            if (t === key || t.indexOf(key) === 0 || key.indexOf(t) === 0) { match = allEpisodes[i]; break; }
-          }
-          var group = row.querySelector('.listen');
-          if (match && group) group.innerHTML = listenHtml(match, false);
-        });
-      }
-
       function renderEpisodes(episodes) {
         if (!episodes || episodes.length === 0) {
           showStatus(
@@ -903,9 +1000,11 @@
 
         var newest = episodes[0];
         if (newest && newest.title && latestTitle) latestTitle.textContent = newest.title;
-        if (latestListen && newest) latestListen.innerHTML = listenHtml(newest, true);
+        if (playLatest && newest) {
+          playLatest.setAttribute('href', platformLinks(newest).spotify);
+          playLatest.setAttribute('aria-label', 'Play the latest episode: ' + (newest.title || 'H3X'));
+        }
 
-        upgradeStartHere();
         renderList();
       }
 
