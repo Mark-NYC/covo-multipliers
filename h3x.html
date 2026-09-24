@@ -861,9 +861,42 @@
       function platformLinks(ep) {
         var found = linksByGuid[ep.guid] || linksByTitle[normTitle(ep.title)] || {};
         return {
-          apple: found.apple || APPLE_URL,
+          apple: found.apple || appleLive[ep.guid] || appleLive['t:' + normTitle(ep.title)] || APPLE_URL,
           spotify: found.spotify || ep.link || SHOW_URL
         };
+      }
+
+      // Live Apple lookup for episodes the daily workflow hasn't linked yet
+      // (e.g. one that dropped this morning). Apple's lookup API supports
+      // JSONP, so this runs straight from the visitor's browser.
+      var appleLive = {};
+      var appleLookup = 'idle'; // idle | pending | done
+      var currentEp = null;
+
+      function needsApple(ep) {
+        var found = linksByGuid[ep.guid] || linksByTitle[normTitle(ep.title)] || {};
+        return !found.apple;
+      }
+
+      function lookupApple() {
+        if (appleLookup !== 'idle') return;
+        appleLookup = 'pending';
+        var script = document.createElement('script');
+        window.__h3xApple = function (data) {
+          ((data && data.results) || []).forEach(function (r) {
+            if (!r.trackViewUrl || (r.kind !== 'podcast-episode' && r.wrapperType !== 'podcastEpisode')) return;
+            var url = r.trackViewUrl.replace(/&uo=\d+/, '');
+            if (r.episodeGuid) appleLive[r.episodeGuid] = url;
+            if (r.trackName) appleLive['t:' + normTitle(r.trackName)] = url;
+          });
+          appleLookup = 'done';
+          // Upgrade the picker if it's already open on an unlinked episode.
+          if (picker.open && currentEp) pickerApple.href = platformLinks(currentEp).apple;
+        };
+        script.onerror = function () { appleLookup = 'done'; };
+        script.src = 'https://itunes.apple.com/lookup?id=1562206185&entity=podcastEpisode' +
+                     '&limit=200&country=us&callback=__h3xApple';
+        document.head.appendChild(script);
       }
 
       function findByTitle(title) {
@@ -884,6 +917,8 @@
       }
 
       function openPicker(ep, fallbackTitle, fallbackHref) {
+        currentEp = ep || null;
+        if (ep && needsApple(ep)) lookupApple();
         var l = ep ? platformLinks(ep) : { apple: APPLE_URL, spotify: fallbackHref || SHOW_URL };
         pickerTitle.textContent = (ep && ep.title) || fallbackTitle || 'H3X';
         pickerApple.href = l.apple;
@@ -1006,6 +1041,10 @@
         }
 
         renderList();
+
+        // Fetch ahead if the newest episode isn't linked yet, so the Apple
+        // button is exact by the time anyone taps Play.
+        if (needsApple(newest)) lookupApple();
       }
 
       function showStatus(messageHtml) {
