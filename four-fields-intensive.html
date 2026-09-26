@@ -1129,6 +1129,11 @@
             pointer-events: none;
         }
 
+        /* Mobile: text sits on top of the network, so tone it down. */
+        @media (max-width: 860px) {
+            .network-bg { opacity: 0.5; }
+        }
+
         .live-label {
             display: inline-flex;
             align-items: center;
