@@ -877,10 +877,6 @@
             color: rgba(255,255,255,0.8);
         }
 
-        .hero-jump {
-            display: none;
-        }
-
         .event-body-inner {
             max-width: 720px;
         }
@@ -1198,11 +1194,6 @@
 
         @media (max-width: 860px) {
             .ppt-grid { grid-template-columns: 1fr; }
-            .hero-jump { margin-top: 1.5rem; }
-            .hero-jump {
-                display: inline-flex;
-                margin-top: 0.25rem;
-            }
         }
     </style>
 </head>
@@ -1232,8 +1223,6 @@
                 <!-- Populated by JS: seat pill -->
                 <div id="hero-event-meta" class="event-meta" hidden></div>
                 <p class="hero-status" id="hero-loading">Loading registration&hellip;</p>
-
-                <a class="btn btn-primary hero-jump" href="#registration-card">Save My Seat</a>
             </div>
 
             <!-- Registration card. Submit stays disabled until the event loads;
