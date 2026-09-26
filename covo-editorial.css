@@ -597,16 +597,17 @@ strong { font-weight: 600; }
     z-index: 1;
     width: 100%;
     margin: 0;
-    padding: 0 var(--gutter);
+    padding: 0;
     border-bottom: 1px solid var(--c-ink);  /* full-bleed, browser edge to edge */
     background: transparent;
 }
 
+/* photo spans the full screen width; its cropped sides meet the browser edges */
 .ground-photo img {
     display: block;
-    width: min(100%, 760px);
+    width: 100%;
     height: auto;
-    margin: 0 auto;
+    margin: 0;
 }
 
 /* the statement above hands its bottom spacing to the photo */
