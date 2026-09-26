@@ -18,7 +18,8 @@
     --font-ui: "Barlow Condensed", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
 
     /* Type scale — desktop max / mobile min */
-    --fs-display: clamp(2.5rem, 4.6vw, 4rem);          /* hero 40 → 64px */
+    --fs-display: clamp(2.5rem, 4.6vw, 4rem);          /* display statements 40 → 64px */
+    --fs-hero: clamp(2.75rem, 5.4vw, 4.5rem);          /* homepage hero 44 → 72px */
     --fs-h2: clamp(2rem, 3.3vw, 2.75rem);              /* section 32 → 44px */
     --fs-h3: clamp(1.4rem, 2vw, 1.625rem);             /* card / sub-head 22 → 26px */
     --fs-statement: clamp(1.5rem, 2.5vw, 2rem);        /* centered statements 24 → 32px */
@@ -71,6 +72,10 @@ h3 {
 }
 
 h1 { letter-spacing: var(--tracking-display) !important; }
+
+/* even line lengths, no one-word last lines */
+h1, h2, h3,
+.event-title { text-wrap: balance; }
 
 h1 strong, h2 strong, h3 strong,
 h1 b, h2 b, h3 b { font-weight: 400 !important; }
@@ -151,3 +156,142 @@ a.footer-brand,
 .brand,
 .assess-header-brand,
 .dm-header-brand { font-size: max(1.2rem, 1em) !important; }
+
+
+/* ---------- Readability floors (non-homepage pages) ----------
+   Ordinary body copy is at least 16px / 1.6; genuine small print
+   (captions, consent, hints, disclaimers, dense tool tables) at least
+   14px / 1.5. Uppercase labels are untouched. The homepage sets its
+   own sizes in covo-editorial.css, so it is excluded here. */
+
+body:not(:has(.site-masthead)) :is(
+    .archetype-desc,
+    .article-card-excerpt,
+    .assess-body,
+    .assess-card li,
+    .assessment-note p,
+    .barrier-hd,
+    .biblical-desc,
+    .card-body,
+    .checkbox-label,
+    .closing,
+    .content-p,
+    .covo-card-body,
+    .cta-copy,
+    .cta-secondary,
+    .day-rhythm-card p,
+    .diagnostic-question-label,
+    .diagnostic-subtitle,
+    .dm-body,
+    .error,
+    .event-description,
+    .event-description p,
+    .experience-state-copy,
+    .faq-answer,
+    .faq-btn span,
+    .fit-list span,
+    .footer-desc,
+    .form-intro,
+    .guardrail-note p,
+    .guardrails-list li,
+    .hero-error,
+    .hero-hosted,
+    .hero-sub,
+    .hero-tile p,
+    .how-card p,
+    .icon-list span,
+    .immersion-slide-text,
+    .know li,
+    .launch-mini-card p,
+    .launchpad-support-line,
+    .legal-card li,
+    .legal-card p,
+    .legal-intro,
+    .mid-cta-copy,
+    .missing-desc,
+    .osmc-checklist li,
+    .outcome-callout,
+    .pain-card p,
+    .pathway-card p,
+    .pathway-loop,
+    .pattern-note,
+    .phase-intro-desc,
+    .planter-body,
+    .podcast-copy,
+    .problem-card p,
+    .product-b-list li,
+    .profile-card-def,
+    .profiles-section-lead,
+    .question-block p,
+    .question-body,
+    .quote-card,
+    .radio-label,
+    .reassure-inner p,
+    .registration-card div,
+    .related-link-title,
+    .results-integration-lead,
+    .rhythm-body,
+    .rhythm-card p,
+    .section-copy,
+    .section-desc,
+    .site-link-desc,
+    .skill-card p,
+    .social-proof-text,
+    .stage-desc,
+    .stake-item,
+    .stakes-intro,
+    .stakes-pivot,
+    .stuck-card-body,
+    .sub,
+    .table-wrap td,
+    .takeaway-list span,
+    .team-prompt,
+    .testimonial-quote,
+    .third-body,
+    .tp-card p,
+    .tp-deeper-col p,
+    .tp-pathway-item p,
+    .tp-pathway-tools,
+    .track-card p,
+    .workplace-trust,
+    .immersion-cta-list span,
+    .stage-move
+) {
+    font-size: max(1rem, 16px) !important;
+    line-height: 1.6 !important;
+}
+
+body:not(:has(.site-masthead)) :is(
+    .article-figure figcaption,
+    .zoom-frame figcaption,
+    .consent label,
+    .consent-label,
+    .form-opt-in label,
+    .form-checkbox-group label,
+    .form-hint,
+    .step-hint,
+    .quality-nudge,
+    .m2-context span,
+    .assess-note,
+    .limitation-note p,
+    .pilot-disclaimer,
+    .biblical-disclaimer,
+    .fine,
+    .form-social-proof-caption,
+    .bottom-cta-date,
+    .hero-support-line,
+    .gd-note,
+    .dynamic-field,
+    .profile-field,
+    .combo-row,
+    .matrix-table td,
+    .results-feature-text,
+    .phase-row-desc,
+    .lane-plain,
+    .otb-desc,
+    .hero-support,
+    .next-copy
+) {
+    font-size: 0.875rem !important;
+    line-height: 1.5 !important;
+}
