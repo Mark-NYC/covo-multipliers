@@ -1,0 +1,153 @@
+/* ==============================================
+   Covo Multipliers — covo-type.css
+   Site-wide typography layer: font tokens, type scale, and the
+   serif / sans / condensed-UI assignments. Linked last in <head> on
+   every public page (after page styles) so the fonts win everywhere
+   while each page keeps its own layout, sizes and colours.
+
+   Fonts (Google Fonts, SIL Open Font License 1.1):
+     DM Serif Display  — editorial headlines (400 + italic)
+     DM Sans           — body copy (400/500; variable, so 600/700 in the
+                         same file keep existing bold text from faux-bolding)
+     Barlow Condensed  — navigation, buttons, eyebrows, small caps headings (600/700)
+   ============================================== */
+
+:root {
+    --font-serif: "DM Serif Display", Georgia, "Times New Roman", serif;
+    --font-sans: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    --font-ui: "Barlow Condensed", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+
+    /* Type scale — desktop max / mobile min */
+    --fs-display: clamp(2.5rem, 4.6vw, 4rem);          /* hero 40 → 64px */
+    --fs-h2: clamp(2rem, 3.3vw, 2.75rem);              /* section 32 → 44px */
+    --fs-h3: clamp(1.4rem, 2vw, 1.625rem);             /* card / sub-head 22 → 26px */
+    --fs-statement: clamp(1.5rem, 2.5vw, 2rem);        /* centered statements 24 → 32px */
+    --fs-quote: clamp(1.625rem, 2.8vw, 2.375rem);      /* featured quote 26 → 38px */
+    --fs-lead: clamp(1.0625rem, 1.3vw, 1.1875rem);     /* intro paragraphs 17 → 19px */
+    --fs-body: 1.0625rem;                              /* 17px */
+    --fs-card: 1rem;                                   /* card copy 16px */
+    --fs-small: 0.9375rem;                             /* 15px */
+    --fs-nav: 0.9375rem;                               /* 15px, condensed caps */
+    --fs-btn: 0.9375rem;                               /* 15px, condensed caps */
+    --fs-label: 0.75rem;                               /* 12px, condensed caps */
+
+    /* Rhythm */
+    --lh-tight: 1.05;
+    --lh-heading: 1.12;
+    --lh-body: 1.6;
+    --tracking-display: -0.01em;    /* DM Serif Display at large sizes */
+    --tracking-heading: 0;
+    --tracking-ui: 0.06em;          /* Barlow Condensed caps: nav, buttons */
+    --tracking-label: 0.1em;        /* Barlow Condensed caps: small labels */
+}
+
+
+/* ---------- Body: DM Sans ---------- */
+
+body {
+    font-family: var(--font-sans);
+    font-optical-sizing: auto;
+}
+
+/* form controls and plain buttons don't inherit fonts by default */
+button,
+input,
+select,
+textarea { font-family: var(--font-sans); }
+
+
+/* ---------- Headlines: DM Serif Display ----------
+   !important so the serif and its single 400 weight win over older
+   per-page heading rules (many were 800–900 weight system-sans with
+   tight negative tracking, which would turn into faux-bold serif). */
+
+h1,
+h2,
+h3 {
+    font-family: var(--font-serif) !important;
+    font-weight: 400 !important;
+    font-style: normal;
+    letter-spacing: var(--tracking-heading) !important;
+}
+
+h1 { letter-spacing: var(--tracking-display) !important; }
+
+h1 strong, h2 strong, h3 strong,
+h1 b, h2 b, h3 b { font-weight: 400 !important; }
+
+
+/* ---------- UI: Barlow Condensed ----------
+   Nav, buttons and eyebrow / kicker labels, matched by the shared class
+   names used across pages. Sizes stay page-defined. */
+
+.slideout-menu-links a,
+.slideout-menu-title,
+.masthead-link,
+.masthead-cta,
+.btn,
+a[class*="btn"],
+a[class*="button"],
+button[type="submit"],
+input[type="submit"],
+[class*="eyebrow"],
+[class*="kicker"],
+.ed-label,
+.ed-cta-link,
+.footer-heading {
+    font-family: var(--font-ui) !important;
+    font-weight: 600;
+    letter-spacing: var(--tracking-ui);
+    text-transform: uppercase;
+}
+
+[class*="eyebrow"],
+[class*="kicker"],
+.ed-label,
+.footer-heading { letter-spacing: var(--tracking-label); }
+
+/* the slide-out title is the wordmark, so it stays in the serif */
+.slideout-menu-title {
+    font-family: var(--font-serif) !important;
+    font-weight: 400;
+    letter-spacing: 0;
+    text-transform: none;
+}
+
+/* small tags / badges sitting inside a headline, e.g. "(Online)" */
+:is(h1, h2, h3) :is([class*="tag"], [class*="badge"], [class*="pill"]) {
+    font-family: var(--font-ui) !important;
+    font-weight: 600 !important;
+    letter-spacing: var(--tracking-ui) !important;
+}
+
+/* any non-heading element set in the serif */
+.ed-serif {
+    font-family: var(--font-serif);
+    font-weight: 400;
+}
+
+/* headline-sized text that isn't marked up as h1–h3 */
+.event-title,
+.hero-lede,
+.nf-code {
+    font-family: var(--font-serif) !important;
+    font-weight: 400 !important;
+    letter-spacing: var(--tracking-display) !important;
+}
+
+/* "Covo Multipliers" wordmarks in page headers and footers */
+.brand,
+.footer-wordmark,
+a.footer-brand,
+.assess-header-brand,
+.dm-header-brand {
+    font-family: var(--font-serif) !important;
+    font-weight: 400 !important;
+    letter-spacing: 0 !important;
+    text-transform: none !important;
+}
+
+/* header wordmarks: the serif reads smaller than the old bold sans */
+.brand,
+.assess-header-brand,
+.dm-header-brand { font-size: max(1.2rem, 1em) !important; }

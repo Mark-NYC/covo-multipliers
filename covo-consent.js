@@ -39,8 +39,8 @@
     bar.setAttribute('aria-label', 'Cookie consent');
     bar.style.cssText = [
       'position:fixed', 'left:0', 'right:0', 'bottom:0', 'z-index:2147483000',
-      'background:#1f2937', 'color:#f9fafb', 'padding:16px 20px',
-      'box-shadow:0 -2px 12px rgba(0,0,0,.25)', 'font:14px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif'
+      'background:#1D2724', 'color:#FFFFFF', 'padding:16px 20px',
+      'box-shadow:none', 'border-top:1px solid rgba(255,255,255,.18)', 'font:15px/1.5 var(--font-sans, system-ui,-apple-system,Segoe UI,Roboto,sans-serif)'
     ].join(';');
 
     var inner = document.createElement('div');
@@ -49,7 +49,7 @@
     var text = document.createElement('p');
     text.style.cssText = 'margin:0;flex:1 1 320px;';
     text.innerHTML = 'We use analytics cookies to understand how the site is used. ' +
-      'See our <a href="/privacy" style="color:#93c5fd;">Privacy Policy</a>.';
+      'See our <a href="/privacy" style="color:#DFFF38;text-underline-offset:.2em;">Privacy Policy</a>.';
 
     var btns = document.createElement('div');
     btns.style.cssText = 'display:flex;gap:8px;flex:0 0 auto;';
@@ -58,8 +58,9 @@
       var b = document.createElement('button');
       b.type = 'button';
       b.textContent = label;
-      b.style.cssText = 'cursor:pointer;border:0;border-radius:8px;padding:9px 16px;font-weight:600;font-size:14px;' +
-        (primary ? 'background:#2563eb;color:#fff;' : 'background:transparent;color:#e5e7eb;border:1px solid #4b5563;');
+      b.style.cssText = 'cursor:pointer;border:0;border-radius:6px;padding:9px 18px;font-weight:600;font-size:15px;letter-spacing:.06em;text-transform:uppercase;' +
+        'font-family:var(--font-ui, system-ui, sans-serif);' +
+        (primary ? 'background:#DFFF38;color:#1D2724;' : 'background:transparent;color:#FFFFFF;border:1px solid rgba(255,255,255,.4);');
       return b;
     }
 

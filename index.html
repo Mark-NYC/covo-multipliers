@@ -36,9 +36,6 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/image/favicons/favicon-16x16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/image/favicons/apple-touch-icon.png">
     <link rel="manifest" href="/image/favicons/site.webmanifest">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="covo-editorial.css">
 
@@ -132,6 +129,11 @@
       "description": "Practical training for everyday leaders who want to make disciples where they live, work, and play."
     }
     </script>
+    <!-- Covo typography: DM Serif Display / DM Sans / Barlow Condensed (shared tokens in /covo-type.css) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&amp;family=DM+Serif+Display:ital@0;1&amp;family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&amp;display=swap">
+    <link rel="stylesheet" href="/covo-type.css">
 </head>
 <body>
 
@@ -156,7 +158,7 @@
             <div class="logo-area">
                 <p class="logo-tagline">For working Christians with real jobs.</p>
 
-                <h1 class="logo-wordmark">Your job isn’t the obstacle. It’s the open door.</h1>
+                <h1 class="logo-wordmark"><span class="hl">Your job isn’t</span> <span class="hl">the obstacle.</span> <span class="hl">It’s the open door.</span></h1>
 
                 <p class="logo-positioning">
                     Learn how to make disciples in the middle of a normal week.
@@ -562,6 +564,12 @@
             }).format(new Date(iso));
         }
 
+        function firstSentence(text) {
+            const t = String(text).trim();
+            const m = t.match(/^[\s\S]*?[.!?](?=\s|$)/);
+            return m ? m[0] : t;
+        }
+
         function renderLabs(labs) {
             const list = document.getElementById('labs-list');
             list.innerHTML = labs.map((lab) => {
@@ -569,19 +577,20 @@
                 const seatsLabel = isFull
                     ? 'Event full'
                     : `${lab.seats_remaining} seat${lab.seats_remaining === 1 ? '' : 's'} left · fills fast`;
-                const sub = lab.hook || lab.description || '';
-                const description = lab.hook && lab.description ? lab.description : '';
+                // Cards show one sentence only: the hook, or the first
+                // sentence of the description. Data is not modified.
+                const sub = firstSentence(lab.hook || lab.description || '');
                 return `
                     <div class="lab-item">
                         <a href="${escapeHtml(lab.url)}">
-                            <span class="lab-datetime">${formatLabDate(lab.event_date)}</span>
+                            <span class="lab-when">
+                                <span class="lab-datetime">${formatLabDate(lab.event_date)}</span>
+                                <span class="lab-seats${isFull ? ' is-full' : ''}">${escapeHtml(seatsLabel)}</span>
+                            </span>
                             <h3 class="lab-title">${escapeHtml(lab.title)}</h3>
                             ${sub ? `<p class="lab-sub">${escapeHtml(sub)}</p>` : ''}
-                            ${description ? `<p class="lab-description">${escapeHtml(description)}</p>` : ''}
-                            <p class="lab-meta">45 min · Live · Free</p>
                             <span class="lab-link-text">Reserve Your Seat →</span>
                         </a>
-                        <span class="lab-seats${isFull ? ' is-full' : ''}">${escapeHtml(seatsLabel)}</span>
                     </div>
                 `;
             }).join('');
