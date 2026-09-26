@@ -614,16 +614,8 @@ strong { font-weight: 500; }
     margin: 0;
 }
 
-/* Desktop: ~17% smaller footprint. The photo stays anchored to the left
-   browser edge (where the subject is cropped) and its right edge, where the
-   plant is cropped, fades out instead of ending in a hard line. */
-@media (min-width: 901px) {
-    .ground-photo img {
-        width: 83%;
-        -webkit-mask-image: linear-gradient(to left, transparent 0, #000 12%);
-                mask-image: linear-gradient(to left, transparent 0, #000 12%);
-    }
-}
+/* Desktop uses a wider crop of the same photo (<picture> source at
+   901px+), about 40% shorter than the mobile image at full width. */
 
 /* the statement above hands its bottom spacing to the photo */
 .workplace-banner + .ground-photo { margin-top: calc(var(--section-y) * -0.4); }
