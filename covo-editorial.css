@@ -608,22 +608,39 @@ strong { font-weight: 500; }
 
 /* photo spans the full screen width; its cropped sides meet the browser edges */
 .ground-photo img {
+    position: relative;
+    z-index: 1;
     display: block;
     width: 100%;
     height: auto;
     margin: 0;
 }
 
-/* Desktop: ~17% smaller footprint. The photo stays anchored to the left
-   browser edge (where the subject is cropped) and its right edge, where the
-   plant is cropped, fades out instead of ending in a hard line. */
-@media (min-width: 901px) {
-    .ground-photo img {
-        width: 83%;
-        -webkit-mask-image: linear-gradient(to left, transparent 0, #000 12%);
-                mask-image: linear-gradient(to left, transparent 0, #000 12%);
-    }
+/* glowing lime sphere behind the cutout — sized to the photo's height,
+   kept inside the figure so it never sits over the statement above */
+.ground-photo { overflow: clip; }
+
+.ground-photo::before {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    top: 50%;
+    left: 50%;
+    height: 96%;
+    aspect-ratio: 1;
+    transform: translate(-50%, -48%);
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 50%,
+        rgba(223, 255, 56, 0.95) 0%,
+        rgba(223, 255, 56, 0.75) 28%,
+        rgba(223, 255, 56, 0.32) 52%,
+        rgba(223, 255, 56, 0) 70%);
+    filter: blur(12px);
+    pointer-events: none;
 }
+
+/* Desktop uses a wider crop of the same photo (<picture> source at
+   901px+), about 40% shorter than the mobile image at full width. */
 
 /* the statement above hands its bottom spacing to the photo */
 .workplace-banner + .ground-photo { margin-top: calc(var(--section-y) * -0.4); }
