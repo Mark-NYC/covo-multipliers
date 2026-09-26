@@ -1079,17 +1079,35 @@
         }
 
         /* Final CTA sits on the dark gradient: white button for contrast. */
+        /* Bright accents against the earthy palette. */
+        #submit-btn {
+            background: #1f6bff;
+            border-color: #1f6bff;
+            color: #ffffff;
+        }
+
+        #submit-btn:hover:not(:disabled) {
+            background: #0f57e6;
+            border-color: #0f57e6;
+        }
+
+        #submit-btn:disabled {
+            background: #8fb3ff;
+            border-color: #8fb3ff;
+            cursor: default;
+        }
+
         .bottom-cta #cta-scroll-btn {
-            background: #ffffff;
-            border-color: #ffffff;
-            color: #10281f;
+            background: #e6ff2e;
+            border-color: #e6ff2e;
+            color: #000000;
             padding: 0.95rem 2.25rem;
             font-size: 1.05rem;
         }
 
         .bottom-cta #cta-scroll-btn:hover {
-            background: #f3d98f;
-            border-color: #f3d98f;
+            background: #d4ef00;
+            border-color: #d4ef00;
         }
 
         /* Page-specific gradient: deep slate → blue-gray → muted clay.
