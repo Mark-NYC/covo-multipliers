@@ -27,10 +27,10 @@
     --fs-lead: clamp(1.0625rem, 1.3vw, 1.1875rem);     /* intro paragraphs 17 → 19px */
     --fs-body: 1.0625rem;                              /* 17px */
     --fs-card: 1rem;                                   /* card copy 16px */
-    --fs-small: 0.9375rem;                             /* 15px */
+    --fs-small: 1rem;                                  /* 16px */
     --fs-nav: 0.9375rem;                               /* 15px, condensed caps */
     --fs-btn: 0.9375rem;                               /* 15px, condensed caps */
-    --fs-label: 0.75rem;                               /* 12px, condensed caps */
+    --fs-label: 0.8125rem;                             /* 13px, condensed caps */
 
     /* Rhythm */
     --lh-tight: 1.05;
@@ -161,7 +161,7 @@ a.footer-brand,
 /* ---------- Readability floors (non-homepage pages) ----------
    Ordinary body copy is at least 16px / 1.6; genuine small print
    (captions, consent, hints, disclaimers, dense tool tables) at least
-   14px / 1.5. Uppercase labels are untouched. The homepage sets its
+   15px / 1.5. Uppercase labels are untouched. The homepage sets its
    own sizes in covo-editorial.css, so it is excluded here. */
 
 body:not(:has(.site-masthead)) :is(
@@ -292,7 +292,7 @@ body:not(:has(.site-masthead)) :is(
     .hero-support,
     .next-copy
 ) {
-    font-size: 0.875rem !important;
+    font-size: 0.9375rem !important;
     line-height: 1.5 !important;
 }
 
