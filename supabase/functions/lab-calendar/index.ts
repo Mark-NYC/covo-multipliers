@@ -1,4 +1,5 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { getMultiSessionEvent } from "../_shared/eventSessions.ts";
 
 interface LabEvent {
   slug: string;
@@ -240,6 +241,25 @@ const LAB_EVENTS: Record<string, LabEvent> = {
     calendarDescription:
       "Online. Zoom link will be sent before the lab.\n\nCount the initial cost of consistent disciple-making, build a starting weekly rhythm, and prepare to cast that vision to someone you are discipling.",
   },
+
+  // ── December 2026 — Online Four Fields Intensive (multi-session) ─────────
+  // date/startTime/endTime describe Day 1 only. The .ics is built from the
+  // full session schedule in _shared/eventSessions.ts (one VEVENT per day).
+  "four-fields-intensive": {
+    slug: "four-fields-intensive",
+    dbSlug: "four-fields-intensive-december-2026",
+    title: "Online Four Fields Intensive",
+    date: "2026-12-04",
+    startTime: "18:30",
+    endTime: "21:30",
+    timezone: "America/New_York",
+    location: "Online",
+    url: "https://www.covomultipliers.com/four-fields-intensive.html",
+    description:
+      "An interactive disciple-making and church-planting training through the Kingdom clear path to multiply disciples and churches where you live, work, and play.\n\nThree live sessions: Friday 6:30–9:30 PM ET, Saturday 9:00 AM–4:00 PM ET, Sunday 1:00–4:00 PM ET.",
+    calendarDescription:
+      "Online. Zoom link will be sent before the intensive.\n\nAn interactive disciple-making and church-planting training through the Kingdom clear path to multiply disciples and churches where you live, work, and play.\n\nThree live sessions: Friday 6:30–9:30 PM ET, Saturday 9:00 AM–4:00 PM ET, Sunday 1:00–4:00 PM ET.",
+  },
 };
 
 // Aliases: map Supabase events.slug values to the same entry as their lab-calendar key.
@@ -265,6 +285,8 @@ LAB_EVENTS["always-have-a-story-ready-february-2027"] = LAB_EVENTS["always-have-
 LAB_EVENTS["margin-is-your-superpower-march-2027"] = LAB_EVENTS["margin-is-your-superpower"];
 // April 2027 alias.
 LAB_EVENTS["build-a-week-that-makes-disciples-april-2027"] = LAB_EVENTS["build-a-week-that-makes-disciples"];
+// December 2026 Four Fields Intensive alias.
+LAB_EVENTS["four-fields-intensive-december-2026"] = LAB_EVENTS["four-fields-intensive"];
 
 function getLabEvent(slug: string): LabEvent | null {
   return LAB_EVENTS[slug] ?? null;
@@ -342,6 +364,11 @@ function dtstamp(): string {
   );
 }
 
+// "2026-12-04T23:30:00Z" → "20261204T233000Z"
+function toIcsUtc(iso: string): string {
+  return new Date(iso).toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
+}
+
 function toIcsDateTime(date: string, time: string): string {
   // date: "2026-07-15", time: "15:00" → "20260715T150000"
   const datePart = date.replace(/-/g, "");
@@ -412,24 +439,48 @@ Deno.serve(async (req: Request) => {
     "PRODID:-//CoVo Multipliers//Labs//EN",
     "CALSCALE:GREGORIAN",
     "METHOD:PUBLISH",
-    "BEGIN:VEVENT",
-    `UID:${uid}`,
-    `DTSTAMP:${dtstamp()}`,
-    `DTSTART;TZID=${event.timezone}:${dtstart}`,
-    `DTEND;TZID=${event.timezone}:${dtend}`,
-    `SUMMARY:${escapeIcsText(event.title)}`,
-    `DESCRIPTION:${escapeIcsText(description)}`,
-    `LOCATION:${escapeIcsText(location)}`,
-    `URL:${eventUrl}`,
   ];
 
-  // Dedicated conferencing property (RFC 7986) for clients that surface a
-  // "Join" button directly from the calendar event.
-  if (zoomLink) {
-    lines.push(`CONFERENCE;VALUE=URI;FEATURE=VIDEO;LABEL=Zoom:${zoomLink}`);
+  // Multi-session events get one VEVENT per session (UTC times from the
+  // shared schedule); everything else is a single VEVENT as before.
+  const multi = getMultiSessionEvent(event.dbSlug);
+  const vevents = multi
+    ? multi.sessions.map((s, i) => ({
+      uid: `${event.slug}-${i + 1}-${s.start.slice(0, 10).replace(/-/g, "")}@covomultipliers.com`,
+      start: `DTSTART:${toIcsUtc(s.start)}`,
+      end: `DTEND:${toIcsUtc(s.end)}`,
+      summary: `${event.title} — ${s.label}`,
+    }))
+    : [{
+      uid,
+      start: `DTSTART;TZID=${event.timezone}:${dtstart}`,
+      end: `DTEND;TZID=${event.timezone}:${dtend}`,
+      summary: event.title,
+    }];
+
+  for (const v of vevents) {
+    lines.push(
+      "BEGIN:VEVENT",
+      `UID:${v.uid}`,
+      `DTSTAMP:${dtstamp()}`,
+      v.start,
+      v.end,
+      `SUMMARY:${escapeIcsText(v.summary)}`,
+      `DESCRIPTION:${escapeIcsText(description)}`,
+      `LOCATION:${escapeIcsText(location)}`,
+      `URL:${eventUrl}`,
+    );
+
+    // Dedicated conferencing property (RFC 7986) for clients that surface a
+    // "Join" button directly from the calendar event.
+    if (zoomLink) {
+      lines.push(`CONFERENCE;VALUE=URI;FEATURE=VIDEO;LABEL=Zoom:${zoomLink}`);
+    }
+
+    lines.push("END:VEVENT");
   }
 
-  lines.push("END:VEVENT", "END:VCALENDAR");
+  lines.push("END:VCALENDAR");
 
   const ics = lines.join("\r\n");
 

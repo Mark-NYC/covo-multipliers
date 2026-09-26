@@ -159,8 +159,16 @@ Deno.serve(async (req: Request): Promise<Response> => {
   const BASE_COLUMNS =
     "slug,title,hook,description,event_date,seats_remaining,has_availability,landing_path";
 
+  // Only monthly labs belong in this feed. Multi-session trainings (e.g. the
+  // Four Fields Intensive, event_type = 'intensive') have their own landing
+  // page and must not render as "45 min · Free" lab cards. event_type comes
+  // from a migration that may not be applied yet, so the filter is dropped
+  // on a missing-column error (same pattern as slides_url below).
+  let filterLabs = true;
+
   function buildQuery(columns: string) {
     let q = supabase.from("events_with_availability").select(columns);
+    if (filterLabs) q = q.eq("event_type", "lab");
     if (scope === "upcoming") {
       q = q.gte("event_date", nowIso).order("event_date", { ascending: true });
     } else if (scope === "past") {
@@ -173,6 +181,11 @@ Deno.serve(async (req: Request): Promise<Response> => {
 
   let hasSlides = true;
   let { data, error } = await buildQuery(`${BASE_COLUMNS},slides_url`);
+
+  if (error && /event_type/.test(error.message ?? "")) {
+    filterLabs = false;
+    ({ data, error } = await buildQuery(`${BASE_COLUMNS},slides_url`));
+  }
 
   // 42703 = undefined_column. If slides_url isn't in the view yet, retry
   // without it so labs still render (slides links simply won't appear).

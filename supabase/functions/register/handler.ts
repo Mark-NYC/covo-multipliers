@@ -53,6 +53,7 @@ import {
   validateName,
   verifyTurnstile,
 } from "../_shared/spamProtection.ts";
+import { formatSessionTime, getMultiSessionEvent } from "../_shared/eventSessions.ts";
 
 // ---------------------------------------------------------------------------
 // CORS / allowed submission origins
@@ -546,13 +547,34 @@ async function sendEmail({
     ? `https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1/lab-calendar?event=${encodeURIComponent(pageSlug)}`
     : null;
 
+  // Multi-session events (e.g. the Four Fields Intensive) swap "lab" copy for
+  // their own noun and list every session instead of a single date.
+  const multi = getMultiSessionEvent(dbSlug);
+  const noun = multi?.noun ?? "lab";
+  const brand = multi?.brand ?? "Covo Multipliers Labs";
+  const introLine = multi
+    ? `This is a live, ${multi.sessions.length}-session online training. Block every session on your calendar now — each one builds on the last, and the people who get the most out of it are the ones who show up live for all of it.`
+    : `This is a free 45-minute live lab — practical, simple, and built to use right away.
+                The people who get the most out of it are the ones who show up live.`;
+  const dateRows = multi
+    ? multi.sessions.map((sess) => `
+                <tr>
+                  <td style="padding:11px 14px;font-weight:600;color:#245c4a;white-space:nowrap;vertical-align:top;">${esc(sess.label.split("·")[0].trim())}</td>
+                  <td style="padding:11px 14px;color:#1a1a1a;">${esc(formatSessionTime(sess))}</td>
+                </tr>`).join("")
+    : `
+                <tr>
+                  <td style="padding:11px 14px;font-weight:600;color:#245c4a;">Date</td>
+                  <td style="padding:11px 14px;color:#1a1a1a;">${formatDate(eventDate)}</td>
+                </tr>`;
+
   const joinLabUrl = dbSlug
     ? `https://www.covomultipliers.com/join-lab.html?event=${encodeURIComponent(dbSlug)}`
     : null;
 
   const zoomSecondaryLink = zoomLink && joinLabUrl
     ? `<p style="text-align:center;margin:14px 0 0;font-size:14px;line-height:20px;color:#888888;">
-        When it's time, <a href="${esc(joinLabUrl)}" style="color:#1b4d3e;text-decoration:underline;font-weight:600;">join the lab here</a>.
+        When it's time, <a href="${esc(joinLabUrl)}" style="color:#1b4d3e;text-decoration:underline;font-weight:600;">join the ${noun} here</a>.
       </p>`
     : "";
 
@@ -571,11 +593,11 @@ async function sendEmail({
     ? `<div style="text-align:center;margin:28px 0 0;">
         <a href="${esc(joinLabUrl)}"
            style="display:inline-block;padding:15px 40px;background:#1b4d3e;color:#ffffff;font-size:16px;font-weight:700;text-decoration:none;border-radius:8px;letter-spacing:0.01em;">
-          Join the Lab
+          ${multi ? "Join the Intensive" : "Join the Lab"}
         </a>
       </div>`
     : `<p style="text-align:center;margin:28px 0 0;font-size:14px;line-height:20px;color:#888888;">
-        The Zoom link will be sent before the lab.
+        The Zoom link will be sent before the ${noun}.
       </p>`;
 
   const html = `<!DOCTYPE html>
@@ -594,7 +616,7 @@ async function sendEmail({
           <tr>
             <td style="background:linear-gradient(135deg,#10281f 0%,#1b4d3e 55%,#9f7a2f 100%);padding:36px 32px;border-radius:12px 12px 0 0;">
               <p style="margin:0 0 6px;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.65);">
-                Covo Multipliers Labs
+                ${esc(brand)}
               </p>
               <h1 style="margin:0;font-size:26px;font-weight:900;color:#ffffff;line-height:1.2;">
                 You're registered!
@@ -609,8 +631,7 @@ async function sendEmail({
               <p style="margin:0 0 16px;font-size:16px;color:#1a1a1a;">Hi ${esc(toName)},</p>
               <p style="margin:0 0 24px;font-size:15px;color:#444444;line-height:1.65;">
                 You're confirmed for <strong>${esc(eventTitle)}</strong>.
-                This is a free 45-minute live lab — practical, simple, and built to use right away.
-                The people who get the most out of it are the ones who show up live.
+                ${introLine}
               </p>
 
               <!-- Event detail rows -->
@@ -620,10 +641,7 @@ async function sendEmail({
                   <td style="padding:11px 14px;font-weight:600;color:#245c4a;width:110px;white-space:nowrap;">Event</td>
                   <td style="padding:11px 14px;color:#1a1a1a;font-weight:600;">${esc(eventTitle)}</td>
                 </tr>
-                <tr>
-                  <td style="padding:11px 14px;font-weight:600;color:#245c4a;">Date</td>
-                  <td style="padding:11px 14px;color:#1a1a1a;">${formatDate(eventDate)}</td>
-                </tr>
+                ${dateRows}
               </table>
 
               ${ctaSection}
@@ -631,7 +649,7 @@ async function sendEmail({
               <!-- WhatsApp Field Room secondary CTA -->
               <div style="margin:28px 0 0;padding:16px 20px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;text-align:center;">
                 <p style="margin:0 0 4px;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#15803d;">WhatsApp Field Room</p>
-                <p style="margin:0 0 10px;font-size:14px;color:#374151;line-height:1.55;">Want to start practicing before the lab? Apply to Join the Field Room for prompts, reminders, and next steps with other disciple makers.</p>
+                <p style="margin:0 0 10px;font-size:14px;color:#374151;line-height:1.55;">Want to start practicing before the ${noun}? Apply to Join the Field Room for prompts, reminders, and next steps with other disciple makers.</p>
                 <a href="${esc(whatsAppJoinUrl(
                     { utm_source: "lab_confirmation_email", utm_medium: "email", utm_campaign: "whatsapp_field_room" },
                     originAttribution,
@@ -643,7 +661,7 @@ async function sendEmail({
                 Looking forward to seeing you there.
               </p>
 
-              ${renderTransactionalFooter()}
+              ${renderTransactionalFooter(multi ? "training" : "Lab")}
 
             </td>
           </tr>
@@ -814,12 +832,12 @@ function formatDate(iso: string): string {
   }
 }
 
-function renderTransactionalFooter(): string {
+function renderTransactionalFooter(kind = "Lab"): string {
   return `
     <hr style="border:none;border-top:1px solid #e5e7eb;margin:28px 0;" />
 
     <p style="margin:0 0 8px;font-size:12px;line-height:18px;color:#888888;">
-      You're receiving this because you registered for this CoVo Multipliers Lab.
+      You're receiving this because you registered for this CoVo Multipliers ${kind}.
     </p>
 
     <p style="margin:0 0 8px;font-size:12px;line-height:18px;color:#888888;">

@@ -307,13 +307,21 @@
       url.searchParams.set('event_date', 'gte.' + new Date().toISOString());
       url.searchParams.set('order', 'event_date.asc');
       url.searchParams.set('limit', '1');
+      // Monthly labs only — multi-session trainings (event_type = 'intensive')
+      // have their own page and aren't "45 min · Free" labs.
+      url.searchParams.set('event_type', 'eq.lab');
 
-      var res = await fetch(url, {
-        headers: {
-          apikey: SUPABASE_ANON_KEY,
-          Authorization: 'Bearer ' + SUPABASE_ANON_KEY
-        }
-      });
+      var headers = {
+        apikey: SUPABASE_ANON_KEY,
+        Authorization: 'Bearer ' + SUPABASE_ANON_KEY
+      };
+      var res = await fetch(url, { headers: headers });
+
+      // event_type column not migrated yet → retry without the filter.
+      if (!res.ok) {
+        url.searchParams.delete('event_type');
+        res = await fetch(url, { headers: headers });
+      }
 
       if (!res.ok) {
         renderFallback(container);
