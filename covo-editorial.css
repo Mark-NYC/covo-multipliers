@@ -448,12 +448,21 @@ strong { font-weight: 500; }
     .hero-media img { position: static; height: auto; aspect-ratio: 4 / 3; }
 }
 
+/* Phones: tight vertical rhythm so "Join a Free Lab" shows on first load */
 @media (max-width: 600px) {
-    .hero { padding-top: 2rem; }
-    .hero .logo-wordmark { font-size: clamp(2.15rem, 11.2vw, 2.9rem); margin-bottom: 1.5rem; }
+    .hero { padding: 1.25rem 1.25rem 3rem; }                  /* 20px under the nav, 20px sides */
+    .hero-grid { gap: 1.5rem; }                              /* image → eyebrow 24px */
+    .hero-media img { aspect-ratio: 1.6 / 1; object-position: 50% 42%; }
+    .hero .logo-tagline { margin-bottom: 0.75rem; }          /* eyebrow → headline 12px */
+    .hero .logo-wordmark {
+        font-size: min(11.2vw, 2.625rem);                    /* ~42px */
+        line-height: 1.04;
+        margin-bottom: 0.875rem;                             /* headline → paragraph 14px */
+    }
     .hero .logo-wordmark .hl { white-space: normal; }
+    .hero .hero-cta-row { margin-top: 1.25rem; }             /* paragraph → CTA 20px */
     .hero .hero-cta-row .btn { width: 100%; }
-    .hero-media img { aspect-ratio: 4 / 3; }
+    .hero .hero-microcopy { margin-top: 0.5rem; }            /* CTA → microcopy 8px */
 }
 
 
