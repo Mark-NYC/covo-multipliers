@@ -1034,12 +1034,66 @@
             color: #245c4a;
         }
 
+        .pattern-section {
+            text-align: center;
+            padding-top: 5.5rem;
+            padding-bottom: 5.5rem;
+        }
+
+        .pattern-h2 {
+            font-size: clamp(1.9rem, 4vw, 2.6rem);
+            font-weight: 900;
+            color: #10281f;
+            line-height: 1.15;
+            margin: 0 0 1.25rem;
+        }
+
+        .pattern-lead {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: #2d2d2d;
+            max-width: 34rem;
+            margin: 0 auto;
+        }
+
         .fields-diagram {
             display: block;
             width: 100%;
-            max-width: 480px;
+            max-width: 640px;
             height: auto;
-            margin: 1.75rem auto 0.5rem;
+            margin: 3rem auto;
+        }
+
+        .pattern-p {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: #444444;
+            max-width: 36rem;
+            margin: 0 auto 1rem;
+        }
+
+        .pattern-note {
+            margin: 2rem auto 0;
+            font-size: 0.88rem;
+            color: #5a6b65;
+        }
+
+        .bottom-cta-headline {
+            margin-bottom: 2rem;
+        }
+
+        /* Final CTA sits on the dark gradient: white button for contrast. */
+        .bottom-cta #cta-scroll-btn {
+            background: #ffffff;
+            border-color: #ffffff;
+            color: #10281f;
+            padding: 0.95rem 2.25rem;
+            font-size: 1.05rem;
+        }
+
+        .bottom-cta #cta-scroll-btn:hover {
+            background: #f3d98f;
+            border-color: #f3d98f;
         }
 
         .event-title .title-accent {
@@ -1110,6 +1164,9 @@
         }
 
         @media (max-width: 540px) {
+            .pattern-section { padding-top: 3.5rem; padding-bottom: 3.5rem; }
+            .pattern-lead { font-size: 1.1rem; }
+            .fields-diagram { margin: 2rem auto; }
             .event-hero { padding-top: 2.75rem; padding-bottom: 2.75rem; }
             .hero-lead  { font-size: 1.05rem; }
         }
@@ -1144,7 +1201,7 @@
             <div class="hero-copy">
                 <span class="event-label">Four Fields Intensive &middot; Live Online &middot; December 4&ndash;6</span>
                 <h1 class="event-title">What If Jesus Gave Us More Than a Message to Share? <span class="title-accent">What If He Gave Us a Pattern to Follow?</span></h1>
-                <p class="hero-sub hero-lead">Rediscover the biblical patterns behind how Jesus made disciples, developed leaders, and multiplied His Kingdom.</p>
+                <p class="hero-sub hero-lead">Discover the biblical patterns behind how Jesus made disciples, developed leaders, and multiplied His Kingdom.</p>
                 <p class="hero-kicker">Not just more tools. A different way of seeing the work.</p>
 
                 <!-- Populated by JS: seat pill -->
@@ -1226,74 +1283,17 @@
 
 
     <!-- ================================================
-         CONTENT
+         THE PATTERN
     ================================================ -->
-    <section class="event-body">
+    <section class="event-body pattern-section">
         <div class="event-body-inner">
-
-            <!-- The bigger picture -->
-            <div>
-                <p class="eyebrow">The bigger picture</p>
-                <h2 class="content-h2">What If We&rsquo;ve Been Missing the Bigger Picture?</h2>
-                <ul class="pain-list">
-                    <li>You can know the tools without understanding the principles behind them.</li>
-                    <li>You can take part in church activities without recognizing the patterns Jesus modeled.</li>
-                    <li>You can spend years making disciples without seeing how the whole work fits together.</li>
-                </ul>
-                <p class="pull-line">What if we returned to Scripture and examined not only <em>what</em> Jesus taught, but <em>how</em> He actually carried out His mission?</p>
-            </div>
-
-            <!-- The path -->
-            <div class="content-section">
-                <p class="eyebrow">The Four Fields</p>
-                <h2 class="content-h2">Rediscover the Kingdom Clear Path</h2>
-                <p class="section-lead">The Four Fields is a biblical framework for seeing how the Kingdom advances, from entering new fields to multiplying disciples, churches, and leaders.</p>
-                <img class="fields-diagram" src="image/four-fields-diagram.webp" width="1046" height="850" loading="lazy"
-                     alt="The Four Fields diagram: 1. Entry, 2. Gospel, 3. Discipleship, 4. Church, with 5. Leaders at the center">
-                <ol class="path">
-                    <li><strong>Entry</strong><span>Entering new fields and engaging the lost.</span></li>
-                    <li><strong>Gospel</strong><span>Sowing the gospel broadly.</span></li>
-                    <li><strong>Discipleship</strong><span>Making disciples who hear and obey Jesus.</span></li>
-                    <li><strong>Church</strong><span>Establishing healthy, reproducing churches.</span></li>
-                    <li><strong>Leaders</strong><span>Developing leaders who multiply the work.</span></li>
-                </ol>
-                <p class="no-title">These aren&rsquo;t five techniques. Together, they show the bigger biblical process and principles behind multiplication.</p>
-            </div>
-
-            <!-- Principles / Process / Practice -->
-            <div class="content-section">
-                <p class="eyebrow">How the weekend works</p>
-                <h2 class="content-h2">Principles. Process. Practice.</h2>
-                <div class="ppt-grid">
-                    <div class="ppt-card">
-                        <strong>Principles</strong>
-                        <p>Discover the biblical foundations behind Jesus&rsquo; approach to making disciples and advancing His Kingdom.</p>
-                    </div>
-                    <div class="ppt-card">
-                        <strong>Process</strong>
-                        <p>See how the parts of the work connect, from entering new fields to multiplying churches and leaders.</p>
-                    </div>
-                    <div class="ppt-card">
-                        <strong>Practice</strong>
-                        <p>Experience simple, reproducible tools that put these principles into action.</p>
-                    </div>
-                </div>
-                <p class="section-lead">This is an interactive intensive, not just a collection of presentations.</p>
-            </div>
-
-            <!-- Outcomes -->
-            <div class="content-section">
-                <p class="eyebrow">What you&rsquo;ll walk away with</p>
-                <h2 class="content-h2">See the Whole Work Differently</h2>
-                <ul class="takeaway-list">
-                    <li><span class="take-check" aria-hidden="true">&#10003;</span><span>A fresh biblical perspective on how Jesus made disciples and multiplied His work.</span></li>
-                    <li><span class="take-check" aria-hidden="true">&#10003;</span><span>A clearer understanding of the Kingdom principles behind the tools.</span></li>
-                    <li><span class="take-check" aria-hidden="true">&#10003;</span><span>A framework for seeing how disciples, churches, and leaders multiply.</span></li>
-                    <li><span class="take-check" aria-hidden="true">&#10003;</span><span>Practical ways to apply these principles in the fields where you live, work, and play.</span></li>
-                </ul>
-                <p class="no-title">Prior experience helps but isn&rsquo;t required. This is for ordinary disciples who are serious about making disciples, not only pastors or church planters.</p>
-            </div>
-
+            <h2 class="pattern-h2">Rediscover the Pattern of Jesus.</h2>
+            <p class="pattern-lead">What if we stopped seeing disciple making as disconnected activities and started seeing the whole picture?</p>
+            <img class="fields-diagram" src="image/four-fields-diagram.webp" width="1046" height="850" loading="lazy"
+                 alt="The Four Fields diagram: 1. Entry, 2. Gospel, 3. Discipleship, 4. Church, with 5. Leaders at the center">
+            <p class="pattern-p">Through Scripture, discussion, and hands-on practice, explore the principles behind multiplying disciples, churches, and leaders.</p>
+            <p class="pattern-p">You&rsquo;ll leave with a clearer biblical framework, a fresh perspective on the work, and practical ways to apply what you&rsquo;ve learned where you live, work, and play.</p>
+            <p class="pattern-note">Designed for everyday disciples and leaders. Prior experience helpful, not required.</p>
         </div>
     </section>
 
@@ -1304,13 +1304,6 @@
     <section class="bottom-cta">
         <div class="bottom-cta-inner">
             <h2 class="bottom-cta-headline">Don&rsquo;t Just Learn More Tools. Rediscover the Pattern.</h2>
-            <p class="bottom-cta-body">Join us as we return to Scripture and examine the principles, process, and practices behind multiplying disciples and churches.</p>
-            <ul class="hero-schedule cta-schedule" aria-label="Schedule (Eastern Time)">
-                <li><span class="day">Friday, Dec 4</span><span>6:30&ndash;9:30 PM ET</span></li>
-                <li><span class="day">Saturday, Dec 5</span><span>9:00 AM&ndash;4:00 PM ET</span></li>
-                <li><span class="day">Sunday, Dec 6</span><span>1:00&ndash;4:00 PM ET</span></li>
-                <li class="format">Live, interactive, online.</li>
-            </ul>
             <button class="btn btn-primary" id="cta-scroll-btn">Save My Seat</button>
         </div>
     </section>
