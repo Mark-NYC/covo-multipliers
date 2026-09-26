@@ -36,7 +36,11 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/image/favicons/favicon-16x16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/image/favicons/apple-touch-icon.png">
     <link rel="manifest" href="/image/favicons/site.webmanifest">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="covo-editorial.css">
 
     <style>
         /* Homepage Covo Updates form layout */
@@ -48,8 +52,8 @@
                 "consent consent";
             gap: 0.8rem 1rem;
             align-items: center;
-            width: min(100%, 680px);
-            margin: 1.25rem auto 0;
+            width: min(100%, 560px);
+            margin: 1.75rem auto 0;
         }
 
         #lab-interest-form .lab-interest-input {
@@ -73,8 +77,8 @@
             align-items: flex-start;
             justify-content: center;
             gap: 0.55rem;
-            max-width: 560px;
-            margin: 0.1rem auto 0;
+            max-width: none;
+            margin: 0.35rem 0 0;
             text-align: left;
             cursor: pointer;
         }
@@ -84,17 +88,16 @@
             width: 18px;
             height: 18px;
             margin: 0.1rem 0 0;
-            accent-color: #1b4d3e;
+            accent-color: var(--c-forest);
         }
 
         #lab-interest-form .lab-interest-consent span {
-            color: #5a6b65;
-            font-size: 0.8rem;
+            color: var(--c-text-muted);
+            font-size: 0.85rem;
             line-height: 1.45;
         }
 
         #lab-interest-message {
-            max-width: 680px;
             margin: 0.8rem auto 0;
             text-align: center;
         }
@@ -106,7 +109,7 @@
                     "email"
                     "button"
                     "consent";
-                width: min(100%, 420px);
+                width: 100%;
             }
 
             #lab-interest-form .lab-interest-submit {
@@ -117,75 +120,6 @@
                 justify-content: flex-start;
                 margin-inline: 0;
             }
-        }
-    </style>
-    <style>
-        /* WhatsApp Field Room CTA — homepage section */
-        .whatsapp-cta-section {
-            background: #f0fdf4;
-            border-top: 1px solid #bbf7d0;
-            border-bottom: 1px solid #bbf7d0;
-            padding: 3rem 1.5rem;
-            text-align: center;
-        }
-        .whatsapp-cta-container {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        .whatsapp-cta-eyebrow {
-            font-size: 0.72rem;
-            font-weight: 800;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: #15803d;
-            margin: 0 0 0.6rem;
-        }
-        .whatsapp-cta-title {
-            font-size: clamp(1.4rem, 3vw, 1.9rem);
-            font-weight: 900;
-            color: #10281f;
-            line-height: 1.15;
-            letter-spacing: -0.02em;
-            margin: 0 0 0.9rem;
-        }
-        .whatsapp-cta-copy {
-            font-size: 1rem;
-            color: #3a4a44;
-            line-height: 1.7;
-            margin: 0 0 1.5rem;
-        }
-        .whatsapp-cta-btn {
-            display: inline-block;
-            padding: 0.85rem 1.75rem;
-            background: #25D366;
-            color: #ffffff;
-            font-size: 1rem;
-            font-weight: 800;
-            text-decoration: none;
-            border-radius: 999px;
-            letter-spacing: -0.01em;
-            box-shadow: 0 4px 16px rgba(37,211,102,0.3);
-            transition: background 0.18s ease, transform 0.15s ease;
-        }
-        .whatsapp-cta-btn:hover {
-            background: #1ebe59;
-            transform: translateY(-1px);
-        }
-        /* Final CTA secondary WhatsApp link */
-        .final-cta-or {
-            margin: 1.1rem 0 0.4rem;
-            font-size: 0.85rem;
-            color: rgba(255,255,255,0.5);
-        }
-        .final-cta-whatsapp-link {
-            font-size: 0.92rem;
-            color: rgba(255,255,255,0.75);
-            text-decoration: none;
-            border-bottom: 1px solid rgba(255,255,255,0.3);
-            transition: color 0.15s ease;
-        }
-        .final-cta-whatsapp-link:hover {
-            color: #ffffff;
         }
     </style>
     <link rel="canonical" href="https://covomultipliers.com/">
@@ -201,42 +135,84 @@
 </head>
 <body>
 
-    <section class="hero">
-
+    <header class="site-masthead" id="top">
         <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="site-menu">
             <span></span>
             <span></span>
             <span></span>
         </button>
 
-        <div class="logo-area">
-            <img
-                class="first-split-image"
-                src="image/Covo Multipliers Pathway.jpg"
-                alt="Covo Multipliers pathway for helping working Christians make disciples in everyday life"
-            >
+        <nav class="masthead-center" aria-label="Primary">
+            <a class="masthead-link" href="/vision">Start Here</a>
+            <a class="masthead-wordmark" href="/">Covo <em>Multipliers</em></a>
+            <a class="masthead-link" href="/h3x">Podcast</a>
+        </nav>
 
-            <p class="logo-tagline">For working Christians with real jobs.</p>
+        <a class="masthead-cta" href="#upcoming-labs">Join a Lab</a>
+    </header>
 
-            <h1 class="logo-wordmark">Your job isn’t the obstacle. It’s the open door.</h1>
+    <section class="hero">
+        <div class="hero-grid">
+            <div class="hero-main">
+                <figure class="hero-media">
+                    <img
+                        src="image/immersions/immersion-wide-1800.webp"
+                        alt="A Covo Immersion gathering in a New York City living room"
+                        width="1800"
+                        height="1023"
+                        fetchpriority="high"
+                    >
+                </figure>
 
-            <p class="logo-positioning">
-                Learn how to make disciples in the middle of a normal week.
-            </p>
+                <div class="logo-area">
+                    <h1 class="logo-wordmark">Your job isn’t the obstacle. It’s the open door.</h1>
 
-            <div class="hero-cta-row">
-                <a class="btn btn-primary" href="#upcoming-labs">Join a Free Lab</a>
+                    <div class="hero-cols">
+                        <div>
+                            <p class="logo-tagline">For working Christians with real jobs.</p>
+
+                            <p class="logo-positioning">
+                                Learn how to make disciples in the middle of a normal week.
+                            </p>
+                        </div>
+
+                        <div>
+                            <div class="hero-cta-row">
+                                <a class="btn btn-primary" href="#upcoming-labs">Join a Free Lab</a>
+                            </div>
+
+                            <p class="hero-microcopy">45 min. Live. Free. Max 25. No pitch.</p>
+
+                            <div class="hero-proof">
+                                <div class="hero-social-proof">
+                                    <img src="image/social%20proof%20covo%20multipliers.webp" alt="Leaders learning together through Covo Multipliers">
+                                </div>
+
+                                <p class="hero-social-line">Practical disciple-making labs for everyday leaders.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <p class="hero-microcopy">45 min. Live. Free. Max 25. No pitch.</p>
+            <nav class="hero-tiles" aria-label="Explore Covo">
+                <a class="tile tile-photo" href="/vision">
+                    <img src="image/immersions/immersion-grid-3.webp" alt="" loading="lazy">
+                    <span class="tile-label">Start Here</span>
+                    <span class="tile-arrow" aria-hidden="true">→</span>
+                </a>
 
-            <div class="hero-social-proof">
-                <img src="image/social%20proof%20covo%20multipliers.webp" alt="Leaders learning together through Covo Multipliers">
-            </div>
+                <a class="tile tile-tan" href="/h3x">
+                    <span class="tile-label">H3X Podcast</span>
+                    <span class="tile-arrow" aria-hidden="true">→</span>
+                </a>
 
-            <p class="hero-social-line">Practical disciple-making labs for everyday leaders.</p>
+                <a class="tile tile-accent" href="/immersions">
+                    <span class="tile-label">Covo <em>Immersions</em></span>
+                    <span class="tile-arrow" aria-hidden="true">→</span>
+                </a>
+            </nav>
         </div>
-
     </section>
 
     <div class="menu-overlay" id="menu-overlay"></div>
@@ -258,13 +234,16 @@
     <section class="why-section">
         <div class="why-container">
 
-            <img
-                class="why-split-image"
-                src="image/Ministry split.webp"
-                alt="Working Christians often feel split between everyday life and ministry"
-            >
+            <div class="why-head ed-split">
+                <div class="why-head-left">
+                    <img
+                        class="why-split-image"
+                        src="image/Ministry split.webp"
+                        alt="Working Christians often feel split between everyday life and ministry"
+                    >
 
-            <h2 class="why-title">Most Christians have been taught to split their life in two.</h2>
+                    <h2 class="why-title">Most Christians have been taught to split their life in two.</h2>
+                </div>
 
             <div class="why-copy">
                 <p>
@@ -278,6 +257,7 @@
                 <p>
                     Covo Multipliers helps working leaders build <strong>a repeatable path for making disciples where they already live, work, and play.</strong>
                 </p>
+            </div>
             </div>
 
             <div class="why-cards">
@@ -327,6 +307,7 @@
 
     <section class="workplace-banner">
         <div class="workplace-content">
+            <span class="ed-badge" aria-hidden="true">×××</span>
             <p class="workplace-trust">Built for leaders with jobs, families, calendars, and real constraints.</p>
             <p class="workplace-stakes">No hype. One framework. One next step you can practice this week.</p>
         </div>
@@ -335,16 +316,20 @@
     <section class="labs-section" id="upcoming-labs">
         <div class="labs-container">
 
-            <h2 class="labs-title">Upcoming Labs</h2>
+            <div class="labs-head ed-split">
+                <h2 class="labs-title">Upcoming Labs</h2>
 
-            <p class="labs-explainer">
-                A lab is a <strong>free 45-minute live session</strong> with a small group (max 25).
-                You leave with one simple framework, one next step, and language you can pass on to someone else.
-            </p>
+                <div>
+                    <p class="labs-explainer">
+                        A lab is a <strong>free 45-minute live session</strong> with a small group (max 25).
+                        You leave with one simple framework, one next step, and language you can pass on to someone else.
+                    </p>
 
-            <p class="labs-urgency">
-                Spots are limited to 25 and usually fill.
-            </p>
+                    <p class="labs-urgency">
+                        Spots are limited to 25 and usually fill.
+                    </p>
+                </div>
+            </div>
 
             <div class="labs-list" id="labs-list" aria-live="polite">
                 <p class="labs-loading">Loading upcoming labs&hellip;</p>
@@ -354,11 +339,15 @@
 
 <section class="lab-interest-section">
     <div class="lab-interest-container">
+        <div>
         <h2 class="lab-interest-title">Can’t make these dates?</h2>
 
         <p class="lab-interest-copy">
             Get future Covo labs, practical tools, and live training opportunities.
         </p>
+        </div>
+
+        <div>
 
         <form class="lab-interest-form" id="lab-interest-form" novalidate>
             <input
@@ -408,31 +397,40 @@
             role="alert"
             aria-live="polite"
         ></p>
+        </div>
     </div>
 </section>
 
-    <section class="whatsapp-cta-section">
+    <section class="whatsapp-cta-section is-dark">
         <div class="whatsapp-cta-container">
+            <div>
             <p class="whatsapp-cta-eyebrow">WhatsApp Field Room</p>
             <h2 class="whatsapp-cta-title">The lab is where we train. WhatsApp is where we practice.</h2>
+            </div>
+            <div>
             <p class="whatsapp-cta-copy">Get around practitioners who are actually making disciples in everyday life. Weekly practice prompts, lab invites, follow/fish goals, and next steps — in a group small enough to actually know you.</p>
-            <a class="whatsapp-cta-btn" href="https://www.covomultipliers.com/join-whatsapp?utm_source=homepage&utm_medium=cta&utm_campaign=whatsapp_field_room">Apply to Join the Field Room</a>
+            <a class="whatsapp-cta-btn ed-cta-link" href="https://www.covomultipliers.com/join-whatsapp?utm_source=homepage&utm_medium=cta&utm_campaign=whatsapp_field_room">Apply to Join the Field Room →</a>
+            </div>
         </div>
     </section>
 
     <section class="testimonials-section">
         <div class="testimonials-container">
-            <img
-                class="first-split-image"
-                src="image/Thumbs up.webp"
-                alt="What covocational leaders are saying about Covo Multipliers labs"
-            >
+            <div class="testimonials-head ed-split">
+                <div>
+                    <img
+                        class="first-split-image"
+                        src="image/Thumbs up.webp"
+                        alt="What covocational leaders are saying about Covo Multipliers labs"
+                    >
 
-            <h2 class="testimonials-title">What leaders are saying</h2>
+                    <h2 class="testimonials-title">What leaders are saying</h2>
+                </div>
 
-            <p class="testimonials-intro">
-                These are not hype sessions. Leaders leave with language, clarity, and next steps they can actually use.
-            </p>
+                <p class="testimonials-intro">
+                    These are not hype sessions. Leaders leave with language, clarity, and next steps they can actually use.
+                </p>
+            </div>
 
             <div class="testimonials-list">
 
@@ -514,22 +512,35 @@
     <footer class="site-footer">
         <div class="footer-inner">
             <div class="footer-brand">
-                <span class="footer-wordmark">Covo Multipliers</span>
+                <span class="footer-wordmark">Covo <em>Multipliers</em></span>
                 <p class="footer-desc">Practical training for everyday leaders who want to make disciples where they live, work, and play.</p>
             </div>
 
             <nav class="footer-nav" aria-label="Footer navigation">
-                <a href="/">Home</a>
-                <a href="/vision">Start Here</a>
-                <a href="/blog/">Blog</a>
-                <a href="/h3x">H3X Podcast</a>
-                <a href="/contact">Contact</a>
-                <a href="https://obey.tools">Obey.Tools</a>
-                <a href="https://churchwaffle.com">Church Waffle</a>
-                <a href="https://conversationquadrant.com">Conversation Quadrant</a>
-                <a href="https://www.covomultipliers.com/join-whatsapp?utm_source=footer&utm_medium=cta&utm_campaign=whatsapp_field_room" style="color:#25D366;">Apply to Join the Field Room</a>
-                <a href="/privacy">Privacy</a>
+                <div class="footer-col">
+                    <p class="footer-heading">Start</p>
+                    <a href="/">Home</a>
+                    <a href="/vision">Start Here</a>
+                    <a href="/blog/">Blog</a>
+                    <a href="/h3x">H3X Podcast</a>
+                </div>
+
+                <div class="footer-col">
+                    <p class="footer-heading">Tools</p>
+                    <a href="https://obey.tools">Obey.Tools</a>
+                    <a href="https://churchwaffle.com">Church Waffle</a>
+                    <a href="https://conversationquadrant.com">Conversation Quadrant</a>
+                </div>
+
+                <div class="footer-col">
+                    <p class="footer-heading">Connect</p>
+                    <a href="/contact">Contact</a>
+                    <a href="https://www.covomultipliers.com/join-whatsapp?utm_source=footer&utm_medium=cta&utm_campaign=whatsapp_field_room" class="footer-highlight">Apply to Join the Field Room</a>
+                    <a href="/privacy">Privacy</a>
+                </div>
             </nav>
+
+            <a class="back-to-top" href="#top" aria-label="Back to top">↑</a>
         </div>
     </footer>
 
