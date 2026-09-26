@@ -20,18 +20,18 @@
 <script src="/covo-consent.js" defer></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Want to make disciples but not sure where to start? Join a live online weekend (Dec 4–6) to learn and practice a simple, biblical path you can follow and pass on.">
-    <title>Online Four Fields Intensive - Covo Multipliers</title>
+    <meta name="description" content="Four Fields Intensive, live online Dec 4–6: a weekend rediscovering the biblical principles and patterns behind how Jesus made disciples, developed leaders, and multiplied His Kingdom.">
+    <title>Four Fields Intensive - Covo Multipliers</title>
     <link rel="canonical" href="https://covomultipliers.com/four-fields-intensive">
     <meta property="og:site_name" content="Covo Multipliers">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Online Four Fields Intensive - Covo Multipliers">
-    <meta property="og:description" content="Want to make disciples but not sure where to start? Join a live online weekend (Dec 4–6) to learn and practice a simple, biblical path you can follow and pass on.">
+    <meta property="og:title" content="Four Fields Intensive - Covo Multipliers">
+    <meta property="og:description" content="Four Fields Intensive, live online Dec 4–6: a weekend rediscovering the biblical principles and patterns behind how Jesus made disciples, developed leaders, and multiplied His Kingdom.">
     <meta property="og:url" content="https://covomultipliers.com/four-fields-intensive">
     <meta property="og:image" content="https://covomultipliers.com/image/covozoomfinal.webp">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Online Four Fields Intensive - Covo Multipliers">
-    <meta name="twitter:description" content="Want to make disciples but not sure where to start? Join a live online weekend (Dec 4–6) to learn and practice a simple, biblical path you can follow and pass on.">
+    <meta name="twitter:title" content="Four Fields Intensive - Covo Multipliers">
+    <meta name="twitter:description" content="Four Fields Intensive, live online Dec 4–6: a weekend rediscovering the biblical principles and patterns behind how Jesus made disciples, developed leaders, and multiplied His Kingdom.">
     <meta name="twitter:image" content="https://covomultipliers.com/image/covozoomfinal.webp">
     <link rel="icon" type="image/x-icon" href="/image/favicons/favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="/image/favicons/favicon-32x32.png">
@@ -984,16 +984,51 @@
             line-height: 1.6;
         }
 
-        .bottom-cta-event {
-            margin: 0 0 1.75rem;
-            color: rgba(255,255,255,0.85);
-            line-height: 1.6;
+
+        .event-title .title-accent {
+            display: block;
+            margin-top: 0.35rem;
+            color: #f3d98f;
         }
 
-        .bottom-cta-event strong {
-            display: block;
+        .hero-kicker {
+            margin: 0.25rem 0 0;
+            font-size: 1.05rem;
+            font-weight: 800;
             color: #ffffff;
+        }
+
+        .ppt-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .ppt-card {
+            background: #10281f;
+            border-radius: 12px;
+            padding: 1.35rem 1.25rem;
+        }
+
+        .ppt-card strong {
+            display: block;
             font-size: 1.1rem;
+            font-weight: 900;
+            color: #f3d98f;
+            margin-bottom: 0.35rem;
+        }
+
+        .ppt-card p {
+            margin: 0;
+            font-size: 0.93rem;
+            line-height: 1.6;
+            color: rgba(255,255,255,0.85);
+        }
+
+        .cta-schedule {
+            margin: 1.5rem auto 1.75rem;
+            text-align: left;
         }
 
         .footer-links {
@@ -1018,6 +1053,7 @@
         }
 
         @media (max-width: 860px) {
+            .ppt-grid { grid-template-columns: 1fr; }
             .hero-jump {
                 display: inline-flex;
                 margin-top: 0.25rem;
@@ -1043,10 +1079,12 @@
         <div class="event-hero-inner">
 
             <div class="hero-copy">
-                <span class="event-label">Live Online Four Fields Intensive &middot; December 4&ndash;6</span>
-                <h1 class="event-title">You Want to Make Disciples. But Where Do You Start?</h1>
-                <p class="hero-sub">You don&rsquo;t need a ministry title, a perfect schedule, or another pile of information. You need a simple path you can actually follow, and help others follow too.</p>
-                <p class="hero-sub">Join us for a hands-on weekend learning how to make and multiply disciples and churches right where you live, work, and play.</p>
+                <span class="event-label">Four Fields Intensive &middot; Live Online &middot; December 4&ndash;6</span>
+                <h1 class="event-title">What If Jesus Gave Us More Than a Message to Share? <span class="title-accent">What If He Gave Us a Pattern to Follow?</span></h1>
+                <p class="hero-sub">We&rsquo;ve learned Jesus&rsquo; teachings. We&rsquo;ve studied His miracles. We&rsquo;ve applied individual verses to our lives.</p>
+                <p class="hero-sub">But have we stopped to examine how He actually made disciples, developed leaders, and multiplied His Kingdom?</p>
+                <p class="hero-sub">Join us for a weekend rediscovering the biblical principles and patterns behind Jesus&rsquo; ministry, and what they mean for making disciples and multiplying churches today.</p>
+                <p class="hero-kicker">Not just more tools. A different way of seeing the work.</p>
 
                 <ul class="hero-schedule" aria-label="Schedule (Eastern Time)">
                     <li><span class="day">Friday, Dec 4</span><span>6:30&ndash;9:30 PM ET</span></li>
@@ -1068,7 +1106,7 @@
                 <div class="registration-card" id="registration-card">
 
                     <h2>Save Your Seat</h2>
-                    <p class="form-intro">Live online &middot; December 4&ndash;6 &middot; Eastern Time</p>
+                    <p class="form-intro">Four Fields Intensive &middot; Live online<br>December 4&ndash;6, 2026 &middot; Eastern Time</p>
 
                     <form id="registration-form" novalidate>
                         <div class="form-field">
@@ -1134,88 +1172,65 @@
     <section class="event-body">
         <div class="event-body-inner">
 
-            <!-- Sound familiar? -->
+            <!-- The bigger picture -->
             <div>
-                <p class="eyebrow">Sound familiar?</p>
-                <h2 class="content-h2">Making Disciples Can Feel Harder Than It Should</h2>
-                <p class="section-lead">You love Jesus and want others to know Him. But:</p>
+                <p class="eyebrow">The bigger picture</p>
+                <h2 class="content-h2">What If We&rsquo;ve Been Missing the Bigger Picture?</h2>
                 <ul class="pain-list">
-                    <li>You want to share your faith, but don&rsquo;t always know how.</li>
-                    <li>You want to help someone grow, but aren&rsquo;t sure what comes next.</li>
-                    <li>You&rsquo;ve attended trainings, but struggle to put them into practice.</li>
-                    <li>You want to multiply, but most of the work still depends on you.</li>
+                    <li>You can know the tools without understanding the principles behind them.</li>
+                    <li>You can take part in church activities without recognizing the patterns Jesus modeled.</li>
+                    <li>You can spend years making disciples without seeing how the whole work fits together.</li>
                 </ul>
-                <p class="pull-line">What if you had a simple path you could follow and pass on to someone else?</p>
+                <p class="pull-line">What if we returned to Scripture and examined not only <em>what</em> Jesus taught, but <em>how</em> He actually carried out His mission?</p>
             </div>
 
             <!-- The path -->
             <div class="content-section">
                 <p class="eyebrow">The Four Fields</p>
-                <h2 class="content-h2">One Weekend. A Clear Path Forward.</h2>
-                <p class="section-lead">The Four Fields is a simple, biblical framework for making disciples and starting churches that multiply. Together, we&rsquo;ll learn and practice how to:</p>
+                <h2 class="content-h2">Rediscover the Kingdom Clear Path</h2>
+                <p class="section-lead">The Four Fields is a biblical framework for seeing how the Kingdom advances, from entering new fields to multiplying disciples, churches, and leaders.</p>
                 <ol class="path">
-                    <li><strong>Go</strong><span>Find opportunities to reach people in your everyday life.</span></li>
-                    <li><strong>Gospel</strong><span>Start spiritual conversations and share Jesus simply.</span></li>
-                    <li><strong>Grow</strong><span>Help new disciples follow Jesus and share what they&rsquo;re learning.</span></li>
-                    <li><strong>Gather</strong><span>Learn how ordinary disciples become healthy, multiplying churches.</span></li>
-                    <li><strong>Guide</strong><span>Equip others to repeat the process.</span></li>
+                    <li><strong>Go</strong><span>Entering new fields and engaging the lost.</span></li>
+                    <li><strong>Gospel</strong><span>Sowing the gospel broadly.</span></li>
+                    <li><strong>Grow</strong><span>Making disciples who hear and obey Jesus.</span></li>
+                    <li><strong>Gather</strong><span>Establishing healthy, reproducing churches.</span></li>
+                    <li><strong>Guide</strong><span>Developing leaders who multiply the work.</span></li>
                 </ol>
+                <p class="no-title">These aren&rsquo;t five techniques. Together, they show the bigger biblical process and principles behind multiplication.</p>
             </div>
 
-            <!-- More than a training -->
+            <!-- Principles / Process / Practice -->
             <div class="content-section">
-                <p class="eyebrow">More than another training</p>
-                <h2 class="content-h2">You&rsquo;ll Practice, Not Just Listen</h2>
-                <p class="section-lead">You&rsquo;ll practice simple tools, work with others, and make a plan for the people God has already placed in your life. You&rsquo;ll leave with:</p>
-                <ul class="takeaway-list">
-                    <li><span class="take-check" aria-hidden="true">&#10003;</span><span>A biblical foundation for multiplying disciples and churches.</span></li>
-                    <li><span class="take-check" aria-hidden="true">&#10003;</span><span>Simple tools you&rsquo;ve practiced and can use immediately.</span></li>
-                    <li><span class="take-check" aria-hidden="true">&#10003;</span><span>A clear picture of the whole disciple-making process.</span></li>
-                    <li><span class="take-check" aria-hidden="true">&#10003;</span><span>Practical next steps for the people in your everyday life.</span></li>
-                </ul>
-                <p class="no-title">No ministry title or prior training required. Just a willingness to learn, obey, and pass it on.</p>
-            </div>
-
-            <!-- Testimonial -->
-            <div class="content-section">
-                <div class="testimonial-card">
-                    <p class="testimonial-quote">&ldquo;I live a busy life with 2 jobs and a family. I&rsquo;ve started to invest more deeply and focus more intently on my relational network, watching and waiting for the right time for the next conversation and steps.&rdquo;</p>
-                    <p class="testimonial-attribution">&mdash; Nathan E.</p>
+                <p class="eyebrow">How the weekend works</p>
+                <h2 class="content-h2">Principles. Process. Practice.</h2>
+                <div class="ppt-grid">
+                    <div class="ppt-card">
+                        <strong>Principles</strong>
+                        <p>Discover the biblical foundations behind Jesus&rsquo; approach to making disciples and advancing His Kingdom.</p>
+                    </div>
+                    <div class="ppt-card">
+                        <strong>Process</strong>
+                        <p>See how the parts of the work connect, from entering new fields to multiplying churches and leaders.</p>
+                    </div>
+                    <div class="ppt-card">
+                        <strong>Practice</strong>
+                        <p>Experience simple, reproducible tools that put these principles into action.</p>
+                    </div>
                 </div>
+                <p class="section-lead">This is an interactive intensive, not just a collection of presentations.</p>
             </div>
 
-            <!-- FAQ -->
-            <div class="format-note">
-                <strong>Common questions</strong>
-                <ul class="faq-list">
-                    <li class="faq-item">
-                        <button class="faq-btn" aria-expanded="false">
-                            <span>Do I need prior experience?</span>
-                            <span class="faq-icon" aria-hidden="true">+</span>
-                        </button>
-                        <div class="faq-answer" hidden>
-                            No. Bring a Bible, a notebook, and a willingness to practice.
-                        </div>
-                    </li>
-                    <li class="faq-item">
-                        <button class="faq-btn" aria-expanded="false">
-                            <span>Do I need to attend all three sessions?</span>
-                            <span class="faq-icon" aria-hidden="true">+</span>
-                        </button>
-                        <div class="faq-answer" hidden>
-                            Plan on all three. Each session builds on the one before, and the practice happens live.
-                        </div>
-                    </li>
-                    <li class="faq-item">
-                        <button class="faq-btn" aria-expanded="false">
-                            <span>Is this only for pastors and church planters?</span>
-                            <span class="faq-icon" aria-hidden="true">+</span>
-                        </button>
-                        <div class="faq-answer" hidden>
-                            No. It&rsquo;s for Jesus followers who want to make disciples where they already live, work, and play, including people with full-time jobs outside of ministry.
-                        </div>
-                    </li>
+            <!-- Outcomes -->
+            <div class="content-section">
+                <p class="eyebrow">What you&rsquo;ll walk away with</p>
+                <h2 class="content-h2">See the Whole Work Differently</h2>
+                <ul class="takeaway-list">
+                    <li><span class="take-check" aria-hidden="true">&#10003;</span><span>A fresh biblical perspective on how Jesus made disciples and multiplied His work.</span></li>
+                    <li><span class="take-check" aria-hidden="true">&#10003;</span><span>A clearer understanding of the Kingdom principles behind the tools.</span></li>
+                    <li><span class="take-check" aria-hidden="true">&#10003;</span><span>A framework for seeing how disciples, churches, and leaders multiply.</span></li>
+                    <li><span class="take-check" aria-hidden="true">&#10003;</span><span>Practical ways to apply these principles in the fields where you live, work, and play.</span></li>
                 </ul>
+                <p class="no-title">Prior experience helps but isn&rsquo;t required. This is for ordinary disciples who are serious about making disciples, not only pastors or church planters.</p>
             </div>
 
         </div>
@@ -1227,12 +1242,14 @@
     ================================================ -->
     <section class="bottom-cta">
         <div class="bottom-cta-inner">
-            <h2 class="bottom-cta-headline">Ready to Take Your Next Step?</h2>
-            <p class="bottom-cta-body">Stop wondering what disciple making could look like. Come practice it with us.</p>
-            <p class="bottom-cta-event">
-                <strong>Four Fields Intensive</strong>
-                December 4&ndash;6 &middot; Live Online &middot; Eastern Time
-            </p>
+            <h2 class="bottom-cta-headline">Don&rsquo;t Just Learn More Tools. Rediscover the Pattern.</h2>
+            <p class="bottom-cta-body">Join us as we return to Scripture and examine the principles, process, and practices behind multiplying disciples and churches.</p>
+            <ul class="hero-schedule cta-schedule" aria-label="Schedule (Eastern Time)">
+                <li><span class="day">Friday, Dec 4</span><span>6:30&ndash;9:30 PM ET</span></li>
+                <li><span class="day">Saturday, Dec 5</span><span>9:00 AM&ndash;4:00 PM ET</span></li>
+                <li><span class="day">Sunday, Dec 6</span><span>1:00&ndash;4:00 PM ET</span></li>
+                <li class="format">Live, interactive, online.</li>
+            </ul>
             <button class="btn btn-primary" id="cta-scroll-btn">Save My Seat</button>
         </div>
     </section>
