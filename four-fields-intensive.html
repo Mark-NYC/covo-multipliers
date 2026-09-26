@@ -768,7 +768,7 @@
         ----------------------------------------------- */
 
         .site-footer {
-            background: #10281f;
+            background: #000000;
             padding: 1.5rem 2rem;
             text-align: center;
         }
@@ -1066,6 +1066,21 @@
             color: #444444;
             max-width: 36rem;
             margin: 0 auto 1rem;
+        }
+
+        /* Highlighter marker, same neon yellow as the final CTA button. */
+        .hl {
+            background: linear-gradient(104deg,
+                rgba(230, 255, 46, 0) 0.6%,
+                #e6ff2e 2.5%,
+                #e6ff2e 97%,
+                rgba(230, 255, 46, 0) 99.4%);
+            color: #111111;
+            padding: 0.05em 0.25em;
+            margin: 0 -0.1em;
+            border-radius: 0.35em 0.2em 0.4em 0.25em;
+            -webkit-box-decoration-break: clone;
+            box-decoration-break: clone;
         }
 
         .pattern-note {
@@ -1374,7 +1389,7 @@
             <p class="pattern-lead">What if we stopped seeing disciple making as disconnected activities and started seeing the whole picture?</p>
             <img class="fields-diagram" src="image/four-fields-diagram.webp" width="1046" height="850" loading="lazy"
                  alt="The Four Fields diagram: 1. Entry, 2. Gospel, 3. Discipleship, 4. Church, with 5. Leaders at the center">
-            <p class="pattern-p">Through Scripture, discussion, and hands-on practice, explore the principles behind multiplying disciples, churches, and leaders.</p>
+            <p class="pattern-p">Through Scripture, discussion, and hands-on practice, <mark class="hl">explore the principles behind multiplying disciples, churches, and leaders.</mark></p>
             <p class="pattern-p">You&rsquo;ll leave with a clearer biblical framework, a fresh perspective on the work, and practical ways to apply what you&rsquo;ve learned where you live, work, and play.</p>
             <p class="pattern-note">Designed for everyday disciples and leaders. Prior experience helpful, not required.</p>
         </div>
