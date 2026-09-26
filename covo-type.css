@@ -295,3 +295,28 @@ body:not(:has(.site-masthead)) :is(
     font-size: 0.875rem !important;
     line-height: 1.5 !important;
 }
+
+
+/* ---------- Button labels: comfortably readable ----------
+   Functional buttons at least 15px. styles.css drops .btn to 14px on
+   phones; this (loaded later, same specificity) restores 15px while any
+   page rule that sets a larger size still wins. */
+@media (max-width: 480px) {
+    .btn { font-size: 0.9375rem; }
+}
+
+:is(
+    .mid-cta-btn,
+    .hbtn,
+    .hero-btn-secondary,
+    .btn-secondary,
+    .action-btn,
+    .experience-toggle-btn,
+    .planner-tab,
+    .next-button,
+    .notes-tog,
+    .btn-copy,
+    .gate-card button
+) {
+    font-size: max(0.9375rem, 15px) !important;
+}
