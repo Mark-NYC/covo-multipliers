@@ -588,6 +588,36 @@ strong { font-weight: 600; }
 
 
 /* -----------------------------------------------
+   7B. GROUNDED CUTOUT PHOTO
+   Transparent cutout that "stands" on a full-bleed rule.
+----------------------------------------------- */
+
+.ground-photo {
+    margin: 0;
+    padding: 0 var(--gutter);
+    border-bottom: 1px solid var(--c-line);
+    background: var(--c-white);
+}
+
+.ground-photo img {
+    display: block;
+    width: min(100%, 760px);
+    height: auto;
+    margin: 0 auto;
+}
+
+/* the statement above hands its bottom spacing to the photo */
+.workplace-banner + .ground-photo { margin-top: calc(var(--section-y) * -0.4); }
+
+@media (max-width: 600px) {
+    .workplace-banner + .ground-photo { margin-top: calc(var(--section-y) * -0.5); }
+}
+
+/* the photo's rule replaces the labs divider */
+.ground-photo + .labs-section .labs-container { border-top: 0; }
+
+
+/* -----------------------------------------------
    8. LABS (events)
 ----------------------------------------------- */
 
