@@ -420,20 +420,6 @@ strong { font-weight: 500; }
     color: var(--c-text-muted);
 }
 
-.hero-proof {
-    display: flex;
-    align-items: center;
-    gap: 0.85rem;
-    margin-top: 2rem;
-    padding-top: 1.25rem;
-    border-top: 1px solid var(--c-line);
-    max-width: 30rem;
-}
-
-.hero .hero-social-proof { margin: 0; padding: 0; flex: 0 0 auto; }
-.hero .hero-social-proof img { max-width: 110px; margin: 0; border-radius: 0; }
-.hero .hero-social-line { margin: 0; max-width: none; font-size: var(--fs-card); color: var(--c-text-muted); text-align: left; }
-
 /* Desktop: photo top lines up with the headline, bottom with the end of
    the text column (tagline height + its margin = --hero-tag-offset). */
 .hero-media {
@@ -732,6 +718,31 @@ strong { font-weight: 500; }
 }
 
 .labs-explainer strong { color: var(--c-ink); }
+
+/* compact social proof under the intro: small overlapping avatars + one line */
+.labs-proof {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem 0.85rem;
+    margin-top: 1.25rem;
+}
+
+.labs-proof img {
+    flex: 0 0 auto;
+    width: 110px;
+    height: auto;
+    margin: 0;
+    border-radius: 0;
+}
+
+.labs-proof p {
+    flex: 1 1 12rem;               /* sits beside the avatars, wraps under them only on very narrow screens */
+    margin: 0;
+    font-size: var(--fs-card);
+    line-height: 1.4;
+    color: var(--c-text-muted);
+}
 
 .labs-urgency {
     margin: 0.75rem 0 0;
