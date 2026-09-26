@@ -695,7 +695,23 @@ strong { font-weight: 500; }
     border-top: 1px solid var(--c-line);
 }
 
-.labs-head { margin-bottom: clamp(1.75rem, 3vw, 2.25rem); }
+/* centered stack: title, intro, urgency, social proof */
+.labs-head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    max-width: 44rem;
+    margin: 0 auto clamp(1.75rem, 3vw, 2.25rem);
+    text-align: center;
+}
+
+.labs-head .labs-title,
+.labs-head .labs-explainer,
+.labs-head .labs-urgency { text-align: center; margin-left: auto; margin-right: auto; }
+
+.labs-head .labs-proof { justify-content: center; }
+.labs-head .labs-proof p { flex: 0 1 auto; text-wrap: balance; }
 
 .labs-title {
     font-family: var(--font-serif);
@@ -1042,7 +1058,8 @@ strong { font-weight: 500; }
     font-size: var(--fs-quote);
     line-height: 1.18;
     letter-spacing: var(--tracking-display);
-    max-width: 28ch;
+    max-width: none;                /* spans the full two-column width */
+    text-wrap: pretty;              /* no one-word last line */
     margin-bottom: 1.5rem;
 }
 
