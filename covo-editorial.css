@@ -557,9 +557,7 @@ strong { font-weight: 500; }
     display: block;
     min-height: 0;
     padding: 0 var(--gutter);
-    background-color: transparent;
-    background-image: var(--tex-speck), var(--tex-grain);
-    background-size: 420px 420px, 240px 240px;
+    background: transparent;
     overflow: visible;
 }
 
@@ -648,18 +646,29 @@ strong { font-weight: 500; }
     pointer-events: none;
 }
 
-.ground-photo::after {
-    content: "";
-    position: absolute;
-    z-index: 0;
-    inset: calc(var(--section-y) * 0.4) 0 0 0;   /* = the overlap with the banner, so grain never doubles */
-    background-image: var(--tex-speck), var(--tex-grain);
-    background-size: 420px 420px, 240px 240px;
-    pointer-events: none;
-}
+/* Desktop only: gritty texture that fades in from white at the top of the
+   statement and is at full strength behind the photo. Mobile stays clean. */
+@media (min-width: 901px) {
+    .workplace-banner::before,
+    .ground-photo::after {
+        content: "";
+        position: absolute;
+        background-image: var(--tex-speck), var(--tex-grain);
+        background-size: 420px 420px, 240px 240px;
+        pointer-events: none;
+    }
 
-@media (max-width: 600px) {
-    .ground-photo::after { top: calc(var(--section-y) * 0.5); }
+    .workplace-banner::before {
+        inset: 0;
+        z-index: -1;                /* behind the statement text */
+        -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 100%);
+                mask-image: linear-gradient(to bottom, transparent 0%, #000 100%);
+    }
+
+    .ground-photo::after {
+        z-index: 0;                 /* over the glow, under the photo */
+        inset: calc(var(--section-y) * 0.4) 0 0 0;   /* starts where the banner ends, so grain never doubles */
+    }
 }
 
 /* Desktop uses a wider crop of the same photo (<picture> source at
