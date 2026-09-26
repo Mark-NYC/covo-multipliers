@@ -1092,6 +1092,33 @@
             border-color: #f3d98f;
         }
 
+        /* Page-specific gradient: deep slate → blue-gray → muted clay.
+           Earthy warm end like the lab pages, but a cool blue-gray base and
+           no bright gold, so the intensive reads as its own thing. */
+        .event-hero {
+            background:
+                radial-gradient(ellipse at 85% 110%, rgba(176, 122, 72, 0.38) 0%, transparent 55%),
+                radial-gradient(ellipse at 10% -10%, rgba(14, 20, 28, 0.9) 0%, transparent 60%),
+                linear-gradient(135deg,
+                    #131b24 0%,
+                    #25323e 32%,
+                    #434c55 60%,
+                    #5e4a36 84%,
+                    #7a5634 100%
+                );
+        }
+
+        .bottom-cta {
+            background:
+                radial-gradient(ellipse at 50% 120%, rgba(176, 122, 72, 0.32) 0%, transparent 60%),
+                linear-gradient(135deg,
+                    #131b24 0%,
+                    #25323e 45%,
+                    #434c55 78%,
+                    #5e4a36 100%
+                );
+        }
+
         .live-label {
             display: inline-flex;
             align-items: center;
