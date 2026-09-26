@@ -1033,7 +1033,21 @@
         .pattern-section {
             text-align: center;
             padding-top: 5.5rem;
-            padding-bottom: 5.5rem;
+            padding-bottom: 0;
+        }
+
+        .bible-wrap {
+            margin: 4rem -2rem 0;
+            overflow: hidden;
+            line-height: 0;
+        }
+
+        .bible-img {
+            display: block;
+            width: 100%;
+            max-width: 1040px;
+            height: auto;
+            margin: 0 auto;
         }
 
         .pattern-h2 {
@@ -1279,7 +1293,10 @@
         }
 
         @media (max-width: 540px) {
-            .pattern-section { padding-top: 3.5rem; padding-bottom: 3.5rem; }
+            .pattern-section { padding-top: 3.5rem; padding-bottom: 0; }
+            .bible-wrap { margin: 2.5rem -1.25rem 0; }
+            /* Bigger on phones; the white margins crop off the sides. */
+            .bible-img { width: 150%; max-width: none; margin-left: -25%; }
             .pattern-lead { font-size: 1.1rem; }
             .fields-diagram { margin: 2rem auto; }
             .event-hero { padding-top: 2.75rem; padding-bottom: 2.75rem; }
@@ -1404,6 +1421,11 @@
             <p class="pattern-p">Through Scripture, discussion, and hands-on practice, <mark class="hl">explore the principles behind multiplying disciples, churches, and leaders.</mark></p>
             <p class="pattern-p">You&rsquo;ll leave with a clearer biblical framework, a fresh perspective on the work, and practical ways to apply what you&rsquo;ve learned where you live, work, and play.</p>
             <p class="pattern-note">Designed for everyday disciples and leaders. Prior experience helpful, not required.</p>
+        </div>
+        <!-- Open Bible, cropped at the bottom edge so it sits flush on the final CTA. -->
+        <div class="bible-wrap">
+            <img class="bible-img" src="image/four-fields-bible.webp" width="1640" height="664" loading="lazy"
+                 alt="An open Bible at the Gospel of Mark, marked up with Four Fields notes and symbols in the margins">
         </div>
     </section>
 
