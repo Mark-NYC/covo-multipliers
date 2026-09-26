@@ -985,6 +985,55 @@
         }
 
 
+        /* Hero: headline carries the weight; generous space around it. */
+        .event-hero {
+            padding-top: 5rem;
+            padding-bottom: 5rem;
+        }
+
+        .event-hero .event-label {
+            margin-bottom: 1.5rem;
+        }
+
+        .event-hero .event-title {
+            margin-bottom: 1.75rem;
+        }
+
+        .hero-lead {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            max-width: 30rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-copy .event-meta {
+            margin-top: 2rem;
+        }
+
+        .card-schedule {
+            list-style: none;
+            margin: -0.5rem 0 1.5rem;
+            padding: 0.85rem 1rem;
+            display: grid;
+            gap: 0.4rem;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 0.9rem;
+        }
+
+        .card-schedule li {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            color: #1a1a1a;
+        }
+
+        .card-schedule li span:first-child {
+            font-weight: 700;
+            color: #245c4a;
+        }
+
         .event-title .title-accent {
             display: block;
             margin-top: 0.35rem;
@@ -1052,8 +1101,14 @@
             font-weight: 600;
         }
 
+        @media (max-width: 540px) {
+            .event-hero { padding-top: 2.75rem; padding-bottom: 2.75rem; }
+            .hero-lead  { font-size: 1.05rem; }
+        }
+
         @media (max-width: 860px) {
             .ppt-grid { grid-template-columns: 1fr; }
+            .hero-jump { margin-top: 1.5rem; }
             .hero-jump {
                 display: inline-flex;
                 margin-top: 0.25rem;
@@ -1081,17 +1136,8 @@
             <div class="hero-copy">
                 <span class="event-label">Four Fields Intensive &middot; Live Online &middot; December 4&ndash;6</span>
                 <h1 class="event-title">What If Jesus Gave Us More Than a Message to Share? <span class="title-accent">What If He Gave Us a Pattern to Follow?</span></h1>
-                <p class="hero-sub">We&rsquo;ve learned Jesus&rsquo; teachings. We&rsquo;ve studied His miracles. We&rsquo;ve applied individual verses to our lives.</p>
-                <p class="hero-sub">But have we stopped to examine how He actually made disciples, developed leaders, and multiplied His Kingdom?</p>
-                <p class="hero-sub">Join us for a weekend rediscovering the biblical principles and patterns behind Jesus&rsquo; ministry, and what they mean for making disciples and multiplying churches today.</p>
+                <p class="hero-sub hero-lead">Rediscover the biblical patterns behind how Jesus made disciples, developed leaders, and multiplied His Kingdom.</p>
                 <p class="hero-kicker">Not just more tools. A different way of seeing the work.</p>
-
-                <ul class="hero-schedule" aria-label="Schedule (Eastern Time)">
-                    <li><span class="day">Friday, Dec 4</span><span>6:30&ndash;9:30 PM ET</span></li>
-                    <li><span class="day">Saturday, Dec 5</span><span>9:00 AM&ndash;4:00 PM ET</span></li>
-                    <li><span class="day">Sunday, Dec 6</span><span>1:00&ndash;4:00 PM ET</span></li>
-                    <li class="format">Live, interactive, online.</li>
-                </ul>
 
                 <!-- Populated by JS: seat pill -->
                 <div id="hero-event-meta" class="event-meta" hidden></div>
@@ -1106,7 +1152,12 @@
                 <div class="registration-card" id="registration-card">
 
                     <h2>Save Your Seat</h2>
-                    <p class="form-intro">Four Fields Intensive &middot; Live online<br>December 4&ndash;6, 2026 &middot; Eastern Time</p>
+                    <p class="form-intro">Four Fields Intensive &middot; Live, interactive, online</p>
+                    <ul class="card-schedule" aria-label="Schedule (Eastern Time)">
+                        <li><span>Fri, Dec 4</span><span>6:30&ndash;9:30 PM ET</span></li>
+                        <li><span>Sat, Dec 5</span><span>9:00 AM&ndash;4:00 PM ET</span></li>
+                        <li><span>Sun, Dec 6</span><span>1:00&ndash;4:00 PM ET</span></li>
+                    </ul>
 
                     <form id="registration-form" novalidate>
                         <div class="form-field">
