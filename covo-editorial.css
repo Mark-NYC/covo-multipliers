@@ -548,10 +548,12 @@ strong { font-weight: 500; }
 ----------------------------------------------- */
 
 .workplace-banner {
+    position: relative;
+    z-index: 2;                     /* statement text stays in front of the photo's glow */
     display: block;
     min-height: 0;
     padding: 0 var(--gutter);
-    background: var(--c-white);
+    background: transparent;
     background-image: none;
     overflow: visible;
 }
@@ -616,19 +618,20 @@ strong { font-weight: 500; }
     margin: 0;
 }
 
-/* glowing lime sphere behind the cutout — sized to the photo's height,
-   kept inside the figure so it never sits over the statement above */
-.ground-photo { overflow: clip; }
+/* glowing lime sphere behind the cutout, 75% of the screen width.
+   Clipped at the screen edges and at the ground line; free to rise above
+   the photo, where the statement section (stacked above) stays in front. */
+.ground-photo { clip-path: inset(-100vh 0 0 0); }
 
 .ground-photo::before {
     content: "";
     position: absolute;
     z-index: 0;
-    top: 50%;
+    top: 52%;
     left: 50%;
-    height: 96%;
+    width: 75vw;
     aspect-ratio: 1;
-    transform: translate(-50%, -48%);
+    transform: translate(-50%, -50%);
     border-radius: 50%;
     background: radial-gradient(circle at 50% 50%,
         rgba(223, 255, 56, 0.95) 0%,
