@@ -256,9 +256,9 @@ const LAB_EVENTS: Record<string, LabEvent> = {
     location: "Online",
     url: "https://www.covomultipliers.com/four-fields-intensive.html",
     description:
-      "An interactive disciple-making and church-planting training through the Kingdom clear path to multiply disciples and churches where you live, work, and play.\n\nThree live sessions: Friday 6:30–9:30 PM ET, Saturday 9:00 AM–4:00 PM ET, Sunday 1:00–4:00 PM ET.",
+      "A weekend rediscovering the biblical principles and patterns behind how Jesus made disciples, developed leaders, and multiplied His Kingdom.\n\nThree live sessions: Friday 6:30–9:30 PM ET, Saturday 9:00 AM–4:00 PM ET, Sunday 1:00–4:00 PM ET.",
     calendarDescription:
-      "Online. Zoom link will be sent before the intensive.\n\nAn interactive disciple-making and church-planting training through the Kingdom clear path to multiply disciples and churches where you live, work, and play.\n\nThree live sessions: Friday 6:30–9:30 PM ET, Saturday 9:00 AM–4:00 PM ET, Sunday 1:00–4:00 PM ET.",
+      "Online. Zoom link will be sent before the intensive.\n\nA weekend rediscovering the biblical principles and patterns behind how Jesus made disciples, developed leaders, and multiplied His Kingdom.\n\nThree live sessions: Friday 6:30–9:30 PM ET, Saturday 9:00 AM–4:00 PM ET, Sunday 1:00–4:00 PM ET.",
   },
 };
 
