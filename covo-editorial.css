@@ -295,11 +295,13 @@ strong { font-weight: 500; }
 @media (max-width: 760px) {
     .masthead-link { display: none; }
     .masthead-wordmark { font-size: 1.4rem; }
-    .masthead-cta { padding: 0.5rem 0.7rem; font-size: 0.7rem; }
+    .masthead-cta { padding: 0.5rem 0.7rem; font-size: 0.9375rem; }
 }
 
 @media (max-width: 380px) {
     .masthead-wordmark { font-size: 1.2rem; }
+    .site-masthead { gap: 0.5rem; }
+    .masthead-cta { padding: 0.5rem 0.55rem; }
 }
 
 .menu-overlay { background: rgba(11, 13, 12, 0.4); }
@@ -430,7 +432,7 @@ strong { font-weight: 500; }
 
 .hero .hero-social-proof { margin: 0; padding: 0; flex: 0 0 auto; }
 .hero .hero-social-proof img { max-width: 110px; margin: 0; border-radius: 0; }
-.hero .hero-social-line { margin: 0; max-width: none; font-size: var(--fs-small); color: var(--c-text-muted); text-align: left; }
+.hero .hero-social-line { margin: 0; max-width: none; font-size: var(--fs-card); color: var(--c-text-muted); text-align: left; }
 
 /* Desktop: photo top lines up with the headline, bottom with the end of
    the text column (tagline height + its margin = --hero-tag-offset). */
@@ -572,6 +574,7 @@ strong { font-weight: 500; }
 }
 
 .workplace-content .ed-badge { margin-bottom: 1.75rem; }
+.workplace-content .workplace-trust { margin-bottom: 1.25rem; }
 
 .workplace-trust {
     font-size: var(--fs-body);
@@ -582,13 +585,16 @@ strong { font-weight: 500; }
 .workplace-stakes {
     font-family: var(--font-serif);
     font-weight: 400;
-    font-size: var(--fs-statement);
-    line-height: 1.2;
+    font-size: clamp(2.125rem, 4.4vw, 3.5rem);
+    line-height: 1.06;
     letter-spacing: var(--tracking-display);
     color: var(--c-ink);
-    max-width: 24ch;
+    max-width: 26ch;
     margin: 0 auto;
 }
+
+/* one sentence per block, each balanced: breaks fall on the phrases */
+.workplace-stakes .sl { display: block; text-wrap: balance; }
 
 @media (max-width: 480px) {
     .workplace-content { padding: var(--section-y) 0; }
@@ -1031,9 +1037,11 @@ strong { font-weight: 500; }
 
 .testimonial-card:first-child .testimonial-quote strong {
     font-weight: 400;
-    background: linear-gradient(transparent 64%, var(--c-lime) 64%, var(--c-lime) 92%, transparent 92%);
-    -webkit-box-decoration-break: clone;
-    box-decoration-break: clone;
+    text-decoration: underline;
+    text-decoration-color: var(--c-lime);
+    text-decoration-thickness: 3px;
+    text-underline-offset: 0.16em;
+    text-decoration-skip-ink: auto;
 }
 
 .testimonial-attribution {
