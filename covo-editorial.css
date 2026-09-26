@@ -593,10 +593,13 @@ strong { font-weight: 600; }
 ----------------------------------------------- */
 
 .ground-photo {
+    position: relative;             /* paint above the statement section so nothing clips the top */
+    z-index: 1;
+    width: 100%;
     margin: 0;
     padding: 0 var(--gutter);
-    border-bottom: 1px solid var(--c-line);
-    background: var(--c-white);
+    border-bottom: 1px solid var(--c-ink);  /* full-bleed, browser edge to edge */
+    background: transparent;
 }
 
 .ground-photo img {
