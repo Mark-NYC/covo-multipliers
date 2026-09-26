@@ -20,18 +20,18 @@
 <script src="/covo-consent.js" defer></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Online Four Fields Intensive (Dec 4–6, 2026): a live, interactive disciple-making and church-planting training to multiply disciples and churches where you live, work, and play.">
+    <meta name="description" content="Want to make disciples but not sure where to start? Join a live online weekend (Dec 4–6) to learn and practice a simple, biblical path you can follow and pass on.">
     <title>Online Four Fields Intensive - Covo Multipliers</title>
     <link rel="canonical" href="https://covomultipliers.com/four-fields-intensive">
     <meta property="og:site_name" content="Covo Multipliers">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Online Four Fields Intensive - Covo Multipliers">
-    <meta property="og:description" content="Online Four Fields Intensive (Dec 4–6, 2026): a live, interactive disciple-making and church-planting training to multiply disciples and churches where you live, work, and play.">
+    <meta property="og:description" content="Want to make disciples but not sure where to start? Join a live online weekend (Dec 4–6) to learn and practice a simple, biblical path you can follow and pass on.">
     <meta property="og:url" content="https://covomultipliers.com/four-fields-intensive">
     <meta property="og:image" content="https://covomultipliers.com/image/covozoomfinal.webp">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Online Four Fields Intensive - Covo Multipliers">
-    <meta name="twitter:description" content="Online Four Fields Intensive (Dec 4–6, 2026): a live, interactive disciple-making and church-planting training to multiply disciples and churches where you live, work, and play.">
+    <meta name="twitter:description" content="Want to make disciples but not sure where to start? Join a live online weekend (Dec 4–6) to learn and practice a simple, biblical path you can follow and pass on.">
     <meta name="twitter:image" content="https://covomultipliers.com/image/covozoomfinal.webp">
     <link rel="icon" type="image/x-icon" href="/image/favicons/favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="/image/favicons/favicon-32x32.png">
@@ -830,143 +830,170 @@
             .form-social-proof img { max-width: 145px; }
         }
 
+
+
         /* -----------------------------------------------
-           INTENSIVE ADDITIONS — session schedule, stakes,
-           field path, footer link
+           FOUR FIELDS INTENSIVE — page-specific
         ----------------------------------------------- */
+
+        .hero-sub {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.05rem;
+            line-height: 1.6;
+            margin: 0 0 1rem;
+            max-width: 34rem;
+        }
 
         .hero-schedule {
             list-style: none;
-            margin: 0 0 1.25rem;
-            padding: 0;
+            margin: 1.5rem 0 1.25rem;
+            padding: 1rem 1.25rem;
             display: grid;
-            gap: 0.4rem;
+            gap: 0.5rem;
+            background: rgba(0,0,0,0.18);
+            border: 1px solid rgba(255,255,255,0.14);
+            border-radius: 12px;
+            max-width: 26rem;
         }
 
         .hero-schedule li {
             display: flex;
-            gap: 0.75rem;
-            align-items: baseline;
+            justify-content: space-between;
+            gap: 1rem;
             font-size: 0.95rem;
-            color: rgba(255,255,255,0.92);
+            color: #ffffff;
         }
 
         .hero-schedule .day {
-            min-width: 4.25rem;
-            font-size: 0.72rem;
             font-weight: 800;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
             color: #f3d98f;
         }
 
-        .schedule-grid {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 1rem;
-            margin-top: 1.5rem;
+        .hero-schedule .format {
+            margin-top: 0.25rem;
+            padding-top: 0.6rem;
+            border-top: 1px solid rgba(255,255,255,0.14);
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.8);
         }
 
-        .schedule-card {
-            background: #ffffff;
-            border: 1px solid #e5e7eb;
-            border-top: 4px solid #1b4d3e;
-            border-radius: 12px;
-            padding: 1.25rem 1.25rem 1.35rem;
+        .hero-jump {
+            display: none;
         }
 
-        .schedule-card .schedule-day {
-            display: block;
-            font-size: 0.72rem;
-            font-weight: 800;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: #9f7a2f;
-            margin-bottom: 0.35rem;
+        .event-body-inner {
+            max-width: 720px;
         }
 
-        .schedule-card .schedule-date {
-            display: block;
-            font-size: 1.05rem;
-            font-weight: 900;
-            color: #10281f;
-            margin-bottom: 0.2rem;
-        }
-
-        .schedule-card .schedule-time {
-            display: block;
-            font-size: 0.95rem;
-            color: #245c4a;
-            font-weight: 600;
-        }
-
-        .schedule-note {
-            margin-top: 1rem;
-            font-size: 0.9rem;
-            color: #5a6b65;
-        }
-
-        .stakes-card {
-            margin-top: 1.25rem;
-            background: #fbf7ec;
-            border: 1px solid #e6d9b3;
-            border-left: 4px solid #9f7a2f;
-            border-radius: 0 12px 12px 0;
-            padding: 1.25rem 1.5rem;
-        }
-
-        .stakes-card ul {
-            margin: 0;
-            padding-left: 1.1rem;
-        }
-
-        .stakes-card li {
-            color: #2d2d2d;
-            line-height: 1.65;
-            margin-bottom: 0.35rem;
-        }
-
-        .stakes-card li:last-child {
-            margin-bottom: 0;
-        }
-
-        .field-num {
-            display: inline-block;
-            font-size: 0.7rem;
-            font-weight: 800;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: #9f7a2f;
-            margin-bottom: 0.2rem;
-        }
-
-        .ppt-grid {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-
-        .ppt-card {
-            background: #10281f;
-            color: #ffffff;
-            border-radius: 12px;
-            padding: 1.35rem 1.25rem;
-        }
-
-        .ppt-card strong {
-            display: block;
+        .section-lead {
             font-size: 1.1rem;
-            font-weight: 900;
-            color: #f3d98f;
-            margin-bottom: 0.35rem;
+            line-height: 1.65;
+            color: #2d2d2d;
+            margin: 1rem 0 0;
         }
 
-        .ppt-card p {
-            margin: 0;
-            font-size: 0.93rem;
+        .pain-list {
+            list-style: none;
+            margin: 1.5rem 0 0;
+            padding: 0;
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .pain-list li {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 0.9rem 1.1rem;
+            color: #1a1a1a;
+            line-height: 1.5;
+        }
+
+        .pull-line {
+            margin: 1.75rem 0 0;
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #10281f;
+            line-height: 1.45;
+        }
+
+        .path {
+            list-style: none;
+            margin: 1.75rem 0 0;
+            padding: 0;
+            counter-reset: path;
+        }
+
+        .path li {
+            position: relative;
+            padding: 0 0 1.5rem 3.5rem;
+        }
+
+        .path li::before {
+            counter-increment: path;
+            content: counter(path);
+            position: absolute;
+            left: 0;
+            top: -0.1rem;
+            width: 2.25rem;
+            height: 2.25rem;
+            border-radius: 50%;
+            background: #1b4d3e;
+            color: #ffffff;
+            font-weight: 900;
+            display: grid;
+            place-items: center;
+        }
+
+        .path li:not(:last-child)::after {
+            content: "";
+            position: absolute;
+            left: 1.1rem;
+            top: 2.3rem;
+            bottom: 0.2rem;
+            width: 2px;
+            background: #dcb55a;
+        }
+
+        .path li:last-child {
+            padding-bottom: 0;
+        }
+
+        .path strong {
+            display: block;
+            font-size: 1rem;
+            font-weight: 900;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: #10281f;
+            margin-bottom: 0.15rem;
+        }
+
+        .path span {
+            color: #444444;
+            line-height: 1.55;
+        }
+
+        .no-title {
+            margin-top: 1.5rem;
+            padding: 1rem 1.25rem;
+            background: #fbf7ec;
+            border-left: 4px solid #9f7a2f;
+            border-radius: 0 10px 10px 0;
+            color: #2d2d2d;
             line-height: 1.6;
+        }
+
+        .bottom-cta-event {
+            margin: 0 0 1.75rem;
             color: rgba(255,255,255,0.85);
+            line-height: 1.6;
+        }
+
+        .bottom-cta-event strong {
+            display: block;
+            color: #ffffff;
+            font-size: 1.1rem;
         }
 
         .footer-links {
@@ -985,9 +1012,16 @@
             margin: 0 0 1rem;
         }
 
+        .registration-card .closed-notice a:not(.btn) {
+            color: #1b4d3e;
+            font-weight: 600;
+        }
+
         @media (max-width: 860px) {
-            .schedule-grid,
-            .ppt-grid { grid-template-columns: 1fr; }
+            .hero-jump {
+                display: inline-flex;
+                margin-top: 0.25rem;
+            }
         }
     </style>
 </head>
@@ -1003,44 +1037,38 @@
 
 
     <!-- ================================================
-         EVENT HERO
+         HERO + REGISTRATION
     ================================================ -->
     <section class="event-hero" id="registration-section">
         <div class="event-hero-inner">
 
             <div class="hero-copy">
-                <span class="event-label">Online Four Fields Intensive &middot; December 4&ndash;6</span>
-                <h1 class="event-title">You want to multiply disciples and churches. Do you have a clear path to get there?</h1>
-                <p class="event-description">Over three live online sessions, you&rsquo;ll work through the Kingdom clear path &mdash; the Biblical principles, process, and tools to see growing disciples, healthy churches, and maturing leaders in the fields where you already live, work, and play.</p>
-                <p class="hero-proof">Live &middot; Interactive &middot; Online &middot; 3 sessions</p>
+                <span class="event-label">Live Online Four Fields Intensive &middot; December 4&ndash;6</span>
+                <h1 class="event-title">You Want to Make Disciples. But Where Do You Start?</h1>
+                <p class="hero-sub">You don&rsquo;t need a ministry title, a perfect schedule, or another pile of information. You need a simple path you can actually follow, and help others follow too.</p>
+                <p class="hero-sub">Join us for a hands-on weekend learning how to make and multiply disciples and churches right where you live, work, and play.</p>
 
-                <ul class="hero-schedule" aria-label="Session schedule (Eastern Time)">
-                    <li><span class="day">Fri 12/4</span><span>6:30&ndash;9:30 PM ET</span></li>
-                    <li><span class="day">Sat 12/5</span><span>9:00 AM&ndash;4:00 PM ET</span></li>
-                    <li><span class="day">Sun 12/6</span><span>1:00&ndash;4:00 PM ET</span></li>
+                <ul class="hero-schedule" aria-label="Schedule (Eastern Time)">
+                    <li><span class="day">Friday, Dec 4</span><span>6:30&ndash;9:30 PM ET</span></li>
+                    <li><span class="day">Saturday, Dec 5</span><span>9:00 AM&ndash;4:00 PM ET</span></li>
+                    <li><span class="day">Sunday, Dec 6</span><span>1:00&ndash;4:00 PM ET</span></li>
+                    <li class="format">Live, interactive, online.</li>
                 </ul>
 
                 <!-- Populated by JS: seat pill -->
                 <div id="hero-event-meta" class="event-meta" hidden></div>
+                <p class="hero-status" id="hero-loading">Loading registration&hellip;</p>
 
-                <!-- Shown while fetching; hidden by renderEvent() on success -->
-                <p class="hero-status" id="hero-loading">Loading event&hellip;</p>
-
-                <!-- Shown on fetch error or slug not found -->
-                <div class="hero-error" id="hero-error" hidden>
-                    <strong>Event not found.</strong>
-                    This event may have ended or the link may be incorrect.
-                    <br><br>
-                    <a class="btn btn-secondary" href="/#upcoming-labs">See upcoming labs</a>
-                </div>
+                <a class="btn btn-primary hero-jump" href="#registration-card">Save My Seat</a>
             </div>
 
-            <!-- Registration card - always visible; JS enables submit once event loads -->
+            <!-- Registration card. Submit stays disabled until the event loads;
+                 if it can't load, the form is replaced with a notice. -->
             <div class="form-col">
                 <div class="registration-card" id="registration-card">
 
                     <h2>Save Your Seat</h2>
-                    <p class="form-intro">Live online training &middot; 3 sessions<br><span id="form-date-line">Fri, Dec 4 &ndash; Sun, Dec 6 (Eastern Time)</span></p>
+                    <p class="form-intro">Live online &middot; December 4&ndash;6 &middot; Eastern Time</p>
 
                     <form id="registration-form" novalidate>
                         <div class="form-field">
@@ -1086,17 +1114,13 @@
                         </div>
 
                         <div class="cf-turnstile-holder" id="turnstile-holder" style="margin:0 0 1rem;"></div>
-                        <button class="btn btn-primary" style="width:100%;" type="submit" id="submit-btn">
+                        <button class="btn btn-primary" style="width:100%;" type="submit" id="submit-btn" disabled>
                             Save My Seat
                         </button>
 
                         <div class="form-message" id="form-message" role="alert" aria-live="polite"></div>
                     </form>
 
-                </div>
-                <div class="form-social-proof">
-                    <img src="image/social-proof-covo-multipliers-transparent.webp" alt="Covo Multipliers community" loading="lazy">
-                    <p class="form-social-proof-caption">Joined by disciple-makers learning simple obedience together.</p>
                 </div>
             </div>
 
@@ -1105,184 +1129,55 @@
 
 
     <!-- ================================================
-         SUPPORTING CONTENT
+         CONTENT
     ================================================ -->
     <section class="event-body">
         <div class="event-body-inner">
 
-            <!-- Problem -->
+            <!-- Sound familiar? -->
             <div>
-                <p class="eyebrow">The real problem</p>
-                <h2 class="content-h2">Good Intentions Don&rsquo;t Multiply Disciples</h2>
-                <div style="margin-top: 1.25rem;">
-                    <p class="content-p">You care about the Great Commission. You&rsquo;ve had good spiritual conversations, maybe led a Bible study, maybe been to a training or two.</p>
-                    <p class="content-p">But without a clear path, disciple making stays random. A good conversation here. A study there. Very little that reproduces &mdash; and almost nothing that becomes a church that plants churches.</p>
-                    <p class="content-p">The problem isn&rsquo;t your heart. It&rsquo;s that nobody handed you the whole path &mdash; from the first conversation to maturing leaders &mdash; in a form you can actually walk, and then give away.</p>
-                </div>
-            </div>
-
-            <!-- Stakes -->
-            <div class="content-section">
-                <p class="eyebrow">If nothing changes</p>
-                <h2 class="content-h2">Next Year Will Probably Look a Lot Like This Year</h2>
-                <div class="stakes-card">
-                    <ul>
-                        <li>Your neighbors, co-workers, and friends stay people you pray for but never get to a next step with.</li>
-                        <li>The disciple making that does happen depends on you, and stops when you get busy.</li>
-                        <li>Church stays something people attend instead of something ordinary disciples can start.</li>
-                        <li>Emerging leaders around you stay spectators because no one is training them.</li>
-                    </ul>
-                </div>
-                <p class="content-p" style="margin-top: 1.25rem;">One weekend won&rsquo;t fix all of that. It will give you a Biblical foundation, a clear process, and tools you&rsquo;ve actually practiced &mdash; so you can stop drifting and start walking the path with the people already in your life.</p>
-            </div>
-
-            <!-- Framework -->
-            <div class="content-section">
-                <p class="eyebrow">The Kingdom clear path</p>
-                <h2 class="content-h2">One Path Through the Four Fields</h2>
-                <p class="content-p" style="margin-top: 1.25rem;">Jesus used farming to describe how the Kingdom grows. The Four Fields turns that picture into a simple, reproducible path from people who don&rsquo;t yet know Jesus to healthy churches led by maturing leaders. Over the weekend we&rsquo;ll walk every step of it &mdash; focused on the fields where you live, work, and play.</p>
-
-                <div class="rhythm-grid">
-                    <div class="rhythm-card">
-                        <span class="field-num">Empty field</span>
-                        <span class="rhythm-word">Go</span>
-                        <span class="rhythm-question">Where has God already placed you?</span>
-                        <p class="rhythm-body">Identify the people and places in your normal week and learn how to enter them with purpose.</p>
-                    </div>
-                    <div class="rhythm-card">
-                        <span class="field-num">Seeding field</span>
-                        <span class="rhythm-word">Gospel</span>
-                        <span class="rhythm-question">How do you sow broadly and clearly?</span>
-                        <p class="rhythm-body">Move everyday conversations toward Jesus and share the gospel in a way others can repeat.</p>
-                    </div>
-                    <div class="rhythm-card">
-                        <span class="field-num">Growing field</span>
-                        <span class="rhythm-word">Grow</span>
-                        <span class="rhythm-question">How do new believers mature?</span>
-                        <p class="rhythm-body">Help people obey what they learn from Scripture right away, and pass it on to others.</p>
-                    </div>
-                    <div class="rhythm-card">
-                        <span class="field-num">Harvest field</span>
-                        <span class="rhythm-word">Gather</span>
-                        <span class="rhythm-question">How do disciples become a church?</span>
-                        <p class="rhythm-body">See how ordinary disciples form healthy, simple churches around Scripture, prayer, obedience, and mission.</p>
-                    </div>
-                    <div class="rhythm-card">
-                        <span class="field-num">Multiplying</span>
-                        <span class="rhythm-word">Guide</span>
-                        <span class="rhythm-question">How do leaders multiply the pattern?</span>
-                        <p class="rhythm-body">Develop emerging leaders who repeat the whole path, so the work doesn&rsquo;t depend on you.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Principles / Process / Tools -->
-            <div class="content-section">
-                <p class="eyebrow">How the weekend is built</p>
-                <h2 class="content-h2">Principles. Process. Tools.</h2>
-                <div class="ppt-grid">
-                    <div class="ppt-card">
-                        <strong>Principles</strong>
-                        <p>A Biblical foundation for why disciples and churches multiply &mdash; and what makes them healthy and sustainable.</p>
-                    </div>
-                    <div class="ppt-card">
-                        <strong>Process</strong>
-                        <p>The whole path mapped end to end, so you always know where someone is and what the next step is.</p>
-                    </div>
-                    <div class="ppt-card">
-                        <strong>Tools</strong>
-                        <p>Simple, reproducible tools you practice live in the room &mdash; not just hear about &mdash; so you can use them Monday.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Schedule -->
-            <div class="content-section">
-                <p class="eyebrow">Schedule</p>
-                <h2 class="content-h2">Three Live Sessions, One Weekend</h2>
-                <div class="schedule-grid">
-                    <div class="schedule-card">
-                        <span class="schedule-day">Day 1</span>
-                        <span class="schedule-date">Friday, December 4</span>
-                        <span class="schedule-time">6:30&ndash;9:30 PM ET</span>
-                    </div>
-                    <div class="schedule-card">
-                        <span class="schedule-day">Day 2</span>
-                        <span class="schedule-date">Saturday, December 5</span>
-                        <span class="schedule-time">9:00 AM&ndash;4:00 PM ET</span>
-                    </div>
-                    <div class="schedule-card">
-                        <span class="schedule-day">Day 3</span>
-                        <span class="schedule-date">Sunday, December 6</span>
-                        <span class="schedule-time">1:00&ndash;4:00 PM ET</span>
-                    </div>
-                </div>
-                <p class="schedule-note">All sessions are live on Zoom. Your Zoom link and calendar invites for all three sessions come by email after you register.</p>
-            </div>
-
-            <!-- Outcomes -->
-            <div class="content-section">
-                <p class="eyebrow">What you&rsquo;ll walk away with</p>
-                <h2 class="content-h2">You&rsquo;ll Leave Able to Walk the Path &mdash; and Train Others in It</h2>
-                <ul class="takeaway-list">
-                    <li>
-                        <span class="take-check" aria-hidden="true">&#10003;</span>
-                        <span>a Biblical foundation for multiplying healthy, sustainable disciples and churches</span>
-                    </li>
-                    <li>
-                        <span class="take-check" aria-hidden="true">&#10003;</span>
-                        <span>the whole Four Fields process mapped, from first conversation to maturing leaders</span>
-                    </li>
-                    <li>
-                        <span class="take-check" aria-hidden="true">&#10003;</span>
-                        <span>simple tools you&rsquo;ve already practiced, not just heard about</span>
-                    </li>
-                    <li>
-                        <span class="take-check" aria-hidden="true">&#10003;</span>
-                        <span>a map of your own fields &mdash; where you live, work, and play &mdash; and the people in them</span>
-                    </li>
-                    <li>
-                        <span class="take-check" aria-hidden="true">&#10003;</span>
-                        <span>a concrete plan for your first steps in the week after the intensive</span>
-                    </li>
-                    <li>
-                        <span class="take-check" aria-hidden="true">&#10003;</span>
-                        <span>language and a pattern you can use to train others in the same path</span>
-                    </li>
+                <p class="eyebrow">Sound familiar?</p>
+                <h2 class="content-h2">Making Disciples Can Feel Harder Than It Should</h2>
+                <p class="section-lead">You love Jesus and want others to know Him. But:</p>
+                <ul class="pain-list">
+                    <li>You want to share your faith, but don&rsquo;t always know how.</li>
+                    <li>You want to help someone grow, but aren&rsquo;t sure what comes next.</li>
+                    <li>You&rsquo;ve attended trainings, but struggle to put them into practice.</li>
+                    <li>You want to multiply, but most of the work still depends on you.</li>
                 </ul>
+                <p class="pull-line">What if you had a simple path you could follow and pass on to someone else?</p>
             </div>
 
-            <!-- Who it's for -->
+            <!-- The path -->
             <div class="content-section">
-                <p class="eyebrow">Is this for you?</p>
-                <h2 class="content-h2">Who This Intensive Is For</h2>
+                <p class="eyebrow">The Four Fields</p>
+                <h2 class="content-h2">One Weekend. A Clear Path Forward.</h2>
+                <p class="section-lead">The Four Fields is a simple, biblical framework for making disciples and starting churches that multiply. Together, we&rsquo;ll learn and practice how to:</p>
+                <ol class="path">
+                    <li><strong>Go</strong><span>Find opportunities to reach people in your everyday life.</span></li>
+                    <li><strong>Gospel</strong><span>Start spiritual conversations and share Jesus simply.</span></li>
+                    <li><strong>Grow</strong><span>Help new disciples follow Jesus and share what they&rsquo;re learning.</span></li>
+                    <li><strong>Gather</strong><span>Learn how ordinary disciples become healthy, multiplying churches.</span></li>
+                    <li><strong>Guide</strong><span>Equip others to repeat the process.</span></li>
+                </ol>
+            </div>
+
+            <!-- More than a training -->
+            <div class="content-section">
+                <p class="eyebrow">More than another training</p>
+                <h2 class="content-h2">You&rsquo;ll Practice, Not Just Listen</h2>
+                <p class="section-lead">You&rsquo;ll practice simple tools, work with others, and make a plan for the people God has already placed in your life. You&rsquo;ll leave with:</p>
                 <ul class="takeaway-list">
-                    <li>
-                        <span class="take-check" aria-hidden="true">&#10003;</span>
-                        <span>disciples who want to advance the Kingdom by multiplying healthy, sustainable churches and disciples</span>
-                    </li>
-                    <li>
-                        <span class="take-check" aria-hidden="true">&#10003;</span>
-                        <span>leaders focused on the fields where they live, work, and play &mdash; not just church programs</span>
-                    </li>
-                    <li>
-                        <span class="take-check" aria-hidden="true">&#10003;</span>
-                        <span>covocational leaders and marketplace multipliers balancing work, family, and mission</span>
-                    </li>
-                    <li>
-                        <span class="take-check" aria-hidden="true">&#10003;</span>
-                        <span>church planters and pastors who want to equip ordinary believers to make disciples</span>
-                    </li>
-                    <li>
-                        <span class="take-check" aria-hidden="true">&#10003;</span>
-                        <span>lab alumni ready to go from single tools to the whole path</span>
-                    </li>
+                    <li><span class="take-check" aria-hidden="true">&#10003;</span><span>A biblical foundation for multiplying disciples and churches.</span></li>
+                    <li><span class="take-check" aria-hidden="true">&#10003;</span><span>Simple tools you&rsquo;ve practiced and can use immediately.</span></li>
+                    <li><span class="take-check" aria-hidden="true">&#10003;</span><span>A clear picture of the whole disciple-making process.</span></li>
+                    <li><span class="take-check" aria-hidden="true">&#10003;</span><span>Practical next steps for the people in your everyday life.</span></li>
                 </ul>
+                <p class="no-title">No ministry title or prior training required. Just a willingness to learn, obey, and pass it on.</p>
             </div>
 
             <!-- Testimonial -->
             <div class="content-section">
-                <span class="eyebrow">From a recent Covo lab</span>
                 <div class="testimonial-card">
                     <p class="testimonial-quote">&ldquo;I live a busy life with 2 jobs and a family. I&rsquo;ve started to invest more deeply and focus more intently on my relational network, watching and waiting for the right time for the next conversation and steps.&rdquo;</p>
                     <p class="testimonial-attribution">&mdash; Nathan E.</p>
@@ -1295,11 +1190,11 @@
                 <ul class="faq-list">
                     <li class="faq-item">
                         <button class="faq-btn" aria-expanded="false">
-                            <span>What is the Four Fields?</span>
+                            <span>Do I need prior experience?</span>
                             <span class="faq-icon" aria-hidden="true">+</span>
                         </button>
                         <div class="faq-answer" hidden>
-                            A simple, Biblical picture of how the Kingdom grows &mdash; from entering an empty field, to sowing the gospel, to growing disciples, to gathering churches, to multiplying leaders. It gives everyone the same map, so the work can be reproduced by ordinary disciples in any context.
+                            No. Bring a Bible, a notebook, and a willingness to practice.
                         </div>
                     </li>
                     <li class="faq-item">
@@ -1308,7 +1203,7 @@
                             <span class="faq-icon" aria-hidden="true">+</span>
                         </button>
                         <div class="faq-answer" hidden>
-                            Plan on all three. Each session builds on the one before it, and the practice happens live. Block Friday evening, Saturday, and Sunday afternoon now.
+                            Plan on all three. Each session builds on the one before, and the practice happens live.
                         </div>
                     </li>
                     <li class="faq-item">
@@ -1317,25 +1212,7 @@
                             <span class="faq-icon" aria-hidden="true">+</span>
                         </button>
                         <div class="faq-answer" hidden>
-                            No. It&rsquo;s built for Jesus followers who want to make disciples and see churches multiply where they already live, work, and play &mdash; including people with full-time jobs outside of ministry.
-                        </div>
-                    </li>
-                    <li class="faq-item">
-                        <button class="faq-btn" aria-expanded="false">
-                            <span>Do I need prior experience?</span>
-                            <span class="faq-icon" aria-hidden="true">+</span>
-                        </button>
-                        <div class="faq-answer" hidden>
-                            No. Come with a Bible, a notebook, and a willingness to practice. If you&rsquo;ve been to a Covo lab, this is where the individual tools come together into one path.
-                        </div>
-                    </li>
-                    <li class="faq-item">
-                        <button class="faq-btn" aria-expanded="false">
-                            <span>How is this different from a monthly lab?</span>
-                            <span class="faq-icon" aria-hidden="true">+</span>
-                        </button>
-                        <div class="faq-answer" hidden>
-                            A lab is 45 minutes on one tool. The intensive is the whole path &mdash; principles, process, and tools &mdash; with time to practice together and plan your next steps.
+                            No. It&rsquo;s for Jesus followers who want to make disciples where they already live, work, and play, including people with full-time jobs outside of ministry.
                         </div>
                     </li>
                 </ul>
@@ -1346,44 +1223,17 @@
 
 
     <!-- ================================================
-         SOCIAL PROOF
-    ================================================ -->
-    <div class="social-proof">
-        <div class="social-proof-inner">
-            <div class="social-proof-icon">
-                <img src="image/Substack.png" alt="Substack" width="34" height="34">
-            </div>
-            <p class="social-proof-text">
-                This is not theory we keep to ourselves.
-                Dave and Mark share these ideas each week with a combined <strong>300+ Substack subscribers</strong> who care about disciple making in real life.
-            </p>
-        </div>
-    </div>
-
-
-    <!-- ================================================
-         BOTTOM CTA
+         FINAL CTA
     ================================================ -->
     <section class="bottom-cta">
         <div class="bottom-cta-inner">
-            <img
-                class="first-split-image lab-cta-image"
-                src="image/Covo Multipliers Winging It.webp"
-                alt="Working Christians often feel split between everyday life and ministry"
-                loading="lazy"
-            >
-
-            <h2 class="bottom-cta-headline">Stop Winging It. Walk the Whole Path.</h2>
-
-            <p class="bottom-cta-body">
-                Give one weekend to the Four Fields Intensive and leave with the principles, process, and tools to multiply disciples and churches in the fields where you already live, work, and play.
+            <h2 class="bottom-cta-headline">Ready to Take Your Next Step?</h2>
+            <p class="bottom-cta-body">Stop wondering what disciple making could look like. Come practice it with us.</p>
+            <p class="bottom-cta-event">
+                <strong>Four Fields Intensive</strong>
+                December 4&ndash;6 &middot; Live Online &middot; Eastern Time
             </p>
-
             <button class="btn btn-primary" id="cta-scroll-btn">Save My Seat</button>
-            <p style="margin-top:1.25rem;font-size:0.85rem;color:rgba(255,255,255,0.5);">or</p>
-            <a href="https://www.covomultipliers.com/join-whatsapp?utm_source=intensive_page&utm_medium=cta&utm_campaign=whatsapp_field_room" style="font-size:0.9rem;color:rgba(255,255,255,0.7);text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.3);">Start practicing with us in WhatsApp →</a>
-
-            <p class="bottom-cta-date" id="bottom-date-line">Live online &middot; Fri, Dec 4 &ndash; Sun, Dec 6 (ET) &middot; 3 sessions</p>
         </div>
     </section>
 
@@ -1410,8 +1260,10 @@
         const SUPABASE_ANON_KEY     = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1yeWpydmluemJ4ZWJ6dnh0Z2dpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYyNzQ3MzksImV4cCI6MjA5MTg1MDczOX0.U1JJQTBVKePsVFXr2oFRCdUZasWaZiTQg6g8QrFdRyw';
         const REGISTER_FUNCTION_URL = 'https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1/register';
         const CALENDAR_URL          = 'https://mryjrvinzbxebzvxtggi.supabase.co/functions/v1/lab-calendar?event=four-fields-intensive';
-        // events.slug — loads the event row (seats, id). Session schedule is
-        // fixed in the markup above and mirrors supabase/functions/_shared/eventSessions.ts.
+        // events.slug — loads the event row (seats, id). Created by
+        // supabase/migrations/20270820000000_four_fields_intensive_event.sql.
+        // The session schedule in the markup mirrors
+        // supabase/functions/_shared/eventSessions.ts.
         const EVENT_SLUG            = 'four-fields-intensive-december-2026';
         // lab-calendar key — sent as event_slug so the confirmation email gets
         // an Add to Calendar button with all three sessions.
@@ -1436,17 +1288,14 @@
                 );
             }
 
-            const ctaBtn = document.getElementById('cta-scroll-btn');
-            if (ctaBtn) {
-                ctaBtn.addEventListener('click', function() {
-                    document.getElementById('registration-section')
-                        .scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    setTimeout(function() {
-                        const nameField = document.getElementById('field-name');
-                        if (nameField && !nameField.disabled) nameField.focus({ preventScroll: true });
-                    }, 500);
-                });
-            }
+            document.getElementById('cta-scroll-btn').addEventListener('click', function() {
+                document.getElementById('registration-card')
+                    .scrollIntoView({ behavior: 'smooth', block: 'center' });
+                setTimeout(function() {
+                    const nameField = document.getElementById('field-name');
+                    if (nameField && !nameField.disabled) nameField.focus({ preventScroll: true });
+                }, 500);
+            });
         });
 
         async function loadEvent() {
@@ -1470,12 +1319,14 @@
                 event = rows[0] ?? null;
             } catch (err) {
                 console.error('Failed to load event:', err);
-                showHeroError();
+                showUnavailable();
                 return;
             }
 
+            // No published row for EVENT_SLUG (e.g. the migration hasn't been
+            // run yet). Never leave a form up that can't submit.
             if (!event) {
-                showHeroError();
+                showUnavailable();
                 return;
             }
 
@@ -1485,8 +1336,8 @@
         function renderEvent(event) {
             eventId = event.id;
 
-            const isFull    = !event.has_availability;
-            const remaining = isFull ? 0 : event.seats_remaining;
+            const isFull     = !event.has_availability;
+            const remaining  = isFull ? 0 : event.seats_remaining;
             // event_date = start of Day 1. Registration closes once it begins.
             const hasStarted = new Date(event.event_date).getTime() <= Date.now();
 
@@ -1496,33 +1347,39 @@
             else             seatsLabel = `${remaining} seat${remaining === 1 ? '' : 's'} remaining`;
 
             const heroMeta = document.getElementById('hero-event-meta');
-            if (heroMeta) {
-                heroMeta.innerHTML = `<span class="event-seats${isFull || hasStarted ? ' is-full' : ''}">${esc(seatsLabel)}</span>`;
-                heroMeta.hidden = false;
-            }
-
+            heroMeta.innerHTML = `<span class="event-seats${isFull || hasStarted ? ' is-full' : ''}">${esc(seatsLabel)}</span>`;
+            heroMeta.hidden = false;
             document.getElementById('hero-loading').hidden = true;
 
             if (hasStarted) {
-                document.getElementById('registration-card').innerHTML = `
-                    <h2>Registration Closed</h2>
-                    <div class="closed-notice">
-                        <p>The Four Fields Intensive is underway, so registration is closed. Join an upcoming lab to keep going.</p>
-                        <a class="btn btn-secondary" href="/#upcoming-labs">&larr; See upcoming labs</a>
-                    </div>
-                `;
+                replaceCard('Registration Closed',
+                    'The Four Fields Intensive is underway, so registration is closed.');
                 return;
             }
 
             if (isFull) {
-                document.getElementById('registration-card').innerHTML = `
-                    <h2>Save Your Seat</h2>
-                    <div class="full-notice">
-                        <p>This intensive is full. Join an upcoming lab while you wait for the next one.</p>
-                        <a class="btn btn-secondary" href="/#upcoming-labs">&larr; See upcoming labs</a>
-                    </div>
-                `;
+                replaceCard('Registration Full', 'This intensive is full.');
+                return;
             }
+
+            document.getElementById('submit-btn').disabled = false;
+        }
+
+        function showUnavailable() {
+            document.getElementById('hero-loading').hidden = true;
+            replaceCard('Registration Opening Soon',
+                'We couldn&rsquo;t load registration right now. Please check back shortly, or <a href="/contact.html">contact us</a> and we&rsquo;ll save you a seat.');
+        }
+
+        // messageHtml is static, trusted copy only.
+        function replaceCard(title, messageHtml) {
+            document.getElementById('registration-card').innerHTML = `
+                <h2>${esc(title)}</h2>
+                <div class="closed-notice">
+                    <p>${messageHtml}</p>
+                    <a class="btn btn-secondary" href="/#upcoming-labs">See upcoming labs</a>
+                </div>
+            `;
         }
 
         async function handleSubmit(e) {
@@ -1530,7 +1387,7 @@
             clearMessage();
 
             if (!eventId) {
-                showError('Event details are still loading. Please try again in a moment.');
+                showError('Registration is still loading. Please try again in a moment.');
                 return;
             }
 
@@ -1588,13 +1445,8 @@
                     <div class="success-icon" aria-hidden="true">&#10003;</div>
                     <h3>You&rsquo;re registered!</h3>
                     <p>A confirmation email is on its way to <strong>${esc(email)}</strong>
-                    with the full schedule. Block all three sessions now.</p>
+                    with the full schedule.</p>
                     <p style="margin-top:1rem;"><a class="btn btn-secondary" href="${CALENDAR_URL}">Add all 3 sessions to your calendar</a></p>
-                    <div style="margin-top:1.5rem;padding:1.25rem;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;text-align:left;">
-                        <p style="font-size:0.82rem;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:#15803d;margin:0 0 0.4rem;">WhatsApp Field Room</p>
-                        <p style="font-size:0.93rem;color:#1a1a1a;line-height:1.6;margin:0 0 0.9rem;">Don&rsquo;t wait for December to start practicing. Apply to join the field room for weekly practice prompts and next steps.</p>
-                        <a href="https://www.covomultipliers.com/join-whatsapp?utm_source=registration_confirmation&utm_medium=cta&utm_campaign=whatsapp_field_room" style="display:block;text-align:center;padding:0.72rem 1rem;background:#25D366;color:#fff;font-size:0.92rem;font-weight:800;text-decoration:none;border-radius:8px;" target="_blank" rel="noopener">Apply to Join the Field Room</a>
-                    </div>
                 </div>
             `;
         }
@@ -1624,11 +1476,6 @@
             const el = document.getElementById('form-message');
             el.className = 'form-message';
             el.textContent = '';
-        }
-
-        function showHeroError() {
-            document.getElementById('hero-loading').hidden = true;
-            document.getElementById('hero-error').hidden = false;
         }
 
         function isValidEmail(s) {
