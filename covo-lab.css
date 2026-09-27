@@ -1040,7 +1040,7 @@ body .lab-ground img {
     position: relative;
     z-index: 2;
     display: block;
-    width: 65%;                              /* 35% smaller than full width, centred on the rule */
+    width: 100%;
     height: auto;
     margin: 0 auto;
     filter: saturate(0.75) contrast(1.03);
@@ -1053,7 +1053,7 @@ body .lab-ground::before {
     z-index: 0;
     top: 58%;
     left: 50%;
-    width: 49vw;                             /* scaled with the photo */
+    width: 75vw;
     aspect-ratio: 1;
     transform: translate(-50%, -50%);
     border-radius: 50%;
@@ -1067,6 +1067,12 @@ body .lab-ground::before {
     /* fade the top so the sphere never ends in a hard edge where the figure clips it */
     -webkit-mask-image: linear-gradient(to bottom, transparent 18%, #000 48%);
             mask-image: linear-gradient(to bottom, transparent 18%, #000 48%);
+}
+
+/* desktop: photo 35% smaller, centred on the rule, glow scaled to match */
+@media (min-width: 901px) {
+    body .lab-ground img { width: 65%; }
+    body .lab-ground::before { width: 49vw; }
 }
 
 /* desktop only: texture over the glow, under the photo, fading in from white */
