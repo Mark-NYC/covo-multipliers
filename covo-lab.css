@@ -998,7 +998,7 @@ body .pathway-loop { color: var(--c-ink); }
 /* "Why this lab is different" band → black, like the homepage */
 body .reproduce-band { background: var(--c-black); background-image: none; }
 body .reproduce-band::before { content: none; }
-body .reproduce-band .eyebrow { color: var(--c-dusty) !important; }   /* page sets gold inline */
+body .reproduce-band .eyebrow { color: var(--c-coral) !important; }   /* page sets gold inline */
 body .reproduce-inner h2 { color: var(--c-on-dark); }
 body .reproduce-inner p { color: var(--c-on-dark-muted); font-size: var(--fs-lead); }
 

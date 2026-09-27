@@ -110,6 +110,20 @@ input[type="submit"],
 .ed-label,
 .footer-heading { letter-spacing: var(--tracking-label); }
 
+/* Eyebrows / kickers: the same red-orange as the primary button, site-wide.
+   The immersion card kicker is a date row holding a lime chip, not an eyebrow. */
+:is(
+    [class*="eyebrow"],
+    [class*="kicker"],
+    .ed-label,
+    .event-label,
+    .section-label,
+    .logo-tagline,
+    .listen-label,
+    .hero-latest-label,
+    .form-section-label
+):not(.immersion-card-kicker) { color: var(--c-coral, #FF5500) !important; }
+
 /* the slide-out title is the wordmark, so it stays in the serif */
 .slideout-menu-title {
     font-family: var(--font-serif) !important;
