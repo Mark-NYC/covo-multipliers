@@ -1009,50 +1009,81 @@ body #bonus-seats-notice {
 
 
 /* ===============================================
-   NEON GLOW BURST — exactly one per page, in a middle section:
-   1. the testimonial (pull quote or testimonial card), else
-   2. the mid-page "Save my seat" block, else
-   3. the planter grid (What's Blocking page)
+   GROUNDED CUTOUT DIVIDER (same treatment as the homepage)
+   A transparent cutout photo standing on a full-bleed ink rule, with a
+   lime glow behind it and, on desktop, a gritty texture that fades in
+   from white. Markup:
+     <figure class="lab-ground"><img src="..." alt="..."></figure>
    =============================================== */
 
-body .event-body,
-body .lab-testimonial { overflow: clip; }
-
-body :is(.proof-card, .testimonial-card, .mid-cta, .planter-grid) { position: relative; isolation: isolate; }
-
-body :is(.proof-card, .testimonial-card)::after,
-body:not(:has(.proof-card, .testimonial-card)) .mid-cta::after,
-body:not(:has(.proof-card, .testimonial-card, .mid-cta)) .planter-grid::after {
-    content: "";
-    position: absolute;
-    z-index: -1;
-    width: min(540px, 110vw);
-    aspect-ratio: 1;
-    left: -8%;
-    top: 50%;
-    transform: translateY(-55%);
-    border-radius: 50%;
-    background: radial-gradient(circle at 50% 50%,
-        rgba(223, 255, 56, 0.9) 0%,
-        rgba(223, 255, 56, 0.62) 26%,
-        rgba(223, 255, 56, 0.24) 50%,
-        rgba(223, 255, 56, 0) 68%);
-    filter: blur(10px);
-    pointer-events: none;
+:root {
+    --tex-speck: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='420'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.55' numOctaves='2' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .11 0 0 0 0 .15 0 0 0 0 .14 0 0 0 9 -6.5'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23s)'/%3E%3C/svg%3E");
+    --tex-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .11 0 0 0 0 .15 0 0 0 0 .14 0 0 0 .32 -.08'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
 }
 
-/* mid CTA sits under a callout: keep its glow low so it doesn't wash that text */
-body .mid-cta::after { top: 75%; width: min(460px, 100vw); }
+body .lab-ground {
+    position: relative;
+    isolation: isolate;
+    width: 100%;
+    margin: 0;
+    padding: clamp(1.5rem, 4vw, 3rem) 0 0;
+    border-bottom: 1px solid var(--c-ink);   /* browser edge to edge */
+    overflow: clip;                          /* glow stops at the screen edges */
+}
 
-/* planter grid is wide: centre the glow on it */
-body .planter-grid::after { left: 50%; transform: translate(-50%, -50%); width: min(620px, 120vw); }
+body .lab-ground img {
+    position: relative;
+    z-index: 2;
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 0;
+    filter: saturate(0.75) contrast(1.03);
+}
+
+/* lime glow, 75% of the screen width, rising from behind the table */
+body .lab-ground::before {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    top: 58%;
+    left: 50%;
+    width: 75vw;
+    aspect-ratio: 1;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 50%,
+        rgba(223, 255, 56, 0.95) 0%,
+        rgba(223, 255, 56, 0.75) 28%,
+        rgba(223, 255, 56, 0.32) 52%,
+        rgba(223, 255, 56, 0) 70%);
+    filter: blur(12px);
+    pointer-events: none;
+    /* fade the top so the sphere never ends in a hard edge where the figure clips it */
+    -webkit-mask-image: linear-gradient(to bottom, transparent 18%, #000 48%);
+            mask-image: linear-gradient(to bottom, transparent 18%, #000 48%);
+}
+
+/* desktop only: texture over the glow, under the photo, fading in from white */
+@media (min-width: 901px) {
+    body .lab-ground::after {
+        content: "";
+        position: absolute;
+        z-index: 1;
+        inset: 0;
+        background-image: var(--tex-speck), var(--tex-grain);
+        background-size: 420px 420px, 240px 240px;
+        -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 45%);
+                mask-image: linear-gradient(to bottom, transparent 0%, #000 45%);
+        pointer-events: none;
+    }
+}
+
+/* the divider's rule replaces the body's top rule */
+body .lab-ground + .event-body .event-body-inner { border-top: 0; }
 
 /* the pull-quote card's decorative quote mark stays off */
 body .proof-card::before { content: none; }
-
-@media (max-width: 540px) {
-    body :is(.proof-card, .testimonial-card, .mid-cta)::after { width: 100vw; left: -20%; }
-}
 
 /* hero date line (some pages): was white for the old dark hero */
 body .event-hero .event-line {
