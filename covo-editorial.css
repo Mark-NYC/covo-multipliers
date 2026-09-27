@@ -167,7 +167,7 @@ strong { font-weight: 500; }
 .lab-interest-submit:hover { transform: none; }
 
 /* Primary = the one bright action */
-.btn-primary { background: var(--c-lime); color: var(--c-ink); border-color: var(--c-lime); }
+.btn-primary { background: var(--c-lime); color: var(--c-ink); border-color: var(--c-ink); }
 .btn-primary:hover { background: var(--c-ink); color: var(--c-lime); border-color: var(--c-ink); }
 
 .btn-secondary { background: transparent; color: var(--c-ink); border-color: var(--c-ink); }
@@ -349,7 +349,7 @@ strong { font-weight: 500; }
 .slideout-menu-links a.menu-lab-button {
     margin-top: 1.5rem;
     padding: 0.95rem 1rem;
-    border: 1px solid var(--c-lime);
+    border: 1px solid var(--c-ink);
     border-radius: var(--radius);
     background: var(--c-lime);
     color: var(--c-ink);
