@@ -20,6 +20,7 @@
     --c-tan: #CDB7A2;               /* muted earth tile */
     --c-tan-text: #8C6D55;          /* wordmark accent, large text only */
     --c-lime: #DFFF38;
+    --c-coral: #FF5349;             /* primary button (ink text: 4.8:1) */
     --c-terracotta: #C66D4E;
     --c-terracotta-text: #9E4E33;   /* AA on white/ivory for small text */
     --c-dusty: #819AAB;
@@ -167,8 +168,17 @@ strong { font-weight: 500; }
 .lab-interest-submit:hover { transform: none; }
 
 /* Primary = the one bright action */
-.btn-primary { background: var(--c-lime); color: var(--c-ink); border-color: var(--c-ink); }
-.btn-primary:hover { background: var(--c-ink); color: var(--c-lime); border-color: var(--c-ink); }
+/* Primary = coral (top-of-page / main action). Secondary = lime (repeat CTAs lower on the page) */
+.btn-primary { background: var(--c-coral); color: var(--c-ink); border-color: var(--c-ink); }
+.btn-primary:hover { background: var(--c-ink); color: var(--c-coral); border-color: var(--c-ink); }
+
+.btn-lime,
+.immersion-cta-section .btn-primary,
+.final-cta .btn-primary { background: var(--c-lime); color: var(--c-ink); border-color: var(--c-ink); }
+
+.btn-lime:hover,
+.immersion-cta-section .btn-primary:hover,
+.final-cta .btn-primary:hover { background: var(--c-ink); color: var(--c-lime); border-color: var(--c-ink); }
 
 .btn-secondary { background: transparent; color: var(--c-ink); border-color: var(--c-ink); }
 .btn-secondary:hover { background: var(--c-ink); color: var(--c-white); }
@@ -351,11 +361,11 @@ strong { font-weight: 500; }
     padding: 0.95rem 1rem;
     border: 1px solid var(--c-ink);
     border-radius: var(--radius);
-    background: var(--c-lime);
+    background: var(--c-coral);
     color: var(--c-ink);
 }
 
-.slideout-menu-links a.menu-lab-button:hover { background: var(--c-ink); border-color: var(--c-ink); color: var(--c-lime); text-decoration: none; }
+.slideout-menu-links a.menu-lab-button:hover { background: var(--c-ink); border-color: var(--c-ink); color: var(--c-coral); text-decoration: none; }
 
 
 /* -----------------------------------------------
