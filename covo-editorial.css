@@ -1005,7 +1005,17 @@ strong { font-weight: 500; }
     letter-spacing: -0.01em;
     color: var(--c-on-dark);
     margin: 0 auto 1.25rem;
-    max-width: 18ch;
+    max-width: 22ch;
+}
+
+/* coral phrase on the black band (6.1:1 contrast) */
+.accent-coral { color: var(--c-coral); }
+.whatsapp-cta-title .accent-coral { display: block; }   /* coral sentence starts its own line */
+
+/* desktop: one line per sentence */
+@media (min-width: 901px) {
+    .whatsapp-cta-title,
+    .whatsapp-cta-title .accent-coral { max-width: none; text-wrap: wrap; }
 }
 
 .whatsapp-cta-copy {
