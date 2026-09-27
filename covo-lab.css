@@ -1009,20 +1009,21 @@ body #bonus-seats-notice {
 
 
 /* ===============================================
-   NEON GLOW BURST — one per page, behind the lab title in the hero
+   NEON GLOW BURST — one per page, behind the closing headline
    =============================================== */
 
-body .event-hero { overflow: clip; }
-body .hero-copy { position: relative; isolation: isolate; }
+body .bottom-cta { overflow: clip; }
+body .bottom-cta-inner { position: relative; isolation: isolate; }
 
-body .hero-copy::before {
+body .bottom-cta-inner::before {
     content: "";
     position: absolute;
     z-index: -1;
-    width: min(620px, 120vw);
+    width: min(640px, 120vw);
     aspect-ratio: 1;
-    left: -14%;
-    top: -22%;
+    left: 50%;
+    top: -42%;
+    transform: translateX(-50%);
     border-radius: 50%;
     background: radial-gradient(circle at 50% 50%,
         rgba(223, 255, 56, 0.9) 0%,
@@ -1037,7 +1038,7 @@ body .hero-copy::before {
 body .proof-card::before { content: none; }
 
 @media (max-width: 540px) {
-    body .hero-copy::before { width: 115vw; left: -30%; top: -10%; }
+    body .bottom-cta-inner::before { width: 110vw; top: -8%; }
 }
 
 /* hero date line (some pages): was white for the old dark hero */
