@@ -425,34 +425,30 @@ strong { font-weight: 500; }
 
 /* Desktop: photo top lines up with the headline, bottom with the end of
    the text column (tagline height + its margin = --hero-tag-offset). */
+/* Photo keeps its native 16:9 ratio (no cropping) and is centred against the text */
 .hero-media {
-    --hero-tag-offset: calc(var(--fs-label) * 1.6 + 1.75rem);
-    position: relative;             /* photo fills this box; the text column sets its height */
-    margin: var(--hero-tag-offset) 0 0;
-    min-height: 360px;
+    margin: 0;
+    align-self: center;
 }
 
 .hero-media img {
-    position: absolute;
-    inset: 0;
+    display: block;
     width: 100%;
-    height: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
     object-fit: cover;
-    object-position: 50% 45%;       /* keeps all four faces in frame */
     border-radius: var(--radius-media);
 }
 
 @media (max-width: 900px) {
     .hero-grid { grid-template-columns: 1fr; }
-    .hero-media { order: -1; margin-top: 0; min-height: 0; }   /* photo first on mobile */
-    .hero-media img { position: static; height: auto; aspect-ratio: 4 / 3; }
+    .hero-media { order: -1; }   /* photo first on mobile */
 }
 
 /* Phones: tight vertical rhythm so "Join a Free Lab" shows on first load */
 @media (max-width: 600px) {
     .hero { padding: 1.25rem 1.25rem 3rem; }                  /* 20px under the nav, 20px sides */
     .hero-grid { gap: 1.5rem; }                              /* image → eyebrow 24px */
-    .hero-media img { aspect-ratio: 1.6 / 1; object-position: 50% 42%; }
     .hero .logo-tagline { margin-bottom: 0.75rem; }          /* eyebrow → headline 12px */
     .hero .logo-wordmark {
         font-size: min(11.2vw, 2.625rem);                    /* ~42px */
