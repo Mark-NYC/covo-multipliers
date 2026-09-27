@@ -294,6 +294,43 @@
 
         .pattern-note { margin: clamp(1.75rem, 3vw, 2.5rem) 0 0; font-size: var(--fs-small); color: var(--c-text-muted); }
 
+        .free-chip {
+            display: inline-block;
+            margin-right: 0.35rem;
+            padding: 0.1rem 0.45rem;
+            border-radius: 4px;
+            background: var(--c-lime);
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--c-ink);
+            vertical-align: 1px;
+        }
+
+        /* ---------- Topics: bubbles (section stays hidden until filled) ---------- */
+        .topic-bubbles { display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 0; padding: 0; list-style: none; }
+
+        .topic-bubbles li {
+            padding: 0.6rem 1.1rem;
+            border: 1px solid var(--c-ink);
+            border-radius: 999px;
+            background: var(--c-white);
+            font-size: var(--fs-card);
+            line-height: 1.3;
+            color: var(--c-ink);
+        }
+
+        .topic-bubbles li:nth-child(3n+1) { background: var(--c-ivory); border-color: var(--c-ivory); }
+        .topic-bubbles li:nth-child(4n+2) { background: var(--c-lime); border-color: var(--c-lime); }
+
+        /* ---------- Testimonials (editorial pull quotes) ---------- */
+        .ff-quotes .testimonials-container { margin: 0 auto; border-top: 1px solid var(--c-line); }
+        .ff-quotes .testimonials-list { display: grid; }
+        .ff-quotes .testimonial-card.is-placeholder .testimonial-quote,
+        .ff-quotes .testimonial-card.is-placeholder .testimonial-attribution { color: var(--c-text-muted); }
+
         /* ---------- Bible, cropped flush on the black band ---------- */
         .bible-wrap {
             max-width: var(--container);
@@ -397,7 +434,7 @@
         <div class="ff-hero-inner">
 
             <div class="hero-copy">
-                <span class="event-label live-label"><span class="live-dot" aria-hidden="true"></span>Live on Zoom · Dec 4–6</span>
+                <span class="event-label live-label"><span class="live-dot" aria-hidden="true"></span>Free · Live on Zoom · Dec 4–6</span>
                 <h1 class="event-title">What If Jesus Gave Us More Than a Message to Share? <span class="title-accent"><mark class="ff-mark">What If He Gave Us a Pattern to Follow?</mark></span></h1>
                 <p class="hero-sub hero-lead">Discover the biblical patterns behind how Jesus made disciples, developed leaders, and multiplied His Kingdom.</p>
                 <p class="hero-pull">Not just more tools. A different way of seeing the work.</p>
@@ -413,7 +450,7 @@
                 <div class="registration-card" id="registration-card">
 
                     <h2>Save Your Seat</h2>
-                    <p class="form-intro">Four Fields Intensive &middot; Live, interactive, online</p>
+                    <p class="form-intro"><span class="free-chip">Free</span> Four Fields Intensive &middot; Live, interactive, online</p>
                     <ul class="card-schedule" aria-label="Schedule (Eastern Time)">
                         <li><span>Fri, Dec 4</span><span>6:30&ndash;9:30 PM ET</span></li>
                         <li><span>Sat, Dec 5</span><span>9:00 AM&ndash;4:00 PM ET</span></li>
@@ -506,7 +543,7 @@
         <div class="ff-container">
             <div class="ff-head ed-split">
                 <h2 class="pattern-h2" style="margin:0;">One weekend. Three live sessions.</h2>
-                <p class="pattern-p" style="margin:0;">Live, interactive, and online. All times Eastern.</p>
+                <p class="pattern-p" style="margin:0;"><strong style="color:var(--c-ink);font-weight:600;">Free.</strong> Live, interactive, and online. All times Eastern.</p>
             </div>
 
             <div class="weekend-grid">
@@ -531,6 +568,60 @@
         </div>
     </section>
 
+    <!-- ================================================
+         TOPICS — hidden until the topic list is ready.
+         To publish: remove the `hidden` attribute below and replace the
+         <li> items with the real topics (one short phrase each).
+    ================================================ -->
+    <section class="ff-section" id="topics" hidden>
+        <div class="ff-container">
+            <div class="ff-head ed-split">
+                <h2 class="pattern-h2" style="margin:0;">What we&rsquo;ll dig into.</h2>
+                <p class="pattern-p" style="margin:0;">Scripture, discussion, and hands-on practice across the whole pattern.</p>
+            </div>
+            <ul class="topic-bubbles">
+                <li>Topic one</li>
+                <li>Topic two</li>
+                <li>Topic three</li>
+                <li>Topic four</li>
+                <li>Topic five</li>
+                <li>Topic six</li>
+            </ul>
+        </div>
+    </section>
+
+
+    <!-- ================================================
+         TESTIMONIALS — PLACEHOLDERS. Replace each quote and name with a
+         real attendee quote (and permission) before this page goes live,
+         then remove the "is-placeholder" class from each card.
+    ================================================ -->
+    <section class="testimonials-section ff-quotes">
+        <div class="testimonials-container">
+            <div class="testimonials-head ed-split">
+                <h2 class="testimonials-title">What leaders are saying</h2>
+                <p class="testimonials-intro">From leaders who have walked through the Four Fields.</p>
+            </div>
+
+            <div class="testimonials-list">
+                <div class="testimonial-card is-placeholder">
+                    <p class="testimonial-quote">&ldquo;[Placeholder] A featured quote from a past attendee goes here: the moment the whole pattern clicked for them.&rdquo;</p>
+                    <p class="testimonial-attribution">— Attendee name, role or city</p>
+                </div>
+
+                <div class="testimonial-card is-placeholder">
+                    <p class="testimonial-quote">&ldquo;[Placeholder] A second attendee quote: what they started doing differently after the weekend.&rdquo;</p>
+                    <p class="testimonial-attribution">— Attendee name, role or city</p>
+                </div>
+
+                <div class="testimonial-card is-placeholder">
+                    <p class="testimonial-quote">&ldquo;[Placeholder] A third attendee quote: why they would recommend it to another leader.&rdquo;</p>
+                    <p class="testimonial-attribution">— Attendee name, role or city</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Open Bible, cropped at the bottom edge so it sits flush on the final CTA. -->
     <div class="bible-wrap">
         <img class="bible-img" src="image/four-fields-bible.webp" width="1640" height="664" loading="lazy"
@@ -546,7 +637,7 @@
         <div class="bottom-cta-inner">
             <h2 class="bottom-cta-headline">Don&rsquo;t Just Learn More Tools. <span class="accent-coral">Rediscover the Pattern.</span></h2>
             <button class="btn btn-primary" id="cta-scroll-btn">Save My Seat</button>
-            <div class="cta-live"><span class="event-label live-label"><span class="live-dot" aria-hidden="true"></span>Live on Zoom</span></div>
+            <div class="cta-live"><span class="event-label live-label"><span class="live-dot" aria-hidden="true"></span>Free · Live on Zoom · Dec 4–6</span></div>
         </div>
     </section>
 
