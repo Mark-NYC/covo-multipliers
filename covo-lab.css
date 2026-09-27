@@ -1079,8 +1079,10 @@ body .lab-ground::before {
     }
 }
 
-/* the divider's rule replaces the body's top rule */
-body .lab-ground + .event-body .event-body-inner { border-top: 0; }
+/* above the closing CTA: the "Built from practice" strip keeps its top rule,
+   the divider's ink rule replaces its bottom one */
+body .social-proof:has(+ .lab-ground) { padding-bottom: 0; }
+body .social-proof:has(+ .lab-ground) .social-proof-inner { border-bottom: 0; }
 
 /* the pull-quote card's decorative quote mark stays off */
 body .proof-card::before { content: none; }
