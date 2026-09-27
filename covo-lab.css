@@ -1040,9 +1040,9 @@ body .lab-ground img {
     position: relative;
     z-index: 2;
     display: block;
-    width: 100%;
+    width: 65%;                              /* 35% smaller than full width, centred on the rule */
     height: auto;
-    margin: 0;
+    margin: 0 auto;
     filter: saturate(0.75) contrast(1.03);
 }
 
@@ -1053,7 +1053,7 @@ body .lab-ground::before {
     z-index: 0;
     top: 58%;
     left: 50%;
-    width: 75vw;
+    width: 49vw;                             /* scaled with the photo */
     aspect-ratio: 1;
     transform: translate(-50%, -50%);
     border-radius: 50%;
