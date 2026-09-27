@@ -15,8 +15,8 @@
     --c-forest: #203F34;
     --c-ivory: #F6F2E9;
     --c-ivory-deep: #EFE9DC;
-    --c-lime: #DFFF38;
-    --c-coral: #FF5349;
+    --c-lime: #DDE520;
+    --c-coral: #FF5500;
     --c-terracotta: #C66D4E;
     --c-terracotta-text: #9E4E33;
     --c-dusty: #819AAB;
@@ -1058,10 +1058,10 @@ body .lab-ground::before {
     transform: translate(-50%, -50%);
     border-radius: 50%;
     background: radial-gradient(circle at 50% 50%,
-        rgba(223, 255, 56, 0.95) 0%,
-        rgba(223, 255, 56, 0.75) 28%,
-        rgba(223, 255, 56, 0.32) 52%,
-        rgba(223, 255, 56, 0) 70%);
+        rgba(221, 229, 32, 0.95) 0%,
+        rgba(221, 229, 32, 0.75) 28%,
+        rgba(221, 229, 32, 0.32) 52%,
+        rgba(221, 229, 32, 0) 70%);
     filter: blur(12px);
     pointer-events: none;
     /* fade the top so the sphere never ends in a hard edge where the figure clips it */
