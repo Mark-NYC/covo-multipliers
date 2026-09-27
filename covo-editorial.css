@@ -443,6 +443,13 @@ strong { font-weight: 500; }
 /* desktop swaps in a square version of the photo (<picture> source at 901px+) */
 @media (min-width: 901px) {
     .hero-media img { aspect-ratio: 1 / 1; }
+
+    /* text block: inset from the left edge (closer to the photo) and
+       vertically centred on the photo's centre line */
+    .hero .logo-area {
+        align-self: center;
+        padding-left: clamp(1.5rem, 5vw, 5rem);
+    }
 }
 
 @media (max-width: 900px) {
