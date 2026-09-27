@@ -411,6 +411,16 @@ strong { font-weight: 500; }
     margin: 0 0 2rem;
 }
 
+/* "the open door." — lime highlighter stroke across the lower half of the words */
+.hero .hero-mark {
+    color: inherit;
+    background: linear-gradient(transparent 52%, var(--c-lime) 52%, var(--c-lime) 90%, transparent 90%);
+    padding: 0 0.06em;
+    margin: 0 -0.06em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+}
+
 /* intentional line breaks: one span per line */
 .hero .logo-wordmark .hl { display: block; white-space: nowrap; }
 
