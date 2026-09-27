@@ -1006,3 +1006,78 @@ body #bonus-seats-notice {
     font-size: 0.9375rem !important;
     color: var(--c-ink) !important;
 }
+
+
+/* ===============================================
+   NEON GLOW BURSTS
+   Soft lime spheres behind key text: the lab title, the mid-page
+   testimonial (or mid-page CTA when there's no testimonial), and the
+   closing headline. Pure CSS; each sits behind its text and is clipped
+   to its section so nothing overflows horizontally.
+   =============================================== */
+
+:root {
+    --glow: radial-gradient(circle at 50% 50%,
+        rgba(223, 255, 56, 0.9) 0%,
+        rgba(223, 255, 56, 0.62) 26%,
+        rgba(223, 255, 56, 0.24) 50%,
+        rgba(223, 255, 56, 0) 68%);
+}
+
+body .event-hero,
+body .event-body,
+body .lab-testimonial,
+body .bottom-cta { overflow: clip; }
+
+body .hero-copy,
+body :is(.proof-card, .testimonial-card, .mid-cta),
+body .bottom-cta-inner { position: relative; isolation: isolate; }
+
+body .hero-copy::before,
+body :is(.proof-card, .testimonial-card)::after,
+body:not(:has(.proof-card, .testimonial-card)) .mid-cta::after,
+body .bottom-cta-inner::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--glow);
+    filter: blur(10px);
+    pointer-events: none;
+}
+
+/* hero: centred on the title's left half */
+body .hero-copy::before {
+    width: min(620px, 120vw);
+    left: -14%;
+    top: -22%;
+}
+
+/* testimonial (or mid CTA on pages without one): behind the opening of the text */
+body :is(.proof-card, .testimonial-card, .mid-cta)::after {
+    width: min(520px, 110vw);
+    left: -8%;
+    top: 50%;
+    transform: translateY(-55%);
+}
+
+/* mid CTA sits under a callout: keep its glow low so it doesn't wash that text */
+body .mid-cta::after { top: 75%; width: min(440px, 100vw); }
+
+/* the pull-quote card had a decorative quote mark here; keep it off */
+body .proof-card::before { content: none; }
+
+/* closing CTA: centred behind the headline */
+body .bottom-cta-inner::before {
+    width: min(640px, 120vw);
+    left: 50%;
+    top: -42%;
+    transform: translateX(-50%);
+}
+
+@media (max-width: 540px) {
+    body .hero-copy::before { width: 115vw; left: -30%; top: -10%; }
+    body :is(.proof-card, .testimonial-card, .mid-cta)::after { width: 100vw; left: -20%; }
+    body .bottom-cta-inner::before { width: 110vw; top: -8%; }
+}
