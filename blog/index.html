@@ -29,6 +29,8 @@
     <meta name="description" content="Practical writing for co-vocational leaders making disciples where they live, work, and play. No inspiration without practice.">
     <link rel="canonical" href="https://covomultipliers.com/blog/">
     <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/covo-editorial.css">
+    <link rel="stylesheet" href="/covo-blog.css">
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
@@ -69,358 +71,6 @@
     ]
     </script>
 
-    <style>
-
-        /* -----------------------------------------------
-           SITE HEADER
-        ----------------------------------------------- */
-
-        .site-header {
-            background: #ffffff;
-            border-bottom: 1px solid #e5e7eb;
-            padding: 1rem 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .site-header .brand {
-            font-size: 0.95rem;
-            font-weight: 900;
-            color: #10281f;
-            text-decoration: none;
-            letter-spacing: -0.01em;
-        }
-
-        .site-header .back-link {
-            font-size: 0.875rem;
-            color: #5a6b65;
-            text-decoration: none;
-            transition: color 0.15s ease;
-        }
-
-        .site-header .back-link:hover {
-            color: #1b4d3e;
-        }
-
-
-        /* -----------------------------------------------
-           BLOG HERO
-        ----------------------------------------------- */
-
-        .blog-hero {
-            padding: 4rem 2rem 3.5rem;
-            background: linear-gradient(135deg,
-                #10281f 0%,
-                #1b4d3e 35%,
-                #2c6b5d 65%,
-                #9f7a2f 85%,
-                #dcb55a 100%
-            );
-        }
-
-        .blog-hero-inner {
-            max-width: 760px;
-            margin: 0 auto;
-        }
-
-        .blog-label {
-            display: inline-block;
-            font-size: 0.72rem;
-            font-weight: 700;
-            letter-spacing: 0.14em;
-            text-transform: uppercase;
-            color: rgba(255, 255, 255, 0.58);
-            margin-bottom: 1.1rem;
-        }
-
-        .blog-h1 {
-            font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 900;
-            color: #ffffff;
-            line-height: 1.1;
-            letter-spacing: -0.025em;
-            margin-bottom: 1.25rem;
-        }
-
-        .blog-intro {
-            font-size: 1.05rem;
-            line-height: 1.72;
-            color: rgba(255, 255, 255, 0.82);
-            max-width: 660px;
-        }
-
-
-        /* -----------------------------------------------
-           SHARED CONTAINER
-        ----------------------------------------------- */
-
-        .blog-container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .section-label {
-            font-size: 0.72rem;
-            font-weight: 700;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: #5a6b65;
-            margin-bottom: 1.5rem;
-        }
-
-
-        /* -----------------------------------------------
-           FEATURED ARTICLE
-        ----------------------------------------------- */
-
-        .blog-featured {
-            padding: 4rem 0;
-            border-bottom: 1px solid #e5e7eb;
-        }
-
-        .featured-card {
-            background: #f8faf9;
-            border: 1px solid #e0e7e4;
-            border-left: 4px solid #dcb55a;
-            border-radius: 12px;
-            padding: 2.5rem;
-        }
-
-        .featured-card-meta {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .post-tag {
-            font-size: 0.75rem;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: #1b4d3e;
-            background: rgba(27, 77, 62, 0.1);
-            padding: 0.25rem 0.75rem;
-            border-radius: 999px;
-        }
-
-        .post-date {
-            font-size: 0.85rem;
-            color: #5a6b65;
-        }
-
-        .featured-card-title {
-            font-size: clamp(1.35rem, 2.5vw, 1.75rem);
-            font-weight: 800;
-            line-height: 1.2;
-            letter-spacing: -0.015em;
-            margin-bottom: 1rem;
-        }
-
-        .featured-card-title a {
-            color: #10281f;
-            text-decoration: none;
-            transition: color 0.15s ease;
-        }
-
-        .featured-card-title a:hover {
-            color: #1b4d3e;
-        }
-
-        .featured-card-excerpt {
-            font-size: 1rem;
-            line-height: 1.7;
-            color: #3d4f49;
-            margin-bottom: 1.5rem;
-            max-width: 620px;
-        }
-
-        .read-more {
-            display: inline-block;
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: #1b4d3e;
-            text-decoration: none;
-            border-bottom: 2px solid #dcb55a;
-            padding-bottom: 1px;
-            transition: color 0.15s ease, border-color 0.15s ease;
-        }
-
-        .read-more:hover {
-            color: #dcb55a;
-            border-color: #dcb55a;
-        }
-
-
-        /* -----------------------------------------------
-           TOPICS
-        ----------------------------------------------- */
-
-        .blog-topics {
-            padding: 3.5rem 0;
-            border-bottom: 1px solid #e5e7eb;
-        }
-
-        .topics-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.6rem;
-        }
-
-        .topic-pill {
-            display: inline-block;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #1b4d3e;
-            background: transparent;
-            border: 2px solid #1b4d3e;
-            border-radius: 999px;
-            padding: 0.45rem 1.1rem;
-        }
-
-
-        /* -----------------------------------------------
-           RECENT ARTICLES
-        ----------------------------------------------- */
-
-        .blog-recent {
-            padding: 3.5rem 0;
-            border-bottom: 1px solid #e5e7eb;
-        }
-
-        .article-cards {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.25rem;
-        }
-
-        .article-card {
-            display: flex;
-            flex-direction: column;
-            background: #ffffff;
-            border: 1px solid #e0e7e4;
-            border-radius: 12px;
-            padding: 1.75rem;
-            text-decoration: none;
-            transition: border-color 0.15s ease, box-shadow 0.15s ease;
-        }
-
-        .article-card:hover {
-            border-color: #1b4d3e;
-            box-shadow: 0 4px 16px rgba(27, 77, 62, 0.1);
-        }
-
-        .article-card-meta {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 0.875rem;
-        }
-
-        .article-card-title {
-            font-size: 1.05rem;
-            font-weight: 800;
-            color: #10281f;
-            line-height: 1.3;
-            letter-spacing: -0.01em;
-            margin-bottom: 0.625rem;
-            flex: 1;
-        }
-
-        .article-card-excerpt {
-            font-size: 0.9rem;
-            line-height: 1.65;
-            color: #5a6b65;
-            margin-bottom: 1.25rem;
-            flex: 1;
-        }
-
-        .article-card-read {
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: #1b4d3e;
-            border-bottom: 2px solid #dcb55a;
-            padding-bottom: 1px;
-            align-self: flex-start;
-        }
-
-        @media (max-width: 640px) {
-            .article-cards {
-                grid-template-columns: 1fr;
-            }
-        }
-
-
-        /* -----------------------------------------------
-           SITE LINKS
-        ----------------------------------------------- */
-
-        .blog-site-links {
-            padding: 3.5rem 0 4.5rem;
-        }
-
-        .site-links-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.25rem;
-        }
-
-        .site-link-card {
-            display: flex;
-            flex-direction: column;
-            gap: 0.4rem;
-            background: #f8faf9;
-            border: 1px solid #e0e7e4;
-            border-radius: 10px;
-            padding: 1.5rem;
-            text-decoration: none;
-            transition: border-color 0.15s ease, box-shadow 0.15s ease;
-        }
-
-        .site-link-card:hover {
-            border-color: #1b4d3e;
-            box-shadow: 0 4px 16px rgba(27, 77, 62, 0.1);
-        }
-
-        .site-link-title {
-            font-size: 0.95rem;
-            font-weight: 800;
-            color: #10281f;
-            letter-spacing: -0.01em;
-        }
-
-        .site-link-desc {
-            font-size: 0.875rem;
-            line-height: 1.55;
-            color: #5a6b65;
-        }
-
-
-        /* -----------------------------------------------
-           RESPONSIVE
-        ----------------------------------------------- */
-
-        @media (max-width: 640px) {
-            .blog-hero {
-                padding: 3rem 1.5rem 2.5rem;
-            }
-
-            .blog-container {
-                padding: 0 1.5rem;
-            }
-
-            .featured-card {
-                padding: 1.75rem;
-            }
-
-            .site-links-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-    </style>
     <!-- Covo typography: DM Serif Display / DM Sans / Barlow Condensed (shared tokens in /covo-type.css) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -429,59 +79,89 @@
 </head>
 <body>
 
+    <header class="site-masthead" id="top">
+        <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="site-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
 
-    <!-- ================================================
-         SITE HEADER
-    ================================================ -->
-    <header class="site-header">
-        <a class="brand" href="/">Covo Multipliers</a>
-        <a class="back-link" href="/">← Home</a>
+        <nav class="masthead-center" aria-label="Primary">
+            <a class="masthead-link" href="/vision">Start Here</a>
+            <a class="masthead-wordmark" href="/">Covo <em>Multipliers</em></a>
+            <a class="masthead-link" href="/h3x">Podcast</a>
+        </nav>
+
+        <a class="masthead-cta" href="/#upcoming-labs">Join a Lab</a>
     </header>
 
+    <div class="menu-overlay" id="menu-overlay"></div>
 
-    <!-- ================================================
-         BLOG HERO
-    ================================================ -->
-    <section class="blog-hero">
-        <div class="blog-hero-inner">
-            <span class="blog-label">The Blog</span>
-            <h1 class="blog-h1">Covo Multipliers Blog</h1>
+    <nav class="slideout-menu" id="site-menu" aria-label="Main navigation">
+        <div class="slideout-menu-header">
+            <span class="slideout-menu-title">Covo Multipliers</span>
+            <button class="menu-close" type="button" aria-label="Close menu">&times;</button>
+        </div>
+
+        <div class="slideout-menu-links">
+            <a href="/">Home</a>
+            <a href="/vision">Start Here</a>
+            <a href="/h3x">Podcast</a>
+            <a href="/immersions">Immersions</a>
+            <a href="/blog/" aria-current="page">Blog</a>
+            <a class="menu-lab-button" href="/#upcoming-labs">Join a Lab</a>
+        </div>
+    </nav>
+
+
+    <!-- BLOG HERO -->
+    <section class="blog-section blog-hero">
+        <div class="blog-container">
+            <span class="ed-label" style="display:block;margin-bottom:1.25rem;">The Covo Multipliers Blog</span>
+            <h1 class="blog-h1">Field notes for <mark>everyday disciple makers.</mark></h1>
             <p class="blog-intro">Practical writing for co-vocational leaders trying to make disciples where they live, work, and play. We cover bivocational church planting, disciple-making rhythms, workplace mission, and what it actually looks like to build a reproducible life of gospel witness — not as a professional, but as an ordinary believer with a regular job.</p>
         </div>
     </section>
 
 
-    <!-- ================================================
-         FEATURED ARTICLE
-    ================================================ -->
-    <section class="blog-featured" aria-labelledby="featured-heading">
-        <div class="blog-container">
-            <h2 class="section-label" id="featured-heading">Featured</h2>
+    <!-- FEATURED ARTICLE -->
+    <section class="blog-section blog-featured" aria-labelledby="featured-heading">
+        <div class="blog-container" style="border-top:0;padding-top:0;">
+            <h2 class="visually-hidden" id="featured-heading" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);">Featured</h2>
             <article class="featured-card">
-                <div class="featured-card-meta">
-                    <span class="post-tag">Disciple Making</span>
-                    <time class="post-date" datetime="2026-04-18">April 18, 2026</time>
+                <div>
+                    <div class="post-meta">
+                        <span class="featured-chip">Featured</span>
+                        <span class="post-tag">Disciple Making</span>
+                        <time class="post-date" datetime="2026-04-18">April 18, 2026</time>
+                    </div>
+                    <h3 class="featured-card-title"><a href="/blog/how-to-make-disciples-at-work/">How to Make Disciples at Work Without Adding Another Ministry</a></h3>
                 </div>
-                <h3 class="featured-card-title">
-                    <a href="/blog/how-to-make-disciples-at-work/">How to Make Disciples at Work Without Adding Another Ministry</a>
-                </h3>
-                <p class="featured-card-excerpt">Your job is not competing with the Great Commission. It is one of the main places you can live it. A practical field guide to making disciples through work, family, and the relationships you already have.</p>
-                <a class="read-more" href="/blog/how-to-make-disciples-at-work/">Read the article →</a>
+                <div>
+                    <p class="featured-card-excerpt">Your job is not competing with the Great Commission. It is one of the main places you can live it. A practical field guide to making disciples through work, family, and the relationships you already have.</p>
+                    <a class="btn btn-primary" href="/blog/how-to-make-disciples-at-work/">Read the Article</a>
+                </div>
             </article>
         </div>
     </section>
 
 
-    <!-- ================================================
-         RECENT ARTICLES
-    ================================================ -->
-    <section class="blog-recent" aria-labelledby="recent-heading">
+    <!-- ALL ARTICLES -->
+    <section class="blog-section blog-recent" aria-labelledby="recent-heading">
         <div class="blog-container">
-            <h2 class="section-label" id="recent-heading">Recent articles</h2>
-            <div class="article-cards">
+            <div class="blog-head">
+                <h2 class="blog-h2" id="recent-heading">All articles</h2>
+                <div class="topic-filter" role="group" aria-label="Filter by topic">
+                    <button class="topic-pill" type="button" data-filter="all" aria-pressed="true">All</button>
+                    <button class="topic-pill" type="button" data-filter="Disciple Making" aria-pressed="false">Disciple Making</button>
+                    <button class="topic-pill" type="button" data-filter="Church Planting" aria-pressed="false">Church Planting</button>
+                    <button class="topic-pill" type="button" data-filter="Co-Vocational Ministry" aria-pressed="false">Co-Vocational Ministry</button>
+                </div>
+            </div>
+            <div class="article-cards" id="article-cards">
 
-                <a class="article-card" href="/blog/commands-of-christ/">
-                    <div class="article-card-meta">
+                <a class="article-card" data-topic="Disciple Making" href="/blog/commands-of-christ/">
+                    <div class="post-meta">
                         <span class="post-tag">Disciple Making</span>
                         <time class="post-date" datetime="2026-07-05">July 5, 2026</time>
                     </div>
@@ -490,8 +170,8 @@
                     <span class="article-card-read">Read →</span>
                 </a>
 
-                <a class="article-card" href="/blog/how-to-share-the-gospel/">
-                    <div class="article-card-meta">
+                <a class="article-card" data-topic="Disciple Making" href="/blog/how-to-share-the-gospel/">
+                    <div class="post-meta">
                         <span class="post-tag">Disciple Making</span>
                         <time class="post-date" datetime="2026-07-05">July 5, 2026</time>
                     </div>
@@ -500,8 +180,8 @@
                     <span class="article-card-read">Read →</span>
                 </a>
 
-                <a class="article-card" href="/blog/how-to-disciple-someone/">
-                    <div class="article-card-meta">
+                <a class="article-card" data-topic="Disciple Making" href="/blog/how-to-disciple-someone/">
+                    <div class="post-meta">
                         <span class="post-tag">Disciple Making</span>
                         <time class="post-date" datetime="2026-07-05">July 5, 2026</time>
                     </div>
@@ -510,8 +190,8 @@
                     <span class="article-card-read">Read →</span>
                 </a>
 
-                <a class="article-card" href="/blog/what-is-a-person-of-peace/">
-                    <div class="article-card-meta">
+                <a class="article-card" data-topic="Disciple Making" href="/blog/what-is-a-person-of-peace/">
+                    <div class="post-meta">
                         <span class="post-tag">Disciple Making</span>
                         <time class="post-date" datetime="2026-07-05">July 5, 2026</time>
                     </div>
@@ -520,8 +200,8 @@
                     <span class="article-card-read">Read →</span>
                 </a>
 
-                <a class="article-card" href="/blog/bivocational-church-planting-better-model/">
-                    <div class="article-card-meta">
+                <a class="article-card" data-topic="Church Planting" href="/blog/bivocational-church-planting-better-model/">
+                    <div class="post-meta">
                         <span class="post-tag">Church Planting</span>
                         <time class="post-date" datetime="2026-04-17">April 17, 2026</time>
                     </div>
@@ -530,8 +210,18 @@
                     <span class="article-card-read">Read →</span>
                 </a>
 
-                <a class="article-card" href="/blog/what-disciple-making-looks-like-for-normal-christians/">
-                    <div class="article-card-meta">
+                <a class="article-card" data-topic="Disciple Making" href="/blog/how-to-make-disciples-at-work/">
+                    <div class="post-meta">
+                        <span class="post-tag">Disciple Making</span>
+                        <time class="post-date" datetime="2026-04-18">April 18, 2026</time>
+                    </div>
+                    <h3 class="article-card-title">How to Make Disciples at Work Without Adding Another Ministry</h3>
+                    <p class="article-card-excerpt">Your job is not competing with the Great Commission. It is one of the main places you can live it. A practical field guide to making disciples through work, family, and the relationships you already have.</p>
+                    <span class="article-card-read">Read →</span>
+                </a>
+
+                <a class="article-card" data-topic="Disciple Making" href="/blog/what-disciple-making-looks-like-for-normal-christians/">
+                    <div class="post-meta">
                         <span class="post-tag">Disciple Making</span>
                         <time class="post-date" datetime="2026-04-18">April 18, 2026</time>
                     </div>
@@ -540,8 +230,8 @@
                     <span class="article-card-read">Read →</span>
                 </a>
 
-                <a class="article-card" href="/blog/why-most-believers-never-make-disciples/">
-                    <div class="article-card-meta">
+                <a class="article-card" data-topic="Disciple Making" href="/blog/why-most-believers-never-make-disciples/">
+                    <div class="post-meta">
                         <span class="post-tag">Disciple Making</span>
                         <time class="post-date" datetime="2026-04-18">April 18, 2026</time>
                     </div>
@@ -550,8 +240,8 @@
                     <span class="article-card-read">Read →</span>
                 </a>
 
-                <a class="article-card" href="/blog/what-is-an-oikos-and-why-does-it-matter/">
-                    <div class="article-card-meta">
+                <a class="article-card" data-topic="Disciple Making" href="/blog/what-is-an-oikos-and-why-does-it-matter/">
+                    <div class="post-meta">
                         <span class="post-tag">Disciple Making</span>
                         <time class="post-date" datetime="2026-04-18">April 18, 2026</time>
                     </div>
@@ -560,8 +250,8 @@
                     <span class="article-card-read">Read →</span>
                 </a>
 
-                <a class="article-card" href="/blog/how-to-start-spiritual-conversations-naturally/">
-                    <div class="article-card-meta">
+                <a class="article-card" data-topic="Disciple Making" href="/blog/how-to-start-spiritual-conversations-naturally/">
+                    <div class="post-meta">
                         <span class="post-tag">Disciple Making</span>
                         <time class="post-date" datetime="2026-04-18">April 18, 2026</time>
                     </div>
@@ -570,8 +260,8 @@
                     <span class="article-card-read">Read →</span>
                 </a>
 
-                <a class="article-card" href="/blog/how-to-make-disciples-where-you-live-work-and-play/">
-                    <div class="article-card-meta">
+                <a class="article-card" data-topic="Disciple Making" href="/blog/how-to-make-disciples-where-you-live-work-and-play/">
+                    <div class="post-meta">
                         <span class="post-tag">Disciple Making</span>
                         <time class="post-date" datetime="2026-04-17">April 17, 2026</time>
                     </div>
@@ -580,8 +270,8 @@
                     <span class="article-card-read">Read →</span>
                 </a>
 
-                <a class="article-card" href="/blog/covocational-vs-bivocational/">
-                    <div class="article-card-meta">
+                <a class="article-card" data-topic="Co-Vocational Ministry" href="/blog/covocational-vs-bivocational/">
+                    <div class="post-meta">
                         <span class="post-tag">Co-Vocational Ministry</span>
                         <time class="post-date" datetime="2026-04-17">April 17, 2026</time>
                     </div>
@@ -590,8 +280,8 @@
                     <span class="article-card-read">Read →</span>
                 </a>
 
-                <a class="article-card" href="/blog/what-is-a-covocational-leader/">
-                    <div class="article-card-meta">
+                <a class="article-card" data-topic="Co-Vocational Ministry" href="/blog/what-is-a-covocational-leader/">
+                    <div class="post-meta">
                         <span class="post-tag">Co-Vocational Ministry</span>
                         <time class="post-date" datetime="2026-04-17">April 17, 2026</time>
                     </div>
@@ -600,8 +290,8 @@
                     <span class="article-card-read">Read →</span>
                 </a>
 
-                <a class="article-card" href="/blog/passion-people-place-profession/">
-                    <div class="article-card-meta">
+                <a class="article-card" data-topic="Co-Vocational Ministry" href="/blog/passion-people-place-profession/">
+                    <div class="post-meta">
                         <span class="post-tag">Co-Vocational Ministry</span>
                         <time class="post-date" datetime="2026-04-17">April 17, 2026</time>
                     </div>
@@ -610,8 +300,8 @@
                     <span class="article-card-read">Read →</span>
                 </a>
 
-                <a class="article-card" href="/blog/habits-and-rhythms-of-a-covocational-leader/">
-                    <div class="article-card-meta">
+                <a class="article-card" data-topic="Disciple Making" href="/blog/habits-and-rhythms-of-a-covocational-leader/">
+                    <div class="post-meta">
                         <span class="post-tag">Disciple Making</span>
                         <time class="post-date" datetime="2026-04-17">April 17, 2026</time>
                     </div>
@@ -620,45 +310,18 @@
                     <span class="article-card-read">Read →</span>
                 </a>
 
-                <a class="article-card" href="/blog/bivocational-church-planting-better-model/">
-                    <div class="article-card-meta">
-                        <span class="post-tag">Church Planting</span>
-                        <time class="post-date" datetime="2026-04-17">April 17, 2026</time>
-                    </div>
-                    <h3 class="article-card-title">Bivocational Church Planting: A Better Model, Not a Backup Plan</h3>
-                    <p class="article-card-excerpt">The bivocational route gets a polite nod in church planting circles. Here's why that framing is backwards — and why the covocational model is a mission strategy, not a compromise.</p>
-                    <span class="article-card-read">Read →</span>
-                </a>
-
             </div>
+            <p class="blog-count" id="blog-count" aria-live="polite"></p>
         </div>
     </section>
 
 
-    <!-- ================================================
-         TOPICS
-    ================================================ -->
-    <section class="blog-topics" aria-labelledby="topics-heading">
+    <!-- SITE LINKS -->
+    <section class="blog-section blog-site-links" aria-labelledby="site-links-heading">
         <div class="blog-container">
-            <h2 class="section-label" id="topics-heading">Browse by topic</h2>
-            <div class="topics-list">
-                <span class="topic-pill">Co-Vocational Ministry</span>
-                <span class="topic-pill">Church Planting</span>
-                <span class="topic-pill">Disciple Making</span>
-                <span class="topic-pill">Workplace Mission</span>
-                <span class="topic-pill">Reproducible Rhythms</span>
-                <span class="topic-pill">Aquila &amp; Priscilla</span>
+            <div class="blog-head">
+                <h2 class="blog-h2" id="site-links-heading">Explore the site</h2>
             </div>
-        </div>
-    </section>
-
-
-    <!-- ================================================
-         SITE LINKS
-    ================================================ -->
-    <section class="blog-site-links" aria-labelledby="site-links-heading">
-        <div class="blog-container">
-            <h2 class="section-label" id="site-links-heading">Explore the site</h2>
             <div class="site-links-grid">
                 <a class="site-link-card" href="/vision">
                     <span class="site-link-title">Vision &amp; Pathway</span>
@@ -677,28 +340,95 @@
     </section>
 
 
-    <!-- ================================================
-         FOOTER
-    ================================================ -->
     <footer class="site-footer">
         <div class="footer-inner">
             <div class="footer-brand">
-                <span class="footer-wordmark">Covo Multipliers</span>
-                <p class="footer-desc">A tribe of covocational leaders learning to make disciples where they live, work, and play.</p>
+                <span class="footer-wordmark">Covo <em>Multipliers</em></span>
+                <p class="footer-desc">Practical training for everyday leaders who want to make disciples where they live, work, and play.</p>
             </div>
+
             <nav class="footer-nav" aria-label="Footer navigation">
-                <a href="/">Home</a>
-                <a href="/vision">Vision &amp; Pathway</a>
-                <a href="/blog/">Blog</a>
-                <a href="/resources">Resources</a>
-                <a href="https://obey.tools">Obey.Tools</a>
-                <a href="https://churchwaffle.com">Church Waffle</a>
-                <a href="https://conversationquadrant.com">Conversation Quadrant</a>
-                <a href="/privacy">Privacy</a>
+                <div class="footer-col">
+                    <p class="footer-heading">Start</p>
+                    <a href="/">Home</a>
+                    <a href="/vision">Start Here</a>
+                    <a href="/blog/">Blog</a>
+                    <a href="/h3x">H3X Podcast</a>
+                </div>
+
+                <div class="footer-col">
+                    <p class="footer-heading">Tools</p>
+                    <a href="https://obey.tools">Obey.Tools</a>
+                    <a href="https://churchwaffle.com">Church Waffle</a>
+                    <a href="https://conversationquadrant.com">Conversation Quadrant</a>
+                </div>
+
+                <div class="footer-col">
+                    <p class="footer-heading">Connect</p>
+                    <a href="/contact">Contact</a>
+                    <a href="https://www.covomultipliers.com/join-whatsapp?utm_source=footer&utm_medium=cta&utm_campaign=whatsapp_field_room" class="footer-highlight">Apply to Join the Field Room</a>
+                    <a href="/privacy">Privacy</a>
+                </div>
             </nav>
+
+            <a class="back-to-top" href="#top" aria-label="Back to top">↑</a>
         </div>
     </footer>
 
+
+    <script>
+        (function () {
+            var menuToggle = document.querySelector('.menu-toggle');
+            var menuClose = document.querySelector('.menu-close');
+            var slideoutMenu = document.getElementById('site-menu');
+            var menuOverlay = document.getElementById('menu-overlay');
+            if (!menuToggle || !menuClose || !slideoutMenu || !menuOverlay) return;
+
+            function openMenu() {
+                slideoutMenu.classList.add('is-open');
+                menuOverlay.classList.add('is-open');
+                document.body.classList.add('menu-open');
+                menuToggle.setAttribute('aria-expanded', 'true');
+            }
+
+            function closeMenu() {
+                slideoutMenu.classList.remove('is-open');
+                menuOverlay.classList.remove('is-open');
+                document.body.classList.remove('menu-open');
+                menuToggle.setAttribute('aria-expanded', 'false');
+            }
+
+            menuToggle.addEventListener('click', openMenu);
+            menuClose.addEventListener('click', closeMenu);
+            menuOverlay.addEventListener('click', closeMenu);
+            slideoutMenu.querySelectorAll('a').forEach(function (link) {
+                link.addEventListener('click', closeMenu);
+            });
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') closeMenu();
+            });
+        })();
+    </script>
+
+    <script>
+        (function () {
+            var pills = document.querySelectorAll('.topic-pill');
+            var cards = document.querySelectorAll('#article-cards .article-card');
+            var count = document.getElementById('blog-count');
+            function apply(topic) {
+                var shown = 0;
+                cards.forEach(function (card) {
+                    var match = topic === 'all' || card.getAttribute('data-topic') === topic;
+                    card.hidden = !match;
+                    if (match) shown++;
+                });
+                pills.forEach(function (p) { p.setAttribute('aria-pressed', p.getAttribute('data-filter') === topic ? 'true' : 'false'); });
+                count.textContent = shown + ' article' + (shown === 1 ? '' : 's');
+            }
+            pills.forEach(function (p) { p.addEventListener('click', function () { apply(p.getAttribute('data-filter')); }); });
+            apply('all');
+        })();
+    </script>
 
 </body>
 </html>
