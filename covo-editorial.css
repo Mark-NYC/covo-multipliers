@@ -440,6 +440,11 @@ strong { font-weight: 500; }
     border-radius: var(--radius-media);
 }
 
+/* desktop swaps in a square version of the photo (<picture> source at 901px+) */
+@media (min-width: 901px) {
+    .hero-media img { aspect-ratio: 1 / 1; }
+}
+
 @media (max-width: 900px) {
     .hero-grid { grid-template-columns: 1fr; }
     .hero-media { order: -1; }   /* photo first on mobile */
