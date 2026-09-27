@@ -804,7 +804,10 @@ strong { font-weight: 500; }
 .labs-empty { color: var(--c-text-muted); text-align: left; }
 .labs-empty a { color: var(--c-ink); text-underline-offset: 0.25em; }
 
-.labs-list { gap: clamp(1.25rem, 3vw, 2.5rem); }
+.labs-list {
+    gap: clamp(1.25rem, 3vw, 2.5rem);
+    grid-auto-rows: 1fr;          /* every card matches the tallest, on desktop and when stacked on mobile */
+}
 
 /* Card = date · title · one sentence · CTA */
 .lab-item {
@@ -854,8 +857,8 @@ strong { font-weight: 500; }
 
 .lab-sub {
     font-weight: 400;
-    font-size: var(--fs-card);
-    line-height: 1.55;
+    font-size: max(var(--fs-card), 15px);   /* never below 15px; cards grow instead */
+    line-height: 1.5;
     color: var(--c-text-muted);
     margin: 0;
 }
@@ -1229,6 +1232,17 @@ strong { font-weight: 500; }
 
 .final-cta-or { margin: 1.25rem 0 0.35rem; color: var(--c-ink); font-size: var(--fs-small); }
 .final-cta .btn-primary { border-color: var(--c-ink); }
+
+/* closing CTA: a full-size primary action, not a utility link */
+.final-cta .btn {
+    min-height: 56px;
+    padding: 1rem 2.25rem;
+    font-size: 1.0625rem;
+}
+
+@media (max-width: 600px) {
+    .final-cta .btn { width: 100%; max-width: 420px; }   /* same full-width shape as the mobile hero CTA */
+}
 
 .final-cta-whatsapp-link {
     font-family: var(--font-ui);
