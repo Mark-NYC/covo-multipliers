@@ -46,693 +46,430 @@
   />
 
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="covo-editorial.css" />
 
   <style>
-    .site-header {
-      background: #ffffff;
-      border-bottom: 1px solid #e5e7eb;
-      padding: 1rem 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
+    /* ==============================================
+       Covo Immersions — page layer on covo-editorial.css.
+       Masthead, hero, buttons, black band, closing block and footer come
+       from the editorial system; sections unique to this page live here.
+       ============================================== */
 
-    .site-header .brand {
-      font-size: 0.95rem;
-      font-weight: 900;
-      color: #10281f;
-      text-decoration: none;
-      letter-spacing: -0.01em;
-    }
+    /* Hero: longer headline than the homepage, so one step down in size */
+    .hero .logo-wordmark { font-size: var(--fs-display); line-height: 1.04; }
+    .hero .logo-positioning { max-width: 32rem; }
+    .hero-media img { object-position: center 40%; }
 
-    .site-header .back-link {
-      font-size: 0.875rem;
-      color: #5a6b65;
-      text-decoration: none;
-      transition: color 0.15s ease;
-    }
+    /* Generic editorial section: gutter outside, thin rule on top */
+    .im-section { padding: 0 var(--gutter); background: var(--c-white); }
 
-    .site-header .back-link:hover {
-      color: #1b4d3e;
-    }
-
-    .immersion-hero {
-      padding: 3.75rem 2rem 3.25rem;
-      background: linear-gradient(
-        135deg,
-        #0f1720 0%,
-        #143129 24%,
-        #1f4d46 48%,
-        #4e5f6b 72%,
-        #c18a3a 100%
-      );
-      position: relative;
-      overflow: hidden;
-    }
-
-    .immersion-hero::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      opacity: 0.12;
-      background-image:
-        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.12) 0.7px, transparent 0.8px),
-        radial-gradient(circle at 80% 30%, rgba(0,0,0,0.10) 0.7px, transparent 0.8px),
-        radial-gradient(circle at 40% 70%, rgba(255,255,255,0.08) 0.6px, transparent 0.7px),
-        radial-gradient(circle at 70% 80%, rgba(0,0,0,0.08) 0.6px, transparent 0.7px);
-      background-size: 120px 120px, 140px 140px, 100px 100px, 160px 160px;
-      mix-blend-mode: soft-light;
-    }
-
-    .immersion-hero-inner {
-      max-width: 1160px;
+    .im-container {
+      max-width: var(--container);
       margin: 0 auto;
-      position: relative;
-      z-index: 2;
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 430px;
-      gap: 3rem;
-      align-items: center;
+      padding: var(--section-y) 0;
+      border-top: 1px solid var(--c-line);
     }
 
-    .hero-copy {
-      min-width: 0;
-    }
+    .im-head { margin-bottom: clamp(2.25rem, 4.5vw, 3.5rem); }
+    .im-head .ed-label { display: block; margin-bottom: 1rem; color: var(--c-terracotta-text); }
+    .im-head-top { align-items: start; }
+    .im-head-center { max-width: 44rem; margin-left: auto; margin-right: auto; text-align: center; }
 
-    .hero-image-wrap {
-      border-radius: 14px;
-      overflow: hidden;
-      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.38);
-      aspect-ratio: 4 / 3;
-      background: rgba(255,255,255,0.08);
-    }
-
-    .hero-image-wrap img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .event-label {
-      display: inline-block;
-      font-size: 0.72rem;
-      font-weight: 800;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.62);
-      margin-bottom: 1rem;
-    }
-
-    .event-title {
-      font-size: clamp(2.8rem, 6vw, 4.8rem);
-      font-weight: 900;
-      color: #ffffff;
-      line-height: 0.95;
-      letter-spacing: -0.05em;
-      margin-bottom: 1rem;
-      max-width: 760px;
-    }
-
-    .hero-lead {
-      font-size: clamp(1.1rem, 2vw, 1.34rem);
-      line-height: 1.55;
-      color: rgba(255,255,255,0.94);
-      max-width: 760px;
-      margin-bottom: 1.35rem;
-    }
-
-    .hero-cta-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      align-items: center;
-      margin-top: 0.3rem;
-    }
-
-
-    .hero-support-line {
-      font-size: 0.88rem;
-      line-height: 1.5;
-      color: rgba(255,255,255,0.78);
-      margin-top: 0.85rem;
-    }
-
-
-    .page-section {
-      background: #ffffff;
-      padding: 3.5rem 2rem;
-      border-bottom: 1px solid #e5e7eb;
-    }
-
-    .page-section-inner {
-      max-width: 960px;
-      margin: 0 auto;
-    }
-
-    .two-col-section .page-section-inner {
-      max-width: 1200px;
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 400px;
-      gap: 4rem;
-      align-items: start;
-    }
-
-    .eyebrow {
-      display: block;
-      font-size: 0.72rem;
-      font-weight: 800;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: #245c4a;
-      margin-bottom: 0.55rem;
-    }
-
-    .section-title {
-      font-size: clamp(1.9rem, 3vw, 2.7rem);
-      font-weight: 900;
-      color: #10281f;
-      line-height: 1.02;
-      letter-spacing: -0.04em;
-      margin-bottom: 1rem;
-      max-width: 760px;
-    }
-
-    .section-copy {
-      font-size: 1rem;
-      line-height: 1.72;
-      color: #444444;
-      max-width: 760px;
-    }
-
-    .section-copy p + p {
-      margin-top: 0.85rem;
-    }
-
-    .simple-list {
-      list-style: none;
-      padding: 0;
-      margin: 1.4rem 0 0;
-    }
-
-    .simple-list li {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.9rem;
-      padding: 1rem 0;
-      border-bottom: 1px solid #f0f0f0;
-      font-size: 1rem;
-      line-height: 1.65;
-      color: #2a2a2a;
-    }
-
-    .simple-list li:last-child {
-      border-bottom: none;
-    }
-
-    .simple-check {
-      flex-shrink: 0;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background: #f0fdf4;
-      border: 1.5px solid #bbf7d0;
-      font-size: 0.6rem;
-      font-weight: 800;
-      color: #15803d;
-      margin-top: 0.25rem;
-    }
-
-    .experience-toggle-wrap {
-      margin-top: 1.6rem;
-      background: #f8faf9;
-      border: 1px solid #e2eae6;
-      border-radius: 20px;
-      padding: 1.2rem;
-    }
-
-    .experience-toggle-shell {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      background: #edf2ee;
-      border: 1px solid #d9e4dc;
-      border-radius: 999px;
-      padding: 0.3rem;
-      margin-bottom: 1rem;
-    }
-
-    .experience-toggle-btn {
-      border: none;
-      background: transparent;
-      color: #3f514a;
-      font-size: 0.92rem;
-      font-weight: 800;
-      padding: 0.72rem 1.15rem;
-      border-radius: 999px;
-      cursor: pointer;
-      transition: background 0.22s ease, color 0.22s ease, box-shadow 0.22s ease;
-      font-family: inherit;
-    }
-
-    .experience-toggle-btn.active {
-      background: #8fd19e;
-      color: #10281f;
-      box-shadow: 0 4px 12px rgba(16, 40, 31, 0.10);
-    }
-
-    .experience-panel {
-      display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 1.2rem;
-      align-items: start;
-    }
-
-    .experience-image-wrap {
-      border-radius: 16px;
-      overflow: hidden;
-      background: #ffffff;
-      box-shadow: 0 8px 24px rgba(16, 40, 31, 0.08);
-      aspect-ratio: 4 / 3;
-      width: 100%;
-    }
-
-    .experience-image-wrap img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .experience-copy {
-      min-width: 0;
-      align-self: start;
-      padding-top: 0.1rem;
-    }
-
-    .experience-kicker {
-      display: inline-block;
-      font-size: 0.72rem;
-      font-weight: 800;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: #245c4a;
-      margin-bottom: 0.55rem;
-    }
-
-    .experience-state-title {
-      font-size: clamp(1.55rem, 2.3vw, 2.15rem);
-      font-weight: 900;
-      color: #10281f;
-      line-height: 1.02;
-      letter-spacing: -0.04em;
-      margin-bottom: 0.75rem;
-    }
-
-    .experience-state-copy {
-      font-size: 0.98rem;
-      line-height: 1.7;
-      color: #444444;
-    }
-
-    .immersion-slider-wrap {
-      margin-top: 1.8rem;
-      background: #f8faf9;
-      border: 1px solid #e2eae6;
-      border-radius: 20px;
-      padding: 1.2rem;
-      overflow: hidden;
-      touch-action: pan-y;
-    }
-
-    .immersion-slider-stage {
-      position: relative;
-      overflow: hidden;
-    }
-
-    .immersion-slides {
-      display: flex;
-      gap: 1rem;
-      transition: transform 0.45s ease;
-      will-change: transform;
-    }
-
-    .immersion-slide {
-      flex: 0 0 calc(100% - 1rem);
-      min-width: calc(100% - 1rem);
-      display: grid;
-      grid-template-columns: 1.05fr 0.95fr;
-      gap: 1.2rem;
-      align-items: start;
-    }
-
-    .immersion-slide-image {
-      border-radius: 16px;
-      overflow: hidden;
-      background: #ffffff;
-      box-shadow: 0 8px 24px rgba(16, 40, 31, 0.08);
-      aspect-ratio: 4 / 3;
-      width: 100%;
-    }
-
-    .immersion-slide-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .immersion-slide-copy {
-      min-width: 0;
-      align-self: start;
-      padding-top: 0.1rem;
-    }
-
-    .immersion-slide-kicker {
-      display: inline-block;
-      font-size: 0.72rem;
-      font-weight: 800;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: #245c4a;
-      margin-bottom: 0.55rem;
-    }
-
-    .immersion-slide-title {
-      font-size: clamp(1.45rem, 2vw, 2rem);
-      font-weight: 900;
-      color: #10281f;
-      line-height: 1.04;
-      letter-spacing: -0.03em;
-      margin-bottom: 0.75rem;
-    }
-
-    .immersion-slide-text {
-      font-size: 0.98rem;
-      line-height: 1.7;
-      color: #444444;
-    }
-
-    .immersion-slider-dots {
-      display: flex;
-      justify-content: center;
-      gap: 0.55rem;
-      margin-top: 1rem;
-    }
-
-    .immersion-slider-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 999px;
-      border: none;
-      background: #cfd8d3;
-      cursor: pointer;
-      transition: transform 0.2s ease, background 0.2s ease;
-      padding: 0;
-    }
-
-    .immersion-slider-dot.active {
-      background: #1b4d3e;
-      transform: scale(1.15);
-    }
-
-    .split-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.25rem;
-      margin-top: 1.5rem;
-    }
-
-    .split-card {
-      background: #f8faf9;
-      border: 1px solid #e2eae6;
-      border-radius: 16px;
-      padding: 1.45rem 1.5rem;
-    }
-
-    .split-card h3 {
-      font-size: 1.1rem;
-      font-weight: 900;
-      color: #10281f;
-      line-height: 1.12;
-      letter-spacing: -0.02em;
-      margin-bottom: 0.85rem;
-    }
-
-    .icon-list {
-      list-style: none;
-      padding: 0;
+    .im-h2 {
+      font-family: var(--font-serif);
+      font-weight: 400;
+      font-size: var(--fs-h2);
+      line-height: var(--lh-heading);
+      color: var(--c-ink);
+      max-width: 16ch;
       margin: 0;
     }
 
+    .im-head-center .im-h2 { max-width: none; }
+
+    .im-lead {
+      max-width: 36rem;
+      margin: 0;
+      font-size: var(--fs-lead);
+      line-height: 1.6;
+      color: var(--c-text-muted);
+    }
+
+    .im-lead strong { color: var(--c-ink); }
+    .im-lead p + p { margin-top: 1rem; }
+
+    /* ---------- Training vs immersion toggle ---------- */
+    .experience-toggle-shell {
+      display: inline-flex;
+      margin-bottom: 1.5rem;
+      border: 1px solid var(--c-ink);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .experience-toggle-btn {
+      min-height: 46px;
+      padding: 0.6rem 1.4rem;
+      border: 0;
+      background: transparent;
+      font-family: var(--font-ui);
+      font-size: var(--fs-btn);
+      font-weight: 600;
+      letter-spacing: var(--tracking-ui);
+      text-transform: uppercase;
+      color: var(--c-ink);
+      cursor: pointer;
+      transition: background-color var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
+    }
+
+    .experience-toggle-btn + .experience-toggle-btn { border-left: 1px solid var(--c-ink); }
+    .experience-toggle-btn:hover { background: var(--c-ivory); }
+    .experience-toggle-btn.active { background: var(--c-ink); color: var(--c-white); }
+    #toggle-immersion.active { background: var(--c-lime); color: var(--c-ink); }
+
+    .experience-panel {
+      display: grid;
+      grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+      gap: clamp(1.5rem, 4vw, 3.5rem);
+      align-items: center;
+      padding: clamp(1rem, 2vw, 1.5rem);
+      background: var(--c-ivory);
+      border-radius: var(--radius-media);
+    }
+
+    .experience-image-wrap { aspect-ratio: 4 / 3; overflow: hidden; border-radius: var(--radius); }
+    .experience-image-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .experience-copy { padding: 0.5rem clamp(0.5rem, 2vw, 1.5rem) 0.5rem 0; }
+
+    .experience-kicker {
+      display: block;
+      font-family: var(--font-ui);
+      font-size: var(--fs-label);
+      font-weight: 600;
+      letter-spacing: var(--tracking-label);
+      text-transform: uppercase;
+      color: var(--c-terracotta-text);
+      margin-bottom: 0.85rem;
+    }
+
+    .experience-state-title {
+      font-family: var(--font-serif);
+      font-size: var(--fs-h2);
+      line-height: 1.06;
+      color: var(--c-ink);
+      margin: 0 0 1rem;
+    }
+
+    .experience-state-copy { margin: 0; font-size: var(--fs-lead); line-height: 1.6; color: var(--c-text-muted); }
+
+    /* ---------- Full-bleed photo band ---------- */
+    .im-photo { margin: 0; border-bottom: 1px solid var(--c-ink); }
+    .im-photo img {
+      display: block;
+      width: 100%;
+      height: clamp(260px, 42vw, 620px);
+      object-fit: cover;
+      object-position: center 45%;
+      filter: saturate(0.8) contrast(1.03);
+    }
+
+    .im-photo + .im-section .im-container { border-top: 0; }
+
+    /* ---------- What you'll do: ruled checklist ---------- */
+    .simple-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--c-line); }
+
+    .simple-list li {
+      display: flex;
+      gap: 0.85rem;
+      align-items: flex-start;
+      padding: 0.9rem 0;
+      border-bottom: 1px solid var(--c-line);
+      font-size: var(--fs-card);
+      line-height: 1.55;
+      color: var(--c-ink);
+    }
+
+    .simple-check { flex-shrink: 0; color: var(--c-terracotta-text); font-weight: 700; }
+
+    /* ---------- Slider ---------- */
+    .immersion-slider-wrap { margin-top: clamp(2.5rem, 5vw, 4rem); }
+    .immersion-slider-stage { overflow: hidden; border-radius: var(--radius-media); cursor: grab; user-select: none; }
+    .immersion-slider-stage:active { cursor: grabbing; }
+
+    .immersion-slides { display: flex; gap: 1.5rem; will-change: transform; }
+
+    .immersion-slide {
+      flex: 0 0 100%;
+      display: grid;
+      grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+      gap: clamp(1.5rem, 4vw, 3.5rem);
+      align-items: center;
+      padding: clamp(1rem, 2vw, 1.5rem);
+      background: var(--c-ivory);
+      border-radius: var(--radius-media);
+    }
+
+    .immersion-slide-image { aspect-ratio: 3 / 2; overflow: hidden; border-radius: var(--radius); }
+    .immersion-slide-image img { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
+
+    .immersion-slide-copy { padding-right: clamp(0.5rem, 2vw, 1.5rem); }
+
+    .immersion-slide-kicker {
+      display: block;
+      font-family: var(--font-ui);
+      font-size: var(--fs-label);
+      font-weight: 600;
+      letter-spacing: var(--tracking-label);
+      text-transform: uppercase;
+      color: var(--c-terracotta-text);
+      margin-bottom: 0.85rem;
+    }
+
+    .immersion-slide-title {
+      font-family: var(--font-serif);
+      font-size: var(--fs-h2);
+      line-height: 1.06;
+      color: var(--c-ink);
+      margin: 0 0 1rem;
+    }
+
+    .immersion-slide-text { margin: 0; font-size: var(--fs-lead); line-height: 1.6; color: var(--c-text-muted); }
+
+    .immersion-slider-dots { display: flex; justify-content: center; gap: 0.5rem; margin-top: 1.25rem; }
+
+    .immersion-slider-dot {
+      width: 28px;
+      height: 4px;
+      padding: 0;
+      border: 0;
+      border-radius: 2px;
+      background: var(--c-line);
+      cursor: pointer;
+      transition: background-color var(--t-fast) var(--ease), width var(--t-fast) var(--ease);
+    }
+
+    .immersion-slider-dot.active { width: 48px; background: var(--c-ink); }
+
+    /* ---------- A day: four ruled columns ---------- */
+    .day-rhythm-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: clamp(1.5rem, 3vw, 2.5rem);
+    }
+
+    .day-rhythm-card { padding-top: 1.25rem; border-top: 1px solid var(--c-ink); }
+
+    .day-rhythm-icon {
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--c-ivory);
+      border-radius: var(--radius);
+      margin-bottom: 1.25rem;
+    }
+
+    .day-rhythm-icon svg { width: 24px; height: 24px; stroke: var(--c-ink); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+
+    .day-rhythm-card h3 {
+      font-family: var(--font-serif);
+      font-size: var(--fs-h3);
+      line-height: 1.1;
+      color: var(--c-ink);
+      margin: 0 0 0.5rem;
+    }
+
+    .day-rhythm-card p { margin: 0; font-size: var(--fs-card); line-height: 1.6; color: var(--c-text-muted); }
+
+    /* ---------- For / not for ---------- */
+    .split-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(1rem, 2.5vw, 2rem);
+    }
+
+    .split-card {
+      padding: clamp(1.75rem, 3vw, 2.5rem);
+      border-radius: var(--radius-media);
+      background: var(--c-ivory);
+    }
+
+    .split-card.is-not { background: transparent; border: 1px solid var(--c-ink); }
+
+    .split-card-head { display: flex; align-items: center; gap: 1.25rem; margin-bottom: 1.5rem; }
+    .split-card-head img { width: 88px; height: 88px; object-fit: contain; background: var(--c-white); border-radius: var(--radius); }
+    .split-card.is-not .split-card-head img { background: var(--c-ivory); }
+
+    .split-card h3 {
+      font-family: var(--font-serif);
+      font-size: var(--fs-h3);
+      line-height: 1.1;
+      color: var(--c-ink);
+      margin: 0;
+    }
+
+    .split-card-copy { margin: 0 0 1rem; font-size: var(--fs-card); line-height: 1.6; color: var(--c-text-muted); }
+
+    .icon-list { list-style: none; margin: 1.5rem 0 0; padding: 0; border-top: 1px solid var(--c-line); }
+    .split-card-head + .icon-list { margin-top: 0; }
+
     .icon-list li {
       display: flex;
+      gap: 0.85rem;
       align-items: flex-start;
-      gap: 0.75rem;
-      font-size: 0.97rem;
-      line-height: 1.65;
-      color: #3a4a44;
-      padding: 0.38rem 0;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid var(--c-line);
+      font-size: var(--fs-card);
+      line-height: 1.5;
+      color: var(--c-ink);
     }
 
     .icon-list-mark {
       flex-shrink: 0;
+      width: 22px;
+      height: 22px;
+      margin-top: 0.05rem;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 20px;
-      height: 20px;
-      font-size: 0.85rem;
-      font-weight: 900;
-      margin-top: 0.1rem;
-    }
-
-    .icon-list-mark.is-yes {
-      color: #15803d;
-    }
-
-    .icon-list-mark.is-no {
-      color: #dc2626;
-    }
-
-    .info-card {
-      background: #ffffff;
-      border-radius: 16px;
-      border-top: 4px solid #1b4d3e;
-      box-shadow:
-        0 4px 6px rgba(0, 0, 0, 0.04),
-        0 12px 40px rgba(16, 40, 31, 0.10);
-      padding: 2.1rem 2.2rem;
-      position: sticky;
-      top: 1rem;
-    }
-
-    .info-card h2 {
-      font-size: 1.45rem;
-      font-weight: 900;
-      color: #10281f;
-      line-height: 1.05;
-      letter-spacing: -0.03em;
-      margin-bottom: 0.35rem;
-    }
-
-    .info-card-intro {
-      font-size: 0.9rem;
-      color: #5a6b65;
-      line-height: 1.55;
-      margin-bottom: 1.35rem;
-    }
-
-    .info-list {
-      list-style: none;
-      padding: 0;
-      margin: 0 0 1.35rem;
-    }
-
-    .info-list li {
-      display: flex;
-      justify-content: space-between;
-      gap: 1rem;
-      padding: 0.95rem 0;
-      border-bottom: 1px solid #edf1ef;
-      font-size: 0.94rem;
-      line-height: 1.5;
-    }
-
-    .info-list li:last-child {
-      border-bottom: none;
-    }
-
-    .info-label {
-      font-weight: 800;
-      color: #10281f;
-    }
-
-    .info-value {
-      text-align: right;
-      color: #5a6b65;
-    }
-
-    .btn-card {
-      width: 100%;
-      text-align: center;
-    }
-
-    .info-card-secondary {
-      margin-top: 0.9rem;
-      text-align: center;
-      font-size: 0.88rem;
-      color: #5a6b65;
-    }
-
-    .info-card-secondary a {
-      color: #1b4d3e;
+      border-radius: 4px;
+      font-size: 0.8rem;
       font-weight: 700;
-      text-decoration: underline;
-      text-underline-offset: 0.15em;
     }
 
-.day-rhythm-section {
-  background: #f8faf9;
-}
+    .icon-list-mark.is-yes { background: var(--c-lime); color: var(--c-ink); }
+    .icon-list-mark.is-no { border: 1px solid var(--c-ink); color: var(--c-ink); }
 
-.day-rhythm-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 1rem;
-  margin-top: 1.6rem;
-}
-
-.day-rhythm-card {
-  background: #ffffff;
-  border: 1px solid #e2eae6;
-  border-radius: 18px;
-  padding: 1.4rem 1.25rem;
-  box-shadow: 0 4px 18px rgba(16, 40, 31, 0.06);
-}
-
-.day-rhythm-icon {
-  width: 42px;
-  height: 42px;
-  border-radius: 999px;
-  background: #edf7ef;
-  border: 1px solid #d5ead9;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 1rem;
-}
-
-.day-rhythm-icon svg {
-  width: 22px;
-  height: 22px;
-  stroke: #1b4d3e;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.day-rhythm-card h3 {
-  font-size: 1.05rem;
-  font-weight: 900;
-  color: #10281f;
-  letter-spacing: -0.02em;
-  margin-bottom: 0.35rem;
-}
-
-.day-rhythm-card p {
-  font-size: 0.95rem;
-  line-height: 1.55;
-  color: #3a4a44;
-}
-
-@media (max-width: 860px) {
-  .day-rhythm-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 540px) {
-  .day-rhythm-grid {
-    grid-template-columns: 1fr;
-  }
-}
-    
-    .testimonials-section {
-      background: #f8faf9;
-      padding: 4rem 2rem;
-      border-bottom: 1px solid #e5e7eb;
-    }
-
-    .testimonials-inner {
-      max-width: 980px;
+    /* ---------- Open immersions (lab-card language) ---------- */
+    .immersion-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(1.25rem, 3vw, 2.5rem);
+      max-width: 60rem;
       margin: 0 auto;
     }
 
-    .testimonials-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 1.25rem;
-      margin-top: 1.8rem;
+    .immersion-card {
+      display: flex;
+      flex-direction: column;
+      padding: clamp(1.5rem, 2.5vw, 2rem);
+      background: var(--c-ivory);
+      border-radius: var(--radius-media);
     }
 
-    .testimonial-card {
-      background: #ffffff;
-      border: 1px solid #e2eae6;
-      border-radius: 16px;
-      padding: 1.6rem 1.5rem;
-      box-shadow: 0 2px 12px rgba(16, 40, 31, 0.06);
+    .immersion-card-kicker {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 0.35rem 0.75rem;
+      margin-bottom: 1.1rem;
+      padding-bottom: 0.85rem;
+      border-bottom: 1px solid var(--c-line);
     }
 
-    .testimonial-quote {
-      font-size: 1.02rem;
-      line-height: 1.7;
-      color: #2a2a2a;
-      font-style: italic;
-    }
-
-    .testimonial-attribution {
-      margin-top: 1rem;
-      font-size: 0.82rem;
-      font-weight: 800;
-      color: #1b4d3e;
-      letter-spacing: 0.02em;
-    }
-
-    .faq-box {
-      background: #f8faf9;
-      border-left: 3px solid #1b4d3e;
-      border-radius: 0 10px 10px 0;
-      padding: 1.85rem 2rem;
-    }
-
-    .faq-box > strong {
-      display: block;
-      font-size: 0.72rem;
-      font-weight: 800;
-      letter-spacing: 0.08em;
+    .immersion-card-date {
+      font-family: var(--font-ui);
+      font-size: var(--fs-label);
+      font-weight: 600;
+      letter-spacing: var(--tracking-label);
       text-transform: uppercase;
-      color: #245c4a;
-      margin-bottom: 1rem;
+      color: var(--c-ink);
     }
 
-    .faq-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
+    .immersion-card-chip {
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      background: var(--c-lime);
+      font-family: var(--font-ui);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--c-ink);
     }
 
-    .faq-item {
-      border-bottom: 1px solid #e2eae6;
+    .immersion-card-title {
+      font-family: var(--font-serif);
+      font-size: var(--fs-h2);
+      line-height: 1.04;
+      color: var(--c-ink);
+      margin: 0 0 1.25rem;
     }
 
-    .faq-item:last-child {
-      border-bottom: none;
+    .immersion-card-meta { list-style: none; margin: 0 0 1.25rem; padding: 0; }
+
+    .immersion-card-meta li {
+      display: grid;
+      grid-template-columns: 6rem minmax(0, 1fr);
+      gap: 1rem;
+      padding: 0.55rem 0;
+      border-bottom: 1px solid var(--c-line);
+      font-size: var(--fs-card);
     }
+
+    .meta-label {
+      font-family: var(--font-ui);
+      font-size: var(--fs-label);
+      font-weight: 600;
+      letter-spacing: var(--tracking-label);
+      text-transform: uppercase;
+      color: var(--c-text-muted);
+      padding-top: 0.15rem;
+    }
+
+    .meta-value { color: var(--c-ink); }
+
+    .immersion-card-copy { margin: 0; font-size: var(--fs-card); line-height: 1.6; color: var(--c-text-muted); }
+
+    .immersion-card-cta { margin-top: auto; padding-top: 1.5rem; }
+    .immersion-card-cta .btn { width: 100%; }
+
+    /* dynamic-card states (seat pips / waitlist), kept for the live feed */
+    .seat-indicator { display: flex; align-items: center; gap: 0.6rem; margin-top: 1rem; }
+    .seat-pips { display: flex; gap: 4px; }
+    .seat-pip { width: 8px; height: 8px; border-radius: 2px; background: var(--c-ink); }
+    .seat-label { font-size: var(--fs-small); color: var(--c-text-muted); }
+    .waitlist-badge { padding: 0.15rem 0.5rem; border-radius: 4px; border: 1px solid var(--c-ink); font-family: var(--font-ui); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
+    .btn.is-waitlist { background: transparent; }
+    .btn.is-waitlist:hover { background: var(--c-ink); color: var(--c-white); }
+    .immersion-cards-loading,
+    .immersion-cards-empty { grid-column: 1 / -1; text-align: center; color: var(--c-text-muted); }
+
+    .im-cards-note { margin: 1.5rem 0 0; text-align: center; font-size: var(--fs-small); color: var(--c-text-muted); }
+
+    /* ---------- Testimonials: two equal columns, no featured card ---------- */
+    .im-testimonials .testimonial-card:first-child { grid-column: auto; }
+    .im-testimonials .testimonial-card:first-child .testimonial-quote {
+      font-family: var(--font-sans);
+      font-size: clamp(1.0625rem, 1.4vw, 1.25rem);
+      line-height: 1.6;
+      letter-spacing: 0;
+      margin-bottom: 1.25rem;
+    }
+
+    .im-testimonials .testimonial-card:first-child .testimonial-quote strong { text-decoration: none; font-weight: 600; }
+
+    /* opening line of each quote set large in serif */
+    .im-testimonials .testimonial-quote.is-pull,
+    .im-testimonials .testimonial-card:first-child .testimonial-quote.is-pull {
+      font-family: var(--font-serif);
+      font-size: var(--fs-h3);
+      line-height: 1.2;
+    }
+
+    .im-testimonials .testimonial-quote.is-pull strong {
+      font-weight: 400;
+      text-decoration: underline;
+      text-decoration-color: var(--c-lime);
+      text-decoration-thickness: 3px;
+      text-underline-offset: 0.16em;
+    }
+
+    /* ---------- FAQ ---------- */
+    .faq-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--c-ink); }
+    .faq-item { border-bottom: 1px solid var(--c-line); }
 
     .faq-btn {
       width: 100%;
@@ -740,343 +477,45 @@
       align-items: center;
       justify-content: space-between;
       gap: 1rem;
-      background: none;
-      border: none;
       padding: 1.1rem 0;
-      cursor: pointer;
-      font-family: inherit;
-      font-size: 0.98rem;
-      font-weight: 800;
-      color: #10281f;
+      border: 0;
+      background: transparent;
+      font-family: var(--font-serif);
+      font-size: clamp(1.2rem, 1.7vw, 1.4rem);
+      line-height: 1.2;
+      color: var(--c-ink);
       text-align: left;
-      line-height: 1.4;
-    }
-
-    .faq-btn:hover {
-      color: #1b4d3e;
+      cursor: pointer;
     }
 
     .faq-icon {
       flex-shrink: 0;
-      font-size: 1.25rem;
-      font-weight: 300;
-      color: #245c4a;
-      line-height: 1;
-      transition: transform 0.2s ease;
-    }
-
-    .faq-item.is-open .faq-icon {
-      transform: rotate(45deg);
-    }
-
-    .faq-answer {
-      padding: 0 1rem 1.1rem 0;
-      font-size: 0.94rem;
-      line-height: 1.68;
-      color: #3a4a44;
-    }
-
-    .bottom-cta {
-      background: linear-gradient(
-        135deg,
-        #102018 0%,
-        #17362d 35%,
-        #2c4f57 70%,
-        #b68539 100%
-      );
-      padding: 4.75rem 2rem;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .bottom-cta::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      opacity: 0.1;
-      background-image:
-        radial-gradient(circle at 25% 25%, rgba(255,255,255,0.12) 0.7px, transparent 0.8px),
-        radial-gradient(circle at 75% 75%, rgba(0,0,0,0.10) 0.7px, transparent 0.8px);
-      background-size: 120px 120px, 160px 160px;
-      mix-blend-mode: soft-light;
-    }
-
-    .bottom-cta-inner {
-      max-width: 660px;
-      margin: 0 auto;
-      position: relative;
-      z-index: 2;
-    }
-
-    .bottom-cta-headline {
-      font-size: clamp(2rem, 4vw, 3rem);
-      font-weight: 900;
-      color: #ffffff;
-      line-height: 0.98;
-      letter-spacing: -0.05em;
-      margin-bottom: 1rem;
-    }
-
-    .bottom-cta-body {
-      font-size: 1.02rem;
-      line-height: 1.75;
-      color: rgba(255, 255, 255, 0.84);
-      margin-bottom: 2rem;
-    }
-
-    .site-footer {
-      background: #10281f;
-      padding: 1.5rem 2rem;
-      text-align: center;
-    }
-
-    .footer-brand {
-      display: inline-block;
-      font-size: 1rem;
-      font-weight: 900;
-      color: #ffffff;
-      text-decoration: none;
-      letter-spacing: -0.01em;
-      margin-bottom: 0.25rem;
-    }
-
-    .footer-tagline {
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.38);
-      margin-bottom: 0.6rem;
-    }
-
-    .footer-copy {
-      font-size: 0.8rem;
-      color: rgba(255, 255, 255, 0.28);
-    }
-
-    @media (max-width: 980px) {
-      .testimonials-grid,
-      .split-grid,
-      .experience-panel,
-      .immersion-slide {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 860px) {
-      .immersion-hero-inner,
-      .two-col-section .page-section-inner {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-      }
-
-      .hero-image-wrap {
-        aspect-ratio: 16 / 9;
-      }
-
-      .info-card {
-        position: static;
-      }
-    }
-
-    @media (max-width: 540px) {
-      .immersion-hero,
-      .page-section,
-      .testimonials-section,
-      .bottom-cta,
-      .site-header,
-      .site-footer {
-        padding-left: 1.25rem;
-        padding-right: 1.25rem;
-      }
-
-      .immersion-hero {
-        padding-top: 1.4rem;
-        padding-bottom: 1.2rem;
-      }
-
-      .event-title {
-        font-size: clamp(2rem, 10vw, 2.95rem);
-        line-height: 0.98;
-      }
-
-      .hero-lead {
-        font-size: 1rem;
-        line-height: 1.45;
-      }
-
-      .section-title {
-        font-size: clamp(1.55rem, 7vw, 2rem);
-      }
-
-      .bottom-cta-headline {
-        font-size: clamp(1.7rem, 8vw, 2.3rem);
-      }
-
-      .info-card,
-      .faq-box,
-      .experience-toggle-wrap,
-      .immersion-slider-wrap {
-        padding: 1.25rem;
-      }
-
-      .experience-toggle-shell {
-        width: 100%;
-        justify-content: space-between;
-      }
-
-      .experience-toggle-btn {
-        flex: 1 1 0;
-        text-align: center;
-      }
-    }
-
-    /* ── Immersion availability cards ───────────── */
-
-    .immersion-cards-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 1.25rem;
-      margin-top: 1.8rem;
-    }
-
-    .immersion-card {
-      background: #ffffff;
-      border: 1px solid #e2eae6;
-      border-top: 4px solid #1b4d3e;
-      border-radius: 16px;
-      padding: 1.6rem 1.5rem;
-      box-shadow: 0 4px 18px rgba(16, 40, 31, 0.06);
-      display: flex;
-      flex-direction: column;
-      gap: 0.9rem;
-    }
-
-    .immersion-card-title {
-      font-size: 1.2rem;
-      font-weight: 900;
-      color: #10281f;
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-    }
-
-    .immersion-card-meta {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      flex: 1 1 auto;
-    }
-
-    .immersion-card-meta li {
-      display: flex;
-      justify-content: space-between;
-      gap: 1rem;
-      padding: 0.55rem 0;
-      border-bottom: 1px solid #f0f4f2;
-      font-size: 0.9rem;
-      line-height: 1.45;
-    }
-
-    .immersion-card-meta li:last-child {
-      border-bottom: none;
-    }
-
-    .meta-label {
-      font-weight: 800;
-      color: #10281f;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-
-    .meta-value {
-      color: #5a6b65;
-      text-align: right;
-    }
-
-    .seat-indicator {
-      display: flex;
+      width: 32px;
+      height: 32px;
+      display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
-      flex-wrap: wrap;
+      justify-content: center;
+      border: 1px solid var(--c-ink);
+      border-radius: var(--radius);
+      font-family: var(--font-sans);
+      font-size: 1.1rem;
+      transition: transform var(--t-fast) var(--ease), background-color var(--t-fast) var(--ease);
     }
 
-    .seat-pips {
-      display: flex;
-      gap: 0.25rem;
-      flex-wrap: wrap;
-    }
+    .faq-btn:hover .faq-icon { background: var(--c-ivory); }
+    .faq-item.is-open .faq-icon { transform: rotate(45deg); background: var(--c-lime); }
 
-    .seat-pip {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: #86efac;
-      border: 1.5px solid #4ade80;
-      display: inline-block;
-      flex-shrink: 0;
-    }
+    .faq-answer { padding: 0 3rem 1.25rem 0; font-size: var(--fs-card); line-height: 1.65; color: var(--c-text-muted); }
 
-    .seat-label {
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: #15803d;
-    }
+    /* ---------- Black band: second button reads on dark ---------- */
+    .whatsapp-cta-section .whatsapp-cta-title { max-width: 16ch; }
 
-    .waitlist-badge {
-      display: inline-block;
-      font-size: 0.75rem;
-      font-weight: 800;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      background: #fef3c7;
-      color: #92400e;
-      border: 1px solid #fde68a;
-      border-radius: 999px;
-      padding: 0.28rem 0.75rem;
-    }
-
-    .btn.is-waitlist {
-      background: transparent;
-      color: #1b4d3e;
-    }
-
-    .btn.is-waitlist:hover {
-      background: #f0fdf4;
-    }
-
-    .immersion-cards-loading,
-    .immersion-cards-empty {
-      grid-column: 1 / -1;
-      text-align: center;
-      color: #5a6b65;
-      padding: 2.5rem 1rem;
-      font-size: 0.96rem;
-      line-height: 1.6;
-    }
-
-    @media (max-width: 980px) {
-      .immersion-cards-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-    }
-
-    @media (max-width: 600px) {
-      .immersion-cards-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    /* ── Application modal ───────────────────────── */
-
+    /* ---------- Application modal ---------- */
     .modal-overlay {
       position: fixed;
       inset: 0;
-      z-index: 900;
-      background: rgba(10, 20, 15, 0.72);
-      backdrop-filter: blur(3px);
-      -webkit-backdrop-filter: blur(3px);
+      z-index: 1300;
+      background: rgba(11, 13, 12, 0.6);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -1084,25 +523,23 @@
       padding: 2rem 1rem;
     }
 
-    .modal-overlay[hidden] {
-      display: none;
-    }
+    .modal-overlay[hidden] { display: none; }
 
     .modal-panel {
-      background: #ffffff;
-      border-radius: 20px;
-      box-shadow: 0 24px 64px rgba(10, 20, 15, 0.32);
       width: 100%;
       max-width: 680px;
-      padding: 2rem 2.5rem 2.5rem;
-      flex-shrink: 0;
-      animation: modal-in 0.2s ease;
       margin: auto;
+      flex-shrink: 0;
+      padding: 2rem 2.5rem 2.5rem;
+      background: var(--c-white);
+      border: 1px solid var(--c-ink);
+      border-radius: var(--radius-media);
+      animation: modal-in 0.2s var(--ease);
     }
 
     @keyframes modal-in {
-      from { opacity: 0; transform: translateY(14px) scale(0.975); }
-      to   { opacity: 1; transform: translateY(0)    scale(1); }
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
     .modal-header {
@@ -1111,135 +548,85 @@
       justify-content: space-between;
       gap: 1rem;
       padding-bottom: 1.25rem;
-      border-bottom: 1px solid #e2eae6;
       margin-bottom: 1.5rem;
+      border-bottom: 1px solid var(--c-ink);
     }
 
     .modal-heading {
-      font-size: 1.15rem;
-      font-weight: 900;
-      color: #10281f;
-      line-height: 1.25;
-      letter-spacing: -0.02em;
+      font-family: var(--font-serif);
+      font-size: var(--fs-h3);
+      line-height: 1.15;
+      color: var(--c-ink);
       margin: 0;
-      padding-top: 0.2rem;
     }
 
     .modal-close-btn {
       flex-shrink: 0;
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      border: 1.5px solid #e2eae6;
-      background: #f8faf9;
-      color: #5a6b65;
-      cursor: pointer;
+      width: 38px;
+      height: 38px;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
-      font-family: inherit;
+      border: 1px solid var(--c-ink);
+      border-radius: var(--radius);
+      background: transparent;
+      color: var(--c-ink);
+      cursor: pointer;
+      transition: background-color var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
     }
 
-    .modal-close-btn:hover {
-      background: #10281f;
-      color: #ffffff;
-      border-color: #10281f;
-    }
-
-    .modal-close-btn:focus-visible {
-      outline: 3px solid rgba(27, 77, 62, 0.3);
-      outline-offset: 2px;
-    }
-
-    .modal-success-actions {
-      margin-top: 1.5rem;
-    }
-
-    @media (max-width: 680px) {
-      .modal-panel {
-        padding: 1.5rem 1.25rem 2rem;
-        border-radius: 16px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .modal-overlay {
-        align-items: stretch;
-        padding: 0;
-      }
-
-      .modal-panel {
-        border-radius: 20px 20px 0 0;
-        margin-top: auto;
-        margin-bottom: 0;
-        max-width: 100%;
-      }
-    }
-
-    /* ── Application form fields ─────────────────── */
+    .modal-close-btn:hover { background: var(--c-ink); color: var(--c-white); }
+    .modal-success-actions { margin-top: 1.5rem; }
 
     .form-section-label {
       display: block;
-      font-size: 0.72rem;
-      font-weight: 800;
-      letter-spacing: 0.12em;
+      font-family: var(--font-ui);
+      font-size: var(--fs-label);
+      font-weight: 700;
+      letter-spacing: var(--tracking-label);
       text-transform: uppercase;
-      color: #245c4a;
+      color: var(--c-terracotta-text);
       margin-bottom: 1rem;
     }
 
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-    }
-
-    .form-group {
-      margin-bottom: 1.1rem;
-    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-group { margin-bottom: 1.1rem; }
 
     .form-group label {
       display: block;
-      font-size: 0.8rem;
-      font-weight: 800;
-      letter-spacing: 0.05em;
+      font-family: var(--font-ui);
+      font-size: var(--fs-label);
+      font-weight: 600;
+      letter-spacing: var(--tracking-label);
       text-transform: uppercase;
-      color: #10281f;
-      margin-bottom: 0.38rem;
+      color: var(--c-ink);
+      margin-bottom: 0.4rem;
     }
 
     .form-group input,
     .form-group select,
     .form-group textarea {
       width: 100%;
-      padding: 0.68rem 0.9rem;
-      border: 1.5px solid #d5ddd9;
-      border-radius: 10px;
-      font-family: inherit;
-      font-size: 0.95rem;
-      color: #2a2a2a;
-      background: #ffffff;
-      transition: border-color 0.15s ease, box-shadow 0.15s ease;
       box-sizing: border-box;
+      padding: 0.7rem 0.9rem;
+      border: 1px solid var(--c-line);
+      border-radius: var(--radius);
+      background: var(--c-white);
+      font-family: var(--font-sans);
+      font-size: 1rem;
+      color: var(--c-ink);
+      transition: border-color var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease);
     }
 
     .form-group input:focus,
     .form-group select:focus,
-    .form-group textarea:focus {
-      outline: none;
-      border-color: #1b4d3e;
-      box-shadow: 0 0 0 3px rgba(27, 77, 62, 0.1);
-    }
+    .form-group textarea:focus { outline: none; border-color: var(--c-ink); box-shadow: 0 0 0 1px var(--c-ink); }
 
-    .form-group textarea {
-      resize: vertical;
-      min-height: 88px;
-    }
+    .form-group textarea { resize: vertical; min-height: 88px; }
 
     .form-group select {
       appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235a6b65' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%231D2724' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
       background-position: right 0.85rem center;
       padding-right: 2.25rem;
@@ -1248,81 +635,81 @@
     .form-checkbox-group {
       display: flex;
       align-items: flex-start;
-      gap: 0.72rem;
-      padding: 0.95rem 1rem;
-      background: #f8faf9;
-      border: 1.5px solid #e2eae6;
-      border-radius: 10px;
+      gap: 0.7rem;
+      padding: 1rem;
+      background: var(--c-ivory);
+      border-radius: var(--radius);
     }
 
-    .form-checkbox-group input[type="checkbox"] {
-      width: 18px;
-      height: 18px;
-      margin-top: 0.1rem;
-      flex-shrink: 0;
-      accent-color: #1b4d3e;
-      cursor: pointer;
-    }
+    .form-checkbox-group input[type="checkbox"] { width: 18px; height: 18px; margin-top: 0.15rem; flex-shrink: 0; accent-color: var(--c-forest); cursor: pointer; }
 
     .form-checkbox-group label {
-      font-size: 0.9rem;
-      font-weight: 600;
-      text-transform: none;
-      letter-spacing: 0;
-      color: #3a4a44;
-      line-height: 1.5;
       margin: 0;
+      font-family: var(--font-sans);
+      font-size: 0.9375rem;
+      font-weight: 400;
+      letter-spacing: 0;
+      text-transform: none;
+      line-height: 1.5;
+      color: var(--c-ink);
       cursor: pointer;
     }
 
-    .form-divider {
-      border: none;
-      border-top: 1px solid #e2eae6;
-      margin: 1.4rem 0 1.25rem;
-    }
-
-    .form-submit-row {
-      margin-top: 1.6rem;
-    }
-
-    .btn-submit-layout {
-      width: 100%;
-      text-align: center;
-    }
-
-    .btn-submit-layout:disabled {
-      opacity: 0.65;
-      cursor: not-allowed;
-      transform: none;
-    }
+    .form-divider { border: 0; border-top: 1px solid var(--c-line); margin: 1.4rem 0 1.25rem; }
+    .form-submit-row { margin-top: 1.6rem; }
+    .btn-submit-layout { width: 100%; }
+    .btn-submit-layout:disabled { opacity: 0.55; cursor: not-allowed; }
 
     .form-success-msg {
-      background: #f0fdf4;
-      border: 1.5px solid #86efac;
-      border-radius: 12px;
+      margin-top: 1rem;
       padding: 1.5rem 1.75rem;
-      margin-top: 1.6rem;
-      color: #14532d;
+      background: var(--c-ivory);
+      border-left: 4px solid var(--c-lime);
+      border-radius: var(--radius);
       font-size: 1rem;
-      font-weight: 600;
       line-height: 1.65;
+      color: var(--c-ink);
     }
 
     .form-error-msg {
-      background: #fef2f2;
-      border: 1.5px solid #fca5a5;
-      border-radius: 10px;
-      padding: 1rem 1.25rem;
       margin-top: 1rem;
-      color: #dc2626;
-      font-size: 0.9rem;
+      padding: 1rem 1.25rem;
+      border: 1px solid #A3321F;
+      border-radius: var(--radius);
+      font-size: 0.9375rem;
       line-height: 1.55;
+      color: #A3321F;
+    }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 960px) {
+      .day-rhythm-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 860px) {
+      .experience-panel,
+      .immersion-slide { grid-template-columns: 1fr; }
+      .experience-copy,
+      .immersion-slide-copy { padding: 0 0.5rem 0.75rem; }
+      .split-grid,
+      .immersion-cards-grid { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 680px) {
-      .form-row {
-        grid-template-columns: 1fr;
-      }
+      .form-row { grid-template-columns: 1fr; }
+      .modal-panel { padding: 1.5rem 1.25rem 2rem; }
+    }
+
+    @media (max-width: 520px) {
+      .experience-toggle-shell { display: flex; }
+      .experience-toggle-btn { flex: 1; padding-inline: 0.75rem; }
+      .day-rhythm-grid { grid-template-columns: 1fr; gap: 0; }
+      .day-rhythm-card { display: grid; grid-template-columns: 44px minmax(0, 1fr); column-gap: 1rem; padding: 1.1rem 0; }
+      .day-rhythm-icon { grid-row: span 2; margin: 0; }
+      .split-card-head img { width: 64px; height: 64px; }
+      .faq-answer { padding-right: 0; }
+      .modal-overlay { padding: 0; align-items: stretch; }
+      .modal-panel { margin: auto 0 0; max-width: 100%; border-radius: var(--radius-media) var(--radius-media) 0 0; }
     }
   </style>
     <!-- Covo typography: DM Serif Display / DM Sans / Barlow Condensed (shared tokens in /covo-type.css) -->
@@ -1334,19 +721,47 @@
 
 <body>
 
-  <header class="site-header">
-    <a class="brand" href="/">Covo Multipliers</a>
-    <a class="back-link" href="/#upcoming-labs">← Back to home</a>
+  <header class="site-masthead" id="top">
+    <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="site-menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav class="masthead-center" aria-label="Primary">
+      <a class="masthead-link" href="/vision">Start Here</a>
+      <a class="masthead-wordmark" href="/">Covo <em>Multipliers</em></a>
+      <a class="masthead-link" href="/h3x">Podcast</a>
+    </nav>
+
+    <a class="masthead-cta" href="#open-immersions">Apply</a>
   </header>
 
-  <section class="immersion-hero">
-    <div class="immersion-hero-inner">
-      <div class="hero-copy">
-        <span class="event-label">For everyday leaders</span>
+  <div class="menu-overlay" id="menu-overlay"></div>
 
-        <h1 class="event-title">You’re trying to make disciples. Now see it up close.</h1>
+  <nav class="slideout-menu" id="site-menu" aria-label="Main navigation">
+    <div class="slideout-menu-header">
+      <span class="slideout-menu-title">Covo Multipliers</span>
+      <button class="menu-close" type="button" aria-label="Close menu">&times;</button>
+    </div>
 
-        <p class="hero-lead">
+    <div class="slideout-menu-links">
+      <a href="/">Home</a>
+      <a href="/vision">Start Here</a>
+      <a href="/h3x">Podcast</a>
+      <a href="/immersions" aria-current="page">Immersions</a>
+      <a class="menu-lab-button" href="#open-immersions">Apply for an Immersion</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-grid">
+      <div class="logo-area">
+        <p class="logo-tagline">Covo Immersions</p>
+
+        <h1 class="logo-wordmark">You’re trying to make disciples. <mark class="hero-mark">Now see it up close.</mark></h1>
+
+        <p class="logo-positioning">
           If you understand the principles but still can’t picture how disciple-making fits into a normal week, spend four days seeing it practiced in workplaces, homes, businesses, and everyday relationships. Watch what happens, ask questions while it’s fresh, and leave with a picture you can reproduce.
         </p>
 
@@ -1354,31 +769,28 @@
           <a class="btn btn-primary" href="#open-immersions">Apply for the OKC Immersion</a>
         </div>
 
-        <p class="hero-support-line">
-          Limited spots. Oklahoma City. Nov 12–15, 2026. Thu 5:00 PM – Sun 12:00 PM CST.
-        </p>
+        <p class="hero-microcopy">Oklahoma City · Nov 12–15, 2026 · Limited spots</p>
       </div>
 
-      <div class="hero-image-wrap">
-        <img src="image/immersions/immersion-hero.webp" alt="Covo immersion gathering in a real everyday setting" loading="lazy" />
-      </div>
+      <figure class="hero-media">
+        <img src="image/immersions/immersion-hero.webp" alt="Covo immersion gathering in a real everyday setting" width="800" height="600" fetchpriority="high" />
+      </figure>
     </div>
   </section>
 
-  <section class="page-section">
-    <div class="page-section-inner">
-      <span class="eyebrow">What this actually is</span>
+  <section class="im-section">
+    <div class="im-container">
+      <div class="im-head ed-split">
+        <div>
+          <span class="ed-label">What this actually is</span>
+          <h2 class="im-h2">Most people leave training still guessing.</h2>
+        </div>
 
-      <h2 class="section-title">Most people leave training still guessing.</h2>
-
-      <div class="section-copy">
-        <p>This removes the guesswork.</p>
-
-        <p>You won’t sit in a room all day taking notes. You’ll step into homes, coffee shops, workplaces, and businesses where real people are trying to live this out.</p>
-
-        <p>You watch something happen, then immediately ask the person to walk you through their thinking. That’s a conversation you can’t have from a book or a conference room.</p>
-
-        <p>You don’t leave trying to imagine it. You’ve already seen it.</p>
+        <div class="im-lead">
+          <p><strong>This removes the guesswork.</strong> You won’t sit in a room all day taking notes. You’ll step into homes, coffee shops, workplaces, and businesses where real people are trying to live this out.</p>
+          <p>You watch something happen, then immediately ask the person to walk you through their thinking. That’s a conversation you can’t have from a book or a conference room.</p>
+          <p><strong>You don’t leave trying to imagine it. You’ve already seen it.</strong></p>
+        </div>
       </div>
 
       <div class="experience-toggle-wrap">
@@ -1409,43 +821,50 @@
     </div>
   </section>
 
-  <section class="page-section">
-    <div class="page-section-inner">
-      <span class="eyebrow">What you’ll do</span>
+  <figure class="im-photo">
+    <img src="image/immersions/immersion-wide-1800.webp" alt="A room full of people sitting on couches and the floor with open Bibles, talking together" loading="lazy" decoding="async" />
+  </figure>
 
-      <h2 class="section-title">What you’ll actually do</h2>
+  <section class="im-section">
+    <div class="im-container">
+      <div class="im-head ed-split im-head-top">
+        <div>
+          <span class="ed-label">What you’ll do</span>
+          <h2 class="im-h2">What you’ll actually do.</h2>
+        </div>
 
-      <ul class="simple-list">
-        <li>
-          <span class="simple-check" aria-hidden="true">&#10003;</span>
-          <span>Step into someone’s actual workplace, home, or neighborhood rhythm, not a simulation</span>
-        </li>
+        <ul class="simple-list">
+          <li>
+            <span class="simple-check" aria-hidden="true">&#10003;</span>
+            <span>Step into someone’s actual workplace, home, or neighborhood rhythm, not a simulation</span>
+          </li>
 
-        <li>
-          <span class="simple-check" aria-hidden="true">&#10003;</span>
-          <span>Watch someone move a conversation toward faith and see exactly how they did it</span>
-        </li>
+          <li>
+            <span class="simple-check" aria-hidden="true">&#10003;</span>
+            <span>Watch someone move a conversation toward faith and see exactly how they did it</span>
+          </li>
 
-        <li>
-          <span class="simple-check" aria-hidden="true">&#10003;</span>
-          <span>Ask why something happened while it’s still fresh</span>
-        </li>
+          <li>
+            <span class="simple-check" aria-hidden="true">&#10003;</span>
+            <span>Ask why something happened while it’s still fresh</span>
+          </li>
 
-        <li>
-          <span class="simple-check" aria-hidden="true">&#10003;</span>
-          <span>Visit businesses, workplaces, and community spaces and hear the story behind them</span>
-        </li>
+          <li>
+            <span class="simple-check" aria-hidden="true">&#10003;</span>
+            <span>Visit businesses, workplaces, and community spaces and hear the story behind them</span>
+          </li>
 
-        <li>
-          <span class="simple-check" aria-hidden="true">&#10003;</span>
-          <span>Debrief the normal parts, the awkward parts, and the wins</span>
-        </li>
+          <li>
+            <span class="simple-check" aria-hidden="true">&#10003;</span>
+            <span>Debrief the normal parts, the awkward parts, and the wins</span>
+          </li>
 
-        <li>
-          <span class="simple-check" aria-hidden="true">&#10003;</span>
-          <span>Leave with a written list: one thing to stop, one thing to start, one relationship to invest in</span>
-        </li>
-      </ul>
+          <li>
+            <span class="simple-check" aria-hidden="true">&#10003;</span>
+            <span>Leave with a written list: one thing to stop, one thing to start, one relationship to invest in</span>
+          </li>
+        </ul>
+      </div>
 
       <div class="immersion-slider-wrap">
         <div class="immersion-slider-stage" id="immersion-slider-stage">
@@ -1457,7 +876,7 @@
               </div>
 
               <div class="immersion-slide-copy">
-                <span class="immersion-slide-kicker">What happens</span>
+                <span class="immersion-slide-kicker">01 · What happens</span>
                 <h3 class="immersion-slide-title">See real rhythms in normal places.</h3>
                 <p class="immersion-slide-text">
                   You walk into real places where disciple-making is being practiced: a coffee shop, a home, a workplace, or a neighborhood space. Not a demo. Not a role play. You’re a guest in someone’s actual rhythm.
@@ -1471,7 +890,7 @@
               </div>
 
               <div class="immersion-slide-copy">
-                <span class="immersion-slide-kicker">What happens</span>
+                <span class="immersion-slide-kicker">02 · What happens</span>
                 <h3 class="immersion-slide-title">Break things down while they’re fresh.</h3>
                 <p class="immersion-slide-text">
                   Right after you leave, the group stops and unpacks what just happened. Why did he ask it that way? Why did she wait before saying anything? You decode it while it’s still in front of you.
@@ -1485,7 +904,7 @@
               </div>
 
               <div class="immersion-slide-copy">
-                <span class="immersion-slide-kicker">What happens</span>
+                <span class="immersion-slide-kicker">03 · What happens</span>
                 <h3 class="immersion-slide-title">See how vocation becomes part of the platform.</h3>
                 <p class="immersion-slide-text">
                   A leader walks you through the place and explains how vocation, daily rhythms, decisions, and long-term relationships have become part of the disciple-making platform.
@@ -1499,7 +918,7 @@
               </div>
 
               <div class="immersion-slide-copy">
-                <span class="immersion-slide-kicker">What happens</span>
+                <span class="immersion-slide-kicker">04 · What happens</span>
                 <h3 class="immersion-slide-title">Go home with fewer excuses.</h3>
                 <p class="immersion-slide-text">
                   On the last evening, each person writes down one thing to stop, one thing to start, and one relationship to invest in. You leave with a list, not a feeling.
@@ -1520,95 +939,98 @@
     </div>
   </section>
 
-<section class="page-section day-rhythm-section">
-  <div class="page-section-inner">
-    <span class="eyebrow">What it feels like</span>
-    <h2 class="section-title">What the immersion feels like</h2>
-
-    <div class="day-rhythm-grid">
-      <article class="day-rhythm-card">
-        <div class="day-rhythm-icon">
-          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M12 3v3" />
-            <path d="M12 18v3" />
-            <path d="M4.22 4.22l2.12 2.12" />
-            <path d="M17.66 17.66l2.12 2.12" />
-            <path d="M3 12h3" />
-            <path d="M18 12h3" />
-            <path d="M4.22 19.78l2.12-2.12" />
-            <path d="M17.66 6.34l2.12-2.12" />
-            <circle cx="12" cy="12" r="4" />
-          </svg>
+  <section class="im-section">
+    <div class="im-container">
+      <div class="im-head ed-split">
+        <div>
+          <span class="ed-label">What it feels like</span>
+          <h2 class="im-h2">A day inside an immersion.</h2>
         </div>
-        <h3>Morning</h3>
-        <p>Short prayer, focused teaching, and one question to carry with you</p>
-      </article>
+        <p class="im-lead">Teaching frames what you see. It never replaces it.</p>
+      </div>
 
-      <article class="day-rhythm-card">
-        <div class="day-rhythm-icon">
-          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M3 21h18" />
-            <path d="M5 21V8l7-5 7 5v13" />
-            <path d="M9 21v-6h6v6" />
-            <path d="M9 10h.01" />
-            <path d="M15 10h.01" />
-          </svg>
-        </div>
-        <h3>Midday</h3>
-        <p>Visit 1–2 real places: a business, home, or neighborhood space</p>
-      </article>
+      <div class="day-rhythm-grid">
+        <article class="day-rhythm-card">
+          <div class="day-rhythm-icon">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 3v3" />
+              <path d="M12 18v3" />
+              <path d="M4.22 4.22l2.12 2.12" />
+              <path d="M17.66 17.66l2.12 2.12" />
+              <path d="M3 12h3" />
+              <path d="M18 12h3" />
+              <path d="M4.22 19.78l2.12-2.12" />
+              <path d="M17.66 6.34l2.12-2.12" />
+              <circle cx="12" cy="12" r="4" />
+            </svg>
+          </div>
+          <h3>Morning</h3>
+          <p>Short prayer, focused teaching, and one question to carry with you</p>
+        </article>
 
-      <article class="day-rhythm-card">
-        <div class="day-rhythm-icon">
-          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M7 8h10" />
-            <path d="M7 12h6" />
-            <path d="M21 12c0 4.4-4 8-9 8a10.6 10.6 0 0 1-4.5-1L3 20l1.4-3.5A7.5 7.5 0 0 1 3 12c0-4.4 4-8 9-8s9 3.6 9 8Z" />
-          </svg>
-        </div>
-        <h3>Afternoon</h3>
-        <p>Watch real conversations, sometimes try one yourself, and note what surprised you</p>
-      </article>
+        <article class="day-rhythm-card">
+          <div class="day-rhythm-icon">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M3 21h18" />
+              <path d="M5 21V8l7-5 7 5v13" />
+              <path d="M9 21v-6h6v6" />
+              <path d="M9 10h.01" />
+              <path d="M15 10h.01" />
+            </svg>
+          </div>
+          <h3>Midday</h3>
+          <p>Visit 1–2 real places: a business, home, or neighborhood space</p>
+        </article>
 
-      <article class="day-rhythm-card">
-        <div class="day-rhythm-icon">
-          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M4 10h16" />
-            <path d="M6 10v8a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-8" />
-            <path d="M8 6v4" />
-            <path d="M16 6v4" />
-            <path d="M12 4v6" />
-          </svg>
-        </div>
-        <h3>Evening</h3>
-        <p>Dinner, debrief, questions, and a few concrete next steps</p>
-      </article>
+        <article class="day-rhythm-card">
+          <div class="day-rhythm-icon">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M7 8h10" />
+              <path d="M7 12h6" />
+              <path d="M21 12c0 4.4-4 8-9 8a10.6 10.6 0 0 1-4.5-1L3 20l1.4-3.5A7.5 7.5 0 0 1 3 12c0-4.4 4-8 9-8s9 3.6 9 8Z" />
+            </svg>
+          </div>
+          <h3>Afternoon</h3>
+          <p>Watch real conversations, sometimes try one yourself, and note what surprised you</p>
+        </article>
+
+        <article class="day-rhythm-card">
+          <div class="day-rhythm-icon">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M4 10h16" />
+              <path d="M6 10v8a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-8" />
+              <path d="M8 6v4" />
+              <path d="M16 6v4" />
+              <path d="M12 4v6" />
+            </svg>
+          </div>
+          <h3>Evening</h3>
+          <p>Dinner, debrief, questions, and a few concrete next steps</p>
+        </article>
+      </div>
     </div>
-  </div>
-</section>
-  
-  <section class="page-section">
-    <div class="page-section-inner">
-      <span class="eyebrow">Who it’s for</span>
+  </section>
 
-      <h2 class="section-title">Who this is for and not for</h2>
+  <section class="im-section">
+    <div class="im-container">
+      <div class="im-head ed-split">
+        <div>
+          <span class="ed-label">Who it’s for</span>
+          <h2 class="im-h2">Who this is for, and who it isn’t.</h2>
+        </div>
+
+        <div class="im-lead">
+          <p>You’re trying to make disciples in everyday life, but it still feels fuzzy. You’ve heard the principles. You’ve seen the diagrams. <strong>Now you need to watch it happen in the wild.</strong></p>
+          <p>You don’t have to be in full-time ministry. This is for people with jobs, neighborhoods, churches, families, and actual weekly responsibilities.</p>
+        </div>
+      </div>
 
       <div class="split-grid">
         <div class="split-card">
-          <img
-    class="first-split-image"
-    src="image/who it's for.webp"
-    alt="Working Christians often feel split between everyday life and ministry"
->
-          <center><h3>Who this is for</h3></center>
-
-          <p class="section-copy" style="font-size:0.96rem; margin-bottom:0.9rem;">
-            You’re trying to make disciples in everyday life, but it still feels fuzzy. You’ve heard the principles. You’ve seen the diagrams. Now you need to watch it happen in the wild.
-          </p>
-
-          <p class="section-copy" style="font-size:0.96rem; margin-bottom:0.9rem;">
-            You don’t have to be in full-time ministry. This is for people with jobs, neighborhoods, churches, families, and actual weekly responsibilities.
-          </p>
+          <div class="split-card-head">
+            <img src="image/who it's for.webp" alt="" loading="lazy">
+            <h3>This is for you if…</h3>
+          </div>
 
           <ul class="icon-list">
             <li>
@@ -1633,13 +1055,11 @@
           </ul>
         </div>
 
-        <div class="split-card">
-          <img
-    class="first-split-image"
-    src="image/Who its not for.webp"
-    alt="Working Christians often feel split between everyday life and ministry"
->
-          <center><h3>Who this is not for</h3></center>
+        <div class="split-card is-not">
+          <div class="split-card-head">
+            <img src="image/Who its not for.webp" alt="" loading="lazy">
+            <h3>This is not for…</h3>
+          </div>
 
           <ul class="icon-list">
             <li>
@@ -1667,20 +1087,25 @@
     </div>
   </section>
 
-  <section class="page-section" id="open-immersions">
-    <div class="page-section-inner" style="max-width:1200px;">
-      <span class="eyebrow">Upcoming immersions</span>
-      <h2 class="section-title">Open immersions</h2>
+  <section class="im-section" id="open-immersions">
+    <div class="im-container">
+      <div class="im-head im-head-center">
+        <span class="ed-label">Upcoming immersions</span>
+        <h2 class="im-h2">Open immersions</h2>
+      </div>
 
       <div class="immersion-cards-grid">
         <article class="immersion-card">
+          <div class="immersion-card-kicker">
+            <span class="immersion-card-date">Nov 12 – 15, 2026</span>
+            <span class="immersion-card-chip">Next up</span>
+          </div>
           <h3 class="immersion-card-title">OKC Immersion</h3>
           <ul class="immersion-card-meta">
             <li><span class="meta-label">Location</span><span class="meta-value">Oklahoma City, OK</span></li>
-            <li><span class="meta-label">Dates</span><span class="meta-value">Nov 12 – 15, 2026</span></li>
             <li><span class="meta-label">Time</span><span class="meta-value">Thu 5:00 PM – Sun 12:00 PM CST</span></li>
           </ul>
-          <p class="section-copy" style="margin:0; font-size:0.92rem; line-height:1.6;">Step into real workplaces, homes, and everyday rhythms where disciple-making is being practiced in normal life.</p>
+          <p class="immersion-card-copy">Step into real workplaces, homes, and everyday rhythms where disciple-making is being practiced in normal life.</p>
           <div class="immersion-card-cta">
             <button class="btn btn-primary" type="button"
               data-immersion-id="e1a7c0de-0c4f-4a11-9b00-000000000001"
@@ -1692,13 +1117,15 @@
         </article>
 
         <article class="immersion-card">
+          <div class="immersion-card-kicker">
+            <span class="immersion-card-date">March 12 – 14, 2027</span>
+          </div>
           <h3 class="immersion-card-title">New York City, NY</h3>
           <ul class="immersion-card-meta">
             <li><span class="meta-label">Location</span><span class="meta-value">New York City, NY</span></li>
-            <li><span class="meta-label">Dates</span><span class="meta-value">March 12 – 14, 2027</span></li>
             <li><span class="meta-label">Time</span><span class="meta-value">Fri 5:00 PM – Sun 12:00 PM ET</span></li>
           </ul>
-          <p class="section-copy" style="margin:0; font-size:0.92rem; line-height:1.6;">See how disciple-making can happen in dense, relational, urban settings through ordinary work, hospitality, and daily life.</p>
+          <p class="immersion-card-copy">See how disciple-making can happen in dense, relational, urban settings through ordinary work, hospitality, and daily life.</p>
           <div class="immersion-card-cta">
             <button class="btn btn-primary" type="button"
               data-immersion-id="e1a7c0de-0c4f-4a11-9b00-000000000002"
@@ -1709,37 +1136,45 @@
           </div>
         </article>
       </div>
+
+      <p class="im-cards-note">Small groups on purpose. Travel and lodging are arranged separately.</p>
     </div>
   </section>
 
-  <section class="testimonials-section">
-    <div class="testimonials-inner">
-      <span class="eyebrow" style="text-align:center;">Proof</span>
+  <section class="testimonials-section im-testimonials">
+    <div class="testimonials-container im-container">
+      <div class="testimonials-head ed-split">
+        <h2 class="testimonials-title">What people walk away with</h2>
+        <p class="testimonials-intro">Not a feeling. A new picture of their week, and what they did next.</p>
+      </div>
 
-      <h2 class="section-title" style="text-align:center; margin-left:auto; margin-right:auto;">
-        What people walk away with
-      </h2>
-
-      <div class="testimonials-grid">
+      <div class="testimonials-list">
         <article class="testimonial-card">
-          <p class="testimonial-quote">“The Immersion was truly <strong>life-changing</strong>. It reshaped the way I see missions. I realized my <strong>everyday work is a mission field</strong>, not something separate from it.</p>
-          <p class="testimonial-quote">I walked away with <strong>practical, reproducible tools</strong> I could use immediately. Since then, I’ve started leading <strong>multiple high school discipleship groups</strong>, and one of those groups is preparing for a trip to New York City this summer to put these principles into practice. This wasn’t just inspiring. It led to <strong>real action and lasting change</strong>.”</p>
-          <p class="testimonial-attribution">Howard H.</p>
+          <div>
+            <p class="testimonial-quote is-pull">“The Immersion was truly <strong>life-changing</strong>. It reshaped the way I see missions. I realized my <strong>everyday work is a mission field</strong>, not something separate from it.</p>
+            <p class="testimonial-quote">I walked away with <strong>practical, reproducible tools</strong> I could use immediately. Since then, I’ve started leading <strong>multiple high school discipleship groups</strong>, and one of those groups is preparing for a trip to New York City this summer to put these principles into practice. This wasn’t just inspiring. It led to <strong>real action and lasting change</strong>.”</p>
+          </div>
+          <p class="testimonial-attribution">— Howard H.</p>
         </article>
 
         <article class="testimonial-card">
-          <p class="testimonial-quote">“The OKC Immersion gave me a clear picture of what can happen when <strong>ordinary believers</strong> faithfully practice the simple things God has given us. I saw how disciple-making can happen right where we already spend our time, especially in the <strong>workplace</strong>, when we become intentional with the people around us.</p>
-          <p class="testimonial-quote">It was also powerful to be surrounded by others carrying the same vision. Being with people pursuing <strong>disciple-making and multiplication</strong> gave me fresh confidence in what God can do through <strong>simple, faithful obedience</strong>.”</p>
-          <p class="testimonial-attribution">Andy K.</p>
+          <div>
+            <p class="testimonial-quote is-pull">“The OKC Immersion gave me a clear picture of what can happen when <strong>ordinary believers</strong> faithfully practice the simple things God has given us.</p>
+            <p class="testimonial-quote">I saw how disciple-making can happen right where we already spend our time, especially in the <strong>workplace</strong>, when we become intentional with the people around us. It was also powerful to be surrounded by others carrying the same vision. Being with people pursuing <strong>disciple-making and multiplication</strong> gave me fresh confidence in what God can do through <strong>simple, faithful obedience</strong>.”</p>
+          </div>
+          <p class="testimonial-attribution">— Andy K.</p>
         </article>
       </div>
     </div>
   </section>
 
-  <section class="page-section" id="faq">
-    <div class="page-section-inner">
-      <div class="faq-box">
-        <strong>Common questions</strong>
+  <section class="im-section" id="faq">
+    <div class="im-container">
+      <div class="ed-split" style="align-items:start;">
+        <div>
+          <span class="ed-label" style="display:block;margin-bottom:1rem;color:var(--c-terracotta-text);">FAQ</span>
+          <h2 class="im-h2">Common questions.</h2>
+        </div>
 
         <ul class="faq-list">
           <li class="faq-item">
@@ -1834,27 +1269,20 @@
     </div>
   </section>
 
-  <section class="bottom-cta">
-    <div class="bottom-cta-inner">
-      <h2 class="bottom-cta-headline">You don’t need another training. You need to see it.</h2>
-
-      <div class="bottom-cta-body">
-        <p>If you’re done guessing what disciple-making looks like in normal life, come see it up close.</p>
-      </div>
-
-      <a class="btn btn-primary" href="#open-immersions">Apply for the Next Immersion</a>
+  <section class="whatsapp-cta-section is-dark">
+    <div class="whatsapp-cta-container">
+      <p class="whatsapp-cta-eyebrow">WhatsApp Field Room</p>
+      <h2 class="whatsapp-cta-title">Not ready to apply yet? <span class="accent-coral">Start here.</span></h2>
+      <p class="whatsapp-cta-copy">If you’re still discerning whether an immersion is the right step, apply to join the field room first. You’ll get a feel for the community, hear from practitioners, and see what ongoing practice actually looks like before you commit to coming in person.</p>
+      <a class="whatsapp-cta-btn ed-cta-link" href="https://www.covomultipliers.com/join-whatsapp?utm_source=immersion_page&utm_medium=cta&utm_campaign=whatsapp_field_room">Apply to Join the Field Room →</a>
     </div>
   </section>
 
-  <!-- ── WhatsApp Field Room CTA ───────────────────── -->
-  <section class="page-section" style="background:#f0fdf4;border-bottom:1px solid #bbf7d0;text-align:center;">
-    <div class="page-section-inner" style="max-width:640px;">
-      <span class="eyebrow" style="color:#15803d;">WhatsApp Field Room</span>
-      <h2 class="section-title" style="margin-left:auto;margin-right:auto;">Not ready to apply yet? Start here.</h2>
-      <div class="section-copy" style="margin:0 auto 1.5rem;">
-        <p>If you're still discerning whether an immersion is the right step, apply to join the field room first. You'll get a feel for the community, hear from practitioners, and see what ongoing practice actually looks like before you commit to coming in person.</p>
-      </div>
-      <a href="https://www.covomultipliers.com/join-whatsapp?utm_source=immersion_page&utm_medium=cta&utm_campaign=whatsapp_field_room" style="display:inline-block;padding:0.9rem 1.75rem;background:#25D366;color:#fff;font-size:0.97rem;font-weight:800;text-decoration:none;border-radius:999px;box-shadow:0 4px 16px rgba(37,211,102,0.3);">Apply to Join the Field Room</a>
+  <section class="final-cta">
+    <div class="final-cta-container">
+      <h2 class="final-cta-title">You don’t need another training. You need to see it.</h2>
+      <p class="final-cta-copy">If you’re done guessing what disciple-making looks like in normal life, come see it up close.</p>
+      <a class="btn btn-primary" href="#open-immersions">Apply for the Next Immersion</a>
     </div>
   </section>
 
@@ -1877,7 +1305,7 @@
           aria-label="Close application form"
         >
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <path d="M2 2l12 12M14 2L2 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M2 2l12 12M14 2L2 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
           </svg>
         </button>
       </div>
@@ -1885,7 +1313,7 @@
       <div id="modal-success" class="form-success-msg" hidden>
         <p style="margin:0 0 0.25rem;">Application received. Check your email for confirmation. We&rsquo;ll follow up soon with next steps.</p>
         <div class="modal-success-actions">
-          <button type="button" class="btn btn-primary" id="modal-success-close-btn">Close</button>
+          <button type="button" class="btn btn-ink" id="modal-success-close-btn">Close</button>
         </div>
       </div>
 
@@ -1973,18 +1401,46 @@
         <div id="form-error" class="form-error-msg" hidden></div>
 
         <div class="form-submit-row">
-          <button type="submit" class="btn btn-primary btn-submit-layout" style="width:100%;">Submit Application</button>
+          <button type="submit" class="btn btn-primary btn-submit-layout">Submit Application</button>
         </div>
       </form>
     </div>
   </div>
 
   <footer class="site-footer">
-    <a class="footer-brand" href="/">Covo Multipliers</a>
-    <p class="footer-tagline">Live. Work. Play. Multiply.</p>
-    <p class="footer-copy">&copy; 2026 Covo Multipliers</p>
-  </footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="footer-wordmark">Covo <em>Multipliers</em></span>
+        <p class="footer-desc">Practical training for everyday leaders who want to make disciples where they live, work, and play.</p>
+      </div>
 
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <div class="footer-col">
+          <p class="footer-heading">Start</p>
+          <a href="/">Home</a>
+          <a href="/vision">Start Here</a>
+          <a href="/blog/">Blog</a>
+          <a href="/h3x">H3X Podcast</a>
+        </div>
+
+        <div class="footer-col">
+          <p class="footer-heading">Tools</p>
+          <a href="https://obey.tools">Obey.Tools</a>
+          <a href="https://churchwaffle.com">Church Waffle</a>
+          <a href="https://conversationquadrant.com">Conversation Quadrant</a>
+        </div>
+
+        <div class="footer-col">
+          <p class="footer-heading">Connect</p>
+          <a href="/contact">Contact</a>
+          <a href="https://www.covomultipliers.com/join-whatsapp?utm_source=footer&utm_medium=cta&utm_campaign=whatsapp_field_room" class="footer-highlight">Apply to Join the Field Room</a>
+          <a href="/privacy">Privacy</a>
+        </div>
+      </nav>
+
+      <a class="back-to-top" href="#top" aria-label="Back to top">↑</a>
+    </div>
+  </footer>
   <script src="/utm-tracking.js"></script>
   <script>
     const toggleTraining = document.getElementById('toggle-training');
@@ -2471,6 +1927,38 @@
         }
       });
     });
+    /* ── Slideout menu ─────────────────────────────── */
+    (function () {
+      var menuToggle = document.querySelector('.menu-toggle');
+      var menuClose = document.querySelector('.menu-close');
+      var slideoutMenu = document.getElementById('site-menu');
+      var menuOverlay = document.getElementById('menu-overlay');
+      if (!menuToggle || !menuClose || !slideoutMenu || !menuOverlay) return;
+
+      function openMenu() {
+        slideoutMenu.classList.add('is-open');
+        menuOverlay.classList.add('is-open');
+        document.body.classList.add('menu-open');
+        menuToggle.setAttribute('aria-expanded', 'true');
+      }
+
+      function closeMenu() {
+        slideoutMenu.classList.remove('is-open');
+        menuOverlay.classList.remove('is-open');
+        document.body.classList.remove('menu-open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+      }
+
+      menuToggle.addEventListener('click', openMenu);
+      menuClose.addEventListener('click', closeMenu);
+      menuOverlay.addEventListener('click', closeMenu);
+      slideoutMenu.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', closeMenu);
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closeMenu();
+      });
+    })();
   </script>
 
 </body>
