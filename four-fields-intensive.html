@@ -328,8 +328,8 @@
         /* ---------- Testimonials (editorial pull quotes) ---------- */
         .ff-quotes .testimonials-container { margin: 0 auto; border-top: 1px solid var(--c-line); }
         .ff-quotes .testimonials-list { display: grid; }
-        .ff-quotes .testimonial-card.is-placeholder .testimonial-quote,
-        .ff-quotes .testimonial-card.is-placeholder .testimonial-attribution { color: var(--c-text-muted); }
+        .ff-quotes .testimonial-card { justify-content: flex-start; }
+        .ff-quotes .testimonial-card .testimonial-quote { margin-bottom: 0; }
 
         /* ---------- Bible, cropped flush on the black band ---------- */
         .bible-wrap {
@@ -592,9 +592,8 @@
 
 
     <!-- ================================================
-         TESTIMONIALS — PLACEHOLDERS. Replace each quote and name with a
-         real attendee quote (and permission) before this page goes live,
-         then remove the "is-placeholder" class from each card.
+         TESTIMONIALS (quotes only, no attribution by request).
+         The first card renders as the large featured quote.
     ================================================ -->
     <section class="testimonials-section ff-quotes">
         <div class="testimonials-container">
@@ -604,19 +603,16 @@
             </div>
 
             <div class="testimonials-list">
-                <div class="testimonial-card is-placeholder">
-                    <p class="testimonial-quote">&ldquo;[Placeholder] A featured quote from a past attendee goes here: the moment the whole pattern clicked for them.&rdquo;</p>
-                    <p class="testimonial-attribution">— Attendee name, role or city</p>
+                <div class="testimonial-card">
+                    <p class="testimonial-quote">&ldquo;Studying Aquila and Priscilla completely shifted my thinking. Their work, home, and relationships weren&rsquo;t obstacles to ministry. <strong>They were part of the strategy.</strong> I walked away seeing my own vocation and relationships as opportunities to multiply disciples and churches.&rdquo;</p>
                 </div>
 
-                <div class="testimonial-card is-placeholder">
-                    <p class="testimonial-quote">&ldquo;[Placeholder] A second attendee quote: what they started doing differently after the weekend.&rdquo;</p>
-                    <p class="testimonial-attribution">— Attendee name, role or city</p>
+                <div class="testimonial-card">
+                    <p class="testimonial-quote">&ldquo;I used to think making disciples was something I needed to find more time for. This intensive helped me see that God has already placed me among people where I live, work, and play. I left with a practical plan to make disciples in the rhythms of my everyday life.&rdquo;</p>
                 </div>
 
-                <div class="testimonial-card is-placeholder">
-                    <p class="testimonial-quote">&ldquo;[Placeholder] A third attendee quote: why they would recommend it to another leader.&rdquo;</p>
-                    <p class="testimonial-attribution">— Attendee name, role or city</p>
+                <div class="testimonial-card">
+                    <p class="testimonial-quote">&ldquo;This wasn&rsquo;t about adding another ministry activity to an already full calendar. It was about embracing disciple-making as my identity, wherever God has placed me. Four Fields gave me a biblical vision, practical tools, and a pathway to see disciples multiply through ordinary people living ordinary lives.&rdquo;</p>
                 </div>
             </div>
         </div>
