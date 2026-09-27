@@ -816,3 +816,193 @@ body .success-state > div[style] > a {
     color: var(--c-white) !important;
     border-radius: var(--radius) !important;
 }
+
+
+/* ===============================================
+   PAGE-SPECIFIC COMPONENTS
+   Extra blocks some lab pages add to the template.
+   =============================================== */
+
+/* event.html / From Lost to Leader: photo hero + separate details row */
+body .hero-image-wrap { box-shadow: none; border-radius: var(--radius-media); }
+body .hero-image-wrap img { border-radius: var(--radius-media); box-shadow: none; }
+
+body .event-details-section { background: var(--c-white); }
+
+body .event-info-col .event-label {
+    font-family: var(--font-ui);
+    font-size: var(--fs-label);
+    font-weight: 600;
+    letter-spacing: var(--tracking-label);
+    color: var(--c-ink);
+}
+
+body .event-info-col .event-title { color: var(--c-ink); }
+
+body .event-info-col .event-seats {
+    font-family: var(--font-ui);
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.6rem;
+    border-radius: 4px;
+    background: var(--c-lime);
+    border: 0;
+    color: var(--c-ink);
+    box-shadow: none;
+    animation: none;
+}
+
+body .event-info-col .event-seats.is-full { background: var(--c-ivory); color: var(--c-text-muted); }
+
+body .event-info-col .countdown-unit { background: var(--c-ivory); border: 0; border-radius: var(--radius); }
+body .event-info-col .countdown-num { font-family: var(--font-serif); font-weight: 400; color: var(--c-ink); }
+body .event-info-col .countdown-label {
+    font-family: var(--font-ui);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: var(--tracking-label);
+    color: var(--c-text-muted);
+}
+
+body .form-social-proof p { font-size: var(--fs-small); color: var(--c-text-muted); }
+
+/* shared small pieces */
+body .content-h3 { color: var(--c-ink); }
+
+body .quote-card {
+    background: var(--c-ivory);
+    border: 0;
+    border-radius: var(--radius-media);
+    box-shadow: none;
+    font-size: var(--fs-body);
+    color: var(--c-ink);
+}
+
+body .testimonial-attribution,
+body .lab-testimonial .proof-attribution {
+    font-family: var(--font-ui);
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: var(--tracking-ui);
+    text-transform: uppercase;
+    color: var(--c-ink);
+}
+
+body .lab-testimonial { background: var(--c-white); border-top: 0; }
+
+body .btn-submit {
+    min-height: 48px;
+    border-radius: var(--radius);
+    background: var(--c-lime);
+    border: 1px solid var(--c-lime);
+    color: var(--c-ink);
+    font-family: var(--font-ui);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    letter-spacing: var(--tracking-ui);
+    text-transform: uppercase;
+    box-shadow: none;
+}
+
+body .btn-submit:hover:not(:disabled) { background: var(--c-ink); border-color: var(--c-ink); color: var(--c-lime); transform: none; }
+body .btn-submit:focus-visible { outline: 2px solid var(--c-ink); outline-offset: 3px; }
+
+/* ivory cards used by individual pages */
+body :is(.third-card, .signal-card, .planter-card, .rhythm-card, .assessment-note, .guardrail-note, .problem-highlight) {
+    background: var(--c-ivory);
+    border: 0;
+    border-radius: var(--radius-media);
+    box-shadow: none;
+}
+
+body .signal-card::before { content: none; }
+
+body :is(.third-label, .planter-label) {
+    font-family: var(--font-ui);
+    font-size: var(--fs-label);
+    font-weight: 600;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--c-terracotta-text);
+}
+
+body :is(.third-title, .planter-title, .rhythm-word) {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    letter-spacing: 0;
+    color: var(--c-ink);
+}
+
+body :is(.third-title, .planter-title) { font-size: 1.5rem; line-height: 1.15; }
+body .rhythm-word { font-size: 2rem; line-height: 1.05; }
+
+body .rhythm-question { font-size: var(--fs-body); color: var(--c-ink); }
+body :is(.third-body, .planter-body, .rhythm-body) { font-size: var(--fs-card); color: var(--c-text-muted); }
+
+body .guardrail-note h2,
+body .problem-highlight { color: var(--c-ink); }
+
+body .planter-icon { background: var(--c-white); }
+body .planter-icon svg { stroke: var(--c-ink); color: var(--c-ink); }
+
+body .assessment-note .grade-pill {
+    background: var(--c-white);
+    border: 0;
+    color: var(--c-ink);
+}
+
+body .footer-links a { font-size: 0.9375rem; color: var(--c-ink); }
+
+/* From Lost to Leader: five-stage pathway */
+body .pathway-section { background: var(--c-white); }
+body .pathway-title { color: var(--c-ink); }
+body .pathway-lede { color: var(--c-text-muted); font-size: var(--fs-lead); }
+
+body .pathway .pathway-stage {
+    background: var(--c-ivory);
+    border: 0;
+    border-radius: var(--radius-media);
+    box-shadow: none;
+}
+
+body .pathway .pathway-stage.is-goal { background: var(--c-black); }
+
+body .pathway .stage-num {
+    background: var(--c-white);
+    border: 0;
+    color: var(--c-ink);
+    font-family: var(--font-serif);
+    font-weight: 400;
+}
+
+body .pathway .is-goal .stage-num { background: var(--c-lime); color: var(--c-ink); }
+
+body .pathway .stage-name { font-family: var(--font-serif); font-weight: 400; color: var(--c-ink); }
+body .pathway .is-goal .stage-name { color: var(--c-on-dark); }
+body .pathway .stage-desc { font-size: var(--fs-card); color: var(--c-text-muted); }
+body .pathway .is-goal .stage-desc { color: var(--c-on-dark-muted); }
+body .pathway .stage-move { color: var(--c-ink); border-top-color: var(--c-line); }
+body .pathway .stage-move strong { color: var(--c-terracotta-text); }
+body .pathway .is-goal .stage-move { color: var(--c-on-dark); border-top-color: rgba(255, 255, 255, 0.24); }
+body .pathway .is-goal .stage-move strong { color: var(--c-lime); }
+body .pathway-stage:not(:last-child)::after { color: var(--c-ink); }
+body .pathway-loop { color: var(--c-ink); }
+
+/* "Why this lab is different" band → black, like the homepage */
+body .reproduce-band { background: var(--c-black); background-image: none; }
+body .reproduce-band::before { content: none; }
+body .reproduce-band .eyebrow { color: var(--c-dusty) !important; }   /* page sets gold inline */
+body .reproduce-inner h2 { color: var(--c-on-dark); }
+body .reproduce-inner p { color: var(--c-on-dark-muted); font-size: var(--fs-lead); }
+
+/* Rhythms pages: "extra seats" notice (inline-styled; display is toggled by script) */
+body #bonus-seats-notice {
+    background: var(--c-white) !important;
+    border: 0 !important;
+    border-left: 3px solid var(--c-lime) !important;
+    border-radius: 0 !important;
+    font-size: 0.9375rem !important;
+    color: var(--c-ink) !important;
+}
