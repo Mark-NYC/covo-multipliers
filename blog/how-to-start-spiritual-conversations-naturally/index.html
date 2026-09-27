@@ -29,6 +29,8 @@
     <meta name="description" content="You're not missing boldness — you're missing a move. A practical framework for moving conversations from casual to spiritual, one natural step at a time.">
     <link rel="canonical" href="https://covomultipliers.com/blog/how-to-start-spiritual-conversations-naturally/">
     <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/covo-editorial.css">
+    <link rel="stylesheet" href="/covo-blog.css">
 
     <!-- Open Graph -->
     <meta property="og:type" content="article">
@@ -105,375 +107,6 @@
     ]
     </script>
 
-    <style>
-
-        /* -----------------------------------------------
-           SITE HEADER
-        ----------------------------------------------- */
-
-        .site-header {
-            background: #ffffff;
-            border-bottom: 1px solid #e5e7eb;
-            padding: 1rem 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .site-header .brand {
-            font-size: 0.95rem;
-            font-weight: 900;
-            color: #10281f;
-            text-decoration: none;
-            letter-spacing: -0.01em;
-        }
-
-        .site-header .back-link {
-            font-size: 0.875rem;
-            color: #5a6b65;
-            text-decoration: none;
-            transition: color 0.15s ease;
-        }
-
-        .site-header .back-link:hover {
-            color: #1b4d3e;
-        }
-
-
-        /* -----------------------------------------------
-           ARTICLE HEADER
-        ----------------------------------------------- */
-
-        .article-header {
-            padding: 3.5rem 2rem 3rem;
-            background: linear-gradient(135deg,
-                #10281f 0%,
-                #1b4d3e 35%,
-                #2c6b5d 65%,
-                #9f7a2f 85%,
-                #dcb55a 100%
-            );
-        }
-
-        .article-header-inner {
-            max-width: 760px;
-            margin: 0 auto;
-        }
-
-        .article-breadcrumb {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.5);
-            margin-bottom: 1.5rem;
-        }
-
-        .article-breadcrumb a {
-            color: rgba(255, 255, 255, 0.6);
-            text-decoration: none;
-            transition: color 0.15s ease;
-        }
-
-        .article-breadcrumb a:hover {
-            color: rgba(255, 255, 255, 0.9);
-        }
-
-        .article-breadcrumb .sep {
-            color: rgba(255, 255, 255, 0.3);
-        }
-
-        .article-tag {
-            display: inline-block;
-            font-size: 0.72rem;
-            font-weight: 700;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: #dcb55a;
-            background: rgba(220, 181, 90, 0.15);
-            border: 1px solid rgba(220, 181, 90, 0.3);
-            border-radius: 999px;
-            padding: 0.3rem 0.9rem;
-            margin-bottom: 1.25rem;
-        }
-
-        .article-h1 {
-            font-size: clamp(1.75rem, 3.5vw, 2.75rem);
-            font-weight: 900;
-            color: #ffffff;
-            line-height: 1.12;
-            letter-spacing: -0.02em;
-            margin-bottom: 1.25rem;
-        }
-
-        .article-meta {
-            display: flex;
-            align-items: center;
-            gap: 1.25rem;
-            font-size: 0.875rem;
-            color: rgba(255, 255, 255, 0.58);
-            flex-wrap: wrap;
-        }
-
-
-        /* -----------------------------------------------
-           ARTICLE BODY
-        ----------------------------------------------- */
-
-        .article-body-wrap {
-            max-width: 720px;
-            margin: 0 auto;
-            padding: 3.5rem 2rem 2rem;
-        }
-
-        .toc {
-            background: #f8faf9;
-            border: 1px solid #e0e7e4;
-            border-left: 4px solid #1b4d3e;
-            border-radius: 10px;
-            padding: 1.5rem 1.75rem;
-            margin-bottom: 2.5rem;
-        }
-
-        .toc-heading {
-            font-size: 0.72rem;
-            font-weight: 700;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: #5a6b65;
-            margin-bottom: 0.875rem;
-        }
-
-        .toc ol {
-            padding-left: 1.25rem;
-            margin: 0;
-        }
-
-        .toc li {
-            font-size: 0.9rem;
-            line-height: 1.6;
-            color: #3d4f49;
-            margin-bottom: 0.3rem;
-        }
-
-        .toc a {
-            color: #1b4d3e;
-            text-decoration: none;
-            transition: color 0.15s ease;
-        }
-
-        .toc a:hover {
-            color: #dcb55a;
-            text-decoration: underline;
-        }
-
-        .prose p {
-            font-size: 1.0625rem;
-            line-height: 1.78;
-            color: #1a1a1a;
-            margin-bottom: 1.3rem;
-        }
-
-        .prose .article-lede {
-            font-size: 1.15rem;
-            font-style: italic;
-            color: #3d4f49;
-            line-height: 1.72;
-            margin-bottom: 1.5rem;
-        }
-
-        .prose hr.article-rule {
-            border: none;
-            border-top: 1px solid #e0e7e4;
-            margin: 2rem 0;
-        }
-
-        .prose h2 {
-            font-size: 1.4rem;
-            font-weight: 800;
-            color: #10281f;
-            line-height: 1.22;
-            letter-spacing: -0.015em;
-            margin-top: 2.75rem;
-            margin-bottom: 1rem;
-        }
-
-        .prose strong {
-            color: #10281f;
-            font-weight: 700;
-        }
-
-        .article-figure {
-            margin: 1.75rem 0 2rem;
-            text-align: center;
-        }
-
-        .article-figure img {
-            max-width: 100%;
-            height: auto;
-            border: 1px solid #e0e7e4;
-            border-radius: 10px;
-            background: #ffffff;
-            padding: 0.75rem;
-        }
-
-        .article-figure figcaption {
-            font-size: 0.85rem;
-            color: #5a6b65;
-            margin-top: 0.75rem;
-        }
-
-        .prose em {
-            font-style: italic;
-        }
-
-        .prose ul, .prose ol {
-            padding-left: 1.5rem;
-            margin-bottom: 1.3rem;
-        }
-
-        .prose li {
-            font-size: 1.0625rem;
-            line-height: 1.75;
-            color: #1a1a1a;
-            margin-bottom: 0.5rem;
-        }
-
-        .prose .internal-link {
-            color: #1b4d3e;
-            text-decoration: underline;
-            text-decoration-color: #dcb55a;
-            text-underline-offset: 3px;
-            transition: color 0.15s ease;
-        }
-
-        .prose .internal-link:hover {
-            color: #dcb55a;
-        }
-
-
-        /* -----------------------------------------------
-           RELATED + CTA
-        ----------------------------------------------- */
-
-        .article-related {
-            border-top: 1px solid #e5e7eb;
-            padding: 3rem 0;
-        }
-
-        .article-related-inner {
-            max-width: 720px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .related-heading {
-            font-size: 0.72rem;
-            font-weight: 700;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: #5a6b65;
-            margin-bottom: 1.25rem;
-        }
-
-        .related-links {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-        }
-
-        .related-link {
-            display: flex;
-            flex-direction: column;
-            gap: 0.2rem;
-            padding: 1rem 1.25rem;
-            background: #f8faf9;
-            border: 1px solid #e0e7e4;
-            border-radius: 8px;
-            text-decoration: none;
-            transition: border-color 0.15s ease;
-        }
-
-        .related-link:hover {
-            border-color: #1b4d3e;
-        }
-
-        .related-link-label {
-            font-size: 0.75rem;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: #5a6b65;
-        }
-
-        .related-link-title {
-            font-size: 0.975rem;
-            font-weight: 700;
-            color: #10281f;
-        }
-
-        .article-cta {
-            background: linear-gradient(135deg,
-                #10281f 0%,
-                #1b4d3e 35%,
-                #2c6b5d 65%,
-                #9f7a2f 85%,
-                #dcb55a 100%
-            );
-            padding: 4rem 2rem;
-            text-align: center;
-        }
-
-        .article-cta-inner {
-            max-width: 560px;
-            margin: 0 auto;
-        }
-
-        .article-cta h2 {
-            font-size: clamp(1.5rem, 3vw, 2rem);
-            font-weight: 900;
-            color: #ffffff;
-            line-height: 1.15;
-            letter-spacing: -0.02em;
-            margin-bottom: 0.875rem;
-        }
-
-        .article-cta p {
-            font-size: 1rem;
-            color: rgba(255, 255, 255, 0.78);
-            line-height: 1.6;
-            margin-bottom: 2rem;
-        }
-
-
-
-        /* -----------------------------------------------
-           RESPONSIVE
-        ----------------------------------------------- */
-
-        @media (max-width: 640px) {
-            .article-header {
-                padding: 2.5rem 1.5rem 2rem;
-            }
-
-            .article-body-wrap {
-                padding: 2.5rem 1.5rem 1.5rem;
-            }
-
-            .article-related-inner {
-                padding: 0 1.5rem;
-            }
-
-            .prose h2 {
-                font-size: 1.25rem;
-            }
-
-            .article-meta {
-                gap: 0.75rem;
-            }
-        }
-
-    </style>
     <!-- Covo typography: DM Serif Display / DM Sans / Barlow Condensed (shared tokens in /covo-type.css) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -486,10 +119,39 @@
     <!-- ================================================
          SITE HEADER
     ================================================ -->
-    <header class="site-header">
-        <a class="brand" href="/">Covo Multipliers</a>
-        <a class="back-link" href="/blog/">← Blog</a>
+    <header class="site-masthead" id="top">
+        <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="site-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <nav class="masthead-center" aria-label="Primary">
+            <a class="masthead-link" href="/vision">Start Here</a>
+            <a class="masthead-wordmark" href="/">Covo <em>Multipliers</em></a>
+            <a class="masthead-link" href="/h3x">Podcast</a>
+        </nav>
+
+        <a class="masthead-cta" href="/#upcoming-labs">Join a Lab</a>
     </header>
+
+    <div class="menu-overlay" id="menu-overlay"></div>
+
+    <nav class="slideout-menu" id="site-menu" aria-label="Main navigation">
+        <div class="slideout-menu-header">
+            <span class="slideout-menu-title">Covo Multipliers</span>
+            <button class="menu-close" type="button" aria-label="Close menu">&times;</button>
+        </div>
+
+        <div class="slideout-menu-links">
+            <a href="/">Home</a>
+            <a href="/vision">Start Here</a>
+            <a href="/h3x">Podcast</a>
+            <a href="/immersions">Immersions</a>
+            <a href="/blog/" aria-current="page">Blog</a>
+            <a class="menu-lab-button" href="/#upcoming-labs">Join a Lab</a>
+        </div>
+    </nav>
 
 
     <!-- ================================================
@@ -822,22 +484,72 @@
     <footer class="site-footer">
         <div class="footer-inner">
             <div class="footer-brand">
-                <span class="footer-wordmark">Covo Multipliers</span>
-                <p class="footer-desc">A tribe of covocational leaders learning to make disciples where they live, work, and play.</p>
+                <span class="footer-wordmark">Covo <em>Multipliers</em></span>
+                <p class="footer-desc">Practical training for everyday leaders who want to make disciples where they live, work, and play.</p>
             </div>
+
             <nav class="footer-nav" aria-label="Footer navigation">
-                <a href="/">Home</a>
-                <a href="/vision">Vision &amp; Pathway</a>
-                <a href="/blog/">Blog</a>
-                <a href="/resources">Resources</a>
-                <a href="https://obey.tools">Obey.Tools</a>
-                <a href="https://churchwaffle.com">Church Waffle</a>
-                <a href="https://conversationquadrant.com">Conversation Quadrant</a>
-                <a href="/privacy">Privacy</a>
+                <div class="footer-col">
+                    <p class="footer-heading">Start</p>
+                    <a href="/">Home</a>
+                    <a href="/vision">Start Here</a>
+                    <a href="/blog/">Blog</a>
+                    <a href="/h3x">H3X Podcast</a>
+                </div>
+
+                <div class="footer-col">
+                    <p class="footer-heading">Tools</p>
+                    <a href="https://obey.tools">Obey.Tools</a>
+                    <a href="https://churchwaffle.com">Church Waffle</a>
+                    <a href="https://conversationquadrant.com">Conversation Quadrant</a>
+                </div>
+
+                <div class="footer-col">
+                    <p class="footer-heading">Connect</p>
+                    <a href="/contact">Contact</a>
+                    <a href="https://www.covomultipliers.com/join-whatsapp?utm_source=footer&utm_medium=cta&utm_campaign=whatsapp_field_room" class="footer-highlight">Apply to Join the Field Room</a>
+                    <a href="/privacy">Privacy</a>
+                </div>
             </nav>
+
+            <a class="back-to-top" href="#top" aria-label="Back to top">↑</a>
         </div>
     </footer>
 
+
+    <script>
+        (function () {
+            var menuToggle = document.querySelector('.menu-toggle');
+            var menuClose = document.querySelector('.menu-close');
+            var slideoutMenu = document.getElementById('site-menu');
+            var menuOverlay = document.getElementById('menu-overlay');
+            if (!menuToggle || !menuClose || !slideoutMenu || !menuOverlay) return;
+
+            function openMenu() {
+                slideoutMenu.classList.add('is-open');
+                menuOverlay.classList.add('is-open');
+                document.body.classList.add('menu-open');
+                menuToggle.setAttribute('aria-expanded', 'true');
+            }
+
+            function closeMenu() {
+                slideoutMenu.classList.remove('is-open');
+                menuOverlay.classList.remove('is-open');
+                document.body.classList.remove('menu-open');
+                menuToggle.setAttribute('aria-expanded', 'false');
+            }
+
+            menuToggle.addEventListener('click', openMenu);
+            menuClose.addEventListener('click', closeMenu);
+            menuOverlay.addEventListener('click', closeMenu);
+            slideoutMenu.querySelectorAll('a').forEach(function (link) {
+                link.addEventListener('click', closeMenu);
+            });
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') closeMenu();
+            });
+        })();
+    </script>
 
 </body>
 </html>

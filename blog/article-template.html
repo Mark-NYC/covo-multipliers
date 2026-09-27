@@ -28,6 +28,8 @@
     <link rel="canonical" href="https://covomultipliers.com/blog/POST-SLUG/">
 
     <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/covo-editorial.css">
+    <link rel="stylesheet" href="/covo-blog.css">
 
     <!-- =====================================================
          OPEN GRAPH (Facebook, LinkedIn, iMessage previews)
@@ -119,28 +121,9 @@
     ]
     </script>
 
-    <!-- Page-specific styles. Copy from an existing article and adjust as needed. -->
-    <style>
-        /* Paste the <style> block from another blog post here.
-           All blog articles share the same structural CSS —
-           copy it verbatim and only change colors or layout
-           if this article genuinely needs something different. */
-
-        /* Optional topic icon badge — see usage note in the ARTICLE HEADER
-           section below. Harmless to leave in if unused. */
-        .article-topic-icon {
-            display: block;
-            width: 56px;
-            height: 56px;
-            padding: 10px;
-            margin-bottom: 1rem;
-            background: rgba(255, 255, 255, 0.95);
-            border: 2px solid rgba(220, 181, 90, 0.55);
-            border-radius: 50%;
-            object-fit: contain;
-            box-sizing: border-box;
-        }
-    </style>
+    <!-- All blog styles live in /covo-blog.css (linked above).
+         Do NOT paste a <style> block into articles. If a post needs a new
+         component, add it to covo-blog.css so every article can use it. -->
     <!-- Covo typography: DM Serif Display / DM Sans / Barlow Condensed (shared tokens in /covo-type.css) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -150,15 +133,44 @@
 <body>
 
 
-    <!-- Site header — identical across all inner pages -->
-    <header class="site-header">
-        <a class="brand" href="/">Covo Multipliers</a>
-        <a class="back-link" href="/blog/">← Blog</a>
+    <!-- Masthead + slide-out menu — identical across all pages -->
+    <header class="site-masthead" id="top">
+        <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="site-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <nav class="masthead-center" aria-label="Primary">
+            <a class="masthead-link" href="/vision">Start Here</a>
+            <a class="masthead-wordmark" href="/">Covo <em>Multipliers</em></a>
+            <a class="masthead-link" href="/h3x">Podcast</a>
+        </nav>
+
+        <a class="masthead-cta" href="/#upcoming-labs">Join a Lab</a>
     </header>
+
+    <div class="menu-overlay" id="menu-overlay"></div>
+
+    <nav class="slideout-menu" id="site-menu" aria-label="Main navigation">
+        <div class="slideout-menu-header">
+            <span class="slideout-menu-title">Covo Multipliers</span>
+            <button class="menu-close" type="button" aria-label="Close menu">&times;</button>
+        </div>
+
+        <div class="slideout-menu-links">
+            <a href="/">Home</a>
+            <a href="/vision">Start Here</a>
+            <a href="/h3x">Podcast</a>
+            <a href="/immersions">Immersions</a>
+            <a href="/blog/" aria-current="page">Blog</a>
+            <a class="menu-lab-button" href="/#upcoming-labs">Join a Lab</a>
+        </div>
+    </nav>
 
 
     <!-- =====================================================
-         ARTICLE HEADER (dark gradient hero)
+         ARTICLE HEADER (editorial: tag, serif H1, meta row)
          - One H1 only, ever.
          - Keep the title identical to the <title> tag (minus "— Covo Multipliers").
     ===================================================== -->
@@ -309,26 +321,76 @@
     </main>
 
 
-    <!-- Footer — identical across all inner pages -->
+    <!-- Footer — identical across all pages -->
     <footer class="site-footer">
         <div class="footer-inner">
             <div class="footer-brand">
-                <span class="footer-wordmark">Covo Multipliers</span>
-                <p class="footer-desc">A tribe of covocational leaders learning to make disciples where they live, work, and play.</p>
+                <span class="footer-wordmark">Covo <em>Multipliers</em></span>
+                <p class="footer-desc">Practical training for everyday leaders who want to make disciples where they live, work, and play.</p>
             </div>
+
             <nav class="footer-nav" aria-label="Footer navigation">
-                <a href="/">Home</a>
-                <a href="/vision">Vision &amp; Pathway</a>
-                <a href="/blog/">Blog</a>
-                <a href="/resources">Resources</a>
-                <a href="https://obey.tools">Obey.Tools</a>
-                <a href="https://churchwaffle.com">Church Waffle</a>
-                <a href="https://conversationquadrant.com">Conversation Quadrant</a>
-                <a href="/privacy">Privacy</a>
+                <div class="footer-col">
+                    <p class="footer-heading">Start</p>
+                    <a href="/">Home</a>
+                    <a href="/vision">Start Here</a>
+                    <a href="/blog/">Blog</a>
+                    <a href="/h3x">H3X Podcast</a>
+                </div>
+
+                <div class="footer-col">
+                    <p class="footer-heading">Tools</p>
+                    <a href="https://obey.tools">Obey.Tools</a>
+                    <a href="https://churchwaffle.com">Church Waffle</a>
+                    <a href="https://conversationquadrant.com">Conversation Quadrant</a>
+                </div>
+
+                <div class="footer-col">
+                    <p class="footer-heading">Connect</p>
+                    <a href="/contact">Contact</a>
+                    <a href="https://www.covomultipliers.com/join-whatsapp?utm_source=footer&utm_medium=cta&utm_campaign=whatsapp_field_room" class="footer-highlight">Apply to Join the Field Room</a>
+                    <a href="/privacy">Privacy</a>
+                </div>
             </nav>
+
+            <a class="back-to-top" href="#top" aria-label="Back to top">↑</a>
         </div>
     </footer>
 
+
+    <script>
+        (function () {
+            var menuToggle = document.querySelector('.menu-toggle');
+            var menuClose = document.querySelector('.menu-close');
+            var slideoutMenu = document.getElementById('site-menu');
+            var menuOverlay = document.getElementById('menu-overlay');
+            if (!menuToggle || !menuClose || !slideoutMenu || !menuOverlay) return;
+
+            function openMenu() {
+                slideoutMenu.classList.add('is-open');
+                menuOverlay.classList.add('is-open');
+                document.body.classList.add('menu-open');
+                menuToggle.setAttribute('aria-expanded', 'true');
+            }
+
+            function closeMenu() {
+                slideoutMenu.classList.remove('is-open');
+                menuOverlay.classList.remove('is-open');
+                document.body.classList.remove('menu-open');
+                menuToggle.setAttribute('aria-expanded', 'false');
+            }
+
+            menuToggle.addEventListener('click', openMenu);
+            menuClose.addEventListener('click', closeMenu);
+            menuOverlay.addEventListener('click', closeMenu);
+            slideoutMenu.querySelectorAll('a').forEach(function (link) {
+                link.addEventListener('click', closeMenu);
+            });
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') closeMenu();
+            });
+        })();
+    </script>
 
 </body>
 </html>
