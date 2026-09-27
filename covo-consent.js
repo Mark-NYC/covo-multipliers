@@ -49,7 +49,7 @@
     var text = document.createElement('p');
     text.style.cssText = 'margin:0;flex:1 1 320px;';
     text.innerHTML = 'We use analytics cookies to understand how the site is used. ' +
-      'See our <a href="/privacy" style="color:#DFFF38;text-underline-offset:.2em;">Privacy Policy</a>.';
+      'See our <a href="/privacy" style="color:#DDE520;text-underline-offset:.2em;">Privacy Policy</a>.';
 
     var btns = document.createElement('div');
     btns.style.cssText = 'display:flex;gap:8px;flex:0 0 auto;';
@@ -60,7 +60,7 @@
       b.textContent = label;
       b.style.cssText = 'cursor:pointer;border:0;border-radius:6px;padding:9px 18px;font-weight:600;font-size:15px;letter-spacing:.06em;text-transform:uppercase;' +
         'font-family:var(--font-ui, system-ui, sans-serif);' +
-        (primary ? 'background:#DFFF38;color:#1D2724;' : 'background:transparent;color:#FFFFFF;border:1px solid rgba(255,255,255,.4);');
+        (primary ? 'background:#DDE520;color:#1D2724;' : 'background:transparent;color:#FFFFFF;border:1px solid rgba(255,255,255,.4);');
       return b;
     }
 
