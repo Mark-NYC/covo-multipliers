@@ -1008,6 +1008,9 @@ strong { font-weight: 500; }
     max-width: 18ch;
 }
 
+/* coral phrase on the black band (6.1:1 contrast) */
+.accent-coral { color: var(--c-coral); }
+
 .whatsapp-cta-copy {
     font-size: var(--fs-lead);
     line-height: 1.65;
