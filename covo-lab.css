@@ -1081,3 +1081,11 @@ body .bottom-cta-inner::before {
     body :is(.proof-card, .testimonial-card, .mid-cta)::after { width: 100vw; left: -20%; }
     body .bottom-cta-inner::before { width: 110vw; top: -8%; }
 }
+
+/* hero date line (some pages): was white for the old dark hero */
+body .event-hero .event-line {
+    font-size: var(--fs-body);
+    font-weight: 500;
+    color: var(--c-ink);
+    margin: 0 0 1.25rem;
+}
