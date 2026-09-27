@@ -1009,21 +1009,28 @@ body #bonus-seats-notice {
 
 
 /* ===============================================
-   NEON GLOW BURST — one per page, behind the closing headline
+   NEON GLOW BURST — exactly one per page, in a middle section:
+   1. the testimonial (pull quote or testimonial card), else
+   2. the mid-page "Save my seat" block, else
+   3. the planter grid (What's Blocking page)
    =============================================== */
 
-body .bottom-cta { overflow: clip; }
-body .bottom-cta-inner { position: relative; isolation: isolate; }
+body .event-body,
+body .lab-testimonial { overflow: clip; }
 
-body .bottom-cta-inner::before {
+body :is(.proof-card, .testimonial-card, .mid-cta, .planter-grid) { position: relative; isolation: isolate; }
+
+body :is(.proof-card, .testimonial-card)::after,
+body:not(:has(.proof-card, .testimonial-card)) .mid-cta::after,
+body:not(:has(.proof-card, .testimonial-card, .mid-cta)) .planter-grid::after {
     content: "";
     position: absolute;
     z-index: -1;
-    width: min(640px, 120vw);
+    width: min(540px, 110vw);
     aspect-ratio: 1;
-    left: 50%;
-    top: -42%;
-    transform: translateX(-50%);
+    left: -8%;
+    top: 50%;
+    transform: translateY(-55%);
     border-radius: 50%;
     background: radial-gradient(circle at 50% 50%,
         rgba(223, 255, 56, 0.9) 0%,
@@ -1034,11 +1041,17 @@ body .bottom-cta-inner::before {
     pointer-events: none;
 }
 
+/* mid CTA sits under a callout: keep its glow low so it doesn't wash that text */
+body .mid-cta::after { top: 75%; width: min(460px, 100vw); }
+
+/* planter grid is wide: centre the glow on it */
+body .planter-grid::after { left: 50%; transform: translate(-50%, -50%); width: min(620px, 120vw); }
+
 /* the pull-quote card's decorative quote mark stays off */
 body .proof-card::before { content: none; }
 
 @media (max-width: 540px) {
-    body .bottom-cta-inner::before { width: 110vw; top: -8%; }
+    body :is(.proof-card, .testimonial-card, .mid-cta)::after { width: 100vw; left: -20%; }
 }
 
 /* hero date line (some pages): was white for the old dark hero */
