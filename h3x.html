@@ -41,377 +41,327 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/image/favicons/favicon-16x16.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="/image/favicons/apple-touch-icon.png" />
 
+  <link rel="manifest" href="/image/favicons/site.webmanifest" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="covo-editorial.css" />
+
   <style>
-    /* =========================================================
-       H3X Podcast page
-       Premium comes from proportion, type, and space — not decoration.
-       Palette: black · white · warm off-white · H3X burnt orange
-       ========================================================= */
-
-    :root {
-      --ink: #111111;
-      --ink-soft: #3f3f3f;
-      --muted: #6b6660;
-      --paper: #ffffff;
-      --warm: #f6f2ec;
-      --line: #e7e1d7;
-      --orange: #bd5a22;
-      --orange-deep: #a54c1a;
-
-      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-              Helvetica, Arial, sans-serif;
-
-      --measure: 40rem;      /* controlled reading width  */
-      --frame: 68rem;        /* overall composition width  */
-      --gutter: clamp(1.5rem, 5vw, 4rem);
-    }
-
-    * { box-sizing: border-box; }
+    /* ==============================================
+       H3X Podcast — page layer on covo-editorial.css.
+       Masthead, hero, buttons, black band and footer come from the
+       editorial system. Episode rows are rendered by the script below,
+       so the class names it emits (.episode, .episode-play, .play-dot,
+       .episodes-more, .see-all, .episodes-status) are styled here.
+       ============================================== */
 
     html { scroll-behavior: smooth; }
 
-    body {
-      margin: 0;
-      font-family: var(--font);
-      background: var(--paper);
-      color: var(--ink);
-      line-height: 1.5;
-      -webkit-font-smoothing: antialiased;
-      text-rendering: optimizeLegibility;
-    }
+    .masthead-link[aria-current="page"] { text-decoration-color: var(--c-coral); }
 
-    img { max-width: 100%; display: block; }
-
-    a { color: inherit; }
-
-    :focus-visible {
-      outline: 2px solid var(--orange);
-      outline-offset: 3px;
-      border-radius: 2px;
-    }
-
-    .wrap {
-      max-width: var(--frame);
-      margin: 0 auto;
-      padding-left: var(--gutter);
-      padding-right: var(--gutter);
-    }
-
-    /* ---------- Header ---------- */
-    .site-header {
-      padding: 1.4rem 0;
-    }
-
-    .site-header .wrap {
-      display: flex;
-      align-items: center;
-    }
-
-    .brand {
-      font-size: 1rem;
-      font-weight: 700;
-      letter-spacing: -0.01em;
-      text-decoration: none;
-      color: var(--ink);
-    }
-
-    /* ---------- Hero ---------- */
-    .hero {
-      background: var(--warm);
-      padding: clamp(3.5rem, 9vw, 7.5rem) 0 clamp(3.5rem, 9vw, 7rem);
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 26rem) minmax(0, 1fr);
-      gap: clamp(2.5rem, 6vw, 5.5rem);
-      align-items: center;
-    }
-
-    .hero-art {
-      width: 100%;
-      max-width: 26rem;
-      aspect-ratio: 1 / 1;
-      border-radius: 18px;
-      overflow: hidden;
-      background: #1a1a1a;
-      /* the one subtle shadow on the page */
-      box-shadow: 0 30px 60px -24px rgba(40, 24, 12, 0.45);
-    }
-
-    .hero-art img { width: 100%; height: 100%; object-fit: cover; }
-
+    /* Hero: host photo has names baked in, so it stays square (no crop) */
+    .hero .logo-wordmark { font-size: var(--fs-display); line-height: 1.04; }
+    .hero-media img,
+    .hero-media .hero-art-fallback { aspect-ratio: 1 / 1; }
     .hero-art-fallback {
-      width: 100%;
-      height: 100%;
       display: none;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 1.5rem;
-      background: var(--warm);
-      color: var(--ink);
+      gap: 1.25rem;
+      background: var(--c-ivory);
+      border-radius: var(--radius-media);
+      font-family: var(--font-serif);
+      font-size: 2.5rem;
+      color: var(--c-ink);
+    }
+    .hero-art-fallback img { width: 60%; height: auto; aspect-ratio: auto; border-radius: 0; }
+
+    /* Latest episode block inside the hero */
+    .hero-latest {
+      margin-top: 2rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--c-ink);
+      max-width: 32rem;
     }
 
-    .hero-art-fallback img { width: 62%; height: auto; }
-
-    .hero-art-fallback span {
-      font-size: 2.2rem;
-      font-weight: 700;
-      letter-spacing: 0.02em;
-    }
-
-    .hero-title {
-      font-size: clamp(4rem, 13vw, 7.5rem);
-      font-weight: 700;
-      line-height: 0.92;
-      letter-spacing: -0.045em;
-      margin: 0 0 1.4rem;
-    }
-
-    .hero-lede {
-      font-size: clamp(1.4rem, 3.2vw, 2.05rem);
-      font-weight: 600;
-      line-height: 1.18;
-      letter-spacing: -0.02em;
-      color: var(--ink);
-      margin: 0 0 1.25rem;
-      max-width: 22ch;
-    }
-
-    .hero-sub {
-      font-size: 1.125rem;
-      line-height: 1.6;
-      color: var(--ink-soft);
-      margin: 0 0 2.25rem;
-      max-width: 42ch;
-    }
-
-    .hero-latest-label {
+    .hero-latest-label,
+    .listen-label {
       display: block;
-      font-size: 0.75rem;
+      font-family: var(--font-ui);
+      font-size: var(--fs-label);
       font-weight: 600;
-      letter-spacing: 0.14em;
+      letter-spacing: var(--tracking-label);
       text-transform: uppercase;
-      color: var(--muted);
-      margin: 0 0 0.4rem;
+      color: var(--c-terracotta-text);
+      margin: 0 0 0.5rem;
     }
 
     .hero-latest-title {
-      font-size: 1.1rem;
-      font-weight: 600;
-      line-height: 1.35;
-      letter-spacing: -0.01em;
-      color: var(--ink);
-      margin: 0 0 1.35rem;
-      max-width: 34ch;
-      /* Never let a long title distort the hero — cap at two lines. */
+      font-family: var(--font-serif);
+      font-size: var(--fs-h3);
+      line-height: 1.15;
+      color: var(--c-ink);
+      margin: 0 0 1.25rem;
+      /* never let a long title distort the hero: cap at two lines */
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
 
-    .btn-primary {
-      display: inline-block;
-      background: var(--orange);
-      color: #ffffff;
-      font-size: 1.02rem;
-      font-weight: 600;
-      letter-spacing: -0.01em;
-      text-decoration: none;
-      padding: 0.95rem 1.9rem;
-      border-radius: 12px;
-      transition: background 0.2s ease;
-    }
-
-    .btn-primary:hover { background: var(--orange-deep); }
-
     .hero-platforms {
-      margin: 1.75rem 0 0;
       display: flex;
       flex-wrap: wrap;
-      gap: 1.6rem;
       align-items: center;
+      gap: 0.75rem 1.5rem;
+      margin-top: 1.75rem;
     }
+
+    .hero-platforms .listen-label { width: 100%; margin: 0; color: var(--c-ink); }
 
     .platform-link {
-      font-size: 1rem;
-      font-weight: 500;
-      color: var(--ink-soft);
-      text-decoration: none;
-      transition: color 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-family: var(--font-ui);
+      font-size: var(--fs-nav);
+      font-weight: 600;
+      letter-spacing: var(--tracking-ui);
+      text-transform: uppercase;
+      color: var(--c-ink);
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 0.3em;
     }
 
-    .platform-link:hover { color: var(--orange); }
+    .platform-link:hover { text-decoration-thickness: 2px; }
+    .platform-link svg { width: 1.15rem; height: 1.15rem; flex: none; }
 
-    .hero-hosted {
-      margin: 2.25rem 0 0;
-      font-size: 0.95rem;
-      color: var(--muted);
+    .hero .hero-microcopy { margin-top: 1.5rem; font-size: var(--fs-small); }
+
+    /* Generic editorial section */
+    .px-section { padding: 0 var(--gutter); background: var(--c-white); }
+
+    .px-container {
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: var(--section-y) 0;
+      border-top: 1px solid var(--c-line);
     }
 
-    /* ---------- Section scaffolding ---------- */
-    .section {
-      padding: clamp(4rem, 10vw, 7.5rem) 0;
+    .px-head { margin-bottom: clamp(2rem, 4vw, 3rem); }
+
+    .px-h2 {
+      font-family: var(--font-serif);
+      font-weight: 400;
+      font-size: var(--fs-h2);
+      line-height: var(--lh-heading);
+      color: var(--c-ink);
+      margin: 0;
     }
 
-    .section--warm { background: var(--warm); }
+    .px-lead { max-width: 34rem; margin: 0; font-size: var(--fs-lead); line-height: 1.6; color: var(--c-text-muted); }
 
-    .section-head {
-      font-size: clamp(2.1rem, 5.5vw, 3.25rem);
-      font-weight: 700;
-      line-height: 1.02;
-      letter-spacing: -0.035em;
-      margin: 0 0 clamp(2.5rem, 5vw, 3.5rem);
+    /* ---------- Start here: three numbered cards ---------- */
+    .rows {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: clamp(1rem, 2.5vw, 2rem);
     }
-
-    /* ---------- Start here ---------- */
-    .rows { max-width: 60rem; }
 
     .row {
-      display: grid;
-      grid-template-columns: 3.25rem 1fr auto;
-      align-items: baseline;
-      gap: clamp(1rem, 3vw, 2rem);
-      padding: 1.9rem 0;
-      border-top: 1px solid var(--line);
-      text-decoration: none;
-      color: var(--ink);
+      display: flex;
+      flex-direction: column;
+      padding: clamp(1.5rem, 2.5vw, 2rem);
+      background: var(--c-ivory);
+      border-radius: var(--radius-media);
     }
 
-    .rows .row:last-child { border-bottom: 1px solid var(--line); }
-
     .row-num {
-      font-size: 1.5rem;
-      font-weight: 600;
-      color: var(--orange);
-      letter-spacing: -0.02em;
-      line-height: 1.1;
+      display: block;
+      font-family: var(--font-ui);
+      font-size: clamp(2.75rem, 4.5vw, 3.5rem);
+      font-weight: 700;
+      line-height: 1;
+      color: var(--c-ink);
+      padding-bottom: 1rem;
+      margin-bottom: 1.25rem;
+      border-bottom: 1px solid var(--c-line);
     }
 
     .row-title {
-      font-size: clamp(1.25rem, 2.6vw, 1.6rem);
-      font-weight: 600;
-      line-height: 1.2;
-      letter-spacing: -0.02em;
-      margin: 0 0 0.5rem;
-      transition: color 0.2s ease;
+      font-family: var(--font-serif);
+      font-size: var(--fs-h3);
+      line-height: 1.12;
+      color: var(--c-ink);
+      margin: 0 0 0.6rem;
     }
 
+    .row-desc { margin: 0; font-size: var(--fs-card); line-height: 1.55; color: var(--c-text-muted); }
 
-    .row-desc {
-      font-size: 1.05rem;
-      line-height: 1.5;
-      color: var(--muted);
-      margin: 0;
-    }
+    .row .row-cta { margin-top: auto; padding-top: 1.5rem; }
 
-    .row-cta { align-self: center; }
-
-    /* ---------- Latest episodes ---------- */
-    .episodes { max-width: 60rem; }
-
-    .episode {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      align-items: center;
-      gap: clamp(1rem, 3vw, 2rem);
-      padding: 1.9rem 0;
-      border-top: 1px solid var(--line);
-      color: var(--ink);
-    }
-
-    .episode:last-child { border-bottom: 1px solid var(--line); }
-
-    .episode-date {
-      display: block;
-      font-size: 0.85rem;
-      font-weight: 500;
-      letter-spacing: 0.02em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin: 0 0 0.55rem;
-    }
-
-    .episode-title {
-      font-size: clamp(1.2rem, 2.4vw, 1.5rem);
-      font-weight: 600;
-      line-height: 1.22;
-      letter-spacing: -0.02em;
-      margin: 0 0 0.55rem;
-      transition: color 0.2s ease;
-    }
-
-    .episode-desc {
-      font-size: 1.02rem;
-      line-height: 1.5;
-      color: var(--muted);
-      margin: 0;
-      max-width: 46ch;
-    }
-
+    /* ---------- Play control (static rows + rendered episodes) ---------- */
     .episode-play,
     .row-cta {
       display: inline-flex;
       align-items: center;
-      gap: 0.45rem;
-      font: inherit;
-      font-size: 0.98rem;
-      font-weight: 600;
-      color: var(--orange);
-      background: none;
-      border: 0;
+      gap: 0.65rem;
+      align-self: flex-start;
       padding: 0;
-      white-space: nowrap;
-      align-self: center;
+      border: 0;
+      background: none;
+      font-family: var(--font-ui);
+      font-size: var(--fs-btn);
+      font-weight: 600;
+      letter-spacing: var(--tracking-ui);
+      text-transform: uppercase;
+      color: var(--c-ink);
       text-decoration: none;
+      white-space: nowrap;
       cursor: pointer;
     }
-
-    .episode-play:hover,
-    .row-cta:hover { color: var(--orange-deep); }
 
     .play-dot {
       display: inline-grid;
       place-items: center;
-      width: 2.1rem;
-      height: 2.1rem;
-      border-radius: 50%;
-      background: var(--orange);
-      color: #ffffff;
-      transition: background 0.2s ease;
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--c-ink);
+      border-radius: var(--radius);
+      background: var(--c-coral);
+      color: var(--c-ink);
+      transition: background-color var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
     }
-
-    .episode-play:hover .play-dot,
-    .row-cta:hover .play-dot { background: var(--orange-deep); }
 
     .play-dot svg { width: 0.8rem; height: 0.8rem; margin-left: 2px; }
 
-    .listen-label {
-      display: block;
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin: 0 0 0.6rem;
+    .episode-play:hover .play-dot,
+    .row-cta:hover .play-dot { background: var(--c-ink); color: var(--c-coral); }
+
+    /* ---------- Latest episodes ---------- */
+    .episodes-tools { max-width: 34rem; width: 100%; }
+    .episodes-tools .listen-label { color: var(--c-ink); }
+
+    /* underline-only field, same as the homepage email capture */
+    .episodes-search {
+      width: 100%;
+      height: 52px;
+      padding: 0.6rem 0.1rem;
+      border: 0;
+      border-bottom: 1px solid var(--c-ink);
+      border-radius: 0;
+      background: transparent;
+      font-family: var(--font-serif);
+      font-size: 1.3rem;
+      color: var(--c-ink);
+      -webkit-appearance: none;
+      appearance: none;
     }
 
-    /* ---------- Platform picker (popup) ---------- */
+    .episodes-search::placeholder { color: #5E6560; }
+    .episodes-search:focus { outline: none; box-shadow: 0 2px 0 0 var(--c-ink); }
+
+    .episodes { border-top: 1px solid var(--c-ink); }
+
+    .episode {
+      display: grid;
+      grid-template-columns: 9rem minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 0.35rem clamp(1rem, 3vw, 2.5rem);
+      padding: 1.5rem 0;
+      border-bottom: 1px solid var(--c-line);
+    }
+
+    /* the script wraps date + title + summary in one div; lay the date out as its own column */
+    .episode > div { display: contents; }
+
+    .episode-date {
+      align-self: start;
+      padding-top: 0.35rem;
+      font-family: var(--font-ui);
+      font-size: var(--fs-label);
+      font-weight: 600;
+      letter-spacing: var(--tracking-label);
+      text-transform: uppercase;
+      color: var(--c-text-muted);
+    }
+
+    .episode-title {
+      font-family: var(--font-serif);
+      font-size: var(--fs-h3);
+      line-height: 1.15;
+      color: var(--c-ink);
+      margin: 0 0 0.4rem;
+    }
+
+    .episode-desc { margin: 0; max-width: 46rem; font-size: var(--fs-card); line-height: 1.55; color: var(--c-text-muted); }
+
+    /* title + summary share the middle column */
+    .episode-title,
+    .episode-desc { grid-column: 2; }
+    .episode-title { align-self: end; }
+    .episode-desc { align-self: start; }
+    .episode-play { grid-column: 3; grid-row: 1 / span 2; }
+    .episode-date { grid-column: 1; grid-row: 1 / span 2; }
+
+    .episodes-more {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      min-height: 48px;
+      margin: 2rem 1.75rem 0 0;
+      padding: 0.8rem 1.4rem;
+      border: 1px solid var(--c-ink);
+      border-radius: var(--radius);
+      background: transparent;
+      font-family: var(--font-ui);
+      font-size: var(--fs-btn);
+      font-weight: 600;
+      letter-spacing: var(--tracking-ui);
+      text-transform: uppercase;
+      color: var(--c-ink);
+      cursor: pointer;
+      transition: background-color var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
+    }
+
+    .episodes-more:hover { background: var(--c-ink); color: var(--c-white); }
+
+    .see-all {
+      display: inline-block;
+      margin-top: 2rem;
+      font-family: var(--font-ui);
+      font-size: var(--fs-btn);
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      color: var(--c-ink);
+      text-decoration: underline;
+      text-decoration-thickness: 2px;
+      text-underline-offset: 0.3em;
+    }
+
+    .see-all:hover { text-decoration-thickness: 3px; }
+
+    .episodes-status { padding: 1.5rem 0; margin: 0; font-size: var(--fs-body); color: var(--c-text-muted); }
+    .episodes-status a { color: var(--c-ink); font-weight: 600; text-underline-offset: 0.25em; }
+
+    /* ---------- Black band CTA ---------- */
+    .whatsapp-cta-section .btn-primary { margin-top: 0.25rem; }
+
+    /* ---------- Platform picker ---------- */
     .picker {
+      margin: auto;                 /* styles.css resets margins; restore dialog centring */
       width: min(26rem, calc(100vw - 2rem));
       padding: 1.75rem;
-      border: 0;
-      border-radius: 18px;
-      background: var(--paper);
-      color: var(--ink);
-      box-shadow: 0 30px 60px -20px rgba(40, 24, 12, 0.45);
+      border: 1px solid var(--c-ink);
+      border-radius: var(--radius-media);
+      background: var(--c-white);
+      color: var(--c-ink);
     }
 
-    .picker::backdrop { background: rgba(17, 17, 17, 0.55); }
-
-    .picker[open] { animation: picker-in 0.18s ease-out; }
+    .picker::backdrop { background: rgba(11, 13, 12, 0.55); }
+    .picker[open] { animation: picker-in 0.18s var(--ease); }
 
     @keyframes picker-in {
       from { opacity: 0; transform: translateY(12px); }
@@ -420,27 +370,26 @@
 
     .picker-close {
       position: absolute;
-      top: 0.9rem;
-      right: 0.9rem;
-      width: 2.25rem;
-      height: 2.25rem;
-      border: 0;
-      border-radius: 50%;
-      background: var(--warm);
-      color: var(--ink);
+      top: 1rem;
+      right: 1rem;
+      width: 38px;
+      height: 38px;
+      border: 1px solid var(--c-ink);
+      border-radius: var(--radius);
+      background: transparent;
+      color: var(--c-ink);
       font-size: 1.35rem;
       line-height: 1;
       cursor: pointer;
     }
 
-    .picker-close:hover { background: var(--line); }
+    .picker-close:hover { background: var(--c-ink); color: var(--c-white); }
 
     .picker-title {
-      font-size: 1.2rem;
-      font-weight: 600;
-      line-height: 1.3;
-      letter-spacing: -0.015em;
-      margin: 0 2.5rem 1.4rem 0;
+      font-family: var(--font-serif);
+      font-size: var(--fs-h3);
+      line-height: 1.15;
+      margin: 0 3rem 1.4rem 0;
     }
 
     .picker-options { display: grid; gap: 0.65rem; }
@@ -450,178 +399,54 @@
       align-items: center;
       gap: 0.85rem;
       padding: 0.95rem 1.1rem;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      color: var(--ink);
+      border: 1px solid var(--c-ink);
+      border-radius: var(--radius);
+      font-family: var(--font-ui);
       font-size: 1.05rem;
       font-weight: 600;
-      text-decoration: none;
-      transition: border-color 0.2s ease, background 0.2s ease;
-    }
-
-    .picker-opt:hover { border-color: var(--ink); background: var(--warm); }
-
-    .picker-opt svg { width: 1.75rem; height: 1.75rem; flex: none; }
-
-    .picker-opt .arrow { margin-left: auto; color: var(--muted); }
-
-    .hero-platforms .platform-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
-
-    .hero-platforms svg { width: 1.1rem; height: 1.1rem; }
-
-    .hero-platforms .listen-label { width: 100%; margin: 0 0 -0.6rem; }
-
-    /* ---------- Episode search + more ---------- */
-    .episodes-tools { max-width: 60rem; margin: 0 0 1.5rem; }
-
-    .episodes-search {
-      width: 100%;
-      font: inherit;
-      font-size: 1.05rem;
-      padding: 0.85rem 1.1rem;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      background: var(--paper);
-      color: var(--ink);
-    }
-
-    .episodes-search:focus { outline: 2px solid var(--orange); outline-offset: 1px; }
-
-    .episodes-more {
-      display: inline-block;
-      margin-top: 1.9rem;
-      margin-right: 1.75rem;
-      font: inherit;
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--ink);
-      background: var(--paper);
-      border: 1px solid var(--ink);
-      border-radius: 12px;
-      padding: 0.8rem 1.5rem;
-      cursor: pointer;
-    }
-
-    .episodes-more:hover { background: var(--ink); color: #ffffff; }
-
-    .episodes-status {
-      padding: 1.5rem 0;
-      font-size: 1.05rem;
-      color: var(--muted);
-    }
-
-    .episodes-status a { color: var(--orange); font-weight: 600; }
-
-    .see-all {
-      display: inline-block;
-      margin-top: 1.9rem;
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--orange);
-      text-decoration: none;
-    }
-
-    .see-all:hover { color: var(--orange-deep); }
-
-    /* ---------- Final CTA ---------- */
-    .cta { background: var(--ink); color: #ffffff; }
-
-    .cta .wrap {
-      max-width: 46rem;
-      padding-top: clamp(4.5rem, 11vw, 8rem);
-      padding-bottom: clamp(4.5rem, 11vw, 8rem);
-    }
-
-    .cta-head {
-      font-size: clamp(2.1rem, 5.5vw, 3.25rem);
-      font-weight: 700;
-      line-height: 1.05;
-      letter-spacing: -0.035em;
-      margin: 0 0 1.25rem;
-    }
-
-    .cta-body {
-      font-size: 1.2rem;
-      line-height: 1.55;
-      color: rgba(255, 255, 255, 0.72);
-      margin: 0 0 2.5rem;
-      max-width: 44ch;
-    }
-
-    /* ---------- Footer ---------- */
-    .site-footer {
-      padding: 3rem 0 3.5rem;
-      border-top: 1px solid var(--line);
-    }
-
-    .footer-brand {
-      font-size: 1rem;
-      font-weight: 700;
-      letter-spacing: -0.01em;
-      margin: 0 0 0.35rem;
-    }
-
-    .footer-tag {
-      font-size: 0.82rem;
-      font-weight: 500;
-      letter-spacing: 0.14em;
+      letter-spacing: var(--tracking-ui);
       text-transform: uppercase;
-      color: var(--muted);
-      margin: 0;
+      color: var(--c-ink);
+      text-decoration: none;
+      transition: background-color var(--t-fast) var(--ease);
     }
 
-    /* ---------- Responsive: intentional, not merely stacked ---------- */
-    @media (max-width: 800px) {
-      .hero-grid {
-        grid-template-columns: 1fr;
-        gap: clamp(2.25rem, 8vw, 3rem);
-        justify-items: stretch;
-      }
+    .picker-opt:hover { background: var(--c-lime); }
+    .picker-opt svg { width: 1.75rem; height: 1.75rem; flex: none; }
+    .picker-opt .arrow { margin-left: auto; }
 
-      /* Fill the content width, with the page gutter as margins on each side. */
-      .hero-art { max-width: 100%; }
+    /* ---------- Responsive ---------- */
+    @media (max-width: 900px) {
+      .hero-media { max-width: 520px; width: 100%; }
+      .rows { grid-template-columns: 1fr; }
+      .row { display: grid; grid-template-columns: 4rem minmax(0, 1fr); column-gap: 1.25rem; }
+      .row-num { grid-row: span 3; border: 0; padding: 0; margin: 0; }
+      .row .row-cta { padding-top: 1.25rem; }
+    }
 
-      .row {
-        grid-template-columns: 2.25rem 1fr;
-        row-gap: 0.75rem;
-      }
+    @media (max-width: 700px) {
+      .episode { grid-template-columns: minmax(0, 1fr); gap: 0.4rem; padding: 1.35rem 0; }
+      .episode-date,
+      .episode-title,
+      .episode-desc,
+      .episode-play { grid-column: 1; grid-row: auto; }
+      .episode-date { padding-top: 0; }
+      .episode-play { margin-top: 0.75rem; }
 
-      .row-num { grid-area: num; }
-      .row > div:nth-child(2) { grid-area: content; }
-      .row-cta { grid-area: cta; align-self: start; justify-self: start; }
-
-      .episode {
-        grid-template-columns: 1fr;
-        gap: 0.75rem;
-      }
-
-      .row {
-        grid-template-areas:
-          "num  content"
-          ".    cta";
-      }
-
-      .episode-play { align-self: start; }
-
-      /* Bottom sheet on phones. */
+      /* bottom sheet on phones */
       .picker {
         width: 100%;
         max-width: 100%;
         margin: auto 0 0;
-        border-radius: 18px 18px 0 0;
+        border-radius: var(--radius-media) var(--radius-media) 0 0;
         padding-bottom: calc(1.75rem + env(safe-area-inset-bottom));
       }
-
-      .hero-platforms { gap: 1.1rem; }
     }
 
-    @media (prefers-reduced-motion: reduce) {
-      html { scroll-behavior: auto; }
-      * { transition: none !important; }
+    @media (max-width: 600px) {
+      .hero .hero-cta-row .btn { width: auto; }
+      .row { grid-template-columns: 3rem minmax(0, 1fr); padding: 1.35rem; }
+      .row-num { font-size: 2.25rem; }
     }
   </style>
   <script src="/utm-tracking.js"></script>
@@ -657,45 +482,64 @@
       <path fill="#fff" d="M9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
     </symbol>
   </svg>
-  <header class="site-header">
-    <div class="wrap">
-      <a class="brand" href="/">Covo Multipliers</a>
-    </div>
+
+  <header class="site-masthead" id="top">
+    <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="site-menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav class="masthead-center" aria-label="Primary">
+      <a class="masthead-link" href="/vision">Start Here</a>
+      <a class="masthead-wordmark" href="/">Covo <em>Multipliers</em></a>
+      <a class="masthead-link" href="/h3x" aria-current="page">Podcast</a>
+    </nav>
+
+    <a class="masthead-cta" href="/#upcoming-labs">Join a Lab</a>
   </header>
+
+  <div class="menu-overlay" id="menu-overlay"></div>
+
+  <nav class="slideout-menu" id="site-menu" aria-label="Main navigation">
+    <div class="slideout-menu-header">
+      <span class="slideout-menu-title">Covo Multipliers</span>
+      <button class="menu-close" type="button" aria-label="Close menu">&times;</button>
+    </div>
+
+    <div class="slideout-menu-links">
+      <a href="/">Home</a>
+      <a href="/vision">Start Here</a>
+      <a href="/h3x" aria-current="page">Podcast</a>
+      <a class="menu-lab-button" href="/#upcoming-labs">Join a Lab</a>
+    </div>
+  </nav>
 
   <!-- ============ HERO ============ -->
   <section class="hero">
-    <div class="wrap hero-grid">
-      <div class="hero-art">
-        <img
-          src="image/h3x-hosts.jpg"
-          alt="Mark in New York City and Dave in Oklahoma City, the hosts of H3X"
-          onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
-        />
-        <div class="hero-art-fallback" aria-hidden="true">
-          <img src="image/h3x podcast logo header.webp" alt="" />
-          <span>H3X</span>
-        </div>
-      </div>
+    <div class="hero-grid">
+      <div class="logo-area">
+        <p class="logo-tagline">H3X Podcast · Head. Heart. Hands.</p>
 
-      <div class="hero-copy">
-        <h1 class="hero-title">H3X</h1>
-        <p class="hero-lede">Make disciples where you already live, work, and play.</p>
-        <p class="hero-sub">
-          Weekly field-tested conversations for covocational leaders. Head. Heart. Hands.
+        <h1 class="logo-wordmark">Make disciples where you <mark class="hero-mark">already live, work, and play.</mark></h1>
+
+        <p class="logo-positioning">
+          Weekly field-tested conversations for covocational leaders.
         </p>
 
         <div class="hero-latest">
           <span class="hero-latest-label">Latest episode</span>
           <p class="hero-latest-title" id="latest-title">The Practices That Make Us the Church Jesus Had in Mind</p>
-          <a
-            class="btn-primary"
-            id="play-latest"
-            href="https://open.spotify.com/show/2NNDtnQaRLeqRU2N3LVayR"
-            target="_blank"
-            rel="noopener"
-            data-play
-          >Play episode</a>
+          <div class="hero-cta-row" style="margin-top:0;">
+            <a
+              class="btn btn-primary"
+              id="play-latest"
+              href="https://open.spotify.com/show/2NNDtnQaRLeqRU2N3LVayR"
+              target="_blank"
+              rel="noopener"
+              data-play
+            >Play Episode</a>
+          </div>
         </div>
 
         <div class="hero-platforms">
@@ -705,39 +549,57 @@
           <a class="platform-link" href="https://www.youtube.com/playlist?list=PL1YoQQDZVDO68yuhJzvcu11DQxF3H_y4O" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-youtube" /></svg>YouTube</a>
         </div>
 
-        <p class="hero-hosted">Hosted by Mark Goering and Dave Miller. New Tuesdays.</p>
+        <p class="hero-microcopy">Hosted by Mark Goering and Dave Miller · New Tuesdays</p>
       </div>
+
+      <figure class="hero-media">
+        <img
+          src="image/h3x-hosts.jpg"
+          alt="Mark in New York City and Dave in Oklahoma City, the hosts of H3X"
+          width="1024"
+          height="1024"
+          fetchpriority="high"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+        />
+        <div class="hero-art-fallback" aria-hidden="true">
+          <img src="image/h3x podcast logo header.webp" alt="" />
+          <span>H3X</span>
+        </div>
+      </figure>
     </div>
   </section>
 
   <!-- ============ START HERE ============ -->
-  <section class="section">
-    <div class="wrap">
-      <h2 class="section-head">Start here</h2>
+  <section class="px-section">
+    <div class="px-container">
+      <div class="px-head ed-split">
+        <h2 class="px-h2">Start here.</h2>
+        <p class="px-lead">New to the show? These three set the foundation.</p>
+      </div>
 
       <div class="rows">
         <div class="row">
-          <span class="row-num">1</span>
+          <span class="row-num" aria-hidden="true">01</span>
           <div>
-            <p class="row-title">How to Actually Have Spiritual Conversations</p>
+            <h3 class="row-title">How to Actually Have Spiritual Conversations</h3>
             <p class="row-desc">Move from small talk to real gospel conversations without forcing it.</p>
           </div>
           <a class="row-cta" href="https://open.spotify.com/episode/6apjtnX4URNrbCy8B0l6Mk" target="_blank" rel="noopener" data-play data-title="How to Actually Have Spiritual Conversations"><span class="play-dot" aria-hidden="true"><svg><use href="#i-play" /></svg></span>Play</a>
         </div>
 
         <div class="row">
-          <span class="row-num">2</span>
+          <span class="row-num" aria-hidden="true">02</span>
           <div>
-            <p class="row-title">You Don’t Have a Vision Problem. You Have a Habit Problem.</p>
+            <h3 class="row-title">You Don’t Have a Vision Problem. You Have a Habit Problem.</h3>
             <p class="row-desc">Why daily rhythms, not abstract ideas, drive multiplication.</p>
           </div>
           <a class="row-cta" href="https://open.spotify.com/episode/6J4sgxTS7LXX6Wpn02w2er" target="_blank" rel="noopener" data-play data-title="You Don’t Have a Vision Problem. You Have a Habit Problem."><span class="play-dot" aria-hidden="true"><svg><use href="#i-play" /></svg></span>Play</a>
         </div>
 
         <div class="row">
-          <span class="row-num">3</span>
+          <span class="row-num" aria-hidden="true">03</span>
           <div>
-            <p class="row-title">Margin Is Your Superpower</p>
+            <h3 class="row-title">Margin Is Your Superpower</h3>
             <p class="row-desc">How covocational leaders stay focused, free, and in the game long-term.</p>
           </div>
           <a class="row-cta" href="https://open.spotify.com/episode/1XLYxDbz5Zb2PV3WEeP3Nq" target="_blank" rel="noopener" data-play data-title="Margin Is Your Superpower"><span class="play-dot" aria-hidden="true"><svg><use href="#i-play" /></svg></span>Play</a>
@@ -747,13 +609,15 @@
   </section>
 
   <!-- ============ LATEST EPISODES ============ -->
-  <section class="section section--warm">
-    <div class="wrap">
-      <h2 class="section-head">Latest episodes</h2>
+  <section class="px-section">
+    <div class="px-container">
+      <div class="px-head ed-split">
+        <h2 class="px-h2">Latest episodes.</h2>
 
-      <div class="episodes-tools">
-        <label class="listen-label" for="episodes-search">Search all episodes</label>
-        <input class="episodes-search" id="episodes-search" type="search" placeholder="Try “habits”, “margin”, “spiritual conversations”…" autocomplete="off" />
+        <div class="episodes-tools">
+          <label class="listen-label" for="episodes-search">Search all episodes</label>
+          <input class="episodes-search" id="episodes-search" type="search" placeholder="Try “habits”, “margin”, “spiritual conversations”…" autocomplete="off" />
+        </div>
       </div>
 
       <div class="episodes" id="latest-episodes" aria-live="polite">
@@ -763,21 +627,48 @@
   </section>
 
   <!-- ============ FINAL CTA ============ -->
-  <section class="cta">
-    <div class="wrap">
-      <h2 class="cta-head">Don’t let this stay in your earbuds.</h2>
-      <p class="cta-body">
-        Join a free Lab and practice what you’re learning with other covocational leaders.
-      </p>
-      <a class="btn-primary" href="/#upcoming-labs">Join a Lab</a>
+  <section class="whatsapp-cta-section is-dark">
+    <div class="whatsapp-cta-container">
+      <p class="whatsapp-cta-eyebrow">Free live Lab</p>
+      <h2 class="whatsapp-cta-title">Don’t let this <span class="accent-coral">stay in your earbuds.</span></h2>
+      <p class="whatsapp-cta-copy">Join a free Lab and practice what you’re learning with other covocational leaders.</p>
+      <a class="btn btn-primary" href="/#upcoming-labs">Join a Free Lab</a>
     </div>
   </section>
 
   <!-- ============ FOOTER ============ -->
   <footer class="site-footer">
-    <div class="wrap">
-      <p class="footer-brand">Covo Multipliers</p>
-      <p class="footer-tag">Live. Work. Play. Multiply.</p>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="footer-wordmark">Covo <em>Multipliers</em></span>
+        <p class="footer-desc">Practical training for everyday leaders who want to make disciples where they live, work, and play.</p>
+      </div>
+
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <div class="footer-col">
+          <p class="footer-heading">Start</p>
+          <a href="/">Home</a>
+          <a href="/vision">Start Here</a>
+          <a href="/blog/">Blog</a>
+          <a href="/h3x">H3X Podcast</a>
+        </div>
+
+        <div class="footer-col">
+          <p class="footer-heading">Tools</p>
+          <a href="https://obey.tools">Obey.Tools</a>
+          <a href="https://churchwaffle.com">Church Waffle</a>
+          <a href="https://conversationquadrant.com">Conversation Quadrant</a>
+        </div>
+
+        <div class="footer-col">
+          <p class="footer-heading">Connect</p>
+          <a href="/contact">Contact</a>
+          <a href="https://www.covomultipliers.com/join-whatsapp?utm_source=footer&utm_medium=cta&utm_campaign=whatsapp_field_room" class="footer-highlight">Apply to Join the Field Room</a>
+          <a href="/privacy">Privacy</a>
+        </div>
+      </nav>
+
+      <a class="back-to-top" href="#top" aria-label="Back to top">↑</a>
     </div>
   </footer>
 
@@ -1165,6 +1056,39 @@
       } else {
         loadFeed();
       }
+    })();
+  </script>
+  <script>
+    (function () {
+      var menuToggle = document.querySelector('.menu-toggle');
+      var menuClose = document.querySelector('.menu-close');
+      var slideoutMenu = document.getElementById('site-menu');
+      var menuOverlay = document.getElementById('menu-overlay');
+      if (!menuToggle || !menuClose || !slideoutMenu || !menuOverlay) return;
+
+      function openMenu() {
+        slideoutMenu.classList.add('is-open');
+        menuOverlay.classList.add('is-open');
+        document.body.classList.add('menu-open');
+        menuToggle.setAttribute('aria-expanded', 'true');
+      }
+
+      function closeMenu() {
+        slideoutMenu.classList.remove('is-open');
+        menuOverlay.classList.remove('is-open');
+        document.body.classList.remove('menu-open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+      }
+
+      menuToggle.addEventListener('click', openMenu);
+      menuClose.addEventListener('click', closeMenu);
+      menuOverlay.addEventListener('click', closeMenu);
+      slideoutMenu.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', closeMenu);
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closeMenu();
+      });
     })();
   </script>
 </body>
