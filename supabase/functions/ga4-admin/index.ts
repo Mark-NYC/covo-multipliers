@@ -24,6 +24,8 @@
 // No GA credentials are returned to the caller.
 // No PII is requested or logged.
 
+import { substackReport } from "./substack-report.js";
+
 import { timingSafeEqual } from "https://deno.land/std@0.224.0/crypto/timing_safe_equal.ts";
 
 // ---------------------------------------------------------------------------
@@ -290,6 +292,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
   }
 
   const dateRange = { startDate, endDate };
+  const publicationProperty = Deno.env.get("SUBSTACK_GA4_PROPERTY_ID") || propertyId;
 
   // --- Get Google access token ---
   let token: string;
@@ -298,6 +301,19 @@ Deno.serve(async (req: Request): Promise<Response> => {
     console.log("[ga4-admin] token exchange ok, action:", action, "dates:", startDate, "→", endDate);
   } catch (e) {
     return err(502, (e as Error).message, cors);
+  }
+
+  // Publication reports share the service account but may use their own property.
+  // Always filter hostname, so CoVo traffic cannot become Substack traffic.
+  if (action === "substack_traffic" || action === "substack_events") {
+    try {
+      const result = await runReport(token, publicationProperty, substackReport(action, dateRange));
+      return ok({ rows: result.rows, hostname: "multiplyingdisciples.substack.com",
+        startDate, endDate, message: result.rows.length ? "Publication web analytics connected." : "No publication web events in this date range. Check the Measurement ID, hostname and tracking setup." }, cors);
+    } catch (e) {
+      console.error("[ga4-admin] publication report:", (e as Error).message);
+      return err(502, "Substack GA4 report failed. Check property access and tracking setup.", cors);
+    }
   }
 
   // ---------------------------------------------------------------------------
@@ -481,6 +497,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
   return json(400, {
     success: false,
     error: "Unknown action.",
-    valid_actions: ["overview", "traffic_sources", "landing_pages", "page_paths", "campaigns", "events"],
+    valid_actions: ["overview", "traffic_sources", "landing_pages", "page_paths", "campaigns", "events", "substack_traffic", "substack_events"],
   }, cors);
 });
+

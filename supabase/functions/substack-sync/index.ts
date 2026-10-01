@@ -1,329 +1,69 @@
-// supabase/functions/substack-sync/index.ts
-//
-// Sync Substack post metrics to database
-//
-// POST /functions/v1/substack-sync
-// Headers: { "x-admin-secret": "your_secret" }
-// Body: { action: "sync_posts" | "get_metrics", publication_id?: string }
+// Publication articles and daily public engagement snapshots.
+// Notes, opens, views and subscriber counts require a separate authorized source.
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+import { collectPosts } from './core.js';
 
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+const secret = Deno.env.get('ADMIN_ANALYTICS_SECRET') || '';
+const db = createClient(Deno.env.get('SUPABASE_URL') || '', Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') || '');
+const headers = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'content-type, x-admin-secret',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  'Content-Type': 'application/json',
+};
+const json = (status: number, body: unknown) => new Response(JSON.stringify(body), { status, headers });
+const publication = 'multiplyingdisciples';
+const postColumns = 'id, title, post_url, published_at, post_type, audience, tags';
 
-const SUPABASE_URL = Deno.env.get("SUPABASE_URL") || "";
-const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || "";
-const ADMIN_SECRET = Deno.env.get("ADMIN_ANALYTICS_SECRET") || "";
-
-const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
-
-function corsHeaders() {
-  return {
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Headers": "content-type, x-admin-secret",
-    "Access-Control-Allow-Methods": "POST, OPTIONS",
-    "Content-Type": "application/json",
-  };
-}
-
-function json(status: number, body: unknown): Response {
-  return new Response(JSON.stringify(body), {
-    status,
-    headers: corsHeaders(),
-  });
-}
-
-interface SubstackPost {
-  id: string;
-  title: string;
-  subtitle?: string;
-  post_url: string;
-  published_at?: string;
-  likes: number;
-  comments: number;
-  restacks: number;
-  postType?: string;
-  audience?: string;
-  tags: string[];
-}
-
-// Fetch posts from Substack publication, including every engagement field
-// the list endpoint actually returns (likes, comments, restacks) and post
-// categorization metadata (type, audience, tags).
-//
-// Substack's public API does NOT expose page views, clicks, email opens, or
-// subscriber counts anywhere — those live behind an authenticated owner
-// dashboard. Web pageviews/clicks for these posts are tracked separately via
-// the GA4 panel instead (see admin/funnel.html GA4 section).
-async function fetchSubstackPosts(publicationName: string): Promise<SubstackPost[]> {
+Deno.serve(async req => {
+  if (req.method === 'OPTIONS') return new Response('OK', { headers });
+  if (!secret) return json(503, { error: 'Configuration missing', details: 'Set ADMIN_ANALYTICS_SECRET in Edge Function Secrets.' });
+  if (req.headers.get('x-admin-secret') !== secret) return json(401, { error: 'Unauthorized' });
+  if (req.method !== 'POST') return json(405, { error: 'Method not allowed' });
+  let body;
+  try { body = await req.json(); } catch { return json(400, { error: 'Invalid JSON request' }); }
+  if (!body || typeof body !== 'object') return json(400, { error: 'Invalid request' });
+  if (body.publication_id && body.publication_id !== publication) return json(400, { error: 'Unsupported publication' });
+  const action = body.action;
   try {
-    // Substack doesn't have an official API, so we use the undocumented /api/v1/posts endpoint
-    const postsUrl = `https://${publicationName}.substack.com/api/v1/posts?limit=50`;
-    const response = await fetch(postsUrl);
-    if (!response.ok) {
-      throw new Error(`Substack API error: ${response.status}`);
+    if (action === 'sync_posts') {
+      return json(200, await collectPosts({ db, fetcher: fetch, publication }));
     }
-    // Substack /api/v1/posts returns a plain array, not { posts: [...] }
-    const data = await response.json();
-    const posts = Array.isArray(data) ? data : (data.posts || []);
-    return posts.map((p: Record<string, unknown>) => ({
-      id: String(p.id),
-      title: String(p.title || ""),
-      subtitle: p.subtitle ? String(p.subtitle) : undefined,
-      post_url: String(p.canonical_url || p.post_url || ""),
-      published_at: p.post_date ? String(p.post_date) : (p.published_at ? String(p.published_at) : undefined),
-      likes: Number(p.reaction_count || 0),
-      comments: Number(p.comment_count || 0),
-      restacks: Number(p.restacks || 0),
-      postType: p.type ? String(p.type) : undefined,
-      audience: p.audience ? String(p.audience) : undefined,
-      tags: Array.isArray(p.postTags)
-        ? (p.postTags as Array<Record<string, unknown>>).map((t) => String(t.name || "")).filter(Boolean)
-        : [],
-    }));
-  } catch (error) {
-    console.error("Error fetching Substack posts:", error);
-    return [];
-  }
-}
-
-async function debugShapes(publicationName: string): Promise<Response> {
-  // Fetch raw API responses and return them as-is for field inspection
-  const postsUrl = `https://${publicationName}.substack.com/api/v1/posts?limit=2`;
-  const postsRes = await fetch(postsUrl);
-  const postsRaw = await postsRes.json();
-
-  const posts = Array.isArray(postsRaw) ? postsRaw : (postsRaw.posts || []);
-  const firstPost = posts[0];
-  const postId = firstPost?.id;
-
-  let postDetailRaw: unknown = null;
-  if (postId) {
-    const detailUrl = `https://${publicationName}.substack.com/api/v1/posts/${postId}`;
-    const detailRes = await fetch(detailUrl);
-    postDetailRaw = await detailRes.json();
-  }
-
-  // Surface only the keys and their types/values — avoid giant HTML bodies
-  function shapeOf(obj: unknown, depth = 0): unknown {
-    if (depth > 2 || obj === null || typeof obj !== "object") return obj;
-    if (Array.isArray(obj)) return obj.slice(0, 2).map((v) => shapeOf(v, depth + 1));
-    const out: Record<string, unknown> = {};
-    for (const [k, v] of Object.entries(obj as Record<string, unknown>)) {
-      if (typeof v === "string" && v.length > 120) {
-        out[k] = v.slice(0, 80) + "…[truncated]";
-      } else {
-        out[k] = shapeOf(v, depth + 1);
+    if (action === 'health') {
+      const posts = await db.from('substack_posts').select(postColumns, { count: 'exact', head: true }).eq('publication_id', publication);
+      if (posts.error) throw new Error(`Post schema check failed: ${posts.error.message}`);
+      const metrics = await db.from('substack_metrics').select(`metric_day, likes, comments, restacks, substack_posts!inner(publication_id)`).eq('substack_posts.publication_id', publication).order('metric_day', { ascending: false }).limit(1);
+      if (metrics.error) throw new Error(`Snapshot schema check failed: ${metrics.error.message}`);
+      const latest = metrics.data?.[0]?.metric_day || null;
+      return json(200, { schema_ready: true, post_count: posts.count, latest_metric_day: latest,
+        has_snapshots: !!latest, notes_supported: false,
+        message: latest ? 'Stored publication snapshots available. Check snapshot date for freshness.' : 'Database ready. Run sync_posts to collect the first snapshot.' });
+    }
+    if (action === 'list_posts') {
+      let query = db.from('substack_posts').select(postColumns).eq('publication_id', publication).not('published_at', 'is', null).order('published_at', { ascending: true }).limit(1000);
+      for (const key of ['p_start', 'p_end']) {
+        if (body[key] && !Number.isFinite(Date.parse(body[key]))) return json(400, { error: `Invalid ${key}` });
       }
+      if (body.p_start) query = query.gte('published_at', body.p_start);
+      if (body.p_end) query = query.lt('published_at', body.p_end);
+      const { data, error } = await query;
+      if (error) throw new Error(`Post query failed: ${error.message}`);
+      return json(200, { data });
     }
-    return out;
-  }
-
-  return json(200, {
-    posts_endpoint_is_array: Array.isArray(postsRaw),
-    first_post_shape: shapeOf(firstPost),
-    post_detail_shape: shapeOf(postDetailRaw),
-    fields_of_interest: {
-      id: firstPost?.id,
-      title: firstPost?.title,
-      canonical_url: firstPost?.canonical_url,
-      post_url: firstPost?.post_url,
-      slug: firstPost?.slug,
-      post_date: firstPost?.post_date,
-      published_at: firstPost?.published_at,
-      reactions: (firstPost as Record<string, unknown>)?.reactions,
-      reaction_count: (firstPost as Record<string, unknown>)?.reaction_count,
-      comment_count: firstPost?.comment_count,
-      comments: (firstPost as Record<string, unknown>)?.comments,
-      // detail endpoint fields
-      detail_reactions: (postDetailRaw as Record<string, unknown>)?.reactions,
-      detail_reaction_count: (postDetailRaw as Record<string, unknown>)?.reaction_count,
-      detail_comment_count: (postDetailRaw as Record<string, unknown>)?.comment_count,
-      detail_likes: (postDetailRaw as Record<string, unknown>)?.likes,
-      detail_total_views: (postDetailRaw as Record<string, unknown>)?.total_views,
-      detail_views: (postDetailRaw as Record<string, unknown>)?.views,
-      detail_clicks: (postDetailRaw as Record<string, unknown>)?.clicks,
+    if (action === 'get_metrics') {
+      const { data, error } = await db.from('substack_metrics')
+        .select(`id, post_id, metric_day, likes, comments, restacks, substack_posts!inner(${postColumns}, publication_id)`)
+        .eq('substack_posts.publication_id', publication)
+        .order('metric_day', { ascending: false }).limit(1000);
+      if (error) throw new Error(`Snapshot query failed: ${error.message}`);
+      if (!data?.length) return json(503, { error: 'No snapshots collected', details: 'Run sync_posts after applying the Substack database setup.' });
+      return json(200, { data, latest_metric_day: data[0].metric_day, notes_supported: false });
     }
-  });
-}
-
-async function syncPosts(publicationName: string): Promise<Response> {
-  try {
-    const posts = await fetchSubstackPosts(publicationName);
-
-    if (posts.length === 0) {
-      return json(200, { message: "No posts found", synced: 0 });
-    }
-
-    let synced = 0;
-
-    for (const post of posts) {
-      // Check if post already exists
-      const { data: existing } = await supabase
-        .from("substack_posts")
-        .select("id")
-        .eq("id", post.id)
-        .single();
-
-      if (!existing) {
-        // Insert new post
-        const { error } = await supabase.from("substack_posts").insert({
-          id: post.id,
-          publication_id: publicationName,
-          title: post.title,
-          subtitle: post.subtitle || null,
-          post_url: post.post_url,
-          published_at: post.published_at || null,
-          post_type: post.postType || null,
-          audience: post.audience || null,
-          tags: post.tags,
-        });
-        if (error) continue;
-      }
-
-      synced++;
-
-      // Upsert today's engagement snapshot (one row per post per day)
-      const today = new Date().toISOString().slice(0, 10);
-      await supabase.from("substack_metrics").upsert({
-        post_id: post.id,
-        metric_day: today,
-        likes: post.likes,
-        comments: post.comments,
-        restacks: post.restacks,
-      }, { onConflict: "post_id,metric_day" });
-    }
-
-    return json(200, {
-      message: "Sync completed",
-      synced,
-      total: posts.length,
-    });
+    return json(400, { error: 'Unknown action', actions: ['health', 'sync_posts', 'get_metrics', 'list_posts'] });
   } catch (error) {
-    console.error("Error in syncPosts:", error);
-    return json(500, { error: "Sync failed", details: String(error) });
-  }
-}
-
-// list_posts — posts published within a date range, for overlaying on the
-// lab sign-up trend chart (admin/funnel.html) to visualize content → sign-up
-// correlation. Returns title/date/type/url only, no engagement metrics.
-async function listPosts(startIso?: string, endIso?: string): Promise<Response> {
-  try {
-    let query = supabase
-      .from("substack_posts")
-      .select("id, title, post_url, published_at, post_type, audience")
-      .not("published_at", "is", null)
-      .order("published_at", { ascending: true });
-
-    if (startIso) query = query.gte("published_at", startIso);
-    if (endIso) query = query.lt("published_at", endIso);
-
-    const { data, error } = await query;
-    if (error) {
-      return json(500, { error: "Query failed", details: error.message });
-    }
-    return json(200, { data });
-  } catch (error) {
-    console.error("Error in listPosts:", error);
-    return json(500, { error: "Query failed", details: String(error) });
-  }
-}
-
-async function getMetrics(publicationName?: string): Promise<Response> {
-  try {
-    let query = supabase
-      .from("substack_metrics")
-      .select(
-        `
-        id,
-        post_id,
-        metric_day,
-        likes,
-        comments,
-        restacks,
-        substack_posts (
-          id,
-          title,
-          post_url,
-          published_at,
-          post_type,
-          audience,
-          tags
-        )
-      `
-      )
-      .order("metric_day", { ascending: false })
-      .limit(50);
-
-    if (publicationName) {
-      query = query.eq("substack_posts.publication_id", publicationName);
-    }
-
-    const { data, error } = await query;
-
-    if (error) {
-      return json(500, { error: "Query failed", details: error.message });
-    }
-
-    return json(200, { data });
-  } catch (error) {
-    console.error("Error in getMetrics:", error);
-    return json(500, { error: "Query failed", details: String(error) });
-  }
-}
-
-Deno.serve(async (req) => {
-  if (req.method === "OPTIONS") {
-    return new Response("OK", { headers: corsHeaders() });
-  }
-
-  // Verify admin secret
-  const secret = req.headers.get("x-admin-secret");
-  console.log("[substack-sync] auth_diag", {
-    secret_env_set: !!ADMIN_SECRET,
-    secret_env_len: ADMIN_SECRET.length,
-    provided_len: secret?.length ?? 0,
-    match: secret === ADMIN_SECRET,
-  });
-  if (secret !== ADMIN_SECRET) {
-    return json(401, { error: "Unauthorized" });
-  }
-
-  if (req.method !== "POST") {
-    return json(405, { error: "Method not allowed" });
-  }
-
-  try {
-    const body = await req.json() as { action?: string; publication_id?: string; p_start?: string; p_end?: string };
-    const { action, publication_id, p_start, p_end } = body;
-
-    if (!action) {
-      return json(400, { error: "Missing action parameter" });
-    }
-
-    if (action === "debug_shapes") {
-      if (!publication_id) {
-        return json(400, { error: "Missing publication_id for debug_shapes" });
-      }
-      return await debugShapes(publication_id);
-    }
-
-    if (action === "sync_posts") {
-      if (!publication_id) {
-        return json(400, { error: "Missing publication_id for sync_posts" });
-      }
-      return await syncPosts(publication_id);
-    }
-
-    if (action === "get_metrics") {
-      return await getMetrics(publication_id);
-    }
-
-    if (action === "list_posts") {
-      return await listPosts(p_start, p_end);
-    }
-
-    return json(400, { error: "Unknown action" });
-  } catch (error) {
-    console.error("Error processing request:", error);
-    return json(500, { error: "Internal server error", details: String(error) });
+    const details = error instanceof Error ? error.message : 'Unknown Substack error';
+    console.error('[substack-sync]', { action, error: details });
+    return json(500, { error: 'Substack integration failed', details,
+      setup: 'Check database setup, then test health and sync_posts.' });
   }
 });
