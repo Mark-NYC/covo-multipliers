@@ -42,6 +42,10 @@ export function isHoneypotFilled(body: Record<string, unknown>): boolean {
 // Email validation + normalization
 // ---------------------------------------------------------------------------
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+// Resend rejects dot-atoms with empty labels ("a..b@x.com", ".a@x.com",
+// "a.@x.com", "a@x..com"), and it rejects the WHOLE batch when one address
+// is bad, so these must be caught here.
+const BAD_DOTS_RE = /\.\.|^\.|\.@|@\.|\.$/;
 export const MAX_EMAIL_LEN = 254; // RFC 5321 maximum
 
 export interface EmailResult {
@@ -54,7 +58,7 @@ export function validateEmail(raw: unknown): EmailResult {
   if (typeof raw !== "string") return { ok: false };
   const email = raw.trim().toLowerCase();
   if (email.length === 0 || email.length > MAX_EMAIL_LEN) return { ok: false };
-  if (!EMAIL_RE.test(email)) return { ok: false };
+  if (!EMAIL_RE.test(email) || BAD_DOTS_RE.test(email)) return { ok: false };
   return { ok: true, email };
 }
 
