@@ -76,6 +76,7 @@ import {
   MULTI_SESSION_EVENTS,
   type MultiSessionEvent,
 } from "../_shared/eventSessions.ts";
+import { validateEmail } from "../_shared/spamProtection.ts";
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -600,12 +601,20 @@ async function sendReminderBatch(
   // Build recipient list with event lookup
   const eventMap = new Map<string, LabEvent>(dueEvents.map((e) => [e.id, e]));
 
-  const recipients: Recipient[] = (rows ?? [])
-    .filter((r) => r.email?.trim())
+  // One malformed address makes Resend reject the entire batch, so drop
+  // invalid ones up front (left unstamped; they count as skipped).
+  const validRows = (rows ?? []).filter((r) => {
+    if (validateEmail(r.email).ok) return true;
+    console.warn(`[reminders] ${type}: skipping invalid email for registration_id=${r.id}`);
+    result.skipped++;
+    return false;
+  });
+
+  const recipients: Recipient[] = validRows
     .map((r) => ({
       registration_id: r.id,
       name: r.name ?? "Friend",
-      email: r.email.trim().toLowerCase(),
+      email: validateEmail(r.email).email!,
       event: eventMap.get(r.event_id)!,
       origin: {
         first_utm_source:   r.first_utm_source ?? null,
@@ -743,7 +752,12 @@ async function sendSessionReminderBatch(
   }
 
   type RegRow = { id: string; name: string | null; email: string | null };
-  const regs = ((rows ?? []) as RegRow[]).filter((r) => r.email?.trim());
+  const regs = ((rows ?? []) as RegRow[]).filter((r) => {
+    if (validateEmail(r.email).ok) return true;
+    console.warn(`[reminders] ${tag}: skipping invalid email for registration_id=${r.id}`);
+    result.skipped++;
+    return false;
+  });
   if (regs.length === 0) return result;
 
   const { data: sentRows, error: sentErr } = await supabase

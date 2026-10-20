@@ -85,7 +85,10 @@ Deno.test("email: valid addresses normalize to lowercase + trimmed", () => {
 });
 
 Deno.test("email: rejects malformed and over-long addresses", () => {
-  for (const bad of ["nope", "a@b", "a@@b.com", "a b@c.com", "@x.com", "x@.com", ""]) {
+  for (const bad of [
+    "nope", "a@b", "a@@b.com", "a b@c.com", "@x.com", "x@.com", "",
+    "zoe..cr.ys.t.al...r.ichard.3.6@gmail.com", ".a@x.com", "a.@x.com", "a@x..com", "a@x.com.",
+  ]) {
     assertFalse(validateEmail(bad).ok, `expected "${bad}" invalid`);
   }
   assertFalse(validateEmail("a".repeat(250) + "@example.com").ok);
