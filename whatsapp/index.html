@@ -37,668 +37,164 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/image/favicons/favicon-16x16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/image/favicons/apple-touch-icon.png">
     <link rel="manifest" href="/image/favicons/site.webmanifest">
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/covo-editorial.css">
     <link rel="canonical" href="https://covomultipliers.com/whatsapp">
 
     <style>
         /* ==============================================
-           WhatsApp Landing Page — Covo Multipliers
-        ============================================== */
+           WhatsApp next steps — page layer on covo-editorial.css
+           ============================================== */
 
-        *, *::before, *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+        /* Step 1 intro: eyebrow, serif headline, lead, CTAs (shared shape with contact) */
+        .pg-section { padding: 0 var(--gutter); background: var(--c-white); }
+        .pg-container { max-width: var(--container); margin: 0 auto; padding: clamp(2.5rem, 5vw, 4rem) 0 var(--section-y); }
+        .pg-eyebrow { display: block; margin-bottom: 1.25rem; }
+        .pg-title {
+            font-family: var(--font-serif);
+            font-weight: 400;
+            font-size: var(--fs-display);
+            line-height: var(--lh-tight);
+            color: var(--c-ink);
+            margin: 0 0 1.5rem;
         }
+        .pg-lead { max-width: 32rem; margin: 0; font-size: var(--fs-lead); line-height: 1.6; color: var(--c-text-muted); }
 
-        html { scroll-behavior: smooth; }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-                         Helvetica, Arial, sans-serif;
-            background: #f7f6f2;
-            color: #1a1a1a;
-            line-height: 1.5;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        img { max-width: 100%; display: block; }
-
-
-        /* -----------------------------------------------
-           SITE HEADER
-        ----------------------------------------------- */
-
-        .site-header {
-            background: #ffffff;
-            border-bottom: 1px solid #e5e7eb;
-            padding: 1rem 1.5rem;
-            display: flex;
+        .wa-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+            column-gap: clamp(2rem, 6vw, 6rem);
             align-items: center;
-            justify-content: space-between;
         }
 
-        .site-header .brand {
-            font-size: 0.95rem;
-            font-weight: 900;
-            color: #10281f;
-            text-decoration: none;
-            letter-spacing: -0.01em;
-        }
+        .wa-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem; }
+        .wa-actions .btn { min-height: 54px; padding: 0.9rem 1.6rem; }
+        .wa-icon { width: 20px; height: 20px; flex-shrink: 0; }
+        .wa-microcopy { margin: 0.75rem 0 0; font-size: var(--fs-small); color: var(--c-text-muted); }
 
-        .site-header .back-link {
-            font-size: 0.875rem;
-            color: #5a6b65;
-            text-decoration: none;
-            transition: color 0.15s ease;
-        }
-
-        .site-header .back-link:hover { color: #1b4d3e; }
-
-
-        /* -----------------------------------------------
-           HERO
-        ----------------------------------------------- */
-
-        .hero {
-            background: linear-gradient(160deg,
-                #10281f 0%,
-                #1b4d3e 40%,
-                #2c6b5d 70%,
-                #9f7a2f 90%,
-                #dcb55a 100%
-            );
-            padding: 3.5rem 1.5rem 4rem;
+        /* desktop QR card */
+        .wa-qr-card {
+            padding: clamp(1.75rem, 4vw, 2.75rem);
+            background: var(--c-ivory);
+            border-radius: var(--radius-media);
             text-align: center;
-            position: relative;
-            overflow: hidden;
         }
-
-        .hero::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-            background:
-                radial-gradient(ellipse at 15% 15%, rgba(255,255,255,0.06) 0%, transparent 55%),
-                radial-gradient(ellipse at 85% 85%, rgba(220,181,90,0.10) 0%, transparent 55%);
-        }
-
-        .hero-inner {
-            position: relative;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .hero-eyebrow {
-            display: inline-block;
-            font-size: 0.72rem;
-            font-weight: 800;
-            letter-spacing: 0.14em;
-            text-transform: uppercase;
-            color: rgba(220,181,90,0.95);
-            margin-bottom: 1rem;
-        }
-
-        .hero h1 {
-            font-size: clamp(2rem, 5.5vw, 3rem);
-            font-weight: 900;
-            color: #ffffff;
+        .wa-qr-card .ed-label { display: block; margin-bottom: 0.5rem; }
+        .wa-qr-card h2 {
+            font-family: var(--font-serif);
+            font-weight: 400;
+            font-size: var(--fs-h3);
             line-height: 1.1;
-            letter-spacing: -0.03em;
-            margin-bottom: 1.1rem;
+            color: var(--c-ink);
+            margin: 0 0 0.5rem;
         }
-
-        .hero-sub {
-            font-size: 1.05rem;
-            color: rgba(255,255,255,0.8);
-            line-height: 1.65;
-            max-width: 480px;
-            margin: 0 auto 2.25rem;
-        }
-
-        .btn-whatsapp {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.65rem;
-            padding: 1rem 2rem;
-            background: #25D366;
-            color: #ffffff;
-            font-size: 1.05rem;
-            font-weight: 800;
-            font-family: inherit;
-            text-decoration: none;
-            border-radius: 999px;
-            letter-spacing: 0.01em;
-            box-shadow: 0 8px 28px rgba(37,211,102,0.35), 0 2px 8px rgba(0,0,0,0.18);
-            transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
-            white-space: nowrap;
-        }
-
-        .btn-whatsapp:hover {
-            background: #1da851;
-            transform: translateY(-2px);
-            box-shadow: 0 12px 32px rgba(37,211,102,0.4), 0 4px 12px rgba(0,0,0,0.2);
-        }
-
-        .btn-whatsapp:active { transform: translateY(0); }
-
-        .btn-whatsapp:focus-visible {
-            outline: 3px solid #dcb55a;
-            outline-offset: 4px;
-        }
-
-        .whatsapp-icon {
-            width: 22px;
-            height: 22px;
-            flex-shrink: 0;
-        }
-
-        .hero-cta-row {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: center;
-            gap: 0.85rem;
-        }
-
-        .btn-labs {
-            display: inline-flex;
-            align-items: center;
-            padding: 0.95rem 1.75rem;
-            background: transparent;
-            color: #ffffff;
-            font-size: 1rem;
-            font-weight: 700;
-            font-family: inherit;
-            text-decoration: none;
-            border-radius: 999px;
-            border: 2px solid rgba(255,255,255,0.45);
-            letter-spacing: 0.01em;
-            transition: border-color 0.2s ease, background 0.2s ease, transform 0.15s ease;
-            white-space: nowrap;
-        }
-
-        .btn-labs:hover {
-            border-color: rgba(255,255,255,0.85);
-            background: rgba(255,255,255,0.08);
-            transform: translateY(-2px);
-        }
-
-        .btn-labs:active { transform: translateY(0); }
-
-        .btn-labs:focus-visible {
-            outline: 3px solid #dcb55a;
-            outline-offset: 4px;
-        }
-
-        .hero-microcopy {
-            margin-top: 1rem;
-            font-size: 0.8rem;
-            color: rgba(255,255,255,0.45);
-        }
-
-        @media (max-width: 480px) {
-            .hero-cta-row {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .btn-whatsapp,
-            .btn-labs {
-                justify-content: center;
-                width: 100%;
-            }
-        }
-
-
-        /* -----------------------------------------------
-           CARDS
-        ----------------------------------------------- */
-
-        .section-stack {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 2.5rem 1.25rem 4rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1.25rem;
-        }
-
-        .card {
-            background: #ffffff;
-            border: 1px solid #e5e7eb;
-            border-radius: 18px;
-            padding: 2rem 1.75rem;
-            box-shadow: 0 2px 16px rgba(16,40,31,0.06);
-        }
-
-        .card-eyebrow {
-            font-size: 0.68rem;
-            font-weight: 700;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: #5a6b65;
-            margin-bottom: 0.5rem;
-        }
-
-        .card h2 {
-            font-size: 1.2rem;
-            font-weight: 900;
-            color: #10281f;
-            letter-spacing: -0.01em;
-            margin-bottom: 0.45rem;
-        }
-
-        .card-body {
-            font-size: 0.92rem;
-            color: #5a6b65;
-            line-height: 1.6;
-            margin-bottom: 1.5rem;
-        }
-
-
-        /* -----------------------------------------------
-           QR CODE
-        ----------------------------------------------- */
-
-        .qr-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1.25rem;
-        }
+        .wa-qr-card p { margin: 0 auto 1.5rem; max-width: 24rem; font-size: var(--fs-card); line-height: 1.55; color: var(--c-text-muted); }
 
         .qr-box {
-            width: 180px;
-            height: 180px;
-            border-radius: 14px;
-            overflow: hidden;
-            box-shadow: 0 4px 16px rgba(16,40,31,0.12);
-            background: #ffffff;
+            display: inline-flex;
             padding: 12px;
-            border: 1px solid #e5e7eb;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            background: var(--c-white);
+            border: 1px solid var(--c-ink);
+            border-radius: var(--radius);
         }
-
         #qr-code { width: 156px; height: 156px; }
-
         #qr-code canvas,
-        #qr-code img {
-            width: 156px !important;
-            height: 156px !important;
-        }
+        #qr-code img { width: 156px !important; height: 156px !important; }
 
         .qr-link-row {
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            background: #f7f6f2;
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            padding: 0.55rem 0.85rem;
-            width: 100%;
-            max-width: 380px;
+            margin: 1.25rem auto 0;
+            max-width: 22rem;
+            padding: 0.4rem 0.4rem 0.4rem 0.85rem;
+            background: var(--c-white);
+            border: 1px solid var(--c-line);
+            border-radius: var(--radius);
+            text-align: left;
         }
+        .qr-link-text { flex: 1; font-size: 0.875rem; color: var(--c-text-muted); word-break: break-all; }
+        .qr-link-row .btn { min-height: 36px; padding: 0.4rem 0.8rem; font-size: var(--fs-label); }
 
-        .qr-link-text {
-            font-size: 0.75rem;
-            color: #5a6b65;
-            word-break: break-all;
-            flex: 1;
-            font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-        }
-
-        .btn-copy {
-            flex-shrink: 0;
-            padding: 0.3rem 0.7rem;
-            font-size: 0.75rem;
-            font-weight: 700;
-            font-family: inherit;
-            color: #1b4d3e;
-            background: transparent;
-            border: 1.5px solid #1b4d3e;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background 0.15s ease, color 0.15s ease;
-            white-space: nowrap;
-        }
-
-        .btn-copy:hover,
-        .btn-copy.copied {
-            background: #1b4d3e;
-            color: #ffffff;
-        }
-
-
-        /* -----------------------------------------------
-           STEP 2 · NEXT LAB
-        ----------------------------------------------- */
-
-        .next-lab-section {
-            background: #10281f;
-            padding: 4.5rem 1.5rem 5rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .next-lab-section::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-            background:
-                radial-gradient(ellipse at 12% 8%, rgba(220,181,90,0.10) 0%, transparent 55%),
-                radial-gradient(ellipse at 88% 96%, rgba(255,255,255,0.04) 0%, transparent 55%);
-        }
-
-        .next-lab-inner {
-            position: relative;
-            max-width: 780px;
+        /* Step 2: next lab */
+        .next-lab-section { padding: 0 var(--gutter); background: var(--c-white); }
+        .next-lab-container {
+            max-width: var(--container);
             margin: 0 auto;
-            text-align: center;
-        }
-
-        .next-lab-step {
-            display: inline-block;
-            font-size: 0.72rem;
-            font-weight: 800;
-            letter-spacing: 0.14em;
-            text-transform: uppercase;
-            color: #dcb55a;
-            margin-bottom: 1rem;
-        }
-
-        .next-lab-headline {
-            font-size: clamp(1.95rem, 5vw, 2.7rem);
-            font-weight: 900;
-            color: #ffffff;
-            line-height: 1.12;
-            letter-spacing: -0.025em;
-            margin-bottom: 0.9rem;
-        }
-
-        .next-lab-support {
-            font-size: 1.05rem;
-            line-height: 1.6;
-            color: rgba(255,255,255,0.78);
-            max-width: 560px;
-            margin: 0 auto 2.6rem;
+            padding: clamp(3rem, 5.5vw, 4.5rem) 0 var(--section-y);
+            border-top: 1px solid var(--c-line);
         }
 
         /* Reserve vertical space so the loading → card swap doesn't jump. */
-        .next-lab-mount {
-            min-height: 360px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .next-lab-loading {
-            font-size: 0.95rem;
-            color: rgba(255,255,255,0.6);
-            text-align: center;
-            padding: 2rem 0;
-        }
+        .next-lab-mount { min-height: 360px; display: flex; flex-direction: column; justify-content: center; }
+        .next-lab-loading { margin: 0; color: var(--c-text-muted); text-align: center; }
 
         .next-lab-card {
-            text-align: left;
-            background: #fffdf8;
-            border: 1px solid rgba(220,181,90,0.3);
-            border-radius: 22px;
-            overflow: hidden;
-            box-shadow: 0 26px 60px rgba(0,0,0,0.38);
             display: grid;
-            grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            max-width: 64rem;
+            margin: 0 auto;
+            overflow: hidden;
+            background: var(--c-ivory);
+            border-radius: var(--radius-media);
         }
-
-        .next-lab-media {
-            position: relative;
-            background: #0b1d16;
-            /* Fixed ratio on mobile; stretches to card height on desktop. */
-        }
-
         .next-lab-media img {
             width: 100%;
             height: 100%;
-            min-height: 260px;
+            min-height: 280px;
             object-fit: cover;
             object-position: 50% 42%;
             display: block;
         }
-
         .next-lab-body {
-            padding: 2.25rem 2.25rem 2.4rem;
             display: flex;
             flex-direction: column;
             align-items: flex-start;
+            padding: clamp(1.5rem, 3.5vw, 2.75rem);
         }
-
-        .next-lab-datetime {
-            font-size: 0.9rem;
-            font-weight: 800;
-            letter-spacing: 0.01em;
-            color: #1b4d3e;
-            margin-bottom: 0.7rem;
-        }
-
-        .next-lab-title {
-            font-size: clamp(1.4rem, 2.4vw, 1.75rem);
-            font-weight: 900;
-            line-height: 1.2;
-            letter-spacing: -0.01em;
-            color: #10281f;
-            margin-bottom: 0.7rem;
-        }
-
-        .next-lab-hook {
-            font-size: 1rem;
-            line-height: 1.6;
-            color: #3f4a45;
-            margin-bottom: 1.15rem;
-        }
-
+        .next-lab-body .lab-when { align-self: stretch; }
+        .next-lab-body .lab-title { font-size: var(--fs-h2); line-height: 1.05; }
         .next-lab-meta {
-            font-size: 0.8rem;
-            font-weight: 800;
-            letter-spacing: 0.04em;
+            margin: 1.1rem 0 1.5rem;
+            font-family: var(--font-ui);
+            font-size: var(--fs-label);
+            font-weight: 600;
+            letter-spacing: var(--tracking-label);
             text-transform: uppercase;
-            color: #5a6b65;
-            margin-bottom: 1rem;
+            color: var(--c-text-muted);
         }
-
-        .next-lab-seats {
-            display: inline-block;
-            font-size: 0.8rem;
-            font-weight: 800;
-            letter-spacing: 0.02em;
-            padding: 0.35rem 0.9rem;
-            border-radius: 999px;
-            background: rgba(220,181,90,0.16);
-            color: #7a5515;
-            border: 1px solid rgba(159,122,47,0.4);
-            margin-bottom: 1.5rem;
-        }
-
-        .next-lab-seats.is-full {
-            background: #f3f4f6;
-            color: #6b7280;
-            border-color: #e5e7eb;
-        }
-
-        .next-lab-cta {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem 2.25rem;
-            background: #1b4d3e;
-            color: #ffffff;
-            font-size: 1.05rem;
-            font-weight: 800;
-            font-family: inherit;
-            text-decoration: none;
-            border-radius: 999px;
-            letter-spacing: 0.01em;
-            box-shadow: 0 8px 24px rgba(16,40,31,0.28);
-            transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
-        }
-
-        .next-lab-cta:hover {
-            background: #10281f;
-            transform: translateY(-2px);
-            box-shadow: 0 12px 30px rgba(16,40,31,0.35);
-        }
-
-        .next-lab-cta:active { transform: translateY(0); }
-
-        .next-lab-cta:focus-visible {
-            outline: 3px solid #dcb55a;
-            outline-offset: 3px;
-        }
-
-        .next-lab-microcopy {
-            margin-top: 0.9rem;
-            font-size: 0.82rem;
-            color: #6b7a73;
-        }
+        .next-lab-body .btn { min-height: 54px; padding: 0.9rem 1.8rem; }
+        .next-lab-microcopy { margin: 0.75rem 0 0; font-size: var(--fs-small); color: var(--c-text-muted); }
 
         /* Fallback (no lab / fetch error) */
         .next-lab-fallback {
-            text-align: center;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(220,181,90,0.28);
-            border-radius: 22px;
-            padding: 2.75rem 2rem 3rem;
-        }
-
-        .next-lab-fallback-title {
-            font-size: clamp(1.4rem, 3.5vw, 1.85rem);
-            font-weight: 900;
-            color: #ffffff;
-            letter-spacing: -0.01em;
-            margin-bottom: 0.7rem;
-        }
-
-        .next-lab-fallback-copy {
-            font-size: 1rem;
-            line-height: 1.6;
-            color: rgba(255,255,255,0.75);
-            max-width: 440px;
-            margin: 0 auto 1.75rem;
-        }
-
-        .next-lab-fallback .btn-whatsapp {
-            font-size: 1rem;
-            padding: 0.9rem 1.9rem;
-        }
-
-        @media (max-width: 720px) {
-            .next-lab-section { padding: 3.25rem 1.25rem 3.75rem; }
-            .next-lab-card { grid-template-columns: 1fr; }
-            .next-lab-media img {
-                min-height: 0;
-                aspect-ratio: 16 / 10;
-            }
-            .next-lab-body { padding: 1.7rem 1.5rem 1.9rem; }
-            .next-lab-cta { width: 100%; }
-        }
-
-
-        /* -----------------------------------------------
-           HELP CARD
-        ----------------------------------------------- */
-
-        .help-card {
-            background: #f0faf5;
-            border-color: #c4e8d8;
-        }
-
-        .btn-contact {
-            display: inline-block;
-            padding: 0.7rem 1.5rem;
-            background: #1b4d3e;
-            color: #ffffff;
-            font-size: 0.92rem;
-            font-weight: 700;
-            font-family: inherit;
-            text-decoration: none;
-            border-radius: 999px;
-            letter-spacing: 0.01em;
-            transition: background 0.18s ease, transform 0.1s ease;
-        }
-
-        .btn-contact:hover { background: #10281f; }
-        .btn-contact:active { transform: scale(0.98); }
-
-        .btn-contact:focus-visible {
-            outline: 3px solid #dcb55a;
-            outline-offset: 4px;
-        }
-
-
-        /* -----------------------------------------------
-           FOOTER
-        ----------------------------------------------- */
-
-        .site-footer {
-            background: #10281f;
-            padding: 2.5rem 1.5rem;
-        }
-
-        .footer-inner {
-            max-width: 960px;
+            max-width: 44rem;
             margin: 0 auto;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1.5rem 3rem;
-            align-items: flex-start;
+            padding: clamp(2.25rem, 5vw, 3.5rem) var(--gutter);
+            background: var(--c-ivory);
+            border-radius: var(--radius-media);
+            text-align: center;
+        }
+        .next-lab-fallback h3 {
+            font-family: var(--font-serif);
+            font-weight: 400;
+            font-size: var(--fs-h3);
+            line-height: 1.1;
+            color: var(--c-ink);
+            margin: 0 0 0.5rem;
+        }
+        .next-lab-fallback p { margin: 0 auto 1.5rem; max-width: 30rem; color: var(--c-text-muted); }
+
+        @media (max-width: 860px) {
+            .wa-grid { grid-template-columns: 1fr; row-gap: 2.5rem; }
+            .next-lab-card { grid-template-columns: 1fr; }
+            .next-lab-media img { min-height: 0; aspect-ratio: 16 / 10; }
         }
 
-        .footer-wordmark {
-            display: block;
-            font-size: 1rem;
-            font-weight: 900;
-            color: #ffffff;
-            letter-spacing: -0.01em;
-            margin-bottom: 0.4rem;
-        }
-
-        .footer-desc {
-            margin: 0;
-            font-size: 0.825rem;
-            color: rgba(255,255,255,0.5);
-            line-height: 1.55;
-            max-width: 280px;
-        }
-
-        .footer-nav {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem 1.5rem;
-            align-items: center;
-        }
-
-        .footer-nav a {
-            font-size: 0.875rem;
-            color: rgba(255,255,255,0.6);
-            text-decoration: none;
-            transition: color 0.15s ease;
-        }
-
-        .footer-nav a:hover { color: #ffffff; }
-
-
-        /* -----------------------------------------------
-           RESPONSIVE
-        ----------------------------------------------- */
-
-        @media (max-width: 520px) {
-            .hero { padding: 2.75rem 1.25rem 3.25rem; }
-            .hero h1 { font-size: 1.9rem; }
-            .hero-sub { font-size: 0.95rem; }
-            .btn-whatsapp { font-size: 0.97rem; padding: 0.9rem 1.6rem; }
-            .section-stack { padding: 2rem 1rem 3rem; }
-            .card { padding: 1.5rem 1.25rem; }
+        @media (max-width: 600px) {
+            .wa-actions { flex-direction: column; }
+            .wa-actions .btn,
+            .next-lab-body .btn { width: 100%; }
         }
     </style>
     <script src="/utm-tracking.js"></script>
@@ -710,83 +206,103 @@
 </head>
 <body>
 
-    <header class="site-header">
-        <a class="brand" href="/">Covo Multipliers</a>
-        <a class="back-link" href="/">← Back to home</a>
+    <header class="site-masthead" id="top">
+        <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="site-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <nav class="masthead-center" aria-label="Primary">
+            <a class="masthead-link" href="/vision">Start Here</a>
+            <a class="masthead-wordmark" href="/">Covo <em>Multipliers</em></a>
+            <a class="masthead-link" href="/h3x">Podcast</a>
+        </nav>
+
+        <a class="masthead-cta" href="/#upcoming-labs">Join a Lab</a>
     </header>
 
+    <div class="menu-overlay" id="menu-overlay"></div>
 
-    <!-- HERO · STEP 1 -->
-    <section class="hero">
-        <div class="hero-inner">
-            <span class="hero-eyebrow">Step 1 · Apply to Join the Field Room</span>
+    <nav class="slideout-menu" id="site-menu" aria-label="Main navigation">
+        <div class="slideout-menu-header">
+            <span class="slideout-menu-title">Covo Multipliers</span>
+            <button class="menu-close" type="button" aria-label="Close menu">&times;</button>
+        </div>
 
-            <h1>Keep going as a Covo Multiplier</h1>
+        <div class="slideout-menu-links">
+            <a href="/">Home</a>
+            <a href="/vision">Start Here</a>
+            <a href="/h3x">Podcast</a>
+            <a href="/immersions">Immersions</a>
+            <a class="menu-lab-button" href="/#upcoming-labs">Join a Lab</a>
+        </div>
+    </nav>
 
-            <p class="hero-sub">
-                You don't have to do this alone. Apply to Join the Field Room, keep practicing, and take the next step with other everyday leaders learning to make disciples where they live, work, and play.
-            </p>
 
-            <div class="hero-cta-row">
-                <a
-                    class="btn-whatsapp"
-                    href="https://www.covomultipliers.com/join-whatsapp?utm_source=whatsapp_page&utm_medium=cta&utm_campaign=whatsapp_field_room"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Apply to join the Covo Multipliers WhatsApp group"
-                >
-                    <svg class="whatsapp-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-                    </svg>
-                    Apply to Join the Field Room
-                </a>
+    <!-- STEP 1 · FIELD ROOM -->
+    <section class="pg-section">
+        <div class="pg-container">
+            <div class="wa-grid">
+                <div>
+                    <p class="ed-label pg-eyebrow">Step 1 · Apply to Join the Field Room</p>
+                    <h1 class="pg-title">Keep going as a Covo Multiplier.</h1>
+                    <p class="pg-lead">
+                        You don't have to do this alone. Apply to Join the Field Room, keep practicing, and take the next step with other everyday leaders learning to make disciples where they live, work, and play.
+                    </p>
 
-                <a class="btn-labs" href="#next-lab">Reserve the Next Lab</a>
+                    <div class="wa-actions">
+                        <a
+                            class="btn btn-primary"
+                            href="https://www.covomultipliers.com/join-whatsapp?utm_source=whatsapp_page&utm_medium=cta&utm_campaign=whatsapp_field_room"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Apply to join the Covo Multipliers WhatsApp group"
+                        >
+                            <svg class="wa-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                            </svg>
+                            Apply to Join the Field Room
+                        </a>
+
+                        <a class="btn btn-secondary" href="#next-lab">Reserve the Next Lab</a>
+                    </div>
+
+                    <p class="wa-microcopy">Opens the WhatsApp app or web — your choice.</p>
+                </div>
+
+                <!-- QR code / desktop card -->
+                <div class="wa-qr-card">
+                    <span class="ed-label">On desktop?</span>
+                    <h2>Scan to join from your phone</h2>
+                    <p>Scan this QR code with your phone camera to open the group in WhatsApp.</p>
+
+                    <div class="qr-box">
+                        <div id="qr-code"></div>
+                    </div>
+
+                    <div class="qr-link-row">
+                        <span class="qr-link-text" id="wa-link-text">covomultipliers.com/join-whatsapp</span>
+                        <button class="btn btn-secondary" id="btn-copy" type="button" aria-label="Copy WhatsApp link">
+                            Copy Link
+                        </button>
+                    </div>
+                </div>
             </div>
-
-            <p class="hero-microcopy">Opens the WhatsApp app or web — your choice.</p>
         </div>
     </section>
 
 
-    <div class="section-stack">
-
-        <!-- QR code / desktop card -->
-        <div class="card">
-            <p class="card-eyebrow">On desktop?</p>
-            <h2>Scan to join from your phone</h2>
-            <p class="card-body">
-                Scan this QR code with your phone camera to open the group in WhatsApp.
-            </p>
-
-            <div class="qr-wrapper">
-                <div class="qr-box">
-                    <div id="qr-code"></div>
-                </div>
-
-                <div class="qr-link-row">
-                    <span class="qr-link-text" id="wa-link-text">covomultipliers.com/join-whatsapp</span>
-                    <button class="btn-copy" id="btn-copy" type="button" aria-label="Copy WhatsApp link">
-                        Copy Link
-                    </button>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-
     <!-- STEP 2 · NEXT LAB (dynamic — pulled from the public-labs feed) -->
     <section class="next-lab-section" id="next-lab">
-        <div class="next-lab-inner">
-
-            <span class="next-lab-step">Step 2 · Reserve Your Next Lab</span>
-
-            <h2 class="next-lab-headline">Put the next lab on your calendar.</h2>
-
-            <p class="next-lab-support">
-                You took one step today. Join us for the next 45-minute lab and keep building a path you can practice and pass on.
-            </p>
+        <div class="next-lab-container">
+            <div class="labs-head">
+                <span class="ed-label">Step 2 · Reserve Your Next Lab</span>
+                <h2 class="labs-title">Put the next lab on your calendar.</h2>
+                <p class="labs-explainer">
+                    You took one step today. Join us for the next 45-minute lab and keep building a path you can practice and pass on.
+                </p>
+            </div>
 
             <div class="next-lab-mount" id="next-lab-mount" aria-live="polite">
                 <p class="next-lab-loading">Loading the next lab&hellip;</p>
@@ -795,33 +311,48 @@
     </section>
 
 
-    <div class="section-stack" style="padding-top: 2rem; padding-bottom: 2rem;">
-        <div class="card help-card">
-            <p class="card-eyebrow">Need help?</p>
-            <h2>Having trouble joining?</h2>
-            <p class="card-body">
-                Reach out to us and we'll help get you added.
-            </p>
-            <a class="btn-contact" href="/contact">Contact Us</a>
+    <!-- HELP -->
+    <section class="final-cta">
+        <div class="final-cta-container">
+            <h2 class="final-cta-title">Having trouble joining?</h2>
+            <p class="final-cta-copy">Reach out to us and we'll help get you added.</p>
+            <a class="btn btn-primary" href="/contact">Contact Us</a>
         </div>
-    </div>
+    </section>
 
 
     <footer class="site-footer">
         <div class="footer-inner">
-            <div>
-                <span class="footer-wordmark">Covo Multipliers</span>
+            <div class="footer-brand">
+                <span class="footer-wordmark">Covo <em>Multipliers</em></span>
                 <p class="footer-desc">Practical training for everyday leaders who want to make disciples where they live, work, and play.</p>
             </div>
+
             <nav class="footer-nav" aria-label="Footer navigation">
-                <a href="/">Home</a>
-                <a href="/vision">Vision &amp; Pathway</a>
-                <a href="/blog/">Blog</a>
-                <a href="/resources">Resources</a>
-                <a href="/h3x">H3X Podcast</a>
-                <a href="/contact">Contact</a>
-                <a href="/privacy">Privacy</a>
+                <div class="footer-col">
+                    <p class="footer-heading">Start</p>
+                    <a href="/">Home</a>
+                    <a href="/vision">Start Here</a>
+                    <a href="/blog/">Blog</a>
+                    <a href="/h3x">H3X Podcast</a>
+                </div>
+
+                <div class="footer-col">
+                    <p class="footer-heading">Tools</p>
+                    <a href="https://obey.tools">Obey.Tools</a>
+                    <a href="https://churchwaffle.com">Church Waffle</a>
+                    <a href="https://conversationquadrant.com">Conversation Quadrant</a>
+                </div>
+
+                <div class="footer-col">
+                    <p class="footer-heading">Connect</p>
+                    <a href="/contact">Contact</a>
+                    <a href="https://www.covomultipliers.com/join-whatsapp?utm_source=footer&utm_medium=cta&utm_campaign=whatsapp_field_room" class="footer-highlight">Apply to Join the Field Room</a>
+                    <a href="/privacy">Privacy</a>
+                </div>
             </nav>
+
+            <a class="back-to-top" href="#top" aria-label="Back to top">↑</a>
         </div>
     </footer>
 
@@ -928,12 +459,14 @@
                                  alt="${escapeHtml(NEXT_LAB_IMAGE_ALT)}" loading="lazy" decoding="async">
                         </div>
                         <div class="next-lab-body">
-                            <span class="next-lab-datetime">${escapeHtml(formatEventDate(lab.event_date))}</span>
-                            <h3 class="next-lab-title">${escapeHtml(lab.title)}</h3>
-                            ${hook ? `<p class="next-lab-hook">${escapeHtml(hook)}</p>` : ''}
+                            <div class="lab-when">
+                                <span class="lab-datetime">${escapeHtml(formatEventDate(lab.event_date))}</span>
+                                <span class="lab-seats${isFull ? ' is-full' : ''}">${escapeHtml(seatsLabel)}</span>
+                            </div>
+                            <h3 class="lab-title">${escapeHtml(lab.title)}</h3>
+                            ${hook ? `<p class="lab-sub">${escapeHtml(hook)}</p>` : ''}
                             <p class="next-lab-meta">45 minutes · Live · Free · Max 25</p>
-                            <span class="next-lab-seats${isFull ? ' is-full' : ''}">${escapeHtml(seatsLabel)}</span>
-                            <a class="next-lab-cta" id="next-lab-cta"
+                            <a class="btn btn-lime" id="next-lab-cta"
                                href="${escapeHtml(ctaUrl)}"
                                data-lab-slug="${escapeHtml(lab.slug || '')}">${ctaLabel}</a>
                             <p class="next-lab-microcopy">No pitch. One framework. One next step you can use that week.</p>
@@ -962,12 +495,10 @@
                 );
                 mount.innerHTML = `
                     <div class="next-lab-fallback">
-                        <h3 class="next-lab-fallback-title">The next lab is being scheduled.</h3>
-                        <p class="next-lab-fallback-copy">
-                            Apply to Join the Field Room and you'll be the first to know the moment the next lab opens.
-                        </p>
-                        <a class="btn-whatsapp" href="${escapeHtml(waUrl)}" target="_blank" rel="noopener noreferrer">
-                            <svg class="whatsapp-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <h3>The next lab is being scheduled.</h3>
+                        <p>Apply to Join the Field Room and you'll be the first to know the moment the next lab opens.</p>
+                        <a class="btn btn-lime" href="${escapeHtml(waUrl)}" target="_blank" rel="noopener noreferrer">
+                            <svg class="wa-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                                 <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
                             </svg>
                             Apply to Join the Field Room
@@ -1050,7 +581,7 @@
                 text:         WA_QR_URL,
                 width:        156,
                 height:       156,
-                colorDark:    '#10281f',
+                colorDark:    '#1D2724',
                 colorLight:   '#ffffff',
                 correctLevel: QRCode.CorrectLevel.M,
             });
@@ -1062,10 +593,8 @@
             try {
                 await navigator.clipboard.writeText(WA_COPY_URL);
                 this.textContent = 'Copied!';
-                this.classList.add('copied');
                 setTimeout(() => {
                     this.textContent = 'Copy Link';
-                    this.classList.remove('copied');
                 }, 2000);
             } catch {
                 const range = document.createRange();
@@ -1074,6 +603,40 @@
                 window.getSelection().addRange(range);
             }
         });
+    </script>
+
+    <script>
+        (function () {
+            var menuToggle = document.querySelector('.menu-toggle');
+            var menuClose = document.querySelector('.menu-close');
+            var slideoutMenu = document.getElementById('site-menu');
+            var menuOverlay = document.getElementById('menu-overlay');
+            if (!menuToggle || !menuClose || !slideoutMenu || !menuOverlay) return;
+
+            function openMenu() {
+                slideoutMenu.classList.add('is-open');
+                menuOverlay.classList.add('is-open');
+                document.body.classList.add('menu-open');
+                menuToggle.setAttribute('aria-expanded', 'true');
+            }
+
+            function closeMenu() {
+                slideoutMenu.classList.remove('is-open');
+                menuOverlay.classList.remove('is-open');
+                document.body.classList.remove('menu-open');
+                menuToggle.setAttribute('aria-expanded', 'false');
+            }
+
+            menuToggle.addEventListener('click', openMenu);
+            menuClose.addEventListener('click', closeMenu);
+            menuOverlay.addEventListener('click', closeMenu);
+            slideoutMenu.querySelectorAll('a').forEach(function (link) {
+                link.addEventListener('click', closeMenu);
+            });
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') closeMenu();
+            });
+        })();
     </script>
 
 </body>
