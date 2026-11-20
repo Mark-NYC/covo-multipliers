@@ -16,51 +16,53 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&amp;family=DM+Serif+Display&amp;family=DM+Sans:wght@400;500;600;700&amp;display=swap">
   <link rel="stylesheet" href="/covo-type.css">
+
   <style>
-    html{scroll-behavior:smooth} .prep{--prep-ink:#1d211d;--prep-muted:#5e645e;--prep-lime:#dafa83;color:var(--prep-ink)}
-    .prep .wrap{width:min(1120px,calc(100% - 44px));margin:auto}
-    .prep .eyebrow{font:700 .81rem/1.3 'DM Sans',sans-serif;letter-spacing:.13em;text-transform:uppercase}
-    .prep h1,.prep h2,.prep h3{font-family:'DM Serif Display',Georgia,serif;font-weight:400;letter-spacing:-.015em}
-    .prep h1{font-size:clamp(2.8rem,6.2vw,5.8rem);line-height:1.03;margin:.8rem 0 1.15rem}
-    .prep h2{font-size:clamp(2rem,3.7vw,3.2rem);line-height:1.12;margin:.55rem 0 1rem}
-    .prep h3{font-size:1.5rem;margin:.35rem 0 .65rem}
-    .prep p,.prep li{line-height:1.65}.prep p{margin:0 0 1.05rem}
-    .prep .lead{font-size:clamp(1.12rem,2vw,1.38rem);max-width:650px;color:var(--prep-muted)}
-    .prep-hero{background:#f6f4ed;padding:clamp(60px,9vw,112px) 0 64px}
-    .prep-kicker{display:inline-block;background:var(--prep-lime);padding:9px 13px}
-    .prep-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
-    .prep-btn{display:inline-flex;justify-content:center;align-items:center;text-align:center;min-height:52px;padding:13px 22px;background:#20251f;color:#fff!important;font:700 .94rem 'DM Sans',sans-serif;text-decoration:none;border:1px solid #20251f}
-    .prep-btn:hover,.prep-btn:focus-visible{background:#414b39}.prep-btn.alt{background:transparent;color:#20251f!important}.prep-btn.alt:hover{background:#e8e9dd}
-    .prep-section{padding:clamp(54px,7vw,90px) 0;border-bottom:1px solid #d6d8d1}
-    .prep-split{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,6vw,90px);align-items:start}
-    .prep-step{font:700 .8rem 'DM Sans',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#59624c}
-    .prep-video{aspect-ratio:16/9;background:#121612;width:100%;display:block}
-    .prep-video video{width:100%;height:100%;object-fit:contain;display:block}
-    .prep-hint{font-size:.92rem;color:var(--prep-muted);margin-top:10px!important}
-    .prep-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin:30px 0 0;padding:0;list-style:none}
-    .prep-steps li{border-top:3px solid #20251f;padding-top:15px}
-    .prep-steps strong{display:block;font:700 1rem 'DM Sans',sans-serif;margin-bottom:7px}
-    .prep-question-list{margin-top:28px;padding:clamp(24px,4vw,42px);border:1px solid #d9dcd2;background:#f7f6f0;max-width:900px}
-    .prep-question-list h3{font-size:1.45rem;margin:0 0 14px}
-    .prep-question-list h3:not(:first-child){margin-top:30px;padding-top:24px;border-top:1px solid #d9dcd2}
-    .prep-question-list ol,.prep-question-list ul{padding-left:1.4rem;margin:0}
-    .prep-question-list li{padding-left:.3rem;margin:0 0 12px;line-height:1.65}
-    .prep-question-list li:last-child{margin-bottom:0}
-    .prep-field{padding:24px;background:#f7f6f0;border:1px solid #e0e0d7}
-    .prep-field .number{font:700 .85rem 'DM Sans',sans-serif;color:#687c4e;letter-spacing:.09em}
-    .prep-field h3{margin-top:12px}.prep-field p{margin:0}
-    .prep-leaders{margin-top:14px;padding:25px;background:#e4edce;display:grid;grid-template-columns:minmax(0,190px) 1fr;gap:25px}
-    .prep-leaders p{margin:0}
-    .prep-other{margin-top:25px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-    .prep-other div{padding:18px 15px;border-top:2px solid #1d211d;background:#f5f5f1}
-    .prep-other strong{font:700 .95rem 'DM Sans',sans-serif}.prep-other p{font-size:.92rem;margin:8px 0 0}
-    .prep-end{background:#1d241e;color:#fff;padding:clamp(55px,7vw,90px) 0}
-    .prep-end h2{color:#fff;max-width:700px}.prep-end p{color:#e6e9df;max-width:650px}
-    .prep-end .prep-btn{background:#dafa83;color:#20251f!important;border-color:#dafa83}
-    .prep-download{padding:26px;background:#f5f5ef;border-left:5px solid #a5cb54}
-    .prep-download p:last-child{margin-bottom:0}
-    @media(max-width:760px){.prep-split,.prep-steps{grid-template-columns:1fr}.prep-other{grid-template-columns:repeat(2,1fr)}.prep-leaders{grid-template-columns:1fr;gap:6px}}
-    @media(max-width:520px){.prep-fields,.prep-other{grid-template-columns:1fr}.prep .wrap{width:min(100% - 32px,1120px)}.prep-btn{width:100%}}
+    html { scroll-behavior: smooth; }
+    .prep { color: #1d211d; }
+    .prep .wrap { width: min(1040px, calc(100% - 48px)); margin-inline: auto; }
+    .prep .eyebrow { display: block; font: 700 .78rem/1.4 'DM Sans', sans-serif; letter-spacing: .12em; text-transform: uppercase; }
+    .prep h1, .prep h2, .prep h3 { font-family: 'DM Serif Display', Georgia, serif; font-weight: 400; letter-spacing: -.015em; }
+    .prep h1 { font-size: clamp(2.6rem, 5vw, 4.7rem); line-height: 1.08; margin: .75rem 0 1rem; }
+    .prep h2 { font-size: clamp(1.9rem, 3.3vw, 2.8rem); line-height: 1.15; margin: .45rem 0 .9rem; }
+    .prep h3 { font-size: 1.4rem; margin: 0 0 1rem; }
+    .prep p, .prep li { line-height: 1.6; }
+    .prep p { margin: 0 0 .9rem; }
+    .prep .lead { font-size: clamp(1.07rem, 1.6vw, 1.25rem); max-width: 690px; color: #50574f; }
+    .prep .prep-hero { padding: clamp(44px, 6vw, 76px) 0 clamp(45px, 6vw, 76px); background: #f6f4ed; }
+    .prep .prep-hero .eyebrow { display: inline-block; background: #dafa83; padding: 8px 12px; }
+    .prep .intro-line { margin-top: 1rem; font-weight: 600; color: #1d211d; }
+    .prep .video-wrap { margin-top: clamp(24px, 4vw, 38px); max-width: 870px; }
+    .prep video { width: 100%; display: block; aspect-ratio: 16 / 9; background: #151a15; object-fit: contain; }
+    .prep .media-caption { font-size: .87rem; margin-top: .65rem; color: #5a6157; }
+    .prep .prep-study { padding: clamp(45px, 6vw, 78px) 0; }
+    .prep .study-intro { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: clamp(24px, 5vw, 60px); align-items: center; }
+    .prep .diagram { display: block; width: 100%; max-width: 475px; height: auto; margin: 0 auto; }
+    .prep .study-description { font-size: 1.07rem; color: #50574f; }
+    .prep .prep-btn { display: inline-flex; justify-content: center; align-items: center; padding: 13px 21px; min-height: 50px; background: #20251f; color: #fff !important; font: 700 .93rem 'DM Sans', sans-serif; text-decoration: none; border: 1px solid #20251f; }
+    .prep .prep-btn:hover, .prep .prep-btn:focus-visible { background: #42503c; }
+    .prep .questions { margin-top: clamp(28px, 5vw, 50px); background: #f7f6f0; border: 1px solid #e0e0d7; padding: clamp(22px, 4vw, 36px); }
+    .prep .questions h3 { margin-bottom: .8rem; }
+    .prep .questions ol, .prep .questions ul { margin: 0; padding-left: 1.5rem; }
+    .prep .questions li { padding-left: .35rem; margin-bottom: .75rem; }
+    .prep .questions li:last-child { margin-bottom: 0; }
+    .prep .questions .additional { margin-top: 1.4rem; padding-top: 1.3rem; border-top: 1px solid #d7d9d0; }
+    .prep .questions .additional h3 { font-size: 1.18rem; }
+    .prep .prep-end { background: #1f2920; color: #fff; padding: clamp(38px, 5vw, 60px) 0; }
+    .prep .prep-end .end-row { display: flex; gap: 28px; justify-content: space-between; align-items: center; }
+    .prep .prep-end h2 { color: #fff; margin-bottom: .6rem; }
+    .prep .prep-end p { color: #e6eade; max-width: 640px; margin-bottom: 0; }
+    .prep .prep-end .prep-btn { flex-shrink: 0; background: #dafa83; border-color: #dafa83; color: #20251f !important; }
+    .prep .prep-end .prep-btn:hover { background: #ebffbc; }
+    @media (max-width: 750px) {
+      .prep .study-intro { grid-template-columns: 1fr; gap: 20px; }
+      .prep .diagram { max-width: 390px; }
+      .prep .prep-end .end-row { align-items: flex-start; flex-direction: column; gap: 22px; }
+    }
+    @media (max-width: 480px) {
+      .prep .wrap { width: calc(100% - 32px); }
+      .prep .prep-btn { width: 100%; }
+    }
   </style>
 </head>
 <body>
@@ -75,39 +77,36 @@
   <div class="slideout-menu-links"><a href="/">Home</a><a href="/vision">Start Here</a><a href="/four-fields-intensive">Four Fields Intensive</a><a href="/training">Training</a><a href="/h3x">Podcast</a></div>
 </nav>
 <main class="prep">
-  <section class="prep-hero">
+  <section class="prep-hero" id="watch">
     <div class="wrap">
-      <span class="eyebrow prep-kicker">Four Fields Intensive · Participant Preparation</span>
-      <h1>Come ready to <br><em>discover the pattern.</em></h1>
-      <p class="lead">Before we meet, spend time in Mark 1–4. Look for how Jesus entered new places, proclaimed the gospel, made disciples, gathered people, and developed leaders. Bring what you actually see in Scripture.</p>
-      <div class="prep-actions"><a class="prep-btn" href="#start">Start Preparing</a><a class="prep-btn alt" href="#worksheet">Get the Worksheet</a></div>
+      <span class="eyebrow">Four Fields Intensive · Participant Preparation</span>
+      <h1>Prepare for the Four Fields Intensive.</h1>
+      <p class="lead">Before we meet, watch this overview, read Mark 1–4, and record what you discover. We're looking for the patterns Jesus modeled in making disciples, gathering believers, and developing leaders.</p>
+      <p class="intro-line">Watch the video. Read Mark 1–4. Complete the worksheet. Bring your notes.</p>
+      <div class="video-wrap">
+        <video controls playsinline preload="metadata" aria-label="Four Fields overview video">
+          <source src="/media/4-Fields-of-SnapYT.App.mp4" type="video/mp4">
+          Your browser does not support HTML5 video.
+        </video>
+        <p class="media-caption">Four Fields overview · Plays right here on this page.</p>
+      </div>
     </div>
   </section>
-  <section class="prep-section" id="start">
+
+  <section class="prep-study" id="worksheet">
     <div class="wrap">
-      <span class="eyebrow">Your preparation</span><h2>Three things before the Intensive.</h2>
-      <ol class="prep-steps">
-        <li><span class="prep-step">01 / Watch</span><strong>Understand the Four Fields</strong><p>Watch the short overview below for a picture of the framework and how the pieces fit together.</p></li>
-        <li><span class="prep-step">02 / Discover</span><strong>Read Mark 1–4</strong><p>Observe what Jesus did, said, modeled, and entrusted to others. Use Scripture rather than assumptions.</p></li>
-        <li><span class="prep-step">03 / Bring</span><strong>Fill out your worksheet</strong><p>Write down passages and observations under each field. Bring the worksheet and your notes to the Intensive.</p></li>
-      </ol>
-    </div>
-  </section>
-  <section class="prep-section" id="watch">
-    <div class="wrap prep-split">
-      <div><span class="prep-step">01 / Watch</span><h2>What are the Four Fields?</h2>
-      <p>The Four Fields is a simple way to see the connected work of multiplication: entering new places and relationships, sharing the gospel, making obedient disciples, and gathering believers into healthy churches.</p>
-      <p><strong>Leadership is in the center.</strong> Leaders are identified from the harvest, equipped, and entrusted to multiply the whole process.</p>
-      <p>Watch with this question in mind: <em>Where can I see these patterns in the life and ministry of Jesus?</em></p></div>
-      <div><div class="prep-video"><video controls playsinline preload="metadata" aria-label="Four Fields overview video"><source src="/media/4-Fields-of-SnapYT.App.mp4" type="video/mp4">Your browser does not support HTML5 video.</video></div><p class="prep-hint">Four Fields overview · Plays directly on this page.</p></div>
-    </div>
-  </section>
-  <section class="prep-section" id="worksheet">
-    <div class="wrap">
-      <span class="prep-step">02 / Read and discover</span><h2>Read Mark 1–4. Follow the evidence.</h2>
-      <p class="lead">As you read, record specific examples and Scripture references. You do not have to fill every box or force the text to answer every question. Come ready to compare observations together.</p>
-      <div class="prep-download"><h3>Four Fields Discovery Worksheet</h3><p>Use the provided one-page worksheet to organize what you find. The four fields surround leadership in the center, with space below for four themes that run through the process.</p><a class="prep-btn" href="/media/4Fields%20Discovery%20Worksheet%20BLANK.pdf" download>Download Printable Worksheet (PDF)</a></div>
-      <div class="prep-question-list">
+      <div class="study-intro">
+        <div>
+          <span class="eyebrow">Your discovery study</span>
+          <h2>Read Mark 1–4.</h2>
+          <p class="study-description">Use the Four Fields Discovery Worksheet to write down what you observe. Look for specific actions, words, people, and Scripture references. Don't force answers where the text is silent.</p>
+          <p class="study-description">The four fields are <strong>Entry, Gospel, Discipleship, and Church</strong>, with <strong>Leaders</strong> at the center of multiplication.</p>
+          <a class="prep-btn" href="/media/4Fields%20Discovery%20Worksheet%20BLANK.pdf" download>Download the Worksheet (PDF)</a>
+        </div>
+        <img class="diagram" src="/image/four-fields-diagram.webp" width="1046" height="850" loading="lazy" alt="Four Fields diagram showing Entry, Gospel, Discipleship, and Church, with Leaders at the center">
+      </div>
+
+      <div class="questions">
         <h3>Four Fields Discovery Questions</h3>
         <ol>
           <li><strong>ENTRY:</strong> Where did they go into new places with new people, and how did they engage lostness?</li>
@@ -116,20 +115,27 @@
           <li><strong>CHURCH:</strong> How did they gather believers together and equip them to become a healthy church?</li>
           <li><strong>LEADERS:</strong> How did they identify leaders from the harvest and equip them while handing over the authority, responsibility, and skills needed to multiply the entire process?</li>
         </ol>
-        <h3>Also look for</h3>
-        <ul>
-          <li>What is the role of <strong>PRAYER</strong>?</li>
-          <li>What is the role of the <strong>HOLY SPIRIT</strong>?</li>
-          <li>What is the role of <strong>KINGDOM CONFLICT</strong>?</li>
-          <li>Did any locations see <strong>#NoPlaceLeft</strong> (the gospel got out to an entire area)?</li>
-        </ul>
+        <div class="additional">
+          <h3>Also look for</h3>
+          <ul>
+            <li>What is the role of <strong>PRAYER</strong>?</li>
+            <li>What is the role of the <strong>HOLY SPIRIT</strong>?</li>
+            <li>What is the role of <strong>KINGDOM CONFLICT</strong>?</li>
+            <li>Did any locations see <strong>#NoPlaceLeft</strong> (the gospel got out to an entire area)?</li>
+          </ul>
+        </div>
       </div>
     </div>
   </section>
+
   <section class="prep-end">
-    <div class="wrap"><span class="eyebrow">03 / Bring what you discovered</span><h2>Don't come with perfect answers. Come with observations.</h2>
-      <p>Bring your completed or partially completed worksheet, your Bible, and any Scripture references or notes from Mark 1–4. We'll work from the text together during the Four Fields Intensive.</p>
-      <div class="prep-actions"><a class="prep-btn" href="/media/4Fields%20Discovery%20Worksheet%20BLANK.pdf" download>Get the Worksheet</a><a class="prep-btn alt" style="border-color:#e5e9da;color:#fff!important" href="/four-fields-intensive">Intensive Details</a></div>
+    <div class="wrap end-row">
+      <div>
+        <span class="eyebrow">Come prepared</span>
+        <h2>Bring your discoveries.</h2>
+        <p>Bring your worksheet, Bible, and notes with Scripture references from Mark 1–4. Completed or partially completed is fine. We'll study the patterns together during the Intensive.</p>
+      </div>
+      <a class="prep-btn" href="/media/4Fields%20Discovery%20Worksheet%20BLANK.pdf" download>Get the Worksheet</a>
     </div>
   </section>
 </main>
